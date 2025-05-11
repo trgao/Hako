@@ -44,9 +44,7 @@ struct TextBox: View {
                     .lineSpacing(2)
                 if canBeExpanded {
                     Button {
-                        withAnimation {
-                            isExpanded.toggle()
-                        }
+                        isExpanded.toggle()
                     } label: {
                         if isExpanded {
                             Image(systemName: "chevron.up")

@@ -243,6 +243,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             self.isSignedIn = false
             self.keychain["accessToken"] = nil
             self.keychain["refreshToken"] = nil
+            UserDefaults.standard.set(nil, forKey: "userImage")
         }
     }
     

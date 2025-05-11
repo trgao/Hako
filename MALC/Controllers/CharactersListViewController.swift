@@ -13,7 +13,7 @@ class CharactersListViewController: ObservableObject {
     private let characters: [ListCharacter]
     let networker = NetworkManager.shared
     
-    init(_ characters: [ListCharacter]) {
+    init(characters: [ListCharacter]) {
         self.characters = characters
     }
     

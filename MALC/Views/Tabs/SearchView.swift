@@ -40,7 +40,7 @@ struct SearchView: View {
                             ZStack {
                                 List {
                                     ForEach(controller.animeItems, id: \.forEachId) { item in
-                                        AnimeMangaListItem(item.id, item.node.title, .anime)
+                                        AnimeListItem(anime: item)
                                             .onAppear {
                                                 Task {
                                                     await controller.loadMoreIfNeeded(searchText, item)
@@ -56,7 +56,7 @@ struct SearchView: View {
                             ZStack {
                                 List {
                                     ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                        AnimeMangaListItem(item.id, item.node.title, .manga)
+                                        MangaListItem(manga: item)
                                             .onAppear {
                                                 Task {
                                                     await controller.loadMoreIfNeeded(searchText, item)
@@ -90,9 +90,9 @@ struct SearchView: View {
                                                     .foregroundColor(.clear)
                                                 ForEach(controller.animeSuggestions) { item in
                                                     NavigationLink {
-                                                        AnimeDetailsView(item.id)
+                                                        AnimeDetailsView(id: item.id)
                                                     } label: {
-                                                        AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                                        AnimeGridItem(id: item.id, title: item.node.title)
                                                     }
                                                     .buttonStyle(.plain)
                                                 }
@@ -117,9 +117,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topAiringAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(item.id)
+                                                    AnimeDetailsView(id: item.id)
                                                 } label: {
-                                                    AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                                    AnimeGridItem(id: item.id, title: item.node.title)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -143,9 +143,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topUpcomingAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(item.id)
+                                                    AnimeDetailsView(id: item.id)
                                                 } label: {
-                                                    AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                                    AnimeGridItem(id: item.id, title: item.node.title)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -169,9 +169,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(item.id)
+                                                    AnimeDetailsView(id: item.id)
                                                 } label: {
-                                                    AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                                    AnimeGridItem(id: item.id, title: item.node.title)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -195,9 +195,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularManga) { item in
                                                 NavigationLink {
-                                                    MangaDetailsView(item.id)
+                                                    MangaDetailsView(id: item.id)
                                                 } label: {
-                                                    AnimeMangaGridItem(item.id, item.node.title, .manga)
+                                                    MangaGridItem(id: item.id, title: item.node.title)
                                                 }
                                                 .buttonStyle(.plain)
                                             }

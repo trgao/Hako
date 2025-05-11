@@ -13,7 +13,7 @@ struct AnimeMangaToggle: View {
     @State private var offset: CGFloat = -17
     private let refresh: () async -> Void
     
-    init(_ type: Binding<TypeEnum>, _ refresh: @escaping () async -> Void) {
+    init(type: Binding<TypeEnum>, refresh: @escaping () async -> Void) {
         self._type = type
         self.refresh = refresh
     }

@@ -19,9 +19,9 @@ struct AnimeDetailsView: View {
     private let url: URL
     let networker = NetworkManager.shared
     
-    init(_ id: Int) {
+    init(id: Int) {
         self.id = id
-        self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id))
+        self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id: id))
         self.url = URL(string: "https://myanimelist.net/anime/\(id)")!
     }
     
@@ -32,7 +32,7 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame("anime\(anime.id)", 150, 212)
+                        ImageFrame(id: "anime\(anime.id)", width: 150, height: 212)
                             .padding([.top], 10)
                         Text("\(anime.title)")
                             .bold()
@@ -65,12 +65,12 @@ struct AnimeDetailsView: View {
                         }
                         .opacity(0.7)
                         .font(.system(size: 12))
-                        TextBox("Synopsis", anime.synopsis)
-                        Characters(controller.characters)
-                        YoutubeVideos(anime.videos)
-                        RelatedItems(controller.relations)
-                        Recommendations(anime.recommendations)
-                        AnimeInformationBox(anime)
+                        TextBox(title: "Synopsis", text: anime.synopsis)
+                        Characters(characters: controller.characters)
+                        YoutubeVideos(videos: anime.videos)
+                        RelatedItems(relations: controller.relations)
+                        Recommendations(animeRecommendations: anime.recommendations)
+                        AnimeInformationBox(anime: anime)
                     }
                 }
                 .task(id: isRefresh) {
@@ -107,7 +107,7 @@ struct AnimeDetailsView: View {
                 .cornerRadius(10)
         }
         .fullScreenCover(isPresented: $isShowingSafariView) {
-            SafariView(url)
+            SafariView(url: url)
         }
         .toolbar {
             if networker.isSignedIn {
@@ -122,7 +122,7 @@ struct AnimeDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        AnimeEditView(id, anime.myListStatus, anime.title, anime.numEpisodes, $isEditViewPresented)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, isPresented: $isEditViewPresented)
                     }
                     .disabled(controller.isLoading || controller.isInitialLoading)
                 } else {
@@ -135,7 +135,7 @@ struct AnimeDetailsView: View {
             Menu {
                 ShareLink("Share", item: url)
                 NavigationLink {
-                    AnimeCreditsView(id, controller.anime?.openingThemes, controller.anime?.endingThemes)
+                    AnimeCreditsView(id: id, openingThemes: controller.anime?.openingThemes, endingThemes: controller.anime?.endingThemes)
                 } label: {
                     Label("Credits", systemImage: "info.circle")
                 }

@@ -19,7 +19,7 @@ struct AnimeEditView: View {
     private let id: Int
     let networker = NetworkManager.shared
     
-    init(_ id: Int, _ listStatus: AnimeListStatus?, _ title: String, _ numEpisodes: Int, _ isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
             self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0)
@@ -94,7 +94,7 @@ struct AnimeEditView: View {
                             Text("10 - Masterpiece").tag(10)
                         }
                         .pickerStyle(.menu)
-                        NumberSelector($listStatus.numEpisodesWatched, "Episodes Watched", numEpisodes)
+                        NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes Watched", max: numEpisodes)
                     }
                     Section {
                         if listStatus.startDate != nil {

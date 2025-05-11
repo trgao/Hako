@@ -11,7 +11,7 @@ struct SeasonPicker: View {
     @StateObject var controller: SeasonsViewController
     @State private var season = ["winter", "spring", "summer", "fall"][((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3]
     
-    init(_ controller: SeasonsViewController) {
+    init(controller: SeasonsViewController) {
         self._controller = StateObject(wrappedValue: controller)
     }
     

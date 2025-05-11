@@ -11,7 +11,7 @@ struct Characters: View {
     private let characters: [ListCharacter]
     let networker = NetworkManager.shared
     
-    init(_ characters: [ListCharacter]) {
+    init(characters: [ListCharacter]) {
         self.characters = characters
     }
     
@@ -19,7 +19,7 @@ struct Characters: View {
         if !characters.isEmpty {
             VStack {
                 NavigationLink {
-                    CharactersListView(characters)
+                    CharactersListView(characters: characters)
                 } label: {
                     HStack {
                         Text("Characters")
@@ -38,10 +38,10 @@ struct Characters: View {
                             .foregroundColor(.clear)
                         ForEach(characters.prefix(10)) { character in
                             NavigationLink {
-                                CharacterDetailsView(character.id, character.character.images?.jpg.imageUrl)
+                                CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                             } label: {
                                 VStack {
-                                    ImageFrame("character\(character.id)", 100, 142)
+                                    ImageFrame(id: "character\(character.id)", width: 100, height: 142)
                                     Text(character.character.name ?? "")
                                         .font(.system(size: 14))
                                         .fixedSize(horizontal: false, vertical: true)

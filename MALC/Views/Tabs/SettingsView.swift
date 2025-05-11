@@ -53,10 +53,10 @@ struct SettingsView: View {
                             .padding(5)
                         } else if let user = networker.user {
                             NavigationLink {
-                                ProfileView(user)
+                                ProfileView(user: user)
                             } label: {
                                 HStack {
-                                    ImageFrame("userImage", 80, 80, true)
+                                    ProfileImage()
                                     VStack {
                                         Text(user.name ?? "")
                                             .frame(maxWidth: .infinity, alignment: .leading)

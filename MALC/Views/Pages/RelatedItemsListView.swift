@@ -10,7 +10,7 @@ import SwiftUI
 struct RelatedItemsListView: View {
     private let relations: [Related]
     
-    init(_ relations: [Related]) {
+    init(relations: [Related]) {
         self.relations = relations
     }
     
@@ -21,17 +21,17 @@ struct RelatedItemsListView: View {
                     ForEach(category.entry) { item in
                         NavigationLink {
                             if item.type == .anime {
-                                AnimeDetailsView(item.id)
+                                AnimeDetailsView(id: item.id)
                             } else if item.type == .manga {
-                                MangaDetailsView(item.id)
+                                MangaDetailsView(id: item.id)
                             }
                         } label: {
                             HStack {
                                 if item.type == .anime {
-                                    ImageFrame("anime\(item.id)", 75, 106)
+                                    ImageFrame(id: "anime\(item.id)", width: 75, height: 106)
                                         .padding([.trailing], 10)
                                 } else if item.type == .manga {
-                                    ImageFrame("manga\(item.id)", 75, 106)
+                                    ImageFrame(id: "manga\(item.id)", width: 75, height: 106)
                                         .padding([.trailing], 10)
                                 }
                                 VStack(alignment: .leading) {

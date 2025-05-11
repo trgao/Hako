@@ -18,9 +18,9 @@ struct MangaDetailsView: View {
     private let url: URL
     let networker = NetworkManager.shared
     
-    init(_ id: Int) {
+    init(id: Int) {
         self.id = id
-        self._controller = StateObject(wrappedValue: MangaDetailsViewController(id))
+        self._controller = StateObject(wrappedValue: MangaDetailsViewController(id: id))
         self.url = URL(string: "https://myanimelist.net/manga/\(id)")!
     }
     
@@ -31,7 +31,7 @@ struct MangaDetailsView: View {
             } else if let manga = controller.manga {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame("manga\(manga.id)", 150, 212)
+                        ImageFrame(id: "manga\(manga.id)", width: 150, height: 212)
                             .padding([.top], 10)
                         Text("\(manga.title)")
                             .bold()
@@ -64,11 +64,11 @@ struct MangaDetailsView: View {
                         }
                         .opacity(0.7)
                         .font(.system(size: 12))
-                        TextBox("Synopsis", manga.synopsis)
-                        Characters(controller.characters)
-                        RelatedItems(controller.relations)
-                        Recommendations(manga.recommendations)
-                        MangaInformationBox(manga)
+                        TextBox(title: "Synopsis", text: manga.synopsis)
+                        Characters(characters: controller.characters)
+                        RelatedItems(relations: controller.relations)
+                        Recommendations(mangaRecommendations: manga.recommendations)
+                        MangaInformationBox(manga: manga)
                     }
                 }
             }
@@ -86,7 +86,7 @@ struct MangaDetailsView: View {
                 .cornerRadius(10)
         }
         .fullScreenCover(isPresented: $isShowingSafariView) {
-            SafariView(url)
+            SafariView(url: url)
         }
         .toolbar {
             if networker.isSignedIn {
@@ -101,7 +101,7 @@ struct MangaDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        MangaEditView(id, manga.myListStatus, manga.title, manga.numVolumes, manga.numChapters, $isEditViewPresented)
+                        MangaEditView(id: id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, isPresented: $isEditViewPresented)
                     }
                     .disabled(controller.isLoading || controller.isInitialLoading)
                 } else {

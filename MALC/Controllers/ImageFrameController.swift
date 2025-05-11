@@ -13,7 +13,7 @@ class ImageFrameController: ObservableObject {
     private let id: String
     let networker = NetworkManager.shared
     
-    init(_ id: String) {
+    init(id: String) {
         self.id = id
         
         // Check if image is in cache

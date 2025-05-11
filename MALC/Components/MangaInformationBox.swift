@@ -11,7 +11,7 @@ struct MangaInformationBox: View {
     private let manga: Manga
     let dateFormatterPrint = DateFormatter()
     
-    init(_ manga: Manga) {
+    init(manga: Manga) {
         self.manga = manga
         dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
@@ -64,7 +64,7 @@ struct MangaInformationBox: View {
             if !manga.genres.isEmpty {
                 VStack {
                     NavigationLink {
-                        GroupsListView("Genres", manga.genres, "genres", .manga)
+                        GroupsListView(title: "Genres", items: manga.genres, group: "genres", type: .manga)
                     } label: {
                         HStack {
                             Text("Genres")

@@ -17,11 +17,11 @@ struct JikanGridInfiniteScrollView: View {
     private let urlExtend: String
     private let type: TypeEnum
     
-    init(_ title: String, _ urlExtend: String, _ type: TypeEnum) {
+    init(title: String, urlExtend: String, type: TypeEnum) {
         self.title = title
         self.urlExtend = urlExtend
         self.type = type
-        self._controller = StateObject(wrappedValue: JikanGridInfiniteScrollViewController(urlExtend, type))
+        self._controller = StateObject(wrappedValue: JikanGridInfiniteScrollViewController(urlExtend: urlExtend, type: type))
     }
     
     var body: some View {
@@ -29,10 +29,17 @@ struct JikanGridInfiniteScrollView: View {
             ScrollView {
                 LazyVGrid(columns: columns) {
                     ForEach(controller.items) { item in
-                        AnimeMangaGridItem(item.id, item.title, type)
-                            .task {
-                                await controller.loadMoreIfNeeded(currentItem: item)
-                            }
+                        if type == .anime {
+                            AnimeGridItem(id: item.id, title: item.title)
+                                .task {
+                                    await controller.loadMoreIfNeeded(currentItem: item)
+                                }
+                        } else if type == .manga {
+                            MangaGridItem(id: item.id, title: item.title)
+                                .task {
+                                    await controller.loadMoreIfNeeded(currentItem: item)
+                                }
+                        }
                     }
                 }
             }

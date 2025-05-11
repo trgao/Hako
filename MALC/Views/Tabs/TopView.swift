@@ -38,7 +38,7 @@ struct TopView: View {
                         ScrollView {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.animeItems, id: \.node.id) { item in
-                                    AnimeMangaGridItem(item.node.id, item.node.title, .anime, rankToString(item.ranking?.rank))
+                                    AnimeGridItem(id: item.node.id, title: item.node.title, subtitle: rankToString(item.ranking?.rank))
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
@@ -64,7 +64,7 @@ struct TopView: View {
                         ScrollView {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.mangaItems, id: \.node.id) { item in
-                                    AnimeMangaGridItem(item.node.id, item.node.title, .manga, rankToString(item.ranking?.rank))
+                                    MangaGridItem(id: item.node.id, title: item.node.title, subtitle: rankToString(item.ranking?.rank))
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
@@ -88,7 +88,7 @@ struct TopView: View {
                 }
             }
             .toolbar {
-                AnimeMangaToggle($controller.type, {
+                AnimeMangaToggle(type: $controller.type, refresh: {
                     if controller.isItemsEmpty() {
                         await controller.refresh()
                     }

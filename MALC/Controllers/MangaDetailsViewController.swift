@@ -18,7 +18,7 @@ class MangaDetailsViewController: ObservableObject {
     private let id: Int
     let networker = NetworkManager.shared
     
-    init(_ id: Int) {
+    init(id: Int) {
         self.id = id
         
         // Check if manga details is already in cache

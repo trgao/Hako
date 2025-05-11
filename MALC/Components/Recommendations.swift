@@ -12,12 +12,12 @@ struct Recommendations: View {
     @State private var mangaRecommendations = [MALListManga]()
     private let type: TypeEnum
     
-    init(_ animeRecommendations: [MALListAnime]) {
+    init(animeRecommendations: [MALListAnime]) {
         self.animeRecommendations = animeRecommendations
         type = .anime
     }
     
-    init(_ mangaRecommendations: [MALListManga]) {
+    init(mangaRecommendations: [MALListManga]) {
         self.mangaRecommendations = mangaRecommendations
         type = .manga
     }
@@ -27,7 +27,7 @@ struct Recommendations: View {
             if !animeRecommendations.isEmpty {
                 VStack {
                     NavigationLink {
-                        RecommendationsListView(animeRecommendations)
+                        RecommendationsListView(animeRecommendations: animeRecommendations)
                     } label: {
                         HStack {
                             Text("Recommendations")
@@ -47,12 +47,12 @@ struct Recommendations: View {
                             ForEach(animeRecommendations) { item in
                                 NavigationLink {
                                     if type == .anime {
-                                        AnimeDetailsView(item.id)
+                                        AnimeDetailsView(id: item.id)
                                     } else {
-                                        MangaDetailsView(item.id)
+                                        MangaDetailsView(id: item.id)
                                     }
                                 } label: {
-                                    AnimeMangaGridItem(item.id, item.node.title, type)
+                                    AnimeGridItem(id: item.id, title: item.node.title)
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -68,7 +68,7 @@ struct Recommendations: View {
             if !mangaRecommendations.isEmpty {
                 VStack {
                     NavigationLink {
-                        RecommendationsListView(mangaRecommendations)
+                        RecommendationsListView(mangaRecommendations: mangaRecommendations)
                     } label: {
                         HStack {
                             Text("Recommendations")
@@ -88,12 +88,12 @@ struct Recommendations: View {
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
                                     if type == .anime {
-                                        AnimeDetailsView(item.id)
+                                        AnimeDetailsView(id: item.id)
                                     } else {
-                                        MangaDetailsView(item.id)
+                                        MangaDetailsView(id: item.id)
                                     }
                                 } label: {
-                                    AnimeMangaGridItem(item.id, item.node.title, type)
+                                    MangaGridItem(id: item.id, title: item.node.title)
                                 }
                                 .buttonStyle(.plain)
                             }

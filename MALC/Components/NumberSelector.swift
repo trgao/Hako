@@ -14,7 +14,7 @@ struct NumberSelector: View {
     private var title: String
     private var max: Int
     
-    init(_ num: Binding<Int>, _ title: String, _ max: Int) {
+    init(num: Binding<Int>, title: String, max: Int) {
         self._num = num
         self.title = title
         self.max = max

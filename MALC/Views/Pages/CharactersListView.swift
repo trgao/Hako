@@ -11,9 +11,9 @@ struct CharactersListView: View {
     @StateObject var controller: CharactersListViewController
     private let characters: [ListCharacter]
     
-    init(_ characters: [ListCharacter]) {
+    init(characters: [ListCharacter]) {
         self.characters = characters
-        self._controller = StateObject(wrappedValue: CharactersListViewController(characters))
+        self._controller = StateObject(wrappedValue: CharactersListViewController(characters: characters))
     }
     
     var body: some View {
@@ -21,10 +21,10 @@ struct CharactersListView: View {
             List {
                 ForEach(characters) { character in
                     NavigationLink {
-                        CharacterDetailsView(character.id, character.character.images?.jpg.imageUrl)
+                        CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame("character\(character.id)", 75, 106)
+                            ImageFrame(id: "character\(character.id)", width: 75, height: 106)
                                 .padding([.trailing], 10)
                             Text(character.character.name ?? "")
                         }

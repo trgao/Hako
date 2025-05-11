@@ -11,7 +11,7 @@ struct AnimeInformationBox: View {
     private let anime: Anime
     let dateFormatterPrint = DateFormatter()
     
-    init(_ anime: Anime) {
+    init(anime: Anime) {
         self.anime = anime
         self.dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
@@ -108,7 +108,7 @@ struct AnimeInformationBox: View {
             if !anime.genres.isEmpty {
                 VStack {
                     NavigationLink {
-                        GroupsListView("Genres", anime.genres, "genres", .anime)
+                        GroupsListView(title: "Genres", items: anime.genres, group: "genres", type: .anime)
                     } label: {
                         HStack {
                             Text("Genres")
@@ -127,7 +127,7 @@ struct AnimeInformationBox: View {
             if !anime.studios.isEmpty {
                 VStack {
                     NavigationLink {
-                        GroupsListView("Studios", anime.studios, "producers", .anime)
+                        GroupsListView(title: "Studios", items: anime.studios, group: "producers", type: .anime)
                     } label: {
                         HStack {
                             Text("Studios")

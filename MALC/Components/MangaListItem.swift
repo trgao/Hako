@@ -1,0 +1,135 @@
+//
+//  MangaListItem.swift
+//  MALC
+//
+//  Created by Gao Tianrun on 11/5/25.
+//
+
+import SwiftUI
+
+struct MangaListItem: View {
+    @State private var isEditViewPresented = false
+    @Binding private var isBack: Bool
+    private let manga: MALListManga
+    private let status: StatusEnum
+    private let colours: [StatusEnum:Color] = [
+        .reading: Color(.systemGreen),
+        .completed: Color(.systemBlue),
+        .onHold: Color(.systemYellow),
+        .dropped: Color(.systemRed),
+        .planToRead: Color(.systemGray),
+        .none: Color(.systemBlue)
+    ]
+    private let refresh: () async -> Void
+    let networker = NetworkManager.shared
+    
+    init(manga: MALListManga) {
+        self.manga = manga
+        self.status = .none
+        self.refresh = {}
+        self._isBack = .constant(false)
+    }
+    
+    init(manga: MALListManga, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>) {
+        self.manga = manga
+        self.status = status
+        self.refresh = refresh
+        self._isBack = isBack
+    }
+    
+    var body: some View {
+        NavigationLink {
+            MangaDetailsView(id: manga.id)
+                .onAppear {
+                    isBack = false
+                }
+                .onDisappear {
+                    isBack = true
+                }
+        } label: {
+            HStack {
+                ImageFrame(id: "manga\(manga.id)", width: 75, height: 106)
+                VStack(alignment: .leading) {
+                    Text(manga.node.title)
+                        .bold()
+                        .font(.system(size: 16))
+                    if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
+                        if let numChapters = manga.node.numChapters, numChapters > 0 {
+                            VStack(alignment: .leading) {
+                                ProgressView(value: Float(numChaptersRead) / Float(numChapters))
+                                    .tint(colours[status])
+                                HStack {
+                                    if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                                        Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    } else {
+                                        Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    }
+                                    Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 1))
+                                }
+                            }
+                        } else {
+                            VStack(alignment: .leading) {
+                                ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
+                                    .tint(colours[status])
+                                HStack {
+                                    if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                                        Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    } else {
+                                        Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    }
+                                    Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 1))
+                                }
+                            }
+                        }
+                    }
+                    HStack {
+                        if let score = manga.listStatus?.score, score > 0 {
+                            Text("\(score) ⭐")
+                                .bold()
+                                .font(.system(size: 13))
+                                .padding(.top, 3)
+                        }
+                        Spacer()
+                        if networker.isSignedIn && manga.listStatus != nil {
+                            Button {
+                                isEditViewPresented = true
+                            } label: {
+                                Image(systemName: "square.and.pencil")
+                            }
+                            .buttonStyle(BorderedButtonStyle())
+                            .foregroundStyle(Color(.systemBlue))
+                            .sheet(isPresented: $isEditViewPresented) {
+                                Task {
+                                    await refresh()
+                                }
+                            } content: {
+                                MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes!, numChapters: manga.node.numChapters!, isPresented: $isEditViewPresented)
+                            }
+                        }
+                    }
+                }
+                .padding(5)
+            }
+        }
+        .buttonStyle(.plain)
+        .padding(5)
+    }
+}

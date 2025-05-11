@@ -10,7 +10,7 @@ import SwiftUI
 struct ListFilter: View {
     @StateObject var controller: MyListViewController
     
-    init(_ controller: MyListViewController) {
+    init(controller: MyListViewController) {
         self._controller = StateObject(wrappedValue: controller)
     }
     

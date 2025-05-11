@@ -15,7 +15,7 @@ struct ProfileView: View {
     let networker = NetworkManager.shared
     let dateFormatterPrint = DateFormatter()
     
-    init(_ user: User) {
+    init(user: User) {
         self.user = user
         self.dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
@@ -25,7 +25,7 @@ struct ProfileView: View {
             List {
                 Section {
                     HStack {
-                        ImageFrame("userImage", 80, 80, true)
+                        ProfileImage()
                         VStack {
                             Text("Hello, \(user.name ?? "")")
                                 .frame(maxWidth: .infinity)

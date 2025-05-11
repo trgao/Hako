@@ -13,8 +13,8 @@ struct AnimeCreditsView: View {
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
-    init(_ id: Int, _ openingThemes: [Theme]?, _ endingThemes: [Theme]?) {
-        self._controller = StateObject(wrappedValue: AnimeCreditsViewController(id))
+    init(id: Int, openingThemes: [Theme]?, endingThemes: [Theme]?) {
+        self._controller = StateObject(wrappedValue: AnimeCreditsViewController(id: id))
         self.openingThemes = openingThemes
         self.endingThemes = endingThemes
     }
@@ -47,10 +47,10 @@ struct AnimeCreditsView: View {
                     Section("Staff") {
                         ForEach(controller.staff) { staff in
                             NavigationLink {
-                                PersonDetailsView(staff.id, staff.person.images?.jpg.imageUrl)
+                                PersonDetailsView(id: staff.id, imageUrl: staff.person.images?.jpg.imageUrl)
                             } label: {
                                 HStack {
-                                    ImageFrame("person\(staff.id)", 75, 106)
+                                    ImageFrame(id: "person\(staff.id)", width: 75, height: 106)
                                         .padding([.trailing], 10)
                                     VStack(alignment: .leading) {
                                         Text(staff.person.name ?? "")

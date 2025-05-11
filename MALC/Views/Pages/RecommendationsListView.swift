@@ -11,12 +11,12 @@ struct RecommendationsListView: View {
     private let animeRecommendations: [MALListAnime]
     private let mangaRecommendations: [MALListManga]
     
-    init(_ animeRecommendations: [MALListAnime]) {
+    init(animeRecommendations: [MALListAnime]) {
         self.animeRecommendations = animeRecommendations
         self.mangaRecommendations = []
     }
     
-    init(_ mangaRecommendations: [MALListManga]) {
+    init(mangaRecommendations: [MALListManga]) {
         self.animeRecommendations = []
         self.mangaRecommendations = mangaRecommendations
     }
@@ -26,10 +26,10 @@ struct RecommendationsListView: View {
             List {
                 ForEach(animeRecommendations) { item in
                     NavigationLink {
-                        AnimeDetailsView(item.id)
+                        AnimeDetailsView(id: item.id)
                     } label: {
                         HStack {
-                            ImageFrame("anime\(item.id)", 75, 106)
+                            ImageFrame(id: "anime\(item.id)", width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)
@@ -40,10 +40,10 @@ struct RecommendationsListView: View {
                 }
                 ForEach(mangaRecommendations) { item in
                     NavigationLink {
-                        MangaDetailsView(item.id)
+                        MangaDetailsView(id: item.id)
                     } label: {
                         HStack {
-                            ImageFrame("manga\(item.id)", 75, 106)
+                            ImageFrame(id: "manga\(item.id)", width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)

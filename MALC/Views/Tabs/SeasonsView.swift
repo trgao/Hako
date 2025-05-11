@@ -23,7 +23,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.winterItems) { item in
-                                AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                AnimeGridItem(id: item.id, title: item.node.title)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -35,7 +35,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.springItems) { item in
-                                AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                AnimeGridItem(id: item.id, title: item.node.title)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -47,7 +47,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.summerItems) { item in
-                                AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                AnimeGridItem(id: item.id, title: item.node.title)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -59,7 +59,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.fallItems) { item in
-                                AnimeMangaGridItem(item.id, item.node.title, .anime)
+                                AnimeGridItem(id: item.id, title: item.node.title)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -68,7 +68,7 @@ struct SeasonsView: View {
                     }
                     .navigationTitle("Fall")
                 }
-                SeasonPicker(controller)
+                SeasonPicker(controller: controller)
                     .disabled(controller.getCurrentSeasonLoading())
                 if controller.getCurrentSeasonLoading() {
                     LoadingView()
@@ -100,7 +100,7 @@ struct SeasonsView: View {
                     .cornerRadius(10)
             }
             .toolbar {
-                YearPicker(controller)
+                YearPicker(controller: controller)
                     .disabled(controller.getCurrentSeasonLoading())
             }
         }

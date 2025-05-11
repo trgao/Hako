@@ -15,8 +15,8 @@ struct ImageFrame: View {
     private let isProfile: Bool
     let networker = NetworkManager.shared
     
-    init(_ id: String, _ width: CGFloat, _ height: CGFloat, _ isProfile: Bool = false) {
-        self._controller = StateObject(wrappedValue: ImageFrameController(id))
+    init(id: String, width: CGFloat, height: CGFloat, isProfile: Bool = false) {
+        self._controller = StateObject(wrappedValue: ImageFrameController(id: id))
         self.id = id
         self.width = width
         self.height = height

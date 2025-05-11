@@ -11,7 +11,7 @@ import WebKit
 struct YoutubeVideos: View {
     private let videos: [Video]?
     
-    init(_ videos: [Video]?) {
+    init(videos: [Video]?) {
         self.videos = videos
     }
     
@@ -30,7 +30,7 @@ struct YoutubeVideos: View {
                                 .frame(width: 10)
                                 .foregroundColor(.clear)
                             ForEach(videos) { video in
-                                YoutubeVideo(video.url)
+                                YoutubeVideo(url: video.url)
                             }
                             Rectangle()
                                 .frame(width: 10)
@@ -48,12 +48,12 @@ struct YoutubeVideos: View {
 struct YoutubeVideo: View {
     let url: String?
     
-    init(_ url: String?) {
+    init(url: String?) {
         self.url = url
     }
     
     var body: some View {
-        YoutubeVideoFrame(url)
+        YoutubeVideoFrame(url: url)
             .frame(width: 245, height: 140)
             .cornerRadius(10)
             .shadow(radius: 2)
@@ -65,7 +65,7 @@ struct YoutubeVideo: View {
 struct YoutubeVideoFrame: UIViewRepresentable {
     let url: String?
     
-    init(_ url: String?) {
+    init(url: String?) {
         self.url = url
     }
     

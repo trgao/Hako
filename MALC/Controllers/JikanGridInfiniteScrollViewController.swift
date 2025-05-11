@@ -19,7 +19,7 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
     private let type: TypeEnum
     let networker = NetworkManager.shared
     
-    init(_ urlExtend: String, _ type: TypeEnum) {
+    init(urlExtend: String, type: TypeEnum) {
         self.urlExtend = urlExtend
         self.type = type
     }

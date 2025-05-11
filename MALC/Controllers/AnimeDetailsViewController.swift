@@ -18,7 +18,7 @@ class AnimeDetailsViewController: ObservableObject {
     private let id: Int
     let networker = NetworkManager.shared
     
-    init(_ id: Int) {
+    init(id: Int) {
         self.id = id
         
         // Check if anime details is already in cache

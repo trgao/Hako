@@ -20,7 +20,7 @@ struct RelatedItems: View {
     private let relations: [Related]?
     private var relationsPrefix: [RelatedItem] = []
     
-    init(_ relations: [Related]?) {
+    init(relations: [Related]?) {
         self.relations = relations
         var count = 0
         if let relations = relations {
@@ -41,7 +41,7 @@ struct RelatedItems: View {
             if !relations.isEmpty {
                 VStack {
                     NavigationLink {
-                        RelatedItemsListView(relations)
+                        RelatedItemsListView(relations: relations)
                     } label: {
                         HStack {
                             Text("Related")
@@ -61,13 +61,15 @@ struct RelatedItems: View {
                             ForEach(relationsPrefix) { item in
                                 NavigationLink {
                                     if item.type == .anime {
-                                        AnimeDetailsView(item.id)
+                                        AnimeDetailsView(id: item.id)
                                     } else if item.type == .manga {
-                                        MangaDetailsView(item.id)
+                                        MangaDetailsView(id: item.id)
                                     }
                                 } label: {
-                                    if let type = item.type {
-                                        AnimeMangaGridItem(item.id, item.name, type, item.relation)
+                                    if item.type == .anime {
+                                        AnimeGridItem(id: item.id, title: item.name, subtitle: item.relation)
+                                    } else if item.type == .manga {
+                                        MangaGridItem(id: item.id, title: item.name, subtitle: item.relation)
                                     }
                                 }
                                 .buttonStyle(.plain)

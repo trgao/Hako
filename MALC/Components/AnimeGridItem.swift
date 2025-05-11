@@ -1,35 +1,30 @@
 //
-//  AnimeMangaGridItem.swift
+//  AnimeGridItem.swift
 //  MALC
 //
 //  Created by Gao Tianrun on 19/4/24.
+//  Cannot directly use MALListItem as JikanListItem also uses this
 //
 
 import SwiftUI
 
-struct AnimeMangaGridItem: View {
+struct AnimeGridItem: View {
     private let id: Int
     private let title: String?
-    private let type: TypeEnum
     private let subtitle: String?
     
-    init(_ id: Int, _ title: String?, _ type: TypeEnum, _ subtitle: String? = nil) {
+    init(id: Int, title: String?, subtitle: String? = nil) {
         self.id = id
         self.title = title
-        self.type = type
         self.subtitle = subtitle
     }
     
     var body: some View {
         NavigationLink {
-            if type == .anime {
-                AnimeDetailsView(id)
-            } else {
-                MangaDetailsView(id)
-            }
+            AnimeDetailsView(id: id)
         } label: {
             VStack {
-                ImageFrame("\(type)\(id)", 150, 212)
+                ImageFrame(id: "anime\(id)", width: 150, height: 212)
                     .overlay {
                         if let subtitle = subtitle {
                             Text(subtitle)

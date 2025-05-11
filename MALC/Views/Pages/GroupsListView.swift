@@ -13,7 +13,7 @@ struct GroupsListView: View {
     private let group: String
     private let type: TypeEnum
     
-    init(_ title: String, _ items: [MALItem], _ group: String, _ type: TypeEnum) {
+    init(title: String, items: [MALItem], group: String, type: TypeEnum) {
         self.title = title
         self.items = items
         self.group = group
@@ -24,7 +24,7 @@ struct GroupsListView: View {
         List {
             ForEach(items) { item in
                 NavigationLink {
-                    GroupDetailsView(item, "\(group)=\(String(item.id))&order_by=popularity&sort=asc", type)
+                    GroupDetailsView(item: item, urlExtend: "\(group)=\(String(item.id))&order_by=popularity&sort=asc", type: type)
                 } label: {
                     Text(item.name)
                 }

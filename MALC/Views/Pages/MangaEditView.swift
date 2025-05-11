@@ -20,7 +20,7 @@ struct MangaEditView: View {
     private let id: Int
     let networker = NetworkManager.shared
     
-    init(_ id: Int, _ listStatus: MangaListStatus?, _ title: String, _ numVolumes: Int, _ numChapters: Int, _ isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int, numChapters: Int, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
             self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0)
@@ -82,8 +82,8 @@ struct MangaEditView: View {
                             Text("10 - Masterpiece").tag(10)
                         }
                         .pickerStyle(.menu)
-                        NumberSelector($listStatus.numVolumesRead, "Volumes Read", numVolumes)
-                        NumberSelector($listStatus.numChaptersRead, "Chapters Read", numChapters)
+                        NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes Read", max: numVolumes)
+                        NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters Read", max: numChapters)
                     }
                     Section {
                         if listStatus.startDate != nil {

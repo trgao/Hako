@@ -12,7 +12,7 @@ struct YearPicker: View {
     @State private var year = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     private let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     
-    init(_ controller: SeasonsViewController) {
+    init(controller: SeasonsViewController) {
         self._controller = StateObject(wrappedValue: controller)
     }
     

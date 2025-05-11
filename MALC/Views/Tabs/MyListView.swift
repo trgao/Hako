@@ -24,7 +24,7 @@ struct MyListView: View {
                             List {
                                 Section(controller.animeStatus.toString()) {
                                     ForEach(controller.animeItems, id: \.forEachId) { item in
-                                        AnimeMangaListItem(item.id, item.node.title, controller.type, controller.animeStatus, item.node.numEpisodes, item.listStatus, { await controller.refresh() }, $isBack)
+                                        AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack)
                                             .onAppear {
                                                 Task {
                                                     await controller.loadMoreIfNeeded(currentItem: item)
@@ -53,7 +53,7 @@ struct MyListView: View {
                             List {
                                 Section(controller.mangaStatus.toString()) {
                                     ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                        AnimeMangaListItem(item.id, item.node.title, controller.type, controller.mangaStatus, item.node.numVolumes, item.node.numChapters, item.listStatus, { await controller.refresh() }, $isBack)
+                                        MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack)
                                             .onAppear {
                                                 Task {
                                                     await controller.loadMoreIfNeeded(currentItem: item)
@@ -103,10 +103,10 @@ struct MyListView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        ListFilter(controller)
+                        ListFilter(controller: controller)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        AnimeMangaToggle($controller.type, {
+                        AnimeMangaToggle(type: $controller.type, refresh: {
                             if controller.shouldRefresh() {
                                 await controller.refresh()
                             }

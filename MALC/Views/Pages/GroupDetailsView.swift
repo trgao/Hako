@@ -12,13 +12,13 @@ struct GroupDetailsView: View {
     private let urlExtend: String
     private let type: TypeEnum
     
-    init(_ item: MALItem, _ urlExtend: String, _ type: TypeEnum) {
+    init(item: MALItem, urlExtend: String, type: TypeEnum) {
         self.item = item
         self.urlExtend = urlExtend
         self.type = type
     }
     
     var body: some View {
-        JikanGridInfiniteScrollView(item.name, urlExtend, type)
+        JikanGridInfiniteScrollView(title: item.name, urlExtend: urlExtend, type: type)
     }
 }

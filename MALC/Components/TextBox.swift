@@ -13,7 +13,7 @@ struct TextBox: View {
     private let title: String
     private let text: String?
     
-    init(_ title: String, _ text: String?) {
+    init(title: String, text: String?) {
         self.title = title
         self.text = text
     }

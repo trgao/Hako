@@ -25,13 +25,6 @@ class AnimeCreditsViewController: ObservableObject {
         do {
             let staffList = try await networker.getAnimeStaff(id: id)
             self.staff = staffList
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for staff in staffList {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "person\(staff.id)", urlString: staff.person.images?.jpg.imageUrl)
-                    }
-                }
-            }
             
             isLoading = false
         } catch {

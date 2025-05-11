@@ -11,20 +11,22 @@ import SwiftUI
 struct MangaGridItem: View {
     private let id: Int
     private let title: String?
+    private let imageUrl: String?
     private let subtitle: String?
     
-    init(id: Int, title: String?, subtitle: String? = nil) {
+    init(id: Int, title: String?, imageUrl: String?, subtitle: String? = nil) {
         self.id = id
         self.title = title
+        self.imageUrl = imageUrl
         self.subtitle = subtitle
     }
     
     var body: some View {
         NavigationLink {
-            MangaDetailsView(id: id)
+            MangaDetailsView(id: id, imageUrl: imageUrl)
         } label: {
             VStack {
-                ImageFrame(id: "manga\(id)", width: 150, height: 212)
+                ImageFrame(id: "manga\(id)", imageUrl: imageUrl, width: 150, height: 212)
                     .overlay {
                         if let subtitle = subtitle {
                             Text(subtitle)

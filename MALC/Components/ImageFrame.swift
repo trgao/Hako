@@ -9,46 +9,30 @@ import SwiftUI
 
 struct ImageFrame: View {
     @StateObject private var controller: ImageFrameController
-    private let id: String
     private let width: CGFloat
     private let height: CGFloat
-    private let isProfile: Bool
     let networker = NetworkManager.shared
     
-    init(id: String, width: CGFloat, height: CGFloat, isProfile: Bool = false) {
-        self._controller = StateObject(wrappedValue: ImageFrameController(id: id))
-        self.id = id
+    init(id: String, imageUrl: String?, width: CGFloat, height: CGFloat) {
+        self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
         self.width = width
         self.height = height
-        self.isProfile = isProfile
     }
     
     var body: some View {
-        if controller.isLoading {
-            Image(uiImage: UIImage(named: "placeholder.jpg")!)
+        if let data = controller.image, let image = UIImage(data: data) {
+            Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
                 .frame(width: width, height: height)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .shadow(radius: 2)
         } else {
-            if isProfile {
-                if let data = UserDefaults.standard.data(forKey: id), let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width, height: height)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .shadow(radius: 2)
-                }
-            } else {
-                networker.getImage(id: id)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: width, height: height)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 2)
-            }
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.gray)
+                .frame(width: width, height: height)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 2)
         }
     }
 }

@@ -23,7 +23,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.winterItems) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -35,7 +35,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.springItems) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -47,7 +47,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.summerItems) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
@@ -59,7 +59,7 @@ struct SeasonsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach(controller.fallItems) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }

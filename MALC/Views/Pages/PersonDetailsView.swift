@@ -31,7 +31,7 @@ struct PersonDetailsView: View {
                 List {
                     Section {
                         VStack(alignment: .center) {
-                            ImageFrame(id: "person\(person.id)", width: 150, height: 212)
+                            ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, width: 150, height: 212)
                                 .padding([.top], 10)
                             Text("\(person.name)")
                                 .bold()
@@ -109,10 +109,10 @@ struct PersonVoiceSection: View {
             Section {
                 ForEach(voices) { voice in
                     NavigationLink {
-                        AnimeDetailsView(id: voice.anime.id)
+                        AnimeDetailsView(id: voice.anime.id, imageUrl: voice.anime.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(voice.anime.id)", width: 75, height: 106)
+                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg.imageUrl, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(voice.anime.title ?? "")
@@ -146,10 +146,10 @@ struct PersonAnimeSection: View {
             Section {
                 ForEach(animes) { anime in
                     NavigationLink {
-                        AnimeDetailsView(id: anime.id)
+                        AnimeDetailsView(id: anime.id, imageUrl: anime.anime.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", width: 75, height: 106)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
@@ -183,10 +183,10 @@ struct PersonMangaSection: View {
             Section {
                 ForEach(mangas) { manga in
                     NavigationLink {
-                        MangaDetailsView(id: manga.id)
+                        MangaDetailsView(id: manga.id, imageUrl: manga.manga.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", width: 75, height: 106)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")

@@ -46,14 +46,6 @@ class TopViewController: ObservableObject {
                 isAnimeLoading = true
                 let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
                 
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
-                
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems = animeList
@@ -68,14 +60,6 @@ class TopViewController: ObservableObject {
                 canLoadMoreMangaPages = true
                 isMangaLoading = true
                 let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
-                
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
@@ -106,14 +90,6 @@ class TopViewController: ObservableObject {
             do {
                 let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
                 
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
-                
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems.append(contentsOf: animeList)
@@ -137,14 +113,6 @@ class TopViewController: ObservableObject {
             isLoadingError = false
             do {
                 let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
-                
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)

@@ -90,9 +90,9 @@ struct SearchView: View {
                                                     .foregroundColor(.clear)
                                                 ForEach(controller.animeSuggestions) { item in
                                                     NavigationLink {
-                                                        AnimeDetailsView(id: item.id)
+                                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                                     } label: {
-                                                        AnimeGridItem(id: item.id, title: item.node.title)
+                                                        AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                     }
                                                     .buttonStyle(.plain)
                                                 }
@@ -117,9 +117,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topAiringAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(id: item.id)
+                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                                 } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title)
+                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -143,9 +143,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topUpcomingAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(id: item.id)
+                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                                 } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title)
+                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -169,9 +169,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularAnime) { item in
                                                 NavigationLink {
-                                                    AnimeDetailsView(id: item.id)
+                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                                 } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title)
+                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
                                                 .buttonStyle(.plain)
                                             }
@@ -195,9 +195,9 @@ struct SearchView: View {
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularManga) { item in
                                                 NavigationLink {
-                                                    MangaDetailsView(id: item.id)
+                                                    MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                                 } label: {
-                                                    MangaGridItem(id: item.id, title: item.node.title)
+                                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
                                                 .buttonStyle(.plain)
                                             }

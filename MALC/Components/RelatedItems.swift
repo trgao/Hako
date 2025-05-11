@@ -37,51 +37,52 @@ struct RelatedItems: View {
     }
     
     var body: some View {
-        if let relations = relations {
-            if !relations.isEmpty {
-                VStack {
-                    NavigationLink {
-                        RelatedItemsListView(relations: relations)
-                    } label: {
-                        HStack {
-                            Text("Related")
-                                .bold()
-                            Image(systemName: "chevron.right")
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 15)
-                        .font(.system(size: 17))
-                    }
-                    .buttonStyle(.plain)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 10)
-                                .foregroundColor(.clear)
-                            ForEach(relationsPrefix) { item in
-                                NavigationLink {
-                                    if item.type == .anime {
-                                        AnimeDetailsView(id: item.id)
-                                    } else if item.type == .manga {
-                                        MangaDetailsView(id: item.id)
-                                    }
-                                } label: {
-                                    if item.type == .anime {
-                                        AnimeGridItem(id: item.id, title: item.name, subtitle: item.relation)
-                                    } else if item.type == .manga {
-                                        MangaGridItem(id: item.id, title: item.name, subtitle: item.relation)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            Rectangle()
-                                .frame(width: 10)
-                                .foregroundColor(.clear)
-                        }
-                        .padding(2)
-                    }
-                }
-            }
-        }
+        Text("test")
+//        if let relations = relations {
+//            if !relations.isEmpty {
+//                VStack {
+//                    NavigationLink {
+//                        RelatedItemsListView(relations: relations)
+//                    } label: {
+//                        HStack {
+//                            Text("Related")
+//                                .bold()
+//                            Image(systemName: "chevron.right")
+//                        }
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .padding(.horizontal, 15)
+//                        .font(.system(size: 17))
+//                    }
+//                    .buttonStyle(.plain)
+//                    ScrollView(.horizontal, showsIndicators: false) {
+//                        HStack(alignment: .top) {
+//                            Rectangle()
+//                                .frame(width: 10)
+//                                .foregroundColor(.clear)
+//                            ForEach(relationsPrefix) { item in
+//                                NavigationLink {
+//                                    if item.type == .anime {
+//                                        AnimeDetailsView(id: item.id, imageUrl: item.images?.jpg.imageUrl)
+//                                    } else if item.type == .manga {
+//                                        MangaDetailsView(id: item.id, imageUrl: item.images?.jpg.imageUrl)
+//                                    }
+//                                } label: {
+//                                    if item.type == .anime {
+//                                        AnimeGridItem(id: item.id, title: item.name, imageUrl: item.images?.jpg.imageUrl, subtitle: item.relation)
+//                                    } else if item.type == .manga {
+//                                        MangaGridItem(id: item.id, title: item.name, imageUrl: item.images?.jpg.imageUrl, subtitle: item.relation)
+//                                    }
+//                                }
+//                                .buttonStyle(.plain)
+//                            }
+//                            Rectangle()
+//                                .frame(width: 10)
+//                                .foregroundColor(.clear)
+//                        }
+//                        .padding(2)
+//                    }
+//                }
+//            }
+//        }
     }
 }

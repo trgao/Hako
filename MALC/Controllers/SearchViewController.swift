@@ -63,37 +63,37 @@ class SearchViewController: ObservableObject {
             self.topPopularAnime = topPopularAnime
             self.topPopularManga = topPopularManga
             
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for anime in animeSuggestions {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-                
-                for anime in topAiringAnime {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-                
-                for anime in topUpcomingAnime {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-                
-                for anime in topPopularAnime {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-                
-                for manga in topPopularManga {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                    }
-                }
-            }
+//            await withTaskGroup(of: Void.self) { taskGroup in
+//                for anime in animeSuggestions {
+//                    taskGroup.addTask {
+//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
+//                    }
+//                }
+//                
+//                for anime in topAiringAnime {
+//                    taskGroup.addTask {
+//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
+//                    }
+//                }
+//                
+//                for anime in topUpcomingAnime {
+//                    taskGroup.addTask {
+//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
+//                    }
+//                }
+//                
+//                for anime in topPopularAnime {
+//                    taskGroup.addTask {
+//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
+//                    }
+//                }
+//                
+//                for manga in topPopularManga {
+//                    taskGroup.addTask {
+//                        await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
+//                    }
+//                }
+//            }
             
             isPageLoading = false
         } catch {
@@ -116,13 +116,6 @@ class SearchViewController: ObservableObject {
                 canLoadMoreAnimePages = true
                 isAnimeSearchLoading = true
                 let animeList = try await networker.searchAnime(anime: title, page: currentAnimePage)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
@@ -138,13 +131,6 @@ class SearchViewController: ObservableObject {
                 canLoadMoreMangaPages = true
                 isMangaSearchLoading = true
                 let mangaList = try await networker.searchManga(manga: title, page: currentMangaPage)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
@@ -174,13 +160,6 @@ class SearchViewController: ObservableObject {
             isLoadingError = false
             do {
                 let animeList = try await networker.searchAnime(anime: title, page: currentAnimePage)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
@@ -205,13 +184,6 @@ class SearchViewController: ObservableObject {
             isLoadingError = false
             do {
                 let mangaList = try await networker.searchManga(manga: title, page: currentMangaPage)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)

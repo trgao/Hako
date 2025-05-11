@@ -564,21 +564,22 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Retrieve image from image cache
-    func getImage(id: String) -> Image {
+    func getImage(id: String) -> Data? {
         if let cache = imageCache.object(forKey: id as NSString) {
-            if let image = UIImage(data: cache.image as Data) {
-                return Image(uiImage: image)
-            }
+            return cache.image as Data
         }
-        return Image(uiImage: UIImage(named: "placeholder.jpg")!)
+        return nil
     }
     
     // Wrapper function for download
-    func downloadImage(id: String, urlString: String?) async -> Void {
-        if let urlString = urlString {
+    func downloadImage(id: String, imageUrl: String?) async -> Void {
+        if let _ = imageCache.object(forKey: id as NSString) {
+            return
+        }
+        if let imageUrl = imageUrl {
             do {
-                imageUrlMap[id] = urlString
-                let url = URL(string: urlString)!
+                imageUrlMap[id] = imageUrl
+                let url = URL(string: imageUrl)!
                 let data = try await download(imageUrl: url)
                 let cache = ImageCache()
                 cache.image = data as NSData

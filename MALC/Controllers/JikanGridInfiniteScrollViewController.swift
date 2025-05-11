@@ -34,14 +34,6 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
             if type == .anime {
                 let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
                 
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.images?.jpg.imageUrl)
-                        }
-                    }
-                }
-                
                 currentPage = 2
                 canLoadMorePages = !(animeList.isEmpty)
                 for item in animeList {
@@ -53,14 +45,6 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
                 isLoading = false
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.images?.jpg.imageUrl)
-                        }
-                    }
-                }
                 
                 currentPage = 2
                 canLoadMorePages = !(mangaList.isEmpty)
@@ -96,14 +80,6 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
             if type == .anime {
                 let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
                 
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.images?.jpg.imageUrl)
-                        }
-                    }
-                }
-                
                 currentPage += 1
                 canLoadMorePages = !(animeList.isEmpty)
                 for item in animeList {
@@ -115,14 +91,6 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
                 isLoading = false
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.images?.jpg.imageUrl)
-                        }
-                    }
-                }
                 
                 currentPage += 1
                 canLoadMorePages = !(mangaList.isEmpty)

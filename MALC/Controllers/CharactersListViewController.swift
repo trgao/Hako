@@ -19,13 +19,6 @@ class CharactersListViewController: ObservableObject {
     
     func loadImages() async -> Void {
         isLoading = true
-        await withTaskGroup(of: Void.self) { taskGroup in
-            for character in self.characters {
-                taskGroup.addTask {
-                    await self.networker.downloadImage(id: "character\(character.id)", urlString: character.character.images?.jpg.imageUrl)
-                }
-            }
-        }
         
         isLoading = false
     }

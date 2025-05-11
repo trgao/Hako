@@ -47,12 +47,12 @@ struct Recommendations: View {
                             ForEach(animeRecommendations) { item in
                                 NavigationLink {
                                     if type == .anime {
-                                        AnimeDetailsView(id: item.id)
+                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                     } else {
-                                        MangaDetailsView(id: item.id)
+                                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                     }
                                 } label: {
-                                    AnimeGridItem(id: item.id, title: item.node.title)
+                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -88,12 +88,12 @@ struct Recommendations: View {
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
                                     if type == .anime {
-                                        AnimeDetailsView(id: item.id)
+                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                     } else {
-                                        MangaDetailsView(id: item.id)
+                                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                     }
                                 } label: {
-                                    MangaGridItem(id: item.id, title: item.node.title)
+                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
                                 .buttonStyle(.plain)
                             }

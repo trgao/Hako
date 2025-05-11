@@ -39,7 +39,7 @@ struct AnimeListItem: View {
     
     var body: some View {
         NavigationLink {
-            AnimeDetailsView(id: anime.id)
+            AnimeDetailsView(id: anime.id, imageUrl: anime.node.mainPicture?.medium)
                 .onAppear {
                     isBack = false
                 }
@@ -48,7 +48,7 @@ struct AnimeListItem: View {
                 }
         } label: {
             HStack {
-                ImageFrame(id: "anime\(anime.id)", width: 75, height: 106)
+                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, width: 75, height: 106)
                 VStack(alignment: .leading) {
                     Text(anime.node.title)
                         .bold()

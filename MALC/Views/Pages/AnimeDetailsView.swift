@@ -16,13 +16,15 @@ struct AnimeDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
+    private let imageUrl: String?
     private let url: URL
     let networker = NetworkManager.shared
     
-    init(id: Int) {
+    init(id: Int, imageUrl: String?) {
         self.id = id
-        self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id: id))
+        self.imageUrl = imageUrl
         self.url = URL(string: "https://myanimelist.net/anime/\(id)")!
+        self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id: id))
     }
     
     var body: some View {
@@ -32,7 +34,7 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame(id: "anime\(anime.id)", width: 150, height: 212)
+                        ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, width: 150, height: 212)
                             .padding([.top], 10)
                         Text("\(anime.title)")
                             .bold()
@@ -68,7 +70,7 @@ struct AnimeDetailsView: View {
                         TextBox(title: "Synopsis", text: anime.synopsis)
                         Characters(characters: controller.characters)
                         YoutubeVideos(videos: anime.videos)
-                        RelatedItems(relations: controller.relations)
+//                        RelatedItems(relations: controller.relations)
                         Recommendations(animeRecommendations: anime.recommendations)
                         AnimeInformationBox(anime: anime)
                     }

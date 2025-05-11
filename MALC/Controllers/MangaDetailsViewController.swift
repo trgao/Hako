@@ -50,35 +50,35 @@ class MangaDetailsViewController: ObservableObject {
         self.relations = relationList
         networker.mangaCache[id] = MangaDetails(manga: manga, characters: characterList, relations: relationList)
         
-        await withTaskGroup(of: Void.self) { taskGroup in
-            for item in manga.recommendations.prefix(10) {
-                taskGroup.addTask {
-                    await self.networker.downloadImage(id: "manga\(item.id)", urlString: item.node.mainPicture?.medium)
-                }
-            }
-            
-            for character in characterList.prefix(10) {
-                taskGroup.addTask {
-                    await self.networker.downloadImage(id: "character\(character.id)", urlString: character.character.images?.jpg.imageUrl)
-                }
-            }
-            
-            for relation in relationList.flatMap({ $0.entry }).prefix(10) {
-                taskGroup.addTask {
-                    do {
-                        if relation.type == .anime {
-                            let anime = try await self.networker.getAnimeDetails(id: relation.id)
-                            await self.networker.downloadImage(id: "anime\(relation.id)", urlString: anime.mainPicture?.medium)
-                        } else if relation.type == .manga {
-                            let manga = try await self.networker.getMangaDetails(id: relation.id)
-                            await self.networker.downloadImage(id: "manga\(relation.id)", urlString: manga.mainPicture?.medium)
-                        }
-                    } catch {
-                        print("Some unknown error occurred")
-                    }
-                }
-            }
-        }
+//        await withTaskGroup(of: Void.self) { taskGroup in
+//            for item in manga.recommendations.prefix(10) {
+//                taskGroup.addTask {
+//                    await self.networker.downloadImage(id: "manga\(item.id)", urlString: item.node.mainPicture?.medium)
+//                }
+//            }
+//            
+//            for character in characterList.prefix(10) {
+//                taskGroup.addTask {
+//                    await self.networker.downloadImage(id: "character\(character.id)", urlString: character.character.images?.jpg.imageUrl)
+//                }
+//            }
+//            
+//            for relation in relationList.flatMap({ $0.entry }).prefix(10) {
+//                taskGroup.addTask {
+//                    do {
+//                        if relation.type == .anime {
+//                            let anime = try await self.networker.getAnimeDetails(id: relation.id)
+//                            await self.networker.downloadImage(id: "anime\(relation.id)", urlString: anime.mainPicture?.medium)
+//                        } else if relation.type == .manga {
+//                            let manga = try await self.networker.getMangaDetails(id: relation.id)
+//                            await self.networker.downloadImage(id: "manga\(relation.id)", urlString: manga.mainPicture?.medium)
+//                        }
+//                    } catch {
+//                        print("Some unknown error occurred")
+//                    }
+//                }
+//            }
+//        }
     }
     
     // Refresh the current manga details page

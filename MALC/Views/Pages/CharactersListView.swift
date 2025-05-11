@@ -24,7 +24,7 @@ struct CharactersListView: View {
                         CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "character\(character.id)", width: 75, height: 106)
+                            ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             Text(character.character.name ?? "")
                         }

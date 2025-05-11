@@ -26,10 +26,10 @@ struct RecommendationsListView: View {
             List {
                 ForEach(animeRecommendations) { item in
                     NavigationLink {
-                        AnimeDetailsView(id: item.id)
+                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(item.id)", width: 75, height: 106)
+                            ImageFrame(id: "anime\(item.id)", imageUrl: item.node.mainPicture?.medium, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)
@@ -40,10 +40,10 @@ struct RecommendationsListView: View {
                 }
                 ForEach(mangaRecommendations) { item in
                     NavigationLink {
-                        MangaDetailsView(id: item.id)
+                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(item.id)", width: 75, height: 106)
+                            ImageFrame(id: "manga\(item.id)", imageUrl: item.node.mainPicture?.medium, width: 75, height: 106)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)

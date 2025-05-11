@@ -50,7 +50,7 @@ struct AnimeCreditsView: View {
                                 PersonDetailsView(id: staff.id, imageUrl: staff.person.images?.jpg.imageUrl)
                             } label: {
                                 HStack {
-                                    ImageFrame(id: "person\(staff.id)", width: 75, height: 106)
+                                    ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, width: 75, height: 106)
                                         .padding([.trailing], 10)
                                     VStack(alignment: .leading) {
                                         Text(staff.person.name ?? "")

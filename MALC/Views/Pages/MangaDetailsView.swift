@@ -15,13 +15,15 @@ struct MangaDetailsView: View {
     @State private var isShowingSafariView = false
     @State private var isEditViewPresented = false
     private let id: Int
+    private let imageUrl: String?
     private let url: URL
     let networker = NetworkManager.shared
     
-    init(id: Int) {
+    init(id: Int, imageUrl: String?) {
         self.id = id
-        self._controller = StateObject(wrappedValue: MangaDetailsViewController(id: id))
+        self.imageUrl = imageUrl
         self.url = URL(string: "https://myanimelist.net/manga/\(id)")!
+        self._controller = StateObject(wrappedValue: MangaDetailsViewController(id: id))
     }
     
     var body: some View {
@@ -31,7 +33,7 @@ struct MangaDetailsView: View {
             } else if let manga = controller.manga {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame(id: "manga\(manga.id)", width: 150, height: 212)
+                        ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, width: 150, height: 212)
                             .padding([.top], 10)
                         Text("\(manga.title)")
                             .bold()
@@ -66,7 +68,7 @@ struct MangaDetailsView: View {
                         .font(.system(size: 12))
                         TextBox(title: "Synopsis", text: manga.synopsis)
                         Characters(characters: controller.characters)
-                        RelatedItems(relations: controller.relations)
+//                        RelatedItems(relations: controller.relations)
                         Recommendations(mangaRecommendations: manga.recommendations)
                         MangaInformationBox(manga: manga)
                     }
@@ -101,7 +103,7 @@ struct MangaDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        MangaEditView(id: id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, isPresented: $isEditViewPresented)
+                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, isPresented: $isEditViewPresented)
                     }
                     .disabled(controller.isLoading || controller.isInitialLoading)
                 } else {

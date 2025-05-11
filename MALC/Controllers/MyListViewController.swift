@@ -53,13 +53,6 @@ class MyListViewController: ObservableObject {
                 canLoadMoreAnimePages = true
                 isAnimeLoading = true
                 let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
@@ -79,13 +72,6 @@ class MyListViewController: ObservableObject {
                 canLoadMoreMangaPages = true
                 isMangaLoading = true
                 let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
@@ -115,13 +101,6 @@ class MyListViewController: ObservableObject {
             isLoadingError = false
             do {
                 let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for anime in animeList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
@@ -146,13 +125,6 @@ class MyListViewController: ObservableObject {
             isLoadingError = false
             do {
                 let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
-                await withTaskGroup(of: Void.self) { taskGroup in
-                    for manga in mangaList {
-                        taskGroup.addTask {
-                            await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-                        }
-                    }
-                }
                 
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)

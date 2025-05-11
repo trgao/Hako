@@ -30,12 +30,12 @@ struct JikanGridInfiniteScrollView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(controller.items) { item in
                         if type == .anime {
-                            AnimeGridItem(id: item.id, title: item.title)
+                            AnimeGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
                                 .task {
                                     await controller.loadMoreIfNeeded(currentItem: item)
                                 }
                         } else if type == .manga {
-                            MangaGridItem(id: item.id, title: item.title)
+                            MangaGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
                                 .task {
                                     await controller.loadMoreIfNeeded(currentItem: item)
                                 }

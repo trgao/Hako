@@ -154,14 +154,6 @@ class SeasonsViewController: ObservableObject {
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
             
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for anime in animeList {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-            }
-            
             updateCurrentSeasonPage(2)
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
             if season == "winter" {
@@ -205,14 +197,6 @@ class SeasonsViewController: ObservableObject {
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
-            
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for anime in animeList {
-                    taskGroup.addTask {
-                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-                    }
-                }
-            }
             
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))

@@ -30,7 +30,7 @@ struct Characters: View {
                     .padding(.horizontal, 15)
                     .font(.system(size: 17))
                 }
-                .accentColor(.black)
+                .buttonStyle(.plain)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                         Rectangle()
@@ -48,7 +48,7 @@ struct Characters: View {
                                 }
                                 .frame(width: 120)
                             }
-                            .accentColor(.black)
+                            .buttonStyle(.plain)
                         }
                         Rectangle()
                             .frame(width: 10)

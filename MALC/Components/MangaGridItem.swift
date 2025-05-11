@@ -47,7 +47,7 @@ struct MangaGridItem: View {
                     .font(.system(size: 16))
             }
         }
-        .accentColor(.black)
+        .buttonStyle(.plain)
         .padding(5)
     }
 }

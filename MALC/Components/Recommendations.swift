@@ -38,7 +38,7 @@ struct Recommendations: View {
                         .padding(.horizontal, 15)
                         .font(.system(size: 17))
                     }
-                    .accentColor(.black)
+                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
@@ -46,15 +46,11 @@ struct Recommendations: View {
                                 .foregroundColor(.clear)
                             ForEach(animeRecommendations) { item in
                                 NavigationLink {
-                                    if type == .anime {
-                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                    } else {
-                                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                    }
+                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                 } label: {
                                     AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
-                                .accentColor(.black)
+                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 10)
@@ -79,7 +75,7 @@ struct Recommendations: View {
                         .padding(.horizontal, 15)
                         .font(.system(size: 17))
                     }
-                    .accentColor(.black)
+                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
@@ -87,15 +83,11 @@ struct Recommendations: View {
                                 .foregroundColor(.clear)
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
-                                    if type == .anime {
-                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                    } else {
-                                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                    }
+                                    MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                                 } label: {
                                     MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
-                                .accentColor(.black)
+                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 10)

@@ -15,7 +15,6 @@ struct MyListView: View {
     @State private var isBack = false
     
     var body: some View {
-        // Weird animation bug with list when reaching end and loading more
         NavigationStack {
             if networker.isSignedIn {
                 VStack {

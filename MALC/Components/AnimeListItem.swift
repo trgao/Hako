@@ -11,7 +11,6 @@ struct AnimeListItem: View {
     @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
     private let anime: MALListAnime
-    private let status: StatusEnum
     private let colours: [StatusEnum:Color] = [
         .watching: Color(.systemGreen),
         .completed: Color(.systemBlue),
@@ -25,14 +24,12 @@ struct AnimeListItem: View {
     
     init(anime: MALListAnime) {
         self.anime = anime
-        self.status = .none
         self.refresh = {}
         self._isBack = .constant(false)
     }
     
     init(anime: MALListAnime, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>) {
         self.anime = anime
-        self.status = status
         self.refresh = refresh
         self._isBack = isBack
     }
@@ -57,7 +54,7 @@ struct AnimeListItem: View {
                         if let numEpisodes = anime.node.numEpisodes, numEpisodes > 0 {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                                    .tint(colours[status])
+                                    .tint(colours[anime.listStatus?.status ?? .none])
                                 Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                                     .font(.system(size: 13))
                                     .foregroundStyle(Color(.systemGray))
@@ -66,7 +63,7 @@ struct AnimeListItem: View {
                         } else {
                             VStack(alignment: .leading) {
                                 ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
-                                    .tint(colours[status])
+                                    .tint(colours[anime.listStatus?.status ?? .none])
                                 Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
                                     .font(.system(size: 13))
                                     .foregroundStyle(Color(.systemGray))
@@ -103,7 +100,7 @@ struct AnimeListItem: View {
                 .padding(5)
             }
         }
-        .accentColor(.black)
+        .buttonStyle(.plain)
         .padding(5)
     }
 }

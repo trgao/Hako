@@ -11,7 +11,6 @@ struct MangaListItem: View {
     @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
     private let manga: MALListManga
-    private let status: StatusEnum
     private let colours: [StatusEnum:Color] = [
         .reading: Color(.systemGreen),
         .completed: Color(.systemBlue),
@@ -25,14 +24,12 @@ struct MangaListItem: View {
     
     init(manga: MALListManga) {
         self.manga = manga
-        self.status = .none
         self.refresh = {}
         self._isBack = .constant(false)
     }
     
     init(manga: MALListManga, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>) {
         self.manga = manga
-        self.status = status
         self.refresh = refresh
         self._isBack = isBack
     }
@@ -57,7 +54,7 @@ struct MangaListItem: View {
                         if let numChapters = manga.node.numChapters, numChapters > 0 {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numChaptersRead) / Float(numChapters))
-                                    .tint(colours[status])
+                                    .tint(colours[manga.listStatus?.status ?? .none])
                                 HStack {
                                     if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
@@ -79,7 +76,7 @@ struct MangaListItem: View {
                         } else {
                             VStack(alignment: .leading) {
                                 ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
-                                    .tint(colours[status])
+                                    .tint(colours[manga.listStatus?.status ?? .none])
                                 HStack {
                                     if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
@@ -129,7 +126,7 @@ struct MangaListItem: View {
                 .padding(5)
             }
         }
-        .accentColor(.black)
+        .buttonStyle(.plain)
         .padding(5)
     }
 }

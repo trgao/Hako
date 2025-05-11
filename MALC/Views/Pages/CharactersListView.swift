@@ -29,7 +29,7 @@ struct CharactersListView: View {
                             Text(character.character.name ?? "")
                         }
                     }
-                    .accentColor(.black)
+                    .buttonStyle(.plain)
                 }
             }
             .navigationTitle("Characters")

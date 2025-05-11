@@ -28,7 +28,7 @@ struct GroupsListView: View {
                 } label: {
                     Text(item.name)
                 }
-                .accentColor(.black)
+                .buttonStyle(.plain)
             }
         }
         .navigationTitle(title)

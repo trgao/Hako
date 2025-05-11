@@ -52,9 +52,9 @@ struct RelatedItems: View {
                         .padding(.horizontal, 15)
                         .font(.system(size: 17))
                     }
-                    .accentColor(.black)
+                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top, spacing: 10) {
+                        HStack(alignment: .top) {
                             Rectangle()
                                 .frame(width: 10)
                                 .foregroundColor(.clear)
@@ -68,11 +68,12 @@ struct RelatedItems: View {
                                 } label: {
                                     if item.type == .anime {
                                         AnimeGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
+                                            .scaledToFit()
                                     } else if item.type == .manga {
                                         MangaGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
                                     }
                                 }
-                                .accentColor(.black)
+                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 10)

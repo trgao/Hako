@@ -38,11 +38,13 @@ struct AnimeMangaToggle: View {
                     .frame(width: 18, height: 15)
                     .foregroundStyle(type == .anime && isEnabled ? Color(.systemBlue) : Color(.systemGray))
                     .padding(3)
+                    .offset(x: -1)
                 Image(systemName: "book.fill")
                     .resizable()
                     .frame(width: 18, height: 15)
                     .foregroundStyle(type == .manga && isEnabled ? Color(.systemBlue) : Color(.systemGray))
                     .padding(3)
+                    .offset(x: 1)
             }
         }
         .onTapGesture {

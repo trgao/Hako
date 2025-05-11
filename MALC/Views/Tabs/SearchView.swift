@@ -94,7 +94,7 @@ struct SearchView: View {
                                                     } label: {
                                                         AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                     }
-                                                    .buttonStyle(.plain)
+                                                    .accentColor(.black)
                                                 }
                                                 Rectangle()
                                                     .frame(width: 10)
@@ -121,7 +121,7 @@ struct SearchView: View {
                                                 } label: {
                                                     AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
-                                                .buttonStyle(.plain)
+                                                .accentColor(.black)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -147,7 +147,7 @@ struct SearchView: View {
                                                 } label: {
                                                     AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
-                                                .buttonStyle(.plain)
+                                                .accentColor(.black)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -173,7 +173,7 @@ struct SearchView: View {
                                                 } label: {
                                                     AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
-                                                .buttonStyle(.plain)
+                                                .accentColor(.black)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -199,7 +199,7 @@ struct SearchView: View {
                                                 } label: {
                                                     MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                                 }
-                                                .buttonStyle(.plain)
+                                                .accentColor(.black)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)

@@ -38,7 +38,7 @@ struct Recommendations: View {
                         .padding(.horizontal, 15)
                         .font(.system(size: 17))
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
@@ -54,7 +54,7 @@ struct Recommendations: View {
                                 } label: {
                                     AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
-                                .buttonStyle(.plain)
+                                .accentColor(.black)
                             }
                             Rectangle()
                                 .frame(width: 10)
@@ -79,7 +79,7 @@ struct Recommendations: View {
                         .padding(.horizontal, 15)
                         .font(.system(size: 17))
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
@@ -95,7 +95,7 @@ struct Recommendations: View {
                                 } label: {
                                     MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                 }
-                                .buttonStyle(.plain)
+                                .accentColor(.black)
                             }
                             Rectangle()
                                 .frame(width: 10)

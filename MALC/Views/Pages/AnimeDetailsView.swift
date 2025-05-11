@@ -70,7 +70,7 @@ struct AnimeDetailsView: View {
                         TextBox(title: "Synopsis", text: anime.synopsis)
                         Characters(characters: controller.characters)
                         YoutubeVideos(videos: anime.videos)
-//                        RelatedItems(relations: controller.relations)
+                        RelatedItems(relations: controller.relations)
                         Recommendations(animeRecommendations: anime.recommendations)
                         AnimeInformationBox(anime: anime)
                     }

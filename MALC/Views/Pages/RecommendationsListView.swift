@@ -36,7 +36,7 @@ struct RecommendationsListView: View {
                             }
                         }
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                 }
                 ForEach(mangaRecommendations) { item in
                     NavigationLink {
@@ -50,7 +50,7 @@ struct RecommendationsListView: View {
                             }
                         }
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                 }
             }
             .navigationTitle("Recommendations")

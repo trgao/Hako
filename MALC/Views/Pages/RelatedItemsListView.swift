@@ -42,7 +42,7 @@ struct RelatedItemsListView: View {
                                 }
                             }
                         }
-                        .buttonStyle(.plain)
+                        .accentColor(.black)
                     }
                 }
             }

@@ -47,7 +47,7 @@ struct AnimeGridItem: View {
                     .font(.system(size: 16))
             }
         }
-        .buttonStyle(.plain)
+        .accentColor(.black)
         .padding(5)
     }
 }

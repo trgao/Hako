@@ -68,7 +68,7 @@ struct MangaDetailsView: View {
                         .font(.system(size: 12))
                         TextBox(title: "Synopsis", text: manga.synopsis)
                         Characters(characters: controller.characters)
-//                        RelatedItems(relations: controller.relations)
+                        RelatedItems(relations: controller.relations)
                         Recommendations(mangaRecommendations: manga.recommendations)
                         MangaInformationBox(manga: manga)
                     }

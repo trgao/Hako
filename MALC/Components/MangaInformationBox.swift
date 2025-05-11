@@ -73,7 +73,7 @@ struct MangaInformationBox: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                     Text("\(manga.genres.map{ $0.name }.joined(separator: ", "))")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

@@ -117,7 +117,7 @@ struct AnimeInformationBox: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                     Text("\(anime.genres.map{ $0.name }.joined(separator: ", "))")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -136,7 +136,7 @@ struct AnimeInformationBox: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .buttonStyle(.plain)
+                    .accentColor(.black)
                     Text("\(anime.studios.map{ $0.name }.joined(separator: ", "))")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

@@ -103,7 +103,7 @@ struct AnimeListItem: View {
                 .padding(5)
             }
         }
-        .buttonStyle(.plain)
+        .accentColor(.black)
         .padding(5)
     }
 }

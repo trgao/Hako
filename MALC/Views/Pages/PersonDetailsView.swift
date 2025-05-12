@@ -26,9 +26,6 @@ struct PersonDetailsView: View {
             if controller.isLoadingError {
                 ErrorView(refresh: controller.refresh)
             } else {
-                if controller.isLoading {
-                    LoadingView()
-                }
                 if let person = controller.person {
                     List {
                         Section {
@@ -69,6 +66,9 @@ struct PersonDetailsView: View {
                     .refreshable {
                         isRefresh = true
                     }
+                }
+                if controller.isLoading {
+                    LoadingView()
                 }
             }
         }

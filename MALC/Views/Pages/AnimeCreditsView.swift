@@ -21,60 +21,64 @@ struct AnimeCreditsView: View {
     
     var body: some View {
         ZStack {
-            List {
-                if let openingThemes = openingThemes {
-                    Section("Opening Themes") {
-                        ForEach(openingThemes) { theme in
-                            Text(theme.text ?? "")
-                                .frame(maxWidth: .infinity, alignment: .leading)
+            if controller.isLoadingError {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                List {
+                    if let openingThemes = openingThemes {
+                        Section("Opening Themes") {
+                            ForEach(openingThemes) { theme in
+                                Text(theme.text ?? "")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
+                            return -20
                         }
                     }
-                    .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return -20
-                    }
-                }
-                if let endingThemes = endingThemes {
-                    Section("Ending Themes") {
-                        ForEach(endingThemes) { theme in
-                            Text(theme.text ?? "")
+                    if let endingThemes = endingThemes {
+                        Section("Ending Themes") {
+                            ForEach(endingThemes) { theme in
+                                Text(theme.text ?? "")
+                            }
+                        }
+                        .alignmentGuide(.listRowSeparatorLeading) { _ in
+                            return -20
                         }
                     }
-                    .alignmentGuide(.listRowSeparatorLeading) { _ in
-                        return -20
-                    }
-                }
-                if !controller.staff.isEmpty {
-                    Section("Staff") {
-                        ForEach(controller.staff) { staff in
-                            NavigationLink {
-                                PersonDetailsView(id: staff.id, imageUrl: staff.person.images?.jpg.imageUrl)
-                            } label: {
-                                HStack {
-                                    ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .small)
-                                        .padding([.trailing], 10)
-                                    VStack(alignment: .leading) {
-                                        Text(staff.person.name ?? "")
-                                        Text(staff.positions.joined(separator: ", "))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .font(.system(size: 13))
+                    if !controller.staff.isEmpty {
+                        Section("Staff") {
+                            ForEach(controller.staff) { staff in
+                                NavigationLink {
+                                    PersonDetailsView(id: staff.id, imageUrl: staff.person.images?.jpg.imageUrl)
+                                } label: {
+                                    HStack {
+                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .small)
+                                            .padding([.trailing], 10)
+                                        VStack(alignment: .leading) {
+                                            Text(staff.person.name ?? "")
+                                            Text(staff.positions.joined(separator: ", "))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .font(.system(size: 13))
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            .task(id: isRefresh) {
-                if isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
+                .task(id: isRefresh) {
+                    if isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
                 }
-            }
-            .refreshable {
-                isRefresh = true
-            }
-            if controller.isLoading {
-                LoadingView()
+                .refreshable {
+                    isRefresh = true
+                }
+                if controller.isLoading {
+                    LoadingView()
+                }
             }
         }
         .task {

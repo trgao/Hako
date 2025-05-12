@@ -24,9 +24,6 @@ struct CharacterDetailsView: View {
             if controller.isLoadingError {
                 ErrorView(refresh: controller.refresh)
             } else {
-                if controller.isLoading {
-                    LoadingView()
-                }
                 if let character = controller.character {
                     List {
                         Section {
@@ -65,6 +62,9 @@ struct CharacterDetailsView: View {
                     .refreshable {
                         isRefresh = true
                     }
+                }
+                if controller.isLoading {
+                    LoadingView()
                 }
             }
         }

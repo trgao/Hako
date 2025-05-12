@@ -123,7 +123,7 @@ struct AnimeDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, isPresented: $isEditViewPresented)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl, isPresented: $isEditViewPresented)
                     }
                     .disabled(controller.isLoading || controller.isInitialLoading)
                 } else {

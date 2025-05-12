@@ -13,13 +13,14 @@ struct MangaEditView: View {
     @State private var isDeleting = false
     @State private var isEditError = false
     @Binding private var isPresented: Bool
-    private let title: String
-    private let numVolumes: Int
-    private let numChapters: Int
     private let id: Int
+    private let title: String
+    private let numVolumes: Int?
+    private let numChapters: Int?
+    private let imageUrl: String?
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int, numChapters: Int, isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
             self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0)
@@ -29,6 +30,7 @@ struct MangaEditView: View {
         self.title = title
         self.numVolumes = numVolumes
         self.numChapters = numChapters
+        self.imageUrl = imageUrl
         self._isPresented = isPresented
     }
     
@@ -57,7 +59,7 @@ struct MangaEditView: View {
                     .buttonStyle(.borderedProminent)
                 }
                 .padding(20)
-                ImageFrame(id: "anime\(id)", imageUrl: nil, imageSize: .medium)
+                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .padding([.top], 10)
                 Text(title)
                     .bold()

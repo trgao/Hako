@@ -12,9 +12,9 @@ struct NumberSelector: View {
     @Binding var num: Int
     @State var numString: String
     private var title: String
-    private var max: Int
+    private var max: Int?
     
-    init(num: Binding<Int>, title: String, max: Int) {
+    init(num: Binding<Int>, title: String, max: Int?) {
         self._num = num
         self.title = title
         self.max = max
@@ -22,7 +22,7 @@ struct NumberSelector: View {
     }
 
     var body: some View {
-        if max > 0 && max < 500 {
+        if let max = max, max > 0 && max < 500 {
             Picker(selection: $num, label: Text(title)) {
                 ForEach(0...max, id: \.self) { number in
                     Text(String(number))

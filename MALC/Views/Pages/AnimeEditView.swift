@@ -13,12 +13,13 @@ struct AnimeEditView: View {
     @State private var isDeleting = false
     @State private var isEditError = false
     @Binding private var isPresented: Bool
-    private let title: String
-    private let numEpisodes: Int
     private let id: Int
+    private let title: String
+    private let numEpisodes: Int?
+    private let imageUrl: String?
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int, isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
             self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0)
@@ -27,6 +28,7 @@ struct AnimeEditView: View {
         }
         self.title = title
         self.numEpisodes = numEpisodes
+        self.imageUrl = imageUrl
         self._isPresented = isPresented
     }
     
@@ -59,7 +61,7 @@ struct AnimeEditView: View {
                     .buttonStyle(.borderedProminent)
                 }
                 .padding(20)
-                ImageFrame(id: "anime\(id)", imageUrl: nil, imageSize: .medium)
+                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .padding([.top], 10)
                 Text(title)
                     .bold()

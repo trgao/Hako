@@ -92,7 +92,7 @@ struct AnimeListItem: View {
                                     await refresh()
                                 }
                             } content: {
-                                AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes!, isPresented: $isEditViewPresented)
+                                AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium, isPresented: $isEditViewPresented)
                             }
                         }
                     }

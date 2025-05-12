@@ -118,7 +118,7 @@ struct MangaListItem: View {
                                     await refresh()
                                 }
                             } content: {
-                                MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes!, numChapters: manga.node.numChapters!, isPresented: $isEditViewPresented)
+                                MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium, isPresented: $isEditViewPresented)
                             }
                         }
                     }

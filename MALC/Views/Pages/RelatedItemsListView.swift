@@ -47,7 +47,7 @@ struct RelatedItemsListView: View {
                 }
             }
             .navigationTitle("Related")
-            .background(Color(.systemGray6))
+            .background(Color(.secondarySystemBackground))
         }
     }
 }

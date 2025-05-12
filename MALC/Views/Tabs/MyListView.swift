@@ -124,7 +124,7 @@ struct MyListView: View {
                 }
                 .frame(maxHeight: .infinity)
                 .padding(30)
-                .background(Color(.systemGray6))
+                .background(Color(.secondarySystemBackground))
             }
         }
     }

@@ -41,29 +41,15 @@ struct CharacterDetailsView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .listRowBackground(Color.clear)
-                    } header: {
-                        Text("")
                     }
-                    if let about = character.about {
-                        VStack {
-                            Text("About")
-                                .bold()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding([.leading, .trailing, .top], 5)
-                                .font(.system(size: 17))
-                            Text(about)
-                                .multilineTextAlignment(.leading)
-                                .padding(5)
-                                .font(.system(size: 16))
-                                .lineSpacing(2)
-                        }
-                    }
+                    ListTextBox(title: "About", text: character.about)
+                        .listRowBackground(Color(.systemBackground))
                     CharacterAnimeSection(animes: character.anime)
                     CharacterMangaSection(mangas: character.manga)
                     CharacterVoiceSection(voices: character.voices)
                 }
                 .shadow(radius: 0.5)
-                .background(Color(.systemGray6))
+                .background(Color(.secondarySystemBackground))
                 .scrollContentBackground(.hidden)
                 .task(id: isRefresh) {
                     if isRefresh {
@@ -119,6 +105,7 @@ struct CharacterAnimeSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Animes")
                     .textCase(nil)
@@ -156,6 +143,7 @@ struct CharacterMangaSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Mangas")
                     .textCase(nil)
@@ -193,6 +181,7 @@ struct CharacterVoiceSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Voices")
                     .textCase(nil)

@@ -54,7 +54,7 @@ struct RecommendationsListView: View {
                 }
             }
             .navigationTitle("Recommendations")
-            .background(Color(.systemGray6))
+            .background(Color(.secondarySystemBackground))
         }
     }
 }

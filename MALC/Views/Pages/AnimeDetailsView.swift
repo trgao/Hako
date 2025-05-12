@@ -39,7 +39,12 @@ struct AnimeDetailsView: View {
                         Text(anime.title)
                             .bold()
                             .font(.system(size: 25))
-                            .padding(10)
+                            .padding(.horizontal, 10)
+                            .multilineTextAlignment(.center)
+                        Text(anime.alternativeTitles?.ja ?? "")
+                            .padding([.horizontal, .bottom], 10)
+                            .font(.system(size: 18))
+                            .opacity(0.7)
                             .multilineTextAlignment(.center)
                         HStack {
                             VStack {
@@ -99,7 +104,7 @@ struct AnimeDetailsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .background(Color(.systemGray6))
+        .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
         .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
             Text("Unable to load")

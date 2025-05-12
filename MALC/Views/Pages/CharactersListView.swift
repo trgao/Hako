@@ -33,7 +33,7 @@ struct CharactersListView: View {
                 }
             }
             .navigationTitle("Characters")
-            .background(Color(.systemGray6))
+            .background(Color(.secondarySystemBackground))
             if controller.isLoading {
                 LoadingView()
             }

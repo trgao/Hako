@@ -78,7 +78,7 @@ struct MangaDetailsView: View {
                 LoadingView()
             }
         }
-        .background(Color(.systemGray6))
+        .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
         .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
             Text("Unable to load")

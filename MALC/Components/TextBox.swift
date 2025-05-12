@@ -67,6 +67,59 @@ struct TextBox: View {
     }
 }
 
+struct ListTextBox: View {
+    @State private var isExpanded = false
+    @State private var canBeExpanded = false
+    private let title: String
+    private let text: String?
+    
+    init(title: String, text: String?) {
+        self.title = title
+        self.text = text
+    }
+    
+    var body: some View {
+        if let text = text {
+            VStack {
+                Text(title)
+                    .bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding([.leading, .trailing, .top], 5)
+                    .font(.system(size: 17))
+                Text(text)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(isExpanded ? nil : 4)
+                    .background {
+                        ViewThatFits(in: .vertical) {
+                            Text(text)
+                                .hidden()
+                            Color.clear
+                                .onAppear {
+                                    canBeExpanded = true
+                                }
+                        }
+                    }
+                    .padding(5)
+                    .font(.system(size: 16))
+                    .lineSpacing(2)
+                if canBeExpanded {
+                    Button {
+                        isExpanded.toggle()
+                    } label: {
+                        if isExpanded {
+                            Image(systemName: "chevron.up")
+                        } else {
+                            Image(systemName: "chevron.down")
+                        }
+                    }
+                    .buttonStyle(ChevronButtonStyle(isEnabled: isExpanded))
+                    .frame(width: 30, height: 30)
+                }
+            }
+        }
+    }
+}
+
 private struct ChevronButtonStyle: ButtonStyle {
     let isEnabled: Bool
 

@@ -151,6 +151,6 @@ struct AnimeInformationBox: View {
         .shadow(radius: 0.5)
         .frame(maxWidth: .infinity)
         .padding(15)
-        .font(.system(size: 12))
+        .font(.system(size: 14))
     }
 }

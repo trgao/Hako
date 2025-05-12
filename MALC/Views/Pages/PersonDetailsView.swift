@@ -48,29 +48,15 @@ struct PersonDetailsView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .listRowBackground(Color.clear)
-                    } header: {
-                        Text("")
                     }
-                    if let about = person.about {
-                        VStack {
-                            Text("About")
-                                .bold()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding([.leading, .trailing, .top], 5)
-                                .font(.system(size: 17))
-                            Text(about)
-                                .multilineTextAlignment(.leading)
-                                .padding(5)
-                                .font(.system(size: 16))
-                                .lineSpacing(2)
-                        }
-                    }
+                    ListTextBox(title: "About", text: person.about)
+                        .listRowBackground(Color(.systemBackground))
                     PersonVoiceSection(voices: person.voices)
                     PersonAnimeSection(animes: person.anime)
                     PersonMangaSection(mangas: person.manga)
                 }
                 .shadow(radius: 0.5)
-                .background(Color(.systemGray6))
+                .background(Color(.secondarySystemBackground))
                 .scrollContentBackground(.hidden)
                 .task(id: isRefresh) {
                     if isRefresh {
@@ -123,6 +109,7 @@ struct PersonVoiceSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Voice Acting Roles")
                     .textCase(nil)
@@ -160,6 +147,7 @@ struct PersonAnimeSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Anime Staff Positions")
                     .textCase(nil)
@@ -197,6 +185,7 @@ struct PersonMangaSection: View {
                         }
                     }
                 }
+                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Manga Staff Positions")
                     .textCase(nil)

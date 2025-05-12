@@ -17,7 +17,7 @@ Used the MyAnimeList and Jikan API.
 
 ## Things to be done
 
-* Refactor alert messages when there is network error / authentication errors
 * Add settings page for customisation
-* Add swiping gestures on list page
+* Add swiping gestures on list page (swipe left to remove 1, swipe right to add 1)
+* Add zoom in animations for grid item transitions to detail views
 * Try integration with Spotify API

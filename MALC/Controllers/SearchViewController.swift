@@ -49,18 +49,17 @@ class SearchViewController: ObservableObject {
         isPageLoading = true
         isLoadingError = false
         do {
-            var animeSuggestions: [MALListAnime] = []
             if networker.isSignedIn {
-                animeSuggestions = try await networker.getUserAnimeSuggestionList()
+                let animeSuggestions = try await networker.getUserAnimeSuggestionList()
+                self.animeSuggestions = animeSuggestions
             }
             let topAiringAnime = try await networker.getAnimeTopAiringList()
-            let topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
-            let topPopularAnime = try await networker.getAnimeTopPopularList()
-            let topPopularManga = try await networker.getMangaTopPopularList()
-            self.animeSuggestions = animeSuggestions
             self.topAiringAnime = topAiringAnime
+            let topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
             self.topUpcomingAnime = topUpcomingAnime
+            let topPopularAnime = try await networker.getAnimeTopPopularList()
             self.topPopularAnime = topPopularAnime
+            let topPopularManga = try await networker.getMangaTopPopularList()
             self.topPopularManga = topPopularManga
             
             isPageLoading = false

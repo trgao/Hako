@@ -7,16 +7,28 @@
 
 import SwiftUI
 
+enum ImageSize {
+    case small, medium, large
+}
+
 struct ImageFrame: View {
     @StateObject private var controller: ImageFrameController
     private let width: CGFloat
     private let height: CGFloat
     let networker = NetworkManager.shared
     
-    init(id: String, imageUrl: String?, width: CGFloat, height: CGFloat) {
+    init(id: String, imageUrl: String?, imageSize: ImageSize) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
-        self.width = width
-        self.height = height
+        if imageSize == .small {
+            self.width = 75
+            self.height = 106
+        } else if imageSize == .medium {
+            self.width = 100
+            self.height = 141
+        } else {
+            self.width = 150
+            self.height = 212
+        }
     }
     
     var body: some View {

@@ -28,10 +28,10 @@ struct RelatedItemsListView: View {
                         } label: {
                             HStack {
                                 if item.type == .anime {
-                                    ImageFrame(id: "anime\(item.id)", imageUrl: item.images?.jpg.imageUrl, width: 75, height: 106)
+                                    ImageFrame(id: "anime\(item.id)", imageUrl: item.images?.jpg.imageUrl, imageSize: .small)
                                         .padding([.trailing], 10)
                                 } else if item.type == .manga {
-                                    ImageFrame(id: "manga\(item.id)", imageUrl: item.images?.jpg.imageUrl, width: 75, height: 106)
+                                    ImageFrame(id: "manga\(item.id)", imageUrl: item.images?.jpg.imageUrl, imageSize: .small)
                                         .padding([.trailing], 10)
                                 }
                                 VStack(alignment: .leading) {

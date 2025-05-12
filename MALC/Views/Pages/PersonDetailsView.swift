@@ -31,9 +31,9 @@ struct PersonDetailsView: View {
                 List {
                     Section {
                         VStack(alignment: .center) {
-                            ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, width: 150, height: 212)
+                            ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, imageSize: .large)
                                 .padding([.top], 10)
-                            Text("\(person.name)")
+                            Text(person.name)
                                 .bold()
                                 .font(.system(size: 25))
                                 .padding(.horizontal, 10)
@@ -112,7 +112,7 @@ struct PersonVoiceSection: View {
                         AnimeDetailsView(id: voice.anime.id, imageUrl: voice.anime.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg.imageUrl, width: 75, height: 106)
+                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(voice.anime.title ?? "")
@@ -149,7 +149,7 @@ struct PersonAnimeSection: View {
                         AnimeDetailsView(id: anime.id, imageUrl: anime.anime.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, width: 75, height: 106)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
@@ -186,7 +186,7 @@ struct PersonMangaSection: View {
                         MangaDetailsView(id: manga.id, imageUrl: manga.manga.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl, width: 75, height: 106)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")

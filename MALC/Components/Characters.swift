@@ -41,7 +41,7 @@ struct Characters: View {
                                 CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                             } label: {
                                 VStack {
-                                    ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, width: 100, height: 142)
+                                    ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
                                     Text(character.character.name ?? "")
                                         .font(.system(size: 14))
                                         .fixedSize(horizontal: false, vertical: true)

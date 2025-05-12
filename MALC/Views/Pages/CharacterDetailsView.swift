@@ -26,14 +26,14 @@ struct CharacterDetailsView: View {
                 List {
                     Section {
                         VStack(alignment: .center) {
-                            ImageFrame(id: "character\(character.id)", imageUrl: imageUrl, width: 150, height: 212)
+                            ImageFrame(id: "character\(character.id)", imageUrl: imageUrl, imageSize: .large)
                                 .padding([.top], 10)
-                            Text("\(character.name ?? "")")
+                            Text(character.name ?? "")
                                 .bold()
                                 .font(.system(size: 25))
                                 .padding(.horizontal, 10)
                                 .multilineTextAlignment(.center)
-                            Text("\(character.nameKanji ?? "")")
+                            Text(character.nameKanji ?? "")
                                 .padding(.horizontal, 10)
                                 .font(.system(size: 18))
                                 .opacity(0.7)
@@ -108,7 +108,7 @@ struct CharacterAnimeSection: View {
                         AnimeDetailsView(id: anime.id, imageUrl: anime.anime.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, width: 75, height: 106)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
@@ -145,7 +145,7 @@ struct CharacterMangaSection: View {
                         MangaDetailsView(id: manga.id, imageUrl: manga.manga.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl,  width: 75, height: 106)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
@@ -182,7 +182,7 @@ struct CharacterVoiceSection: View {
                         PersonDetailsView(id: voice.id, imageUrl: voice.person.images?.jpg.imageUrl)
                     } label: {
                         HStack {
-                            ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg.imageUrl, width: 75, height: 106)
+                            ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(voice.person.name ?? "")

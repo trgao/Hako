@@ -60,8 +60,13 @@ struct AnimeEditView: View {
                     .buttonStyle(.borderedProminent)
                 }
                 .padding(20)
+                ImageFrame(id: "anime\(id)", imageUrl: nil, imageSize: .medium)
+                    .padding([.top], 10)
                 Text(title)
+                    .bold()
                     .font(.system(size: 20))
+                    .padding([.top], 10)
+                    .multilineTextAlignment(.center)
                 List {
                     Section {
                         Picker(selection: $listStatus.status, label: Text("Status")) {
@@ -156,7 +161,6 @@ struct AnimeEditView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Color(.systemRed))
             }
-            .presentationDragIndicator(.visible)
             .background(Color(.systemGray6))
         }
         .simpleToast(isPresented: $isDeleteError, options: alertToastOptions) {

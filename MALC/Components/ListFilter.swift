@@ -18,12 +18,12 @@ struct ListFilter: View {
         Menu {
             if controller.type == .anime {
                 Picker(selection: $controller.animeStatus, label: EmptyView()) {
-                    Text("All").tag(StatusEnum.none)
-                    Text("Watching").tag(StatusEnum.watching)
-                    Text("Completed").tag(StatusEnum.completed)
-                    Text("On Hold").tag(StatusEnum.onHold)
-                    Text("Dropped").tag(StatusEnum.dropped)
-                    Text("Plan To Watch").tag(StatusEnum.planToWatch)
+                    Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
+                    Label("Watching", systemImage: "play.circle").tag(StatusEnum.watching)
+                    Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
+                    Label("On Hold", systemImage: "circle").tag(StatusEnum.onHold)
+                    Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
+                    Label("Plan To Watch", systemImage: "plus.circle.dashed").tag(StatusEnum.planToWatch)
                 }
                 .onChange(of: controller.animeStatus) { _ in
                     Task {
@@ -32,10 +32,10 @@ struct ListFilter: View {
                 }
                 Divider()
                 Picker(selection: $controller.animeSort, label: EmptyView()) {
-                    Text("By Score").tag("list_score")
-                    Text("By Last Update").tag("list_updated_at")
-                    Text("By Title").tag("anime_title")
-                    Text("By Start Date").tag("anime_start_date")
+                    Label("By Score", systemImage: "star").tag("list_score")
+                    Label("By Last Update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
+                    Label("By Title", systemImage: "character").tag("anime_title")
+                    Label("By Start Date", systemImage: "calendar").tag("anime_start_date")
                 }
                 .onChange(of: controller.animeSort) { _ in
                     Task {
@@ -44,12 +44,12 @@ struct ListFilter: View {
                 }
             } else if controller.type == .manga {
                 Picker(selection: $controller.mangaStatus, label: EmptyView()) {
-                    Text("All").tag(StatusEnum.none)
-                    Text("Reading").tag(StatusEnum.reading)
-                    Text("Completed").tag(StatusEnum.completed)
-                    Text("On Hold").tag(StatusEnum.onHold)
-                    Text("Dropped").tag(StatusEnum.dropped)
-                    Text("Plan To Read").tag(StatusEnum.planToRead)
+                    Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
+                    Label("Reading", systemImage: "book.circle").tag(StatusEnum.reading)
+                    Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
+                    Label("On Hold", systemImage: "circle").tag(StatusEnum.onHold)
+                    Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
+                    Label("Plan To Read", systemImage: "plus.circle.dashed").tag(StatusEnum.planToRead)
                 }
                 .onChange(of: controller.mangaStatus) { _ in
                     Task {
@@ -58,10 +58,10 @@ struct ListFilter: View {
                 }
                 Divider()
                 Picker(selection: $controller.mangaSort, label: EmptyView()) {
-                    Text("By Score").tag("list_score")
-                    Text("By Last Update").tag("list_updated_at")
-                    Text("By Title").tag("manga_title")
-                    Text("By Start Date").tag("manga_start_date")
+                    Label("By Score", systemImage: "star").tag("list_score")
+                    Label("By Last Update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
+                    Label("By Title", systemImage: "character").tag("manga_title")
+                    Label("By Start Date", systemImage: "calendar").tag("manga_start_date")
                 }
                 .onChange(of: controller.mangaSort) { _ in
                     Task {

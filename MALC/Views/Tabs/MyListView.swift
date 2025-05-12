@@ -9,7 +9,7 @@ import SwiftUI
 import SimpleToast
 
 struct MyListView: View {
-    @ObservedObject private var controller = MyListViewController()
+    @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
     @State private var isBack = false

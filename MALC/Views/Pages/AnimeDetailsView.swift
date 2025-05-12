@@ -34,9 +34,9 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, width: 150, height: 212)
+                        ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
                             .padding([.top], 10)
-                        Text("\(anime.title)")
+                        Text(anime.title)
                             .bold()
                             .font(.system(size: 25))
                             .padding(10)
@@ -144,7 +144,7 @@ struct AnimeDetailsView: View {
                 Button {
                     isShowingSafariView = true
                 } label: {
-                    Label("Open MyAnimeList page", systemImage: "globe")
+                    Label("Open in browser", systemImage: "globe")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

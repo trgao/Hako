@@ -99,7 +99,7 @@ struct AnimeInformationBox: View {
                     Text("Japanese Title")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("\(anime.alternativeTitles!.ja!)")
+                    Text(anime.alternativeTitles?.ja ?? "")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.horizontal, 5)

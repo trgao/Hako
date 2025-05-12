@@ -29,7 +29,7 @@ struct RecommendationsListView: View {
                         AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(item.id)", imageUrl: item.node.mainPicture?.medium, width: 75, height: 106)
+                            ImageFrame(id: "anime\(item.id)", imageUrl: item.node.mainPicture?.medium, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)
@@ -43,7 +43,7 @@ struct RecommendationsListView: View {
                         MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(item.id)", imageUrl: item.node.mainPicture?.medium, width: 75, height: 106)
+                            ImageFrame(id: "manga\(item.id)", imageUrl: item.node.mainPicture?.medium, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(item.node.title)

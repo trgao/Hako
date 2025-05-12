@@ -55,7 +55,7 @@ struct MangaInformationBox: View {
                     Text("Japanese Title")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("\(manga.alternativeTitles!.ja!)")
+                    Text(manga.alternativeTitles?.ja ?? "")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.horizontal, 5)

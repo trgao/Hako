@@ -33,9 +33,9 @@ struct MangaDetailsView: View {
             } else if let manga = controller.manga {
                 ScrollView {
                     VStack(alignment: .center) {
-                        ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, width: 150, height: 212)
+                        ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, imageSize: .large)
                             .padding([.top], 10)
-                        Text("\(manga.title)")
+                        Text(manga.title)
                             .bold()
                             .font(.system(size: 25))
                             .padding(10)
@@ -118,7 +118,7 @@ struct MangaDetailsView: View {
                 Button {
                     isShowingSafariView = true
                 } label: {
-                    Label("Open MyAnimeList page", systemImage: "globe")
+                    Label("Open in browser", systemImage: "globe")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

@@ -45,7 +45,7 @@ struct MangaListItem: View {
                 }
         } label: {
             HStack {
-                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, width: 75, height: 106)
+                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .small)
                 VStack(alignment: .leading) {
                     Text(manga.node.title)
                         .bold()
@@ -111,7 +111,7 @@ struct MangaListItem: View {
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
-                            .buttonStyle(BorderedButtonStyle())
+                            .buttonStyle(.bordered)
                             .foregroundStyle(Color(.systemBlue))
                             .sheet(isPresented: $isEditViewPresented) {
                                 Task {

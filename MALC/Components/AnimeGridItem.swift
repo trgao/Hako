@@ -26,7 +26,7 @@ struct AnimeGridItem: View {
             AnimeDetailsView(id: id, imageUrl: imageUrl)
         } label: {
             VStack {
-                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, width: 150, height: 212)
+                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {
                         if let subtitle = subtitle {
                             Text(subtitle)

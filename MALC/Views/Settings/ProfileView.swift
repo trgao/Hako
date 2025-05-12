@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject private var controller = ProfileViewController()
+    @StateObject private var controller = ProfileViewController()
     @State private var isRefresh = false
     private var user: User
     let networker = NetworkManager.shared

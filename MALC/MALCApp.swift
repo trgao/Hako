@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 @main
 struct MALCApp: App {

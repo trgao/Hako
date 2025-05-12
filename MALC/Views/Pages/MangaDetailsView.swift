@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct MangaDetailsView: View {
     @StateObject var controller: MangaDetailsViewController
@@ -28,7 +27,9 @@ struct MangaDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isInitialLoading {
+            if controller.isLoadingError {
+                ErrorView(refresh: controller.refresh)
+            } else if controller.isInitialLoading {
                 LoadingView()
             } else if let manga = controller.manga {
                 ScrollView {
@@ -77,16 +78,19 @@ struct MangaDetailsView: View {
             if controller.isLoading {
                 LoadingView()
             }
+            if controller.manga == nil && !controller.isLoading && !controller.isInitialLoading && !controller.isLoadingError {
+                VStack {
+                    Image(systemName: "book.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                    Text("Nothing found. ")
+                        .bold()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
         .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
-        .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-            Text("Unable to load")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
-        }
         .fullScreenCover(isPresented: $isShowingSafariView) {
             SafariView(url: url)
         }

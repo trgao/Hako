@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct PersonDetailsView: View {
     @StateObject var controller: PersonDetailsViewController
@@ -24,59 +23,56 @@ struct PersonDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoading {
-                LoadingView()
-            }
-            if let person = controller.person {
-                List {
-                    Section {
-                        VStack(alignment: .center) {
-                            ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, imageSize: .large)
-                                .padding([.top], 10)
-                            Text(person.name)
-                                .bold()
-                                .font(.system(size: 25))
-                                .padding(.horizontal, 10)
-                                .multilineTextAlignment(.center)
-                            if let birthday = person.birthday {
-                                Text("Birthday: \(dateFormatterPrint.string(from: birthday))")
+            if controller.isLoadingError {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                if controller.isLoading {
+                    LoadingView()
+                }
+                if let person = controller.person {
+                    List {
+                        Section {
+                            VStack(alignment: .center) {
+                                ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, imageSize: .large)
+                                    .padding([.top], 10)
+                                Text(person.name)
+                                    .bold()
+                                    .font(.system(size: 25))
                                     .padding(.horizontal, 10)
-                                    .font(.system(size: 18))
-                                    .opacity(0.7)
                                     .multilineTextAlignment(.center)
+                                if let birthday = person.birthday {
+                                    Text("Birthday: \(dateFormatterPrint.string(from: birthday))")
+                                        .padding(.horizontal, 10)
+                                        .font(.system(size: 18))
+                                        .opacity(0.7)
+                                        .multilineTextAlignment(.center)
+                                }
                             }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .listRowBackground(Color.clear)
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .listRowBackground(Color.clear)
+                        ListTextBox(title: "About", text: person.about)
+                            .listRowBackground(Color(.systemBackground))
+                        PersonVoiceSection(voices: person.voices)
+                        PersonAnimeSection(animes: person.anime)
+                        PersonMangaSection(mangas: person.manga)
                     }
-                    ListTextBox(title: "About", text: person.about)
-                        .listRowBackground(Color(.systemBackground))
-                    PersonVoiceSection(voices: person.voices)
-                    PersonAnimeSection(animes: person.anime)
-                    PersonMangaSection(mangas: person.manga)
-                }
-                .shadow(radius: 0.5)
-                .background(Color(.secondarySystemBackground))
-                .scrollContentBackground(.hidden)
-                .task(id: isRefresh) {
-                    if isRefresh {
-                        await controller.refresh()
-                        isRefresh = false
+                    .shadow(radius: 0.5)
+                    .background(Color(.secondarySystemBackground))
+                    .scrollContentBackground(.hidden)
+                    .task(id: isRefresh) {
+                        if isRefresh {
+                            await controller.refresh()
+                            isRefresh = false
+                        }
                     }
-                }
-                .refreshable {
-                    isRefresh = true
+                    .refreshable {
+                        isRefresh = true
+                    }
                 }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-            Text("Unable to load")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
-        }
         .task {
             await controller.refresh()
         }

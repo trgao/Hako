@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EE02B9812C26C781007DAD83 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = EE02B9802C26C781007DAD83 /* SimpleToast */; };
-		EE02B9832C26C9A4007DAD83 /* AlertToastOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02B9822C26C9A4007DAD83 /* AlertToastOptions.swift */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
@@ -53,7 +51,6 @@
 		EE8B96D12DD097460070DD4E /* MangaGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D02DD097410070DD4E /* MangaGridItem.swift */; };
 		EE8B96D32DD099AC0070DD4E /* MangaListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D22DD099A80070DD4E /* MangaListItem.swift */; };
 		EE8B96D52DD0A8850070DD4E /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */; };
-		EE8B96D72DD0BCF40070DD4E /* placeholder.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = EE8B96D62DD0BCF40070DD4E /* placeholder.jpeg */; };
 		EE91BE572BFCAA28002AC6C4 /* PersonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */; };
 		EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */; };
 		EE91BE5B2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE91BE5A2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift */; };
@@ -117,6 +114,7 @@
 		EEEBF8502BD2C0740036E779 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84F2BD2C0740036E779 /* SearchView.swift */; };
 		EEEBF8522BD2C0B70036E779 /* SeasonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF8512BD2C0B70036E779 /* SeasonsView.swift */; };
 		EEEBF8562BD2C46B0036E779 /* AnimeGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF8552BD2C46B0036E779 /* AnimeGridItem.swift */; };
+		EEEEA3152DD22CC400302A81 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEEA3142DD22CC400302A81 /* ErrorView.swift */; };
 		EEF283ED2CB478D400567B94 /* NumberSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF283EC2CB478CB00567B94 /* NumberSelector.swift */; };
 		EEFEFD482BF3429200200AF1 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEFD472BF3429200200AF1 /* SafariView.swift */; };
 		EEFEFD4A2BF34BB500200AF1 /* AnimeCreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEFD492BF34BB500200AF1 /* AnimeCreditsView.swift */; };
@@ -127,7 +125,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EE02B9822C26C9A4007DAD83 /* AlertToastOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertToastOptions.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -173,7 +170,6 @@
 		EE8B96D02DD097410070DD4E /* MangaGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGridItem.swift; sourceTree = "<group>"; };
 		EE8B96D22DD099A80070DD4E /* MangaListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListItem.swift; sourceTree = "<group>"; };
 		EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
-		EE8B96D62DD0BCF40070DD4E /* placeholder.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpeg; sourceTree = "<group>"; };
 		EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailsView.swift; sourceTree = "<group>"; };
 		EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewController.swift; sourceTree = "<group>"; };
 		EE91BE5A2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanPersonDetailsResponse.swift; sourceTree = "<group>"; };
@@ -236,6 +232,7 @@
 		EEEBF84F2BD2C0740036E779 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		EEEBF8512BD2C0B70036E779 /* SeasonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsView.swift; sourceTree = "<group>"; };
 		EEEBF8552BD2C46B0036E779 /* AnimeGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeGridItem.swift; sourceTree = "<group>"; };
+		EEEEA3142DD22CC400302A81 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		EEF283EC2CB478CB00567B94 /* NumberSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberSelector.swift; sourceTree = "<group>"; };
 		EEFEFD472BF3429200200AF1 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		EEFEFD492BF34BB500200AF1 /* AnimeCreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeCreditsView.swift; sourceTree = "<group>"; };
@@ -252,7 +249,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE02B9812C26C781007DAD83 /* SimpleToast in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,7 +269,6 @@
 				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
 				EEDBDB662C075BAF00F2E821 /* DebouncedState.swift */,
 				EEDBDB682C075E6F00F2E821 /* IsSearchableExtension.swift */,
-				EE02B9822C26C9A4007DAD83 /* AlertToastOptions.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -312,7 +307,6 @@
 		EE3A59952BD21479009E9F79 = {
 			isa = PBXGroup;
 			children = (
-				EE8B96D62DD0BCF40070DD4E /* placeholder.jpeg */,
 				EE3A59A02BD21479009E9F79 /* MALC */,
 				EE3A599F2BD21479009E9F79 /* Products */,
 			);
@@ -369,6 +363,7 @@
 				EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */,
 				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
+				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
 				EE33A4CD2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
 				EEC3577F2BE293ED00DAAB0B /* SeasonPicker.swift */,
@@ -570,7 +565,6 @@
 			name = MALC;
 			packageProductDependencies = (
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
-				EE02B9802C26C781007DAD83 /* SimpleToast */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* MALC.app */;
@@ -602,7 +596,6 @@
 			mainGroup = EE3A59952BD21479009E9F79;
 			packageReferences = (
 				EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				EE02B97F2C26C781007DAD83 /* XCRemoteSwiftPackageReference "SimpleToast" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -618,7 +611,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE8B96D72DD0BCF40070DD4E /* placeholder.jpeg in Resources */,
 				EE3A59A92BD2147A009E9F79 /* Preview Assets.xcassets in Resources */,
 				EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */,
 			);
@@ -697,7 +689,6 @@
 				EE884C5A2BFDF29400E8B8CD /* BindingExtension.swift in Sources */,
 				EE3A59B32BD217D9009E9F79 /* SettingsView.swift in Sources */,
 				EE8B96D52DD0A8850070DD4E /* ProfileImage.swift in Sources */,
-				EE02B9832C26C9A4007DAD83 /* AlertToastOptions.swift in Sources */,
 				EEC1B9042BF127D5001E08C4 /* MangaInformationBox.swift in Sources */,
 				EEDBDB672C075BAF00F2E821 /* DebouncedState.swift in Sources */,
 				EE91BE572BFCAA28002AC6C4 /* PersonDetailsView.swift in Sources */,
@@ -727,6 +718,7 @@
 				EE3A59C02BD21F50009E9F79 /* Pagination.swift in Sources */,
 				EECC382E2BFA146C0063A891 /* Staff.swift in Sources */,
 				EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */,
+				EEEEA3152DD22CC400302A81 /* ErrorView.swift in Sources */,
 				EE9A891E2BEF39790048DD73 /* JikanListItem.swift in Sources */,
 				EEDDC63F2BF8E23700B22D87 /* ListFilter.swift in Sources */,
 				EEFEFD4E2BF3581700200AF1 /* RecommendationsListView.swift in Sources */,
@@ -951,14 +943,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EE02B97F2C26C781007DAD83 /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sanzaru/SimpleToast";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.1;
-			};
-		};
 		EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
@@ -970,11 +954,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EE02B9802C26C781007DAD83 /* SimpleToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE02B97F2C26C781007DAD83 /* XCRemoteSwiftPackageReference "SimpleToast" */;
-			productName = SimpleToast;
-		};
 		EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */;

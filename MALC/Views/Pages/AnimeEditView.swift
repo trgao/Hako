@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct AnimeEditView: View {
     @State private var listStatus: AnimeListStatus
@@ -163,19 +162,11 @@ struct AnimeEditView: View {
             }
             .background(Color(.systemGray6))
         }
-        .simpleToast(isPresented: $isDeleteError, options: alertToastOptions) {
-            Text("Unable to delete")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
+        .alert("Unable to delete", isPresented: $isDeleteError) {
+            Button("OK", role: .cancel) {}
         }
-        .simpleToast(isPresented: $isEditError, options: alertToastOptions) {
-            Text("Unable to save")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
+        .alert("Unable to save", isPresented: $isEditError) {
+            Button("OK", role: .cancel) {}
         }
         .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
             Button("Confirm", role: .destructive) {

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct AnimeDetailsView: View {
     @StateObject var controller: AnimeDetailsViewController
@@ -29,7 +28,9 @@ struct AnimeDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isInitialLoading {
+            if (controller.isLoadingError) {
+                ErrorView(refresh: controller.refresh)
+            } else if controller.isInitialLoading {
                 LoadingView()
             } else if let anime = controller.anime {
                 ScrollView {
@@ -93,7 +94,7 @@ struct AnimeDetailsView: View {
             if controller.isLoading {
                 LoadingView()
             }
-            if controller.anime == nil && !controller.isLoading && !controller.isInitialLoading {
+            if controller.anime == nil && !controller.isLoading && !controller.isInitialLoading && !controller.isLoadingError {
                 VStack {
                     Image(systemName: "tv.fill")
                         .resizable()
@@ -106,13 +107,6 @@ struct AnimeDetailsView: View {
         }
         .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
-        .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-            Text("Unable to load")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
-        }
         .fullScreenCover(isPresented: $isShowingSafariView) {
             SafariView(url: url)
         }

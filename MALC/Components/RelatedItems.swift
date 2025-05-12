@@ -68,7 +68,6 @@ struct RelatedItems: View {
                                 } label: {
                                     if item.type == .anime {
                                         AnimeGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
-                                            .scaledToFit()
                                     } else if item.type == .manga {
                                         MangaGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
                                     }

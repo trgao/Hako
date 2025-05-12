@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct TopView: View {
     @StateObject private var controller = TopViewController()
@@ -36,20 +35,23 @@ struct TopView: View {
                 if controller.type == .anime {
                     ZStack {
                         ScrollView {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.animeItems, id: \.node.id) { item in
-                                    AnimeGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
+                            if controller.isLoadingError {
+                                ErrorView(refresh: controller.refresh)
+                            } else {
+                                LazyVGrid(columns: columns) {
+                                    ForEach(controller.animeItems, id: \.node.id) { item in
+                                        AnimeGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
+                                            .task {
+                                                await controller.loadMoreIfNeeded(currentItem: item)
+                                            }
+                                    }
                                 }
                             }
                         }
-                        .navigationTitle("Top Anime")
                         if controller.isAnimeLoading {
                             LoadingView()
                         }
-                        if controller.isItemsEmpty() && !controller.isAnimeLoading {
+                        if controller.isItemsEmpty() && !controller.isAnimeLoading && !controller.isLoadingError {
                             VStack {
                                 Image(systemName: "medal")
                                     .resizable()
@@ -59,23 +61,27 @@ struct TopView: View {
                             }
                         }
                     }
+                    .navigationTitle("Top Anime")
                 } else if controller.type == .manga {
                     ZStack {
                         ScrollView {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.mangaItems, id: \.node.id) { item in
-                                    MangaGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
+                            if controller.isLoadingError {
+                                ErrorView(refresh: controller.refresh)
+                            } else {
+                                LazyVGrid(columns: columns) {
+                                    ForEach(controller.mangaItems, id: \.node.id) { item in
+                                        MangaGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
+                                            .task {
+                                                await controller.loadMoreIfNeeded(currentItem: item)
+                                            }
+                                    }
                                 }
                             }
                         }
-                        .navigationTitle("Top Manga")
                         if controller.isMangaLoading {
                             LoadingView()
                         }
-                        if controller.isItemsEmpty() && !controller.isMangaLoading {
+                        if controller.isItemsEmpty() && !controller.isMangaLoading && !controller.isLoadingError {
                             VStack {
                                 Image(systemName: "medal")
                                     .resizable()
@@ -85,6 +91,7 @@ struct TopView: View {
                             }
                         }
                     }
+                    .navigationTitle("Top Manga")
                 }
             }
             .toolbar {
@@ -103,13 +110,6 @@ struct TopView: View {
         }
         .refreshable {
             isRefresh = true
-        }
-        .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-            Text("Unable to load")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
         }
     }
 }

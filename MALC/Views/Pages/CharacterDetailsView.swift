@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct CharacterDetailsView: View {
     @StateObject var controller: CharacterDetailsViewController
@@ -22,57 +21,54 @@ struct CharacterDetailsView: View {
     
     var body: some View {
         ZStack {
-            if let character = controller.character {
-                List {
-                    Section {
-                        VStack(alignment: .center) {
-                            ImageFrame(id: "character\(character.id)", imageUrl: imageUrl, imageSize: .large)
-                                .padding([.top], 10)
-                            Text(character.name ?? "")
-                                .bold()
-                                .font(.system(size: 25))
-                                .padding(.horizontal, 10)
-                                .multilineTextAlignment(.center)
-                            Text(character.nameKanji ?? "")
-                                .padding(.horizontal, 10)
-                                .font(.system(size: 18))
-                                .opacity(0.7)
-                                .multilineTextAlignment(.center)
+            if controller.isLoadingError {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                if controller.isLoading {
+                    LoadingView()
+                }
+                if let character = controller.character {
+                    List {
+                        Section {
+                            VStack(alignment: .center) {
+                                ImageFrame(id: "character\(character.id)", imageUrl: imageUrl, imageSize: .large)
+                                    .padding([.top], 10)
+                                Text(character.name ?? "")
+                                    .bold()
+                                    .font(.system(size: 25))
+                                    .padding(.horizontal, 10)
+                                    .multilineTextAlignment(.center)
+                                Text(character.nameKanji ?? "")
+                                    .padding(.horizontal, 10)
+                                    .font(.system(size: 18))
+                                    .opacity(0.7)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .listRowBackground(Color.clear)
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .listRowBackground(Color.clear)
+                        ListTextBox(title: "About", text: character.about)
+                            .listRowBackground(Color(.systemBackground))
+                        CharacterAnimeSection(animes: character.anime)
+                        CharacterMangaSection(mangas: character.manga)
+                        CharacterVoiceSection(voices: character.voices)
                     }
-                    ListTextBox(title: "About", text: character.about)
-                        .listRowBackground(Color(.systemBackground))
-                    CharacterAnimeSection(animes: character.anime)
-                    CharacterMangaSection(mangas: character.manga)
-                    CharacterVoiceSection(voices: character.voices)
-                }
-                .shadow(radius: 0.5)
-                .background(Color(.secondarySystemBackground))
-                .scrollContentBackground(.hidden)
-                .task(id: isRefresh) {
-                    if isRefresh {
-                        await controller.refresh()
-                        isRefresh = false
+                    .shadow(radius: 0.5)
+                    .background(Color(.secondarySystemBackground))
+                    .scrollContentBackground(.hidden)
+                    .task(id: isRefresh) {
+                        if isRefresh {
+                            await controller.refresh()
+                            isRefresh = false
+                        }
+                    }
+                    .refreshable {
+                        isRefresh = true
                     }
                 }
-                .refreshable {
-                    isRefresh = true
-                }
-            }
-            if controller.isLoading {
-                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-            Text("Unable to load")
-                .padding(20)
-                .background(.red)
-                .foregroundStyle(.white)
-                .cornerRadius(10)
-        }
         .task {
             await controller.refresh()
         }

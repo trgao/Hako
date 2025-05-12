@@ -103,13 +103,6 @@ struct SettingsView: View {
             .alert("Could not successfully sign in", isPresented: $isAuthenticatingError) {
                 Button("Ok") {}
             }
-            .simpleToast(isPresented: $isLoadingError, options: alertToastOptions) {
-                Text("Unable to load")
-                    .padding(20)
-                    .background(.red)
-                    .foregroundStyle(.white)
-                    .cornerRadius(10)
-            }
         }
     }
 }

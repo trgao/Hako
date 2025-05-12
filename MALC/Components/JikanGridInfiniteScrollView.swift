@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct JikanGridInfiniteScrollView: View {
     @StateObject var controller: JikanGridInfiniteScrollViewController
@@ -26,36 +25,33 @@ struct JikanGridInfiniteScrollView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(controller.items) { item in
-                        if type == .anime {
-                            AnimeGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
-                                .task {
-                                    await controller.loadMoreIfNeeded(currentItem: item)
-                                }
-                        } else if type == .manga {
-                            MangaGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
-                                .task {
-                                    await controller.loadMoreIfNeeded(currentItem: item)
-                                }
+            if controller.isLoadingError {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: columns) {
+                        ForEach(controller.items) { item in
+                            if type == .anime {
+                                AnimeGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
+                                    .task {
+                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                    }
+                            } else if type == .manga {
+                                MangaGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.imageUrl)
+                                    .task {
+                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                    }
+                            }
                         }
                     }
                 }
-            }
-            .task {
-                await controller.refresh()
-            }
-            .navigationTitle(title)
-            .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-                Text("Unable to load")
-                    .padding(20)
-                    .background(.red)
-                    .foregroundStyle(.white)
-                    .cornerRadius(10)
-            }
-            if controller.isLoading {
-                LoadingView()
+                .task {
+                    await controller.refresh()
+                }
+                .navigationTitle(title)
+                if controller.isLoading {
+                    LoadingView()
+                }
             }
         }
     }

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct SearchView: View {
     @StateObject private var controller = SearchViewController()
@@ -17,7 +16,6 @@ struct SearchView: View {
     @State private var previousSearch = ""
     
     var body: some View {
-        // Weird animation bug with list when reaching end and loading more
         NavigationStack {
             ZStack {
                 if isPresented {
@@ -76,7 +74,7 @@ struct SearchView: View {
                     } else {
                         ZStack {
                             ScrollView {
-                                if networker.isSignedIn {
+                                if networker.isSignedIn && !controller.animeSuggestions.isEmpty {
                                     VStack {
                                         Text("For You")
                                             .bold()
@@ -104,110 +102,121 @@ struct SearchView: View {
                                         }
                                     }
                                 }
-                                VStack {
-                                    Text("Top Airing")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
-                                            ForEach(controller.topAiringAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                if !controller.topAiringAnime.isEmpty {
+                                    VStack {
+                                        Text("Top Airing")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 15)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
+                                                ForEach(controller.topAiringAnime) { item in
+                                                    NavigationLink {
+                                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
+                                                    } label: {
+                                                        AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                    }
+                                                    .buttonStyle(.plain)
                                                 }
-                                                .buttonStyle(.plain)
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
+                                            .padding(2)
                                         }
-                                        .padding(2)
                                     }
                                 }
-                                VStack {
-                                    Text("Top Upcoming")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
-                                            ForEach(controller.topUpcomingAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                if !controller.topUpcomingAnime.isEmpty {
+                                    VStack {
+                                        Text("Top Upcoming")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 15)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
+                                                ForEach(controller.topUpcomingAnime) { item in
+                                                    NavigationLink {
+                                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
+                                                    } label: {
+                                                        AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                    }
+                                                    .buttonStyle(.plain)
                                                 }
-                                                .buttonStyle(.plain)
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
+                                            .padding(2)
                                         }
-                                        .padding(2)
                                     }
                                 }
-                                VStack {
-                                    Text("Most Popular Anime")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
-                                            ForEach(controller.topPopularAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                if !controller.topPopularAnime.isEmpty {
+                                    VStack {
+                                        Text("Most Popular Anime")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 15)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
+                                                ForEach(controller.topPopularAnime) { item in
+                                                    NavigationLink {
+                                                        AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
+                                                    } label: {
+                                                        AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                    }
+                                                    .buttonStyle(.plain)
                                                 }
-                                                .buttonStyle(.plain)
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
+                                            .padding(2)
                                         }
-                                        .padding(2)
                                     }
                                 }
-                                VStack {
-                                    Text("Most Popular Manga")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
-                                            ForEach(controller.topPopularManga) { item in
-                                                NavigationLink {
-                                                    MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                if !controller.topPopularManga.isEmpty {
+                                    VStack {
+                                        Text("Most Popular Manga")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 15)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
+                                                ForEach(controller.topPopularManga) { item in
+                                                    NavigationLink {
+                                                        MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
+                                                    } label: {
+                                                        MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                    }
+                                                    .buttonStyle(.plain)
                                                 }
-                                                .buttonStyle(.plain)
+                                                Rectangle()
+                                                    .frame(width: 10)
+                                                    .foregroundColor(.clear)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
+                                            .padding(2)
                                         }
-                                        .padding(2)
                                     }
                                 }
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.clear)
                             }
                             if controller.isPageLoading && isRefresh {
                                 LoadingView()
@@ -241,13 +250,6 @@ struct SearchView: View {
                 controller.animeItems = []
                 controller.mangaItems = []
                 controller.type = .anime
-            }
-            .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-                Text("Unable to load")
-                    .padding(20)
-                    .background(.red)
-                    .foregroundStyle(.white)
-                    .cornerRadius(10)
             }
         }
     }

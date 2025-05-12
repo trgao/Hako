@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SimpleToast
 
 struct MyListView: View {
     @StateObject private var controller = MyListViewController()
@@ -22,24 +21,32 @@ struct MyListView: View {
                         ZStack {
                             List {
                                 Section(controller.animeStatus.toString()) {
-                                    ForEach(controller.animeItems, id: \.forEachId) { item in
-                                        AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack)
-                                            .onAppear {
-                                                Task {
-                                                    await controller.loadMoreIfNeeded(currentItem: item)
-                                                }
-                                            }
-                                    }
-                                    if !controller.isAnimeLoading && controller.isItemsEmpty() {
-                                        VStack {
-                                            Image(systemName: "tv.fill")
-                                                .resizable()
-                                                .frame(width: 45, height: 40)
-                                            Text("Nothing found. ")
-                                                .bold()
+                                    if controller.isLoadingError {
+                                        HStack {
+                                            Spacer()
+                                            ErrorView(refresh: { await controller.refresh() })
+                                            Spacer()
                                         }
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 50)
+                                    } else {
+                                        ForEach(controller.animeItems, id: \.forEachId) { item in
+                                            AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack)
+                                                .onAppear {
+                                                    Task {
+                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                    }
+                                                }
+                                        }
+                                        if !controller.isAnimeLoading && controller.isItemsEmpty() {
+                                            VStack {
+                                                Image(systemName: "tv.fill")
+                                                    .resizable()
+                                                    .frame(width: 45, height: 40)
+                                                Text("Nothing found. ")
+                                                    .bold()
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 50)
+                                        }
                                     }
                                 }
                             }
@@ -51,24 +58,32 @@ struct MyListView: View {
                         ZStack {
                             List {
                                 Section(controller.mangaStatus.toString()) {
-                                    ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                        MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack)
-                                            .onAppear {
-                                                Task {
-                                                    await controller.loadMoreIfNeeded(currentItem: item)
-                                                }
-                                            }
-                                    }
-                                    if !controller.isMangaLoading && controller.isItemsEmpty() {
-                                        VStack {
-                                            Image(systemName: "book.fill")
-                                                .resizable()
-                                                .frame(width: 45, height: 40)
-                                            Text("Nothing found. ")
-                                                .bold()
+                                    if controller.isLoadingError {
+                                        HStack {
+                                            Spacer()
+                                            ErrorView(refresh: { await controller.refresh() })
+                                            Spacer()
                                         }
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 50)
+                                    } else {
+                                        ForEach(controller.mangaItems, id: \.forEachId) { item in
+                                            MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack)
+                                                .onAppear {
+                                                    Task {
+                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                    }
+                                                }
+                                        }
+                                        if !controller.isMangaLoading && controller.isItemsEmpty() {
+                                            VStack {
+                                                Image(systemName: "book.fill")
+                                                    .resizable()
+                                                    .frame(width: 45, height: 40)
+                                                Text("Nothing found. ")
+                                                    .bold()
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 50)
+                                        }
                                     }
                                 }
                             }
@@ -77,13 +92,6 @@ struct MyListView: View {
                             }
                         }
                     }
-                }
-                .simpleToast(isPresented: $controller.isLoadingError, options: alertToastOptions) {
-                    Text("Unable to load")
-                        .padding(20)
-                        .background(.red)
-                        .foregroundStyle(.white)
-                        .cornerRadius(10)
                 }
                 .refreshable {
                     isRefresh = true

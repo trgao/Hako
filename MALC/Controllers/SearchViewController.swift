@@ -63,38 +63,6 @@ class SearchViewController: ObservableObject {
             self.topPopularAnime = topPopularAnime
             self.topPopularManga = topPopularManga
             
-//            await withTaskGroup(of: Void.self) { taskGroup in
-//                for anime in animeSuggestions {
-//                    taskGroup.addTask {
-//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-//                    }
-//                }
-//                
-//                for anime in topAiringAnime {
-//                    taskGroup.addTask {
-//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-//                    }
-//                }
-//                
-//                for anime in topUpcomingAnime {
-//                    taskGroup.addTask {
-//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-//                    }
-//                }
-//                
-//                for anime in topPopularAnime {
-//                    taskGroup.addTask {
-//                        await self.networker.downloadImage(id: "anime\(anime.id)", urlString: anime.node.mainPicture?.medium)
-//                    }
-//                }
-//                
-//                for manga in topPopularManga {
-//                    taskGroup.addTask {
-//                        await self.networker.downloadImage(id: "manga\(manga.id)", urlString: manga.node.mainPicture?.medium)
-//                    }
-//                }
-//            }
-            
             isPageLoading = false
         } catch {
             isPageLoading = false

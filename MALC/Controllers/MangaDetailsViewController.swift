@@ -33,6 +33,7 @@ class MangaDetailsViewController: ObservableObject {
                     try await getMangaDetails()
                     isInitialLoading = false
                 } catch {
+                    print(error)
                     isLoadingError = true
                     isInitialLoading = false
                 }

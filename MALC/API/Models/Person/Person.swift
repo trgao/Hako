@@ -13,6 +13,7 @@ struct Person: Codable, Identifiable {
     let name: String
     let birthday: Date?
     let about: String?
+    let images: Images
     let anime: [AnimePosition]
     let manga: [MangaPosition]
     let voices: [AnimeVoice]

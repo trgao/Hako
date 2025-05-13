@@ -44,7 +44,7 @@ struct CharacterDetailsView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .listRowBackground(Color.clear)
                         }
-                        ListTextBox(title: "About", text: character.about)
+                        TextBox(title: "About", text: character.about)
                             .listRowBackground(Color(.systemBackground))
                         CharacterAnimeSection(animes: character.anime)
                         CharacterMangaSection(mangas: character.manga)
@@ -163,7 +163,7 @@ struct CharacterVoiceSection: View {
             Section {
                 ForEach(voices) { voice in
                     NavigationLink {
-                        PersonDetailsView(id: voice.id, imageUrl: voice.person.images?.jpg.imageUrl)
+                        PersonDetailsView(id: voice.id)
                     } label: {
                         HStack {
                             ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg.imageUrl, imageSize: .small)

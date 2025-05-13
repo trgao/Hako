@@ -37,8 +37,8 @@ struct RelatedItems: View {
     }
     
     var body: some View {
-        if let relations = relations {
-            if !relations.isEmpty {
+        if let relations = relations, !relations.isEmpty {
+            Section {} header: {
                 VStack {
                     NavigationLink {
                         RelatedItemsListView(relations: relations)
@@ -49,14 +49,14 @@ struct RelatedItems: View {
                             Image(systemName: "chevron.right")
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal, 30)
                         .font(.system(size: 17))
                     }
                     .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(relationsPrefix) { item in
                                 NavigationLink {
@@ -75,13 +75,17 @@ struct RelatedItems: View {
                                 .buttonStyle(.plain)
                             }
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                         }
-                        .padding(2)
                     }
                 }
+                .textCase(nil)
+                .padding(.horizontal, -15)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
+            .listRowInsets(.init())
         }
     }
 }

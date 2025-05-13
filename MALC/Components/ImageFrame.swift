@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ImageSize {
-    case small, medium, large
+    case small, medium, large, profile
 }
 
 struct ImageFrame: View {

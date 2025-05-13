@@ -33,55 +33,57 @@ struct AnimeDetailsView: View {
             } else if controller.isInitialLoading {
                 LoadingView()
             } else if let anime = controller.anime {
-                ScrollView {
-                    VStack(alignment: .center) {
-                        ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
-                            .padding([.top], 10)
-                        Text(anime.title)
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding(.horizontal, 10)
-                            .multilineTextAlignment(.center)
-                        if let japaneseTitle = anime.alternativeTitles?.ja {
-                            Text(japaneseTitle)
-                                .padding([.horizontal, .bottom], 10)
-                                .font(.system(size: 18))
-                                .opacity(0.7)
-                                .multilineTextAlignment(.center)
-                        }
-                        HStack {
-                            VStack {
-                                if (controller.anime?.myListStatus?.score ?? 0) > 0 {
-                                    Text("MAL score:")
-                                        .font(.system(size: 13))
-                                }
-                                Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
-                            }
-                            if (controller.anime?.myListStatus?.score ?? 0) > 0 {
-                                VStack {
-                                    Text("Your score:")
-                                        .font(.system(size: 13))
-                                    Text("\(controller.anime!.myListStatus!.score) ⭐")
-                                }
-                                .padding(.leading, 20)
-                            }
-                        }
-                        .padding([.bottom], 5)
+                PageList {
+                    TextBox(title: "Synopsis", text: anime.synopsis)
+                    AnimeInformation(anime: anime)
+                    Characters(characters: controller.characters)
+                    YoutubeVideos(videos: anime.videos)
+                    RelatedItems(relations: controller.relations)
+                    Recommendations(animeRecommendations: anime.recommendations)
+                } header: {
+                    ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
+                        .padding([.top], 10)
+                    Text(anime.title)
                         .bold()
                         .font(.system(size: 25))
-                        VStack {
-                            Text("\(anime.mediaType == "tv" || anime.mediaType == "ova" || anime.mediaType == "ona" ? anime.mediaType.uppercased() : anime.mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(anime.status.replacingOccurrences(of: "_", with: " ").capitalized)")
-                            Text("\(anime.numEpisodes == 0 ? "?" : String(anime.numEpisodes)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
-                        }
-                        .opacity(0.7)
-                        .font(.system(size: 12))
-                        TextBox(title: "Synopsis", text: anime.synopsis)
-                        Characters(characters: controller.characters)
-                        YoutubeVideos(videos: anime.videos)
-                        RelatedItems(relations: controller.relations)
-                        Recommendations(animeRecommendations: anime.recommendations)
-                        AnimeInformationBox(anime: anime)
+                        .padding(.horizontal, 10)
+                        .multilineTextAlignment(.center)
+                    if let japaneseTitle = anime.alternativeTitles?.ja {
+                        Text(japaneseTitle)
+                            .padding([.horizontal, .bottom], 10)
+                            .font(.system(size: 18))
+                            .opacity(0.7)
+                            .multilineTextAlignment(.center)
                     }
+                    HStack {
+                        VStack {
+                            if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                                Text("MAL score:")
+                                    .font(.system(size: 13))
+                            }
+                            Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
+                        }
+                        if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                            VStack {
+                                Text("Your score:")
+                                    .font(.system(size: 13))
+                                Text("\(controller.anime!.myListStatus!.score) ⭐")
+                            }
+                            .padding(.leading, 20)
+                        }
+                    }
+                    .bold()
+                    .font(.system(size: 25))
+                    .padding(.bottom, 5)
+                    VStack {
+                        if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
+                            Text("\(season.capitalized), \(String(year))")
+                        }
+                        Text("\(anime.mediaType == "tv" || anime.mediaType == "ova" || anime.mediaType == "ona" ? anime.mediaType.uppercased() : anime.mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(anime.status.replacingOccurrences(of: "_", with: " ").capitalized)")
+                        Text("\(anime.numEpisodes == 0 ? "?" : String(anime.numEpisodes)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
+                    }
+                    .opacity(0.7)
+                    .font(.system(size: 12))
                 }
                 .task(id: isRefresh) {
                     if isRefresh {

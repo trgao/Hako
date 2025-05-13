@@ -23,8 +23,8 @@ struct Recommendations: View {
     }
     
     var body: some View {
-        if type == .anime {
-            if !animeRecommendations.isEmpty {
+        if type == .anime && !animeRecommendations.isEmpty {
+            Section {} header: {
                 VStack {
                     NavigationLink {
                         RecommendationsListView(animeRecommendations: animeRecommendations)
@@ -35,14 +35,14 @@ struct Recommendations: View {
                             Image(systemName: "chevron.right")
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal, 30)
                         .font(.system(size: 17))
                     }
                     .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(animeRecommendations) { item in
                                 NavigationLink {
@@ -53,15 +53,19 @@ struct Recommendations: View {
                                 .buttonStyle(.plain)
                             }
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                         }
-                        .padding(2)
                     }
                 }
+                .textCase(nil)
+                .padding(.horizontal, -15)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
-        } else {
-            if !mangaRecommendations.isEmpty {
+            .listRowInsets(.init())
+        } else if type == .manga && !mangaRecommendations.isEmpty {
+            Section {} header: {
                 VStack {
                     NavigationLink {
                         RecommendationsListView(mangaRecommendations: mangaRecommendations)
@@ -72,14 +76,14 @@ struct Recommendations: View {
                             Image(systemName: "chevron.right")
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal, 30)
                         .font(.system(size: 17))
                     }
                     .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
@@ -90,13 +94,17 @@ struct Recommendations: View {
                                 .buttonStyle(.plain)
                             }
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                         }
-                        .padding(2)
                     }
                 }
+                .textCase(nil)
+                .padding(.horizontal, -15)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
+            .listRowInsets(.init())
         }
     }
 }

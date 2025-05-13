@@ -1,5 +1,5 @@
 //
-//  Characters.swift
+//  Authors.swift
 //  MALC
 //
 //  Created by Gao Tianrun on 1/5/24.
@@ -7,23 +7,23 @@
 
 import SwiftUI
 
-struct Characters: View {
-    private let characters: [ListCharacter]
+struct Authors: View {
+    @StateObject private var controller: AuthorsController
     let networker = NetworkManager.shared
     
-    init(characters: [ListCharacter]) {
-        self.characters = characters
+    init(authors: [Author]) {
+        self._controller = StateObject(wrappedValue: AuthorsController(authors: authors))
     }
     
     var body: some View {
-        if !characters.isEmpty {
+        if !controller.authors.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        CharactersListView(characters: characters)
+                        AuthorsListView(authors: controller.authors)
                     } label: {
                         HStack {
-                            Text("Characters")
+                            Text("Authors")
                                 .bold()
                             Image(systemName: "chevron.right")
                         }
@@ -37,13 +37,13 @@ struct Characters: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(characters.prefix(10)) { character in
+                            ForEach(controller.authors.prefix(10)) { author in
                                 NavigationLink {
-                                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
+                                    PersonDetailsView(id: author.id)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
-                                        Text(character.character.name ?? "")
+                                        ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
+                                        Text("\(author.node.firstName ?? "") \(author.node.lastName ?? "")")
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)

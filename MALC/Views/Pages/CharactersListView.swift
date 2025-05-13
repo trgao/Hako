@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct CharactersListView: View {
-    @StateObject var controller: CharactersListViewController
     private let characters: [ListCharacter]
     
     init(characters: [ListCharacter]) {
         self.characters = characters
-        self._controller = StateObject(wrappedValue: CharactersListViewController(characters: characters))
     }
     
     var body: some View {
@@ -34,12 +32,6 @@ struct CharactersListView: View {
             }
             .navigationTitle("Characters")
             .background(Color(.secondarySystemBackground))
-            if controller.isLoading {
-                LoadingView()
-            }
-        }
-        .task {
-            await controller.loadImages()
         }
     }
 }

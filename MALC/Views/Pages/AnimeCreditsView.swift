@@ -50,7 +50,7 @@ struct AnimeCreditsView: View {
                         Section("Staff") {
                             ForEach(controller.staff) { staff in
                                 NavigationLink {
-                                    PersonDetailsView(id: staff.id, imageUrl: staff.person.images?.jpg.imageUrl)
+                                    PersonDetailsView(id: staff.id)
                                 } label: {
                                     HStack {
                                         ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .small)

@@ -32,7 +32,14 @@ struct MangaDetailsView: View {
             } else if controller.isInitialLoading {
                 LoadingView()
             } else if let manga = controller.manga {
-                ScrollView {
+                PageList {
+                    TextBox(title: "Synopsis", text: manga.synopsis)
+                    MangaInformation(manga: manga)
+                    Characters(characters: controller.characters)
+                    Authors(authors: manga.authors)
+                    RelatedItems(relations: controller.relations)
+                    Recommendations(mangaRecommendations: manga.recommendations)
+                } header: {
                     VStack(alignment: .center) {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, imageSize: .large)
                             .padding([.top], 10)
@@ -74,11 +81,7 @@ struct MangaDetailsView: View {
                         }
                         .opacity(0.7)
                         .font(.system(size: 12))
-                        TextBox(title: "Synopsis", text: manga.synopsis)
-                        Characters(characters: controller.characters)
-                        RelatedItems(relations: controller.relations)
-                        Recommendations(mangaRecommendations: manga.recommendations)
-                        MangaInformationBox(manga: manga)
+                        
                     }
                 }
             }

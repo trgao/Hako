@@ -11,11 +11,9 @@ struct PersonDetailsView: View {
     @StateObject var controller: PersonDetailsViewController
     @State private var isRefresh = false
     private let id: Int
-    private let imageUrl: String?
     
-    init (id: Int, imageUrl: String?) {
+    init (id: Int) {
         self.id = id
-        self.imageUrl = imageUrl
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
     }
     
@@ -28,7 +26,7 @@ struct PersonDetailsView: View {
                     List {
                         Section {
                             VStack(alignment: .center) {
-                                ImageFrame(id: "person\(person.id)", imageUrl: imageUrl, imageSize: .large)
+                                ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .large)
                                     .padding([.top], 10)
                                 Text(person.name)
                                     .bold()
@@ -46,7 +44,7 @@ struct PersonDetailsView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .listRowBackground(Color.clear)
                         }
-                        ListTextBox(title: "About", text: person.about)
+                        TextBox(title: "About", text: person.about)
                             .listRowBackground(Color(.systemBackground))
                         PersonVoiceSection(voices: person.voices)
                         PersonAnimeSection(animes: person.anime)
@@ -134,7 +132,7 @@ struct PersonAnimeSection: View {
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
-                                Text(anime.position.suffix(anime.position.count - 4))
+                                Text(anime.position.prefix(3) == "add" ? anime.position.suffix(anime.position.count - 4) : anime.position.prefix(anime.position.count))
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }
@@ -172,7 +170,7 @@ struct PersonMangaSection: View {
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
-                                Text(manga.position.suffix(manga.position.count - 4))
+                                Text(manga.position.prefix(3) == "add" ? manga.position.suffix(manga.position.count - 4) : manga.position.prefix(manga.position.count))
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }

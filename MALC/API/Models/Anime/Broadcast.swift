@@ -8,6 +8,6 @@
 import Foundation
 
 struct Broadcast: Codable {
-    let dayOfTheWeek: String
+    let dayOfTheWeek: String?
     let startTime: String?
 }

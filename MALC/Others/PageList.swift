@@ -22,11 +22,13 @@ struct PageList<Header: View, Content: View>: View {
                 VStack(alignment: .center) {
                     header()
                 }
+                .listRowInsets(.init())
                 .frame(maxWidth: .infinity, alignment: .center)
             } header: {
                 Spacer(minLength: 0).listRowInsets(EdgeInsets())
             }
             .listRowBackground(Color.clear)
+            .listRowInsets(.init())
             content()
         }
         .listStyle(.insetGrouped)

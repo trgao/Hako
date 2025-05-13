@@ -16,31 +16,35 @@ struct YoutubeVideos: View {
     }
     
     var body: some View {
-        if let videos = videos {
-            if !videos.isEmpty {
+        if let videos = videos, !videos.isEmpty {
+            Section {} header: {
                 VStack {
                     Text("Trailers")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 15)
+                        .padding(.horizontal, 30)
                         .font(.system(size: 17))
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(videos) { video in
                                 YoutubeVideo(url: video.url)
                             }
                             Rectangle()
-                                .frame(width: 10)
+                                .frame(width: 5)
                                 .foregroundColor(.clear)
                         }
                     }
                     .padding(.horizontal, 5)
-                    .padding(.vertical, 10)
                 }
+                .textCase(nil)
+                .padding(.horizontal, -15)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
+            .listRowInsets(.init())
         }
     }
 }
@@ -57,7 +61,6 @@ struct YoutubeVideo: View {
             .frame(width: 245, height: 140)
             .cornerRadius(10)
             .shadow(radius: 2)
-            .padding(.horizontal, 10)
             .padding(.vertical, 2)
     }
 }

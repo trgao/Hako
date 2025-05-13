@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class JikanGridInfiniteScrollViewController: ObservableObject {
     @Published var items = [JikanListItem]()
-    @Published var isLoading = true
+    @Published var isLoading = false
     @Published var isLoadingError = false
     private var currentPage = 1
     private var canLoadMorePages = true

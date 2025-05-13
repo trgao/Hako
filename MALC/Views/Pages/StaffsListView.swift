@@ -1,5 +1,5 @@
 //
-//  AuthorsListView.swift
+//  StaffsListView.swift
 //  MALC
 //
 //  Created by Gao Tianrun on 1/5/24.
@@ -7,26 +7,26 @@
 
 import SwiftUI
 
-struct AuthorsListView: View {
-    private let authors: [Author]
+struct StaffsListView: View {
+    private let staffs: [Staff]
     
-    init(authors: [Author]) {
-        self.authors = authors
+    init(staffs: [Staff]) {
+        self.staffs = staffs
     }
     
     var body: some View {
         ZStack {
             List {
-                ForEach(authors) { author in
+                ForEach(staffs) { staff in
                     NavigationLink {
-                        PersonDetailsView(id: author.id)
+                        PersonDetailsView(id: staff.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .small)
+                            ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
-                                Text("\(author.node.lastName ?? ""), \(author.node.firstName ?? "")")
-                                Text(author.role ?? "")
+                                Text(staff.person.name ?? "")
+                                Text(staff.positions.joined(separator: ", "))
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }
@@ -35,7 +35,7 @@ struct AuthorsListView: View {
                     .buttonStyle(.plain)
                 }
             }
-            .navigationTitle("Authors")
+            .navigationTitle("Staffs")
             .background(Color(.secondarySystemBackground))
         }
     }

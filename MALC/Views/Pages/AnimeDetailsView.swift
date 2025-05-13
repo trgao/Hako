@@ -37,9 +37,11 @@ struct AnimeDetailsView: View {
                     TextBox(title: "Synopsis", text: anime.synopsis)
                     AnimeInformation(anime: anime)
                     Characters(characters: controller.characters)
+                    Staffs(id: anime.id)
                     YoutubeVideos(videos: anime.videos)
                     RelatedItems(relations: controller.relations)
                     Recommendations(animeRecommendations: anime.recommendations)
+                    ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
                         .padding([.top], 10)
@@ -139,11 +141,6 @@ struct AnimeDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                NavigationLink {
-                    AnimeCreditsView(id: id, openingThemes: controller.anime?.openingThemes, endingThemes: controller.anime?.endingThemes)
-                } label: {
-                    Label("Credits", systemImage: "info.circle")
-                }
                 Button {
                     isShowingSafariView = true
                 } label: {

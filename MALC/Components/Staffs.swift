@@ -1,29 +1,29 @@
 //
-//  Authors.swift
+//  Staffs.swift
 //  MALC
 //
-//  Created by Gao Tianrun on 1/5/24.
+//  Created by Gao Tianrun on 14/5/24.
 //
 
 import SwiftUI
 
-struct Authors: View {
-    @StateObject private var controller: AuthorsController
-    let networker = NetworkManager.shared
+struct Staffs: View {
+    @StateObject var controller: StaffsController
+    @State private var isRefresh = false
     
-    init(authors: [Author]) {
-        self._controller = StateObject(wrappedValue: AuthorsController(authors: authors))
+    init(id: Int) {
+        self._controller = StateObject(wrappedValue: StaffsController(id: id))
     }
     
     var body: some View {
-        if !controller.isLoading && !controller.authors.isEmpty {
+        if !controller.isLoading && !controller.staffs.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        AuthorsListView(authors: controller.authors)
+                        StaffsListView(staffs: controller.staffs)
                     } label: {
                         HStack {
-                            Text("Authors")
+                            Text("Staffs")
                                 .bold()
                             Image(systemName: "chevron.right")
                         }
@@ -37,13 +37,14 @@ struct Authors: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(controller.authors.prefix(10)) { author in
+                            ForEach(controller.staffs.prefix(10)) { staff in
                                 NavigationLink {
-                                    PersonDetailsView(id: author.id)
+                                    PersonDetailsView(id: staff.id)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
-                                        Text("\(author.node.lastName ?? ""), \(author.node.firstName ?? "")")
+                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
+                                            .padding([.trailing], 10)
+                                        Text(staff.person.name ?? "")
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)
@@ -55,14 +56,12 @@ struct Authors: View {
                                 .foregroundColor(.clear)
                         }
                     }
-                    
                 }
                 .textCase(nil)
                 .padding(.horizontal, -15)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }
-            .listRowInsets(.init())
         }
     }
 }

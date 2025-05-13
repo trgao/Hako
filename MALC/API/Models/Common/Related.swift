@@ -11,3 +11,13 @@ struct Related: Codable {
     let relation: String?
     let entry: [JikanListItem]
 }
+
+struct RelatedItem: Codable, Identifiable {
+    var id: Int { malId }
+    let malId: Int
+    let type: TypeEnum?
+    let name: String?
+    let url: String?
+    let relation: String?
+    var imageUrl: String?
+}

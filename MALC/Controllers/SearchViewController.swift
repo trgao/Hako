@@ -47,26 +47,19 @@ class SearchViewController: ObservableObject {
     // Refresh the non-search page
     func refresh() async -> Void {
         isPageLoading = true
-        isLoadingError = false
-        do {
-            if networker.isSignedIn {
-                let animeSuggestions = try await networker.getUserAnimeSuggestionList()
-                self.animeSuggestions = animeSuggestions
-            }
-            let topAiringAnime = try await networker.getAnimeTopAiringList()
-            self.topAiringAnime = topAiringAnime
-            let topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
-            self.topUpcomingAnime = topUpcomingAnime
-            let topPopularAnime = try await networker.getAnimeTopPopularList()
-            self.topPopularAnime = topPopularAnime
-            let topPopularManga = try await networker.getMangaTopPopularList()
-            self.topPopularManga = topPopularManga
-            
-            isPageLoading = false
-        } catch {
-            isPageLoading = false
-            isLoadingError = true
+        if networker.isSignedIn {
+            let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
+            self.animeSuggestions = animeSuggestions ?? []
         }
+        let topAiringAnime = try? await networker.getAnimeTopAiringList()
+        self.topAiringAnime = topAiringAnime ?? []
+        let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
+        self.topUpcomingAnime = topUpcomingAnime ?? []
+        let topPopularAnime = try? await networker.getAnimeTopPopularList()
+        self.topPopularAnime = topPopularAnime ?? []
+        let topPopularManga = try? await networker.getMangaTopPopularList()
+        self.topPopularManga = topPopularManga ?? []
+        isPageLoading = false
     }
     
     // Search for the anime/manga with the title

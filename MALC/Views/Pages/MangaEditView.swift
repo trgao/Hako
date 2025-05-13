@@ -22,10 +22,10 @@ struct MangaEditView: View {
     
     init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
-        if listStatus == nil {
-            self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0, updatedAt: nil)
+        if let listStatus = listStatus {
+            self.listStatus = listStatus
         } else {
-            self.listStatus = listStatus!
+            self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0, updatedAt: nil)
         }
         self.title = title
         self.numVolumes = numVolumes

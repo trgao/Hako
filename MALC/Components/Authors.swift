@@ -16,7 +16,7 @@ struct Authors: View {
     }
     
     var body: some View {
-        if !controller.authors.isEmpty {
+        if !controller.isLoading && !controller.authors.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {

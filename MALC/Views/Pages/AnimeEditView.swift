@@ -21,10 +21,10 @@ struct AnimeEditView: View {
     
     init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
-        if listStatus == nil {
-            self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0, updatedAt: nil)
+        if let listStatus = listStatus {
+            self.listStatus = listStatus
         } else {
-            self.listStatus = listStatus!
+            self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0, updatedAt: nil)
         }
         self.title = title
         self.numEpisodes = numEpisodes

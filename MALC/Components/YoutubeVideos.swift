@@ -61,7 +61,7 @@ struct YoutubeVideo: View {
             .frame(width: 245, height: 140)
             .cornerRadius(10)
             .shadow(radius: 2)
-            .padding(.vertical, 2)
+            .padding(5)
     }
 }
 

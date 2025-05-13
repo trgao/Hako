@@ -7,41 +7,23 @@
 
 import SwiftUI
 
-struct RelatedItem: Codable, Identifiable {
-    var id: Int { malId }
-    let malId: Int
-    let type: TypeEnum?
-    let name: String?
-    let url: String?
-    let relation: String?
-}
-
 struct RelatedItems: View {
-    private let relations: [Related]?
-    private var relationsPrefix: [RelatedItem] = []
+    @StateObject private var controller: RelatedItemsController
     
     init(relations: [Related]?) {
-        self.relations = relations
-        var count = 0
+        var items: [RelatedItem] = []
         if let relations = relations {
-            for category in relations {
-                for item in category.entry {
-                    if count < 10 {
-                        let currentItem = RelatedItem(malId: item.malId, type: item.type, name: item.name, url: item.url, relation: category.relation)
-                        relationsPrefix.append(currentItem)
-                        count += 1
-                    }
-                }
-            }
+            items = relations.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, name: $0.name, url: $0.url, relation: category.relation, imageUrl: nil) } }
         }
+        self._controller = StateObject(wrappedValue: RelatedItemsController(items: items))
     }
     
     var body: some View {
-        if let relations = relations, !relations.isEmpty {
+        if !controller.isLoading && !controller.items.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        RelatedItemsListView(relations: relations)
+                        RelatedItemsListView(controller: controller)
                     } label: {
                         HStack {
                             Text("Related")
@@ -58,18 +40,18 @@ struct RelatedItems: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(relationsPrefix) { item in
+                            ForEach(controller.items.prefix(10)) { item in
                                 NavigationLink {
                                     if item.type == .anime {
-                                        AnimeDetailsView(id: item.id, imageUrl: nil)
+                                        AnimeDetailsView(id: item.id, imageUrl: item.imageUrl)
                                     } else if item.type == .manga {
-                                        MangaDetailsView(id: item.id, imageUrl: nil)
+                                        MangaDetailsView(id: item.id, imageUrl: item.imageUrl)
                                     }
                                 } label: {
                                     if item.type == .anime {
-                                        AnimeGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
+                                        AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
                                     } else if item.type == .manga {
-                                        MangaGridItem(id: item.id, title: item.name, imageUrl: nil, subtitle: item.relation)
+                                        MangaGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
                                     }
                                 }
                                 .buttonStyle(.plain)

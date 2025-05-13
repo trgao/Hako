@@ -8,35 +8,35 @@
 import SwiftUI
 
 struct RelatedItemsListView: View {
-    private let relations: [Related]
+    @StateObject private var controller: RelatedItemsController
     
-    init(relations: [Related]) {
-        self.relations = relations
+    init(controller: RelatedItemsController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {
-        ZStack {
-            List {
-                ForEach(relations, id: \.relation) { category in
-                    ForEach(category.entry) { item in
+        if !controller.isLoading {
+            ZStack {
+                List {
+                    ForEach(controller.items) { item in
                         NavigationLink {
                             if item.type == .anime {
-                                AnimeDetailsView(id: item.id, imageUrl: item.images?.jpg.imageUrl)
+                                AnimeDetailsView(id: item.id, imageUrl: item.imageUrl)
                             } else if item.type == .manga {
-                                MangaDetailsView(id: item.id, imageUrl: item.images?.jpg.imageUrl)
+                                MangaDetailsView(id: item.id, imageUrl: item.imageUrl)
                             }
                         } label: {
                             HStack {
                                 if item.type == .anime {
-                                    ImageFrame(id: "anime\(item.id)", imageUrl: item.images?.jpg.imageUrl, imageSize: .small)
+                                    ImageFrame(id: "anime\(item.id)", imageUrl: item.imageUrl, imageSize: .small)
                                         .padding([.trailing], 10)
                                 } else if item.type == .manga {
-                                    ImageFrame(id: "manga\(item.id)", imageUrl: item.images?.jpg.imageUrl, imageSize: .small)
+                                    ImageFrame(id: "manga\(item.id)", imageUrl: item.imageUrl, imageSize: .small)
                                         .padding([.trailing], 10)
                                 }
                                 VStack(alignment: .leading) {
                                     Text(item.name ?? "")
-                                    Text(category.relation ?? "")
+                                    Text(item.relation ?? "")
                                         .foregroundStyle(Color(.systemGray))
                                         .font(.system(size: 13))
                                 }
@@ -45,9 +45,9 @@ struct RelatedItemsListView: View {
                         .buttonStyle(.plain)
                     }
                 }
+                .navigationTitle("Related")
+                .background(Color(.secondarySystemBackground))
             }
-            .navigationTitle("Related")
-            .background(Color(.secondarySystemBackground))
         }
     }
 }

@@ -35,12 +35,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             let dateStr = try container.decode(String.self)
             let len = dateStr.count
             var date: Date? = nil
+            let yearOnlyFormatter = DateFormatter()
+            yearOnlyFormatter.dateFormat = "yyyy"
             let monthOnlyFormatter = DateFormatter()
             monthOnlyFormatter.dateFormat = "yyyy-MM"
             let normalDateFormatter = DateFormatter()
             normalDateFormatter.dateFormat = "yyyy-MM-dd"
             let iso8601DateFormatter = ISO8601DateFormatter()
-            if len == 7 {
+            if len == 4 {
+                date = yearOnlyFormatter.date(from: dateStr)
+            } else if len == 7 {
                 date = monthOnlyFormatter.date(from: dateStr)
             } else if len == 10 {
                 date = normalDateFormatter.date(from: dateStr)

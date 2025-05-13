@@ -17,13 +17,16 @@ class AuthorsController: ObservableObject {
         self.authors = authors
         Task {
             do {
-                for i in self.authors.indices {
-                    let person = try await networker.getPersonDetails(id: self.authors[i].id)
-                    self.authors[i].imageUrl = person.images.jpg.imageUrl
+                self.authors = try await authors.concurrentMap { author in
+                    var newAuthor = author
+                    let person = try await self.networker.getPersonDetails(id: author.id)
+                    newAuthor.imageUrl = person.images.jpg.imageUrl
+                    return newAuthor
                 }
-                isLoading = false
+                self.isLoading = false
             } catch {
-                isLoading = false
+                print("Some unknown error occurred")
+                self.isLoading = false
             }
         }
     }

@@ -41,7 +41,7 @@ struct ProfileView: View {
                 Section {
                     if let animeStatistics = controller.userStatistics?.anime {
                         ForEach(Array(Mirror(reflecting: animeStatistics).children), id: \.label) { child in
-                            Text("\(child.label!.camelCaseToWords()): \(child.value)")
+                            ListRow(title: child.label!.camelCaseToWords(), content: "\(child.value)")
                         }
                     }
                 } header: {
@@ -50,7 +50,7 @@ struct ProfileView: View {
                 Section {
                     if let mangaStatistics = controller.userStatistics?.manga {
                         ForEach(Array(Mirror(reflecting: mangaStatistics).children), id: \.label) { child in
-                            Text("\(child.label!.camelCaseToWords()): \(child.value)")
+                            ListRow(title: child.label!.camelCaseToWords(), content: "\(child.value)")
                         }
                     }
                 } header: {

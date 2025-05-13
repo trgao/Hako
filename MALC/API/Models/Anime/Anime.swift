@@ -18,7 +18,6 @@ struct Anime: Codable, Identifiable {
     let mean: Double?
     let rank: Int?
     let popularity: Int?
-    let numListUsers: Int?
     let mediaType: String
     let status: String
     let genres: [MALItem]

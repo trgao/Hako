@@ -39,6 +39,7 @@ struct MangaDetailsView: View {
                     Authors(authors: manga.authors)
                     RelatedItems(relations: controller.relations)
                     Recommendations(mangaRecommendations: manga.recommendations)
+                    MangaStatistics(id: manga.id)
                 } header: {
                     VStack(alignment: .center) {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, imageSize: .large)

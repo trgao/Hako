@@ -8,11 +8,11 @@
 import Foundation
 
 struct UserStatistics: Codable {
-    let anime: AnimeStatistics
-    let manga: MangaStatistics
+    let anime: UserAnimeStatistics
+    let manga: UserMangaStatistics
 }
 
-struct AnimeStatistics: Codable {
+struct UserAnimeStatistics: Codable {
     let daysWatched: Float
     let meanScore: Float
     let watching: Int
@@ -24,7 +24,7 @@ struct AnimeStatistics: Codable {
     let episodesWatched: Int
 }
 
-struct MangaStatistics: Codable {
+struct UserMangaStatistics: Codable {
     let daysRead: Float
     let meanScore: Float
     let reading: Int

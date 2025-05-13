@@ -504,7 +504,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeDetails(id: Int) async throws -> Anime {
-        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,num_list_users,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,recommendations,statistics", type: Anime.self)
+        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,recommendations", type: Anime.self)
         return response
     }
     
@@ -528,13 +528,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getPersonDetails(id: Int) async throws -> Person {
-        let response = try await getJikanResponse(urlExtend: "/people/\(id)/full", type: JikanPersonDetailsResponse.self)
+    func getAnimeStatistics(id: Int) async throws -> AnimeStats {
+        let response = try await getJikanResponse(urlExtend: "/anime/\(id)/statistics", type: JikanAnimeStatisticsResponse.self)
         return response.data
     }
     
     func getMangaDetails(id: Int) async throws -> Manga {
-        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,num_list_users,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{id,first_name,last_name},serialization,recommendations", type: Manga.self)
+        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{id,first_name,last_name},serialization,recommendations", type: Manga.self)
         return response
     }
     
@@ -545,6 +545,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     func getMangaRelations(id: Int) async throws -> [Related] {
         let response = try await getJikanResponse(urlExtend: "/manga/\(id)/relations", type: JikanRelationsListResponse.self)
+        return response.data
+    }
+    
+    func getMangaStatistics(id: Int) async throws -> MangaStats {
+        let response = try await getJikanResponse(urlExtend: "/manga/\(id)/statistics", type: JikanMangaStatisticsResponse.self)
+        return response.data
+    }
+    
+    func getPersonDetails(id: Int) async throws -> Person {
+        let response = try await getJikanResponse(urlExtend: "/people/\(id)/full", type: JikanPersonDetailsResponse.self)
         return response.data
     }
     

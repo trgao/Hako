@@ -42,6 +42,7 @@ struct AnimeDetailsView: View {
                     RelatedItems(relations: controller.relations)
                     Recommendations(animeRecommendations: anime.recommendations)
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
+                    AnimeStatistics(id: anime.id)
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
                         .padding([.top], 10)

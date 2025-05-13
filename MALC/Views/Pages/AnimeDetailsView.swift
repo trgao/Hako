@@ -42,11 +42,13 @@ struct AnimeDetailsView: View {
                             .font(.system(size: 25))
                             .padding(.horizontal, 10)
                             .multilineTextAlignment(.center)
-                        Text(anime.alternativeTitles?.ja ?? "")
-                            .padding([.horizontal, .bottom], 10)
-                            .font(.system(size: 18))
-                            .opacity(0.7)
-                            .multilineTextAlignment(.center)
+                        if let japaneseTitle = anime.alternativeTitles?.ja {
+                            Text(japaneseTitle)
+                                .padding([.horizontal, .bottom], 10)
+                                .font(.system(size: 18))
+                                .opacity(0.7)
+                                .multilineTextAlignment(.center)
+                        }
                         HStack {
                             VStack {
                                 if (controller.anime?.myListStatus?.score ?? 0) > 0 {

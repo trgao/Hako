@@ -12,13 +12,11 @@ struct PersonDetailsView: View {
     @State private var isRefresh = false
     private let id: Int
     private let imageUrl: String?
-    let dateFormatterPrint = DateFormatter()
     
     init (id: Int, imageUrl: String?) {
         self.id = id
         self.imageUrl = imageUrl
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
-        self.dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
     
     var body: some View {
@@ -38,7 +36,7 @@ struct PersonDetailsView: View {
                                     .padding(.horizontal, 10)
                                     .multilineTextAlignment(.center)
                                 if let birthday = person.birthday {
-                                    Text("Birthday: \(dateFormatterPrint.string(from: birthday))")
+                                    Text("Birthday: \(birthday.toString())")
                                         .padding(.horizontal, 10)
                                         .font(.system(size: 18))
                                         .opacity(0.7)

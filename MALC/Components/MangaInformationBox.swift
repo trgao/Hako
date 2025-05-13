@@ -9,11 +9,9 @@ import SwiftUI
 
 struct MangaInformationBox: View {
     private let manga: Manga
-    let dateFormatterPrint = DateFormatter()
     
     init(manga: Manga) {
         self.manga = manga
-        dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
     
     var body: some View {
@@ -40,10 +38,10 @@ struct MangaInformationBox: View {
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                     if manga.endDate == nil {
-                        Text("\(dateFormatterPrint.string(from: manga.startDate!)) to ?")
+                        Text("\(manga.startDate!.toString()) to ?")
                             .frame(maxWidth: .infinity, alignment: .leading)
                     } else {
-                        Text("\(dateFormatterPrint.string(from: manga.startDate!)) to \(dateFormatterPrint.string(from: manga.endDate!))")
+                        Text("\(manga.startDate!.toString()) to \(manga.endDate!.toString())")
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }

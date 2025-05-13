@@ -14,4 +14,5 @@ struct MangaListStatus: Codable {
     var numChaptersRead: Int
     var startDate: Date?
     var finishDate: Date?
+    let updatedAt: Date?
 }

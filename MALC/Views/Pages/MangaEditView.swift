@@ -23,7 +23,7 @@ struct MangaEditView: View {
     init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
-            self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0)
+            self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0, updatedAt: nil)
         } else {
             self.listStatus = listStatus!
         }
@@ -58,15 +58,8 @@ struct MangaEditView: View {
                     }
                     .buttonStyle(.borderedProminent)
                 }
-                .padding(20)
-                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    .padding([.top], 10)
-                Text(title)
-                    .bold()
-                    .font(.system(size: 20))
-                    .padding([.top], 10)
-                    .multilineTextAlignment(.center)
-                List {
+                .padding([.horizontal, .top], 20)
+                PageList {
                     Section {
                         Picker(selection: $listStatus.status, label: Text("Status")) {
                             Text("Reading").tag(StatusEnum.reading as StatusEnum?)
@@ -129,8 +122,19 @@ struct MangaEditView: View {
                             }
                         }
                     }
+                } header: {
+                    ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
+                        .padding([.top], 10)
+                    Text(title)
+                        .bold()
+                        .font(.system(size: 20))
+                        .padding([.horizontal, .top], 10)
+                        .multilineTextAlignment(.center)
+                    if let updatedAt = listStatus.updatedAt?.toString() {
+                        Text("Last updated at: \(updatedAt)")
+                            .font(.system(size: 12))
+                    }
                 }
-                .scrollDisabled(true)
                 Button {
                     isDeleting = true
                 } label: {

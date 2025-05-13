@@ -22,7 +22,7 @@ struct AnimeEditView: View {
     init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
         self.id = id
         if listStatus == nil {
-            self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0)
+            self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0, updatedAt: nil)
         } else {
             self.listStatus = listStatus!
         }
@@ -60,15 +60,8 @@ struct AnimeEditView: View {
                     }
                     .buttonStyle(.borderedProminent)
                 }
-                .padding(20)
-                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    .padding([.top], 10)
-                Text(title)
-                    .bold()
-                    .font(.system(size: 20))
-                    .padding([.top], 10)
-                    .multilineTextAlignment(.center)
-                List {
+                .padding([.horizontal, .top], 20)
+                PageList {
                     Section {
                         Picker(selection: $listStatus.status, label: Text("Status")) {
                             Text("Watching").tag(StatusEnum.watching as StatusEnum?)
@@ -152,8 +145,18 @@ struct AnimeEditView: View {
                             }
                         }
                     }
+                } header: {
+                    ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
+                    Text(title)
+                        .bold()
+                        .font(.system(size: 20))
+                        .padding([.horizontal, .top], 10)
+                        .multilineTextAlignment(.center)
+                    if let updatedAt = listStatus.updatedAt?.toString() {
+                        Text("Last updated at: \(updatedAt)")
+                            .font(.system(size: 12))
+                    }
                 }
-                .scrollDisabled(true)
                 Button {
                     isDeleting = true
                 } label: {

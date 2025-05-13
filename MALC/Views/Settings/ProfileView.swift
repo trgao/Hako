@@ -13,11 +13,9 @@ struct ProfileView: View {
     @State private var isRefresh = false
     private var user: User
     let networker = NetworkManager.shared
-    let dateFormatterPrint = DateFormatter()
     
     init(user: User) {
         self.user = user
-        self.dateFormatterPrint.dateFormat = "MMM dd, yyyy"
     }
     
     var body: some View {
@@ -66,7 +64,7 @@ struct ProfileView: View {
                 }
                 Section {} footer: {
                     if let dateString = user.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
-                        Text("Joined MyAnimeList on \(dateFormatterPrint.string(from: date))")
+                        Text("Joined MyAnimeList on \(date.toString())")
                     }
                 }
             }

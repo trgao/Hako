@@ -94,6 +94,15 @@ struct TopView: View {
                     .navigationTitle("Top Manga")
                 }
             }
+            .task(id: isRefresh) {
+                if controller.shouldRefresh() || isRefresh {
+                    await controller.refresh()
+                    isRefresh = false
+                }
+            }
+            .refreshable {
+                isRefresh = true
+            }
             .toolbar {
                 AnimeMangaToggle(type: $controller.type, refresh: {
                     if controller.isItemsEmpty() {
@@ -101,15 +110,6 @@ struct TopView: View {
                     }
                 })
             }
-        }
-        .task(id: isRefresh) {
-            if controller.shouldRefresh() || isRefresh {
-                await controller.refresh()
-                isRefresh = false
-            }
-        }
-        .refreshable {
-            isRefresh = true
         }
     }
 }

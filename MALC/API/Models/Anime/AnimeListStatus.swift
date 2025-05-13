@@ -13,4 +13,5 @@ struct AnimeListStatus: Codable {
     var numEpisodesWatched: Int
     var startDate: Date?
     var finishDate: Date?
+    let updatedAt: Date?
 }

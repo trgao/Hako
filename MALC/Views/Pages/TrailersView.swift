@@ -23,6 +23,7 @@ struct TrailersView: View {
                         YoutubeVideo(url: video.url)
                     }
                 }
+                .scrollIndicators(.hidden)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

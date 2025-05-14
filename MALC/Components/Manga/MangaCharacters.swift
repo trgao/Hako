@@ -1,29 +1,29 @@
 //
-//  Staffs.swift
+//  MangaCharacters.swift
 //  MALC
 //
-//  Created by Gao Tianrun on 14/5/24.
+//  Created by Gao Tianrun on 1/5/24.
 //
 
 import SwiftUI
 
-struct Staffs: View {
-    @StateObject var controller: StaffsController
-    @State private var isRefresh = false
+struct MangaCharacters: View {
+    @StateObject private var controller: MangaDetailsViewController
+    let networker = NetworkManager.shared
     
-    init(id: Int) {
-        self._controller = StateObject(wrappedValue: StaffsController(id: id))
+    init(controller: MangaDetailsViewController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {
-        if !controller.isLoading && !controller.staffs.isEmpty {
+        if !controller.characters.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        StaffsListView(staffs: controller.staffs)
+                        CharactersListView(characters: controller.characters)
                     } label: {
                         HStack {
-                            Text("Staffs")
+                            Text("Characters")
                             Image(systemName: "chevron.right")
                                 .foregroundStyle(Color(.systemGray2))
                         }
@@ -38,14 +38,13 @@ struct Staffs: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(controller.staffs.prefix(10)) { staff in
+                            ForEach(controller.characters.prefix(10)) { character in
                                 ZoomTransition {
-                                    PersonDetailsView(id: staff.id)
+                                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
-                                            .padding([.trailing], 10)
-                                        Text(staff.person.name ?? "")
+                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
+                                        Text(character.character.name ?? "")
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)
@@ -56,12 +55,14 @@ struct Staffs: View {
                                 .foregroundColor(.clear)
                         }
                     }
+                    
                 }
                 .textCase(nil)
                 .padding(.horizontal, -15)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }
+            .listRowInsets(.init())
         }
     }
 }

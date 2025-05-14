@@ -34,12 +34,12 @@ struct AnimeDetailsView: View {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
                     AnimeInformation(anime: anime)
-                    Characters(id: anime.id, type: .anime)
-                    Staffs(id: anime.id)
-                    RelatedItems(id: anime.id, type: .anime)
+                    AnimeCharacters(controller: controller)
+                    Staffs(controller: controller)
+                    AnimeRelatedItems(controller: controller)
                     Recommendations(animeRecommendations: anime.recommendations)
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                    AnimeStatistics(id: anime.id)
+                    AnimeStatistics(controller: controller)
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
                         .padding([.top], 10)

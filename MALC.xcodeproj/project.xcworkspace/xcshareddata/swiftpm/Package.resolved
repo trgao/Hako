@@ -1,5 +1,5 @@
 {
-  "originHash" : "379830b20f63c3bd19e6bfff9ae222a55b14462ed8f412dc2335d2fff2755362",
+  "originHash" : "76c36c2b33db3e45ab969e953a60470a3eac22becda628d6bcc715ebbcdc74bf",
   "pins" : [
     {
       "identity" : "keychainaccess",
@@ -8,6 +8,24 @@
       "state" : {
         "branch" : "master",
         "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log.git",
+      "state" : {
+        "revision" : "3d8596ed08bd13520157f0355e35caed215ffbfa",
+        "version" : "1.6.3"
+      }
+    },
+    {
+      "identity" : "swift-retry",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fumoboy007/swift-retry",
+      "state" : {
+        "revision" : "df9d7b185d2e433147ec0083a73c257e665eea0d",
+        "version" : "0.2.4"
       }
     }
   ],

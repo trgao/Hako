@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MangaStatistics: View {
-    @StateObject private var controller: MangaStatisticsController
+    @StateObject private var controller: MangaDetailsViewController
     
-    init(id: Int) {
-        self._controller = StateObject(wrappedValue: MangaStatisticsController(id: id))
+    init(controller: MangaDetailsViewController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {

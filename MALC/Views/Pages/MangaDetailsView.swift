@@ -33,11 +33,11 @@ struct MangaDetailsView: View {
                 PageList {
                     TextBox(title: "Synopsis", text: manga.synopsis)
                     MangaInformation(manga: manga)
-                    Characters(id: manga.id, type: .manga)
-                    Authors(id: manga.id, authors: manga.authors)
-                    RelatedItems(id: manga.id, type: .manga)
+                    MangaCharacters(controller: controller)
+                    Authors(controller: controller)
+                    MangaRelatedItems(controller: controller)
                     Recommendations(mangaRecommendations: manga.recommendations)
-                    MangaStatistics(id: manga.id)
+                    MangaStatistics(controller: controller)
                 } header: {
                     VStack(alignment: .center) {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, imageSize: .large)
@@ -75,8 +75,10 @@ struct MangaDetailsView: View {
                         .bold()
                         .font(.system(size: 25))
                         VStack {
-                            Text("\(manga.mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(manga.status.replacingOccurrences(of: "_", with: " ").capitalized)")
-                            Text("\(manga.numVolumes == 0 ? "?" : String(manga.numVolumes)) volumes, \(manga.numChapters == 0 ? "?" : String(manga.numChapters)) chapters")
+                            if let mediaType = manga.mediaType, let status = manga.status {
+                                Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.replacingOccurrences(of: "_", with: " ").capitalized)")
+                            }
+                            Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
                         }
                         .opacity(0.7)
                         .font(.system(size: 12))

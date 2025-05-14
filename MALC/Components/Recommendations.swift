@@ -26,20 +26,11 @@ struct Recommendations: View {
         if type == .anime && !animeRecommendations.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
-                        RecommendationsListView(animeRecommendations: animeRecommendations)
-                    } label: {
-                        HStack {
-                            Text("Recommendations")
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color(.systemGray2))
-                        }
+                    Text("Recommendations")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                         .font(.system(size: 17))
-                    }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
@@ -63,19 +54,11 @@ struct Recommendations: View {
         } else if type == .manga && !mangaRecommendations.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
-                        RecommendationsListView(mangaRecommendations: mangaRecommendations)
-                    } label: {
-                        HStack {
-                            Text("Recommendations")
-                                .bold()
-                            Image(systemName: "chevron.right")
-                        }
+                    Text("Recommendations")
+                        .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                         .font(.system(size: 17))
-                    }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()

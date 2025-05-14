@@ -1,29 +1,29 @@
 //
-//  Characters.swift
+//  Staffs.swift
 //  MALC
 //
-//  Created by Gao Tianrun on 1/5/24.
+//  Created by Gao Tianrun on 14/5/24.
 //
 
 import SwiftUI
 
-struct Characters: View {
-    @StateObject private var controller: CharactersController
-    let networker = NetworkManager.shared
+struct Staffs: View {
+    @StateObject var controller: AnimeDetailsViewController
+    @State private var isRefresh = false
     
-    init(id: Int, type: TypeEnum) {
-        self._controller = StateObject(wrappedValue: CharactersController(id: id, type: type))
+    init(controller: AnimeDetailsViewController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {
-        if !controller.characters.isEmpty {
+        if !controller.isLoading && !controller.staffs.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        CharactersListView(characters: controller.characters)
+                        StaffsListView(staffs: controller.staffs)
                     } label: {
                         HStack {
-                            Text("Characters")
+                            Text("Staffs")
                             Image(systemName: "chevron.right")
                                 .foregroundStyle(Color(.systemGray2))
                         }
@@ -38,13 +38,14 @@ struct Characters: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(controller.characters.prefix(10)) { character in
+                            ForEach(controller.staffs.prefix(10)) { staff in
                                 ZoomTransition {
-                                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
+                                    PersonDetailsView(id: staff.id)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
-                                        Text(character.character.name ?? "")
+                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
+                                            .padding([.trailing], 10)
+                                        Text(staff.person.name ?? "")
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)
@@ -55,14 +56,12 @@ struct Characters: View {
                                 .foregroundColor(.clear)
                         }
                     }
-                    
                 }
                 .textCase(nil)
                 .padding(.horizontal, -15)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }
-            .listRowInsets(.init())
         }
     }
 }

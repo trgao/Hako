@@ -1,5 +1,5 @@
 //
-//  RelatedItems.swift
+//  MangaRelatedItems.swift
 //  MALC
 //
 //  Created by Gao Tianrun on 6/5/24.
@@ -7,37 +7,28 @@
 
 import SwiftUI
 
-struct RelatedItems: View {
-    @StateObject private var controller: RelatedItemsController
+struct MangaRelatedItems: View {
+    @StateObject private var controller: MangaDetailsViewController
     
-    init(id: Int, type: TypeEnum) {
-        self._controller = StateObject(wrappedValue: RelatedItemsController(id: id, type: type))
+    init(controller: MangaDetailsViewController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {
-        if !controller.isLoading && !controller.items.isEmpty {
+        if !controller.isLoading && !controller.relatedItems.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
-                        RelatedItemsListView(controller: controller)
-                    } label: {
-                        HStack {
-                            Text("Related")
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color(.systemGray2))
-                        }
+                    Text("Related")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                         .font(.system(size: 17))
-                    }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(controller.items.prefix(10)) { item in
+                            ForEach(controller.relatedItems) { item in
                                 if item.type == .anime {
                                     AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
                                 } else if item.type == .manga {

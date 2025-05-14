@@ -138,6 +138,7 @@ struct MangaDetailsView: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+            .disabled(controller.isLoading || controller.isInitialLoading)
         }
     }
 }

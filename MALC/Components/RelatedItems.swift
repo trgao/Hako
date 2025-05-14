@@ -41,20 +41,11 @@ struct RelatedItems: View {
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(controller.items.prefix(10)) { item in
-                                NavigationLink {
-                                    if item.type == .anime {
-                                        AnimeDetailsView(id: item.id, imageUrl: item.imageUrl)
-                                    } else if item.type == .manga {
-                                        MangaDetailsView(id: item.id, imageUrl: item.imageUrl)
-                                    }
-                                } label: {
-                                    if item.type == .anime {
-                                        AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
-                                    } else if item.type == .manga {
-                                        MangaGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
-                                    }
+                                if item.type == .anime {
+                                    AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
+                                } else if item.type == .manga {
+                                    MangaGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
                                 }
-                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 5)

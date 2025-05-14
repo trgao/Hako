@@ -38,7 +38,6 @@ struct AnimeDetailsView: View {
                     AnimeInformation(anime: anime)
                     Characters(characters: controller.characters)
                     Staffs(id: anime.id)
-                    YoutubeVideos(videos: anime.videos)
                     RelatedItems(relations: controller.relations)
                     Recommendations(animeRecommendations: anime.recommendations)
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
@@ -142,6 +141,11 @@ struct AnimeDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
+                NavigationLink {
+                    TrailersView(videos: controller.anime?.videos)
+                } label: {
+                    Label("Trailers", systemImage: "play.rectangle")
+                }
                 Button {
                     isShowingSafariView = true
                 } label: {
@@ -150,6 +154,7 @@ struct AnimeDetailsView: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+            .disabled(controller.isLoading || controller.isInitialLoading)
         }
     }
 }

@@ -51,7 +51,29 @@ struct MangaListItem: View {
                         .bold()
                         .font(.system(size: 16))
                     if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
-                        if let numChapters = manga.node.numChapters, numChapters > 0 {
+                        if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                            VStack(alignment: .leading) {
+                                ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
+                                    .tint(colours[manga.listStatus?.status ?? .none])
+                                HStack {
+                                    Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 1))
+                                    if let numChapters = manga.node.numChapters, numChapters > 0 {
+                                        Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    } else {
+                                        Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color(.systemGray))
+                                            .labelStyle(CustomLabel(spacing: 1))
+                                    }
+                                }
+                            }
+                        } else if let numChapters = manga.node.numChapters, numChapters > 0 {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numChaptersRead) / Float(numChapters))
                                     .tint(colours[manga.listStatus?.status ?? .none])

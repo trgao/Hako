@@ -45,12 +45,7 @@ struct Recommendations: View {
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(animeRecommendations) { item in
-                                NavigationLink {
-                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                } label: {
-                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                }
-                                .buttonStyle(.plain)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                             }
                             Rectangle()
                                 .frame(width: 5)

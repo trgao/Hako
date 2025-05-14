@@ -38,7 +38,7 @@ struct Characters: View {
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(characters.prefix(10)) { character in
-                                NavigationLink {
+                                ZoomTransition {
                                     CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                                 } label: {
                                     VStack {
@@ -48,7 +48,6 @@ struct Characters: View {
                                     }
                                     .frame(width: 120)
                                 }
-                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 5)

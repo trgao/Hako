@@ -38,7 +38,7 @@ struct Staffs: View {
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(controller.staffs.prefix(10)) { staff in
-                                NavigationLink {
+                                ZoomTransition {
                                     PersonDetailsView(id: staff.id)
                                 } label: {
                                     VStack {
@@ -49,7 +49,6 @@ struct Staffs: View {
                                     }
                                     .frame(width: 120)
                                 }
-                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 5)

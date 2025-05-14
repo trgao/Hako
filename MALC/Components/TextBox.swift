@@ -35,6 +35,7 @@ struct TextBox: View {
                                     }
                             }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(5)
                         .font(.system(size: 16))
                         .lineSpacing(2)
@@ -52,6 +53,7 @@ struct TextBox: View {
                         .frame(width: 30, height: 30)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .center)
             } header: {
                 Text(title)
                     .textCase(nil)

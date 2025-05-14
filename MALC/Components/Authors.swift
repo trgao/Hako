@@ -38,7 +38,7 @@ struct Authors: View {
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
                             ForEach(controller.authors.prefix(10)) { author in
-                                NavigationLink {
+                                ZoomTransition {
                                     PersonDetailsView(id: author.id)
                                 } label: {
                                     VStack {
@@ -48,7 +48,6 @@ struct Authors: View {
                                     }
                                     .frame(width: 120)
                                 }
-                                .buttonStyle(.plain)
                             }
                             Rectangle()
                                 .frame(width: 5)

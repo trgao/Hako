@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02C1292DD44BA400CB041C /* ZoomTransition.swift */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
@@ -43,7 +44,7 @@
 		EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D1B2BDE92A8009992AC /* MALListAnime.swift */; };
 		EE3F1D202BDF4FE2009992AC /* AnimeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */; };
 		EE3F1D242BDF5523009992AC /* AnimeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */; };
-		EE40F56E2BEF936F00BB2E79 /* YoutubeVideos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE40F56D2BEF936F00BB2E79 /* YoutubeVideos.swift */; };
+		EE40F56E2BEF936F00BB2E79 /* TrailersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */; };
 		EE4729E62BF4D503005D17EF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E52BF4D503005D17EF /* User.swift */; };
 		EE4729E82BF4FD3D005D17EF /* AnimeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */; };
 		EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */; };
@@ -144,6 +145,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -181,7 +183,7 @@
 		EE3F1D1B2BDE92A8009992AC /* MALListAnime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALListAnime.swift; sourceTree = "<group>"; };
 		EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsView.swift; sourceTree = "<group>"; };
 		EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsViewController.swift; sourceTree = "<group>"; };
-		EE40F56D2BEF936F00BB2E79 /* YoutubeVideos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideos.swift; sourceTree = "<group>"; };
+		EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersView.swift; sourceTree = "<group>"; };
 		EE4729E52BF4D503005D17EF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListItem.swift; sourceTree = "<group>"; };
 		EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusEnum.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
 				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
 				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
 				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
@@ -330,6 +333,7 @@
 			children = (
 				EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */,
 				EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */,
+				EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */,
 				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
 				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
 				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
@@ -421,7 +425,6 @@
 				EE33A4C12BE1666400A98F00 /* Characters.swift */,
 				EEFEFD492BF34BB500200AF1 /* Staffs.swift */,
 				EE960E782DD36D3F00E4EDC9 /* Authors.swift */,
-				EE40F56D2BEF936F00BB2E79 /* YoutubeVideos.swift */,
 				EE222D7E2BE90E3900A14A45 /* RelatedItems.swift */,
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
 				EE960E862DD38ECB00E4EDC9 /* ThemeSongs.swift */,
@@ -712,7 +715,7 @@
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
 				EEFEFD4C2BF3527D00200AF1 /* Recommendations.swift in Sources */,
 				EE3A59B82BD21CA1009E9F79 /* NetworkManager.swift in Sources */,
-				EE40F56E2BEF936F00BB2E79 /* YoutubeVideos.swift in Sources */,
+				EE40F56E2BEF936F00BB2E79 /* TrailersView.swift in Sources */,
 				EECC38302BFA14EB0063A891 /* JikanStaffListResponse.swift in Sources */,
 				EEA5E9482CEE87A000B2513B /* AnimeDetails.swift in Sources */,
 				EE3A59DA2BD24550009E9F79 /* MyListViewController.swift in Sources */,
@@ -799,6 +802,7 @@
 				EEEEA3172DD32F6A00302A81 /* PageList.swift in Sources */,
 				EEC357822BE3612C00DAAB0B /* JikanCharactersListResponse.swift in Sources */,
 				EE3A59A22BD21479009E9F79 /* MALCApp.swift in Sources */,
+				EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */,
 				EE91BE5B2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift in Sources */,
 				EE3A59BB2BD21E2E009E9F79 /* JikanListResponse.swift in Sources */,
 				EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */,

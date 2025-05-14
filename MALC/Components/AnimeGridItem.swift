@@ -22,7 +22,7 @@ struct AnimeGridItem: View {
     }
     
     var body: some View {
-        NavigationLink {
+        ZoomTransition {
             AnimeDetailsView(id: id, imageUrl: imageUrl)
         } label: {
             VStack {
@@ -47,7 +47,6 @@ struct AnimeGridItem: View {
                     .font(.system(size: 16))
             }
         }
-        .buttonStyle(.plain)
         .padding(5)
     }
 }

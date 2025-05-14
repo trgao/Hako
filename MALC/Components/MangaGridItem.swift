@@ -22,7 +22,7 @@ struct MangaGridItem: View {
     }
     
     var body: some View {
-        NavigationLink {
+        ZoomTransition {
             MangaDetailsView(id: id, imageUrl: imageUrl)
         } label: {
             VStack {
@@ -47,7 +47,6 @@ struct MangaGridItem: View {
                     .font(.system(size: 16))
             }
         }
-        .buttonStyle(.plain)
         .padding(5)
     }
 }

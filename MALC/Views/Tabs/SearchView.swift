@@ -84,12 +84,7 @@ struct SearchView: View {
                                                 .frame(width: 10)
                                                 .foregroundColor(.clear)
                                             ForEach(controller.animeSuggestions) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                                }
-                                                .buttonStyle(.plain)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -112,12 +107,7 @@ struct SearchView: View {
                                                 .frame(width: 10)
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topAiringAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                                }
-                                                .buttonStyle(.plain)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -140,12 +130,7 @@ struct SearchView: View {
                                                 .frame(width: 10)
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topUpcomingAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                                }
-                                                .buttonStyle(.plain)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -168,12 +153,7 @@ struct SearchView: View {
                                                 .frame(width: 10)
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularAnime) { item in
-                                                NavigationLink {
-                                                    AnimeDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                                }
-                                                .buttonStyle(.plain)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -196,12 +176,7 @@ struct SearchView: View {
                                                 .frame(width: 10)
                                                 .foregroundColor(.clear)
                                             ForEach(controller.topPopularManga) { item in
-                                                NavigationLink {
-                                                    MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
-                                                } label: {
-                                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
-                                                }
-                                                .buttonStyle(.plain)
+                                                MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
                                             Rectangle()
                                                 .frame(width: 10)
@@ -247,6 +222,7 @@ struct SearchView: View {
                 controller.mangaItems = []
                 controller.type = .anime
             }
+            .navigationTitle("Search")
         }
     }
 }

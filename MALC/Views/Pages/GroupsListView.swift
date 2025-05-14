@@ -32,6 +32,5 @@ struct GroupsListView: View {
             }
         }
         .navigationTitle(title)
-        .background(Color(.secondarySystemBackground))
     }
 }

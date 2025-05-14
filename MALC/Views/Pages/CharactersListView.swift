@@ -31,7 +31,6 @@ struct CharactersListView: View {
                 }
             }
             .navigationTitle("Characters")
-            .background(Color(.secondarySystemBackground))
         }
     }
 }

@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct ListRow: View {
+struct ListRow<T>: View {
     private let title: String
-    private let content: String
+    private let content: T?
     private let icon: String?
     private let color: Color?
     
-    init(title: String, content: String, icon: String? = nil, color: Color? = nil) {
+    init(title: String, content: T?, icon: String? = nil, color: Color? = nil) {
         self.title = title
         self.content = content
         self.icon = icon
@@ -37,7 +37,7 @@ struct ListRow: View {
                     .bold()
             }
             Spacer()
-            Text(content)
+            LoadingText(content: content)
         }
     }
 }

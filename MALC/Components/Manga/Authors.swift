@@ -19,20 +19,11 @@ struct Authors: View {
         if !controller.isLoading && !controller.authors.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
-                        AuthorsListView(authors: controller.authors)
-                    } label: {
-                        HStack {
-                            Text("Authors")
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color(.systemGray2))
-                        }
+                    Text("Authors")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                         .font(.system(size: 17))
-                    }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             Rectangle()

@@ -13,6 +13,7 @@ struct MangaDetailsView: View {
     @State private var isShowingMore = false
     @State private var isShowingSafariView = false
     @State private var isEditViewPresented = false
+    @State private var isRefresh = false
     private let id: Int
     private let imageUrl: String?
     private let url: URL
@@ -84,6 +85,15 @@ struct MangaDetailsView: View {
                         .font(.system(size: 12))
                         
                     }
+                }
+                .task(id: isRefresh) {
+                    if isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
+                }
+                .refreshable {
+                    isRefresh = true
                 }
             }
             if controller.isLoading {

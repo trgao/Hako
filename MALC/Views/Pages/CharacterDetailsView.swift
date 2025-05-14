@@ -45,14 +45,11 @@ struct CharacterDetailsView: View {
                             .listRowBackground(Color.clear)
                         }
                         TextBox(title: "About", text: character.about)
-                            .listRowBackground(Color(.systemBackground))
                         CharacterAnimeSection(animes: character.anime)
                         CharacterMangaSection(mangas: character.manga)
                         CharacterVoiceSection(voices: character.voices)
                     }
                     .shadow(radius: 0.5)
-                    .background(Color(.secondarySystemBackground))
-                    .scrollContentBackground(.hidden)
                     .task(id: isRefresh) {
                         if isRefresh {
                             await controller.refresh()
@@ -101,7 +98,6 @@ struct CharacterAnimeSection: View {
                         }
                     }
                 }
-                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Animes")
                     .textCase(nil)
@@ -139,7 +135,6 @@ struct CharacterMangaSection: View {
                         }
                     }
                 }
-                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Mangas")
                     .textCase(nil)
@@ -177,7 +172,6 @@ struct CharacterVoiceSection: View {
                         }
                     }
                 }
-                .listRowBackground(Color(.systemBackground))
             } header: {
                 Text("Voices")
                     .textCase(nil)

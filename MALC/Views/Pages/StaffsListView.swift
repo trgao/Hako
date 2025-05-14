@@ -36,7 +36,6 @@ struct StaffsListView: View {
                 }
             }
             .navigationTitle("Staffs")
-            .background(Color(.secondarySystemBackground))
         }
     }
 }

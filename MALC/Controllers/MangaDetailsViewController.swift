@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Retry
 
 @MainActor
 class MangaDetailsViewController: ObservableObject {
@@ -44,69 +45,79 @@ class MangaDetailsViewController: ObservableObject {
         }
         
         // Load characters
-        if let characters = networker.mangaCharactersCache[id] {
-            self.characters = characters
-        } else {
-            do {
-                let characters = try await networker.getMangaCharacters(id: id)
+        try? await retry {
+            if let characters = networker.mangaCharactersCache[id] {
                 self.characters = characters
-                networker.mangaCharactersCache[id] = characters
-            } catch {
-                print("Some unknown error occurred loading characters")
+            } else {
+                do {
+                    let characters = try await networker.getMangaCharacters(id: id)
+                    self.characters = characters
+                    networker.mangaCharactersCache[id] = characters
+                } catch {
+                    print("Some unknown error occurred loading characters")
+                }
             }
         }
         
         // Load authors
-        if let authors = networker.mangaAuthorsCache[id] {
-            self.authors = authors
-        } else {
-            do {
-                self.authors = try await self.authors.concurrentMap { author in
-                    var newAuthor = author
-                    let person = try await self.networker.getPersonDetails(id: author.id)
-                    newAuthor.imageUrl = person.images.jpg.imageUrl
-                    return newAuthor
+        try? await retry {
+            if let authors = networker.mangaAuthorsCache[id] {
+                self.authors = authors
+            } else {
+                var authors = manga?.authors ?? [];
+                do {
+                    authors = try await authors.concurrentMap { author in
+                        var newAuthor = author
+                        let person = try await self.networker.getPersonDetails(id: author.id)
+                        newAuthor.imageUrl = person.images.jpg.imageUrl
+                        return newAuthor
+                    }
+                    self.authors = authors
+                    networker.mangaAuthorsCache[id] = authors
+                } catch {
+                    print("Some unknown error occurred loading authors")
                 }
-                networker.mangaAuthorsCache[id] = self.authors
-            } catch {
-                print("Some unknown error occurred loading authors")
             }
         }
         
         // Load related
-        if let relatedItems = networker.mangaRelatedCache[id] {
-            self.relatedItems = relatedItems
-        } else {
-            do {
-                let relations = try await networker.getMangaRelations(id: id)
-                var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, name: $0.name, url: $0.url, relation: category.relation, imageUrl: nil) } }
-                relatedItems = try await relatedItems.concurrentMap { item in
-                    var newItem = item
-                    if item.type == .anime {
-                        let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
-                        newItem.imageUrl = anime.mainPicture?.medium
-                    } else if item.type == .manga {
-                        let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
-                        newItem.imageUrl = manga.mainPicture?.medium
-                    }
-                    return newItem
-                }
+        try? await retry {
+            if let relatedItems = networker.mangaRelatedCache[id] {
                 self.relatedItems = relatedItems
-                networker.mangaRelatedCache[id] = relatedItems
-            } catch {
-                print("Some unknown error occurred loading related")
+            } else {
+                do {
+                    let relations = try await networker.getMangaRelations(id: id)
+                    var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, name: $0.name, url: $0.url, relation: category.relation, imageUrl: nil) } }
+                    relatedItems = try await relatedItems.concurrentMap { item in
+                        var newItem = item
+                        if item.type == .anime {
+                            let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
+                            newItem.imageUrl = anime.mainPicture?.medium
+                        } else if item.type == .manga {
+                            let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
+                            newItem.imageUrl = manga.mainPicture?.medium
+                        }
+                        return newItem
+                    }
+                    self.relatedItems = relatedItems
+                    networker.mangaRelatedCache[id] = relatedItems
+                } catch {
+                    print("Some unknown error occurred loading related")
+                }
             }
         }
         
         // Load statistics
-        if let statistics = networker.mangaStatsCache[id] {
-            self.statistics = statistics
-        } else {
-            do {
-                self.statistics = try await networker.getMangaStatistics(id: self.id)
-                networker.mangaStatsCache[id] = statistics
-            } catch {
-                print("Some unknown error occurred loading anime statistics")
+        try? await retry {
+            if let statistics = networker.mangaStatsCache[id] {
+                self.statistics = statistics
+            } else {
+                do {
+                    self.statistics = try await networker.getMangaStatistics(id: self.id)
+                    networker.mangaStatsCache[id] = statistics
+                } catch {
+                    print("Some unknown error occurred loading manga statistics")
+                }
             }
         }
     }

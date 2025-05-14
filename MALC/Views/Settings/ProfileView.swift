@@ -40,18 +40,29 @@ struct ProfileView: View {
                 }
                 Section {
                     if let animeStatistics = controller.userStatistics?.anime {
-                        ForEach(Array(Mirror(reflecting: animeStatistics).children), id: \.label) { child in
-                            ListRow(title: child.label!.camelCaseToWords(), content: "\(child.value)")
-                        }
+                        ListRow(title: "Days watched", content: String(animeStatistics.daysWatched), icon: "calendar", color: .blue)
+                        ListRow(title: "Mean score", content: String(animeStatistics.meanScore), icon: "star", color: .yellow)
+                        ListRow(title: "Total entries", content: String(animeStatistics.totalEntries), icon: "circle.circle", color: .black)
+                        ListRow(title: "Watching", content: String(animeStatistics.watching), icon: "play.circle", color: .blue)
+                        ListRow(title: "Completed", content: String(animeStatistics.completed), icon: "checkmark.circle", color: .green)
+                        ListRow(title: "On hold", content: String(animeStatistics.onHold), icon: "pause.circle", color: .yellow)
+                        ListRow(title: "Plan to watch", content: String(animeStatistics.planToWatch), icon: "plus.circle.dashed", color: .cyan)
+                        ListRow(title: "Episodes watched", content: String(animeStatistics.episodesWatched), icon: "video", color: .black)
                     }
                 } header: {
                     Text("Anime Statistics")
                 }
                 Section {
                     if let mangaStatistics = controller.userStatistics?.manga {
-                        ForEach(Array(Mirror(reflecting: mangaStatistics).children), id: \.label) { child in
-                            ListRow(title: child.label!.camelCaseToWords(), content: "\(child.value)")
-                        }
+                        ListRow(title: "Days read", content: String(mangaStatistics.daysRead), icon: "calendar", color: .blue)
+                        ListRow(title: "Mean score", content: String(mangaStatistics.meanScore), icon: "star", color: .yellow)
+                        ListRow(title: "Total entries", content: String(mangaStatistics.totalEntries), icon: "circle.circle", color: .black)
+                        ListRow(title: "Reading", content: String(mangaStatistics.reading), icon: "play.circle", color: .blue)
+                        ListRow(title: "Completed", content: String(mangaStatistics.completed), icon: "checkmark.circle", color: .green)
+                        ListRow(title: "On hold", content: String(mangaStatistics.onHold), icon: "pause.circle", color: .yellow)
+                        ListRow(title: "Plan to read", content: String(mangaStatistics.planToRead), icon: "plus.circle.dashed", color: .cyan)
+                        ListRow(title: "Volumes read", content: String(mangaStatistics.volumesRead), icon: "book.closed", color: .black)
+                        ListRow(title: "Chapters read", content: String(mangaStatistics.chaptersRead), icon: "book.pages", color: .black)
                     }
                 } header: {
                     Text("Manga Statistics")

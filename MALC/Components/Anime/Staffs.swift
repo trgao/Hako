@@ -16,7 +16,7 @@ struct Staffs: View {
     }
     
     var body: some View {
-        if !controller.isLoading && !controller.staffs.isEmpty {
+        if !controller.staffs.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
@@ -44,7 +44,6 @@ struct Staffs: View {
                                 } label: {
                                     VStack {
                                         ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
-                                            .padding([.trailing], 10)
                                         Text(staff.person.name ?? "")
                                             .font(.system(size: 14))
                                     }
@@ -62,6 +61,7 @@ struct Staffs: View {
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }
+            .listRowInsets(.init())
         }
     }
 }

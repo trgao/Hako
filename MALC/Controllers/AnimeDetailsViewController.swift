@@ -107,7 +107,8 @@ class AnimeDetailsViewController: ObservableObject {
                 self.statistics = statistics
             } else {
                 do {
-                    self.statistics = try await networker.getAnimeStatistics(id: self.id)
+                    let statistics = try await networker.getAnimeStatistics(id: self.id)
+                    self.statistics = statistics
                     networker.animeStatsCache[id] = statistics
                 } catch {
                     print("Some unknown error occurred loading anime statistics")

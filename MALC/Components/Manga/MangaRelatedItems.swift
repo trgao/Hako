@@ -15,7 +15,7 @@ struct MangaRelatedItems: View {
     }
     
     var body: some View {
-        if !controller.isLoading && !controller.relatedItems.isEmpty {
+        if !controller.relatedItems.isEmpty {
             Section {} header: {
                 VStack {
                     Text("Related")

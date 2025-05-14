@@ -24,9 +24,10 @@ struct Authors: View {
                     } label: {
                         HStack {
                             Text("Authors")
-                                .bold()
                             Image(systemName: "chevron.right")
+                                .foregroundStyle(Color(.systemGray2))
                         }
+                        .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 30)
                         .font(.system(size: 17))

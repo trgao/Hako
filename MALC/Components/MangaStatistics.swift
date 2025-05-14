@@ -20,7 +20,7 @@ struct MangaStatistics: View {
                 ListRow(title: "All", content: String(statistics.total), icon: "circle.circle", color: .primary)
                 ListRow(title: "Reading", content: String(statistics.reading), icon: "book.circle", color: .blue)
                 ListRow(title: "Completed", content: String(statistics.completed), icon: "checkmark.circle", color: .green)
-                ListRow(title: "On hold", content: String(statistics.onHold), icon: "circle", color: .yellow)
+                ListRow(title: "On hold", content: String(statistics.onHold), icon: "pause.circle", color: .yellow)
                 ListRow(title: "Dropped", content: String(statistics.dropped), icon: "minus.circle", color: .red)
                 ListRow(title: "Plan to read", content: String(statistics.planToRead), icon: "plus.circle.dashed", color: .cyan)
             } header: {

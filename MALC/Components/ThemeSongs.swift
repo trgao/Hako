@@ -30,9 +30,6 @@ struct ThemeSongs: View {
                     .font(.system(size: 17))
                     .bold()
             }
-            .alignmentGuide(.listRowSeparatorLeading) { _ in
-                return -20
-            }
         }
         if let endingThemes = endingThemes {
             Section {
@@ -45,9 +42,6 @@ struct ThemeSongs: View {
                     .foregroundColor(Color.primary)
                     .font(.system(size: 17))
                     .bold()
-            }
-            .alignmentGuide(.listRowSeparatorLeading) { _ in
-                return -20
             }
         }
     }

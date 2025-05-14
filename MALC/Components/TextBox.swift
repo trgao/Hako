@@ -37,7 +37,6 @@ struct TextBox: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(5)
-                        .font(.system(size: 16))
                         .lineSpacing(2)
                     if canBeExpanded {
                         Button {
@@ -49,8 +48,10 @@ struct TextBox: View {
                                 Image(systemName: "chevron.down")
                             }
                         }
-                        .buttonStyle(ChevronButtonStyle(isEnabled: isExpanded))
+                        .bold()
+                        .buttonStyle(.plain)
                         .frame(width: 30, height: 30)
+                        .foregroundStyle(Color(.systemGray2))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -62,15 +63,5 @@ struct TextBox: View {
                     .bold()
             }
         }
-    }
-}
-
-private struct ChevronButtonStyle: ButtonStyle {
-    let isEnabled: Bool
-
-    @ViewBuilder
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .background(.clear)
     }
 }

@@ -35,10 +35,11 @@ struct MangaGridItem: View {
                                 .foregroundStyle(.white)
                                 .padding(10)
                                 .background {
-                                    Color(hex: 0x000000, opacity: 0.6)
+                                    Color.black.opacity(0.4)
                                         .blur(radius: 8, opaque: false)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
                 Text(title ?? "")

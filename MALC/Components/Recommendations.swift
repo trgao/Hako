@@ -12,13 +12,13 @@ struct Recommendations: View {
     @State private var mangaRecommendations = [MALListManga]()
     private let type: TypeEnum
     
-    init(animeRecommendations: [MALListAnime]) {
-        self.animeRecommendations = animeRecommendations
+    init(animeRecommendations: [MALListAnime]?) {
+        self.animeRecommendations = animeRecommendations ?? []
         type = .anime
     }
     
-    init(mangaRecommendations: [MALListManga]) {
-        self.mangaRecommendations = mangaRecommendations
+    init(mangaRecommendations: [MALListManga]?) {
+        self.mangaRecommendations = mangaRecommendations ?? []
         type = .manga
     }
     

@@ -46,7 +46,7 @@ struct ProfileView: View {
                         ListRow(title: "Watching", content: String(animeStatistics.watching), icon: "play.circle", color: .blue)
                         ListRow(title: "Completed", content: String(animeStatistics.completed), icon: "checkmark.circle", color: .green)
                         ListRow(title: "On hold", content: String(animeStatistics.onHold), icon: "pause.circle", color: .yellow)
-                        ListRow(title: "Plan to watch", content: String(animeStatistics.planToWatch), icon: "plus.circle.dashed", color: .cyan)
+                        ListRow(title: "Plan to watch", content: String(animeStatistics.planToWatch), icon: "plus.circle.dashed", color: .purple)
                         ListRow(title: "Episodes watched", content: String(animeStatistics.episodesWatched), icon: "video", color: .black)
                     }
                 } header: {
@@ -60,7 +60,7 @@ struct ProfileView: View {
                         ListRow(title: "Reading", content: String(mangaStatistics.reading), icon: "play.circle", color: .blue)
                         ListRow(title: "Completed", content: String(mangaStatistics.completed), icon: "checkmark.circle", color: .green)
                         ListRow(title: "On hold", content: String(mangaStatistics.onHold), icon: "pause.circle", color: .yellow)
-                        ListRow(title: "Plan to read", content: String(mangaStatistics.planToRead), icon: "plus.circle.dashed", color: .cyan)
+                        ListRow(title: "Plan to read", content: String(mangaStatistics.planToRead), icon: "plus.circle.dashed", color: .purple)
                         ListRow(title: "Volumes read", content: String(mangaStatistics.volumesRead), icon: "book.closed", color: .black)
                         ListRow(title: "Chapters read", content: String(mangaStatistics.chaptersRead), icon: "book.pages", color: .black)
                     }

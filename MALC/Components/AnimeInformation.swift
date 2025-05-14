@@ -37,21 +37,21 @@ struct AnimeInformation: View {
             if let rating = anime.rating {
                 ListRow(title: "Rating", content: "\(rating.filter { $0 != "_" }.uppercased())")
             }
-            if !anime.studios.isEmpty {
+            if let studios = anime.studios, !studios.isEmpty {
                 VStack {
                     NavigationLink {
-                        GroupsListView(title: "Studios", items: anime.studios, group: "producers", type: .anime)
+                        GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)
                     } label: {
-                        ListRow(title: "Studios", content: "\(anime.studios.map{ $0.name }.joined(separator: ", "))")
+                        ListRow(title: "Studios", content: "\(studios.map{ $0.name }.joined(separator: ", "))")
                     }
                     .buttonStyle(.plain)
                 }
             }
-            if !anime.genres.isEmpty {
+            if let genres = anime.genres, !genres.isEmpty {
                 NavigationLink {
-                    GroupsListView(title: "Genres", items: anime.genres, group: "genres", type: .anime)
+                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
                 } label: {
-                    ListRow(title: "Genres", content: "\(anime.genres.map{ $0.name }.joined(separator: ", "))")
+                    ListRow(title: "Genres", content: "\(genres.map{ $0.name }.joined(separator: ", "))")
                 }
                 .buttonStyle(.plain)
             }

@@ -12,7 +12,6 @@ class MangaDetailsViewController: ObservableObject {
     @Published var manga: Manga?
     @Published var characters: [ListCharacter] = []
     @Published var relations: [Related] = []
-    @Published var isInitialLoading = true
     @Published var isLoading = false
     @Published var isLoadingError = false
     private let id: Int
@@ -20,53 +19,11 @@ class MangaDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
-        
-        // Check if manga details is already in cache
-        if let mangaDetails = networker.mangaCache[id] {
-            self.manga = mangaDetails.manga
-            self.characters = mangaDetails.characters
-            self.relations = mangaDetails.relations
-            self.isInitialLoading = false
-        } else {
-            Task {
-                do {
-                    try await getMangaDetails()
-                    isInitialLoading = false
-                } catch {
-                    print(error)
-                    isLoadingError = true
-                    isInitialLoading = false
-                }
-            }
+        if let manga = networker.mangaCache[id] {
+            self.manga = manga
         }
-    }
-    
-    // Load all manga details
-    private func getMangaDetails() async throws -> Void {
-        let manga = try await networker.getMangaDetails(id: id)
-        let characterList = try await networker.getMangaCharacters(id: id)
-        let relationList = try await networker.getMangaRelations(id: id)
-        self.manga = manga
-        self.characters = characterList
-        self.relations = relationList
-        networker.mangaCache[id] = MangaDetails(manga: manga, characters: characterList, relations: relationList)
-        
-        await withTaskGroup(of: Void.self) { taskGroup in
-            for relation in relationList.flatMap({ $0.entry }).prefix(10) {
-                taskGroup.addTask {
-                    do {
-                        if relation.type == .anime {
-                            let anime = try await self.networker.getAnimeDetails(id: relation.id)
-                            await self.networker.downloadImage(id: "anime\(relation.id)", imageUrl: anime.mainPicture?.medium)
-                        } else if relation.type == .manga {
-                            let manga = try await self.networker.getMangaDetails(id: relation.id)
-                            await self.networker.downloadImage(id: "manga\(relation.id)", imageUrl: manga.mainPicture?.medium)
-                        }
-                    } catch {
-                        print("Some unknown error occurred")
-                    }
-                }
-            }
+        Task {
+            await refresh()
         }
     }
     
@@ -75,7 +32,9 @@ class MangaDetailsViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
-            try await getMangaDetails()
+            let manga = try await networker.getMangaDetails(id: id)
+            self.manga = manga
+            networker.mangaCache[id] = manga
             isLoading = false
         } catch {
             isLoading = false

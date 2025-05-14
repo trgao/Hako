@@ -18,19 +18,19 @@ struct Anime: Codable, Identifiable {
     let mean: Double?
     let rank: Int?
     let popularity: Int?
-    let mediaType: String
-    let status: String
-    let genres: [MALItem]
+    let mediaType: String?
+    let status: String?
+    let genres: [MALItem]?
     var myListStatus: AnimeListStatus?
-    let numEpisodes: Int
+    let numEpisodes: Int?
     let startSeason: Season?
     let broadcast: Broadcast?
     let source: String?
     let averageEpisodeDuration: Int?
     let rating: String?
-    let studios: [MALItem]
+    let studios: [MALItem]?
     let openingThemes: [Theme]?
     let endingThemes: [Theme]?
     let videos: [Video]?
-    let recommendations: [MALListAnime]
+    let recommendations: [MALListAnime]?
 }

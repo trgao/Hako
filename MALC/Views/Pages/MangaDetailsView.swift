@@ -29,15 +29,13 @@ struct MangaDetailsView: View {
         ZStack {
             if controller.isLoadingError {
                 ErrorView(refresh: controller.refresh)
-            } else if controller.isInitialLoading {
-                LoadingView()
             } else if let manga = controller.manga {
                 PageList {
                     TextBox(title: "Synopsis", text: manga.synopsis)
                     MangaInformation(manga: manga)
-                    Characters(characters: controller.characters)
-                    Authors(authors: manga.authors)
-                    RelatedItems(relations: controller.relations)
+                    Characters(id: manga.id, type: .manga)
+                    Authors(id: manga.id, authors: manga.authors)
+                    RelatedItems(id: manga.id, type: .manga)
                     Recommendations(mangaRecommendations: manga.recommendations)
                     MangaStatistics(id: manga.id)
                 } header: {
@@ -89,7 +87,7 @@ struct MangaDetailsView: View {
             if controller.isLoading {
                 LoadingView()
             }
-            if controller.manga == nil && !controller.isLoading && !controller.isInitialLoading && !controller.isLoadingError {
+            if controller.manga == nil && !controller.isLoading && !controller.isLoadingError {
                 VStack {
                     Image(systemName: "book.fill")
                         .resizable()
@@ -120,7 +118,7 @@ struct MangaDetailsView: View {
                     } content: {
                         MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: imageUrl, isPresented: $isEditViewPresented)
                     }
-                    .disabled(controller.isLoading || controller.isInitialLoading)
+                    .disabled(controller.isLoading)
                 } else {
                     Button {} label: {
                         Image(systemName: "square.and.pencil")
@@ -138,7 +136,7 @@ struct MangaDetailsView: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
-            .disabled(controller.isLoading || controller.isInitialLoading)
+            .disabled(controller.isLoading)
         }
     }
 }

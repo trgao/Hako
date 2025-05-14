@@ -18,13 +18,13 @@ struct Manga: Codable, Identifiable {
     let mean: Double?
     let rank: Int?
     let popularity: Int?
-    let mediaType: String
-    let status: String
-    let genres: [MALItem]
+    let mediaType: String?
+    let status: String?
+    let genres: [MALItem]?
     var myListStatus: MangaListStatus?
-    let numVolumes: Int
-    let numChapters: Int
-    let authors: [Author]
-    let serialization: [Magazine]
-    let recommendations: [MALListManga]
+    let numVolumes: Int?
+    let numChapters: Int?
+    let authors: [Author]?
+    let serialization: [Magazine]?
+    let recommendations: [MALListManga]?
 }

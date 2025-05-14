@@ -11,8 +11,6 @@ import Foundation
 class AnimeDetailsViewController: ObservableObject {
     @Published var anime: Anime?
     @Published var characters: [ListCharacter] = []
-    @Published var relations: [Related] = []
-    @Published var isInitialLoading = true
     @Published var isLoading = false
     @Published var isLoadingError = false
     private let id: Int
@@ -20,35 +18,12 @@ class AnimeDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
-        
-        // Check if anime details is already in cache
-        if let animeDetails = networker.animeCache[id] {
-            self.anime = animeDetails.anime
-            self.characters = animeDetails.characters
-            self.relations = animeDetails.relations
-            self.isInitialLoading = false
-        } else {
-            Task {
-                do {
-                    try await getAnimeDetails()
-                    isInitialLoading = false
-                } catch {
-                    isLoadingError = true
-                    isInitialLoading = false
-                }
-            }
+        if let anime = networker.animeCache[id] {
+            self.anime = anime
         }
-    }
-    
-    // Load all anime details
-    private func getAnimeDetails() async throws -> Void {
-        let anime = try await networker.getAnimeDetails(id: id)
-        let characterList = try await networker.getAnimeCharacters(id: id)
-        let relationList = try await networker.getAnimeRelations(id: id)
-        self.anime = anime
-        self.characters = characterList
-        self.relations = relationList
-        networker.animeCache[id] = AnimeDetails(anime: anime, characters: characterList, relations: relationList)
+        Task {
+            await refresh()
+        }
     }
     
     // Refresh the current anime details page
@@ -56,7 +31,9 @@ class AnimeDetailsViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
-            try await getAnimeDetails()
+            let anime = try await networker.getAnimeDetails(id: id)
+            self.anime = anime
+            networker.animeCache[id] = anime
             isLoading = false
         } catch {
             isLoadingError = true

@@ -11,8 +11,8 @@ struct Authors: View {
     @StateObject private var controller: AuthorsController
     let networker = NetworkManager.shared
     
-    init(authors: [Author]) {
-        self._controller = StateObject(wrappedValue: AuthorsController(authors: authors))
+    init(id: Int, authors: [Author]?) {
+        self._controller = StateObject(wrappedValue: AuthorsController(id: id, authors: authors))
     }
     
     var body: some View {

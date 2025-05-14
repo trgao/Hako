@@ -10,12 +10,8 @@ import SwiftUI
 struct RelatedItems: View {
     @StateObject private var controller: RelatedItemsController
     
-    init(relations: [Related]?) {
-        var items: [RelatedItem] = []
-        if let relations = relations {
-            items = relations.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, name: $0.name, url: $0.url, relation: category.relation, imageUrl: nil) } }
-        }
-        self._controller = StateObject(wrappedValue: RelatedItemsController(items: items))
+    init(id: Int, type: TypeEnum) {
+        self._controller = StateObject(wrappedValue: RelatedItemsController(id: id, type: type))
     }
     
     var body: some View {

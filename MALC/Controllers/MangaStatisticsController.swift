@@ -18,10 +18,11 @@ class MangaStatisticsController: ObservableObject {
         self.id = id
         Task {
             do {
-                self.statistics = try await self.networker.getMangaStatistics(id: self.id)
+                self.statistics = try await networker.getMangaStatistics(id: self.id)
                 self.isLoading = false
             } catch {
-                print("Some unknown error occurred")
+                print("Some unknown error occurred loading manga statistics")
+                print(error)
                 self.isLoading = false
             }
         }

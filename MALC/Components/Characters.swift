@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct Characters: View {
-    private let characters: [ListCharacter]
+    @StateObject private var controller: CharactersController
     let networker = NetworkManager.shared
     
-    init(characters: [ListCharacter]) {
-        self.characters = characters
+    init(id: Int, type: TypeEnum) {
+        self._controller = StateObject(wrappedValue: CharactersController(id: id, type: type))
     }
     
     var body: some View {
-        if !characters.isEmpty {
+        if !controller.characters.isEmpty {
             Section {} header: {
                 VStack {
                     NavigationLink {
-                        CharactersListView(characters: characters)
+                        CharactersListView(characters: controller.characters)
                     } label: {
                         HStack {
                             Text("Characters")
@@ -38,7 +38,7 @@ struct Characters: View {
                             Rectangle()
                                 .frame(width: 5)
                                 .foregroundColor(.clear)
-                            ForEach(characters.prefix(10)) { character in
+                            ForEach(controller.characters.prefix(10)) { character in
                                 ZoomTransition {
                                     CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
                                 } label: {

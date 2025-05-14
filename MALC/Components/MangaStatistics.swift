@@ -22,7 +22,7 @@ struct MangaStatistics: View {
                 ListRow(title: "Completed", content: String(statistics.completed), icon: "checkmark.circle", color: .green)
                 ListRow(title: "On hold", content: String(statistics.onHold), icon: "pause.circle", color: .yellow)
                 ListRow(title: "Dropped", content: String(statistics.dropped), icon: "minus.circle", color: .red)
-                ListRow(title: "Plan to read", content: String(statistics.planToRead), icon: "plus.circle.dashed", color: .cyan)
+                ListRow(title: "Plan to read", content: String(statistics.planToRead), icon: "plus.circle.dashed", color: .purple)
             } header: {
                 Text("Statistics")
                     .textCase(nil)

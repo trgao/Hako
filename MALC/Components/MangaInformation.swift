@@ -28,19 +28,19 @@ struct MangaInformation: View {
             if let endDate = manga.endDate {
                 ListRow(title: "End date", content: endDate.toString())
             }
-            if !manga.serialization.isEmpty {
+            if let serialization = manga.serialization, !serialization.isEmpty {
                 NavigationLink {
-                    GroupsListView(title: "Serialization", items: manga.serialization.map{ $0.node }, group: "magazines", type: .manga)
+                    GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .manga)
                 } label: {
-                    ListRow(title: "Serialization", content: "\(manga.serialization.map{ $0.node.name }.joined(separator: ", "))")
+                    ListRow(title: "Serialization", content: "\(serialization.map{ $0.node.name }.joined(separator: ", "))")
                 }
                 .buttonStyle(.plain)
             }
-            if !manga.genres.isEmpty {
+            if let genres = manga.genres, !genres.isEmpty {
                 NavigationLink {
-                    GroupsListView(title: "Genres", items: manga.genres, group: "genres", type: .manga)
+                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
                 } label: {
-                    ListRow(title: "Genres", content: "\(manga.genres.map{ $0.name }.joined(separator: ", "))")
+                    ListRow(title: "Genres", content: "\(genres.map{ $0.name }.joined(separator: ", "))")
                 }
                 .buttonStyle(.plain)
             }

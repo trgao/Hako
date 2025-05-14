@@ -30,15 +30,13 @@ struct AnimeDetailsView: View {
         ZStack {
             if (controller.isLoadingError) {
                 ErrorView(refresh: controller.refresh)
-            } else if controller.isInitialLoading {
-                LoadingView()
             } else if let anime = controller.anime {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
                     AnimeInformation(anime: anime)
-                    Characters(characters: controller.characters)
+                    Characters(id: anime.id, type: .anime)
                     Staffs(id: anime.id)
-                    RelatedItems(relations: controller.relations)
+                    RelatedItems(id: anime.id, type: .anime)
                     Recommendations(animeRecommendations: anime.recommendations)
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                     AnimeStatistics(id: anime.id)
@@ -81,8 +79,10 @@ struct AnimeDetailsView: View {
                         if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
                             Text("\(season.capitalized), \(String(year))")
                         }
-                        Text("\(anime.mediaType == "tv" || anime.mediaType == "ova" || anime.mediaType == "ona" ? anime.mediaType.uppercased() : anime.mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(anime.status.replacingOccurrences(of: "_", with: " ").capitalized)")
-                        Text("\(anime.numEpisodes == 0 ? "?" : String(anime.numEpisodes)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
+                        if let mediaType = anime.mediaType, let status = anime.status {
+                            Text("\(mediaType == "tv" || mediaType == "ova" || mediaType == "ona" ? mediaType.uppercased() : mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.replacingOccurrences(of: "_", with: " ").capitalized)")
+                        }
+                        Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
                     }
                     .opacity(0.7)
                     .font(.system(size: 12))
@@ -100,7 +100,7 @@ struct AnimeDetailsView: View {
             if controller.isLoading {
                 LoadingView()
             }
-            if controller.anime == nil && !controller.isLoading && !controller.isInitialLoading && !controller.isLoadingError {
+            if controller.anime == nil && !controller.isLoading && !controller.isLoadingError {
                 VStack {
                     Image(systemName: "tv.fill")
                         .resizable()
@@ -131,7 +131,7 @@ struct AnimeDetailsView: View {
                     } content: {
                         AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl, isPresented: $isEditViewPresented)
                     }
-                    .disabled(controller.isLoading || controller.isInitialLoading)
+                    .disabled(controller.isLoading)
                 } else {
                     Button {} label: {
                         Image(systemName: "square.and.pencil")
@@ -154,7 +154,7 @@ struct AnimeDetailsView: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
-            .disabled(controller.isLoading || controller.isInitialLoading)
+            .disabled(controller.isLoading)
         }
     }
 }

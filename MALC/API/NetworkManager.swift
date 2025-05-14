@@ -17,8 +17,14 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     static var shared = NetworkManager()
     let imageCache = NSCache<NSString, ImageCache>()
     var imageUrlMap = ThreadSafeDictionary<String, String>()
-    let animeCache = ItemCache<Int, AnimeDetails>()
-    let mangaCache = ItemCache<Int, MangaDetails>()
+    let animeCache = ItemCache<Int, Anime>()
+    let animeCharactersCache = ItemCache<Int, [ListCharacter]>()
+    let animeStaffsCache = ItemCache<Int, [Staff]>()
+    let animeRelatedCache = ItemCache<Int, [RelatedItem]>()
+    let mangaCache = ItemCache<Int, Manga>()
+    let mangaCharactersCache = ItemCache<Int, [ListCharacter]>()
+    let mangaAuthorsCache = ItemCache<Int, [Author]>()
+    let mangaRelatedCache = ItemCache<Int, [RelatedItem]>()
     private let jikanBaseApi = "https://api.jikan.moe/v4"
     private let malBaseApi = "https://api.myanimelist.net/v2"
     private let decoder: JSONDecoder

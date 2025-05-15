@@ -87,6 +87,8 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
+                            } else {
+                                LoadingCarousel()
                             }
                             if !controller.topAiringAnime.isEmpty {
                                 VStack {
@@ -104,6 +106,8 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
+                            } else {
+                                LoadingCarousel()
                             }
                             if !controller.topUpcomingAnime.isEmpty {
                                 VStack {
@@ -121,6 +125,8 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
+                            } else {
+                                LoadingCarousel()
                             }
                             if !controller.topPopularAnime.isEmpty {
                                 VStack {
@@ -138,6 +144,8 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
+                            } else {
+                                LoadingCarousel()
                             }
                             if !controller.topPopularManga.isEmpty {
                                 VStack {
@@ -155,6 +163,8 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
+                            } else {
+                                LoadingCarousel()
                             }
                         }
                         .padding(.vertical, 2)

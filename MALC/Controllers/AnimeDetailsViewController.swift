@@ -11,9 +11,9 @@ import Retry
 @MainActor
 class AnimeDetailsViewController: ObservableObject {
     @Published var anime: Anime?
-    @Published var characters: [ListCharacter] = []
-    @Published var staffs: [Staff] = []
-    @Published var relatedItems: [RelatedItem] = []
+    @Published var characters = [ListCharacter]()
+    @Published var staffs = [Staff]()
+    @Published var relatedItems = [RelatedItem]()
     @Published var statistics: AnimeStats?
     @Published var isLoading = false
     @Published var isLoadingError = false

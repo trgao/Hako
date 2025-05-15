@@ -11,9 +11,9 @@ import Retry
 @MainActor
 class MangaDetailsViewController: ObservableObject {
     @Published var manga: Manga?
-    @Published var characters: [ListCharacter] = []
-    @Published var authors: [Author] = []
-    @Published var relatedItems: [RelatedItem] = []
+    @Published var characters = [ListCharacter]()
+    @Published var authors = [Author]()
+    @Published var relatedItems = [RelatedItem]()
     @Published var statistics: MangaStats?
     @Published var isLoading = false
     @Published var isLoadingError = false

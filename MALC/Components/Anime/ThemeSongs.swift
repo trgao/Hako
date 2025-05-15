@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ThemeSongs: View {
+    @Environment(\.colorScheme) var colorScheme
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
@@ -34,8 +35,8 @@ struct ThemeSongs: View {
                                         .fixedSize(horizontal: false, vertical: true)
                                         .font(.system(size: 17))
                                         .padding(20)
-                                        .frame(maxWidth: 350, minHeight: 100)
-                                        .background(Color(.systemBackground))
+                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .topLeading)
+                                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                         .shadow(radius: 0.5)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
@@ -69,8 +70,8 @@ struct ThemeSongs: View {
                                         .fixedSize(horizontal: false, vertical: true)
                                         .font(.system(size: 17))
                                         .padding(20)
-                                        .frame(maxWidth: 350, minHeight: 100)
-                                        .background(Color(.systemBackground))
+                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .topLeading)
+                                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                         .shadow(radius: 0.5)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }

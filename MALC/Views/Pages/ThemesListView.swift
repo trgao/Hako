@@ -18,8 +18,7 @@ struct ThemesListView: View {
         List {
             ForEach(themes) { theme in
                 if let text = theme.text {
-                    Text(text)
-                        .multilineTextAlignment(.leading)
+                    Label(text, systemImage: "music.note")
                 }
             }
         }

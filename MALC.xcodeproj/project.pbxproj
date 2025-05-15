@@ -94,6 +94,8 @@
 		EEA5E94E2CEE8D4100B2513B /* BehavioursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5E94D2CEE8D3B00B2513B /* BehavioursView.swift */; };
 		EEA5E9502CEE95B900B2513B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5E94F2CEE95B600B2513B /* ProfileView.swift */; };
 		EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */; };
+		EEA924322DD5EBDF00FB40A9 /* ListViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */; };
+		EEA924342DD5ED1700FB40A9 /* ThemesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */; };
 		EEB274792C0635F700D6F257 /* MangaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB274782C0635F700D6F257 /* MangaEditView.swift */; };
 		EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */; };
 		EEC1B8FC2BF12413001E08C4 /* MangaListStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */; };
@@ -225,6 +227,8 @@
 		EEA5E94D2CEE8D3B00B2513B /* BehavioursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehavioursView.swift; sourceTree = "<group>"; };
 		EEA5E94F2CEE95B600B2513B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
+		EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewLink.swift; sourceTree = "<group>"; };
+		EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesListView.swift; sourceTree = "<group>"; };
 		EEB274782C0635F700D6F257 /* MangaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaEditView.swift; sourceTree = "<group>"; };
 		EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailsViewController.swift; sourceTree = "<group>"; };
 		EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListStatus.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
+				EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */,
 				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
 				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
 			);
@@ -394,6 +399,7 @@
 			children = (
 				EE3B40162DD4B43B000846A1 /* Anime */,
 				EE3B40172DD4B475000846A1 /* Manga */,
+				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
@@ -704,6 +710,7 @@
 				EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */,
 				EEC3578E2BE3889900DAAB0B /* CharacterDetailsViewController.swift in Sources */,
 				EE33A4D02BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift in Sources */,
+				EEA924322DD5EBDF00FB40A9 /* ListViewLink.swift in Sources */,
 				EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */,
 				EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */,
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
@@ -791,6 +798,7 @@
 				EEEEA3172DD32F6A00302A81 /* PageList.swift in Sources */,
 				EEC357822BE3612C00DAAB0B /* JikanCharactersListResponse.swift in Sources */,
 				EE3A59A22BD21479009E9F79 /* MALCApp.swift in Sources */,
+				EEA924342DD5ED1700FB40A9 /* ThemesListView.swift in Sources */,
 				EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */,
 				EE91BE5B2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift in Sources */,
 				EE3A59BB2BD21E2E009E9F79 /* JikanListResponse.swift in Sources */,

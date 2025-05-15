@@ -18,31 +18,74 @@ struct ThemeSongs: View {
     
     var body: some View {
         if let openingThemes = openingThemes {
-            Section {
-                ForEach(openingThemes) { theme in
-                    Text(theme.text ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
+            Section {} header: {
+                VStack {
+                    ListViewLink(title: "Openings", items: openingThemes) {
+                        ThemesListView(themes: openingThemes)
+                            .navigationTitle("Openings")
+                    }
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top) {
+                            ForEach(openingThemes.prefix(10)) { theme in
+                                if let text = theme.text {
+                                    Text(text)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(3)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .font(.system(size: 17))
+                                        .padding(20)
+                                        .frame(maxWidth: 350, minHeight: 100)
+                                        .background(Color(.systemBackground))
+                                        .shadow(radius: 0.5)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                    }
                 }
-            } header: {
-                Text("Openings")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
+                .textCase(nil)
+                .padding(.horizontal, -20)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
+            .frame(maxWidth: .infinity)
+            .listRowInsets(.init())
         }
         if let endingThemes = endingThemes {
-            Section {
-                ForEach(endingThemes) { theme in
-                    Text(theme.text ?? "")
+            Section {} header: {
+                VStack {
+                    ListViewLink(title: "Endings", items: endingThemes) {
+                        ThemesListView(themes: endingThemes)
+                            .navigationTitle("Endings")
+                    }
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top) {
+                            ForEach(endingThemes.prefix(10)) { theme in
+                                if let text = theme.text {
+                                    Text(text)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(3)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .font(.system(size: 17))
+                                        .padding(20)
+                                        .frame(maxWidth: 350, minHeight: 100)
+                                        .background(Color(.systemBackground))
+                                        .shadow(radius: 0.5)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                    }
                 }
-            } header: {
-                Text("Endings")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
+                .textCase(nil)
+                .padding(.horizontal, -20)
+                .foregroundColor(Color.primary)
+                .listRowInsets(.init())
             }
+            .frame(maxWidth: .infinity)
+            .listRowInsets(.init())
         }
     }
 }

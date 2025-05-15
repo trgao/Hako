@@ -22,13 +22,10 @@ struct Authors: View {
                     Text("Authors")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 35)
                         .font(.system(size: 17))
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(controller.authors.prefix(10)) { author in
                                 ZoomTransition {
                                     PersonDetailsView(id: author.id)
@@ -41,15 +38,12 @@ struct Authors: View {
                                     .frame(width: 120)
                                 }
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
-                    
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

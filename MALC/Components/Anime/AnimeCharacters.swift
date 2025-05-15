@@ -19,25 +19,11 @@ struct AnimeCharacters: View {
         if !controller.characters.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
+                    ListViewLink(title: "Characters", items: controller.characters) {
                         CharactersListView(characters: controller.characters)
-                    } label: {
-                        HStack {
-                            Text("Characters")
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color(.systemGray2))
-                        }
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
-                        .font(.system(size: 17))
                     }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(controller.characters.prefix(10)) { character in
                                 ZoomTransition {
                                     CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
@@ -50,15 +36,12 @@ struct AnimeCharacters: View {
                                     .frame(width: 120)
                                 }
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
-                    
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

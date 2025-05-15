@@ -19,25 +19,11 @@ struct Staffs: View {
         if !controller.staffs.isEmpty {
             Section {} header: {
                 VStack {
-                    NavigationLink {
+                    ListViewLink(title: "Staffs", items: controller.staffs) {
                         StaffsListView(staffs: controller.staffs)
-                    } label: {
-                        HStack {
-                            Text("Staffs")
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(Color(.systemGray2))
-                        }
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
-                        .font(.system(size: 17))
                     }
-                    .buttonStyle(.plain)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(controller.staffs.prefix(10)) { staff in
                                 ZoomTransition {
                                     PersonDetailsView(id: staff.id)
@@ -50,14 +36,12 @@ struct Staffs: View {
                                     .frame(width: 120)
                                 }
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

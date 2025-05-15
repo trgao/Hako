@@ -76,21 +76,15 @@ struct SearchView: View {
                                     Text("For You")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
+                                        .padding(.horizontal, 35)
                                         .font(.system(size: 17))
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                             ForEach(controller.animeSuggestions) { item in
                                                 AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                         }
-                                        .padding(2)
+                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
@@ -99,21 +93,15 @@ struct SearchView: View {
                                     Text("Top Airing")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
+                                        .padding(.horizontal, 35)
                                         .font(.system(size: 17))
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                             ForEach(controller.topAiringAnime) { item in
                                                 AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                         }
-                                        .padding(2)
+                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
@@ -122,21 +110,15 @@ struct SearchView: View {
                                     Text("Top Upcoming")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
+                                        .padding(.horizontal, 35)
                                         .font(.system(size: 17))
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                             ForEach(controller.topUpcomingAnime) { item in
                                                 AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                         }
-                                        .padding(2)
+                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
@@ -145,21 +127,15 @@ struct SearchView: View {
                                     Text("Most Popular Anime")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
+                                        .padding(.horizontal, 35)
                                         .font(.system(size: 17))
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                             ForEach(controller.topPopularAnime) { item in
                                                 AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                         }
-                                        .padding(2)
+                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
@@ -168,28 +144,20 @@ struct SearchView: View {
                                     Text("Most Popular Manga")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 15)
+                                        .padding(.horizontal, 35)
                                         .font(.system(size: 17))
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                             ForEach(controller.topPopularManga) { item in
                                                 MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                                             }
-                                            Rectangle()
-                                                .frame(width: 10)
-                                                .foregroundColor(.clear)
                                         }
-                                        .padding(2)
+                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
-                            Rectangle()
-                                .frame(height: 1)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.vertical, 2)
                         if controller.isPageLoading && isRefresh {
                             LoadingView()
                         }

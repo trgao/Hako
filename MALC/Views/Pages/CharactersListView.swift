@@ -15,22 +15,20 @@ struct CharactersListView: View {
     }
     
     var body: some View {
-        ZStack {
-            List {
-                ForEach(characters) { character in
-                    NavigationLink {
-                        CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
-                            Text(character.character.name ?? "")
-                        }
+        List {
+            ForEach(characters) { character in
+                NavigationLink {
+                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
+                } label: {
+                    HStack {
+                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .small)
+                            .padding([.trailing], 10)
+                        Text(character.character.name ?? "")
                     }
-                    .buttonStyle(.plain)
                 }
+                .buttonStyle(.plain)
             }
-            .navigationTitle("Characters")
         }
+        .navigationTitle("Characters")
     }
 }

@@ -25,7 +25,7 @@ struct PageList<Header: View, Content: View>: View {
                 .listRowInsets(.init())
                 .frame(maxWidth: .infinity, alignment: .center)
             } header: {
-                Spacer(minLength: 0).listRowInsets(EdgeInsets())
+                Spacer(minLength: 0)
             }
             .listRowBackground(Color.clear)
             .listRowInsets(.init())

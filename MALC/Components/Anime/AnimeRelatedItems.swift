@@ -21,13 +21,10 @@ struct AnimeRelatedItems: View {
                     Text("Related")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 35)
                         .font(.system(size: 17))
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(controller.relatedItems) { item in
                                 if item.type == .anime {
                                     AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
@@ -35,14 +32,12 @@ struct AnimeRelatedItems: View {
                                     MangaGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
                                 }
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

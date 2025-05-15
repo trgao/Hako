@@ -29,24 +29,19 @@ struct Recommendations: View {
                     Text("Recommendations")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 35)
                         .font(.system(size: 17))
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(animeRecommendations) { item in
                                 AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }
@@ -57,13 +52,10 @@ struct Recommendations: View {
                     Text("Recommendations")
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 35)
                         .font(.system(size: 17))
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
                                     MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
@@ -72,14 +64,12 @@ struct Recommendations: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                            Rectangle()
-                                .frame(width: 5)
-                                .foregroundColor(.clear)
                         }
+                        .padding(.horizontal, 20)
                     }
                 }
                 .textCase(nil)
-                .padding(.horizontal, -15)
+                .padding(.horizontal, -20)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

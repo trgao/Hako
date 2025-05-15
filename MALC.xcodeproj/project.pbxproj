@@ -20,8 +20,7 @@
 		EE33A4C62BE16BBE00A98F00 /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */; };
 		EE33A4C82BE1766400A98F00 /* GroupDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */; };
 		EE33A4CC2BE176E500A98F00 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */; };
-		EE33A4CE2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CD2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift */; };
-		EE33A4D02BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CF2BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift */; };
+		EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */; };
 		EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */; };
 		EE33A4D42BE2011400A98F00 /* YearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D32BE2011400A98F00 /* YearPicker.swift */; };
 		EE3A59A22BD21479009E9F79 /* MALCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* MALCApp.swift */; };
@@ -155,8 +154,7 @@
 		EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsView.swift; sourceTree = "<group>"; };
 		EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
-		EE33A4CD2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanGridInfiniteScrollView.swift; sourceTree = "<group>"; };
-		EE33A4CF2BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanGridInfiniteScrollViewController.swift; sourceTree = "<group>"; };
+		EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		EE33A4D32BE2011400A98F00 /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* MALC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MALC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,7 +405,6 @@
 				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
 				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
-				EE33A4CD2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
 				EEC3577F2BE293ED00DAAB0B /* SeasonPicker.swift */,
 				EE33A4D32BE2011400A98F00 /* YearPicker.swift */,
@@ -464,9 +461,9 @@
 				EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */,
 				EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */,
 				EE3A59D92BD24550009E9F79 /* MyListViewController.swift */,
-				EE33A4CF2BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift */,
 				EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */,
 				EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */,
+				EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */,
 				EEC3578D2BE3889900DAAB0B /* CharacterDetailsViewController.swift */,
 				EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */,
 				EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */,
@@ -709,7 +706,7 @@
 				EEFEFD482BF3429200200AF1 /* SafariView.swift in Sources */,
 				EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */,
 				EEC3578E2BE3889900DAAB0B /* CharacterDetailsViewController.swift in Sources */,
-				EE33A4D02BE1EC9F00A98F00 /* JikanGridInfiniteScrollViewController.swift in Sources */,
+				EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */,
 				EEA924322DD5EBDF00FB40A9 /* ListViewLink.swift in Sources */,
 				EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */,
 				EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */,
@@ -747,7 +744,6 @@
 				EEC3579A2BE38EAC00DAAB0B /* Mangaography.swift in Sources */,
 				EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */,
 				EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */,
-				EE33A4CE2BE1EC2100A98F00 /* JikanGridInfiniteScrollView.swift in Sources */,
 				EE960E8B2DD3945200E4EDC9 /* AnimeStatistics.swift in Sources */,
 				EE3A59B12BD21707009E9F79 /* TopView.swift in Sources */,
 				EE937B8D2BE8C31C00E5F0BE /* Node.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  JikanGridInfiniteScrollViewController.swift
+//  GroupDetailsViewController.swift
 //  MALC
 //
 //  Created by Gao Tianrun on 1/5/24.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-class JikanGridInfiniteScrollViewController: ObservableObject {
+class GroupDetailsViewController: ObservableObject {
     @Published var items = [JikanListItem]()
     @Published var isLoading = false
     @Published var isLoadingError = false
@@ -22,6 +22,9 @@ class JikanGridInfiniteScrollViewController: ObservableObject {
     init(urlExtend: String, type: TypeEnum) {
         self.urlExtend = urlExtend
         self.type = type
+        Task {
+            await refresh()
+        }
     }
     
     // Refresh the current anime/manga list

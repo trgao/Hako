@@ -17,6 +17,9 @@ class CharacterDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
+        Task {
+            await refresh()
+        }
     }
     
     // Refresh the current character details page

@@ -17,6 +17,9 @@ class PersonDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
+        Task {
+            await refresh()
+        }
     }
     
     // Refresh the current person details page
@@ -25,7 +28,6 @@ class PersonDetailsViewController: ObservableObject {
         do {
             let person = try await networker.getPersonDetails(id: id)
             self.person = person
-            
             isLoading = false
         } catch {
             isLoading = false

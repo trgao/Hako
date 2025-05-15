@@ -23,31 +23,25 @@ struct CharacterDetailsView: View {
                 ErrorView(refresh: controller.refresh)
             } else {
                 if let character = controller.character {
-                    List {
-                        Section {
-                            VStack(alignment: .center) {
-                                ImageFrame(id: "character\(character.id)", imageUrl: character.images.jpg.imageUrl, imageSize: .large)
-                                    .padding([.top], 10)
-                                Text(character.name ?? "")
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding(.horizontal, 10)
-                                    .multilineTextAlignment(.center)
-                                Text(character.nameKanji ?? "")
-                                    .padding(.horizontal, 10)
-                                    .font(.system(size: 18))
-                                    .opacity(0.7)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .listRowBackground(Color.clear)
-                        }
+                    PageList {
                         TextBox(title: "About", text: character.about)
                         CharacterAnimeSection(animes: character.anime)
                         CharacterMangaSection(mangas: character.manga)
                         CharacterVoiceSection(voices: character.voices)
+                    } header: {
+                        ImageFrame(id: "character\(character.id)", imageUrl: character.images.jpg.imageUrl, imageSize: .large)
+                            .padding([.top], 10)
+                        Text(character.name ?? "")
+                            .bold()
+                            .font(.system(size: 25))
+                            .padding(.horizontal, 10)
+                            .multilineTextAlignment(.center)
+                        Text(character.nameKanji ?? "")
+                            .padding(.horizontal, 10)
+                            .font(.system(size: 18))
+                            .opacity(0.7)
+                            .multilineTextAlignment(.center)
                     }
-                    .shadow(radius: 0.5)
                     .task(id: isRefresh) {
                         if isRefresh {
                             await controller.refresh()
@@ -64,9 +58,6 @@ struct CharacterDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await controller.refresh()
-        }
     }
 }
 

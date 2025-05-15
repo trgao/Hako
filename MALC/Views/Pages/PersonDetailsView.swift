@@ -23,33 +23,27 @@ struct PersonDetailsView: View {
                 ErrorView(refresh: controller.refresh)
             } else {
                 if let person = controller.person {
-                    List {
-                        Section {
-                            VStack(alignment: .center) {
-                                ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .large)
-                                    .padding([.top], 10)
-                                Text(person.name)
-                                    .bold()
-                                    .font(.system(size: 25))
-                                    .padding(.horizontal, 10)
-                                    .multilineTextAlignment(.center)
-                                if let birthday = person.birthday {
-                                    Text("Birthday: \(birthday.toString())")
-                                        .padding(.horizontal, 10)
-                                        .font(.system(size: 18))
-                                        .opacity(0.7)
-                                        .multilineTextAlignment(.center)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .listRowBackground(Color.clear)
-                        }
+                    PageList {
                         TextBox(title: "About", text: person.about)
                         PersonVoiceSection(voices: person.voices)
                         PersonAnimeSection(animes: person.anime)
                         PersonMangaSection(mangas: person.manga)
+                    } header: {
+                        ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .large)
+                            .padding([.top], 10)
+                        Text(person.name)
+                            .bold()
+                            .font(.system(size: 25))
+                            .padding(.horizontal, 10)
+                            .multilineTextAlignment(.center)
+                        if let birthday = person.birthday {
+                            Text("Birthday: \(birthday.toString())")
+                                .padding(.horizontal, 10)
+                                .font(.system(size: 18))
+                                .opacity(0.7)
+                                .multilineTextAlignment(.center)
+                        }
                     }
-                    .shadow(radius: 0.5)
                     .task(id: isRefresh) {
                         if isRefresh {
                             await controller.refresh()
@@ -66,9 +60,6 @@ struct PersonDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await controller.refresh()
-        }
     }
 }
 

@@ -13,4 +13,10 @@ extension String {
                     : $0 + String($1)).capitalized
         }
     }
+    
+    func formatStatus() -> String {
+        let text = self.replacingOccurrences(of: "_", with: " ")
+        let first = text.prefix(1).capitalized
+        return first + text.dropFirst()
+    }
 }

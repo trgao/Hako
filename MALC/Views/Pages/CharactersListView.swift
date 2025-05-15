@@ -18,7 +18,7 @@ struct CharactersListView: View {
         List {
             ForEach(characters) { character in
                 NavigationLink {
-                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
+                    CharacterDetailsView(id: character.id)
                 } label: {
                     HStack {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .small)

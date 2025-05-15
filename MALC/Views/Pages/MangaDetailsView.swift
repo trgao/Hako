@@ -77,7 +77,7 @@ struct MangaDetailsView: View {
                         .font(.system(size: 25))
                         VStack {
                             if let mediaType = manga.mediaType, let status = manga.status {
-                                Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.replacingOccurrences(of: "_", with: " ").capitalized)")
+                                Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
                             }
                             Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
                         }

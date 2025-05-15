@@ -26,7 +26,7 @@ struct AnimeCharacters: View {
                         HStack(alignment: .top) {
                             ForEach(controller.characters.prefix(10)) { character in
                                 ZoomTransition {
-                                    CharacterDetailsView(id: character.id, imageUrl: character.character.images?.jpg.imageUrl)
+                                    CharacterDetailsView(id: character.id)
                                 } label: {
                                     VStack {
                                         ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)

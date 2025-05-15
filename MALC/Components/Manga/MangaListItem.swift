@@ -121,7 +121,7 @@ struct MangaListItem: View {
                     }
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 5) {
-                            Text(manga.node.status?.replacingOccurrences(of: "_", with: " ").capitalized ?? "")
+                            Text(manga.node.status?.formatStatus() ?? "")
                                 .opacity(0.7)
                                 .font(.system(size: 12))
                             if let score = manga.listStatus?.score, score > 0 {

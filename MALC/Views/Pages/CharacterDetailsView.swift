@@ -11,11 +11,9 @@ struct CharacterDetailsView: View {
     @StateObject var controller: CharacterDetailsViewController
     @State private var isRefresh = false
     private let id: Int
-    private let imageUrl: String?
     
-    init (id: Int, imageUrl: String?) {
+    init (id: Int) {
         self.id = id
-        self.imageUrl = imageUrl
         self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id))
     }
     
@@ -28,7 +26,7 @@ struct CharacterDetailsView: View {
                     List {
                         Section {
                             VStack(alignment: .center) {
-                                ImageFrame(id: "character\(character.id)", imageUrl: imageUrl, imageSize: .large)
+                                ImageFrame(id: "character\(character.id)", imageUrl: character.images.jpg.imageUrl, imageSize: .large)
                                     .padding([.top], 10)
                                 Text(character.name ?? "")
                                     .bold()

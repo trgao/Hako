@@ -21,7 +21,7 @@ struct MyListView: View {
                         ZStack {
                             List {
                                 Section(controller.animeStatus.toString()) {
-                                    if controller.isLoadingError {
+                                    if controller.isLoadingError && controller.animeItems.isEmpty {
                                         HStack {
                                             Spacer()
                                             ErrorView(refresh: { await controller.refresh() })
@@ -58,7 +58,7 @@ struct MyListView: View {
                         ZStack {
                             List {
                                 Section(controller.mangaStatus.toString()) {
-                                    if controller.isLoadingError {
+                                    if controller.isLoadingError && controller.mangaItems.isEmpty {
                                         HStack {
                                             Spacer()
                                             ErrorView(refresh: { await controller.refresh() })

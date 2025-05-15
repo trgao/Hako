@@ -21,7 +21,7 @@ struct CharacterDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError {
+            if controller.isLoadingError && controller.character == nil {
                 ErrorView(refresh: controller.refresh)
             } else {
                 if let character = controller.character {

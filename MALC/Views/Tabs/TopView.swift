@@ -35,7 +35,7 @@ struct TopView: View {
                 if controller.type == .anime {
                     ZStack {
                         ScrollView {
-                            if controller.isLoadingError {
+                            if controller.isLoadingError && controller.animeItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
                             } else {
                                 LazyVGrid(columns: columns) {
@@ -65,7 +65,7 @@ struct TopView: View {
                 } else if controller.type == .manga {
                     ZStack {
                         ScrollView {
-                            if controller.isLoadingError {
+                            if controller.isLoadingError && controller.mangaItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
                             } else {
                                 LazyVGrid(columns: columns) {

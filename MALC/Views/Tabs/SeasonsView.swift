@@ -20,7 +20,7 @@ struct SeasonsView: View {
             ZStack {
                 if controller.season == "winter" {
                     ScrollView {
-                        if controller.isLoadingError {
+                        if controller.isLoadingError && controller.winterItems.isEmpty {
                             ErrorView(refresh: { await controller.refresh() })
                         } else {
                             LazyVGrid(columns: columns) {
@@ -36,7 +36,7 @@ struct SeasonsView: View {
                     .navigationTitle("Winter")
                 } else if controller.season == "spring" {
                     ScrollView {
-                        if controller.isLoadingError {
+                        if controller.isLoadingError && controller.springItems.isEmpty {
                             ErrorView(refresh: { await controller.refresh() })
                         } else {
                             LazyVGrid(columns: columns) {
@@ -52,7 +52,7 @@ struct SeasonsView: View {
                     .navigationTitle("Spring")
                 } else if controller.season == "summer" {
                     ScrollView {
-                        if controller.isLoadingError {
+                        if controller.isLoadingError && controller.summerItems.isEmpty {
                             ErrorView(refresh: { await controller.refresh() })
                         } else {
                             LazyVGrid(columns: columns) {
@@ -68,7 +68,7 @@ struct SeasonsView: View {
                     .navigationTitle("Summer")
                 } else if controller.season == "fall" {
                     ScrollView {
-                        if controller.isLoadingError {
+                        if controller.isLoadingError && controller.fallItems.isEmpty {
                             ErrorView(refresh: { await controller.refresh() })
                         } else {
                             LazyVGrid(columns: columns) {

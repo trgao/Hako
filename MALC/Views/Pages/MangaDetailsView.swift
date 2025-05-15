@@ -28,7 +28,7 @@ struct MangaDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError {
+            if controller.isLoadingError && controller.manga == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let manga = controller.manga {
                 PageList {

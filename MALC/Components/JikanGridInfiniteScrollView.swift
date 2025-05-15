@@ -25,7 +25,7 @@ struct JikanGridInfiniteScrollView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError {
+            if controller.isLoadingError && controller.items.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else {
                 ScrollView {

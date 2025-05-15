@@ -19,7 +19,7 @@ struct PersonDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError {
+            if controller.isLoadingError && controller.person == nil {
                 ErrorView(refresh: controller.refresh)
             } else {
                 if let person = controller.person {

@@ -39,31 +39,27 @@ struct ProfileView: View {
                     }
                 }
                 Section {
-                    if let animeStatistics = controller.userStatistics?.anime {
-                        ListRow(title: "Days watched", content: String(animeStatistics.daysWatched), icon: "calendar", color: .blue)
-                        ListRow(title: "Mean score", content: String(animeStatistics.meanScore), icon: "star", color: .yellow)
-                        ListRow(title: "Total entries", content: String(animeStatistics.totalEntries), icon: "circle.circle", color: .black)
-                        ListRow(title: "Watching", content: String(animeStatistics.watching), icon: "play.circle", color: .blue)
-                        ListRow(title: "Completed", content: String(animeStatistics.completed), icon: "checkmark.circle", color: .green)
-                        ListRow(title: "On hold", content: String(animeStatistics.onHold), icon: "pause.circle", color: .yellow)
-                        ListRow(title: "Plan to watch", content: String(animeStatistics.planToWatch), icon: "plus.circle.dashed", color: .purple)
-                        ListRow(title: "Episodes watched", content: String(animeStatistics.episodesWatched), icon: "video", color: .black)
-                    }
+                    ListRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
+                    ListRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
+                    ListRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
+                    ListRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
+                    ListRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
+                    ListRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
+                    ListRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
+                    ListRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
                 } header: {
                     Text("Anime Statistics")
                 }
                 Section {
-                    if let mangaStatistics = controller.userStatistics?.manga {
-                        ListRow(title: "Days read", content: String(mangaStatistics.daysRead), icon: "calendar", color: .blue)
-                        ListRow(title: "Mean score", content: String(mangaStatistics.meanScore), icon: "star", color: .yellow)
-                        ListRow(title: "Total entries", content: String(mangaStatistics.totalEntries), icon: "circle.circle", color: .black)
-                        ListRow(title: "Reading", content: String(mangaStatistics.reading), icon: "play.circle", color: .blue)
-                        ListRow(title: "Completed", content: String(mangaStatistics.completed), icon: "checkmark.circle", color: .green)
-                        ListRow(title: "On hold", content: String(mangaStatistics.onHold), icon: "pause.circle", color: .yellow)
-                        ListRow(title: "Plan to read", content: String(mangaStatistics.planToRead), icon: "plus.circle.dashed", color: .purple)
-                        ListRow(title: "Volumes read", content: String(mangaStatistics.volumesRead), icon: "book.closed", color: .black)
-                        ListRow(title: "Chapters read", content: String(mangaStatistics.chaptersRead), icon: "book.pages", color: .black)
-                    }
+                    ListRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
+                    ListRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
+                    ListRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
+                    ListRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "play.circle", color: .blue)
+                    ListRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
+                    ListRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
+                    ListRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
+                    ListRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
+                    ListRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
                 } header: {
                     Text("Manga Statistics")
                 }
@@ -90,9 +86,6 @@ struct ProfileView: View {
             }
             .refreshable {
                 isRefresh = true
-            }
-            if controller.isLoading {
-                LoadingView()
             }
         }
     }

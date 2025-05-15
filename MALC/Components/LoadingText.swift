@@ -25,9 +25,3 @@ struct LoadingText<T>: View {
         }
     }
 }
-
-let test: String? = nil
-
-#Preview {
-    LoadingText(content: test)
-}

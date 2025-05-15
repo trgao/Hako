@@ -293,7 +293,6 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				EE3B401F2DD4CB33000846A1 /* LoadingText.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
 				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
 				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
@@ -400,6 +399,7 @@
 				EE3B40162DD4B43B000846A1 /* Anime */,
 				EE3B40172DD4B475000846A1 /* Manga */,
 				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
+				EE3B401F2DD4CB33000846A1 /* LoadingText.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,

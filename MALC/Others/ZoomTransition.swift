@@ -34,7 +34,5 @@ struct ZoomTransition<Content: View, Label: View>: View {
             }
         }
         .buttonStyle(.plain)
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .padding(5)
     }
 }

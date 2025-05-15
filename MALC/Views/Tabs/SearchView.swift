@@ -71,26 +71,30 @@ struct SearchView: View {
                 } else {
                     ZStack {
                         ScrollView {
-                            if networker.isSignedIn && !controller.animeSuggestions.isEmpty {
-                                VStack {
-                                    Text("For You")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 35)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            ForEach(controller.animeSuggestions) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                            if networker.isSignedIn {
+                                if controller.animeSuggestions.isEmpty {
+                                    LoadingCarousel()
+                                } else {
+                                    VStack {
+                                        Text("For You")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 35)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                ForEach(controller.animeSuggestions) { item in
+                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                }
                                             }
+                                            .padding(.horizontal, 20)
                                         }
-                                        .padding(.horizontal, 20)
                                     }
                                 }
-                            } else {
-                                LoadingCarousel()
                             }
-                            if !controller.topAiringAnime.isEmpty {
+                            if controller.topAiringAnime.isEmpty {
+                                LoadingCarousel()
+                            } else {
                                 VStack {
                                     Text("Top Airing")
                                         .bold()
@@ -106,10 +110,10 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
-                            } else {
-                                LoadingCarousel()
                             }
-                            if !controller.topUpcomingAnime.isEmpty {
+                            if controller.topUpcomingAnime.isEmpty {
+                                LoadingCarousel()
+                            } else {
                                 VStack {
                                     Text("Top Upcoming")
                                         .bold()
@@ -125,10 +129,10 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
-                            } else {
-                                LoadingCarousel()
                             }
-                            if !controller.topPopularAnime.isEmpty {
+                            if controller.topPopularAnime.isEmpty {
+                                LoadingCarousel()
+                            } else {
                                 VStack {
                                     Text("Most Popular Anime")
                                         .bold()
@@ -144,10 +148,10 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
-                            } else {
-                                LoadingCarousel()
                             }
-                            if !controller.topPopularManga.isEmpty {
+                            if controller.topPopularManga.isEmpty {
+                                LoadingCarousel()
+                            } else {
                                 VStack {
                                     Text("Most Popular Manga")
                                         .bold()
@@ -163,8 +167,6 @@ struct SearchView: View {
                                         .padding(.horizontal, 20)
                                     }
                                 }
-                            } else {
-                                LoadingCarousel()
                             }
                         }
                         .padding(.vertical, 2)

@@ -71,12 +71,16 @@ struct AnimeListItem: View {
                             }
                         }
                     }
-                    HStack {
-                        if let score = anime.listStatus?.score, score > 0 {
-                            Text("\(score) ⭐")
-                                .bold()
-                                .font(.system(size: 13))
-                                .padding(.top, 3)
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(anime.node.status?.replacingOccurrences(of: "_", with: " ").capitalized ?? "")
+                                .opacity(0.7)
+                                .font(.system(size: 12))
+                            if let score = anime.listStatus?.score, score > 0 {
+                                Text("\(score) ⭐")
+                                    .bold()
+                                    .font(.system(size: 13))
+                            }
                         }
                         Spacer()
                         if networker.isSignedIn && anime.listStatus != nil {
@@ -100,7 +104,6 @@ struct AnimeListItem: View {
                 .padding(5)
             }
         }
-//        .buttonStyle(.plain)
         .padding(5)
     }
 }

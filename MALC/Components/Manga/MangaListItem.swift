@@ -119,12 +119,16 @@ struct MangaListItem: View {
                             }
                         }
                     }
-                    HStack {
-                        if let score = manga.listStatus?.score, score > 0 {
-                            Text("\(score) ⭐")
-                                .bold()
-                                .font(.system(size: 13))
-                                .padding(.top, 3)
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(manga.node.status?.replacingOccurrences(of: "_", with: " ").capitalized ?? "")
+                                .opacity(0.7)
+                                .font(.system(size: 12))
+                            if let score = manga.listStatus?.score, score > 0 {
+                                Text("\(score) ⭐")
+                                    .bold()
+                                    .font(.system(size: 13))
+                            }
                         }
                         Spacer()
                         if networker.isSignedIn && manga.listStatus != nil {
@@ -148,7 +152,6 @@ struct MangaListItem: View {
                 .padding(5)
             }
         }
-        .buttonStyle(.plain)
         .padding(5)
     }
 }

@@ -12,6 +12,7 @@ struct MALCApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .textSelection(.enabled)
         }
     }
 }

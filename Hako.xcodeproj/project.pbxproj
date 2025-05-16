@@ -23,7 +23,7 @@
 		EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */; };
 		EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */; };
 		EE33A4D42BE2011400A98F00 /* YearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D32BE2011400A98F00 /* YearPicker.swift */; };
-		EE3A59A22BD21479009E9F79 /* MALCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* MALCApp.swift */; };
+		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
 		EE3A59A92BD2147A009E9F79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A82BD2147A009E9F79 /* Preview Assets.xcassets */; };
@@ -162,7 +162,7 @@
 		EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		EE33A4D32BE2011400A98F00 /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE3A59A12BD21479009E9F79 /* MALCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALCApp.swift; sourceTree = "<group>"; };
+		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		EE3A59A52BD2147A009E9F79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE3A59A82BD2147A009E9F79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -349,7 +349,7 @@
 		EE3A59952BD21479009E9F79 = {
 			isa = PBXGroup;
 			children = (
-				EE3A59A02BD21479009E9F79 /* MALC */,
+				EE3A59A02BD21479009E9F79 /* Hako */,
 				EE3A599F2BD21479009E9F79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EE3A59A02BD21479009E9F79 /* MALC */ = {
+		EE3A59A02BD21479009E9F79 /* Hako */ = {
 			isa = PBXGroup;
 			children = (
 				EEA924392DD634BB00FB40A9 /* SettingsManager.swift */,
@@ -372,13 +372,13 @@
 				EE3A59B92BD21DB2009E9F79 /* API */,
 				EE3A59B42BD21C65009E9F79 /* Components */,
 				EE3A59AF2BD216D8009E9F79 /* Views */,
-				EE3A59A12BD21479009E9F79 /* MALCApp.swift */,
+				EE3A59A12BD21479009E9F79 /* HakoApp.swift */,
 				EE3A59A32BD21479009E9F79 /* MainView.swift */,
 				EE3A59A52BD2147A009E9F79 /* Assets.xcassets */,
 				EE3A59A72BD2147A009E9F79 /* Preview Content */,
 				EEFEFD562BF3A23F00200AF1 /* Config.xcconfig */,
 			);
-			path = MALC;
+			path = Hako;
 			sourceTree = "<group>";
 		};
 		EE3A59A72BD2147A009E9F79 /* Preview Content */ = {
@@ -809,7 +809,7 @@
 				EE960E932DD39FF600E4EDC9 /* JikanAnimeStatisticsResponse.swift in Sources */,
 				EEEEA3172DD32F6A00302A81 /* PageList.swift in Sources */,
 				EEC357822BE3612C00DAAB0B /* JikanCharactersListResponse.swift in Sources */,
-				EE3A59A22BD21479009E9F79 /* MALCApp.swift in Sources */,
+				EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */,
 				EEA924342DD5ED1700FB40A9 /* ThemesListView.swift in Sources */,
 				EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */,
 				EE91BE5B2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift in Sources */,
@@ -956,10 +956,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MALC/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Hako/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MALC/Info.plist;
+				INFOPLIST_FILE = Hako/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -985,10 +985,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MALC/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Hako/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MALC/Info.plist;
+				INFOPLIST_FILE = Hako/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

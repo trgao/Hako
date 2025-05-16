@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject private var settings: SettingsManager
+    @State private var tab: Int = 0
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
@@ -20,33 +22,35 @@ struct MainView: View {
     }
     
     var body: some View {
-        TabView {
+        TabView(selection: $tab) {
             TopView()
                 .tabItem {
                     Label("Top", systemImage: "medal")
                 }
+                .tag(0)
             SeasonsView()
                 .tabItem {
                     Label("Seasons", systemImage: "calendar")
                 }
+                .tag(1)
             SearchView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
+                .tag(2)
             MyListView()
                 .tabItem {
                     Label("My List", systemImage: "list.bullet")
                 }
+                .tag(3)
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
+                .tag(4)
         }
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
+        .onAppear {
+            tab = settings.defaultView
+        }
     }
 }

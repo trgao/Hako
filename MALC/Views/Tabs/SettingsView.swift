@@ -93,9 +93,24 @@ struct SettingsView: View {
                 }
                 Section {
                     NavigationLink {
-                        BehavioursView()
+                        BehaviourView()
                     } label: {
-                        Text("Behaviours")
+                        Label {
+                            Text("Behaviour")
+                        } icon: {
+                            Image(systemName: "hand.point.up.left.fill")
+                                .foregroundStyle(.purple)
+                        }
+                    }
+                    NavigationLink {
+                        AppearanceView()
+                    } label: {
+                        Label {
+                            Text("Appearance")
+                        } icon: {
+                            Image(systemName: "paintpalette.fill")
+                                .foregroundStyle(.blue)
+                        }
                     }
                 }
             }

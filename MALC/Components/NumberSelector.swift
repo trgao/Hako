@@ -23,7 +23,7 @@ struct NumberSelector: View {
 
     var body: some View {
         if let max = max, max > 0 && max < 500 {
-            Picker(selection: $num, label: Text(title)) {
+            Picker(title, selection: $num) {
                 ForEach(0...max, id: \.self) { number in
                     Text(String(number))
                 }

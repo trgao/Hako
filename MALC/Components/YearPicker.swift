@@ -23,7 +23,7 @@ struct YearPicker: View {
                     Text(String(year)).tag(String(year))
                 }
             }
-            .onChange(of: controller.year) { _ in
+            .onChange(of: controller.year) {
                 Task {
                     await controller.refresh(true)
                 }

@@ -26,7 +26,7 @@ struct SeasonPicker: View {
                 Text("Summer").tag("summer")
                 Text("Fall").tag("fall")
             }
-            .onChange(of: controller.season) { _ in
+            .onChange(of: controller.season) {
                 if controller.shouldRefresh() {
                     Task {
                         await controller.refresh()

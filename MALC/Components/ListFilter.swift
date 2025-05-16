@@ -25,7 +25,7 @@ struct ListFilter: View {
                     Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
                     Label("Plan to watch", systemImage: "plus.circle.dashed").tag(StatusEnum.planToWatch)
                 }
-                .onChange(of: controller.animeStatus) { _ in
+                .onChange(of: controller.animeStatus) {
                     Task {
                         await controller.refresh(true)
                     }
@@ -37,7 +37,7 @@ struct ListFilter: View {
                     Label("By title", systemImage: "character").tag("anime_title")
                     Label("By start date", systemImage: "calendar").tag("anime_start_date")
                 }
-                .onChange(of: controller.animeSort) { _ in
+                .onChange(of: controller.animeSort) {
                     Task {
                         await controller.refresh(true)
                     }
@@ -51,7 +51,7 @@ struct ListFilter: View {
                     Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
                     Label("Plan to read", systemImage: "plus.circle.dashed").tag(StatusEnum.planToRead)
                 }
-                .onChange(of: controller.mangaStatus) { _ in
+                .onChange(of: controller.mangaStatus) {
                     Task {
                         await controller.refresh(true)
                     }
@@ -63,7 +63,7 @@ struct ListFilter: View {
                     Label("By title", systemImage: "character").tag("manga_title")
                     Label("By start date", systemImage: "calendar").tag("manga_start_date")
                 }
-                .onChange(of: controller.mangaSort) { _ in
+                .onChange(of: controller.mangaSort) {
                     Task {
                         await controller.refresh(true)
                     }

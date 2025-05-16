@@ -90,7 +90,6 @@ struct AnimeListItem: View {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
-                            .foregroundStyle(Color(.systemBlue))
                             .sheet(isPresented: $isEditViewPresented) {
                                 Task {
                                     await refresh()

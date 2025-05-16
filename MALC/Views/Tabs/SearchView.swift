@@ -24,7 +24,7 @@ struct SearchView: View {
                             Image(systemName: "tv.fill").tag(TypeEnum.anime)
                             Image(systemName: "book.fill").tag(TypeEnum.manga)
                         }
-                        .onChange(of: controller.type) { _ in
+                        .onChange(of: controller.type) {
                             if searchText.count > 2 && controller.isItemsEmpty() {
                                 Task {
                                     await controller.search(searchText)
@@ -185,7 +185,7 @@ struct SearchView: View {
             .refreshable {
                 isRefresh = true
             }
-            .searchable_ios16(text: $searchText, isPresented: $isPresented, prompt: "Search MAL")
+            .searchable(text: $searchText, isPresented: $isPresented, prompt: "Search MAL")
             .task(id: searchText) {
                 if searchText.count > 2 {
                     if previousSearch != searchText {
@@ -197,7 +197,7 @@ struct SearchView: View {
                     controller.mangaItems = []
                 }
             }
-            .onChange(of: isPresented) { _ in
+            .onChange(of: isPresented) {
                 controller.animeItems = []
                 controller.mangaItems = []
                 controller.type = .anime

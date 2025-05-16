@@ -63,7 +63,7 @@ struct AnimeEditView: View {
                 .padding([.horizontal, .top], 20)
                 PageList {
                     Section {
-                        Picker(selection: $listStatus.status, label: Text("Status")) {
+                        Picker("Status", selection: $listStatus.status) {
                             Text("Watching").tag(StatusEnum.watching as StatusEnum?)
                             Text("Completed").tag(StatusEnum.completed as StatusEnum?)
                             Text("On Hold").tag(StatusEnum.onHold as StatusEnum?)
@@ -79,7 +79,7 @@ struct AnimeEditView: View {
                                 listStatus.finishDate = Date()
                             }
                         }
-                        Picker(selection: $listStatus.score, label: Text("Score")) {
+                        Picker("Score", selection: $listStatus.score) {
                             Text("0 - Not Yet Scored").tag(0)
                             Text("1 - Appalling").tag(1)
                             Text("2 - Horrible").tag(2)

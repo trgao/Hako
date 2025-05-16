@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeMangaToggle: View {
+    @EnvironmentObject private var settings: SettingsManager
     @Environment(\.isEnabled) private var isEnabled
     @Binding var type: TypeEnum
     @State private var offset: CGFloat = -17
@@ -36,13 +37,13 @@ struct AnimeMangaToggle: View {
                 Image(systemName: "tv.fill")
                     .resizable()
                     .frame(width: 18, height: 15)
-                    .foregroundStyle(type == .anime && isEnabled ? Color(.systemBlue) : Color(.systemGray))
+                    .foregroundStyle(type == .anime && isEnabled ? settings.getAccentColor() : Color(.systemGray))
                     .padding(3)
                     .offset(x: -1)
                 Image(systemName: "book.fill")
                     .resizable()
                     .frame(width: 18, height: 15)
-                    .foregroundStyle(type == .manga && isEnabled ? Color(.systemBlue) : Color(.systemGray))
+                    .foregroundStyle(type == .manga && isEnabled ? settings.getAccentColor() : Color(.systemGray))
                     .padding(3)
                     .offset(x: 1)
             }

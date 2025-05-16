@@ -9,10 +9,15 @@ import SwiftUI
 
 @main
 struct MALCApp: App {
+    @StateObject private var settings = SettingsManager()
+    
     var body: some Scene {
         WindowGroup {
             MainView()
                 .textSelection(.enabled)
+                .environmentObject(settings)
+                .preferredColorScheme(settings.getColorScheme())
+                .tint(settings.getAccentColor())
         }
     }
 }

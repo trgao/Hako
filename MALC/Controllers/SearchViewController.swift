@@ -34,6 +34,25 @@ class SearchViewController: ObservableObject {
     @Published var type: TypeEnum = .anime
     let networker = NetworkManager.shared
     
+    init() {
+        Task {
+            isPageLoading = true
+            if networker.isSignedIn {
+                let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
+                self.animeSuggestions = animeSuggestions ?? []
+            }
+            let topAiringAnime = try? await networker.getAnimeTopAiringList()
+            self.topAiringAnime = topAiringAnime ?? []
+            let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
+            self.topUpcomingAnime = topUpcomingAnime ?? []
+            let topPopularAnime = try? await networker.getAnimeTopPopularList()
+            self.topPopularAnime = topPopularAnime ?? []
+            let topPopularManga = try? await networker.getMangaTopPopularList()
+            self.topPopularManga = topPopularManga ?? []
+            isPageLoading = false
+        }
+    }
+    
     // Check if the lists for the non-search page are empty
     func isPageEmpty() -> Bool {
         return (networker.isSignedIn && animeSuggestions.isEmpty) || topAiringAnime.isEmpty || topUpcomingAnime.isEmpty || topPopularAnime.isEmpty || topPopularManga.isEmpty
@@ -42,24 +61,6 @@ class SearchViewController: ObservableObject {
     // Check if the current anime/manga search list is empty
     func isItemsEmpty() -> Bool {
         return (type == .anime && animeItems.isEmpty) || (type == .manga && mangaItems.isEmpty)
-    }
-    
-    // Refresh the non-search page
-    func refresh() async -> Void {
-        isPageLoading = true
-        if networker.isSignedIn {
-            let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
-            self.animeSuggestions = animeSuggestions ?? []
-        }
-        let topAiringAnime = try? await networker.getAnimeTopAiringList()
-        self.topAiringAnime = topAiringAnime ?? []
-        let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
-        self.topUpcomingAnime = topUpcomingAnime ?? []
-        let topPopularAnime = try? await networker.getAnimeTopPopularList()
-        self.topPopularAnime = topPopularAnime ?? []
-        let topPopularManga = try? await networker.getMangaTopPopularList()
-        self.topPopularManga = topPopularManga ?? []
-        isPageLoading = false
     }
     
     // Search for the anime/manga with the title

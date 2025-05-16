@@ -18,20 +18,19 @@ struct PageList<Header: View, Content: View>: View {
     
     var body: some View {
         List {
-            Section {
+            Section {} header: {
                 VStack(alignment: .center) {
                     header()
                 }
                 .listRowInsets(.init())
                 .frame(maxWidth: .infinity, alignment: .center)
-            } header: {
-                Spacer(minLength: 0)
             }
-            .listRowBackground(Color.clear)
+            .textCase(nil)
+            .padding(.horizontal, -20)
+            .foregroundColor(Color.primary)
             .listRowInsets(.init())
             content()
         }
         .listStyle(.insetGrouped)
-        .environment(\.defaultMinListHeaderHeight, 0)
     }
 }

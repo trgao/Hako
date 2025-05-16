@@ -11,13 +11,12 @@ struct SearchView: View {
     @StateObject private var controller = SearchViewController()
     @StateObject var networker = NetworkManager.shared
     @State private var isPresented = false
-    @State private var isRefresh = false
     @DebouncedState private var searchText = ""
     @State private var previousSearch = ""
     
     var body: some View {
         NavigationStack {
-            ZStack {
+            PageList {} header: {
                 if isPresented {
                     VStack {
                         Picker(selection: $controller.type, label: EmptyView()) {
@@ -33,7 +32,6 @@ struct SearchView: View {
                         }
                         .pickerStyle(.segmented)
                         .padding(.horizontal, 10)
-                        .disabled(controller.isPageLoading)
                         if controller.type == .anime {
                             ZStack {
                                 List {
@@ -46,6 +44,7 @@ struct SearchView: View {
                                             }
                                     }
                                 }
+                                .frame(height: UIScreen.main.bounds.size.height)
                                 if controller.isAnimeSearchLoading {
                                     LoadingView()
                                 }
@@ -62,6 +61,7 @@ struct SearchView: View {
                                             }
                                     }
                                 }
+                                .frame(height: UIScreen.main.bounds.size.height)
                                 if controller.isMangaSearchLoading {
                                     LoadingView()
                                 }
@@ -170,22 +170,11 @@ struct SearchView: View {
                             }
                         }
                         .padding(.vertical, 2)
-                        if controller.isPageLoading && isRefresh {
-                            LoadingView()
-                        }
                     }
                 }
             }
-            .task(id: isRefresh) {
-                if controller.isPageEmpty() || isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
-                }
-            }
-            .refreshable {
-                isRefresh = true
-            }
-            .searchable(text: $searchText, isPresented: $isPresented, prompt: "Search MAL")
+            .ignoresSafeArea(.all, edges: .bottom)
+            .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search MAL")
             .task(id: searchText) {
                 if searchText.count > 2 {
                     if previousSearch != searchText {
@@ -203,6 +192,40 @@ struct SearchView: View {
                 controller.type = .anime
             }
             .navigationTitle("Search")
+        }
+    }
+}
+
+struct SearchBar: UIViewRepresentable {
+    @Binding var text: String
+    var placeholder: String
+    
+    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = context.coordinator
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = placeholder
+        searchBar.autocapitalizationType = .none
+        return searchBar
+    }
+    
+    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
+        uiView.text = text
+    }
+    
+    func makeCoordinator() -> SearchBar.Coordinator {
+        return Coordinator(text: $text)
+    }
+    
+    class Coordinator: NSObject, UISearchBarDelegate {
+        @Binding var text: String
+        
+        init(text: Binding<String>) {
+            _text = text
+        }
+        
+        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            text = searchText
         }
     }
 }

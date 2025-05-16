@@ -59,17 +59,17 @@ struct MangaListItem: View {
                                     Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 1))
+                                        .labelStyle(CustomLabel(spacing: 2))
                                     if let numChapters = manga.node.numChapters, numChapters > 0 {
                                         Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     } else {
                                         Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     }
                                 }
                             }
@@ -82,17 +82,17 @@ struct MangaListItem: View {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     } else {
                                         Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     }
                                     Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 1))
+                                        .labelStyle(CustomLabel(spacing: 2))
                                 }
                             }
                         } else {
@@ -104,17 +104,17 @@ struct MangaListItem: View {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     } else {
                                         Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 1))
+                                            .labelStyle(CustomLabel(spacing: 2))
                                     }
                                     Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 1))
+                                        .labelStyle(CustomLabel(spacing: 2))
                                 }
                             }
                         }

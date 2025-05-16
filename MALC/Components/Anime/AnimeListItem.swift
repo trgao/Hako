@@ -58,7 +58,7 @@ struct AnimeListItem: View {
                                 Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                                     .font(.system(size: 13))
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 1))
+                                    .labelStyle(CustomLabel(spacing: 2))
                             }
                         } else {
                             VStack(alignment: .leading) {
@@ -67,7 +67,7 @@ struct AnimeListItem: View {
                                 Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
                                     .font(.system(size: 13))
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 1))
+                                    .labelStyle(CustomLabel(spacing: 2))
                             }
                         }
                     }

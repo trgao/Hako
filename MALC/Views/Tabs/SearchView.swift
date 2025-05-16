@@ -16,61 +16,59 @@ struct SearchView: View {
     
     var body: some View {
         NavigationStack {
-            PageList {} header: {
+            List {
                 if isPresented {
-                    VStack {
-                        Picker(selection: $controller.type, label: EmptyView()) {
-                            Image(systemName: "tv.fill").tag(TypeEnum.anime)
-                            Image(systemName: "book.fill").tag(TypeEnum.manga)
-                        }
-                        .onChange(of: controller.type) {
-                            if searchText.count > 2 && controller.isItemsEmpty() {
-                                Task {
-                                    await controller.search(searchText)
-                                }
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.horizontal, 10)
+                    Section {
                         if controller.type == .anime {
-                            ZStack {
-                                List {
-                                    ForEach(controller.animeItems, id: \.forEachId) { item in
-                                        AnimeListItem(anime: item)
-                                            .onAppear {
-                                                Task {
-                                                    await controller.loadMoreIfNeeded(searchText, item)
-                                                }
-                                            }
+                            ForEach(controller.animeItems, id: \.forEachId) { item in
+                                AnimeListItem(anime: item)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(searchText, item)
+                                        }
                                     }
-                                }
-                                .frame(height: UIScreen.main.bounds.size.height)
-                                if controller.isAnimeSearchLoading {
-                                    LoadingView()
-                                }
+                            }
+                            if controller.isAnimeSearchLoading {
+                                LoadingList()
                             }
                         } else if controller.type == .manga {
-                            ZStack {
-                                List {
-                                    ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                        MangaListItem(manga: item)
-                                            .onAppear {
-                                                Task {
-                                                    await controller.loadMoreIfNeeded(searchText, item)
-                                                }
-                                            }
+                            ForEach(controller.mangaItems, id: \.forEachId) { item in
+                                MangaListItem(manga: item)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(searchText, item)
+                                        }
                                     }
-                                }
-                                .frame(height: UIScreen.main.bounds.size.height)
-                                if controller.isMangaSearchLoading {
-                                    LoadingView()
-                                }
+                            }
+                            if controller.isMangaSearchLoading {
+                                LoadingList()
                             }
                         }
+                    } header: {
+                        VStack {
+                            Picker(selection: $controller.type, label: EmptyView()) {
+                                Image(systemName: "tv.fill").tag(TypeEnum.anime)
+                                Image(systemName: "book.fill").tag(TypeEnum.manga)
+                            }
+                            .onChange(of: controller.type) {
+                                if searchText.count > 2 && controller.isItemsEmpty() {
+                                    Task {
+                                        await controller.search(searchText)
+                                    }
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                        }
+                        .listRowInsets(.init())
+                        .padding(.bottom, 10)
                     }
-                } else {
-                    ZStack {
-                        ScrollView {
+                }
+            }
+            .ignoresSafeArea(.all, edges: .bottom)
+            .overlay {
+                if !isPresented {
+                    ScrollView {
+                        VStack {
                             if networker.isSignedIn {
                                 if controller.animeSuggestions.isEmpty {
                                     LoadingCarousel()
@@ -169,12 +167,12 @@ struct SearchView: View {
                                 }
                             }
                         }
-                        .padding(.vertical, 2)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, 10)
                 }
             }
-            .ignoresSafeArea(.all, edges: .bottom)
-            .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search MAL")
+            .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
             .task(id: searchText) {
                 if searchText.count > 2 {
                     if previousSearch != searchText {
@@ -191,41 +189,6 @@ struct SearchView: View {
                 controller.mangaItems = []
                 controller.type = .anime
             }
-            .navigationTitle("Search")
-        }
-    }
-}
-
-struct SearchBar: UIViewRepresentable {
-    @Binding var text: String
-    var placeholder: String
-    
-    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
-        let searchBar = UISearchBar(frame: .zero)
-        searchBar.delegate = context.coordinator
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = placeholder
-        searchBar.autocapitalizationType = .none
-        return searchBar
-    }
-    
-    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
-        uiView.text = text
-    }
-    
-    func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
-    }
-    
-    class Coordinator: NSObject, UISearchBarDelegate {
-        @Binding var text: String
-        
-        init(text: Binding<String>) {
-            _text = text
-        }
-        
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
         }
     }
 }

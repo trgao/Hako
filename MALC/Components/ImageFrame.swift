@@ -45,7 +45,7 @@ struct ImageFrame: View {
                     .frame(width: width, height: height)
                     .overlay {
                         Rectangle()
-                            .foregroundStyle(.regularMaterial)
+                            .foregroundStyle(.thickMaterial)
                             .padding(-100)
                     }
             } else {

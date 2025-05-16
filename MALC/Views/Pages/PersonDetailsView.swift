@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PersonDetailsView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: PersonDetailsViewController
     @State private var isRefresh = false
     private let id: Int
@@ -52,6 +53,12 @@ struct PersonDetailsView: View {
                     }
                     .refreshable {
                         isRefresh = true
+                    }
+                    .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
+                    .background {
+                        if settings.translucentBackground {
+                            ImageFrame(id: "person\(id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .background)
+                        }
                     }
                 }
                 if controller.isLoading {

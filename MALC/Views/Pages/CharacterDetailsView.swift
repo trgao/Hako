@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CharacterDetailsView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: CharacterDetailsViewController
     @State private var isRefresh = false
     private let id: Int
@@ -50,6 +51,12 @@ struct CharacterDetailsView: View {
                     }
                     .refreshable {
                         isRefresh = true
+                    }
+                    .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
+                    .background {
+                        if settings.translucentBackground {
+                            ImageFrame(id: "character\(id)", imageUrl: character.images.jpg.imageUrl, imageSize: .background)
+                        }
                     }
                 }
                 if controller.isLoading {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeEditView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @State private var listStatus: AnimeListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -157,6 +158,7 @@ struct AnimeEditView: View {
                             .font(.system(size: 12))
                     }
                 }
+                .scrollContentBackground(.hidden)
                 Button {
                     isDeleting = true
                 } label: {
@@ -165,7 +167,6 @@ struct AnimeEditView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Color(.systemRed))
             }
-            .background(Color(.systemGray6))
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

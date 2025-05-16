@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaListItem: View {
+    @EnvironmentObject private var settings: SettingsManager
     @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
     private let manga: MALListManga
@@ -48,6 +49,7 @@ struct MangaListItem: View {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .small)
                 VStack(alignment: .leading) {
                     Text(manga.node.title)
+                        .lineLimit(settings.getLineLimit())
                         .bold()
                         .font(.system(size: 16))
                     if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
@@ -138,13 +140,17 @@ struct MangaListItem: View {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
-                            .foregroundStyle(Color(.systemBlue))
                             .sheet(isPresented: $isEditViewPresented) {
                                 Task {
                                     await refresh()
                                 }
                             } content: {
                                 MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium, isPresented: $isEditViewPresented)
+                                    .presentationBackground {
+                                        if settings.translucentBackground {
+                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
+                                        }
+                                    }
                             }
                         }
                     }

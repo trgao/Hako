@@ -99,7 +99,7 @@ struct SettingsView: View {
                             Text("Behaviour")
                         } icon: {
                             Image(systemName: "hand.point.up.left.fill")
-                                .foregroundStyle(.purple)
+                                .foregroundStyle(.green)
                         }
                     }
                     NavigationLink {
@@ -109,6 +109,16 @@ struct SettingsView: View {
                             Text("Appearance")
                         } icon: {
                             Image(systemName: "paintpalette.fill")
+                                .foregroundStyle(.purple)
+                        }
+                    }
+                    NavigationLink {
+                        Text("Information")
+                    } label: {
+                        Label {
+                            Text("Information")
+                        } icon: {
+                            Image(systemName: "info.circle")
                                 .foregroundStyle(.blue)
                         }
                     }

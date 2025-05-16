@@ -135,6 +135,7 @@ struct MangaEditView: View {
                             .font(.system(size: 12))
                     }
                 }
+                .scrollContentBackground(.hidden)
                 Button {
                     isDeleting = true
                 } label: {
@@ -143,7 +144,6 @@ struct MangaEditView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Color(.systemRed))
             }
-            .background(Color(.systemGray6))
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

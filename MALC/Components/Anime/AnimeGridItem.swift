@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct AnimeGridItem: View {
+    @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let title: String?
     private let imageUrl: String?
@@ -43,6 +44,7 @@ struct AnimeGridItem: View {
                         }
                     }
                 Text(title ?? "")
+                    .lineLimit(settings.getLineLimit())
                     .frame(width: 150, alignment: .leading)
                     .padding(5)
                     .font(.system(size: 16))

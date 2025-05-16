@@ -12,6 +12,13 @@ struct AppearanceView: View {
     
     var body: some View {
         List {
+            Section("Grid view") {
+                Toggle(isOn: $settings.truncate) {
+                    Text("Truncate titles or names")
+                }
+                PickerRow(title: "Line limit", selected: $settings.lineLimit, array: ["1", "2", "3"])
+                    .disabled(!settings.truncate)
+            }
             PickerRow(title: "App theme", selected: $settings.colorScheme, array: ["System", "Light", "Dark"])
             Section {
                 HStack {
@@ -36,6 +43,11 @@ struct AppearanceView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             } header: {
                 Text("Accent color")
+            }
+            Section("Accessibility") {
+                Toggle(isOn: $settings.translucentBackground) {
+                    Text("Allow translucent backgrounds")
+                }
             }
         }
     }

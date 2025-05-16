@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Staffs: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: AnimeDetailsViewController
     @State private var isRefresh = false
     
@@ -31,6 +32,7 @@ struct Staffs: View {
                                     VStack {
                                         ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
                                         Text(staff.person.name ?? "")
+                                            .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)

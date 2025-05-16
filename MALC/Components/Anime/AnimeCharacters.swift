@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeCharacters: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: AnimeDetailsViewController
     let networker = NetworkManager.shared
     
@@ -31,6 +32,7 @@ struct AnimeCharacters: View {
                                     VStack {
                                         ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
                                         Text(character.character.name ?? "")
+                                            .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)

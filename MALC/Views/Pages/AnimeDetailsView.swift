@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeDetailsView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: AnimeDetailsViewController
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
@@ -96,6 +97,12 @@ struct AnimeDetailsView: View {
                 .refreshable {
                     isRefresh = true
                 }
+                .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
+                .background {
+                    if settings.translucentBackground {
+                        ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .background)
+                    }
+                }
             }
             if controller.isLoading {
                 LoadingView()
@@ -111,9 +118,8 @@ struct AnimeDetailsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
-        .fullScreenCover(isPresented: $isShowingSafariView) {
+        .sheet(isPresented: $isShowingSafariView) {
             SafariView(url: url)
         }
         .toolbar {
@@ -130,6 +136,13 @@ struct AnimeDetailsView: View {
                         }
                     } content: {
                         AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl, isPresented: $isEditViewPresented)
+                            .presentationBackground {
+                                if settings.translucentBackground {
+                                    ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .background)
+                                } else {
+                                    Color(.systemGray6)
+                                }
+                            }
                     }
                     .disabled(controller.isLoading)
                 } else {
@@ -146,10 +159,16 @@ struct AnimeDetailsView: View {
                 } label: {
                     Label("Trailers", systemImage: "play.rectangle")
                 }
-                Button {
-                    isShowingSafariView = true
-                } label: {
-                    Label("Open in browser", systemImage: "globe")
+                if settings.safariInApp {
+                    Button {
+                        isShowingSafariView = true
+                    } label: {
+                        Label("Open in browser", systemImage: "globe")
+                    }
+                } else {
+                    Link(destination: url) {
+                        Label("Open in browser", systemImage: "globe")
+                    }
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

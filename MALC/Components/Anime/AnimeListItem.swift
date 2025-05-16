@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeListItem: View {
+    @EnvironmentObject private var settings: SettingsManager
     @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
     private let anime: MALListAnime
@@ -48,6 +49,7 @@ struct AnimeListItem: View {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .small)
                 VStack(alignment: .leading) {
                     Text(anime.node.title)
+                        .lineLimit(settings.getLineLimit())
                         .bold()
                         .font(.system(size: 16))
                     if let numEpisodesWatched = anime.listStatus?.numEpisodesWatched {
@@ -96,6 +98,11 @@ struct AnimeListItem: View {
                                 }
                             } content: {
                                 AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium, isPresented: $isEditViewPresented)
+                                    .presentationBackground {
+                                        if settings.translucentBackground {
+                                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
+                                        }
+                                    }
                             }
                         }
                     }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Authors: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: MangaDetailsViewController
     let networker = NetworkManager.shared
     
@@ -33,6 +34,7 @@ struct Authors: View {
                                     VStack {
                                         ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
                                         Text("\(author.node.lastName ?? ""), \(author.node.firstName ?? "")")
+                                            .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))
                                     }
                                     .frame(width: 120)

@@ -8,11 +8,12 @@
 import SwiftUI
 
 enum ImageSize {
-    case small, medium, large, profile
+    case small, medium, large, background
 }
 
 struct ImageFrame: View {
     @StateObject private var controller: ImageFrameController
+    private var fullscreen = false
     private let width: CGFloat
     private let height: CGFloat
     let networker = NetworkManager.shared
@@ -25,20 +26,36 @@ struct ImageFrame: View {
         } else if imageSize == .medium {
             self.width = 100
             self.height = 141
-        } else {
+        } else if imageSize == .large {
             self.width = 150
             self.height = 212
+        } else {
+            self.fullscreen = true
+            self.width = UIScreen.main.bounds.width
+            self.height = UIScreen.main.bounds.height + 70
         }
     }
     
     var body: some View {
         if let data = controller.image, let image = UIImage(data: data) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 2)
+            if fullscreen {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .overlay {
+                        Rectangle()
+                            .foregroundStyle(.regularMaterial)
+                            .padding(-100)
+                    }
+            } else {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(radius: 2)
+            }
         } else {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundStyle(.gray)

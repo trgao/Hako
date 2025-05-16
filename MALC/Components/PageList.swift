@@ -32,5 +32,6 @@ struct PageList<Header: View, Content: View>: View {
             content()
         }
         .listStyle(.insetGrouped)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

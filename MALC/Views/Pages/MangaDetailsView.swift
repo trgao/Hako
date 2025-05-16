@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaDetailsView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: MangaDetailsViewController
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
@@ -95,6 +96,12 @@ struct MangaDetailsView: View {
                 .refreshable {
                     isRefresh = true
                 }
+                .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
+                .background {
+                    if settings.translucentBackground {
+                        ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .background)
+                    }
+                }
             }
             if controller.isLoading {
                 LoadingView()
@@ -112,7 +119,7 @@ struct MangaDetailsView: View {
         }
         .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
-        .fullScreenCover(isPresented: $isShowingSafariView) {
+        .sheet(isPresented: $isShowingSafariView) {
             SafariView(url: url)
         }
         .toolbar {
@@ -129,6 +136,11 @@ struct MangaDetailsView: View {
                         }
                     } content: {
                         MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: imageUrl, isPresented: $isEditViewPresented)
+                            .presentationBackground {
+                                if settings.translucentBackground {
+                                    ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .background)
+                                }
+                            }
                     }
                     .disabled(controller.isLoading)
                 } else {
@@ -140,10 +152,16 @@ struct MangaDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                Button {
-                    isShowingSafariView = true
-                } label: {
-                    Label("Open in browser", systemImage: "globe")
+                if settings.safariInApp {
+                    Button {
+                        isShowingSafariView = true
+                    } label: {
+                        Label("Open in browser", systemImage: "globe")
+                    }
+                } else {
+                    Link(destination: url) {
+                        Label("Open in browser", systemImage: "globe")
+                    }
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

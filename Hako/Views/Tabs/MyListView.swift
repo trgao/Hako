@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct MyListView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
     @State private var isBack = false
+    @State private var selectedAnime: MALListAnime?
+    @State private var selectedManga: MALListManga?
     
     var body: some View {
         NavigationStack {
@@ -29,7 +32,7 @@ struct MyListView: View {
                                         }
                                     } else {
                                         ForEach(controller.animeItems, id: \.forEachId) { item in
-                                            AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack)
+                                            AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack, selectedAnime: $selectedAnime)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
@@ -54,6 +57,20 @@ struct MyListView: View {
                                 LoadingView()
                             }
                         }
+                        .sheet(item: $selectedAnime) {
+                            Task {
+                                await controller.refresh()
+                            }
+                        } content: { anime in
+                            AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium)
+                                .presentationBackground {
+                                    if settings.translucentBackground {
+                                        ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
+                                    } else {
+                                        Color(.systemGray6)
+                                    }
+                                }
+                        }
                     } else if controller.type == .manga {
                         ZStack {
                             List {
@@ -66,7 +83,7 @@ struct MyListView: View {
                                         }
                                     } else {
                                         ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                            MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack)
+                                            MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack, selectedManga: $selectedManga)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
@@ -90,6 +107,20 @@ struct MyListView: View {
                             if controller.isMangaLoading {
                                 LoadingView()
                             }
+                        }
+                        .sheet(item: $selectedManga) {
+                            Task {
+                                await controller.refresh()
+                            }
+                        } content: { manga in
+                            MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium)
+                                    .presentationBackground {
+                                        if settings.translucentBackground {
+                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
+                                        } else {
+                                            Color(.systemGray6)
+                                        }
+                                    }
                         }
                     }
                 }

@@ -135,10 +135,12 @@ struct MangaDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: imageUrl, isPresented: $isEditViewPresented)
+                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: imageUrl)
                             .presentationBackground {
                                 if settings.translucentBackground {
                                     ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .background)
+                                } else {
+                                    Color(.systemGray6)
                                 }
                             }
                     }

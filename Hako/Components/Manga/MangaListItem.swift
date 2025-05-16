@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MangaListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
+    @Binding private var selectedManga: MALListManga?
     private let manga: MALListManga
     private let colours: [StatusEnum:Color] = [
         .reading: Color(.systemGreen),
@@ -27,12 +27,14 @@ struct MangaListItem: View {
         self.manga = manga
         self.refresh = {}
         self._isBack = .constant(false)
+        self._selectedManga = .constant(nil)
     }
     
-    init(manga: MALListManga, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>) {
+    init(manga: MALListManga, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>, selectedManga: Binding<MALListManga?>) {
         self.manga = manga
         self.refresh = refresh
         self._isBack = isBack
+        self._selectedManga = selectedManga
     }
     
     var body: some View {
@@ -135,23 +137,11 @@ struct MangaListItem: View {
                         Spacer()
                         if networker.isSignedIn && manga.listStatus != nil {
                             Button {
-                                isEditViewPresented = true
+                                selectedManga = manga
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
-                            .sheet(isPresented: $isEditViewPresented) {
-                                Task {
-                                    await refresh()
-                                }
-                            } content: {
-                                MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium, isPresented: $isEditViewPresented)
-                                    .presentationBackground {
-                                        if settings.translucentBackground {
-                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
-                                        }
-                                    }
-                            }
                         }
                     }
                 }

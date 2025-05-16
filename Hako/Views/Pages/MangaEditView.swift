@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MangaEditView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var listStatus: MangaListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
-    @Binding private var isPresented: Bool
     private let id: Int
     private let title: String
     private let numVolumes: Int?
@@ -20,7 +20,7 @@ struct MangaEditView: View {
     private let imageUrl: String?
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -31,7 +31,6 @@ struct MangaEditView: View {
         self.numVolumes = numVolumes
         self.numChapters = numChapters
         self.imageUrl = imageUrl
-        self._isPresented = isPresented
     }
     
     var body: some View {
@@ -39,7 +38,7 @@ struct MangaEditView: View {
             VStack {
                 HStack {
                     Button {
-                        isPresented = false
+                        dismiss()
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -48,7 +47,7 @@ struct MangaEditView: View {
                         Task {
                             do {
                                 try await networker.editUserManga(id: id, listStatus: listStatus)
-                                isPresented = false
+                                dismiss()
                             } catch {
                                 isEditError = true
                             }
@@ -158,7 +157,7 @@ struct MangaEditView: View {
                 Task {
                     do {
                         try await networker.deleteUserManga(id: id)
-                        isPresented = false
+                        dismiss()
                     } catch {
                         isDeleteError = true
                     }

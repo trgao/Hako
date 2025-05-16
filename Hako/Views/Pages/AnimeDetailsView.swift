@@ -135,7 +135,7 @@ struct AnimeDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl, isPresented: $isEditViewPresented)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl)
                             .presentationBackground {
                                 if settings.translucentBackground {
                                     ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .background)

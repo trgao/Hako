@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct AnimeEditView: View {
-    @EnvironmentObject private var settings: SettingsManager
+    @Environment(\.dismiss) private var dismiss
     @State private var listStatus: AnimeListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
-    @Binding private var isPresented: Bool
     private let id: Int
     private let title: String
     private let numEpisodes: Int?
     private let imageUrl: String?
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isPresented: Binding<Bool>) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -30,7 +29,6 @@ struct AnimeEditView: View {
         self.title = title
         self.numEpisodes = numEpisodes
         self.imageUrl = imageUrl
-        self._isPresented = isPresented
     }
     
     var body: some View {
@@ -38,7 +36,7 @@ struct AnimeEditView: View {
             VStack {
                 HStack {
                     Button {
-                        isPresented = false
+                        dismiss()
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -47,13 +45,9 @@ struct AnimeEditView: View {
                         Task {
                             do {
                                 try await networker.editUserAnime(id: id, listStatus: listStatus)
-                                DispatchQueue.main.async {
-                                    isPresented = false
-                                }
+                                dismiss()
                             } catch {
-                                DispatchQueue.main.async {
-                                    isEditError = true
-                                }
+                                isEditError = true
                             }
                         }
                     } label: {
@@ -153,11 +147,9 @@ struct AnimeEditView: View {
                         .font(.system(size: 20))
                         .padding([.horizontal, .top], 10)
                         .multilineTextAlignment(.center)
-                        .textCase(nil)
                     if let updatedAt = listStatus.updatedAt?.toString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.system(size: 12))
-                            .textCase(nil)
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -181,14 +173,9 @@ struct AnimeEditView: View {
                 Task {
                     do {
                         try await networker.deleteUserAnime(id: id)
-                            
-                        DispatchQueue.main.async {
-                            isPresented = false
-                        }
+                        dismiss()
                     } catch {
-                        DispatchQueue.main.async {
-                            isDeleteError = true
-                        }
+                        isDeleteError = true
                     }
                 }
             }

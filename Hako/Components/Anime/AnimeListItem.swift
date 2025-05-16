@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AnimeListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    @State private var isEditViewPresented = false
     @Binding private var isBack: Bool
+    @Binding private var selectedAnime: MALListAnime?
     private let anime: MALListAnime
     private let colours: [StatusEnum:Color] = [
         .watching: Color(.systemGreen),
@@ -27,12 +27,14 @@ struct AnimeListItem: View {
         self.anime = anime
         self.refresh = {}
         self._isBack = .constant(false)
+        self._selectedAnime = .constant(nil)
     }
     
-    init(anime: MALListAnime, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>) {
+    init(anime: MALListAnime, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>, selectedAnime: Binding<MALListAnime?>) {
         self.anime = anime
         self.refresh = refresh
         self._isBack = isBack
+        self._selectedAnime = selectedAnime
     }
     
     var body: some View {
@@ -87,23 +89,11 @@ struct AnimeListItem: View {
                         Spacer()
                         if networker.isSignedIn && anime.listStatus != nil {
                             Button {
-                                isEditViewPresented = true
+                                selectedAnime = anime
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
-                            .sheet(isPresented: $isEditViewPresented) {
-                                Task {
-                                    await refresh()
-                                }
-                            } content: {
-                                AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium, isPresented: $isEditViewPresented)
-                                    .presentationBackground {
-                                        if settings.translucentBackground {
-                                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
-                                        }
-                                    }
-                            }
                         }
                     }
                 }

@@ -161,7 +161,7 @@
 		EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		EE33A4D32BE2011400A98F00 /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
-		EE3A599E2BD21479009E9F79 /* MALC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MALC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* MALCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALCApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		EE3A59A52BD2147A009E9F79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 		EE3A599F2BD21479009E9F79 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EE3A599E2BD21479009E9F79 /* MALC.app */,
+				EE3A599E2BD21479009E9F79 /* Hako.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -616,9 +616,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EE3A599D2BD21479009E9F79 /* MALC */ = {
+		EE3A599D2BD21479009E9F79 /* Hako */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EE3A59AC2BD2147A009E9F79 /* Build configuration list for PBXNativeTarget "MALC" */;
+			buildConfigurationList = EE3A59AC2BD2147A009E9F79 /* Build configuration list for PBXNativeTarget "Hako" */;
 			buildPhases = (
 				EE3A599A2BD21479009E9F79 /* Sources */,
 				EE3A599B2BD21479009E9F79 /* Frameworks */,
@@ -628,14 +628,14 @@
 			);
 			dependencies = (
 			);
-			name = MALC;
+			name = Hako;
 			packageProductDependencies = (
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
 				EE3B40192DD4B5C6000846A1 /* DMRetry */,
 				EE3B40222DD4CB6E000846A1 /* Shimmer */,
 			);
 			productName = MALC;
-			productReference = EE3A599E2BD21479009E9F79 /* MALC.app */;
+			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -653,7 +653,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EE3A59992BD21479009E9F79 /* Build configuration list for PBXProject "MALC" */;
+			buildConfigurationList = EE3A59992BD21479009E9F79 /* Build configuration list for PBXProject "Hako" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -671,7 +671,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EE3A599D2BD21479009E9F79 /* MALC */,
+				EE3A599D2BD21479009E9F79 /* Hako */,
 			);
 		};
 /* End PBXProject section */
@@ -1010,7 +1010,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EE3A59992BD21479009E9F79 /* Build configuration list for PBXProject "MALC" */ = {
+		EE3A59992BD21479009E9F79 /* Build configuration list for PBXProject "Hako" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EE3A59AA2BD2147A009E9F79 /* Debug */,
@@ -1019,7 +1019,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EE3A59AC2BD2147A009E9F79 /* Build configuration list for PBXNativeTarget "MALC" */ = {
+		EE3A59AC2BD2147A009E9F79 /* Build configuration list for PBXNativeTarget "Hako" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EE3A59AD2BD2147A009E9F79 /* Debug */,

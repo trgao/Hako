@@ -122,6 +122,7 @@
 		EECC79642CF1443B00C1C773 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79632CF1443700C1C773 /* ProfileViewController.swift */; };
 		EECC79662CF14CB000C1C773 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79652CF14CA900C1C773 /* StringExtension.swift */; };
 		EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118B2DD71AFC00F78170 /* LoadingList.swift */; };
+		EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118D2DD729AF00F78170 /* PickerRow.swift */; };
 		EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB8FE22BEBCD2B00EAA985 /* Related.swift */; };
 		EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */; };
 		EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabel.swift */; };
@@ -257,6 +258,7 @@
 		EECC79632CF1443700C1C773 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		EECC79652CF14CA900C1C773 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		EED4118B2DD71AFC00F78170 /* LoadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingList.swift; sourceTree = "<group>"; };
+		EED4118D2DD729AF00F78170 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
 		EEDB8FE22BEBCD2B00EAA985 /* Related.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Related.swift; sourceTree = "<group>"; };
 		EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EEDBDB642C07547300F2E821 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
+				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
 				EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */,
 				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
@@ -787,6 +790,7 @@
 				EECC79602CF1412600C1C773 /* UserStatistics.swift in Sources */,
 				EEEBF8502BD2C0740036E779 /* SearchView.swift in Sources */,
 				EE3A59D52BD24405009E9F79 /* Theme.swift in Sources */,
+				EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */,
 				EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */,
 				EE222D7D2BE8E2A200A14A45 /* Manga.swift in Sources */,
 				EEFEFD4A2BF34BB500200AF1 /* Staffs.swift in Sources */,

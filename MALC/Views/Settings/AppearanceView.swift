@@ -12,12 +12,7 @@ struct AppearanceView: View {
     
     var body: some View {
         List {
-            Picker("App theme", selection: $settings.colorScheme) {
-                Text("System").tag(0)
-                Text("Light").tag(1)
-                Text("Dark").tag(2)
-            }
-            .pickerStyle(.menu)
+            PickerRow(title: "App theme", selected: $settings.colorScheme, array: ["System", "Light", "Dark"])
             Section {
                 HStack {
                     ForEach(Array(settings.accentColors.enumerated()), id: \.offset) { index, color in

@@ -12,13 +12,7 @@ struct BehaviourView: View {
     
     var body: some View {
         List {
-            Picker("Default view", selection: $settings.defaultView) {
-                Text("Top").tag(0)
-                Text("Seasons").tag(1)
-                Text("Search").tag(2)
-                Text("My List").tag(3)
-            }
-            .pickerStyle(.menu)
+            PickerRow(title: "Default view", selected: $settings.defaultView, array: ["Top", "Seasons", "Search", "My List"])
         }
     }
 }

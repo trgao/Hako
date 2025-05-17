@@ -64,12 +64,9 @@ class SearchViewController: ObservableObject {
     }
     
     // Search for the anime/manga with the title
-    func search(_ title: String, _ clear: Bool = false) async -> Void {
-        // Reset all lists if need to clear (for new searches)
-        if clear {
-            animeItems = []
-            mangaItems = []
-        }
+    func search(_ title: String) async -> Void {
+        animeItems = []
+        mangaItems = []
         isLoadingError = false
         if type == .anime {
             do {

@@ -181,9 +181,6 @@ struct SearchView: View {
                         await controller.search(searchText)
                         previousSearch = searchText
                     }
-                } else {
-                    controller.animeItems = []
-                    controller.mangaItems = []
                 }
             }
             .onChange(of: isPresented) {

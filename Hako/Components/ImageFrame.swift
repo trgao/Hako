@@ -50,11 +50,9 @@ struct ImageFrame: View {
                             .padding(-100)
                     }
             } else {
-                RoundedRectangle(cornerRadius: 10)
+                Rectangle()
                     .foregroundStyle(Color(.systemBackground))
                     .frame(width: width, height: height)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 2)
             }
         } else if let data = controller.image, let image = UIImage(data: data) {
             Image(uiImage: image)
@@ -67,7 +65,6 @@ struct ImageFrame: View {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundStyle(.gray)
                 .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .shadow(radius: 2)
         }
     }

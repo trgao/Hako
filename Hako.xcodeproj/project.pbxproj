@@ -23,6 +23,12 @@
 		EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */; };
 		EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */; };
 		EE33A4D42BE2011400A98F00 /* YearPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D32BE2011400A98F00 /* YearPicker.swift */; };
+		EE3582692DD8883900E0AF33 /* AltAppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */; };
+		EE35826A2DD8883900E0AF33 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582662DD8883900E0AF33 /* AppIcon.png */; };
+		EE35826B2DD8883900E0AF33 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582672DD8883900E0AF33 /* AppIcon@2x.png */; };
+		EE35826C2DD8883900E0AF33 /* AppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582682DD8883900E0AF33 /* AppIcon@3x.png */; };
+		EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582632DD8883900E0AF33 /* AltAppIcon.png */; };
+		EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -161,6 +167,12 @@
 		EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		EE33A4D32BE2011400A98F00 /* YearPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearPicker.swift; sourceTree = "<group>"; };
+		EE3582632DD8883900E0AF33 /* AltAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AltAppIcon.png; sourceTree = "<group>"; };
+		EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@2x.png"; sourceTree = "<group>"; };
+		EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@3x.png"; sourceTree = "<group>"; };
+		EE3582662DD8883900E0AF33 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
+		EE3582672DD8883900E0AF33 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
+		EE3582682DD8883900E0AF33 /* AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x.png"; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -346,6 +358,19 @@
 			path = Pages;
 			sourceTree = "<group>";
 		};
+		EE3582622DD887CE00E0AF33 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				EE3582632DD8883900E0AF33 /* AltAppIcon.png */,
+				EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */,
+				EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */,
+				EE3582662DD8883900E0AF33 /* AppIcon.png */,
+				EE3582672DD8883900E0AF33 /* AppIcon@2x.png */,
+				EE3582682DD8883900E0AF33 /* AppIcon@3x.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
 		EE3A59952BD21479009E9F79 = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +390,7 @@
 		EE3A59A02BD21479009E9F79 /* Hako */ = {
 			isa = PBXGroup;
 			children = (
+				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EEA924392DD634BB00FB40A9 /* SettingsManager.swift */,
 				EEFEFD4F2BF375C500200AF1 /* Info.plist */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
@@ -682,6 +708,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE3A59A92BD2147A009E9F79 /* Preview Assets.xcassets in Resources */,
+				EE3582692DD8883900E0AF33 /* AltAppIcon@3x.png in Resources */,
+				EE35826A2DD8883900E0AF33 /* AppIcon.png in Resources */,
+				EE35826B2DD8883900E0AF33 /* AppIcon@2x.png in Resources */,
+				EE35826C2DD8883900E0AF33 /* AppIcon@3x.png in Resources */,
+				EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */,
+				EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */,
 				EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -62,9 +62,10 @@ struct SearchView: View {
                         .listRowInsets(.init())
                         .padding(.bottom, 10)
                     }
+                    .padding(.bottom, 10)
                 }
             }
-            .ignoresSafeArea(.all, edges: .bottom)
+            .ignoresSafeArea(.keyboard)
             .overlay {
                 if !isPresented {
                     ScrollView {
@@ -167,9 +168,9 @@ struct SearchView: View {
                                 }
                             }
                         }
+                        .padding(10)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.bottom, 10)
                 }
             }
             .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")

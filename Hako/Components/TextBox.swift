@@ -19,7 +19,7 @@ struct TextBox: View {
     }
     
     var body: some View {
-        if let text = text {
+        if let text = text, !text.isEmpty {
             Section {
                 VStack {
                     Text(text)

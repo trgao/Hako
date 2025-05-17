@@ -68,6 +68,22 @@ struct MangaEditView: View {
                             Text("Plan To Read").tag(StatusEnum.planToRead as StatusEnum?)
                         }
                         .pickerStyle(.menu)
+                        .onChange(of: listStatus.status) { _, status in
+                            if status == .reading && listStatus.startDate == nil {
+                                listStatus.startDate = Date()
+                            }
+                            if status == .completed {
+                                if listStatus.finishDate == nil {
+                                    listStatus.finishDate = Date()
+                                }
+                                if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes {
+                                    listStatus.numVolumesRead = numVolumes
+                                }
+                                if let numChapters = numChapters, listStatus.numChaptersRead != numChapters {
+                                    listStatus.numChaptersRead = numChapters
+                                }
+                            }
+                        }
                         Picker("Score", selection: $listStatus.score) {
                             Text("0 - Not Yet Scored").tag(0)
                             Text("1 - Appalling").tag(1)

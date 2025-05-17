@@ -66,12 +66,17 @@ struct AnimeEditView: View {
                             Text("Plan To Watch").tag(StatusEnum.planToWatch as StatusEnum?)
                         }
                         .pickerStyle(.menu)
-                        .onChange(of: listStatus.status) { status in
+                        .onChange(of: listStatus.status) { _, status in
                             if status == .watching && listStatus.startDate == nil {
                                 listStatus.startDate = Date()
                             }
-                            if status == .completed && listStatus.finishDate == nil {
-                                listStatus.finishDate = Date()
+                            if status == .completed {
+                                if listStatus.finishDate == nil {
+                                    listStatus.finishDate = Date()
+                                }
+                                if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes {
+                                    listStatus.numEpisodesWatched = numEpisodes
+                                }
                             }
                         }
                         Picker("Score", selection: $listStatus.score) {

@@ -57,20 +57,7 @@ struct MyListView: View {
                                 LoadingView()
                             }
                         }
-                        .sheet(item: $selectedAnime) {
-                            Task {
-                                await controller.refresh()
-                            }
-                        } content: { anime in
-                            AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium)
-                                .presentationBackground {
-                                    if settings.translucentBackground {
-                                        ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
-                                    } else {
-                                        Color(.systemGray6)
-                                    }
-                                }
-                        }
+                        
                     } else if controller.type == .manga {
                         ZStack {
                             List {
@@ -108,20 +95,6 @@ struct MyListView: View {
                                 LoadingView()
                             }
                         }
-                        .sheet(item: $selectedManga) {
-                            Task {
-                                await controller.refresh()
-                            }
-                        } content: { manga in
-                            MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium)
-                                    .presentationBackground {
-                                        if settings.translucentBackground {
-                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
-                                        } else {
-                                            Color(.systemGray6)
-                                        }
-                                    }
-                        }
                     }
                 }
                 .refreshable {
@@ -132,6 +105,34 @@ struct MyListView: View {
                         await controller.refresh()
                         isRefresh = false
                     }
+                }
+                .sheet(item: $selectedAnime) {
+                    Task {
+                        await controller.refresh()
+                    }
+                } content: { anime in
+                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium)
+                        .presentationBackground {
+                            if settings.translucentBackground {
+                                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
+                            } else {
+                                Color(.systemGray6)
+                            }
+                        }
+                }
+                .sheet(item: $selectedManga) {
+                    Task {
+                        await controller.refresh()
+                    }
+                } content: { manga in
+                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium)
+                            .presentationBackground {
+                                if settings.translucentBackground {
+                                    ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
+                                } else {
+                                    Color(.systemGray6)
+                                }
+                            }
                 }
                 .task(id: isBack) {
                     if isBack {

@@ -26,8 +26,8 @@ extension String {
     
     func formatThemeSong() -> String {
         var cur = self
-        if let number = cur.firstIndex(of: " ") {
-            cur = String(cur[cur.index(number, offsetBy: 1)...])
+        if let number = cur.firstIndex(of: ":") {
+            cur = String(cur[cur.index(number, offsetBy: 2)...])
         }
         if let eps = cur.index(of: " (eps") {
             cur = String(cur[...eps])

@@ -71,7 +71,7 @@ struct SearchView: View {
                 if !isPresented {
                     ScrollView {
                         VStack {
-                            if networker.isSignedIn && settings.recommendations {
+                            if networker.isSignedIn && !settings.removeRecommendations {
                                 if controller.animeSuggestions.isEmpty {
                                     LoadingCarousel(title: "For you")
                                 } else {

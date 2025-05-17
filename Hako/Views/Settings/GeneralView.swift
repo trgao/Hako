@@ -25,7 +25,7 @@ struct GeneralView: View {
                         settings.defaultView = 0
                     }
                 }
-                Toggle(isOn: $settings.recommendations) {
+                Toggle(isOn: $settings.removeRecommendations) {
                     Text("Remove recommendations")
                 }
             }

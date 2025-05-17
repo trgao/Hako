@@ -143,7 +143,8 @@ struct MangaEditView: View {
                     Text(title)
                         .bold()
                         .font(.system(size: 20))
-                        .padding([.horizontal, .top], 10)
+                        .padding(.top, 10)
+                        .padding(.horizontal, 20)
                         .multilineTextAlignment(.center)
                         .textCase(nil)
                     if let updatedAt = listStatus.updatedAt?.toString() {

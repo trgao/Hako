@@ -49,11 +49,12 @@ struct MangaDetailsView: View {
                         Text(manga.title)
                             .bold()
                             .font(.system(size: 25))
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, 20)
                             .multilineTextAlignment(.center)
                         if let japaneseTitle = manga.alternativeTitles?.ja {
                             Text(japaneseTitle)
-                                .padding([.horizontal, .bottom], 10)
+                                .padding(.bottom, 5)
+                                .padding(.horizontal, 20)
                                 .font(.system(size: 18))
                                 .opacity(0.7)
                                 .multilineTextAlignment(.center)
@@ -75,7 +76,7 @@ struct MangaDetailsView: View {
                                 .padding(.leading, 20)
                             }
                         }
-                        .padding([.bottom], 5)
+                        .padding(.bottom, 5)
                         .bold()
                         .font(.system(size: 25))
                         VStack {

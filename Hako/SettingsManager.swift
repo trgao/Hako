@@ -11,6 +11,8 @@ import Foundation
 @MainActor
 class SettingsManager: ObservableObject {
     @AppStorage("safariInApp") var safariInApp = true
+    @AppStorage("useAccount") var useAccount = true
+    @AppStorage("recommendations") var recommendations = true
     @AppStorage("defaultView") var defaultView = 0
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
@@ -18,7 +20,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("accentColor") var accentColor = 0
     @AppStorage("translucentBackground") var translucentBackground = true
     var colorSchemes: [ColorScheme?] = [nil, .light, .dark]
-    var accentColors: [Color] = [.blue, .teal, .orange, .pink, .purple, .green, .brown, .primary]
+    var accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     
     func getLineLimit() -> Int? {
         return truncate ? lineLimit + 1 : nil

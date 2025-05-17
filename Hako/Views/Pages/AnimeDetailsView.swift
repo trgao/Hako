@@ -38,7 +38,9 @@ struct AnimeDetailsView: View {
                     AnimeCharacters(controller: controller)
                     Staffs(controller: controller)
                     AnimeRelatedItems(controller: controller)
-                    Recommendations(animeRecommendations: anime.recommendations)
+                    if settings.recommendations {
+                        Recommendations(animeRecommendations: anime.recommendations)
+                    }
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                     AnimeStatistics(controller: controller)
                 } header: {

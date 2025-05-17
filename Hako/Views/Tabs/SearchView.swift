@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SearchViewController()
     @StateObject var networker = NetworkManager.shared
     @State private var isPresented = false
@@ -70,7 +71,7 @@ struct SearchView: View {
                 if !isPresented {
                     ScrollView {
                         VStack {
-                            if networker.isSignedIn {
+                            if networker.isSignedIn && settings.recommendations {
                                 if controller.animeSuggestions.isEmpty {
                                     LoadingCarousel(title: "For you")
                                 } else {

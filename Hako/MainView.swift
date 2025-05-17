@@ -38,11 +38,13 @@ struct MainView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
                 .tag(2)
-            MyListView()
-                .tabItem {
-                    Label("My List", systemImage: "list.bullet")
-                }
-                .tag(3)
+            if settings.useAccount {
+                MyListView()
+                    .tabItem {
+                        Label("My List", systemImage: "list.bullet")
+                    }
+                    .tag(3)
+            }
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")

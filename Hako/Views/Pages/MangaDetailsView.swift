@@ -38,7 +38,9 @@ struct MangaDetailsView: View {
                     MangaCharacters(controller: controller)
                     Authors(controller: controller)
                     MangaRelatedItems(controller: controller)
-                    Recommendations(mangaRecommendations: manga.recommendations)
+                    if settings.recommendations {
+                        Recommendations(mangaRecommendations: manga.recommendations)
+                    }
                     MangaStatistics(controller: controller)
                 } header: {
                     VStack(alignment: .center) {

@@ -30,16 +30,18 @@ public struct PickerRow: View {
     var menu: some View {
         Menu {
             ForEach(array.indices, id: \.self) { index in
-                Button {
-                    selected = index
-                } label: {
-                    if selected == index {
-                        HStack {
-                            Image(systemName: "checkmark")
+                if !array[index].isEmpty {
+                    Button {
+                        selected = index
+                    } label: {
+                        if selected == index {
+                            HStack {
+                                Image(systemName: "checkmark")
+                                Text(array[index])
+                            }
+                        } else {
                             Text(array[index])
                         }
-                    } else {
-                        Text(array[index])
                     }
                 }
             }

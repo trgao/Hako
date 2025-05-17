@@ -29,13 +29,13 @@ struct ThemeSongs: View {
                         HStack(alignment: .top) {
                             ForEach(openingThemes.prefix(10)) { theme in
                                 if let text = theme.text {
-                                    Text(text)
-                                        .multilineTextAlignment(.leading)
+                                    Text(text.formatThemeSong())
+                                        .multilineTextAlignment(.center)
                                         .lineLimit(3)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .font(.system(size: 17))
                                         .padding(20)
-                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .topLeading)
+                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .center)
                                         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                         .shadow(radius: 0.5)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -64,13 +64,13 @@ struct ThemeSongs: View {
                         HStack(alignment: .top) {
                             ForEach(endingThemes.prefix(10)) { theme in
                                 if let text = theme.text {
-                                    Text(text)
-                                        .multilineTextAlignment(.leading)
+                                    Text(text.formatThemeSong())
+                                        .multilineTextAlignment(.center)
                                         .lineLimit(3)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .font(.system(size: 17))
                                         .padding(20)
-                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .topLeading)
+                                        .frame(width: UIScreen.main.bounds.size.width - 40, height: 100, alignment: .center)
                                         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                         .shadow(radius: 0.5)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))

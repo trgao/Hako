@@ -14,9 +14,24 @@ extension String {
         }
     }
     
+    func index(of string: String) -> Index? {
+        return range(of: string, options: .literal)?.lowerBound
+    }
+    
     func formatStatus() -> String {
         let text = self.replacingOccurrences(of: "_", with: " ")
         let first = text.prefix(1).capitalized
         return first + text.dropFirst()
+    }
+    
+    func formatThemeSong() -> String {
+        var cur = self
+        if let number = cur.firstIndex(of: " ") {
+            cur = String(cur[cur.index(number, offsetBy: 1)...])
+        }
+        if let eps = cur.index(of: " (eps") {
+            cur = String(cur[...eps])
+        }
+        return cur
     }
 }

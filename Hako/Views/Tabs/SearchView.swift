@@ -72,10 +72,10 @@ struct SearchView: View {
                         VStack {
                             if networker.isSignedIn {
                                 if controller.animeSuggestions.isEmpty {
-                                    LoadingCarousel()
+                                    LoadingCarousel(title: "For you")
                                 } else {
                                     VStack {
-                                        Text("For You")
+                                        Text("For you")
                                             .bold()
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 35)
@@ -92,10 +92,10 @@ struct SearchView: View {
                                 }
                             }
                             if controller.topAiringAnime.isEmpty {
-                                LoadingCarousel()
+                                LoadingCarousel(title: "Top airing")
                             } else {
                                 VStack {
-                                    Text("Top Airing")
+                                    Text("Top airing")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.horizontal, 35)
@@ -111,10 +111,10 @@ struct SearchView: View {
                                 }
                             }
                             if controller.topUpcomingAnime.isEmpty {
-                                LoadingCarousel()
+                                LoadingCarousel(title: "Top upcoming")
                             } else {
                                 VStack {
-                                    Text("Top Upcoming")
+                                    Text("Top upcoming")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.horizontal, 35)
@@ -130,10 +130,10 @@ struct SearchView: View {
                                 }
                             }
                             if controller.topPopularAnime.isEmpty {
-                                LoadingCarousel()
+                                LoadingCarousel(title: "Most popular anime")
                             } else {
                                 VStack {
-                                    Text("Most Popular Anime")
+                                    Text("Most popular anime")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.horizontal, 35)
@@ -149,10 +149,10 @@ struct SearchView: View {
                                 }
                             }
                             if controller.topPopularManga.isEmpty {
-                                LoadingCarousel()
+                                LoadingCarousel(title: "Most popular manga")
                             } else {
                                 VStack {
-                                    Text("Most Popular Manga")
+                                    Text("Most popular manga")
                                         .bold()
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding(.horizontal, 35)
@@ -168,7 +168,7 @@ struct SearchView: View {
                                 }
                             }
                         }
-                        .padding(10)
+                        .padding(.bottom, 10)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }

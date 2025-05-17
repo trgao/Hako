@@ -12,6 +12,7 @@ enum ImageSize {
 }
 
 struct ImageFrame: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
     private var fullscreen = false
     private let width: CGFloat
@@ -37,8 +38,8 @@ struct ImageFrame: View {
     }
     
     var body: some View {
-        if let data = controller.image, let image = UIImage(data: data) {
-            if fullscreen {
+        if fullscreen {
+            if let data = controller.image, let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
@@ -49,13 +50,19 @@ struct ImageFrame: View {
                             .padding(-100)
                     }
             } else {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(Color(.systemBackground))
                     .frame(width: width, height: height)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .shadow(radius: 2)
             }
+        } else if let data = controller.image, let image = UIImage(data: data) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: width, height: height)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 2)
         } else {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundStyle(.gray)

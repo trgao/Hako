@@ -37,7 +37,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                if settings.useAccount {
+                if !settings.useWithoutAccount {
                     Section {
                         ZStack {
                             if isAuthenticating || isLoading {

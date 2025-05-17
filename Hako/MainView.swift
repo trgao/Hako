@@ -38,7 +38,7 @@ struct MainView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
                 .tag(2)
-            if settings.useAccount {
+            if !settings.useWithoutAccount {
                 MyListView()
                     .tabItem {
                         Label("My List", systemImage: "list.bullet")

@@ -16,12 +16,12 @@ struct GeneralView: View {
                 Toggle(isOn: $settings.safariInApp) {
                     Text("Open links in app")
                 }
-                Toggle(isOn: $settings.useAccount) {
+                Toggle(isOn: $settings.useWithoutAccount) {
                     Text("Use app without account")
                     Text("It will hide login view and my list tab")
                 }
-                .onChange(of: settings.useAccount) { _, cur in
-                    if cur == false && settings.defaultView == 3 {
+                .onChange(of: settings.useWithoutAccount) { _, cur in
+                    if cur == true && settings.defaultView == 3 {
                         settings.defaultView = 0
                     }
                 }
@@ -30,7 +30,7 @@ struct GeneralView: View {
                 }
             }
             Section("Launch view") {
-                PickerRow(title: "Default view", selected: $settings.defaultView, array: settings.useAccount ? ["Top", "Seasons", "Search", "My List"] : ["Top", "Seasons", "Search", ""])
+                PickerRow(title: "Default view", selected: $settings.defaultView, array: settings.useWithoutAccount ? ["Top", "Seasons", "Search", ""] : ["Top", "Seasons", "Search", "My List"])
             }
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {

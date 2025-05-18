@@ -23,12 +23,7 @@ struct NumberSelector: View {
 
     var body: some View {
         if let max = max, max > 0 && max < 500 {
-            Picker(title, selection: $num) {
-                ForEach(0...max, id: \.self) { number in
-                    Text(String(number))
-                }
-            }
-            .pickerStyle(.menu)
+            PickerRow(title: title, selection: $num, labels: (0...max).map(String.init))
         } else {
             HStack {
                 Text(title)

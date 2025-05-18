@@ -30,13 +30,13 @@ struct GeneralView: View {
                 }
             }
             Section("Launch view") {
-                PickerRow(title: "Default view", selected: $settings.defaultView, array: settings.useWithoutAccount ? ["Top", "Seasons", "Search", ""] : ["Top", "Seasons", "Search", "My List"])
+                PickerRow(title: "Default view", selection: $settings.defaultView, labels: ["Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {
                     Text("Truncate titles or names")
                 }
-                PickerRow(title: "Line limit", selected: $settings.lineLimit, array: ["1", "2", "3"])
+                PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
         }

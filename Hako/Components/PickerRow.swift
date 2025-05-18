@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-public struct PickerRow: View {
-    @Binding var selected: Int
-    var array: [String]
+struct PickerRow: View {
+    @Binding var selection: Int
     var title: String
+    var labels: [String]
     
-    public init(title: String, selected: Binding<Int>, array: [String]) {
-        self._selected = selected
-        self.array = array
+    init(title: String, selection: Binding<Int>, labels: [String]) {
+        self._selection = selection
         self.title = title
+        self.labels = labels
     }
     
-    public var body: some View {
+    var body: some View {
         HStack {
             Text(title)
                 .foregroundColor(.primary)
@@ -29,24 +29,24 @@ public struct PickerRow: View {
     
     var menu: some View {
         Menu {
-            ForEach(array.indices, id: \.self) { index in
-                if !array[index].isEmpty {
+            ForEach(labels.indices, id: \.self) { index in
+                if !labels[index].isEmpty {
                     Button {
-                        selected = index
+                        selection = index
                     } label: {
-                        if selected == index {
+                        if selection == index {
                             HStack {
                                 Image(systemName: "checkmark")
-                                Text(array[index])
+                                Text(labels[index])
                             }
                         } else {
-                            Text(array[index])
+                            Text(labels[index])
                         }
                     }
                 }
             }
         } label: {
-            Text(array[selected])
+            Text(labels[selection])
         }
     }
 }

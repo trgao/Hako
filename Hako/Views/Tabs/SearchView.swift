@@ -23,11 +23,6 @@ struct SearchView: View {
                         if controller.type == .anime {
                             ForEach(controller.animeItems, id: \.forEachId) { item in
                                 AnimeListItem(anime: item)
-                                    .onAppear {
-                                        Task {
-                                            await controller.loadMoreIfNeeded(searchText, item)
-                                        }
-                                    }
                             }
                             if controller.isAnimeSearchLoading {
                                 LoadingList()
@@ -35,11 +30,6 @@ struct SearchView: View {
                         } else if controller.type == .manga {
                             ForEach(controller.mangaItems, id: \.forEachId) { item in
                                 MangaListItem(manga: item)
-                                    .onAppear {
-                                        Task {
-                                            await controller.loadMoreIfNeeded(searchText, item)
-                                        }
-                                    }
                             }
                             if controller.isMangaSearchLoading {
                                 LoadingList()

@@ -46,6 +46,7 @@ struct TopView: View {
                                             }
                                     }
                                 }
+                                .padding(10)
                             }
                         }
                         if controller.isAnimeLoading {
@@ -76,6 +77,7 @@ struct TopView: View {
                                             }
                                     }
                                 }
+                                .padding(10)
                             }
                         }
                         if controller.isMangaLoading {

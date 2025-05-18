@@ -45,6 +45,7 @@ struct GroupDetailsView: View {
                             }
                         }
                     }
+                    .padding(10)
                     .task(id: isRefresh) {
                         if isRefresh {
                             await controller.refresh()

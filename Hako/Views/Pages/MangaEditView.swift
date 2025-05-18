@@ -146,12 +146,16 @@ struct MangaEditView: View {
                         .padding(.top, 10)
                         .padding(.horizontal, 20)
                         .multilineTextAlignment(.center)
-                        .textCase(nil)
                     if let updatedAt = listStatus.updatedAt?.toString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.system(size: 12))
-                            .textCase(nil)
+                            .opacity(0.7)
                     }
+                    else {
+                       Text("Not added to list")
+                           .font(.system(size: 12))
+                           .opacity(0.7)
+                   }
                 }
                 .scrollContentBackground(.hidden)
                 Button {

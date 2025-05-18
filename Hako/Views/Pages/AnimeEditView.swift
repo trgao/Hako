@@ -156,6 +156,11 @@ struct AnimeEditView: View {
                     if let updatedAt = listStatus.updatedAt?.toString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.system(size: 12))
+                            .opacity(0.7)
+                    } else {
+                        Text("Not added to list")
+                            .font(.system(size: 12))
+                            .opacity(0.7)
                     }
                 }
                 .scrollContentBackground(.hidden)

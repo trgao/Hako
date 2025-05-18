@@ -38,7 +38,7 @@ struct AnimeDetailsView: View {
                     AnimeCharacters(controller: controller)
                     Staffs(controller: controller)
                     AnimeRelatedItems(controller: controller)
-                    if !settings.removeRecommendations {
+                    if !settings.hideRecommendations {
                         Recommendations(animeRecommendations: anime.recommendations)
                     }
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)

@@ -18,15 +18,15 @@ struct GeneralView: View {
                 }
                 Toggle(isOn: $settings.useWithoutAccount) {
                     Text("Use app without account")
-                    Text("It will hide login view and my list tab")
+                    Text("It will hide the login view and my list tab")
                 }
                 .onChange(of: settings.useWithoutAccount) { _, cur in
                     if cur == true && settings.defaultView == 3 {
                         settings.defaultView = 0
                     }
                 }
-                Toggle(isOn: $settings.removeRecommendations) {
-                    Text("Remove recommendations")
+                Toggle(isOn: $settings.hideRecommendations) {
+                    Text("Hide recommendations")
                 }
             }
             Section("Launch view") {

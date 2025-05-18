@@ -38,7 +38,7 @@ struct MangaDetailsView: View {
                     MangaCharacters(controller: controller)
                     Authors(controller: controller)
                     MangaRelatedItems(controller: controller)
-                    if !settings.removeRecommendations {
+                    if !settings.hideRecommendations {
                         Recommendations(mangaRecommendations: manga.recommendations)
                     }
                     MangaStatistics(controller: controller)

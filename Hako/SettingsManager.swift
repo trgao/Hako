@@ -12,7 +12,7 @@ import Foundation
 class SettingsManager: ObservableObject {
     @AppStorage("safariInApp") var safariInApp = true
     @AppStorage("useWithoutAccount") var useWithoutAccount = false
-    @AppStorage("removeRecommendations") var removeRecommendations = false
+    @AppStorage("hideRecommendations") var hideRecommendations = false
     @AppStorage("defaultView") var defaultView = 0
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1

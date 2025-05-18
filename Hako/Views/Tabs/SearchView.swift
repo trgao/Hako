@@ -183,6 +183,9 @@ struct SearchView: View {
                     }
                 }
             }
+            .task {
+                await controller.refresh()
+            }
             .onChange(of: isPresented) {
                 controller.animeItems = []
                 controller.mangaItems = []

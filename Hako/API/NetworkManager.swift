@@ -233,12 +233,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             self.user = user
             UserDefaults.standard.set(user.name, forKey: "name")
             UserDefaults.standard.set(user.joinedAt, forKey: "joinedAt")
-            if let image = user.picture {
-                imageUrlMap["userImage"] = user.picture
-                let url = URL(string: image)!
-                let data = try await download(imageUrl: url)
-                UserDefaults.standard.set(data, forKey: "userImage")
-            }
+            UserDefaults.standard.set(user.picture, forKey: "picture")
         } catch {
             throw NetworkError.jsonParseFailure
         }
@@ -255,6 +250,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             self.isSignedIn = false
             self.keychain["accessToken"] = nil
             self.keychain["refreshToken"] = nil
+            UserDefaults.standard.set(nil, forKey: "name")
+            UserDefaults.standard.set(nil, forKey: "joinedAt")
+            UserDefaults.standard.set(nil, forKey: "picture")
             UserDefaults.standard.set(nil, forKey: "userImage")
         }
     }

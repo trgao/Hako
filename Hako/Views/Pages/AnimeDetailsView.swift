@@ -42,34 +42,34 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
-                    Section {
-                        if let numEpisodesWatched = anime.myListStatus?.numEpisodesWatched {
+                    if let listStatus = anime.myListStatus, networker.isSignedIn {
+                        Section {
                             if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
                                 HStack {
-                                    ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                                        .tint(colours[anime.myListStatus?.status ?? .none])
-                                    Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
+                                    ProgressView(value: Float(listStatus.numEpisodesWatched) / Float(numEpisodes))
+                                        .tint(colours[listStatus.status ?? .none])
+                                    Label("\(String(listStatus.numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color(.systemGray))
                                         .labelStyle(CustomLabel(spacing: 2))
                                 }
                             } else {
                                 HStack {
-                                    ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
+                                    ProgressView(value: listStatus.numEpisodesWatched == 0 ? 0 : 0.5)
                                         .tint(colours[anime.myListStatus?.status ?? .none])
-                                    Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
+                                    Label("\(String(listStatus.numEpisodesWatched)) / ?", systemImage: "video.fill")
                                         .font(.system(size: 13))
                                         .foregroundStyle(Color(.systemGray))
                                         .labelStyle(CustomLabel(spacing: 2))
                                 }
                             }
+                        } header: {
+                            Text("Your progress")
+                                .textCase(nil)
+                                .foregroundColor(Color.primary)
+                                .font(.system(size: 17))
+                                .bold()
                         }
-                    } header: {
-                        Text("Your progress")
-                            .textCase(nil)
-                            .foregroundColor(Color.primary)
-                            .font(.system(size: 17))
-                            .bold()
                     }
                     AnimeInformation(anime: anime)
                     AnimeCharacters(controller: controller)

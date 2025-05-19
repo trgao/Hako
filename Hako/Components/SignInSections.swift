@@ -56,7 +56,7 @@ struct SignInSections: View {
                             ProfileView(user: user)
                         } label: {
                             HStack {
-                                ProfileImage()
+                                ProfileImage(imageUrl: user.picture)
                                 VStack {
                                     Text(user.name ?? "")
                                         .frame(maxWidth: .infinity, alignment: .leading)

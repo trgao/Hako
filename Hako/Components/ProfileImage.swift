@@ -10,8 +10,8 @@ import SwiftUI
 struct ProfileImage: View {
     @StateObject private var controller: ImageFrameController
     
-    init() {
-        self._controller = StateObject(wrappedValue: ImageFrameController(id: "userImage", imageUrl: NetworkManager.shared.imageUrlMap["userImage"]))
+    init(imageUrl: String?) {
+        self._controller = StateObject(wrappedValue: ImageFrameController(id: "userImage", imageUrl: imageUrl, isProfile: true))
     }
     
     var body: some View {

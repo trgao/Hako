@@ -24,7 +24,7 @@ struct ProfileView: View {
             List {
                 Section {
                     HStack {
-                        ProfileImage()
+                        ProfileImage(imageUrl: user.picture)
                         VStack {
                             Text("Hello, \(user.name ?? "")")
                                 .frame(maxWidth: .infinity)

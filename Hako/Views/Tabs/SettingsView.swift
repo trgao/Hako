@@ -36,17 +36,17 @@ struct SettingsView: View {
                             Text("Appearance")
                         } icon: {
                             Image(systemName: "paintpalette.fill")
-                                .foregroundStyle(.purple)
+                                .foregroundStyle(.primary)
                         }
                     }
                     NavigationLink {
-                        Text("Information")
+                        Text("About")
                     } label: {
                         Label {
-                            Text("Information")
+                            Text("About")
                         } icon: {
                             Image(systemName: "info.circle")
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(.primary)
                         }
                     }
                 }

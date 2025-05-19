@@ -194,10 +194,12 @@ struct AnimeDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                NavigationLink {
-                    TrailersView(videos: controller.anime?.videos)
-                } label: {
-                    Label("Trailers", systemImage: "play.rectangle")
+                if let videos = controller.anime?.videos, !videos.isEmpty {
+                    NavigationLink {
+                        TrailersView(videos: videos)
+                    } label: {
+                        Label("Trailers", systemImage: "play.rectangle")
+                    }
                 }
                 if settings.safariInApp {
                     Button {

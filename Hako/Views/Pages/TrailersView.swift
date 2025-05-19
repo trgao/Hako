@@ -9,22 +9,20 @@ import SwiftUI
 import WebKit
 
 struct TrailersView: View {
-    private let videos: [Video]?
+    private let videos: [Video]
     
-    init(videos: [Video]?) {
+    init(videos: [Video]) {
         self.videos = videos
     }
     
     var body: some View {
         VStack(alignment: .center) {
-            if let videos = videos, !videos.isEmpty {
-                ScrollView {
-                    ForEach(videos) { video in
-                        YoutubeVideo(url: video.url)
-                    }
+            ScrollView {
+                ForEach(videos) { video in
+                    YoutubeVideo(url: video.url)
                 }
-                .scrollIndicators(.hidden)
             }
+            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Trailers")

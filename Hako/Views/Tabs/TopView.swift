@@ -57,7 +57,7 @@ struct TopView: View {
                                 Image(systemName: "medal")
                                     .resizable()
                                     .frame(width: 40, height: 50)
-                                Text("Nothing found. ")
+                                Text("Nothing found")
                                     .bold()
                             }
                         }
@@ -88,7 +88,7 @@ struct TopView: View {
                                 Image(systemName: "medal")
                                     .resizable()
                                     .frame(width: 40, height: 50)
-                                Text("Nothing found. ")
+                                Text("Nothing found")
                                     .bold()
                             }
                         }

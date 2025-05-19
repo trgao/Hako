@@ -55,6 +55,7 @@
 		EE3F1D202BDF4FE2009992AC /* AnimeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */; };
 		EE3F1D242BDF5523009992AC /* AnimeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */; };
 		EE40F56E2BEF936F00BB2E79 /* TrailersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */; };
+		EE429BE02DDB2BEB00D399BA /* SignInSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE429BDF2DDB2BE800D399BA /* SignInSections.swift */; };
 		EE4729E62BF4D503005D17EF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E52BF4D503005D17EF /* User.swift */; };
 		EE4729E82BF4FD3D005D17EF /* AnimeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */; };
 		EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */; };
@@ -198,6 +199,7 @@
 		EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsView.swift; sourceTree = "<group>"; };
 		EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsViewController.swift; sourceTree = "<group>"; };
 		EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersView.swift; sourceTree = "<group>"; };
+		EE429BDF2DDB2BE800D399BA /* SignInSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSections.swift; sourceTree = "<group>"; };
 		EE4729E52BF4D503005D17EF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListItem.swift; sourceTree = "<group>"; };
 		EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusEnum.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				EE3B40162DD4B43B000846A1 /* Anime */,
 				EE3B40172DD4B475000846A1 /* Manga */,
 				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
+				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
 				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
@@ -745,6 +748,7 @@
 				EEEBF8522BD2C0B70036E779 /* SeasonsView.swift in Sources */,
 				EE3F1D202BDF4FE2009992AC /* AnimeDetailsView.swift in Sources */,
 				EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */,
+				EE429BE02DDB2BEB00D399BA /* SignInSections.swift in Sources */,
 				EE3A59DD2BD24F76009E9F79 /* Broadcast.swift in Sources */,
 				EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */,
 				EE3F1D1A2BDE9249009992AC /* MALAnimeListResponse.swift in Sources */,

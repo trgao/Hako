@@ -217,7 +217,7 @@ struct MangaDetailsView: View {
                     Image(systemName: "book.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                    Text("Nothing found. ")
+                    Text("Nothing found")
                         .bold()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

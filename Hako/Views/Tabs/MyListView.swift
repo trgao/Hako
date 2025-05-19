@@ -44,7 +44,7 @@ struct MyListView: View {
                                                 Image(systemName: "tv.fill")
                                                     .resizable()
                                                     .frame(width: 45, height: 40)
-                                                Text("Nothing found. ")
+                                                Text("Nothing found")
                                                     .bold()
                                             }
                                             .frame(maxWidth: .infinity)
@@ -82,7 +82,7 @@ struct MyListView: View {
                                                 Image(systemName: "book.fill")
                                                     .resizable()
                                                     .frame(width: 45, height: 40)
-                                                Text("Nothing found. ")
+                                                Text("Nothing found")
                                                     .bold()
                                             }
                                             .frame(maxWidth: .infinity)
@@ -154,17 +154,10 @@ struct MyListView: View {
                 }
                 .navigationTitle(controller.type == .anime ? "My Anime List" : "My Manga List")
             } else {
-                VStack {
-                    Image(systemName: "gear")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                    Text("You have to sign in under Settings to view or edit your lists")
-                        .bold()
-                        .multilineTextAlignment(.center)
+                List {
+                    SignInSections()
                 }
-                .frame(maxHeight: .infinity)
-                .padding(30)
-                .background(Color(.secondarySystemBackground))
+                .navigationTitle("My List")
             }
         }
     }

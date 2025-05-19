@@ -152,7 +152,7 @@ struct AnimeDetailsView: View {
                     Image(systemName: "tv.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                    Text("Nothing found. ")
+                    Text("Nothing found")
                         .bold()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

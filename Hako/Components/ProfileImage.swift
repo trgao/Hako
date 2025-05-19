@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileImage: View {
     @StateObject private var controller: ImageFrameController
-//    let networker = NetworkManager.shared
     
     init() {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: "userImage", imageUrl: NetworkManager.shared.imageUrlMap["userImage"]))

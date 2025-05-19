@@ -233,8 +233,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             self.user = user
             UserDefaults.standard.set(user.name, forKey: "name")
             UserDefaults.standard.set(user.joinedAt, forKey: "joinedAt")
-            UserDefaults.standard.set(user.picture, forKey: "picture")
             if let image = user.picture {
+                imageUrlMap["userImage"] = user.picture
                 let url = URL(string: image)!
                 let data = try await download(imageUrl: url)
                 UserDefaults.standard.set(data, forKey: "userImage")

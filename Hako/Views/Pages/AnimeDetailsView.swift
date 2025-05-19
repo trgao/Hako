@@ -18,6 +18,14 @@ struct AnimeDetailsView: View {
     private let id: Int
     private let imageUrl: String?
     private let url: URL
+    private let colours: [StatusEnum:Color] = [
+        .watching: Color(.systemGreen),
+        .completed: Color(.systemBlue),
+        .onHold: Color(.systemYellow),
+        .dropped: Color(.systemRed),
+        .planToWatch: .primary,
+        .none: Color(.systemGray)
+    ]
     let networker = NetworkManager.shared
     
     init(id: Int, imageUrl: String?) {
@@ -34,6 +42,35 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
+                    Section {
+                        if let numEpisodesWatched = anime.myListStatus?.numEpisodesWatched {
+                            if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
+                                HStack {
+                                    ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
+                                        .tint(colours[anime.myListStatus?.status ?? .none])
+                                    Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 2))
+                                }
+                            } else {
+                                HStack {
+                                    ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
+                                        .tint(colours[anime.myListStatus?.status ?? .none])
+                                    Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 2))
+                                }
+                            }
+                        }
+                    } header: {
+                        Text("Your progress")
+                            .textCase(nil)
+                            .foregroundColor(Color.primary)
+                            .font(.system(size: 17))
+                            .bold()
+                    }
                     AnimeInformation(anime: anime)
                     AnimeCharacters(controller: controller)
                     Staffs(controller: controller)

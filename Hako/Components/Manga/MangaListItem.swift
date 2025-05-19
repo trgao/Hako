@@ -17,8 +17,8 @@ struct MangaListItem: View {
         .completed: Color(.systemBlue),
         .onHold: Color(.systemYellow),
         .dropped: Color(.systemRed),
-        .planToRead: Color(.systemGray),
-        .none: Color(.systemBlue)
+        .planToRead: .primary,
+        .none: Color(.systemGray)
     ]
     private let refresh: () async -> Void
     let networker = NetworkManager.shared
@@ -55,21 +55,45 @@ struct MangaListItem: View {
                         .bold()
                         .font(.system(size: 16))
                     if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
-                        if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
-                            VStack(alignment: .leading) {
-                                ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
-                                    .tint(colours[manga.listStatus?.status ?? .none])
-                                HStack {
-                                    Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
-                                    if let numChapters = manga.node.numChapters, numChapters > 0 {
+                        if settings.useChapterProgress {
+                            if let numChapters = manga.node.numChapters, numChapters > 0 {
+                                VStack(alignment: .leading) {
+                                    ProgressView(value: Float(numChaptersRead) / Float(numChapters))
+                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                    HStack {
+                                        if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                                            Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        } else {
+                                            Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        }
                                         Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
-                                    } else {
+                                    }
+                                }
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
+                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                    HStack {
+                                        if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                                            Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        } else {
+                                            Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        }
                                         Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
@@ -77,48 +101,50 @@ struct MangaListItem: View {
                                     }
                                 }
                             }
-                        } else if let numChapters = manga.node.numChapters, numChapters > 0 {
-                            VStack(alignment: .leading) {
-                                ProgressView(value: Float(numChaptersRead) / Float(numChapters))
-                                    .tint(colours[manga.listStatus?.status ?? .none])
-                                HStack {
-                                    if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
-                                        Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                    } else {
-                                        Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                    }
-                                    Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
-                                }
-                            }
                         } else {
-                            VStack(alignment: .leading) {
-                                ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
-                                    .tint(colours[manga.listStatus?.status ?? .none])
-                                HStack {
-                                    if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                            if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
+                                VStack(alignment: .leading) {
+                                    ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
+                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                    HStack {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
-                                    } else {
+                                        if let numChapters = manga.node.numChapters, numChapters > 0 {
+                                            Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        } else {
+                                            Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        }
+                                    }
+                                }
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ProgressView(value: numVolumesRead == 0 ? 0 : 0.5)
+                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                    HStack {
                                         Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
                                             .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
+                                        if let numChapters = manga.node.numChapters, numChapters > 0 {
+                                            Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        } else {
+                                            Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(Color(.systemGray))
+                                                .labelStyle(CustomLabel(spacing: 2))
+                                        }
                                     }
-                                    Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
                                 }
                             }
                         }

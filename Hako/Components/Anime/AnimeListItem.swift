@@ -17,8 +17,8 @@ struct AnimeListItem: View {
         .completed: Color(.systemBlue),
         .onHold: Color(.systemYellow),
         .dropped: Color(.systemRed),
-        .planToWatch: Color(.systemGray),
-        .none: Color(.systemBlue)
+        .planToWatch: .primary,
+        .none: Color(.systemGray)
     ]
     private let refresh: () async -> Void
     let networker = NetworkManager.shared

@@ -37,6 +37,12 @@ struct GeneralView: View {
                     Text("Hide recommendations")
                 }
             }
+            Section("Progress") {
+                Toggle(isOn: $settings.useChapterProgress) {
+                    Text("Use chapters for progress")
+                    Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
+                }
+            }
             Section("Launch view") {
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }

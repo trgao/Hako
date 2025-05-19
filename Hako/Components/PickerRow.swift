@@ -46,7 +46,11 @@ struct PickerRow: View {
                 }
             }
         } label: {
-            Text(labels[selection])
+            HStack {
+                Text(labels[selection])
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 13))
+            }
         }
     }
 }

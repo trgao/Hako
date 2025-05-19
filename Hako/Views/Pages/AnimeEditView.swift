@@ -249,7 +249,11 @@ struct AnimeStatusPickerRow: View {
                 }
             }
         } label: {
-            Text(labels[selected])
+            HStack {
+                Text(labels[selected])
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 13))
+            }
         }
     }
 }

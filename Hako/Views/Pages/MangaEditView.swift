@@ -188,6 +188,7 @@ struct MangaEditView: View {
         } message: {
             Text("This will remove this manga from your list")
         }
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 

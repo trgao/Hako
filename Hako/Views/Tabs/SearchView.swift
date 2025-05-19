@@ -56,6 +56,7 @@ struct SearchView: View {
                     .padding(.bottom, 10)
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
             .ignoresSafeArea(.keyboard)
             .overlay {
                 if !isPresented {

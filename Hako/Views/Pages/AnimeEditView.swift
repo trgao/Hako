@@ -195,6 +195,7 @@ struct AnimeEditView: View {
         } message: {
             Text("This will remove this anime from your list")
         }
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 

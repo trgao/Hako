@@ -138,6 +138,12 @@ struct AnimeEditView: View {
                             }
                         }
                     }
+                    Button {
+                        isDeleting = true
+                    } label: {
+                        Label("Remove from list", systemImage: "trash")
+                    }
+                    .foregroundStyle(Color(.systemRed))
                 } header: {
                     ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
                     Text(title)
@@ -157,14 +163,6 @@ struct AnimeEditView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                Button {
-                    isDeleting = true
-                } label: {
-                    Label("Remove from list", systemImage: "trash")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color(.systemRed))
-                .padding(10)
             }
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {

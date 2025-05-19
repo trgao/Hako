@@ -130,6 +130,12 @@ struct MangaEditView: View {
                             }
                         }
                     }
+                    Button {
+                        isDeleting = true
+                    } label: {
+                        Label("Remove from list", systemImage: "trash")
+                    }
+                    .foregroundStyle(Color(.systemRed))
                 } header: {
                     ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
                         .padding([.top], 10)
@@ -151,14 +157,6 @@ struct MangaEditView: View {
                    }
                 }
                 .scrollContentBackground(.hidden)
-                Button {
-                    isDeleting = true
-                } label: {
-                    Label("Remove from list", systemImage: "trash")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Color(.systemRed))
-                .padding(10)
             }
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {

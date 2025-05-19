@@ -158,6 +158,7 @@ struct MangaEditView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(Color(.systemRed))
+                .padding(10)
             }
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {

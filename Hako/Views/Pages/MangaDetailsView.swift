@@ -126,7 +126,7 @@ struct MangaDetailsView: View {
             SafariView(url: url)
         }
         .toolbar {
-            if networker.isSignedIn {
+            if networker.isSignedIn && !settings.useWithoutAccount {
                 if let manga = controller.manga {
                     Button {
                         isEditViewPresented = true

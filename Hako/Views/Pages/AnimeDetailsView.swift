@@ -126,7 +126,7 @@ struct AnimeDetailsView: View {
             SafariView(url: url)
         }
         .toolbar {
-            if networker.isSignedIn {
+            if networker.isSignedIn && !settings.useWithoutAccount {
                 if let anime = controller.anime {
                     Button {
                         isEditViewPresented = true

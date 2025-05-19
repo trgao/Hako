@@ -23,11 +23,13 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $tab) {
-            TopView()
-                .tabItem {
-                    Label("Top", systemImage: "medal")
-                }
-                .tag(0)
+            if !settings.hideTop {
+                TopView()
+                    .tabItem {
+                        Label("Top", systemImage: "medal")
+                    }
+                    .tag(0)
+            }
             SeasonsView()
                 .tabItem {
                     Label("Seasons", systemImage: "calendar")

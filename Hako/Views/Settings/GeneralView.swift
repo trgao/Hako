@@ -22,7 +22,15 @@ struct GeneralView: View {
                 }
                 .onChange(of: settings.useWithoutAccount) { _, cur in
                     if cur == true && settings.defaultView == 3 {
-                        settings.defaultView = 0
+                        settings.defaultView = settings.hideTop ? 1 : 0
+                    }
+                }
+                Toggle(isOn: $settings.hideTop) {
+                    Text("Hide top tab")
+                }
+                .onChange(of: settings.hideTop) { _, cur in
+                    if cur == true && settings.defaultView == 0 {
+                        settings.defaultView = 1
                     }
                 }
                 Toggle(isOn: $settings.hideRecommendations) {
@@ -30,7 +38,7 @@ struct GeneralView: View {
                 }
             }
             Section("Launch view") {
-                PickerRow(title: "Default view", selection: $settings.defaultView, labels: ["Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
+                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {

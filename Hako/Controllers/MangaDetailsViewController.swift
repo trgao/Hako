@@ -38,11 +38,10 @@ class MangaDetailsViewController: ObservableObject {
             let manga = try await networker.getMangaDetails(id: id)
             self.manga = manga
             networker.mangaCache[id] = manga
-            isLoading = false
         } catch {
-            isLoading = false
             isLoadingError = true
         }
+        isLoading = false
         
         // Load characters
         try? await retry {

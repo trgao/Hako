@@ -22,8 +22,5 @@ struct ThemesListView: View {
                 }
             }
         }
-        .alignmentGuide(.listRowSeparatorLeading) { _ in
-            return -15
-        }
     }
 }

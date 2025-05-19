@@ -28,10 +28,9 @@ class PersonDetailsViewController: ObservableObject {
         do {
             let person = try await networker.getPersonDetails(id: id)
             self.person = person
-            isLoading = false
         } catch {
-            isLoading = false
             isLoadingError = true
         }
+        isLoading = false
     }
 }

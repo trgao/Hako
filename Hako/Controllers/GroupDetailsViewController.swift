@@ -45,7 +45,6 @@ class GroupDetailsViewController: ObservableObject {
                         items.append(item)
                     }
                 }
-                isLoading = false
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
                 
@@ -57,12 +56,11 @@ class GroupDetailsViewController: ObservableObject {
                         items.append(item)
                     }
                 }
-                isLoading = false
             }
         } catch {
-            isLoading = false
             isLoadingError = true
         }
+        isLoading = false
     }
     
     // Load more of the current anime/manga list
@@ -91,7 +89,6 @@ class GroupDetailsViewController: ObservableObject {
                         items.append(item)
                     }
                 }
-                isLoading = false
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
                 
@@ -103,12 +100,11 @@ class GroupDetailsViewController: ObservableObject {
                         items.append(item)
                     }
                 }
-                isLoading = false
             }
         } catch {
-            isLoading = false
             isLoadingError = true
         }
+        isLoading = false
     }
     
     // Load more items when reaching the 5th last items in list

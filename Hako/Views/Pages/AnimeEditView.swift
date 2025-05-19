@@ -13,6 +13,7 @@ struct AnimeEditView: View {
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
+    @State private var isLoading = false
     private let id: Int
     private let title: String
     private let numEpisodes: Int?
@@ -46,123 +47,130 @@ struct AnimeEditView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
+            ZStack {
+                VStack {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
+                        Spacer()
+                        Button {
+                            Task {
+                                isLoading = true
+                                do {
+                                    try await networker.editUserAnime(id: id, listStatus: listStatus)
+                                    dismiss()
+                                } catch {
+                                    isEditError = true
+                                }
+                                isLoading = false
+                            }
+                        } label: {
+                            Text("Save")
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    Spacer()
-                    Button {
-                        Task {
-                            do {
-                                try await networker.editUserAnime(id: id, listStatus: listStatus)
-                                dismiss()
-                            } catch {
-                                isEditError = true
+                    .padding([.horizontal, .top], 20)
+                    PageList {
+                        Section {
+                            AnimeStatusPickerRow(selection: $listStatus.status)
+                                .onChange(of: listStatus.status) { _, status in
+                                    if status == .watching && listStatus.startDate == nil {
+                                        listStatus.startDate = Date()
+                                    }
+                                    if status == .completed {
+                                        if listStatus.finishDate == nil {
+                                            listStatus.finishDate = Date()
+                                        }
+                                        if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes {
+                                            listStatus.numEpisodesWatched = numEpisodes
+                                        }
+                                    }
+                                }
+                            PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
+                            NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes Watched", max: numEpisodes)
+                        }
+                        Section {
+                            if listStatus.startDate != nil {
+                                HStack {
+                                    DatePicker(
+                                        "Start Date",
+                                        selection: $listStatus.startDate ?? Date(),
+                                        displayedComponents: [.date]
+                                    )
+                                    Button {
+                                        listStatus.startDate = nil
+                                    } label: {
+                                        Image(systemName: "xmark")
+                                    }
+                                }
+                            } else {
+                                HStack {
+                                    Text("Start Date")
+                                    Spacer()
+                                    Button {
+                                        listStatus.startDate = Date()
+                                    } label: {
+                                        Text("Add start date")
+                                    }
+                                }
+                            }
+                            if listStatus.finishDate != nil {
+                                HStack {
+                                    DatePicker(
+                                        "Finish Date",
+                                        selection: $listStatus.finishDate ?? Date(),
+                                        displayedComponents: [.date]
+                                    )
+                                    Button {
+                                        listStatus.finishDate = nil
+                                    } label: {
+                                        Image(systemName: "xmark")
+                                    }
+                                }
+                            } else {
+                                HStack {
+                                    Text("Finish Date")
+                                    Spacer()
+                                    Button {
+                                        listStatus.finishDate = Date()
+                                    } label: {
+                                        Text("Add finish date")
+                                    }
+                                }
                             }
                         }
-                    } label: {
-                        Text("Save")
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding([.horizontal, .top], 20)
-                PageList {
-                    Section {
-                        AnimeStatusPickerRow(selection: $listStatus.status)
-                        .onChange(of: listStatus.status) { _, status in
-                            if status == .watching && listStatus.startDate == nil {
-                                listStatus.startDate = Date()
-                            }
-                            if status == .completed {
-                                if listStatus.finishDate == nil {
-                                    listStatus.finishDate = Date()
-                                }
-                                if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes {
-                                    listStatus.numEpisodesWatched = numEpisodes
-                                }
-                            }
+                        Button {
+                            isDeleting = true
+                        } label: {
+                            Label("Remove from list", systemImage: "trash")
                         }
-                        PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
-                        NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes Watched", max: numEpisodes)
-                    }
-                    Section {
-                        if listStatus.startDate != nil {
-                            HStack {
-                                DatePicker(
-                                    "Start Date",
-                                    selection: $listStatus.startDate ?? Date(),
-                                    displayedComponents: [.date]
-                                )
-                                Button {
-                                    listStatus.startDate = nil
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
-                            }
+                        .foregroundStyle(Color(.systemRed))
+                    } header: {
+                        ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
+                        Text(title)
+                            .bold()
+                            .font(.system(size: 20))
+                            .padding(.top, 10)
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                        if let updatedAt = listStatus.updatedAt?.toFullString() {
+                            Text("Last updated at: \(updatedAt)")
+                                .font(.system(size: 12))
+                                .opacity(0.7)
                         } else {
-                            HStack {
-                                Text("Start Date")
-                                Spacer()
-                                Button {
-                                    listStatus.startDate = Date()
-                                } label: {
-                                    Text("Add start date")
-                                }
-                            }
-                        }
-                        if listStatus.finishDate != nil {
-                            HStack {
-                                DatePicker(
-                                    "Finish Date",
-                                    selection: $listStatus.finishDate ?? Date(),
-                                    displayedComponents: [.date]
-                                )
-                                Button {
-                                    listStatus.finishDate = nil
-                                } label: {
-                                    Image(systemName: "xmark")
-                                }
-                            }
-                        } else {
-                            HStack {
-                                Text("Finish Date")
-                                Spacer()
-                                Button {
-                                    listStatus.finishDate = Date()
-                                } label: {
-                                    Text("Add finish date")
-                                }
-                            }
+                            Text("Not added to list")
+                                .font(.system(size: 12))
+                                .opacity(0.7)
                         }
                     }
-                    Button {
-                        isDeleting = true
-                    } label: {
-                        Label("Remove from list", systemImage: "trash")
-                    }
-                    .foregroundStyle(Color(.systemRed))
-                } header: {
-                    ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    Text(title)
-                        .bold()
-                        .font(.system(size: 20))
-                        .padding(.top, 10)
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                    if let updatedAt = listStatus.updatedAt?.toString() {
-                        Text("Last updated at: \(updatedAt)")
-                            .font(.system(size: 12))
-                            .opacity(0.7)
-                    } else {
-                        Text("Not added to list")
-                            .font(.system(size: 12))
-                            .opacity(0.7)
-                    }
+                    .scrollContentBackground(.hidden)
                 }
-                .scrollContentBackground(.hidden)
+                if isLoading {
+                    LoadingView()
+                }
             }
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
@@ -174,12 +182,14 @@ struct AnimeEditView: View {
         .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
             Button("Confirm", role: .destructive) {
                 Task {
+                    isLoading = true
                     do {
                         try await networker.deleteUserAnime(id: id)
                         dismiss()
                     } catch {
                         isDeleteError = true
                     }
+                    isLoading = false
                 }
             }
         } message: {

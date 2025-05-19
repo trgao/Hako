@@ -38,11 +38,10 @@ class AnimeDetailsViewController: ObservableObject {
             let anime = try await networker.getAnimeDetails(id: id)
             self.anime = anime
             networker.animeCache[id] = anime
-            isLoading = false
         } catch {
             isLoadingError = true
-            isLoading = false
         }
+        isLoading = false
         
         // Load characters
         try? await retry {

@@ -78,11 +78,10 @@ struct SettingsView: View {
                                             isLoading = true
                                             do {
                                                 try await networker.getUserProfile()
-                                                isLoading = false
                                             } catch {
-                                                isLoading = false
                                                 isLoadingError = true
                                             }
+                                            isLoading = false
                                         }
                                     } label: {
                                         Text("Try again")

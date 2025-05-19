@@ -28,10 +28,9 @@ class CharacterDetailsViewController: ObservableObject {
         do {
             let character = try await networker.getCharacterDetails(id: id)
             self.character = character
-            isLoading = false
         } catch {
-            isLoading = false
             isLoadingError = true
         }
+        isLoading = false
     }
 }

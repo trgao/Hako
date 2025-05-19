@@ -11,6 +11,7 @@ struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var controller = ProfileViewController()
     @State private var isRefresh = false
+    @State private var isSigningOut = false
     private var user: User
     let networker = NetworkManager.shared
     
@@ -30,8 +31,7 @@ struct ProfileView: View {
                                 .font(.system(size: 20))
                                 .bold()
                             Button("Sign Out") {
-                                networker.signOut()
-                                dismiss()
+                                isSigningOut = true
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(.red)
@@ -86,6 +86,16 @@ struct ProfileView: View {
             }
             .refreshable {
                 isRefresh = true
+            }
+            .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
+                Button("Confirm", role: .destructive) {
+                    Task {
+                        networker.signOut()
+                        dismiss()
+                    }
+                }
+            } message: {
+                Text("This will sign you out of your account")
             }
         }
     }

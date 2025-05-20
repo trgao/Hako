@@ -70,10 +70,7 @@ class MyListViewController: ObservableObject {
     func refresh(_ clear: Bool = false) async -> Void {
         isLoadingError = false
         if type == .anime {
-            // Reset anime items (to change list filter)
-//            if clear {
-                animeItems = []
-//            }
+            animeItems = []
             do {
                 currentAnimePage = 1
                 canLoadMoreAnimePages = true
@@ -89,10 +86,7 @@ class MyListViewController: ObservableObject {
                 isLoadingError = true
             }
         } else if type == .manga {
-            // Reset manga items (to change list filter)
-//            if clear {
-                mangaItems = []
-//            }
+            mangaItems = []
             do {
                 currentMangaPage = 1
                 canLoadMoreMangaPages = true

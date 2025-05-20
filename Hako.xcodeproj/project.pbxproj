@@ -393,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				EE3582622DD887CE00E0AF33 /* AppIcons */,
-				EEA924392DD634BB00FB40A9 /* SettingsManager.swift */,
 				EEFEFD4F2BF375C500200AF1 /* Info.plist */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
 				EE3A59D82BD24544009E9F79 /* Controllers */,
@@ -402,6 +401,7 @@
 				EE3A59AF2BD216D8009E9F79 /* Views */,
 				EE3A59A12BD21479009E9F79 /* HakoApp.swift */,
 				EE3A59A32BD21479009E9F79 /* MainView.swift */,
+				EEA924392DD634BB00FB40A9 /* SettingsManager.swift */,
 				EE3A59A52BD2147A009E9F79 /* Assets.xcassets */,
 				EE3A59A72BD2147A009E9F79 /* Preview Content */,
 				EEFEFD562BF3A23F00200AF1 /* Config.xcconfig */,
@@ -432,22 +432,12 @@
 			children = (
 				EE3B40162DD4B43B000846A1 /* Anime */,
 				EE3B40172DD4B475000846A1 /* Manga */,
-				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
+				EE6F33DC2DDC80B5009DED2B /* Image */,
+				EE6F33DD2DDC80D7009DED2B /* Season */,
+				EE6F33DB2DDC8094009DED2B /* Loading */,
+				EE6F33DE2DDC80F4009DED2B /* List */,
 				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
-				EEEEA3162DD32F6400302A81 /* PageList.swift */,
-				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
-				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
-				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
-				EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */,
-				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
-				EE3B401F2DD4CB33000846A1 /* LoadingText.swift */,
-				EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */,
-				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
-				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
-				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
-				EEC3577F2BE293ED00DAAB0B /* SeasonPicker.swift */,
-				EE33A4D32BE2011400A98F00 /* YearPicker.swift */,
 				EE0C539F2BDF94B400DEB6F1 /* TextBox.swift */,
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
@@ -581,6 +571,48 @@
 				EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		EE6F33DB2DDC8094009DED2B /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
+				EE3B401F2DD4CB33000846A1 /* LoadingText.swift */,
+				EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */,
+				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
+				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		EE6F33DC2DDC80B5009DED2B /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */,
+				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		EE6F33DD2DDC80D7009DED2B /* Season */ = {
+			isa = PBXGroup;
+			children = (
+				EEC3577F2BE293ED00DAAB0B /* SeasonPicker.swift */,
+				EE33A4D32BE2011400A98F00 /* YearPicker.swift */,
+			);
+			path = Season;
+			sourceTree = "<group>";
+		};
+		EE6F33DE2DDC80F4009DED2B /* List */ = {
+			isa = PBXGroup;
+			children = (
+				EEEEA3162DD32F6400302A81 /* PageList.swift */,
+				EEA924312DD5EBDC00FB40A9 /* ListViewLink.swift */,
+				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
+				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
+				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		EE91BE5C2BFCAB2D002AC6C4 /* Person */ = {

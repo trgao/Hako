@@ -519,11 +519,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getCharacterDetails(id: Int) async throws -> Character {
-        let response = try await getJikanResponse(urlExtend: "/characters/\(id)/full", type: JikanCharacterDetailsResponse.self)
-        return response.data
-    }
-    
     func getAnimeRelations(id: Int) async throws -> [Related] {
         let response = try await getJikanResponse(urlExtend: "/anime/\(id)/relations", type: JikanRelationsListResponse.self)
         return response.data
@@ -556,6 +551,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     func getMangaStatistics(id: Int) async throws -> MangaStats {
         let response = try await getJikanResponse(urlExtend: "/manga/\(id)/statistics", type: JikanMangaStatisticsResponse.self)
+        return response.data
+    }
+    
+    func getCharacterDetails(id: Int) async throws -> Character {
+        let response = try await getJikanResponse(urlExtend: "/characters/\(id)/full", type: JikanCharacterDetailsResponse.self)
         return response.data
     }
     

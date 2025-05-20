@@ -52,6 +52,7 @@ struct AnimeEditView: View {
         }
         if let animeStatus = animeStatus {
             self._animeStatus = animeStatus
+            self._animeStatus.wrappedValue = listStatus?.status
         } else {
             self._animeStatus = .constant(nil)
         }

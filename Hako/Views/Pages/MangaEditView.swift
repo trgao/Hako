@@ -54,6 +54,7 @@ struct MangaEditView: View {
         }
         if let mangaStatus = mangaStatus {
             self._mangaStatus = mangaStatus
+            self._mangaStatus.wrappedValue = listStatus?.status
         } else {
             self._mangaStatus = .constant(nil)
         }

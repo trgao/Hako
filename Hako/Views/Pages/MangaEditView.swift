@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding private var isDeleted: Bool
+    @Binding private var mangaStatus: StatusEnum?
     @State private var listStatus: MangaListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -34,7 +36,7 @@ struct MangaEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?) {
+    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<StatusEnum?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -45,6 +47,16 @@ struct MangaEditView: View {
         self.numVolumes = numVolumes
         self.numChapters = numChapters
         self.imageUrl = imageUrl
+        if let isDeleted = isDeleted {
+            self._isDeleted = isDeleted
+        } else {
+            self._isDeleted = .constant(false)
+        }
+        if let mangaStatus = mangaStatus {
+            self._mangaStatus = mangaStatus
+        } else {
+            self._mangaStatus = .constant(nil)
+        }
     }
     
     var body: some View {
@@ -79,6 +91,7 @@ struct MangaEditView: View {
                         Section {
                             MangaStatusPickerRow(selection: $listStatus.status)
                                 .onChange(of: listStatus.status) { _, status in
+                                    mangaStatus = status
                                     if status == .reading && listStatus.startDate == nil {
                                         listStatus.startDate = Date()
                                     }
@@ -178,6 +191,7 @@ struct MangaEditView: View {
                     isLoading = true
                     do {
                         try await networker.deleteUserManga(id: id)
+                        isDeleted = true
                         dismiss()
                     } catch {
                         isDeleteError = true

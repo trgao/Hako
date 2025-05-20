@@ -14,8 +14,12 @@ struct MyListView: View {
     @State private var isRefresh = false
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
+    @State private var isAnimeDeleted = false
+    @State private var animeStatus: StatusEnum?
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
+    @State private var isMangaDeleted = false
+    @State private var mangaStatus: StatusEnum?
     
     var body: some View {
         NavigationStack {
@@ -110,12 +114,16 @@ struct MyListView: View {
                 .sheet(item: $selectedAnime) {
                     Task {
                         if let index = selectedAnimeIndex {
-                            await controller.refreshItem(index: index, type: .anime)
-                            selectedAnimeIndex = nil
+                            if isAnimeDeleted || animeStatus != controller.animeStatus {
+                                controller.animeItems.remove(at: index)
+                            } else {
+                                await controller.refreshItem(index: index, type: .anime)
+                                selectedAnimeIndex = nil
+                            }
                         }
                     }
                 } content: { anime in
-                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large)
+                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large, isDeleted: $isAnimeDeleted, animeStatus: $animeStatus)
                         .presentationBackground {
                             if settings.translucentBackground {
                                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .background)
@@ -127,12 +135,16 @@ struct MyListView: View {
                 .sheet(item: $selectedManga) {
                     Task {
                         if let index = selectedMangaIndex {
-                            await controller.refreshItem(index: index, type: .manga)
-                            selectedMangaIndex = nil
+                            if isMangaDeleted || mangaStatus != controller.mangaStatus {
+                                controller.mangaItems.remove(at: index)
+                            } else {
+                                await controller.refreshItem(index: index, type: .manga)
+                                selectedMangaIndex = nil
+                            }
                         }
                     }
                 } content: { manga in
-                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large)
+                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large, isDeleted: $isMangaDeleted, mangaStatus: $mangaStatus)
                             .presentationBackground {
                                 if settings.translucentBackground {
                                     ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .background)

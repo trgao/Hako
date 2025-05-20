@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding private var isDeleted: Bool
+    @Binding private var animeStatus: StatusEnum?
     @State private var listStatus: AnimeListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -33,7 +35,7 @@ struct AnimeEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<StatusEnum?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -43,6 +45,16 @@ struct AnimeEditView: View {
         self.title = title
         self.numEpisodes = numEpisodes
         self.imageUrl = imageUrl
+        if let isDeleted = isDeleted {
+            self._isDeleted = isDeleted
+        } else {
+            self._isDeleted = .constant(false)
+        }
+        if let animeStatus = animeStatus {
+            self._animeStatus = animeStatus
+        } else {
+            self._animeStatus = .constant(nil)
+        }
     }
     
     var body: some View {
@@ -77,6 +89,7 @@ struct AnimeEditView: View {
                         Section {
                             AnimeStatusPickerRow(selection: $listStatus.status)
                                 .onChange(of: listStatus.status) { _, status in
+                                    animeStatus = status
                                     if status == .watching && listStatus.startDate == nil {
                                         listStatus.startDate = Date()
                                     }
@@ -185,6 +198,7 @@ struct AnimeEditView: View {
                     isLoading = true
                     do {
                         try await networker.deleteUserAnime(id: id)
+                        isDeleted = true
                         dismiss()
                     } catch {
                         isDeleteError = true

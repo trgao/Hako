@@ -12,9 +12,10 @@ struct MyListView: View {
     @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
-    @State private var isBack = false
     @State private var selectedAnime: MALListAnime?
+    @State private var selectedAnimeIndex: Int?
     @State private var selectedManga: MALListManga?
+    @State private var selectedMangaIndex: Int?
     
     var body: some View {
         NavigationStack {
@@ -31,11 +32,11 @@ struct MyListView: View {
                                             Spacer()
                                         }
                                     } else {
-                                        ForEach(controller.animeItems, id: \.forEachId) { item in
-                                            AnimeListItem(anime: item, status: controller.animeStatus, refresh: { await controller.refresh() }, isBack: $isBack, selectedAnime: $selectedAnime)
+                                        ForEach(controller.animeItems.indices, id: \.self) { index in
+                                            AnimeListItem(anime: controller.animeItems[index], status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                        await controller.loadMoreIfNeeded(currentItem: controller.animeItems[index])
                                                     }
                                                 }
                                         }
@@ -69,11 +70,11 @@ struct MyListView: View {
                                             Spacer()
                                         }
                                     } else {
-                                        ForEach(controller.mangaItems, id: \.forEachId) { item in
-                                            MangaListItem(manga: item, status: controller.mangaStatus, refresh: { await controller.refresh() }, isBack: $isBack, selectedManga: $selectedManga)
+                                        ForEach(controller.mangaItems.indices, id: \.self) { index in
+                                            MangaListItem(manga: controller.mangaItems[index], status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                        await controller.loadMoreIfNeeded(currentItem: controller.mangaItems[index])
                                                     }
                                                 }
                                         }
@@ -108,7 +109,10 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
-                        await controller.refresh()
+                        if let index = selectedAnimeIndex {
+                            await controller.refreshItem(index: index, type: .anime)
+                            selectedAnimeIndex = nil
+                        }
                     }
                 } content: { anime in
                     AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium)
@@ -122,7 +126,10 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedManga) {
                     Task {
-                        await controller.refresh()
+                        if let index = selectedMangaIndex {
+                            await controller.refreshItem(index: index, type: .manga)
+                            selectedMangaIndex = nil
+                        }
                     }
                 } content: { manga in
                     MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium)
@@ -133,12 +140,6 @@ struct MyListView: View {
                                     Color(.systemGray6)
                                 }
                             }
-                }
-                .task(id: isBack) {
-                    if isBack {
-                        await controller.refresh()
-                        isBack = false
-                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

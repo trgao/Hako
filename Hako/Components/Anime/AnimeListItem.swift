@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AnimeListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    @Binding private var isBack: Bool
     @Binding private var selectedAnime: MALListAnime?
+    @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
     private let colours: [StatusEnum:Color] = [
         .watching: Color(.systemGreen),
@@ -20,32 +20,26 @@ struct AnimeListItem: View {
         .planToWatch: .primary,
         .none: Color(.systemGray)
     ]
-    private let refresh: () async -> Void
+    private let index: Int
     let networker = NetworkManager.shared
     
     init(anime: MALListAnime) {
         self.anime = anime
-        self.refresh = {}
-        self._isBack = .constant(false)
         self._selectedAnime = .constant(nil)
+        self._selectedAnimeIndex = .constant(nil)
+        self.index = 0
     }
     
-    init(anime: MALListAnime, status: StatusEnum, refresh: @escaping () async -> Void, isBack: Binding<Bool>, selectedAnime: Binding<MALListAnime?>) {
+    init(anime: MALListAnime, status: StatusEnum, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
         self.anime = anime
-        self.refresh = refresh
-        self._isBack = isBack
         self._selectedAnime = selectedAnime
+        self._selectedAnimeIndex = selectedAnimeIndex
+        self.index = index
     }
     
     var body: some View {
         NavigationLink {
             AnimeDetailsView(id: anime.id, imageUrl: anime.node.mainPicture?.medium)
-                .onAppear {
-                    isBack = false
-                }
-                .onDisappear {
-                    isBack = true
-                }
         } label: {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .small)
@@ -90,6 +84,7 @@ struct AnimeListItem: View {
                         if networker.isSignedIn && anime.listStatus != nil {
                             Button {
                                 selectedAnime = anime
+                                selectedAnimeIndex = index
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }

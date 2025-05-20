@@ -21,7 +21,7 @@ struct SearchView: View {
                 if isPresented {
                     Section {
                         if controller.type == .anime {
-                            ForEach(controller.animeItems, id: \.forEachId) { item in
+                            ForEach(controller.animeItems, id: \.id) { item in
                                 AnimeListItem(anime: item)
                             }
                             if controller.isAnimeSearchLoading {
@@ -38,7 +38,7 @@ struct SearchView: View {
                                 .padding(.vertical, 40)
                             }
                         } else if controller.type == .manga {
-                            ForEach(controller.mangaItems, id: \.forEachId) { item in
+                            ForEach(controller.mangaItems, id: \.id) { item in
                                 MangaListItem(manga: item)
                             }
                             if controller.isMangaSearchLoading {

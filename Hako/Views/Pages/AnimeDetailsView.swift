@@ -79,7 +79,9 @@ struct AnimeDetailsView: View {
                         Recommendations(animeRecommendations: anime.recommendations)
                     }
                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                    AnimeStatistics(controller: controller)
+                    if !settings.hideStatistics {
+                        AnimeStatistics(controller: controller)
+                    }
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
                         .padding([.top], 10)

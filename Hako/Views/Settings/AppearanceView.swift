@@ -14,8 +14,10 @@ struct AppearanceView: View {
     
     var body: some View {
         List {
-            PickerRow(title: "App theme", selection: $settings.colorScheme, labels: ["System", "Light", "Dark"])
-            Section {
+            Section("General") {
+                PickerRow(title: "App theme", selection: $settings.colorScheme, labels: ["System", "Light", "Dark"])
+            }
+            Section("Accent color") {
                 HStack {
                     ForEach(Array(settings.accentColors.enumerated()), id: \.offset) { index, color in
                         Button {
@@ -36,10 +38,8 @@ struct AppearanceView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-            } header: {
-                Text("Accent color")
             }
-            Section {
+            Section("App icon") {
                 HStack {
                     Button {
                         if UIApplication.shared.supportsAlternateIcons {
@@ -98,8 +98,6 @@ struct AppearanceView: View {
                     .buttonStyle(.plain)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-            } header: {
-                Text("App icon")
             }
             Section("Accessibility") {
                 Toggle(isOn: $settings.translucentBackground) {

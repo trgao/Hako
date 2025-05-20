@@ -37,12 +37,6 @@ struct GeneralView: View {
                     Text("Hide recommendations")
                 }
             }
-            Section("Progress") {
-                Toggle(isOn: $settings.useChapterProgress) {
-                    Text("Use chapters for progress")
-                    Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
-                }
-            }
             Section("Launch view") {
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
@@ -52,6 +46,15 @@ struct GeneralView: View {
                 }
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
+            }
+            Section("Item details") {
+                Toggle(isOn: $settings.useChapterProgress) {
+                    Text("Use chapters for progress")
+                    Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
+                }
+                Toggle(isOn: $settings.hideStatistics) {
+                    Text("Hide statistics")
+                }
             }
         }
     }

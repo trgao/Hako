@@ -14,10 +14,11 @@ class SettingsManager: ObservableObject {
     @AppStorage("useWithoutAccount") var useWithoutAccount = false
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("hideRecommendations") var hideRecommendations = false
-    @AppStorage("useChapterProgress") var useChapterProgress = true
     @AppStorage("defaultView") var defaultView = 0
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
+    @AppStorage("useChapterProgress") var useChapterProgress = true
+    @AppStorage("hideStatistics") var hideStatistics = false
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
     @AppStorage("translucentBackground") var translucentBackground = true

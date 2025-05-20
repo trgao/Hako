@@ -144,7 +144,9 @@ struct MangaDetailsView: View {
                     if !settings.hideRecommendations {
                         Recommendations(mangaRecommendations: manga.recommendations)
                     }
-                    MangaStatistics(controller: controller)
+                    if !settings.hideStatistics {
+                        MangaStatistics(controller: controller)
+                    }
                 } header: {
                     VStack(alignment: .center) {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.medium, imageSize: .large)

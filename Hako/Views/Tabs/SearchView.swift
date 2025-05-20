@@ -26,6 +26,16 @@ struct SearchView: View {
                             }
                             if controller.isAnimeSearchLoading {
                                 LoadingList()
+                            } else if controller.animeItems.isEmpty {
+                                VStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                    Text("Nothing found")
+                                        .bold()
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.vertical, 40)
                             }
                         } else if controller.type == .manga {
                             ForEach(controller.mangaItems, id: \.forEachId) { item in
@@ -33,6 +43,16 @@ struct SearchView: View {
                             }
                             if controller.isMangaSearchLoading {
                                 LoadingList()
+                            } else if controller.mangaItems.isEmpty {
+                                VStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                    Text("Nothing found")
+                                        .bold()
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.vertical, 40)
                             }
                         }
                     } header: {

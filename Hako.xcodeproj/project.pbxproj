@@ -505,18 +505,8 @@
 		EE3A59DB2BD24953009E9F79 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
-				EE960E922DD39FF000E4EDC9 /* JikanAnimeStatisticsResponse.swift */,
-				EE960E982DD3A0FD00E4EDC9 /* JikanMangaStatisticsResponse.swift */,
-				EECC79612CF142D600C1C773 /* JikanUserStatisticsResponse.swift */,
-				EE3A59BA2BD21E2E009E9F79 /* JikanListResponse.swift */,
-				EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */,
-				EE937B902BE8CE9700E5F0BE /* MALMangaListResponse.swift */,
-				EEC357812BE3612C00DAAB0B /* JikanCharactersListResponse.swift */,
-				EEC3578F2BE3896500DAAB0B /* JikanCharacterDetailsResponse.swift */,
-				EE9A89212BEF46EA0048DD73 /* JikanRelationsListResponse.swift */,
-				EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */,
-				EECC382F2BFA14EB0063A891 /* JikanStaffListResponse.swift */,
-				EE91BE5A2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift */,
+				EE6F33DF2DDC820F009DED2B /* MAL */,
+				EE6F33E02DDC821C009DED2B /* Jikan */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -613,6 +603,32 @@
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		EE6F33DF2DDC820F009DED2B /* MAL */ = {
+			isa = PBXGroup;
+			children = (
+				EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */,
+				EE937B902BE8CE9700E5F0BE /* MALMangaListResponse.swift */,
+				EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */,
+			);
+			path = MAL;
+			sourceTree = "<group>";
+		};
+		EE6F33E02DDC821C009DED2B /* Jikan */ = {
+			isa = PBXGroup;
+			children = (
+				EE960E922DD39FF000E4EDC9 /* JikanAnimeStatisticsResponse.swift */,
+				EE960E982DD3A0FD00E4EDC9 /* JikanMangaStatisticsResponse.swift */,
+				EECC79612CF142D600C1C773 /* JikanUserStatisticsResponse.swift */,
+				EE3A59BA2BD21E2E009E9F79 /* JikanListResponse.swift */,
+				EEC357812BE3612C00DAAB0B /* JikanCharactersListResponse.swift */,
+				EEC3578F2BE3896500DAAB0B /* JikanCharacterDetailsResponse.swift */,
+				EE9A89212BEF46EA0048DD73 /* JikanRelationsListResponse.swift */,
+				EECC382F2BFA14EB0063A891 /* JikanStaffListResponse.swift */,
+				EE91BE5A2BFCAB10002AC6C4 /* JikanPersonDetailsResponse.swift */,
+			);
+			path = Jikan;
 			sourceTree = "<group>";
 		};
 		EE91BE5C2BFCAB2D002AC6C4 /* Person */ = {

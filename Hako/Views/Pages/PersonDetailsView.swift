@@ -82,7 +82,7 @@ struct PersonVoiceSection: View {
             Section {
                 ForEach(voices) { voice in
                     NavigationLink {
-                        AnimeDetailsView(id: voice.anime.id, imageUrl: voice.anime.images?.jpg.imageUrl)
+                        AnimeDetailsView(id: voice.anime.id)
                     } label: {
                         HStack {
                             ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg.imageUrl, imageSize: .small)
@@ -119,10 +119,10 @@ struct PersonAnimeSection: View {
             Section {
                 ForEach(animes) { anime in
                     NavigationLink {
-                        AnimeDetailsView(id: anime.id, imageUrl: anime.anime.images?.jpg.imageUrl)
+                        AnimeDetailsView(id: anime.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.imageUrl, imageSize: .small)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
@@ -156,10 +156,10 @@ struct PersonMangaSection: View {
             Section {
                 ForEach(mangas) { manga in
                     NavigationLink {
-                        MangaDetailsView(id: manga.id, imageUrl: manga.manga.images?.jpg.imageUrl)
+                        MangaDetailsView(id: manga.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.imageUrl, imageSize: .small)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")

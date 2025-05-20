@@ -39,10 +39,10 @@ struct AnimeListItem: View {
     
     var body: some View {
         NavigationLink {
-            AnimeDetailsView(id: anime.id, imageUrl: anime.node.mainPicture?.medium)
+            AnimeDetailsView(id: anime.id)
         } label: {
             HStack {
-                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .small)
+                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .small)
                 VStack(alignment: .leading) {
                     Text(anime.node.title)
                         .lineLimit(settings.getLineLimit())

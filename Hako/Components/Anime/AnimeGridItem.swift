@@ -24,7 +24,7 @@ struct AnimeGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            AnimeDetailsView(id: id, imageUrl: imageUrl)
+            AnimeDetailsView(id: id)
         } label: {
             VStack {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)

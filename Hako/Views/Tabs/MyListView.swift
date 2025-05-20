@@ -32,11 +32,11 @@ struct MyListView: View {
                                             Spacer()
                                         }
                                     } else {
-                                        ForEach(controller.animeItems.indices, id: \.self) { index in
-                                            AnimeListItem(anime: controller.animeItems[index], status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                                        ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
+                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: controller.animeItems[index])
+                                                        await controller.loadMoreIfNeeded(currentItem: item)
                                                     }
                                                 }
                                         }
@@ -70,11 +70,11 @@ struct MyListView: View {
                                             Spacer()
                                         }
                                     } else {
-                                        ForEach(controller.mangaItems.indices, id: \.self) { index in
-                                            MangaListItem(manga: controller.mangaItems[index], status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                                        ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
+                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: controller.mangaItems[index])
+                                                        await controller.loadMoreIfNeeded(currentItem: item)
                                                     }
                                                 }
                                         }
@@ -115,10 +115,10 @@ struct MyListView: View {
                         }
                     }
                 } content: { anime in
-                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.medium)
+                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large)
                         .presentationBackground {
                             if settings.translucentBackground {
-                                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.medium, imageSize: .background)
+                                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .background)
                             } else {
                                 Color(.systemGray6)
                             }
@@ -132,10 +132,10 @@ struct MyListView: View {
                         }
                     }
                 } content: { manga in
-                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.medium)
+                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large)
                             .presentationBackground {
                                 if settings.translucentBackground {
-                                    ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .background)
+                                    ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .background)
                                 } else {
                                     Color(.systemGray6)
                                 }

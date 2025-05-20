@@ -16,7 +16,6 @@ struct AnimeDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
-    private let imageUrl: String?
     private let url: URL
     private let colours: [StatusEnum:Color] = [
         .watching: Color(.systemGreen),
@@ -28,9 +27,8 @@ struct AnimeDetailsView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, imageUrl: String?) {
+    init(id: Int) {
         self.id = id
-        self.imageUrl = imageUrl
         self.url = URL(string: "https://myanimelist.net/anime/\(id)")!
         self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id: id))
     }
@@ -83,7 +81,7 @@ struct AnimeDetailsView: View {
                         AnimeStatistics(controller: controller)
                     }
                 } header: {
-                    ImageFrame(id: "anime\(anime.id)", imageUrl: imageUrl, imageSize: .large)
+                    ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
                         .padding([.top], 10)
                     Text(anime.title)
                         .bold()
@@ -142,7 +140,7 @@ struct AnimeDetailsView: View {
                 .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                 .background {
                     if settings.translucentBackground {
-                        ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .background)
+                        ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                     }
                 }
             }
@@ -177,10 +175,10 @@ struct AnimeDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: imageUrl)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
                             .presentationBackground {
                                 if settings.translucentBackground {
-                                    ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .background)
+                                    ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                                 } else {
                                     Color(.systemGray6)
                                 }

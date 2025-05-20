@@ -71,9 +71,9 @@ class MyListViewController: ObservableObject {
         isLoadingError = false
         if type == .anime {
             // Reset anime items (to change list filter)
-            if clear {
+//            if clear {
                 animeItems = []
-            }
+//            }
             do {
                 currentAnimePage = 1
                 canLoadMoreAnimePages = true
@@ -90,9 +90,9 @@ class MyListViewController: ObservableObject {
             }
         } else if type == .manga {
             // Reset manga items (to change list filter)
-            if clear {
+//            if clear {
                 mangaItems = []
-            }
+//            }
             do {
                 currentMangaPage = 1
                 canLoadMoreMangaPages = true

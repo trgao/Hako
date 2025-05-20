@@ -40,7 +40,7 @@ struct TopView: View {
                             } else {
                                 LazyVGrid(columns: columns) {
                                     ForEach(controller.animeItems, id: \.node.id) { item in
-                                        AnimeGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
+                                        AnimeGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank))
                                             .task {
                                                 await controller.loadMoreIfNeeded(currentItem: item)
                                             }
@@ -71,7 +71,7 @@ struct TopView: View {
                             } else {
                                 LazyVGrid(columns: columns) {
                                     ForEach(controller.mangaItems, id: \.node.id) { item in
-                                        MangaGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium, subtitle: rankToString(item.ranking?.rank))
+                                        MangaGridItem(id: item.node.id, title: item.node.title, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank))
                                             .task {
                                                 await controller.loadMoreIfNeeded(currentItem: item)
                                             }

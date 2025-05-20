@@ -9,4 +9,5 @@ import Foundation
 
 struct MainPicture: Codable {
     let medium: String
+    let large: String
 }

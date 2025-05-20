@@ -91,10 +91,10 @@ class MangaDetailsViewController: ObservableObject {
                         var newItem = item
                         if item.type == .anime {
                             let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
-                            newItem.imageUrl = anime.mainPicture?.medium
+                            newItem.imageUrl = anime.mainPicture?.large
                         } else if item.type == .manga {
                             let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
-                            newItem.imageUrl = manga.mainPicture?.medium
+                            newItem.imageUrl = manga.mainPicture?.large
                         }
                         return newItem
                     }

@@ -10,6 +10,7 @@ import Foundation
 struct Images: Codable {
     struct Image: Codable {
         let imageUrl: String?
+        let largeImageUrl: String?
     }
     let jpg: Image
 }

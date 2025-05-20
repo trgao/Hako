@@ -24,7 +24,7 @@ struct MangaGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            MangaDetailsView(id: id, imageUrl: imageUrl)
+            MangaDetailsView(id: id)
         } label: {
             VStack {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .large)

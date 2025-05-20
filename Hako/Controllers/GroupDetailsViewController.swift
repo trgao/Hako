@@ -36,7 +36,6 @@ class GroupDetailsViewController: ObservableObject {
         do {
             if type == .anime {
                 let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
-                
                 currentPage = 2
                 canLoadMorePages = !(animeList.isEmpty)
                 for item in animeList {
@@ -47,7 +46,6 @@ class GroupDetailsViewController: ObservableObject {
                 }
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                
                 currentPage = 2
                 canLoadMorePages = !(mangaList.isEmpty)
                 for item in mangaList {
@@ -80,7 +78,6 @@ class GroupDetailsViewController: ObservableObject {
         do {
             if type == .anime {
                 let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
-                
                 currentPage += 1
                 canLoadMorePages = !(animeList.isEmpty)
                 for item in animeList {
@@ -91,7 +88,6 @@ class GroupDetailsViewController: ObservableObject {
                 }
             } else if type == .manga {
                 let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                
                 currentPage += 1
                 canLoadMorePages = !(mangaList.isEmpty)
                 for item in mangaList {

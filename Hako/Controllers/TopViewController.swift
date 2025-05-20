@@ -40,35 +40,31 @@ class TopViewController: ObservableObject {
     func refresh() async -> Void {
         isLoadingError = false
         if type == .anime {
+            currentAnimePage = 1
+            canLoadMoreAnimePages = true
+            isAnimeLoading = true
             do {
-                currentAnimePage = 1
-                canLoadMoreAnimePages = true
-                isAnimeLoading = true
                 let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
-                
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems = animeList
-                isAnimeLoading = false
             } catch {
-                isAnimeLoading = false
                 isLoadingError = true
             }
+            isAnimeLoading = false
         } else {
+            currentMangaPage = 1
+            canLoadMoreMangaPages = true
+            isMangaLoading = true
             do {
-                currentMangaPage = 1
-                canLoadMoreMangaPages = true
-                isMangaLoading = true
                 let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
-                
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems = mangaList
-                isMangaLoading = false
             } catch {
-                isMangaLoading = false
                 isLoadingError = true
             }
+            isMangaLoading = false
         }
     }
     
@@ -89,15 +85,13 @@ class TopViewController: ObservableObject {
             isLoadingError = false
             do {
                 let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
-                
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems.append(contentsOf: animeList)
-                isAnimeLoading = false
             } catch {
-                isAnimeLoading = false
                 isLoadingError = true
             }
+            isAnimeLoading = false
         } else if type == .manga {
             // only load more when it is not loading and there are more pages to be loaded
             guard !isMangaLoading && canLoadMoreMangaPages else {
@@ -113,15 +107,13 @@ class TopViewController: ObservableObject {
             isLoadingError = false
             do {
                 let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
-                
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems.append(contentsOf: mangaList)
-                isMangaLoading = false
             } catch {
-                isMangaLoading = false
                 isLoadingError = true
             }
+            isMangaLoading = false
         }
     }
     

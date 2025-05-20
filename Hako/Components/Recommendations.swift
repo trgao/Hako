@@ -34,7 +34,7 @@ struct Recommendations: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top) {
                             ForEach(animeRecommendations) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                             }
                         }
                         .padding(.horizontal, 20)
@@ -58,9 +58,9 @@ struct Recommendations: View {
                         HStack(alignment: .top) {
                             ForEach(mangaRecommendations) { item in
                                 NavigationLink {
-                                    MangaDetailsView(id: item.id, imageUrl: item.node.mainPicture?.medium)
+                                    MangaDetailsView(id: item.id)
                                 } label: {
-                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                    MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                 }
                                 .buttonStyle(.plain)
                             }

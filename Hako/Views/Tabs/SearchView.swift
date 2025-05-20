@@ -88,7 +88,7 @@ struct SearchView: View {
                                         ScrollView(.horizontal, showsIndicators: false) {
                                             HStack(alignment: .top) {
                                                 ForEach(controller.animeSuggestions) { item in
-                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                                 }
                                             }
                                             .padding(.horizontal, 20)
@@ -108,7 +108,7 @@ struct SearchView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
                                             ForEach(controller.topAiringAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                             }
                                         }
                                         .padding(.horizontal, 20)
@@ -127,7 +127,7 @@ struct SearchView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
                                             ForEach(controller.topUpcomingAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                             }
                                         }
                                         .padding(.horizontal, 20)
@@ -146,7 +146,7 @@ struct SearchView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
                                             ForEach(controller.topPopularAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                             }
                                         }
                                         .padding(.horizontal, 20)
@@ -165,7 +165,7 @@ struct SearchView: View {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(alignment: .top) {
                                             ForEach(controller.topPopularManga) { item in
-                                                MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                                MangaGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                             }
                                         }
                                         .padding(.horizontal, 20)
@@ -185,6 +185,9 @@ struct SearchView: View {
                         await controller.search(searchText)
                         previousSearch = searchText
                     }
+                } else {
+                    controller.animeItems = []
+                    controller.mangaItems = []
                 }
             }
             .task {

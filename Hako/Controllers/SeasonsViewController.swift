@@ -150,10 +150,8 @@ class SeasonsViewController: ObservableObject {
         updateCurrentSeasonLoading(true)
         updateCurrentSeasonCanLoadMore(true)
         isLoadingError = false
-        
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
-            
             updateCurrentSeasonPage(2)
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
             if season == "winter" {
@@ -168,7 +166,7 @@ class SeasonsViewController: ObservableObject {
             updateCurrentSeasonLoading(false)
         } catch let error as NetworkError {
             updateCurrentSeasonLoading(false)
-            
+
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
@@ -197,7 +195,6 @@ class SeasonsViewController: ObservableObject {
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
-            
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
             if season == "winter" {

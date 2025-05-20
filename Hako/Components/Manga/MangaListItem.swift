@@ -39,10 +39,10 @@ struct MangaListItem: View {
     
     var body: some View {
         NavigationLink {
-            MangaDetailsView(id: manga.id, imageUrl: manga.node.mainPicture?.medium)
+            MangaDetailsView(id: manga.id)
         } label: {
             HStack {
-                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.medium, imageSize: .small)
+                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .small)
                 VStack(alignment: .leading) {
                     Text(manga.node.title)
                         .lineLimit(settings.getLineLimit())

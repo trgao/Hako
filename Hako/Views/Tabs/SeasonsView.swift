@@ -25,7 +25,7 @@ struct SeasonsView: View {
                         } else {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.winterItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
@@ -43,7 +43,7 @@ struct SeasonsView: View {
                         } else {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.springItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
@@ -61,7 +61,7 @@ struct SeasonsView: View {
                         } else {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.summerItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
@@ -79,7 +79,7 @@ struct SeasonsView: View {
                         } else {
                             LazyVGrid(columns: columns) {
                                 ForEach(controller.fallItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.medium)
+                                    AnimeGridItem(id: item.id, title: item.node.title, imageUrl: item.node.mainPicture?.large)
                                         .task {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }

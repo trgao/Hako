@@ -42,7 +42,8 @@ struct SignInSections: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 } else if !networker.isSignedIn {
                     VStack {
-                        Text("Sign in to view or edit lists")
+                        Text("You need to sign in to your MyAnimeList account in order to view and edit your anime or manga lists")
+                            .multilineTextAlignment(.center)
                         Button("Sign In") {
                             signIn()
                         }
@@ -97,6 +98,7 @@ struct SignInSections: View {
         if !networker.isSignedIn {
             Section {
                 Text("You can create a MyAnimeList account by signing up at **[MyAnimeList](https://myanimelist.net/register.php)**")
+                    .multilineTextAlignment(.center)
             }
         }
     }

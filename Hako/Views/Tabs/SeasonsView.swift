@@ -32,6 +32,7 @@ struct SeasonsView: View {
                                 }
                             }
                             .padding(10)
+                            .padding(.bottom, 30)
                         }
                     }
                     .navigationTitle("Winter")
@@ -49,6 +50,7 @@ struct SeasonsView: View {
                                 }
                             }
                             .padding(10)
+                            .padding(.bottom, 30)
                         }
                     }
                     .navigationTitle("Spring")
@@ -66,6 +68,7 @@ struct SeasonsView: View {
                                 }
                             }
                             .padding(10)
+                            .padding(.bottom, 30)
                         }
                     }
                     .navigationTitle("Summer")
@@ -83,6 +86,7 @@ struct SeasonsView: View {
                                 }
                             }
                             .padding(10)
+                            .padding(.bottom, 30)
                         }
                     }
                     .navigationTitle("Fall")

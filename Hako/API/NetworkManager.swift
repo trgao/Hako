@@ -500,12 +500,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeList(urlExtend: String, page: Int) async throws -> [JikanListItem] {
-        let response = try await getJikanResponse(urlExtend: "/anime?" + urlExtend + "&page=\(page)&limit=24", type: JikanListResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/anime?" + urlExtend + "&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getMangaList(urlExtend: String, page: Int) async throws -> [JikanListItem] {
-        let response = try await getJikanResponse(urlExtend: "/manga?" + urlExtend + "&page=\(page)&limit=24", type: JikanListResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/manga?" + urlExtend + "&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     

@@ -52,10 +52,10 @@ struct MyListView: View {
                                             .padding(.vertical, 50)
                                         }
                                     }
+                                    if controller.isAnimeLoading {
+                                        LoadingList()
+                                    }
                                 }
-                            }
-                            if controller.isAnimeLoading {
-                                LoadingView()
                             }
                         }
                         
@@ -90,10 +90,10 @@ struct MyListView: View {
                                             .padding(.vertical, 50)
                                         }
                                     }
+                                    if controller.isMangaLoading {
+                                        LoadingList()
+                                    }
                                 }
-                            }
-                            if controller.isMangaLoading {
-                                LoadingView()
                             }
                         }
                     }

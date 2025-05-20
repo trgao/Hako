@@ -61,13 +61,6 @@ struct SearchView: View {
                                 Image(systemName: "tv.fill").tag(TypeEnum.anime)
                                 Image(systemName: "book.fill").tag(TypeEnum.manga)
                             }
-                            .onChange(of: controller.type) {
-                                if searchText.count > 2 && controller.isItemsEmpty() {
-                                    Task {
-                                        await controller.search(searchText)
-                                    }
-                                }
-                            }
                             .pickerStyle(.segmented)
                         }
                         .listRowInsets(.init())

@@ -44,42 +44,31 @@ class SearchViewController: ObservableObject {
         self.topPopularManga = topPopularManga ?? []
     }
     
-    // Check if the lists for the non-search page are empty
-    func isPageEmpty() -> Bool {
-        return (networker.isSignedIn && animeSuggestions.isEmpty) || topAiringAnime.isEmpty || topUpcomingAnime.isEmpty || topPopularAnime.isEmpty || topPopularManga.isEmpty
-    }
-    
-    // Check if the current anime/manga search list is empty
-    func isItemsEmpty() -> Bool {
-        return (type == .anime && animeItems.isEmpty) || (type == .manga && mangaItems.isEmpty)
-    }
-    
     // Search for the anime/manga with the title
     func search(_ title: String) async -> Void {
-        animeItems = []
-        mangaItems = []
+        // Search anime
         isLoadingError = false
-        if type == .anime {
-            do {
-                isAnimeSearchLoading = true
-                let animeList = try await networker.searchAnime(anime: title)
-                animeItems = animeList
-                isAnimeSearchLoading = false
-            } catch {
-                isAnimeSearchLoading = false
-                isLoadingError = true
-            }
-        } else {
-            do {
-                isMangaSearchLoading = true
-                let mangaList = try await networker.searchManga(manga: title)
-                mangaItems = mangaList
-                isMangaSearchLoading = false
-            } catch {
-                isMangaSearchLoading = false
-                isLoadingError = true
-            }
+        isAnimeSearchLoading = true
+        animeItems = []
+        do {
+            let animeList = try await networker.searchAnime(anime: title)
+            animeItems = animeList
+        } catch {
+            isLoadingError = true
         }
+        isAnimeSearchLoading = false
+        
+        // Search manga
+        isLoadingError = false
+        isMangaSearchLoading = true
+        mangaItems = []
+        do {
+            let mangaList = try await networker.searchManga(manga: title)
+            mangaItems = mangaList
+        } catch {
+            isLoadingError = true
+        }
+        isMangaSearchLoading = false
     }
 }
 

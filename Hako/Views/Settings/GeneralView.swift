@@ -52,6 +52,9 @@ struct GeneralView: View {
                     Text("Use chapters for progress")
                     Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
                 }
+                Toggle(isOn: $settings.hideTrailers) {
+                    Text("Hide trailers")
+                }
                 Toggle(isOn: $settings.hideStatistics) {
                     Text("Hide statistics")
                 }

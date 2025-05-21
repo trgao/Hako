@@ -190,7 +190,7 @@ struct AnimeDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                if let videos = controller.anime?.videos, !videos.isEmpty {
+                if let videos = controller.anime?.videos, !videos.isEmpty, !settings.hideTrailers {
                     NavigationLink {
                         TrailersView(videos: videos)
                     } label: {

@@ -18,6 +18,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
     @AppStorage("useChapterProgress") var useChapterProgress = true
+    @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideStatistics") var hideStatistics = false
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0

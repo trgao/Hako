@@ -12,7 +12,6 @@ struct AnimeDetailsView: View {
     @StateObject var controller: AnimeDetailsViewController
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
-    @State private var isShowingSafariView = false
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
@@ -159,9 +158,6 @@ struct AnimeDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $isShowingSafariView) {
-            SafariView(url: url)
-        }
         .toolbar {
             if networker.isSignedIn && !settings.useWithoutAccount {
                 if let anime = controller.anime {
@@ -201,20 +197,13 @@ struct AnimeDetailsView: View {
                         Label("Trailers", systemImage: "play.rectangle")
                     }
                 }
-                if settings.safariInApp {
-                    Button {
-                        isShowingSafariView = true
-                    } label: {
-                        Label("Open in browser", systemImage: "globe")
-                    }
-                } else {
-                    Link(destination: url) {
-                        Label("Open in browser", systemImage: "globe")
-                    }
+                Link(destination: url) {
+                    Label("Open in browser", systemImage: "globe")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+            .handleOpenURLInApp()
             .disabled(controller.isLoading)
         }
     }

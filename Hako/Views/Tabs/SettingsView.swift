@@ -39,8 +39,10 @@ struct SettingsView: View {
                                 .foregroundStyle(.primary)
                         }
                     }
+                }
+                Section {
                     NavigationLink {
-                        Text("About")
+                        AboutView()
                     } label: {
                         Label {
                             Text("About")

@@ -115,8 +115,6 @@ struct MyListView: View {
                     Task {
                         if let index = selectedAnimeIndex {
                             if isAnimeDeleted || animeStatus != controller.animeStatus {
-                                print(isAnimeDeleted)
-                                print(animeStatus, controller.animeStatus)
                                 controller.animeItems.remove(at: index)
                             } else {
                                 await controller.refreshItem(index: index, type: .anime)

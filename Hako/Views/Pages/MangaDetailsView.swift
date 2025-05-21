@@ -12,7 +12,6 @@ struct MangaDetailsView: View {
     @StateObject var controller: MangaDetailsViewController
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
-    @State private var isShowingSafariView = false
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
@@ -225,9 +224,6 @@ struct MangaDetailsView: View {
         }
         .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $isShowingSafariView) {
-            SafariView(url: url)
-        }
         .toolbar {
             if networker.isSignedIn && !settings.useWithoutAccount {
                 if let manga = controller.manga {
@@ -260,20 +256,13 @@ struct MangaDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                if settings.safariInApp {
-                    Button {
-                        isShowingSafariView = true
-                    } label: {
-                        Label("Open in browser", systemImage: "globe")
-                    }
-                } else {
-                    Link(destination: url) {
-                        Label("Open in browser", systemImage: "globe")
-                    }
+                Link(destination: url) {
+                    Label("Open in browser", systemImage: "globe")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+            .handleOpenURLInApp()
             .disabled(controller.isLoading)
         }
     }

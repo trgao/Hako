@@ -152,7 +152,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     // Sign in function with old completion handler syntax
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "malc") { callbackURL, error in
+        let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { callbackURL, error in
             if let error = error {
                 DispatchQueue.main.async {
                     completion(.failure(.unknownError(error)))

@@ -4,9 +4,9 @@ An iOS MyAnimeList client
 
 This is a project that I used to learn Swift and iOS app development. Used the MyAnimeList and Jikan API. 
 
-<img src="https://github.com/trgao/MALC/blob/main/images/top.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/seasons.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/search.png" width="180" height="390"/>
+<img src="images/top.png?" width="180" height="390"/> <img src="images/seasons.png?" width="180" height="390"/> <img src="images/search.png?" width="180" height="390"/>
 
-<img src="https://github.com/trgao/MALC/blob/main/images/list.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/anime.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/edit.png" width="180" height="390"/>
+<img src="images/list.png?" width="180" height="390"/> <img src="images/anime.png?" width="180" height="390"/> <img src="images/edit.png?" width="180" height="390"/>
 
 ## Features
 

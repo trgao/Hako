@@ -1,8 +1,8 @@
 # MALC
 
-An iOS MyAnimeList client project to learn Swift, inspired by the Kitsune iOS app.
+An iOS MyAnimeList client
 
-Used the MyAnimeList and Jikan API. 
+This is a project that I used to learn Swift and iOS app development. Used the MyAnimeList and Jikan API. 
 
 <img src="https://github.com/trgao/MALC/blob/main/images/top.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/seasons.png" width="180" height="390"/> <img src="https://github.com/trgao/MALC/blob/main/images/search.png" width="180" height="390"/>
 
@@ -14,10 +14,17 @@ Used the MyAnimeList and Jikan API.
 * View animes airing in a specified season
 * Search for a particular anime/manga
 * View, edit, add and remove animes/mangas on user's list by logging in to MyAnimeList account
+* Customise how the app looks
 
 ## Things to be done
 
-* Add settings page for customisation
 * Add swiping gestures on list page (swipe left to remove 1, swipe right to add 1)
-* Add zoom in animations for grid item transitions to detail views
+* Use MyAniList data to show how many episodes have already been aired
+* Add user reviews
+* Show no internet banner when no internet
+* Add default status/sort in my list for behaviours settings
+* Add random anime/manga in search
+* Add context menu support
+* Add haptic feedback
+* Add ipad support for NavigationSplitView
 * Try integration with Spotify API

@@ -24,6 +24,7 @@ struct AboutView: View {
             }
             Section {
                 Link("Privacy policy", destination: URL(string: "https://trgao.github.io/hako/privacypolicy")!)
+                Link("Terms of service", destination: URL(string: "https://trgao.github.io/hako/termsofservice")!)
             }
         } header: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

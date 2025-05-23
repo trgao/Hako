@@ -107,6 +107,10 @@
 		EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924392DD634BB00FB40A9 /* SettingsManager.swift */; };
 		EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */; };
 		EEB274792C0635F700D6F257 /* MangaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB274782C0635F700D6F257 /* MangaEditView.swift */; };
+		EEB905D92DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D82DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png */; };
+		EEB905DA2DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D52DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png */; };
+		EEB905DB2DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */; };
+		EEB905DC2DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */; };
 		EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */; };
 		EEC1B8FC2BF12413001E08C4 /* MangaListStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */; };
 		EEC1B9022BF1266B001E08C4 /* ListCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */; };
@@ -251,6 +255,10 @@
 		EEA924392DD634BB00FB40A9 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		EEB274782C0635F700D6F257 /* MangaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaEditView.swift; sourceTree = "<group>"; };
+		EEB905D52DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@3x~ipad.png"; sourceTree = "<group>"; };
+		EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		EEB905D82DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x~ipad.png"; sourceTree = "<group>"; };
 		EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailsViewController.swift; sourceTree = "<group>"; };
 		EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListStatus.swift; sourceTree = "<group>"; };
 		EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCharacter.swift; sourceTree = "<group>"; };
@@ -366,6 +374,10 @@
 		EE3582622DD887CE00E0AF33 /* AppIcons */ = {
 			isa = PBXGroup;
 			children = (
+				EEB905D52DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png */,
+				EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */,
+				EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */,
+				EEB905D82DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png */,
 				EE3582632DD8883900E0AF33 /* AltAppIcon.png */,
 				EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */,
 				EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */,
@@ -766,6 +778,10 @@
 				EE35826A2DD8883900E0AF33 /* AppIcon.png in Resources */,
 				EE35826B2DD8883900E0AF33 /* AppIcon@2x.png in Resources */,
 				EE35826C2DD8883900E0AF33 /* AppIcon@3x.png in Resources */,
+				EEB905D92DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png in Resources */,
+				EEB905DA2DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png in Resources */,
+				EEB905DB2DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png in Resources */,
+				EEB905DC2DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png in Resources */,
 				EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */,
 				EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */,
 				EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */,

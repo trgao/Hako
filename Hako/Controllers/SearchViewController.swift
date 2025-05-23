@@ -30,18 +30,26 @@ class SearchViewController: ObservableObject {
     let networker = NetworkManager.shared
     
     func refresh() async -> Void {
-        if networker.isSignedIn {
+        if networker.isSignedIn && self.animeSuggestions.isEmpty {
             let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
             self.animeSuggestions = animeSuggestions ?? []
         }
-        let topAiringAnime = try? await networker.getAnimeTopAiringList()
-        self.topAiringAnime = topAiringAnime ?? []
-        let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
-        self.topUpcomingAnime = topUpcomingAnime ?? []
-        let topPopularAnime = try? await networker.getAnimeTopPopularList()
-        self.topPopularAnime = topPopularAnime ?? []
-        let topPopularManga = try? await networker.getMangaTopPopularList()
-        self.topPopularManga = topPopularManga ?? []
+        if self.topAiringAnime.isEmpty {
+            let topAiringAnime = try? await networker.getAnimeTopAiringList()
+            self.topAiringAnime = topAiringAnime ?? []
+        }
+        if self.topUpcomingAnime.isEmpty {
+            let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
+            self.topUpcomingAnime = topUpcomingAnime ?? []
+        }
+        if self.topPopularAnime.isEmpty {
+            let topPopularAnime = try? await networker.getAnimeTopPopularList()
+            self.topPopularAnime = topPopularAnime ?? []
+        }
+        if self.topPopularManga.isEmpty {
+            let topPopularManga = try? await networker.getMangaTopPopularList()
+            self.topPopularManga = topPopularManga ?? []
+        }
     }
     
     // Search for the anime/manga with the title

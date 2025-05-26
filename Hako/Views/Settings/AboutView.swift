@@ -10,6 +10,10 @@ import SwiftUI
 struct AboutView: View {
     var body: some View {
         PageList {
+            Section {
+                Link("Privacy policy", destination: URL(string: "https://trgao.github.io/hako/privacypolicy")!)
+                Link("Terms of service", destination: URL(string: "https://trgao.github.io/hako/termsofservice")!)
+            }
             Section("Developer") {
                 Link("Gao Tianrun", destination: URL(string: "https://trgao.github.io")!)
             }
@@ -21,10 +25,6 @@ struct AboutView: View {
                 Link("keychainaccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)
                 Link("swiftui-shimmer", destination: URL(string: "https://github.com/markiv/SwiftUI-Shimmer")!)
                 Link("swift-retry", destination: URL(string: "https://github.com/fumoboy007/swift-retry")!)
-            }
-            Section {
-                Link("Privacy policy", destination: URL(string: "https://trgao.github.io/hako/privacypolicy")!)
-                Link("Terms of service", destination: URL(string: "https://trgao.github.io/hako/termsofservice")!)
             }
         } header: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

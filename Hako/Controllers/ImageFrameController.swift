@@ -19,8 +19,8 @@ class ImageFrameController: ObservableObject {
         Task {
             await self.networker.downloadImage(id: id, imageUrl: imageUrl)
             self.image = self.networker.getImage(id: id)
-            if isProfile {
-                UserDefaults.standard.set(self.image, forKey: "userImage")
+            if let image = self.image, isProfile {
+                UserDefaults.standard.set(image, forKey: "userImage")
             }
         }
     }

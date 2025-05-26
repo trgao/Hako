@@ -43,87 +43,91 @@ struct MangaDetailsView: View {
                         Section {
                             if settings.useChapterProgress {
                                 if let numChapters = manga.numChapters, numChapters > 0 {
-                                    HStack {
+                                    VStack {
                                         ProgressView(value: Float(listStatus.numChaptersRead) / Float(numChapters))
                                             .tint(colours[listStatus.status ?? .none])
-                                        if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                            Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                        } else {
-                                            Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
+                                        HStack {
+                                            Text(listStatus.status?.toString() ?? "")
+                                                .bold()
+                                            Spacer()
+                                            if let numVolumes = manga.numVolumes, numVolumes > 0 {
+                                                Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            } else {
+                                                Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            }
+                                            Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
-                                        Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
+                                        .font(.system(size: 13))
                                     }
+                                    .padding(.vertical, 10)
                                 } else {
-                                    HStack {
+                                    VStack {
                                         ProgressView(value: listStatus.numChaptersRead == 0 ? 0 : 0.5)
                                             .tint(colours[listStatus.status ?? .none])
-                                        if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                            Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                        } else {
-                                            Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
+                                        HStack {
+                                            Text(listStatus.status?.toString() ?? "")
+                                                .bold()
+                                            Spacer()
+                                            if let numVolumes = manga.numVolumes, numVolumes > 0 {
+                                                Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            } else {
+                                                Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            }
+                                            Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
-                                        Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
+                                        .font(.system(size: 13))
                                     }
+                                    .padding(.vertical, 10)
                                 }
                             } else {
                                 if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                    HStack {
+                                    VStack {
                                         ProgressView(value: Float(listStatus.numVolumesRead) / Float(numVolumes))
                                             .tint(colours[listStatus.status ?? .none])
-                                        Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                        if let numChapters = manga.numChapters, numChapters > 0 {
-                                            Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
+                                        HStack {
+                                            Text(listStatus.status?.toString() ?? "")
+                                                .bold()
+                                            Spacer()
+                                            Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
-                                        } else {
-                                            Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
-                                                .labelStyle(CustomLabel(spacing: 2))
+                                            if let numChapters = manga.numChapters, numChapters > 0 {
+                                                Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            } else {
+                                                Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            }
                                         }
+                                        .font(.system(size: 13))
                                     }
+                                    .padding(.vertical, 10)
                                 } else {
-                                    HStack {
+                                    VStack {
                                         ProgressView(value: listStatus.numVolumesRead == 0 ? 0 : 0.5)
                                             .tint(colours[listStatus.status ?? .none])
-                                        Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(Color(.systemGray))
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                        if let numChapters = manga.numChapters, numChapters > 0 {
-                                            Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
+                                        HStack {
+                                            Text(listStatus.status?.toString() ?? "")
+                                                .bold()
+                                            Spacer()
+                                            Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
-                                        } else {
-                                            Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(Color(.systemGray))
-                                                .labelStyle(CustomLabel(spacing: 2))
+                                            if let numChapters = manga.numChapters, numChapters > 0 {
+                                                Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            } else {
+                                                Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
+                                                    .labelStyle(CustomLabel(spacing: 2))
+                                            }
                                         }
+                                        .font(.system(size: 13))
                                     }
+                                    .padding(.vertical, 10)
                                 }
                             }
                         } header: {

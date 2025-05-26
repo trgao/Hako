@@ -105,6 +105,11 @@ struct AnimeEditView: View {
                                 }
                             PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
                             NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes Watched", max: numEpisodes)
+                                .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
+                                    if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
+                                        listStatus.status = .watching
+                                    }
+                                }
                         }
                         Section {
                             if listStatus.startDate != nil {
@@ -214,6 +219,20 @@ struct AnimeEditView: View {
     }
 }
 
+private func statusToIndex(_ status: StatusEnum?) -> Int {
+    if status == .watching {
+        return 0
+    } else if status == .completed {
+        return 1
+    } else if status == .onHold {
+        return 2
+    } else if status == .dropped {
+        return 3
+    } else {
+        return 4
+    }
+}
+
 struct AnimeStatusPickerRow: View {
     @State private var selected: Int
     @Binding var selection: StatusEnum?
@@ -222,17 +241,7 @@ struct AnimeStatusPickerRow: View {
     
     init(selection: Binding<StatusEnum?>) {
         self._selection = selection
-        if selection.wrappedValue == .watching {
-            self.selected = 0
-        } else if selection.wrappedValue == .completed {
-            self.selected = 1
-        } else if selection.wrappedValue == .onHold {
-            self.selected = 2
-        } else if selection.wrappedValue == .dropped {
-            self.selected = 3
-        } else {
-            self.selected = 4
-        }
+        self.selected = statusToIndex(selection.wrappedValue)
     }
     
     var body: some View {
@@ -247,19 +256,17 @@ struct AnimeStatusPickerRow: View {
     var menu: some View {
         Menu {
             ForEach(labels.indices, id: \.self) { index in
-                if !labels[index].isEmpty {
-                    Button {
-                        selected = index
-                        selection = mappings[index]
-                    } label: {
-                        if selected == index {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                Text(labels[index])
-                            }
-                        } else {
+                Button {
+                    selected = index
+                    selection = mappings[index]
+                } label: {
+                    if selected == index {
+                        HStack {
+                            Image(systemName: "checkmark")
                             Text(labels[index])
                         }
+                    } else {
+                        Text(labels[index])
                     }
                 }
             }
@@ -269,6 +276,9 @@ struct AnimeStatusPickerRow: View {
                 Image(systemName: "chevron.down")
                     .font(.system(size: 13))
             }
+        }
+        .onChange(of: selection) { _, cur in
+            selected = statusToIndex(cur)
         }
     }
 }

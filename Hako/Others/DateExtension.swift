@@ -19,4 +19,10 @@ extension Date {
         dateFormatterPrint.dateFormat = "HH:mm, dd MMM yyyy"
         return dateFormatterPrint.string(from: self)
     }
+    
+    func toMALString() -> String {
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "yyyy-MM-dd"
+        return dateFormatterPrint.string(from: self)
+    }
 }

@@ -362,7 +362,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.outOfRetries
         }
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
-        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)".data(using: .utf8)!
+        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
@@ -399,7 +399,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.outOfRetries
         }
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
-        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)".data(using: .utf8)!
+        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate!.toMALString())&finish_date=\(listStatus.finishDate!.toMALString())".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")

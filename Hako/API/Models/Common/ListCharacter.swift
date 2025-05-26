@@ -10,5 +10,4 @@ import Foundation
 struct ListCharacter: Codable, Identifiable {
     var id: Int { character.id }
     let character: JikanListItem
-    let role: String
 }

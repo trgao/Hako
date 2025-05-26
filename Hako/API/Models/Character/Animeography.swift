@@ -10,5 +10,5 @@ import Foundation
 struct Animeography: Codable, Identifiable {
     var id: Int { anime.id }
     let anime: JikanListItem
-    let role: String
+    let role: String?
 }

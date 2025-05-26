@@ -12,5 +12,5 @@ struct Images: Codable {
         let imageUrl: String?
         let largeImageUrl: String?
     }
-    let jpg: Image
+    let jpg: Image?
 }

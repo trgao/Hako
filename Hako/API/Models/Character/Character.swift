@@ -11,12 +11,12 @@ struct Character: Codable, Identifiable {
     var id: Int { malId }
     let malId: Int
     let url: String?
-    let images: Images
+    let images: Images?
     let name: String?
     let nameKanji: String?
     let favorites: Int?
     let about: String?
-    let anime: [Animeography]
-    let manga: [Mangaography]
-    let voices: [Voice]
+    let anime: [Animeography]?
+    let manga: [Mangaography]?
+    let voices: [Voice]?
 }

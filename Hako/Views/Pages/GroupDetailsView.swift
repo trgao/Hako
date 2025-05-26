@@ -33,12 +33,12 @@ struct GroupDetailsView: View {
                     LazyVGrid(columns: columns) {
                         ForEach(controller.items) { item in
                             if type == .anime {
-                                AnimeGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.largeImageUrl)
+                                AnimeGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg?.largeImageUrl)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
                             } else if type == .manga {
-                                MangaGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg.largeImageUrl)
+                                MangaGridItem(id: item.id, title: item.title, imageUrl: item.images?.jpg?.largeImageUrl)
                                     .task {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }

@@ -30,7 +30,7 @@ struct Staffs: View {
                                     PersonDetailsView(id: staff.id)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg.imageUrl, imageSize: .medium)
+                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
                                         Text(staff.person.name ?? "")
                                             .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))

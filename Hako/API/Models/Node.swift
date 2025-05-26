@@ -19,5 +19,5 @@ struct Node: Codable {
 }
 
 struct Ranking: Codable {
-    let rank: Int
+    let rank: Int?
 }

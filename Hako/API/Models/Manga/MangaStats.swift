@@ -9,10 +9,10 @@
 import Foundation
 
 struct MangaStats: Codable {
-    let reading: Int
-    let completed: Int
-    let onHold: Int
-    let dropped: Int
-    let planToRead: Int
-    let total: Int
+    let reading: Int?
+    let completed: Int?
+    let onHold: Int?
+    let dropped: Int?
+    let planToRead: Int?
+    let total: Int?
 }

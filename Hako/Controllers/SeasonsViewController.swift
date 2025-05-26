@@ -141,9 +141,20 @@ class SeasonsViewController: ObservableObject {
         // Reset all lists if need to clear (to change year)
         if clear {
             winterItems = []
+            currentWinterPage = 1
+            canLoadMoreWinterPages = true
+            
             springItems = []
+            currentSpringPage = 1
+            canLoadMoreSpringPages = true
+            
             summerItems = []
+            currentSummerPage = 1
+            canLoadMoreSummerPages = true
+            
             fallItems = []
+            currentFallPage = 1
+            canLoadMoreFallPages = true
         }
         
         updateCurrentSeasonPage(1)
@@ -163,10 +174,7 @@ class SeasonsViewController: ObservableObject {
             } else if season == "fall" {
                 fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
             }
-            updateCurrentSeasonLoading(false)
         } catch let error as NetworkError {
-            updateCurrentSeasonLoading(false)
-
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
@@ -174,9 +182,9 @@ class SeasonsViewController: ObservableObject {
                 isLoadingError = true
             }
         } catch {
-            updateCurrentSeasonLoading(false)
             isLoadingError = true
         }
+        updateCurrentSeasonLoading(false)
     }
     
     // Load more of the current season
@@ -206,10 +214,7 @@ class SeasonsViewController: ObservableObject {
             } else if season == "fall" {
                 fallItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
             }
-            updateCurrentSeasonLoading(false)
         } catch let error as NetworkError {
-            updateCurrentSeasonLoading(false)
-            
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
@@ -217,9 +222,9 @@ class SeasonsViewController: ObservableObject {
                 isLoadingError = true
             }
         } catch {
-            updateCurrentSeasonLoading(false)
             isLoadingError = true
         }
+        updateCurrentSeasonLoading(false)
     }
     
     // Load more items from current season when reaching the 5th last anime in list

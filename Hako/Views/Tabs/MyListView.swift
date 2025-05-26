@@ -12,10 +12,12 @@ struct MyListView: View {
     @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
+    
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
     @State private var animeStatus: StatusEnum?
+    
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
@@ -25,16 +27,15 @@ struct MyListView: View {
         NavigationStack {
             if networker.isSignedIn {
                 VStack {
-                    if controller.type == .anime {
-                        ZStack {
+                    ZStack {
+                        if controller.type == .anime {
                             List {
                                 Section(controller.animeStatus.toString()) {
                                     if controller.isLoadingError && controller.animeItems.isEmpty {
                                         HStack {
-                                            Spacer()
                                             ErrorView(refresh: { await controller.refresh() })
-                                            Spacer()
                                         }
+                                        .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
                                             AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
@@ -61,18 +62,14 @@ struct MyListView: View {
                                     }
                                 }
                             }
-                        }
-                        
-                    } else if controller.type == .manga {
-                        ZStack {
+                        } else if controller.type == .manga {
                             List {
                                 Section(controller.mangaStatus.toString()) {
                                     if controller.isLoadingError && controller.mangaItems.isEmpty {
                                         HStack {
-                                            Spacer()
                                             ErrorView(refresh: { await controller.refresh() })
-                                            Spacer()
                                         }
+                                        .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
                                             MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
@@ -100,6 +97,9 @@ struct MyListView: View {
                                 }
                             }
                         }
+                        if controller.isRefreshLoading {
+                            LoadingView()
+                        }
                     }
                 }
                 .refreshable {
@@ -107,7 +107,7 @@ struct MyListView: View {
                 }
                 .task(id: isRefresh) {
                     if controller.shouldRefresh() || isRefresh {
-                        await controller.refresh()
+                        await controller.refresh(!controller.isItemsEmpty())
                         isRefresh = false
                     }
                 }

@@ -26,6 +26,7 @@ class MyListViewController: ObservableObject {
     var canLoadMoreMangaPages = true
     
     // Common variables
+    @Published var isRefreshLoading = false
     @Published var isLoadingError = false
     @Published var type: TypeEnum = .anime
     let networker = NetworkManager.shared
@@ -67,39 +68,53 @@ class MyListViewController: ObservableObject {
     }
     
     // Refresh the current anime/manga list
-    func refresh(_ clear: Bool = false) async -> Void {
+    func refresh(_ refresh: Bool = false) async -> Void {
         isLoadingError = false
         if type == .anime {
-            animeItems = []
-            do {
-                currentAnimePage = 1
-                canLoadMoreAnimePages = true
+            currentAnimePage = 1
+            canLoadMoreAnimePages = true
+            if refresh {
+                isRefreshLoading = true
+            } else {
+                animeItems = []
                 isAnimeLoading = true
+            }
+            do {
                 let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
                 
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems = animeList
-                isAnimeLoading = false
             } catch {
-                isAnimeLoading = false
                 isLoadingError = true
             }
+            if refresh {
+                isRefreshLoading = false
+            } else {
+                isAnimeLoading = false
+            }
         } else if type == .manga {
-            mangaItems = []
-            do {
-                currentMangaPage = 1
-                canLoadMoreMangaPages = true
+            currentMangaPage = 1
+            canLoadMoreMangaPages = true
+            if refresh {
+                isRefreshLoading = true
+            } else {
+                mangaItems = []
                 isMangaLoading = true
+            }
+            do {
                 let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
                 
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems = mangaList
-                isMangaLoading = false
             } catch {
-                isMangaLoading = false
                 isLoadingError = true
+            }
+            if refresh {
+                isRefreshLoading = false
+            } else {
+                isMangaLoading = false
             }
         }
     }
@@ -125,11 +140,10 @@ class MyListViewController: ObservableObject {
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems.append(contentsOf: animeList)
-                isAnimeLoading = false
             } catch {
-                isAnimeLoading = false
                 isLoadingError = true
             }
+            isAnimeLoading = false
         } else if type == .manga {
             // only load more when it is not loading and there are more pages to be loaded
             guard !isMangaLoading && canLoadMoreMangaPages else {
@@ -149,11 +163,10 @@ class MyListViewController: ObservableObject {
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems.append(contentsOf: mangaList)
-                isMangaLoading = false
             } catch {
-                isMangaLoading = false
                 isLoadingError = true
             }
+            isMangaLoading = false
         }
     }
     

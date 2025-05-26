@@ -42,23 +42,33 @@ struct AnimeDetailsView: View {
                     if let listStatus = anime.myListStatus, networker.isSignedIn {
                         Section {
                             if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
-                                HStack {
+                                VStack {
                                     ProgressView(value: Float(listStatus.numEpisodesWatched) / Float(numEpisodes))
                                         .tint(colours[listStatus.status ?? .none])
-                                    Label("\(String(listStatus.numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
+                                    HStack {
+                                        Text(listStatus.status?.toString() ?? "")
+                                            .bold()
+                                        Spacer()
+                                        Label("\(String(listStatus.numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
+                                            .labelStyle(CustomLabel(spacing: 2))
+                                    }
+                                    .font(.system(size: 13))
                                 }
+                                .padding(.vertical, 10)
                             } else {
-                                HStack {
+                                VStack {
                                     ProgressView(value: listStatus.numEpisodesWatched == 0 ? 0 : 0.5)
                                         .tint(colours[anime.myListStatus?.status ?? .none])
-                                    Label("\(String(listStatus.numEpisodesWatched)) / ?", systemImage: "video.fill")
-                                        .font(.system(size: 13))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
+                                    HStack {
+                                        Text(listStatus.status?.toString() ?? "")
+                                            .bold()
+                                        Spacer()
+                                        Label("\(String(listStatus.numEpisodesWatched)) / ?", systemImage: "video.fill")
+                                            .labelStyle(CustomLabel(spacing: 2))
+                                    }
+                                    .font(.system(size: 13))
                                 }
+                                .padding(.vertical, 10)
                             }
                         } header: {
                             Text("Your progress")

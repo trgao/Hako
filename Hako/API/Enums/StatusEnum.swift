@@ -52,15 +52,15 @@ enum StatusEnum: Codable {
         } else if self == .completed {
             return "Completed"
         } else if self == .onHold {
-            return "On Hold"
+            return "On hold"
         } else if self == .dropped {
             return "Dropped"
         } else if self == .planToWatch {
-            return "Plan To Watch"
+            return "Plan to watch"
         } else if self == .reading {
             return "Reading"
         } else if self == .planToRead {
-            return "Plan To Read"
+            return "Plan to read"
         } else {
             return ""
         }

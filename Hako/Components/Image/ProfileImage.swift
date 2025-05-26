@@ -29,9 +29,6 @@ struct ProfileImage: View {
                 .frame(width: 80, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .shadow(radius: 2)
-                .onAppear {
-                    UserDefaults.standard.set(data, forKey: "userImage")
-                }
         } else {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundStyle(.gray)

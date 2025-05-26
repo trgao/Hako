@@ -30,7 +30,7 @@ struct MangaCharacters: View {
                                     CharacterDetailsView(id: character.id)
                                 } label: {
                                     VStack {
-                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg.imageUrl, imageSize: .medium)
+                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
                                         Text(character.character.name ?? "")
                                             .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))

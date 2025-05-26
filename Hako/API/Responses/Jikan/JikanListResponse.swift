@@ -9,5 +9,4 @@ import Foundation
 
 struct JikanListResponse: Codable {
     let data: [JikanListItem]
-    let pagination: Pagination
 }

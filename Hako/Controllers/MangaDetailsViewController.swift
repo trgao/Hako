@@ -68,7 +68,7 @@ class MangaDetailsViewController: ObservableObject {
                     authors = try await authors.concurrentMap { author in
                         var newAuthor = author
                         let person = try await self.networker.getPersonDetails(id: author.id)
-                        newAuthor.imageUrl = person.images.jpg.imageUrl
+                        newAuthor.imageUrl = person.images?.jpg?.imageUrl
                         return newAuthor
                     }
                     self.authors = authors

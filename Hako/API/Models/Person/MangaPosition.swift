@@ -10,5 +10,5 @@ import Foundation
 struct MangaPosition: Codable, Identifiable {
     var id: Int { manga.id }
     let manga: JikanListItem
-    let position: String
+    let position: String?
 }

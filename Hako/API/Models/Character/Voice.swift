@@ -10,5 +10,5 @@ import Foundation
 struct Voice: Codable, Identifiable {
     var id: Int { person.id }
     let person: JikanListItem
-    let language: String
+    let language: String?
 }

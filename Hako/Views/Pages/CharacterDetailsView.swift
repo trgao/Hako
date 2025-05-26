@@ -30,7 +30,7 @@ struct CharacterDetailsView: View {
                         CharacterMangaSection(mangas: character.manga)
                         CharacterVoiceSection(voices: character.voices)
                     } header: {
-                        ImageFrame(id: "character\(character.id)", imageUrl: character.images.jpg.imageUrl, imageSize: .large)
+                        ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .large)
                             .padding([.top], 10)
                         Text(character.name ?? "")
                             .bold()
@@ -55,7 +55,7 @@ struct CharacterDetailsView: View {
                     .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                     .background {
                         if settings.translucentBackground {
-                            ImageFrame(id: "character\(id)", imageUrl: character.images.jpg.imageUrl, imageSize: .background)
+                            ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
                         }
                     }
                 }
@@ -71,8 +71,12 @@ struct CharacterDetailsView: View {
 struct CharacterAnimeSection: View {
     private let animes: [Animeography]
     
-    init(animes: [Animeography]) {
-        self.animes = animes
+    init(animes: [Animeography]?) {
+        if let animes = animes {
+            self.animes = animes
+        } else {
+            self.animes = []
+        }
     }
     
     var body: some View {
@@ -83,11 +87,11 @@ struct CharacterAnimeSection: View {
                         AnimeDetailsView(id: anime.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.largeImageUrl, imageSize: .small)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
-                                Text(anime.role)
+                                Text(anime.role ?? "")
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }
@@ -108,8 +112,12 @@ struct CharacterAnimeSection: View {
 struct CharacterMangaSection: View {
     private let mangas: [Mangaography]
     
-    init(mangas: [Mangaography]) {
-        self.mangas = mangas
+    init(mangas: [Mangaography]?) {
+        if let mangas = mangas {
+            self.mangas = mangas
+        } else {
+            self.mangas = []
+        }
     }
     
     var body: some View {
@@ -120,11 +128,11 @@ struct CharacterMangaSection: View {
                         MangaDetailsView(id: manga.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.largeImageUrl, imageSize: .small)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
-                                Text(manga.role)
+                                Text(manga.role ?? "")
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }
@@ -145,8 +153,12 @@ struct CharacterMangaSection: View {
 struct CharacterVoiceSection: View {
     private let voices: [Voice]
     
-    init(voices: [Voice]) {
-        self.voices = voices
+    init(voices: [Voice]?) {
+        if let voices = voices {
+            self.voices = voices
+        } else {
+            self.voices = []
+        }
     }
     
     var body: some View {
@@ -157,11 +169,11 @@ struct CharacterVoiceSection: View {
                         PersonDetailsView(id: voice.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg.imageUrl, imageSize: .small)
+                            ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg?.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(voice.person.name ?? "")
-                                Text(voice.language)
+                                Text(voice.language ?? "")
                                     .foregroundStyle(Color(.systemGray))
                                     .font(.system(size: 13))
                             }

@@ -8,10 +8,10 @@
 import Foundation
 
 struct AnimeStats: Codable {
-    let watching: Int
-    let completed: Int
-    let onHold: Int
-    let dropped: Int
-    let planToWatch: Int
-    let total: Int
+    let watching: Int?
+    let completed: Int?
+    let onHold: Int?
+    let dropped: Int?
+    let planToWatch: Int?
+    let total: Int?
 }

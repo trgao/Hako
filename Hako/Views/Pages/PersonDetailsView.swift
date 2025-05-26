@@ -30,7 +30,7 @@ struct PersonDetailsView: View {
                         PersonAnimeSection(animes: person.anime)
                         PersonMangaSection(mangas: person.manga)
                     } header: {
-                        ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .large)
+                        ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .large)
                             .padding([.top], 10)
                         Text(person.name)
                             .bold()
@@ -57,7 +57,7 @@ struct PersonDetailsView: View {
                     .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                     .background {
                         if settings.translucentBackground {
-                            ImageFrame(id: "person\(id)", imageUrl: controller.person?.images.jpg.imageUrl, imageSize: .background)
+                            ImageFrame(id: "person\(id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .background)
                         }
                     }
                 }
@@ -73,8 +73,12 @@ struct PersonDetailsView: View {
 struct PersonVoiceSection: View {
     private let voices: [AnimeVoice]
     
-    init(voices: [AnimeVoice]) {
-        self.voices = voices
+    init(voices: [AnimeVoice]?) {
+        if let voices = voices {
+            self.voices = voices
+        } else {
+            self.voices = []
+        }
     }
     
     var body: some View {
@@ -85,7 +89,7 @@ struct PersonVoiceSection: View {
                         AnimeDetailsView(id: voice.anime.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg.imageUrl, imageSize: .small)
+                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg?.imageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(voice.anime.title ?? "")
@@ -110,8 +114,12 @@ struct PersonVoiceSection: View {
 struct PersonAnimeSection: View {
     private let animes: [AnimePosition]
     
-    init(animes: [AnimePosition]) {
-        self.animes = animes
+    init(animes: [AnimePosition]?) {
+        if let animes = animes {
+            self.animes = animes
+        } else {
+            self.animes = []
+        }
     }
     
     var body: some View {
@@ -122,13 +130,15 @@ struct PersonAnimeSection: View {
                         AnimeDetailsView(id: anime.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg.largeImageUrl, imageSize: .small)
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
-                                Text(anime.position.prefix(3) == "add" ? anime.position.suffix(anime.position.count - 4) : anime.position.prefix(anime.position.count))
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
+                                if let position = anime.position {
+                                    Text(position.prefix(3) == "add" ? position.suffix(position.count - 4) : position.prefix(position.count))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .font(.system(size: 13))
+                                }
                             }
                         }
                     }
@@ -147,8 +157,12 @@ struct PersonAnimeSection: View {
 struct PersonMangaSection: View {
     private let mangas: [MangaPosition]
     
-    init(mangas: [MangaPosition]) {
-        self.mangas = mangas
+    init(mangas: [MangaPosition]?) {
+        if let mangas = mangas {
+            self.mangas = mangas
+        } else {
+            self.mangas = []
+        }
     }
     
     var body: some View {
@@ -159,13 +173,15 @@ struct PersonMangaSection: View {
                         MangaDetailsView(id: manga.id)
                     } label: {
                         HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg.largeImageUrl, imageSize: .small)
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
                                 .padding([.trailing], 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
-                                Text(manga.position.prefix(3) == "add" ? manga.position.suffix(manga.position.count - 4) : manga.position.prefix(manga.position.count))
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
+                                if let position = manga.position {
+                                    Text(position.prefix(3) == "add" ? position.suffix(position.count - 4) : position.prefix(position.count))
+                                        .foregroundStyle(Color(.systemGray))
+                                        .font(.system(size: 13))
+                                }
                             }
                         }
                     }

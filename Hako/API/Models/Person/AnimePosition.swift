@@ -10,5 +10,5 @@ import Foundation
 struct AnimePosition: Codable, Identifiable {
     var id: Int { anime.id }
     let anime: JikanListItem
-    let position: String
+    let position: String?
 }

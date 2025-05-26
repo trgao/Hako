@@ -8,6 +8,6 @@
 import Foundation
 
 struct MainPicture: Codable {
-    let medium: String
-    let large: String
+    let medium: String?
+    let large: String?
 }

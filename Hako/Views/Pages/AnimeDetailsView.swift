@@ -69,14 +69,22 @@ struct AnimeDetailsView: View {
                         }
                     }
                     AnimeInformation(anime: anime)
-                    AnimeCharacters(controller: controller)
-                    Staffs(controller: controller)
-                    AnimeRelatedItems(controller: controller)
+                    if !settings.hideAnimeCharacters {
+                        AnimeCharacters(controller: controller)
+                    }
+                    if !settings.hideStaffs {
+                        Staffs(controller: controller)
+                    }
+                    if !settings.hideAnimeRelated {
+                        AnimeRelatedItems(controller: controller)
+                    }
                     if !settings.hideRecommendations {
                         Recommendations(animeRecommendations: anime.recommendations)
                     }
-                    ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                    if !settings.hideStatistics {
+                    if !settings.hideThemeSongs {
+                        ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
+                    }
+                    if !settings.hideAnimeStatistics {
                         AnimeStatistics(controller: controller)
                     }
                 } header: {

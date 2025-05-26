@@ -135,13 +135,19 @@ struct MangaDetailsView: View {
                         }
                     }
                     MangaInformation(manga: manga)
-                    MangaCharacters(controller: controller)
-                    Authors(controller: controller)
-                    MangaRelatedItems(controller: controller)
+                    if !settings.hideMangaCharacters {
+                        MangaCharacters(controller: controller)
+                    }
+                    if !settings.hideAuthors {
+                        Authors(controller: controller)
+                    }
+                    if !settings.hideMangaRelated {
+                        MangaRelatedItems(controller: controller)
+                    }
                     if !settings.hideRecommendations {
                         Recommendations(mangaRecommendations: manga.recommendations)
                     }
-                    if !settings.hideStatistics {
+                    if !settings.hideMangaStatistics {
                         MangaStatistics(controller: controller)
                     }
                 } header: {

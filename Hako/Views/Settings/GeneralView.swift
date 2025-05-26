@@ -36,8 +36,6 @@ struct GeneralView: View {
                 Toggle(isOn: $settings.hideRecommendations) {
                     Text("Hide recommendations")
                 }
-            }
-            Section("Launch view") {
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
             Section("Grid view") {
@@ -47,15 +45,41 @@ struct GeneralView: View {
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
-            Section("Item details") {
+            Section("Anime details") {
+                Toggle(isOn: $settings.hideTrailers) {
+                    Text("Hide trailers")
+                }
+                Toggle(isOn: $settings.hideAnimeCharacters) {
+                    Text("Hide characters")
+                }
+                Toggle(isOn: $settings.hideStaffs) {
+                    Text("Hide staffs")
+                }
+                Toggle(isOn: $settings.hideAnimeRelated) {
+                    Text("Hide related")
+                }
+                Toggle(isOn: $settings.hideThemeSongs) {
+                    Text("Hide theme songs")
+                }
+                Toggle(isOn: $settings.hideAnimeStatistics) {
+                    Text("Hide statistics")
+                }
+            }
+            Section("Manga details") {
                 Toggle(isOn: $settings.useChapterProgress) {
                     Text("Use chapters for progress")
                     Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
                 }
-                Toggle(isOn: $settings.hideTrailers) {
-                    Text("Hide trailers")
+                Toggle(isOn: $settings.hideMangaCharacters) {
+                    Text("Hide characters")
                 }
-                Toggle(isOn: $settings.hideStatistics) {
+                Toggle(isOn: $settings.hideAuthors) {
+                    Text("Hide authors")
+                }
+                Toggle(isOn: $settings.hideMangaRelated) {
+                    Text("Hide related")
+                }
+                Toggle(isOn: $settings.hideMangaStatistics) {
                     Text("Hide statistics")
                 }
             }

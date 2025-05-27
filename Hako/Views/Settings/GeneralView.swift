@@ -45,6 +45,17 @@ struct GeneralView: View {
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
+            Section("List view") {
+                Toggle(isOn: $settings.useSwipeActions) {
+                    Text("Enable swipe actions")
+                    Text("Swipe left or right to increase or decrease episodes watched and \(settings.useChapterChange ? "chapters" : "volumes") read")
+                }
+                Toggle(isOn: $settings.useChapterChange) {
+                    Text("Change chapters read with swipe actions")
+                    Text("Swipe actions will now change \(settings.useChapterChange ? "chapters" : "volumes") read")
+                }
+                .disabled(!settings.useSwipeActions)
+            }
             Section("Anime details") {
                 Toggle(isOn: $settings.hideTrailers) {
                     Text("Hide trailers")
@@ -68,7 +79,7 @@ struct GeneralView: View {
             Section("Manga details") {
                 Toggle(isOn: $settings.useChapterProgress) {
                     Text("Use chapters for progress")
-                    Text(settings.useChapterProgress ? "This will use number of chapters read for manga read progress" : "This will use number of volumes read for manga read progress")
+                    Text("This will use number of \(settings.useChapterProgress ? "chapters" : "volumes") read for manga read progress")
                 }
                 Toggle(isOn: $settings.hideMangaCharacters) {
                     Text("Hide characters")

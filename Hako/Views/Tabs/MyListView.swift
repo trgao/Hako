@@ -44,6 +44,34 @@ struct MyListView: View {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
                                                     }
                                                 }
+                                                .swipeActions(edge: .leading) {
+                                                    if settings.useSwipeActions {
+                                                        if var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
+                                                            Button {
+                                                                Task {
+                                                                    listStatus.numEpisodesWatched -= 1
+                                                                    await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                                                }
+                                                            } label: {
+                                                                Label("-1 episode watched", systemImage: "minus.circle")
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                .swipeActions(edge: .trailing) {
+                                                    if settings.useSwipeActions {
+                                                        if var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
+                                                            Button {
+                                                                Task {
+                                                                    listStatus.numEpisodesWatched += 1
+                                                                    await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                                                }
+                                                            } label: {
+                                                                Label("+1 episode watched", systemImage: "plus.circle")
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                         }
                                         if !controller.isAnimeLoading && controller.isItemsEmpty() {
                                             VStack {
@@ -78,6 +106,56 @@ struct MyListView: View {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
                                                     }
                                                 }
+                                                .swipeActions(edge: .leading) {
+                                                    if settings.useSwipeActions {
+                                                        if settings.useChapterChange {
+                                                            if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
+                                                                Button {
+                                                                    Task {
+                                                                        listStatus.numChaptersRead -= 1
+                                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                                    }
+                                                                } label: {
+                                                                    Label("-1 chapter read", systemImage: "minus.circle")
+                                                                }
+                                                            }
+                                                        } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
+                                                            Button {
+                                                                Task {
+                                                                    listStatus.numVolumesRead -= 1
+                                                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                                }
+                                                            } label: {
+                                                                Label("-1 volume read", systemImage: "minus.circle")
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                .swipeActions(edge: .trailing) {
+                                                    if settings.useSwipeActions {
+                                                        if settings.useChapterChange {
+                                                            if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
+                                                                Button {
+                                                                    Task {
+                                                                        listStatus.numChaptersRead += 1
+                                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                                    }
+                                                                } label: {
+                                                                    Label("+1 chapter read", systemImage: "plus.circle")
+                                                                }
+                                                            }
+                                                        } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
+                                                            Button {
+                                                                Task {
+                                                                    listStatus.numVolumesRead += 1
+                                                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                                }
+                                                            } label: {
+                                                                Label("+1 volume read", systemImage: "plus.circle")
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                         }
                                         if !controller.isMangaLoading && controller.isItemsEmpty() {
                                             VStack {
@@ -97,7 +175,7 @@ struct MyListView: View {
                                 }
                             }
                         }
-                        if controller.isRefreshLoading {
+                        if controller.isLoading {
                             LoadingView()
                         }
                     }
@@ -152,6 +230,9 @@ struct MyListView: View {
                                     Color(.systemGray6)
                                 }
                             }
+                }
+                .alert("Unable to edit", isPresented: $controller.isEditError) {
+                    Button("OK", role: .cancel) {}
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

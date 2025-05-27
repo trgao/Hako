@@ -8,6 +8,5 @@
 import Foundation
 
 struct AlternativeTitles: Codable {
-    let en: String?
     let ja: String?
 }

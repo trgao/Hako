@@ -26,8 +26,9 @@ class MyListViewController: ObservableObject {
     var canLoadMoreMangaPages = true
     
     // Common variables
-    @Published var isRefreshLoading = false
+    @Published var isLoading = false
     @Published var isLoadingError = false
+    @Published var isEditError = false
     @Published var type: TypeEnum = .anime
     let networker = NetworkManager.shared
     
@@ -67,6 +68,28 @@ class MyListViewController: ObservableObject {
         }
     }
     
+    func updateAnime(index: Int, id: Int, listStatus: AnimeListStatus) async -> Void {
+        isLoading = true
+        do {
+            try await networker.editUserAnime(id: id, listStatus: listStatus)
+        } catch {
+            isEditError = true
+        }
+        animeItems[index].listStatus = listStatus
+        isLoading = false
+    }
+    
+    func updateManga(index: Int, id: Int, listStatus: MangaListStatus) async -> Void {
+        isLoading = true
+        do {
+            try await networker.editUserManga(id: id, listStatus: listStatus)
+        } catch {
+            isEditError = true
+        }
+        mangaItems[index].listStatus = listStatus
+        isLoading = false
+    }
+    
     // Refresh the current anime/manga list
     func refresh(_ refresh: Bool = false) async -> Void {
         isLoadingError = false
@@ -74,7 +97,7 @@ class MyListViewController: ObservableObject {
             currentAnimePage = 1
             canLoadMoreAnimePages = true
             if refresh {
-                isRefreshLoading = true
+                isLoading = true
             } else {
                 animeItems = []
                 isAnimeLoading = true
@@ -89,7 +112,7 @@ class MyListViewController: ObservableObject {
                 isLoadingError = true
             }
             if refresh {
-                isRefreshLoading = false
+                isLoading = false
             } else {
                 isAnimeLoading = false
             }
@@ -97,7 +120,7 @@ class MyListViewController: ObservableObject {
             currentMangaPage = 1
             canLoadMoreMangaPages = true
             if refresh {
-                isRefreshLoading = true
+                isLoading = true
             } else {
                 mangaItems = []
                 isMangaLoading = true
@@ -112,7 +135,7 @@ class MyListViewController: ObservableObject {
                 isLoadingError = true
             }
             if refresh {
-                isRefreshLoading = false
+                isLoading = false
             } else {
                 isMangaLoading = false
             }

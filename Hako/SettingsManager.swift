@@ -15,19 +15,26 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("hideRecommendations") var hideRecommendations = false
     @AppStorage("defaultView") var defaultView = 0
+    
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
+    
+    @AppStorage("useSwipeActions") var useSwipeActions = true
+    @AppStorage("useChapterChange") var useChapterChange = true
+    
     @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false
     @AppStorage("hideAnimeRelated") var hideAnimeRelated = false
     @AppStorage("hideThemeSongs") var hideThemeSongs = false
     @AppStorage("hideAnimeStatistics") var hideAnimeStatistics = false
+    
     @AppStorage("useChapterProgress") var useChapterProgress = true
     @AppStorage("hideMangaCharacters") var hideMangaCharacters = false
     @AppStorage("hideAuthors") var hideAuthors = false
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaStatistics") var hideMangaStatistics = false
+    
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
     @AppStorage("translucentBackground") var translucentBackground = true

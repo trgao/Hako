@@ -68,33 +68,48 @@ struct AnimeListItem: View {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
                                     .tint(colours[anime.listStatus?.status ?? .none])
-                                Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
-                                    .font(.system(size: 13))
-                                    .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 2))
+                                HStack {
+                                    Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 2))
+                                    Spacer()
+                                    if let score = anime.listStatus?.score, score > 0 {
+                                        Text("\(score) ⭐")
+                                            .bold()
+                                    }
+                                }
+                                .font(.system(size: 13))
                             }
                         } else {
                             VStack(alignment: .leading) {
                                 ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
                                     .tint(colours[anime.listStatus?.status ?? .none])
-                                Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
-                                    .font(.system(size: 13))
-                                    .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 2))
+                                HStack {
+                                    Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
+                                        .foregroundStyle(Color(.systemGray))
+                                        .labelStyle(CustomLabel(spacing: 2))
+                                    Spacer()
+                                    if let score = anime.listStatus?.score, score > 0 {
+                                        Text("\(score) ⭐")
+                                            .bold()
+                                    }
+                                }
                             }
+                            .font(.system(size: 13))
                         }
                     }
                     HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(anime.node.status?.formatStatus() ?? "")
-                                .opacity(0.7)
-                                .font(.system(size: 12))
-                            if let score = anime.listStatus?.score, score > 0 {
-                                Text("\(score) ⭐")
-                                    .bold()
-                                    .font(.system(size: 13))
+                        VStack(alignment: .leading) {
+                            if let startSeason = anime.node.startSeason, let season = startSeason.season, let year = startSeason.year {
+                                Text("\(season.capitalized), \(String(year))")
+                            }
+                            if let status = anime.node.status {
+                                Text(status.formatStatus())
                             }
                         }
+                        .opacity(0.7)
+                        .font(.system(size: 12))
+                        .padding(.top, 1)
                         Spacer()
                         if networker.isSignedIn && anime.listStatus != nil {
                             Button {

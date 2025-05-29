@@ -432,12 +432,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getUserAnimeList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=alternative_titles,status,list_status,num_episodes\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=50&offset=\((page - 1) * 50)&nsfw=true", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=alternative_titles,start_season,status,list_status,num_episodes\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=50&offset=\((page - 1) * 50)&nsfw=true", type: MALAnimeListResponse.self)
         return response.data
     }
     
     func getUserMangaList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=alternative_titles,status,list_status,num_volumes,num_chapters\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=50&offset=\((page - 1) * 50)&nsfw=true", type: MALMangaListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=alternative_titles,start_season,status,list_status,num_volumes,num_chapters\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=50&offset=\((page - 1) * 50)&nsfw=true", type: MALMangaListResponse.self)
         return response.data
     }
     
@@ -490,12 +490,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func searchAnime(anime: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=alternative_titles", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=alternative_titles,start_season,status", type: MALAnimeListResponse.self)
         return response.data
     }
     
     func searchManga(manga: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=alternative_titles", type: MALMangaListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=alternative_titles,start_season,status", type: MALMangaListResponse.self)
         return response.data
     }
     

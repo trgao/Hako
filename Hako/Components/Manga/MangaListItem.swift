@@ -72,20 +72,23 @@ struct MangaListItem: View {
                                     HStack {
                                         if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                             Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         } else {
                                             Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
                                         Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                            .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
+                                        Spacer()
+                                        if let score = manga.listStatus?.score, score > 0 {
+                                            Text("\(score) ⭐")
+                                                .bold()
+                                        }
                                     }
+                                    .font(.system(size: 13))
                                 }
                             } else {
                                 VStack(alignment: .leading) {
@@ -94,20 +97,23 @@ struct MangaListItem: View {
                                     HStack {
                                         if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                             Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         } else {
                                             Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
                                         Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                            .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
+                                        Spacer()
+                                        if let score = manga.listStatus?.score, score > 0 {
+                                            Text("\(score) ⭐")
+                                                .bold()
+                                        }
                                     }
+                                    .font(.system(size: 13))
                                 }
                             }
                         } else {
@@ -117,21 +123,24 @@ struct MangaListItem: View {
                                         .tint(colours[manga.listStatus?.status ?? .none])
                                     HStack {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
                                         if let numChapters = manga.node.numChapters, numChapters > 0 {
                                             Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         } else {
                                             Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
+                                        Spacer()
+                                        if let score = manga.listStatus?.score, score > 0 {
+                                            Text("\(score) ⭐")
+                                                .bold()
+                                        }
                                     }
+                                    .font(.system(size: 13))
                                 }
                             } else {
                                 VStack(alignment: .leading) {
@@ -139,36 +148,37 @@ struct MangaListItem: View {
                                         .tint(colours[manga.listStatus?.status ?? .none])
                                     HStack {
                                         Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                            .font(.system(size: 13))
                                             .foregroundStyle(Color(.systemGray))
                                             .labelStyle(CustomLabel(spacing: 2))
                                         if let numChapters = manga.node.numChapters, numChapters > 0 {
                                             Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         } else {
                                             Label("\(String(numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                .font(.system(size: 13))
                                                 .foregroundStyle(Color(.systemGray))
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
+                                        Spacer()
+                                        if let score = manga.listStatus?.score, score > 0 {
+                                            Text("\(score) ⭐")
+                                                .bold()
+                                        }
                                     }
+                                    .font(.system(size: 13))
                                 }
                             }
                         }
                     }
                     HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(manga.node.status?.formatStatus() ?? "")
-                                .opacity(0.7)
-                                .font(.system(size: 12))
-                            if let score = manga.listStatus?.score, score > 0 {
-                                Text("\(score) ⭐")
-                                    .bold()
-                                    .font(.system(size: 13))
+                        VStack(alignment: .leading) {
+                            if let status = manga.node.status {
+                                Text(status.formatStatus())
                             }
                         }
+                        .opacity(0.7)
+                        .font(.system(size: 12))
+                        .padding(.top, 1)
                         Spacer()
                         if networker.isSignedIn && manga.listStatus != nil {
                             Button {

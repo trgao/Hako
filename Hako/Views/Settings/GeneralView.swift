@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
+    let networker = NetworkManager.shared
     
     var body: some View {
         List {
@@ -33,8 +34,10 @@ struct GeneralView: View {
                         settings.defaultView = 1
                     }
                 }
-                Toggle(isOn: $settings.hideRecommendations) {
-                    Text("Hide recommendations")
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideRecommendations) {
+                        Text("Hide recommendations")
+                    }
                 }
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
@@ -45,20 +48,25 @@ struct GeneralView: View {
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
-            Section("List view") {
-                Toggle(isOn: $settings.useSwipeActions) {
-                    Text("Enable swipe actions")
-                    Text("Swipe left or right to increase or decrease episodes watched and \(settings.useChapterChange ? "chapters" : "volumes") read")
+            if networker.isSignedIn {
+                Section("List view") {
+                    Toggle(isOn: $settings.useSwipeActions) {
+                        Text("Enable swipe actions")
+                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaSwipeActions == 0 ? "chapters" : "volumes") read")
+                    }
+                    PickerRow(title: "Manga swipe actions", selection: $settings.mangaSwipeActions, labels: ["Chapters", "Volumes"])
+                        .disabled(!settings.useSwipeActions)
+                    PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
-                Toggle(isOn: $settings.useChapterChange) {
-                    Text("Change chapters read with swipe actions")
-                    Text("Swipe actions will now change \(settings.useChapterChange ? "chapters" : "volumes") read")
-                }
-                .disabled(!settings.useSwipeActions)
             }
             Section("Anime details") {
                 Toggle(isOn: $settings.hideTrailers) {
                     Text("Hide trailers")
+                }
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideAnimeProgress) {
+                        Text("Hide watch progress")
+                    }
                 }
                 Toggle(isOn: $settings.hideAnimeCharacters) {
                     Text("Hide characters")
@@ -77,9 +85,10 @@ struct GeneralView: View {
                 }
             }
             Section("Manga details") {
-                Toggle(isOn: $settings.useChapterProgress) {
-                    Text("Use chapters for progress")
-                    Text("This will use number of \(settings.useChapterProgress ? "chapters" : "volumes") read for manga read progress")
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideMangaProgress) {
+                        Text("Hide read progress")
+                    }
                 }
                 Toggle(isOn: $settings.hideMangaCharacters) {
                     Text("Hide characters")

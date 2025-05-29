@@ -39,7 +39,7 @@ struct AnimeDetailsView: View {
             } else if let anime = controller.anime {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
-                    if let listStatus = anime.myListStatus, networker.isSignedIn {
+                    if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
                         Section {
                             if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
                                 VStack {
@@ -52,7 +52,6 @@ struct AnimeDetailsView: View {
                                         Label("\(String(listStatus.numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                                             .labelStyle(CustomLabel(spacing: 2))
                                     }
-                                    .font(.system(size: 13))
                                 }
                                 .padding(.vertical, 10)
                             } else {
@@ -66,7 +65,6 @@ struct AnimeDetailsView: View {
                                         Label("\(String(listStatus.numEpisodesWatched)) / ?", systemImage: "video.fill")
                                             .labelStyle(CustomLabel(spacing: 2))
                                     }
-                                    .font(.system(size: 13))
                                 }
                                 .padding(.vertical, 10)
                             }

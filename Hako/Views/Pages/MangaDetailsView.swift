@@ -39,9 +39,9 @@ struct MangaDetailsView: View {
             } else if let manga = controller.manga {
                 PageList {
                     TextBox(title: "Synopsis", text: manga.synopsis)
-                    if let listStatus = manga.myListStatus, networker.isSignedIn {
+                    if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
                         Section {
-                            if settings.useChapterProgress {
+                            if settings.mangaReadProgress == 0 {
                                 if let numChapters = manga.numChapters, numChapters > 0 {
                                     VStack {
                                         ProgressView(value: Float(listStatus.numChaptersRead) / Float(numChapters))
@@ -60,7 +60,6 @@ struct MangaDetailsView: View {
                                             Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
-                                        .font(.system(size: 13))
                                     }
                                     .padding(.vertical, 10)
                                 } else {
@@ -81,7 +80,6 @@ struct MangaDetailsView: View {
                                             Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
                                                 .labelStyle(CustomLabel(spacing: 2))
                                         }
-                                        .font(.system(size: 13))
                                     }
                                     .padding(.vertical, 10)
                                 }
@@ -104,7 +102,6 @@ struct MangaDetailsView: View {
                                                     .labelStyle(CustomLabel(spacing: 2))
                                             }
                                         }
-                                        .font(.system(size: 13))
                                     }
                                     .padding(.vertical, 10)
                                 } else {
@@ -125,7 +122,6 @@ struct MangaDetailsView: View {
                                                     .labelStyle(CustomLabel(spacing: 2))
                                             }
                                         }
-                                        .font(.system(size: 13))
                                     }
                                     .padding(.vertical, 10)
                                 }

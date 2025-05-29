@@ -49,7 +49,7 @@ struct MangaListItem: View {
                         .bold()
                         .font(.system(size: 16))
                     if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
-                        if settings.useChapterProgress {
+                        if settings.mangaReadProgress == 0 {
                             if let numChapters = manga.node.numChapters, numChapters > 0 {
                                 VStack(alignment: .leading) {
                                     ProgressView(value: Float(numChaptersRead) / Float(numChapters))

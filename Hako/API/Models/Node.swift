@@ -11,6 +11,7 @@ struct Node: Codable {
     let id: Int
     let title: String
     let mainPicture: MainPicture?
+    let alternativeTitles: AlternativeTitles?
     let startSeason: Season?
     let numEpisodes: Int?
     let numVolumes: Int?

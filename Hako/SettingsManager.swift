@@ -14,6 +14,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("useWithoutAccount") var useWithoutAccount = false
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("hideRecommendations") var hideRecommendations = false
+    @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
     
     @AppStorage("truncateTitle") var truncate = false

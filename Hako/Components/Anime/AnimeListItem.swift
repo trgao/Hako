@@ -44,10 +44,17 @@ struct AnimeListItem: View {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .small)
                 VStack(alignment: .leading) {
-                    Text(anime.node.title)
-                        .lineLimit(settings.getLineLimit())
-                        .bold()
-                        .font(.system(size: 16))
+                    if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                        Text(title)
+                            .lineLimit(settings.getLineLimit())
+                            .bold()
+                            .font(.system(size: 16))
+                    } else {
+                        Text(anime.node.title)
+                            .lineLimit(settings.getLineLimit())
+                            .bold()
+                            .font(.system(size: 16))
+                    }
                     if let numEpisodesWatched = anime.listStatus?.numEpisodesWatched {
                         if let numEpisodes = anime.node.numEpisodes, numEpisodes > 0 {
                             VStack(alignment: .leading) {

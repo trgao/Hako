@@ -11,6 +11,7 @@ struct JikanListItem: Codable, Identifiable {
     var id: Int { malId }
     let malId: Int
     let title: String?
+    let titleEnglish: String?
     let name: String?
     let images: Images?
     let type: TypeEnum?

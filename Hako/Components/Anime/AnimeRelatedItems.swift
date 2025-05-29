@@ -27,9 +27,9 @@ struct AnimeRelatedItems: View {
                         HStack(alignment: .top) {
                             ForEach(controller.relatedItems) { item in
                                 if item.type == .anime {
-                                    AnimeGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
+                                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
                                 } else if item.type == .manga {
-                                    MangaGridItem(id: item.id, title: item.name, imageUrl: item.imageUrl, subtitle: item.relation)
+                                    MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
                                 }
                             }
                         }

@@ -12,12 +12,14 @@ struct MangaGridItem: View {
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let title: String?
+    private let enTitle: String?
     private let imageUrl: String?
     private let subtitle: String?
     
-    init(id: Int, title: String?, imageUrl: String?, subtitle: String? = nil) {
+    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil) {
         self.id = id
         self.title = title
+        self.enTitle = enTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
     }
@@ -43,11 +45,19 @@ struct MangaGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
-                Text(title ?? "")
-                    .lineLimit(settings.getLineLimit())
-                    .frame(width: 150, alignment: .leading)
-                    .padding(5)
-                    .font(.system(size: 16))
+                if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                    Text(title)
+                        .lineLimit(settings.getLineLimit())
+                        .frame(width: 150, alignment: .leading)
+                        .padding(5)
+                        .font(.system(size: 16))
+                } else {
+                    Text(title ?? "")
+                        .lineLimit(settings.getLineLimit())
+                        .frame(width: 150, alignment: .leading)
+                        .padding(5)
+                        .font(.system(size: 16))
+                }
             }
         }
         .padding(5)

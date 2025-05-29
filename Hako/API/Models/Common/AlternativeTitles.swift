@@ -9,4 +9,5 @@ import Foundation
 
 struct AlternativeTitles: Codable {
     let ja: String?
+    let en: String?
 }

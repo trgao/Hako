@@ -44,10 +44,17 @@ struct MangaListItem: View {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .small)
                 VStack(alignment: .leading) {
-                    Text(manga.node.title)
-                        .lineLimit(settings.getLineLimit())
-                        .bold()
-                        .font(.system(size: 16))
+                    if let title = manga.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                        Text(title)
+                            .lineLimit(settings.getLineLimit())
+                            .bold()
+                            .font(.system(size: 16))
+                    } else {
+                        Text(manga.node.title)
+                            .lineLimit(settings.getLineLimit())
+                            .bold()
+                            .font(.system(size: 16))
+                    }
                     if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
                         if settings.mangaReadProgress == 0 {
                             if let numChapters = manga.node.numChapters, numChapters > 0 {

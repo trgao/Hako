@@ -16,7 +16,8 @@ struct RelatedItem: Codable, Identifiable {
     var id: Int { malId }
     let malId: Int
     let type: TypeEnum?
-    let name: String?
+    let title: String?
+    var enTitle: String?
     let url: String?
     let relation: String?
     var imageUrl: String?

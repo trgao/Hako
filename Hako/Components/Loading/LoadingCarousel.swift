@@ -26,7 +26,7 @@ struct LoadingCarousel: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top) {
                     ForEach(dummyList, id: \.self) { id in
-                        AnimeGridItem(id: id, title: "placeholder", imageUrl: nil)
+                        AnimeGridItem(id: id, title: "placeholder", enTitle: "placeholder", imageUrl: nil)
                             .redacted(reason: .placeholder)
                             .shimmering()
                     }

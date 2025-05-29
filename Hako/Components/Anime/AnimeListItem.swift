@@ -12,6 +12,8 @@ struct AnimeListItem: View {
     @Binding private var selectedAnime: MALListAnime?
     @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
+    private let index: Int
+    private let refresh: () async -> Void
     private let colours: [StatusEnum:Color] = [
         .watching: Color(.systemGreen),
         .completed: Color(.systemBlue),
@@ -20,7 +22,6 @@ struct AnimeListItem: View {
         .planToWatch: .primary,
         .none: Color(.systemGray)
     ]
-    private let index: Int
     let networker = NetworkManager.shared
     
     init(anime: MALListAnime) {
@@ -28,18 +29,25 @@ struct AnimeListItem: View {
         self._selectedAnime = .constant(nil)
         self._selectedAnimeIndex = .constant(nil)
         self.index = 0
+        self.refresh = {}
     }
     
-    init(anime: MALListAnime, status: StatusEnum, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
+    init(anime: MALListAnime, status: StatusEnum, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int, refresh: @escaping () async -> Void) {
         self.anime = anime
         self._selectedAnime = selectedAnime
         self._selectedAnimeIndex = selectedAnimeIndex
         self.index = index
+        self.refresh = refresh
     }
     
     var body: some View {
         NavigationLink {
             AnimeDetailsView(id: anime.id)
+                .onDisappear {
+                    Task {
+                        await refresh()
+                    }
+                }
         } label: {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .small)

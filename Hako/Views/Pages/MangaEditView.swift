@@ -54,7 +54,6 @@ struct MangaEditView: View {
         }
         if let mangaStatus = mangaStatus {
             self._mangaStatus = mangaStatus
-            self._mangaStatus.wrappedValue = listStatus
         } else {
             self._mangaStatus = .constant(nil)
         }
@@ -205,6 +204,9 @@ struct MangaEditView: View {
                     LoadingView()
                 }
             }
+        }
+        .onAppear {
+            mangaStatus = listStatus
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

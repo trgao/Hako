@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AnimeListStatus: Codable {
+struct AnimeListStatus: Codable, Equatable {
     var status: StatusEnum?
     var score: Int
     var numEpisodesWatched: Int

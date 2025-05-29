@@ -42,32 +42,6 @@ class MyListViewController: ObservableObject {
         return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
     }
     
-    func refreshItem(index: Int, type: TypeEnum) async -> Void {
-        if type == .anime {
-            // Check if index is valid
-            guard index >= 0 && index < animeItems.count else {
-                return
-            }
-            
-            let id = animeItems[index].id
-            let anime = try? await networker.getAnimeDetails(id: id)
-            if let anime = anime {
-                animeItems[index].listStatus = anime.myListStatus
-            }
-        } else {
-            // Check if index is valid
-            guard index >= 0 && index < mangaItems.count else {
-                return
-            }
-            
-            let id = mangaItems[index].id
-            let manga = try? await networker.getMangaDetails(id: id)
-            if let manga = manga {
-                mangaItems[index].listStatus = manga.myListStatus
-            }
-        }
-    }
-    
     func updateAnime(index: Int, id: Int, listStatus: AnimeListStatus) async -> Void {
         isLoading = true
         do {

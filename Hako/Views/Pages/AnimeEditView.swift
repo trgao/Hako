@@ -10,7 +10,7 @@ import SwiftUI
 struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding private var isDeleted: Bool
-    @Binding private var animeStatus: StatusEnum?
+    @Binding private var animeStatus: AnimeListStatus?
     @State private var listStatus: AnimeListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -35,7 +35,7 @@ struct AnimeEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<StatusEnum?>? = nil) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<AnimeListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -52,7 +52,7 @@ struct AnimeEditView: View {
         }
         if let animeStatus = animeStatus {
             self._animeStatus = animeStatus
-            self._animeStatus.wrappedValue = listStatus?.status
+            self._animeStatus.wrappedValue = listStatus
         } else {
             self._animeStatus = .constant(nil)
         }
@@ -90,7 +90,6 @@ struct AnimeEditView: View {
                         Section {
                             AnimeStatusPickerRow(selection: $listStatus.status)
                                 .onChange(of: listStatus.status) { _, status in
-                                    animeStatus = status
                                     if status == .watching && listStatus.startDate == nil {
                                         listStatus.startDate = Date()
                                     }
@@ -186,6 +185,9 @@ struct AnimeEditView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
+                    .onChange(of: listStatus) { _, listStatus in
+                        animeStatus = listStatus
+                    }
                 }
                 if isLoading {
                     LoadingView()

@@ -16,6 +16,10 @@ struct Authors: View {
         self._controller = StateObject(wrappedValue: controller)
     }
     
+    private func haveBothNames(_ firstName: String?, _ lastName: String?) -> Bool {
+        return (firstName != nil && firstName != "") && (lastName != nil && lastName != "")
+    }
+    
     var body: some View {
         if !controller.authors.isEmpty {
             Section {} header: {
@@ -33,7 +37,7 @@ struct Authors: View {
                                 } label: {
                                     VStack {
                                         ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
-                                        Text("\(author.node.lastName ?? ""), \(author.node.firstName ?? "")")
+                                        Text("\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")")
                                             .lineLimit(settings.getLineLimit())
                                             .font(.system(size: 14))
                                     }

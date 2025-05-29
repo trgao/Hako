@@ -46,10 +46,10 @@ class MyListViewController: ObservableObject {
         isLoading = true
         do {
             try await networker.editUserAnime(id: id, listStatus: listStatus)
+            animeItems[index].listStatus = listStatus
         } catch {
             isEditError = true
         }
-        animeItems[index].listStatus = listStatus
         isLoading = false
     }
     
@@ -57,10 +57,10 @@ class MyListViewController: ObservableObject {
         isLoading = true
         do {
             try await networker.editUserManga(id: id, listStatus: listStatus)
+            mangaItems[index].listStatus = listStatus
         } catch {
             isEditError = true
         }
-        mangaItems[index].listStatus = listStatus
         isLoading = false
     }
     

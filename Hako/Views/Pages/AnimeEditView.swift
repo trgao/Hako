@@ -73,6 +73,7 @@ struct AnimeEditView: View {
                                 isLoading = true
                                 do {
                                     try await networker.editUserAnime(id: id, listStatus: listStatus)
+                                    animeStatus = listStatus
                                     dismiss()
                                 } catch {
                                     isEditError = true
@@ -184,9 +185,6 @@ struct AnimeEditView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
-                    .onChange(of: listStatus) { _, listStatus in
-                        animeStatus = listStatus
-                    }
                 }
                 if isLoading {
                     LoadingView()

@@ -52,7 +52,6 @@ struct AnimeEditView: View {
         }
         if let animeStatus = animeStatus {
             self._animeStatus = animeStatus
-            self._animeStatus.wrappedValue = listStatus
         } else {
             self._animeStatus = .constant(nil)
         }
@@ -193,6 +192,9 @@ struct AnimeEditView: View {
                     LoadingView()
                 }
             }
+        }
+        .onAppear {
+            animeStatus = listStatus
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

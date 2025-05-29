@@ -10,7 +10,7 @@ import SwiftUI
 struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding private var isDeleted: Bool
-    @Binding private var mangaStatus: StatusEnum?
+    @Binding private var mangaStatus: MangaListStatus?
     @State private var listStatus: MangaListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -36,7 +36,7 @@ struct MangaEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<StatusEnum?>? = nil) {
+    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<MangaListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -54,7 +54,7 @@ struct MangaEditView: View {
         }
         if let mangaStatus = mangaStatus {
             self._mangaStatus = mangaStatus
-            self._mangaStatus.wrappedValue = listStatus?.status
+            self._mangaStatus.wrappedValue = listStatus
         } else {
             self._mangaStatus = .constant(nil)
         }
@@ -92,7 +92,6 @@ struct MangaEditView: View {
                         Section {
                             MangaStatusPickerRow(selection: $listStatus.status)
                                 .onChange(of: listStatus.status) { _, status in
-                                    mangaStatus = status
                                     if status == .reading && listStatus.startDate == nil {
                                         listStatus.startDate = Date()
                                     }
@@ -198,6 +197,9 @@ struct MangaEditView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
+                    .onChange(of: listStatus) { _, listStatus in
+                        mangaStatus = listStatus
+                    }
                 }
                 if isLoading {
                     LoadingView()

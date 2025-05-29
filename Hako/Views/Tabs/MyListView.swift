@@ -16,12 +16,12 @@ struct MyListView: View {
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
-    @State private var animeStatus: StatusEnum?
+    @State private var animeStatus: AnimeListStatus?
     
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
-    @State private var mangaStatus: StatusEnum?
+    @State private var mangaStatus: MangaListStatus?
     
     var body: some View {
         NavigationStack {
@@ -191,11 +191,11 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
-                        if let index = selectedAnimeIndex {
-                            if isAnimeDeleted || animeStatus != controller.animeStatus {
+                        if let index = selectedAnimeIndex, let animeStatus = animeStatus {
+                            if isAnimeDeleted || animeStatus.status != controller.animeStatus {
                                 controller.animeItems.remove(at: index)
                             } else {
-                                await controller.refreshItem(index: index, type: .anime)
+                                controller.animeItems[index].listStatus = animeStatus
                                 selectedAnimeIndex = nil
                             }
                         }
@@ -212,11 +212,11 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedManga) {
                     Task {
-                        if let index = selectedMangaIndex {
-                            if isMangaDeleted || mangaStatus != controller.mangaStatus {
+                        if let index = selectedMangaIndex, let mangaStatus = mangaStatus {
+                            if isMangaDeleted || mangaStatus.status != controller.mangaStatus {
                                 controller.mangaItems.remove(at: index)
                             } else {
-                                await controller.refreshItem(index: index, type: .manga)
+                                controller.mangaItems[index].listStatus = mangaStatus
                                 selectedMangaIndex = nil
                             }
                         }

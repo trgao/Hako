@@ -535,7 +535,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getMangaDetails(id: Int) async throws -> Manga {
-        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{id,first_name,last_name},serialization,recommendations", type: Manga.self)
+        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,recommendations", type: Manga.self)
         return response
     }
     

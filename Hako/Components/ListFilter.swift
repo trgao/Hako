@@ -59,7 +59,7 @@ struct ListFilter: View {
                 Divider()
                 Picker(selection: $controller.mangaSort, label: EmptyView()) {
                     Label("By score", systemImage: "star").tag("list_score")
-                    Label("By last Update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
+                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
                     Label("By title", systemImage: "character").tag("manga_title")
                     Label("By start date", systemImage: "calendar").tag("manga_start_date")
                 }

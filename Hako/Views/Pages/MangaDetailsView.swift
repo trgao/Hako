@@ -145,7 +145,7 @@ struct MangaDetailsView: View {
                     if !settings.hideMangaRelated {
                         MangaRelatedItems(controller: controller)
                     }
-                    if !settings.hideRecommendations {
+                    if !settings.hideMangaRecommendations {
                         Recommendations(mangaRecommendations: manga.recommendations)
                     }
                     if !settings.hideMangaStatistics {

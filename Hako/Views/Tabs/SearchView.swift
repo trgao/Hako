@@ -75,7 +75,7 @@ struct SearchView: View {
                 if !isPresented {
                     ScrollView {
                         VStack {
-                            if networker.isSignedIn && !settings.hideRecommendations {
+                            if networker.isSignedIn && !settings.hideForYou {
                                 if controller.animeSuggestions.isEmpty {
                                     LoadingCarousel(title: "For you")
                                 } else {
@@ -96,79 +96,87 @@ struct SearchView: View {
                                     }
                                 }
                             }
-                            if controller.topAiringAnime.isEmpty {
-                                LoadingCarousel(title: "Top airing")
-                            } else {
-                                VStack {
-                                    Text("Top airing")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 35)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            ForEach(controller.topAiringAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                            if !settings.hideTopAiring {
+                                if controller.topAiringAnime.isEmpty {
+                                    LoadingCarousel(title: "Top airing")
+                                } else {
+                                    VStack {
+                                        Text("Top airing")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 35)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                ForEach(controller.topAiringAnime) { item in
+                                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                }
                                             }
+                                            .padding(.horizontal, 20)
                                         }
-                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
-                            if controller.topUpcomingAnime.isEmpty {
-                                LoadingCarousel(title: "Top upcoming")
-                            } else {
-                                VStack {
-                                    Text("Top upcoming")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 35)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            ForEach(controller.topUpcomingAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                            if !settings.hideTopUpcoming {
+                                if controller.topUpcomingAnime.isEmpty {
+                                    LoadingCarousel(title: "Top upcoming")
+                                } else {
+                                    VStack {
+                                        Text("Top upcoming")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 35)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                ForEach(controller.topUpcomingAnime) { item in
+                                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                }
                                             }
+                                            .padding(.horizontal, 20)
                                         }
-                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
-                            if controller.topPopularAnime.isEmpty {
-                                LoadingCarousel(title: "Most popular anime")
-                            } else {
-                                VStack {
-                                    Text("Most popular anime")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 35)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            ForEach(controller.topPopularAnime) { item in
-                                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                            if !settings.hideMostPopularAnime {
+                                if controller.topPopularAnime.isEmpty {
+                                    LoadingCarousel(title: "Most popular anime")
+                                } else {
+                                    VStack {
+                                        Text("Most popular anime")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 35)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                ForEach(controller.topPopularAnime) { item in
+                                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                }
                                             }
+                                            .padding(.horizontal, 20)
                                         }
-                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }
-                            if controller.topPopularManga.isEmpty {
-                                LoadingCarousel(title: "Most popular manga")
-                            } else {
-                                VStack {
-                                    Text("Most popular manga")
-                                        .bold()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 35)
-                                        .font(.system(size: 17))
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(alignment: .top) {
-                                            ForEach(controller.topPopularManga) { item in
-                                                MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                            if !settings.hideMostPopularManga {
+                                if controller.topPopularManga.isEmpty {
+                                    LoadingCarousel(title: "Most popular manga")
+                                } else {
+                                    VStack {
+                                        Text("Most popular manga")
+                                            .bold()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.horizontal, 35)
+                                            .font(.system(size: 17))
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(alignment: .top) {
+                                                ForEach(controller.topPopularManga) { item in
+                                                    MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                }
                                             }
+                                            .padding(.horizontal, 20)
                                         }
-                                        .padding(.horizontal, 20)
                                     }
                                 }
                             }

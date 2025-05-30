@@ -34,11 +34,7 @@ struct GeneralView: View {
                         settings.defaultView = 1
                     }
                 }
-                if networker.isSignedIn {
-                    Toggle(isOn: $settings.hideRecommendations) {
-                        Text("Hide recommendations")
-                    }
-                }
+                
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
@@ -60,6 +56,25 @@ struct GeneralView: View {
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
             }
+            Section("Search view") {
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideForYou) {
+                        Text("Hide for you")
+                    }
+                }
+                Toggle(isOn: $settings.hideTopAiring) {
+                    Text("Hide top airing")
+                }
+                Toggle(isOn: $settings.hideTopUpcoming) {
+                    Text("Hide top upcoming")
+                }
+                Toggle(isOn: $settings.hideMostPopularAnime) {
+                    Text("Hide most popular anime")
+                }
+                Toggle(isOn: $settings.hideMostPopularManga) {
+                    Text("Hide most popular manga")
+                }
+            }
             Section("Anime details") {
                 Toggle(isOn: $settings.hideTrailers) {
                     Text("Hide trailers")
@@ -77,6 +92,11 @@ struct GeneralView: View {
                 }
                 Toggle(isOn: $settings.hideAnimeRelated) {
                     Text("Hide related")
+                }
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideAnimeRecommendations) {
+                        Text("Hide recommendations")
+                    }
                 }
                 Toggle(isOn: $settings.hideThemeSongs) {
                     Text("Hide theme songs")
@@ -99,6 +119,11 @@ struct GeneralView: View {
                 }
                 Toggle(isOn: $settings.hideMangaRelated) {
                     Text("Hide related")
+                }
+                if networker.isSignedIn {
+                    Toggle(isOn: $settings.hideMangaRecommendations) {
+                        Text("Hide recommendations")
+                    }
                 }
                 Toggle(isOn: $settings.hideMangaStatistics) {
                     Text("Hide statistics")

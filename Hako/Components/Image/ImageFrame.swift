@@ -12,6 +12,7 @@ enum ImageSize {
 }
 
 struct ImageFrame: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
     private var fullscreen = false
@@ -51,7 +52,7 @@ struct ImageFrame: View {
                     }
             } else {
                 Rectangle()
-                    .foregroundStyle(Color(.systemBackground))
+                    .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
                     .frame(width: width, height: height)
             }
         } else if let data = controller.image, let image = UIImage(data: data) {

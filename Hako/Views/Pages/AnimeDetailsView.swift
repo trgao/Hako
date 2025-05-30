@@ -87,7 +87,7 @@ struct AnimeDetailsView: View {
                     if !settings.hideAnimeRelated {
                         AnimeRelatedItems(controller: controller)
                     }
-                    if !settings.hideRecommendations {
+                    if !settings.hideAnimeRecommendations {
                         Recommendations(animeRecommendations: anime.recommendations)
                     }
                     if !settings.hideThemeSongs {

@@ -38,7 +38,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, refresh: { await controller.refreshItem(index: index, type: .anime) })
+                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, refresh: { await controller.refresh(true) })
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
@@ -100,7 +100,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, refresh: { await controller.refreshItem(index: index, type: .manga) })
+                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, refresh: { await controller.refresh(true) })
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)

@@ -13,7 +13,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("safariInApp") var safariInApp = true
     @AppStorage("useWithoutAccount") var useWithoutAccount = false
     @AppStorage("hideTop") var hideTop = false
-    @AppStorage("hideRecommendations") var hideRecommendations = false
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
     
@@ -24,11 +23,18 @@ class SettingsManager: ObservableObject {
     @AppStorage("mangaSwipeActions") var mangaSwipeActions = 0
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
+    @AppStorage("hideForYou") var hideForYou = false
+    @AppStorage("hideTopAiring") var hideTopAiring = false
+    @AppStorage("hideTopUpcoming") var hideTopUpcoming = false
+    @AppStorage("hideMostPopularAnime") var hideMostPopularAnime = false
+    @AppStorage("hideMostPopularManga") var hideMostPopularManga = false
+    
     @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false
     @AppStorage("hideAnimeRelated") var hideAnimeRelated = false
+    @AppStorage("hideAnimeRecommendations") var hideAnimeRecommendations = false
     @AppStorage("hideThemeSongs") var hideThemeSongs = false
     @AppStorage("hideAnimeStatistics") var hideAnimeStatistics = false
     
@@ -36,6 +42,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaCharacters") var hideMangaCharacters = false
     @AppStorage("hideAuthors") var hideAuthors = false
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
+    @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaStatistics") var hideMangaStatistics = false
     
     @AppStorage("colorScheme") var colorScheme = 0

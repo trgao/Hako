@@ -593,9 +593,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Wrapper function for download
-    func downloadImage(id: String, imageUrl: String?) async -> Void {
-        if let _ = imageCache.object(forKey: id as NSString) {
-            return
+    func downloadImage(id: String, imageUrl: String?) async -> Data? {
+        if let cache = imageCache.object(forKey: id as NSString) {
+            return cache.image as Data
         }
         if let imageUrl = imageUrl {
             do {
@@ -605,10 +605,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 let cache = ImageCache()
                 cache.image = data as NSData
                 self.imageCache.setObject(cache, forKey: id as NSString)
+                return data
             } catch {
                 print("Error downloading image")
             }
         }
+        return nil
     }
     
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {

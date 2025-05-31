@@ -1,4 +1,4 @@
-# MALC
+# Hako
 
 An iOS MyAnimeList client
 
@@ -18,7 +18,6 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 
 ## Things to be done
 
-* Add swiping gestures on list page (swipe left to remove 1, swipe right to add 1)
 * Use MyAniList data to show how many episodes have already been aired
 * Add user reviews
 * Show no internet banner when no internet
@@ -27,4 +26,4 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 * Add context menu support
 * Add haptic feedback
 * Add ipad support for NavigationSplitView
-* Try integration with Spotify API
+* Try integration with Spotify API (for opening and ending themes)

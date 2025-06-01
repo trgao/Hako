@@ -54,7 +54,7 @@ struct ProfileView: View {
                     ListRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
                     ListRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
                     ListRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
-                    ListRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "play.circle", color: .blue)
+                    ListRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
                     ListRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
                     ListRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
                     ListRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
@@ -64,7 +64,9 @@ struct ProfileView: View {
                     Text("Manga Statistics")
                 }
                 Section {
-                    Link("Delete Account", destination: URL(string: "https://myanimelist.net/account_deletion")!)
+                    Link("Edit account", destination: URL(string: "https://myanimelist.net/editprofile.php?go=myoptions")!)
+                        .handleOpenURLInApp()
+                    Link("Delete account", destination: URL(string: "https://myanimelist.net/account_deletion")!)
                         .foregroundStyle(.red)
                 } footer: {
                     Text("This will bring you to the MyAnimeList website")

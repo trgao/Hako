@@ -22,15 +22,15 @@ struct MangaEditView: View {
     private let numChapters: Int?
     private let imageUrl: String?
     private let scoreLabels = [
-        "0 - Not Yet Scored",
+        "0 - Not yet scored",
         "1 - Appalling",
         "2 - Horrible",
-        "3 - Very Bad",
+        "3 - Very bad",
         "4 - Bad",
         "5 - Average",
         "6 - Fine",
         "7 - Good",
-        "8 - Very Good",
+        "8 - Very good",
         "9 - Great",
         "10 - Masterpiece"
     ]
@@ -108,13 +108,13 @@ struct MangaEditView: View {
                                     }
                                 }
                             PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
-                            NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes Read", max: numVolumes)
+                            NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes read", max: numVolumes)
                                 .onChange(of: listStatus.numVolumesRead) { prev, cur in
                                     if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                         listStatus.status = .reading
                                     }
                                 }
-                            NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters Read", max: numChapters)
+                            NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters read", max: numChapters)
                                 .onChange(of: listStatus.numChaptersRead) { prev, cur in
                                     if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                         listStatus.status = .reading
@@ -125,7 +125,7 @@ struct MangaEditView: View {
                             if listStatus.startDate != nil {
                                 HStack {
                                     DatePicker(
-                                        "Start Date",
+                                        "Start date",
                                         selection: $listStatus.startDate ?? Date(),
                                         displayedComponents: [.date]
                                     )
@@ -137,7 +137,7 @@ struct MangaEditView: View {
                                 }
                             } else {
                                 HStack {
-                                    Text("Start Date")
+                                    Text("Start date")
                                     Spacer()
                                     Button {
                                         listStatus.startDate = Date()
@@ -149,7 +149,7 @@ struct MangaEditView: View {
                             if listStatus.finishDate != nil {
                                 HStack {
                                     DatePicker(
-                                        "Finish Date",
+                                        "Finish date",
                                         selection: $listStatus.finishDate ?? Date(),
                                         displayedComponents: [.date]
                                     )
@@ -161,7 +161,7 @@ struct MangaEditView: View {
                                 }
                             } else {
                                 HStack {
-                                    Text("Finish Date")
+                                    Text("Finish date")
                                     Spacer()
                                     Button {
                                         listStatus.finishDate = Date()
@@ -250,7 +250,7 @@ private func statusToIndex(_ status: StatusEnum?) -> Int {
 struct MangaStatusPickerRow: View {
     @State private var selected: Int
     @Binding var selection: StatusEnum?
-    private let labels = ["Reading", "Completed", "On Hold", "Dropped", "Plan To Read"]
+    private let labels = ["Reading", "Completed", "On hold", "Dropped", "Plan to read"]
     private let mappings: [StatusEnum?] = [.reading, .completed, .onHold, .dropped, .planToRead]
     
     init(selection: Binding<StatusEnum?>) {

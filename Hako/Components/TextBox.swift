@@ -23,6 +23,7 @@ struct TextBox: View {
             Section {
                 VStack {
                     Text(text)
+                        .textSelection(.enabled)
                         .multilineTextAlignment(.leading)
                         .lineLimit(isExpanded ? nil : 4)
                         .background {

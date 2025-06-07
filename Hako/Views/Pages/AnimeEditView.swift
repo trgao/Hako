@@ -21,15 +21,15 @@ struct AnimeEditView: View {
     private let numEpisodes: Int?
     private let imageUrl: String?
     private let scoreLabels = [
-        "0 - Not Yet Scored",
+        "0 - Not yet scored",
         "1 - Appalling",
         "2 - Horrible",
-        "3 - Very Bad",
+        "3 - Very bad",
         "4 - Bad",
         "5 - Average",
         "6 - Fine",
         "7 - Good",
-        "8 - Very Good",
+        "8 - Very good",
         "9 - Great",
         "10 - Masterpiece"
     ]
@@ -103,7 +103,7 @@ struct AnimeEditView: View {
                                     }
                                 }
                             PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
-                            NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes Watched", max: numEpisodes)
+                            NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes watched", max: numEpisodes)
                                 .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
                                     if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
                                         listStatus.status = .watching
@@ -114,7 +114,7 @@ struct AnimeEditView: View {
                             if listStatus.startDate != nil {
                                 HStack {
                                     DatePicker(
-                                        "Start Date",
+                                        "Start date",
                                         selection: $listStatus.startDate ?? Date(),
                                         displayedComponents: [.date]
                                     )
@@ -126,7 +126,7 @@ struct AnimeEditView: View {
                                 }
                             } else {
                                 HStack {
-                                    Text("Start Date")
+                                    Text("Start date")
                                     Spacer()
                                     Button {
                                         listStatus.startDate = Date()
@@ -138,7 +138,7 @@ struct AnimeEditView: View {
                             if listStatus.finishDate != nil {
                                 HStack {
                                     DatePicker(
-                                        "Finish Date",
+                                        "Finish date",
                                         selection: $listStatus.finishDate ?? Date(),
                                         displayedComponents: [.date]
                                     )
@@ -150,7 +150,7 @@ struct AnimeEditView: View {
                                 }
                             } else {
                                 HStack {
-                                    Text("Finish Date")
+                                    Text("Finish date")
                                     Spacer()
                                     Button {
                                         listStatus.finishDate = Date()
@@ -238,7 +238,7 @@ private func statusToIndex(_ status: StatusEnum?) -> Int {
 struct AnimeStatusPickerRow: View {
     @State private var selected: Int
     @Binding var selection: StatusEnum?
-    private let labels = ["Watching", "Completed", "On Hold", "Dropped", "Plan To Watch"]
+    private let labels = ["Watching", "Completed", "On hold", "Dropped", "Plan to watch"]
     private let mappings: [StatusEnum?] = [.watching, .completed, .onHold, .dropped, .planToWatch]
     
     init(selection: Binding<StatusEnum?>) {

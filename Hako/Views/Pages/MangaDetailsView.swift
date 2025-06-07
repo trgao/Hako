@@ -155,27 +155,7 @@ struct MangaDetailsView: View {
                     VStack(alignment: .center) {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
                             .padding([.top], 10)
-                        if let title = manga.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                            Text(title)
-                                .bold()
-                                .font(.system(size: 25))
-                                .padding(.horizontal, 20)
-                                .multilineTextAlignment(.center)
-                        } else {
-                            Text(manga.title)
-                                .bold()
-                                .font(.system(size: 25))
-                                .padding(.horizontal, 20)
-                                .multilineTextAlignment(.center)
-                        }
-                        if let japaneseTitle = manga.alternativeTitles?.ja {
-                            Text(japaneseTitle)
-                                .padding(.bottom, 5)
-                                .padding(.horizontal, 20)
-                                .font(.system(size: 18))
-                                .opacity(0.7)
-                                .multilineTextAlignment(.center)
-                        }
+                        TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
                         HStack {
                             VStack {
                                 if let myScore = manga.myListStatus?.score, myScore > 0 {

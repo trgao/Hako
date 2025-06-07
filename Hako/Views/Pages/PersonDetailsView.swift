@@ -32,11 +32,7 @@ struct PersonDetailsView: View {
                     } header: {
                         ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .large)
                             .padding([.top], 10)
-                        Text(person.name)
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding(.horizontal, 10)
-                            .multilineTextAlignment(.center)
+                        NameText(english: person.name)
                         if let birthday = person.birthday {
                             Text("Birthday: \(birthday.toString())")
                                 .padding(.horizontal, 10)

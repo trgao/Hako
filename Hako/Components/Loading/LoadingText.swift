@@ -18,6 +18,7 @@ struct LoadingText<T>: View {
     var body: some View {
         if let content = content {
             Text("\(content)")
+                .textSelection(.enabled)
         } else {
             Text("example")
                 .redacted(reason: .placeholder)

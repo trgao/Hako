@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ThemeSongs: View {
-    @Environment(\.colorScheme) var colorScheme
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
@@ -29,16 +28,7 @@ struct ThemeSongs: View {
                         HStack(alignment: .top) {
                             ForEach(openingThemes.prefix(10)) { theme in
                                 if let text = theme.text {
-                                    Text(text.formatThemeSong())
-                                        .multilineTextAlignment(.center)
-                                        .lineLimit(3)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .font(.system(size: 17))
-                                        .padding(20)
-                                        .frame(width: UIScreen.main.bounds.size.width - 30, height: 100, alignment: .center)
-                                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                                        .shadow(radius: 0.5)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    ThemeSong(text: text.formatThemeSong())
                                 }
                             }
                         }
@@ -64,16 +54,7 @@ struct ThemeSongs: View {
                         HStack(alignment: .top) {
                             ForEach(endingThemes.prefix(10)) { theme in
                                 if let text = theme.text {
-                                    Text(text.formatThemeSong())
-                                        .multilineTextAlignment(.center)
-                                        .lineLimit(3)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .font(.system(size: 17))
-                                        .padding(20)
-                                        .frame(width: UIScreen.main.bounds.size.width - 30, height: 100, alignment: .center)
-                                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                                        .shadow(radius: 0.5)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    ThemeSong(text: text.formatThemeSong())
                                 }
                             }
                         }
@@ -88,5 +69,28 @@ struct ThemeSongs: View {
             .frame(maxWidth: .infinity)
             .listRowInsets(.init())
         }
+    }
+}
+
+struct ThemeSong: View {
+    @Environment(\.colorScheme) var colorScheme
+    private let text: String
+    
+    init(text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        Text(text)
+            .textSelection(.enabled)
+            .multilineTextAlignment(.center)
+            .lineLimit(3)
+            .fixedSize(horizontal: false, vertical: true)
+            .font(.system(size: 17))
+            .padding(20)
+            .frame(width: UIScreen.main.bounds.size.width - 30, height: 100, alignment: .center)
+            .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+            .shadow(radius: 0.5)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

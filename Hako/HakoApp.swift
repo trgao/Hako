@@ -14,7 +14,6 @@ struct HakoApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .textSelection(.enabled)
                 .environmentObject(settings)
                 .preferredColorScheme(settings.getColorScheme())
                 .tint(settings.getAccentColor())

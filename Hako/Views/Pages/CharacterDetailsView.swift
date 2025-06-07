@@ -32,16 +32,7 @@ struct CharacterDetailsView: View {
                     } header: {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .large)
                             .padding([.top], 10)
-                        Text(character.name ?? "")
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding(.horizontal, 10)
-                            .multilineTextAlignment(.center)
-                        Text(character.nameKanji ?? "")
-                            .padding(.horizontal, 10)
-                            .font(.system(size: 18))
-                            .opacity(0.7)
-                            .multilineTextAlignment(.center)
+                        NameText(english: character.name, japanese: character.nameKanji)
                     }
                     .task(id: isRefresh) {
                         if isRefresh {

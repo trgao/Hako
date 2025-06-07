@@ -99,27 +99,7 @@ struct AnimeDetailsView: View {
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
                         .padding([.top], 10)
-                    if let title = anime.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                        Text(title)
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding(.horizontal, 20)
-                            .multilineTextAlignment(.center)
-                    } else {
-                        Text(anime.title)
-                            .bold()
-                            .font(.system(size: 25))
-                            .padding(.horizontal, 20)
-                            .multilineTextAlignment(.center)
-                    }
-                    if let japaneseTitle = anime.alternativeTitles?.ja {
-                        Text(japaneseTitle)
-                            .padding(.bottom, 5)
-                            .padding(.horizontal, 20)
-                            .font(.system(size: 18))
-                            .opacity(0.7)
-                            .multilineTextAlignment(.center)
-                    }
+                    TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                     HStack {
                         VStack {
                             if (controller.anime?.myListStatus?.score ?? 0) > 0 {

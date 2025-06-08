@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SeasonPicker: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: SeasonsViewController
     @State private var season = ["winter", "spring", "summer", "fall"][((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3]
     
@@ -26,6 +27,9 @@ struct SeasonPicker: View {
                 Text("Summer").tag("summer")
                 Text("Fall").tag("fall")
             }
+            .sensoryFeedback(.impact(weight: .light), trigger: controller.season, condition: { old, new in
+                return old != new && settings.allowHaptics
+            })
             .onChange(of: controller.season) {
                 if controller.shouldRefresh() {
                     Task {

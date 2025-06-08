@@ -51,6 +51,7 @@ struct SearchView: View {
                                         Image(systemName: "magnifyingglass")
                                             .resizable()
                                             .frame(width: 40, height: 40)
+                                            .padding(.bottom, 10)
                                         Text("Nothing found")
                                             .bold()
                                     }
@@ -212,6 +213,9 @@ struct SearchView: View {
                             Image(systemName: "tv.fill").tag(TypeEnum.anime)
                             Image(systemName: "book.fill").tag(TypeEnum.manga)
                         }
+                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type, condition: { old, new in
+                            return old != new && settings.allowHaptics
+                        })
                         .pickerStyle(.segmented)
                         .padding(5)
                     }

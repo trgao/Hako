@@ -15,6 +15,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
+    @AppStorage("allowHaptics") var allowHaptics = true
     
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
@@ -48,6 +49,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
     @AppStorage("translucentBackground") var translucentBackground = true
+    
     var colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     var accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     

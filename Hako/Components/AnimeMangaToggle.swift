@@ -48,6 +48,9 @@ struct AnimeMangaToggle: View {
                     .offset(x: 1)
             }
         }
+        .sensoryFeedback(.impact(weight: .light), trigger: type, condition: { old, new in
+            return old != new && settings.allowHaptics
+        })
         .onTapGesture {
             DispatchQueue.main.async {
                 if type == .anime {

@@ -69,13 +69,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         
         // Check if user is currently signed in and retrieve user profile
         Task {
-            if keychain["accessToken"] != nil {
+            if keychain["accessToken"] != nil, let name = UserDefaults.standard.string(forKey: "name") {
                 DispatchQueue.main.async {
                     self.isSignedIn = true
                 }
                 print("Currently logged in")
                 
-                self.user = User(name: UserDefaults.standard.string(forKey: "name"), joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
+                self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
             }
         }
     }

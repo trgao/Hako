@@ -13,7 +13,6 @@ struct MangaListItem: View {
     @Binding private var selectedMangaIndex: Int?
     private let manga: MALListManga
     private let index: Int
-    private let refresh: () async -> Void
     private let colours: [StatusEnum:Color] = [
         .reading: Color(.systemGreen),
         .completed: Color(.systemBlue),
@@ -29,25 +28,18 @@ struct MangaListItem: View {
         self._selectedManga = .constant(nil)
         self._selectedMangaIndex = .constant(nil)
         self.index = 0
-        self.refresh = {}
     }
     
-    init(manga: MALListManga, status: StatusEnum, selectedManga: Binding<MALListManga?>, selectedMangaIndex: Binding<Int?>, index: Int, refresh: @escaping () async -> Void) {
+    init(manga: MALListManga, status: StatusEnum, selectedManga: Binding<MALListManga?>, selectedMangaIndex: Binding<Int?>, index: Int) {
         self.manga = manga
         self._selectedManga = selectedManga
         self._selectedMangaIndex = selectedMangaIndex
         self.index = index
-        self.refresh = refresh
     }
     
     var body: some View {
         NavigationLink {
             MangaDetailsView(id: manga.id)
-                .onDisappear {
-                    Task {
-                        await refresh()
-                    }
-                }
         } label: {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .small)

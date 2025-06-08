@@ -10,7 +10,6 @@ import SwiftUI
 struct MangaDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: MangaDetailsViewController
-    @State private var listStatus: MangaListStatus?
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
     @State private var isEditViewPresented = false
@@ -228,9 +227,11 @@ struct MangaDetailsView: View {
                         Image(systemName: "square.and.pencil")
                     }
                     .sheet(isPresented: $isEditViewPresented) {
-                        controller.manga?.myListStatus = listStatus
+                        Task {
+                            await controller.refresh()
+                        }
                     } content: {
-                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large, isDeleted: nil, mangaStatus: $listStatus)
+                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
                             .presentationBackground {
                                 if settings.translucentBackground {
                                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)

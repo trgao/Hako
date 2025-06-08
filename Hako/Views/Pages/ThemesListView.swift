@@ -19,6 +19,7 @@ struct ThemesListView: View {
             ForEach(themes) { theme in
                 if let text = theme.text {
                     Label(text, systemImage: "music.note")
+                        .textSelection(.enabled)
                 }
             }
         }

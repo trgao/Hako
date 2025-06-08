@@ -10,7 +10,6 @@ import SwiftUI
 struct AnimeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: AnimeDetailsViewController
-    @State private var listStatus: AnimeListStatus?
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
     @State private var isEditViewPresented = false
@@ -172,9 +171,11 @@ struct AnimeDetailsView: View {
                         Image(systemName: "square.and.pencil")
                     }
                     .sheet(isPresented: $isEditViewPresented) {
-                        controller.anime?.myListStatus = listStatus
+                        Task {
+                            await controller.refresh()
+                        }
                     } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large, isDeleted: nil, animeStatus: $listStatus)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
                             .presentationBackground {
                                 if settings.translucentBackground {
                                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)

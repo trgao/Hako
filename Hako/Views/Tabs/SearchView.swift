@@ -61,7 +61,7 @@ struct SearchView: View {
                             }
                         } footer: {
                             Rectangle()
-                                .frame(height: 30)
+                                .frame(height: 35)
                                 .foregroundStyle(.clear)
                         }
                         .padding(.bottom, 10)
@@ -219,7 +219,8 @@ struct SearchView: View {
                         .pickerStyle(.segmented)
                         .padding(5)
                     }
-                    .padding(10)
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 5)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                     .ignoresSafeArea(.keyboard, edges: .all)
                 }

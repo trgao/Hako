@@ -18,132 +18,36 @@ struct SeasonsView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if controller.season == "winter" {
-                    ScrollView {
-                        if controller.isLoadingError && controller.winterItems.isEmpty {
-                            ErrorView(refresh: { await controller.refresh() })
-                        } else {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.winterItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
-                                }
-                                if !controller.canLoadMoreWinterPages && !controller.winterContinuingItems.isEmpty {
-                                    Section {
-                                        ForEach(controller.winterContinuingItems) { item in
-                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        }
-                                    } header: {
-                                        Text("Continuing series")
-                                            .padding(.top, 10)
-                                            .padding(10)
-                                            .bold()
-                                            .font(.title2)
+                ScrollView {
+                    if controller.isLoadingError && controller.isSeasonEmpty() {
+                        ErrorView(refresh: { await controller.refresh() })
+                    } else {
+                        LazyVGrid(columns: columns) {
+                            ForEach(controller.getCurrentSeasonItems()) { item in
+                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                    .task {
+                                        await controller.loadMoreIfNeeded(currentItem: item)
                                     }
+                            }
+                            if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() {
+                                Section {
+                                    ForEach(controller.getCurrentSeasonContinuingItems()) { item in
+                                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                    }
+                                } header: {
+                                    Text("Continuing series")
+                                        .padding(.top, 10)
+                                        .padding(10)
+                                        .bold()
+                                        .font(.title2)
                                 }
                             }
-                            .padding(10)
-                            .padding(.bottom, 40)
                         }
+                        .padding(10)
+                        .padding(.bottom, 35)
                     }
-                    .navigationTitle("Winter")
-                } else if controller.season == "spring" {
-                    ScrollView {
-                        if controller.isLoadingError && controller.springItems.isEmpty {
-                            ErrorView(refresh: { await controller.refresh() })
-                        } else {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.springItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
-                                }
-                                if !controller.canLoadMoreSpringPages && !controller.springContinuingItems.isEmpty {
-                                    Section {
-                                        ForEach(controller.springContinuingItems) { item in
-                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        }
-                                    } header: {
-                                        Text("Continuing series")
-                                            .padding(.top, 10)
-                                            .padding(10)
-                                            .bold()
-                                            .font(.title2)
-                                    }
-                                }
-                            }
-                            .padding(10)
-                            .padding(.bottom, 40)
-                        }
-                    }
-                    .navigationTitle("Spring")
-                } else if controller.season == "summer" {
-                    ScrollView {
-                        if controller.isLoadingError && controller.summerItems.isEmpty {
-                            ErrorView(refresh: { await controller.refresh() })
-                        } else {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.summerItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
-                                }
-                                if !controller.canLoadMoreSummerPages && !controller.summerContinuingItems.isEmpty {
-                                    Section {
-                                        ForEach(controller.summerContinuingItems) { item in
-                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        }
-                                    } header: {
-                                        Text("Continuing series")
-                                            .padding(.top, 10)
-                                            .padding(10)
-                                            .bold()
-                                            .font(.title2)
-                                    }
-                                }
-                            }
-                            .padding(10)
-                            .padding(.bottom, 40)
-                        }
-                    }
-                    .navigationTitle("Summer")
-                } else if controller.season == "fall" {
-                    ScrollView {
-                        if controller.isLoadingError && controller.fallItems.isEmpty {
-                            ErrorView(refresh: { await controller.refresh() })
-                        } else {
-                            LazyVGrid(columns: columns) {
-                                ForEach(controller.fallItems) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        .task {
-                                            await controller.loadMoreIfNeeded(currentItem: item)
-                                        }
-                                }
-                                if !controller.canLoadMoreFallPages && !controller.fallContinuingItems.isEmpty {
-                                    Section {
-                                        ForEach(controller.fallContinuingItems) { item in
-                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                        }
-                                    } header: {
-                                        Text("Continuing series")
-                                            .padding(.top, 10)
-                                            .padding(10)
-                                            .bold()
-                                            .font(.title2)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                }
-                            }
-                            .padding(10)
-                            .padding(.bottom, 40)
-                        }
-                    }
-                    .navigationTitle("Fall")
                 }
+                .navigationTitle(controller.season.capitalized)
                 SeasonPicker(controller: controller)
                     .disabled(controller.getCurrentSeasonLoading())
                 if controller.getCurrentSeasonLoading() {

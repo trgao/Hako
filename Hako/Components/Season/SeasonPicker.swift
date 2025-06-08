@@ -40,7 +40,8 @@ struct SeasonPicker: View {
             .pickerStyle(.segmented)
             .padding(5)
         }
-        .padding(10)
+        .padding(.bottom, 5)
+        .padding(.horizontal, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
     }
 }

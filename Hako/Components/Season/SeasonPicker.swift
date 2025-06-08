@@ -19,7 +19,7 @@ struct SeasonPicker: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(height: 40)
-                .foregroundColor(Color(uiColor: .systemGray6))
+                .foregroundColor(Color(.systemGray6))
             Picker(selection: $controller.season, label: EmptyView()) {
                 Text("Winter").tag("winter")
                 Text("Spring").tag("spring")
@@ -36,7 +36,7 @@ struct SeasonPicker: View {
             .pickerStyle(.segmented)
             .padding(5)
         }
-        .padding(8)
+        .padding(10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
     }
 }

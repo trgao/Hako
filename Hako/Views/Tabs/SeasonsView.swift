@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SeasonsView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
     private let columns: [GridItem] = [
@@ -29,7 +30,7 @@ struct SeasonsView: View {
                                         await controller.loadMoreIfNeeded(currentItem: item)
                                     }
                             }
-                            if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() {
+                            if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
                                 Section {
                                     ForEach(controller.getCurrentSeasonContinuingItems()) { item in
                                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)

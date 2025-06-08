@@ -38,7 +38,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, refresh: { await controller.refresh(true) })
+                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
@@ -100,7 +100,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, refresh: { await controller.refresh(true) })
+                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(currentItem: item)
@@ -180,11 +180,14 @@ struct MyListView: View {
                         }
                     }
                 }
+                .task {
+                    await controller.refresh(!controller.isItemsEmpty())
+                }
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
-                    if controller.shouldRefresh() || isRefresh {
+                    if isRefresh {
                         await controller.refresh(!controller.isItemsEmpty())
                         isRefresh = false
                     }

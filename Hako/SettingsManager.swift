@@ -20,15 +20,17 @@ class SettingsManager: ObservableObject {
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
     
-    @AppStorage("useSwipeActions") var useSwipeActions = true
-    @AppStorage("mangaSwipeActions") var mangaSwipeActions = 0
-    @AppStorage("mangaReadProgress") var mangaReadProgress = 0
+    @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideForYou") var hideForYou = false
     @AppStorage("hideTopAiring") var hideTopAiring = false
     @AppStorage("hideTopUpcoming") var hideTopUpcoming = false
     @AppStorage("hideMostPopularAnime") var hideMostPopularAnime = false
     @AppStorage("hideMostPopularManga") var hideMostPopularManga = false
+    
+    @AppStorage("useSwipeActions") var useSwipeActions = true
+    @AppStorage("mangaSwipeActions") var mangaSwipeActions = 0
+    @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
     @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false

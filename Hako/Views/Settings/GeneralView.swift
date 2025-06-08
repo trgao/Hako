@@ -47,15 +47,9 @@ struct GeneralView: View {
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
-            if networker.isSignedIn {
-                Section("List view") {
-                    Toggle(isOn: $settings.useSwipeActions) {
-                        Text("Enable swipe actions")
-                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaSwipeActions == 0 ? "chapters" : "volumes") read")
-                    }
-                    PickerRow(title: "Manga swipe actions", selection: $settings.mangaSwipeActions, labels: ["Chapters", "Volumes"])
-                        .disabled(!settings.useSwipeActions)
-                    PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
+            Section("Seasons view") {
+                Toggle(isOn: $settings.hideContinuingSeries) {
+                    Text("Hide continuing series")
                 }
             }
             Section("Search view") {
@@ -75,6 +69,17 @@ struct GeneralView: View {
                 }
                 Toggle(isOn: $settings.hideMostPopularManga) {
                     Text("Hide most popular manga")
+                }
+            }
+            if networker.isSignedIn {
+                Section("List view") {
+                    Toggle(isOn: $settings.useSwipeActions) {
+                        Text("Enable swipe actions")
+                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaSwipeActions == 0 ? "chapters" : "volumes") read")
+                    }
+                    PickerRow(title: "Manga swipe actions", selection: $settings.mangaSwipeActions, labels: ["Chapters", "Volumes"])
+                        .disabled(!settings.useSwipeActions)
+                    PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
             }
             Section("Anime details") {

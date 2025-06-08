@@ -30,9 +30,22 @@ struct SeasonsView: View {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
                                 }
+                                if !controller.canLoadMoreWinterPages && !controller.winterContinuingItems.isEmpty {
+                                    Section {
+                                        ForEach(controller.winterContinuingItems) { item in
+                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                        }
+                                    } header: {
+                                        Text("Continuing series")
+                                            .padding(.top, 10)
+                                            .padding(10)
+                                            .bold()
+                                            .font(.title2)
+                                    }
+                                }
                             }
                             .padding(10)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 40)
                         }
                     }
                     .navigationTitle("Winter")
@@ -48,9 +61,22 @@ struct SeasonsView: View {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
                                 }
+                                if !controller.canLoadMoreSpringPages && !controller.springContinuingItems.isEmpty {
+                                    Section {
+                                        ForEach(controller.springContinuingItems) { item in
+                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                        }
+                                    } header: {
+                                        Text("Continuing series")
+                                            .padding(.top, 10)
+                                            .padding(10)
+                                            .bold()
+                                            .font(.title2)
+                                    }
+                                }
                             }
                             .padding(10)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 40)
                         }
                     }
                     .navigationTitle("Spring")
@@ -66,9 +92,22 @@ struct SeasonsView: View {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
                                 }
+                                if !controller.canLoadMoreSummerPages && !controller.summerContinuingItems.isEmpty {
+                                    Section {
+                                        ForEach(controller.summerContinuingItems) { item in
+                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                        }
+                                    } header: {
+                                        Text("Continuing series")
+                                            .padding(.top, 10)
+                                            .padding(10)
+                                            .bold()
+                                            .font(.title2)
+                                    }
+                                }
                             }
                             .padding(10)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 40)
                         }
                     }
                     .navigationTitle("Summer")
@@ -84,9 +123,23 @@ struct SeasonsView: View {
                                             await controller.loadMoreIfNeeded(currentItem: item)
                                         }
                                 }
+                                if !controller.canLoadMoreFallPages && !controller.fallContinuingItems.isEmpty {
+                                    Section {
+                                        ForEach(controller.fallContinuingItems) { item in
+                                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                        }
+                                    } header: {
+                                        Text("Continuing series")
+                                            .padding(.top, 10)
+                                            .padding(10)
+                                            .bold()
+                                            .font(.title2)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                }
                             }
                             .padding(10)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 40)
                         }
                     }
                     .navigationTitle("Fall")

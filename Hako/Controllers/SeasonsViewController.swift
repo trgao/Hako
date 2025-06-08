@@ -48,24 +48,45 @@ class SeasonsViewController: ObservableObject {
         return (season == "winter" && winterItems.isEmpty) || (season == "spring" && springItems.isEmpty) || (season == "summer" && summerItems.isEmpty) || (season == "fall" && fallItems.isEmpty)
     }
     
+    // Check if the continuing series list for the current season is empty
+    func isSeasonContinuingEmpty() -> Bool {
+        return (season == "winter" && winterContinuingItems.isEmpty) || (season == "spring" && springContinuingItems.isEmpty) || (season == "summer" && summerContinuingItems.isEmpty) || (season == "fall" && fallContinuingItems.isEmpty)
+    }
+    
     // Check if the anime list for the current season should be refreshed
     func shouldRefresh() -> Bool {
         return (season == "winter" && winterItems.isEmpty && canLoadMoreWinterPages) || (season == "spring" && springItems.isEmpty && canLoadMoreSpringPages) || (season == "summer" && summerItems.isEmpty && canLoadMoreSummerPages) || (season == "fall" && fallItems.isEmpty && canLoadMoreFallPages)
     }
     
-    // Get current(Season)Page variable for the current season
-    private func getCurrentSeasonPage() -> Int {
+    // Get (season)Items variable for the current season
+    func getCurrentSeasonItems() -> [MALListAnime] {
         if season == "winter" {
-            return currentWinterPage
+            return winterItems
         } else if season == "spring" {
-            return currentSpringPage
+            return springItems
         } else if season == "summer" {
-            return currentSummerPage
+            return summerItems
         } else if season == "fall" {
-            return currentFallPage
+            return fallItems
         } else {
             // Should not reach here
-            return 1
+            return []
+        }
+    }
+    
+    // Get (season)ContinuingItems variable for the current season
+    func getCurrentSeasonContinuingItems() -> [MALListAnime] {
+        if season == "winter" {
+            return winterContinuingItems
+        } else if season == "spring" {
+            return springContinuingItems
+        } else if season == "summer" {
+            return summerContinuingItems
+        } else if season == "fall" {
+            return fallContinuingItems
+        } else {
+            // Should not reach here
+            return []
         }
     }
     
@@ -86,7 +107,7 @@ class SeasonsViewController: ObservableObject {
     }
     
     // Get canLoadMore(Season)Pages variable for the current season
-    private func getCurrentSeasonCanLoadMore() -> Bool {
+    func getCurrentSeasonCanLoadMore() -> Bool {
         if season == "winter" {
             return canLoadMoreWinterPages
         } else if season == "spring" {
@@ -98,6 +119,22 @@ class SeasonsViewController: ObservableObject {
         } else {
             // Should not reach here
             return false
+        }
+    }
+    
+    // Get current(Season)Page variable for the current season
+    private func getCurrentSeasonPage() -> Int {
+        if season == "winter" {
+            return currentWinterPage
+        } else if season == "spring" {
+            return currentSpringPage
+        } else if season == "summer" {
+            return currentSummerPage
+        } else if season == "fall" {
+            return currentFallPage
+        } else {
+            // Should not reach here
+            return 1
         }
     }
     

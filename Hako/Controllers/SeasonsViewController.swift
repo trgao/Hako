@@ -11,27 +11,31 @@ import Foundation
 class SeasonsViewController: ObservableObject {
     // Winter season variables
     @Published var winterItems = [MALListAnime]()
+    @Published var winterContinuingItems = [MALListAnime]()
     @Published var isWinterLoading = false
+    @Published var canLoadMoreWinterPages = true
     private var currentWinterPage = 1
-    private var canLoadMoreWinterPages = true
     
     // Spring season variables
     @Published var springItems = [MALListAnime]()
+    @Published var springContinuingItems = [MALListAnime]()
     @Published var isSpringLoading = false
+    @Published var canLoadMoreSpringPages = true
     private var currentSpringPage = 1
-    private var canLoadMoreSpringPages = true
     
     // Summer season variables
     @Published var summerItems = [MALListAnime]()
+    @Published var summerContinuingItems = [MALListAnime]()
     @Published var isSummerLoading = false
+    @Published var canLoadMoreSummerPages = true
     private var currentSummerPage = 1
-    private var canLoadMoreSummerPages = true
     
     // Fall season variables
     @Published var fallItems = [MALListAnime]()
+    @Published var fallContinuingItems = [MALListAnime]()
     @Published var isFallLoading = false
+    @Published var canLoadMoreFallPages = true
     private var currentFallPage = 1
-    private var canLoadMoreFallPages = true
     
     // Common variables
     @Published var season = ["winter", "spring", "summer", "fall"][((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
@@ -141,18 +145,22 @@ class SeasonsViewController: ObservableObject {
         // Reset all lists if need to clear (to change year)
         if clear {
             winterItems = []
+            winterContinuingItems = []
             currentWinterPage = 1
             canLoadMoreWinterPages = true
             
             springItems = []
+            springContinuingItems = []
             currentSpringPage = 1
             canLoadMoreSpringPages = true
             
             summerItems = []
+            summerContinuingItems = []
             currentSummerPage = 1
             canLoadMoreSummerPages = true
             
             fallItems = []
+            fallContinuingItems = []
             currentFallPage = 1
             canLoadMoreFallPages = true
         }
@@ -167,12 +175,16 @@ class SeasonsViewController: ObservableObject {
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
             if season == "winter" {
                 winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
+                winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             } else if season == "spring" {
                 springItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
+                springContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             } else if season == "summer" {
                 summerItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
+                summerContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             } else if season == "fall" {
                 fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
+                fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             }
         } catch let error as NetworkError {
             // If 404 not found, usually means the season still has not been released yet
@@ -207,12 +219,16 @@ class SeasonsViewController: ObservableObject {
             updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
             if season == "winter" {
                 winterItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
+                winterContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             } else if season == "spring" {
                 springItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
+                springContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             } else if season == "summer" {
                 summerItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
+                summerContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             } else if season == "fall" {
                 fallItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
+                fallContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             }
         } catch let error as NetworkError {
             // If 404 not found, usually means the season still has not been released yet

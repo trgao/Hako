@@ -22,7 +22,7 @@ struct StaffsListView: View {
                 } label: {
                     HStack {
                         ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .small)
-                            .padding([.trailing], 10)
+                            .padding(.trailing, 10)
                         VStack(alignment: .leading) {
                             Text(staff.person.name ?? "")
                             Text(staff.positions.joined(separator: ", "))

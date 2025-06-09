@@ -79,7 +79,7 @@ struct CharacterAnimeSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
                                 Text(anime.role ?? "")
@@ -120,7 +120,7 @@ struct CharacterMangaSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
                                 Text(manga.role ?? "")
@@ -161,7 +161,7 @@ struct CharacterVoiceSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg?.imageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(voice.person.name ?? "")
                                 Text(voice.language ?? "")

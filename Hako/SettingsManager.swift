@@ -15,7 +15,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
-    @AppStorage("allowHaptics") var allowHaptics = true
     
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1

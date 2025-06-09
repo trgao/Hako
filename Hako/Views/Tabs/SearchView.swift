@@ -213,9 +213,7 @@ struct SearchView: View {
                             Image(systemName: "tv.fill").tag(TypeEnum.anime)
                             Image(systemName: "book.fill").tag(TypeEnum.manga)
                         }
-                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type, condition: { old, new in
-                            return old != new && settings.allowHaptics
-                        })
+                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
                         .pickerStyle(.segmented)
                         .padding(5)
                     }

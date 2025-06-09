@@ -36,9 +36,6 @@ struct GeneralView: View {
                 }
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
-                Toggle(isOn: $settings.allowHaptics) {
-                    Text("Allow haptics")
-                }
             }
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {

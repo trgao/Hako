@@ -27,9 +27,7 @@ struct SeasonPicker: View {
                 Text("Summer").tag("summer")
                 Text("Fall").tag("fall")
             }
-            .sensoryFeedback(.impact(weight: .light), trigger: controller.season, condition: { old, new in
-                return old != new && settings.allowHaptics
-            })
+            .sensoryFeedback(.impact(weight: .light), trigger: controller.season)
             .onChange(of: controller.season) {
                 if controller.shouldRefresh() {
                     Task {

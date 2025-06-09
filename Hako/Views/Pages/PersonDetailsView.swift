@@ -79,7 +79,7 @@ struct PersonVoiceSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg?.imageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(voice.anime.title ?? "")
                                 Text(voice.character.name ?? "")
@@ -120,7 +120,7 @@ struct PersonAnimeSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(anime.anime.title ?? "")
                                 if let position = anime.position {
@@ -163,7 +163,7 @@ struct PersonMangaSection: View {
                     } label: {
                         HStack {
                             ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding([.trailing], 10)
+                                .padding(.trailing, 10)
                             VStack(alignment: .leading) {
                                 Text(manga.manga.title ?? "")
                                 if let position = manga.position {

@@ -22,7 +22,7 @@ struct CharactersListView: View {
                 } label: {
                     HStack {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .small)
-                            .padding([.trailing], 10)
+                            .padding(.trailing, 10)
                         Text(character.character.name ?? "")
                     }
                 }

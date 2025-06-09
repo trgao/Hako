@@ -31,7 +31,7 @@ struct CharacterDetailsView: View {
                         CharacterVoiceSection(voices: character.voices)
                     } header: {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .large)
-                            .padding([.top], 10)
+                            .padding(.vertical, 10)
                         NameText(english: character.name, japanese: character.nameKanji)
                     }
                     .task(id: isRefresh) {

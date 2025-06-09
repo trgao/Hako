@@ -151,40 +151,36 @@ struct MangaDetailsView: View {
                         MangaStatistics(controller: controller)
                     }
                 } header: {
-                    VStack(alignment: .center) {
-                        ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
-                            .padding([.top], 10)
-                        TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
-                        HStack {
-                            VStack {
-                                if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                    Text("MAL score:")
-                                        .font(.system(size: 13))
-                                }
-                                Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
-                            }
-                            if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                VStack {
-                                    Text("Your score:")
-                                        .font(.system(size: 13))
-                                    Text("\(myScore) ⭐")
-                                }
-                                .padding(.leading, 20)
-                            }
-                        }
-                        .padding(.bottom, 5)
-                        .bold()
-                        .font(.system(size: 25))
+                    ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
+                        .padding(.top, 10)
+                    TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
+                    HStack {
                         VStack {
-                            if let mediaType = manga.mediaType, let status = manga.status {
-                                Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                            if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                Text("MAL score:")
+                                    .font(.system(size: 13))
                             }
-                            Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
+                            Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
                         }
-                        .opacity(0.7)
-                        .font(.system(size: 12))
-                        
+                        if let myScore = manga.myListStatus?.score, myScore > 0 {
+                            VStack {
+                                Text("Your score:")
+                                    .font(.system(size: 13))
+                                Text("\(myScore) ⭐")
+                            }
+                            .padding(.leading, 20)
+                        }
                     }
+                    .bold()
+                    .font(.system(size: 25))
+                    VStack {
+                        if let mediaType = manga.mediaType, let status = manga.status {
+                            Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                        }
+                        Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
+                    }
+                    .opacity(0.7)
+                    .font(.system(size: 12))
                 }
                 .task(id: isRefresh) {
                     if isRefresh {

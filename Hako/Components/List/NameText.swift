@@ -10,14 +10,38 @@ import SwiftUI
 struct NameText: View {
     private let english: String?
     private let japanese: String?
+    private let birthday: String?
     
-    init(english: String?, japanese: String? = nil) {
+    init(english: String?, japanese: String? = nil, birthday: String? = nil) {
         self.english = english
         self.japanese = japanese
+        self.birthday = birthday
     }
     
     var body: some View {
-        Menu {
+        VStack {
+            if let english = english {
+                Text(english)
+                    .bold()
+                    .font(.system(size: 25))
+                    .multilineTextAlignment(.center)
+                    .contentShape(Rectangle())
+            }
+            if let japanese = japanese {
+                Text(japanese)
+                    .padding(.bottom, 5)
+                    .font(.system(size: 18))
+                    .opacity(0.7)
+                    .multilineTextAlignment(.center)
+            }
+            if let birthday = birthday {
+                Text("Birthday: \(birthday)")
+                    .font(.system(size: 18))
+                    .opacity(0.7)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .contextMenu {
             if let english = english {
                 Button {
                     UIPasteboard.general.string = english
@@ -34,25 +58,6 @@ struct NameText: View {
                     Text(japanese)
                 }
             }
-        } label: {
-            VStack {
-                if let english = english {
-                    Text(english)
-                        .bold()
-                        .font(.system(size: 25))
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                        .contentShape(Rectangle())
-                }
-                if let japanese = japanese {
-                    Text(japanese)
-                        .padding(.bottom, 5)
-                        .padding(.horizontal, 20)
-                        .font(.system(size: 18))
-                        .opacity(0.7)
-                        .multilineTextAlignment(.center)
-                }
-            }
-        } primaryAction: {}
+        }
     }
 }

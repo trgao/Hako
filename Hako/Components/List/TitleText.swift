@@ -20,7 +20,30 @@ struct TitleText: View {
     }
     
     var body: some View {
-        Menu {
+        VStack {
+            if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                Text(title)
+                    .bold()
+                    .font(.system(size: 25))
+                    .multilineTextAlignment(.center)
+                    .contentShape(Rectangle())
+            } else {
+                Text(romaji)
+                    .bold()
+                    .font(.system(size: 25))
+                    .multilineTextAlignment(.center)
+                    .contentShape(Rectangle())
+            }
+            if let japanese = japanese {
+                Text(japanese)
+                    .padding(.bottom, 5)
+                    .font(.system(size: 18))
+                    .opacity(0.7)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(.top, 5)
+        .contextMenu {
             Button {
                 UIPasteboard.general.string = romaji
             } label: {
@@ -43,32 +66,6 @@ struct TitleText: View {
                     Text(japanese)
                 }
             }
-        } label: {
-            VStack {
-                if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                    Text(title)
-                        .bold()
-                        .font(.system(size: 25))
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                        .contentShape(Rectangle())
-                } else {
-                    Text(romaji)
-                        .bold()
-                        .font(.system(size: 25))
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                        .contentShape(Rectangle())
-                }
-                if let japanese = japanese {
-                    Text(japanese)
-                        .padding(.bottom, 5)
-                        .padding(.horizontal, 20)
-                        .font(.system(size: 18))
-                        .opacity(0.7)
-                        .multilineTextAlignment(.center)
-                }
-            }
-        } primaryAction: {}
+        }
     }
 }

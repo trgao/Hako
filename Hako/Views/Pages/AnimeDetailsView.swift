@@ -97,7 +97,7 @@ struct AnimeDetailsView: View {
                     }
                 } header: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
-                        .padding([.top], 10)
+                        .padding(.top, 10)
                     TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                     HStack {
                         VStack {
@@ -116,7 +116,6 @@ struct AnimeDetailsView: View {
                             .padding(.leading, 20)
                         }
                     }
-                    .padding(.bottom, 5)
                     .bold()
                     .font(.system(size: 25))
                     VStack {

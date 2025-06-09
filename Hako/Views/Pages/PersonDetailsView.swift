@@ -31,15 +31,8 @@ struct PersonDetailsView: View {
                         PersonMangaSection(mangas: person.manga)
                     } header: {
                         ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .large)
-                            .padding([.top], 10)
-                        NameText(english: person.name)
-                        if let birthday = person.birthday {
-                            Text("Birthday: \(birthday.toString())")
-                                .padding(.horizontal, 10)
-                                .font(.system(size: 18))
-                                .opacity(0.7)
-                                .multilineTextAlignment(.center)
-                        }
+                            .padding(.vertical, 10)
+                        NameText(english: person.name, birthday: person.birthday?.toString())
                     }
                     .task(id: isRefresh) {
                         if isRefresh {

@@ -167,21 +167,23 @@ struct AnimeEditView: View {
                         }
                         .foregroundStyle(Color(.systemRed))
                     } header: {
-                        ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
-                        Text(title)
-                            .bold()
-                            .font(.system(size: 20))
-                            .padding(.top, 10)
-                            .padding(.horizontal, 20)
-                            .multilineTextAlignment(.center)
-                        if let updatedAt = listStatus.updatedAt?.toFullString() {
-                            Text("Last updated at: \(updatedAt)")
-                                .font(.system(size: 12))
-                                .opacity(0.7)
-                        } else {
-                            Text("Not added to list")
-                                .font(.system(size: 12))
-                                .opacity(0.7)
+                        VStack {
+                            ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
+                                .padding(.top, 10)
+                            Text(title)
+                                .bold()
+                                .font(.system(size: 20))
+                                .padding(.top, 5)
+                                .multilineTextAlignment(.center)
+                            if let updatedAt = listStatus.updatedAt?.toFullString() {
+                                Text("Last updated at: \(updatedAt)")
+                                    .font(.system(size: 12))
+                                    .opacity(0.7)
+                            } else {
+                                Text("Not added to list")
+                                    .font(.system(size: 12))
+                                    .opacity(0.7)
+                            }
                         }
                     }
                     .scrollContentBackground(.hidden)

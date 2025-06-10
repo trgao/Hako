@@ -210,8 +210,10 @@ struct SearchView: View {
                             .frame(height: 40)
                             .foregroundColor(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                         Picker(selection: $controller.type, label: EmptyView()) {
-                            Image(systemName: "tv.fill").tag(TypeEnum.anime)
-                            Image(systemName: "book.fill").tag(TypeEnum.manga)
+                            Text("Anime")
+                                .tag(TypeEnum.anime)
+                            Text("Manga")
+                                .tag(TypeEnum.manga)
                         }
                         .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
                         .pickerStyle(.segmented)

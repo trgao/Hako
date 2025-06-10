@@ -34,7 +34,7 @@ struct AnimeDetailsView: View {
     
     var body: some View {
         ZStack {
-            if (controller.isLoadingError) {
+            if controller.isLoadingError && controller.anime == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let anime = controller.anime {
                 PageList {

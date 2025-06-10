@@ -69,7 +69,7 @@ class MyListViewController: ObservableObject {
         isLoadingError = false
         if type == .anime {
             currentAnimePage = 1
-            canLoadMoreAnimePages = true
+            canLoadMoreAnimePages = false
             if refresh {
                 isLoading = true
             } else {
@@ -80,7 +80,7 @@ class MyListViewController: ObservableObject {
                 let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
                 
                 currentAnimePage = 2
-                canLoadMoreAnimePages = !(animeList.isEmpty)
+                canLoadMoreAnimePages = animeList.count > 20
                 animeItems = animeList
             } catch {
                 isLoadingError = true
@@ -92,7 +92,7 @@ class MyListViewController: ObservableObject {
             }
         } else if type == .manga {
             currentMangaPage = 1
-            canLoadMoreMangaPages = true
+            canLoadMoreMangaPages = false
             if refresh {
                 isLoading = true
             } else {
@@ -103,7 +103,7 @@ class MyListViewController: ObservableObject {
                 let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
                 
                 currentMangaPage = 2
-                canLoadMoreMangaPages = !(mangaList.isEmpty)
+                canLoadMoreMangaPages = mangaList.count > 20
                 mangaItems = mangaList
             } catch {
                 isLoadingError = true
@@ -135,7 +135,7 @@ class MyListViewController: ObservableObject {
                 let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
                 
                 currentAnimePage += 1
-                canLoadMoreAnimePages = !(animeList.isEmpty)
+                canLoadMoreAnimePages = animeList.count > 20
                 animeItems.append(contentsOf: animeList)
             } catch {
                 isLoadingError = true
@@ -158,7 +158,7 @@ class MyListViewController: ObservableObject {
                 let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
                 
                 currentMangaPage += 1
-                canLoadMoreMangaPages = !(mangaList.isEmpty)
+                canLoadMoreMangaPages = mangaList.count > 20
                 mangaItems.append(contentsOf: mangaList)
             } catch {
                 isLoadingError = true

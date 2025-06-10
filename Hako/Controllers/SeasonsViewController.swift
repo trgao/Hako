@@ -204,12 +204,12 @@ class SeasonsViewController: ObservableObject {
         
         updateCurrentSeasonPage(1)
         updateCurrentSeasonLoading(true)
-        updateCurrentSeasonCanLoadMore(true)
+        updateCurrentSeasonCanLoadMore(false)
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
             updateCurrentSeasonPage(2)
-            updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
+            updateCurrentSeasonCanLoadMore(animeList.count > 20)
             if season == "winter" {
                 winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
@@ -253,7 +253,7 @@ class SeasonsViewController: ObservableObject {
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
-            updateCurrentSeasonCanLoadMore(!(animeList.isEmpty))
+            updateCurrentSeasonCanLoadMore(animeList.count > 20)
             if season == "winter" {
                 winterItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 winterContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })

@@ -104,6 +104,7 @@ struct ThemeSong: View {
             }
             .buttonStyle(.bordered)
             .contentTransition(.symbolEffect(.replace))
+            .sensoryFeedback(.impact(weight: .light), trigger: isCopied)
         }
             .multilineTextAlignment(.leading)
             .lineLimit(settings.truncateThemeSongs ? 3 : nil)

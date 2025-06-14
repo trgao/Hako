@@ -30,22 +30,27 @@ struct SeasonsView: View {
                                         await controller.loadMoreIfNeeded(index: index)
                                     }
                             }
+                            if controller.getCurrentSeasonItems().count % 2 != 0 {
+                                AnimeGridItem(id: 0, title: nil, enTitle: nil, imageUrl: nil)
+                                    .hidden()
+                            }
                             if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
-                                Section {
-                                    ForEach(controller.getCurrentSeasonContinuingItems()) { item in
-                                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                    }
-                                } header: {
-                                    Text("Continuing series")
-                                        .padding(.top, 10)
-                                        .padding(10)
-                                        .bold()
-                                        .font(.title2)
+                                Text("Continuing")
+                                    .padding(.bottom, 10)
+                                    .padding([.top, .horizontal], 20)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .bold()
+                                    .font(.title2)
+                                Rectangle()
+                                    .frame(height: 20)
+                                    .hidden()
+                                ForEach(controller.getCurrentSeasonContinuingItems()) { item in
+                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                                 }
                             }
                         }
-                        .padding(10)
-                        .padding(.bottom, 35)
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 45)
                     }
                 }
                 .navigationTitle(controller.season.capitalized)

@@ -50,7 +50,7 @@ struct TitleText: View {
                 Text("Copy Romaji title")
                 Text(romaji)
             }
-            if let english = english {
+            if let english = english, !english.isEmpty {
                 Button {
                     UIPasteboard.general.string = english
                 } label: {
@@ -58,11 +58,11 @@ struct TitleText: View {
                     Text(english)
                 }
             }
-            if let japanese = japanese {
+            if let japanese = japanese, !japanese.isEmpty {
                 Button {
                     UIPasteboard.general.string = japanese
                 } label: {
-                    Text("Copy Japanese title")
+                    Text("Copy native language title")
                     Text(japanese)
                 }
             }

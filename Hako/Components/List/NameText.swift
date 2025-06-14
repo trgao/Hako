@@ -41,6 +41,7 @@ struct NameText: View {
                     .multilineTextAlignment(.center)
             }
         }
+        .padding(.vertical, 5)
         .contextMenu {
             if let english = english {
                 Button {

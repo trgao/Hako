@@ -150,10 +150,11 @@ struct MangaDetailsView: View {
                     if !settings.hideMangaStatistics {
                         MangaStatistics(controller: controller)
                     }
-                } header: {
+                } photo: {
                     ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
-                        .padding(.top, 10)
+                } title: {
                     TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
+                } subtitle: {
                     HStack {
                         VStack {
                             if let myScore = manga.myListStatus?.score, myScore > 0 {

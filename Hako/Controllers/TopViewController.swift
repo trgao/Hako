@@ -117,25 +117,18 @@ class TopViewController: ObservableObject {
         }
     }
     
-    // Load more anime when reaching the 5th last anime in list
-    func loadMoreIfNeeded(currentItem item: MALListAnime?) async -> Void {
-        guard let item = item else {
-            return await loadMore()
-        }
-        let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -5)
-        if animeItems.firstIndex(where: { $0.node.id == item.node.id }) == thresholdIndex {
-            return await loadMore()
-        }
-    }
-    
-    // Load more manga when reaching the 5th last manga in list
-    func loadMoreIfNeeded(currentItem item: MALListManga?) async -> Void {
-        guard let item = item else {
-            return await loadMore()
-        }
-        let thresholdIndex = mangaItems.index(mangaItems.endIndex, offsetBy: -5)
-        if mangaItems.firstIndex(where: { $0.node.id == item.node.id }) == thresholdIndex {
-            return await loadMore()
+    // Load more anime when reaching the 5th last anime/manga in list
+    func loadMoreIfNeeded(index: Int) async -> Void {
+        if type == .anime {
+            let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -4)
+            if index == thresholdIndex {
+                return await loadMore()
+            }
+        } else if type == .manga {
+            let thresholdIndex = mangaItems.index(mangaItems.endIndex, offsetBy: -4)
+            if index == thresholdIndex {
+                return await loadMore()
+            }
         }
     }
 }

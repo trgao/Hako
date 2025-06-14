@@ -39,10 +39,10 @@ struct TopView: View {
                                 ErrorView(refresh: controller.refresh)
                             } else {
                                 LazyVGrid(columns: columns) {
-                                    ForEach(controller.animeItems, id: \.node.id) { item in
+                                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
                                         AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank))
                                             .task {
-                                                await controller.loadMoreIfNeeded(currentItem: item)
+                                                await controller.loadMoreIfNeeded(index: index)
                                             }
                                     }
                                 }
@@ -70,10 +70,10 @@ struct TopView: View {
                                 ErrorView(refresh: controller.refresh)
                             } else {
                                 LazyVGrid(columns: columns) {
-                                    ForEach(controller.mangaItems, id: \.node.id) { item in
+                                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
                                         MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank))
                                             .task {
-                                                await controller.loadMoreIfNeeded(currentItem: item)
+                                                await controller.loadMoreIfNeeded(index: index)
                                             }
                                     }
                                 }

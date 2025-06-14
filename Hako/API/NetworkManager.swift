@@ -485,7 +485,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getSeasonAnimeList(season: String, year: Int, page: Int) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season)?fields=alternative_titles,start_season&sort=anime_num_list_users&limit=50&offset=\((page - 1) * 50)", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season)?fields=alternative_titles,start_season&sort=anime_num_list_users&limit=400&offset=\((page - 1) * 400)", type: MALAnimeListResponse.self)
         return response.data
     }
     

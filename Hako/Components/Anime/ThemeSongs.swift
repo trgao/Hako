@@ -74,6 +74,8 @@ struct ThemeSongs: View {
 
 struct ThemeSong: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject private var settings: SettingsManager
+    @State private var isCopied = false
     private let text: String
     
     init(text: String) {
@@ -81,8 +83,24 @@ struct ThemeSong: View {
     }
     
     var body: some View {
-        Text(text)
-            .textSelection(.enabled)
+        HStack {
+            Text(text)
+            Spacer()
+            Button {
+                isCopied = true
+                print("copied")
+                UIPasteboard.general.string = text
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    isCopied = false
+                })
+            } label: {
+                Image(systemName: isCopied ? "checkmark" : "document.on.document")
+                    .foregroundStyle(settings.getAccentColor())
+                    .frame(width: 20, height: 20)
+            }
+            .buttonStyle(.bordered)
+            .contentTransition(.symbolEffect(.replace))
+        }
             .multilineTextAlignment(.center)
             .lineLimit(3)
             .fixedSize(horizontal: false, vertical: true)

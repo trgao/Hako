@@ -209,7 +209,7 @@ class SeasonsViewController: ObservableObject {
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
             updateCurrentSeasonPage(2)
-            updateCurrentSeasonCanLoadMore(animeList.count > 20)
+            updateCurrentSeasonCanLoadMore(animeList.count > 350)
             if season == "winter" {
                 winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
@@ -253,7 +253,7 @@ class SeasonsViewController: ObservableObject {
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage())
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
-            updateCurrentSeasonCanLoadMore(animeList.count > 20)
+            updateCurrentSeasonCanLoadMore(animeList.count > 350)
             if season == "winter" {
                 winterItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 winterContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })

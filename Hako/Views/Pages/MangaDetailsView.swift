@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MangaDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject var controller: MangaDetailsViewController
+    @StateObject private var controller: MangaDetailsViewController
+    @StateObject private var networker = NetworkManager.shared
     @State private var synopsisLines = 4
     @State private var isShowingMore = false
     @State private var isEditViewPresented = false
@@ -24,7 +25,6 @@ struct MangaDetailsView: View {
         .planToRead: .primary,
         .none: Color(.systemGray)
     ]
-    let networker = NetworkManager.shared
     
     init(id: Int) {
         self.id = id

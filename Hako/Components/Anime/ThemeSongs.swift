@@ -33,7 +33,9 @@ struct ThemeSongs: View {
                             }
                         }
                         .padding(.horizontal, 20)
+                        .scrollTargetLayout()
                     }
+                    .scrollTargetBehavior(.viewAligned)
                 }
                 .textCase(nil)
                 .padding(.horizontal, -20)
@@ -59,7 +61,9 @@ struct ThemeSongs: View {
                             }
                         }
                         .padding(.horizontal, 20)
+                        .scrollTargetLayout()
                     }
+                    .scrollTargetBehavior(.viewAligned)
                 }
                 .textCase(nil)
                 .padding(.horizontal, -20)

@@ -29,9 +29,9 @@ struct CharacterDetailsView: View {
                         CharacterAnimeSection(animes: character.anime)
                         CharacterMangaSection(mangas: character.manga)
                         CharacterVoiceSection(voices: character.voices)
-                    } header: {
+                    } photo: {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .large)
-                            .padding(.vertical, 10)
+                    } title: {
                         NameText(english: character.name, japanese: character.nameKanji)
                     }
                     .task(id: isRefresh) {

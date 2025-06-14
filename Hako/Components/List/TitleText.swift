@@ -42,7 +42,7 @@ struct TitleText: View {
                     .multilineTextAlignment(.center)
             }
         }
-        .padding(.top, 5)
+        .padding(.vertical, 5)
         .contextMenu {
             Button {
                 UIPasteboard.general.string = romaji

@@ -26,16 +26,16 @@ struct AboutView: View {
                 Link("swiftui-shimmer", destination: URL(string: "https://github.com/markiv/SwiftUI-Shimmer")!)
                 Link("swift-retry", destination: URL(string: "https://github.com/fumoboy007/swift-retry")!)
             }
-        } header: {
+        } photo: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 60, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+        } title: {
             Text("Hako")
                 .bold()
                 .font(.system(size: 25))
-                .padding(.horizontal, 20)
                 .multilineTextAlignment(.center)
         }
         .handleOpenURLInApp()

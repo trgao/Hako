@@ -177,14 +177,13 @@ struct MangaEditView: View {
                             Label("Remove from list", systemImage: "trash")
                         }
                         .foregroundStyle(Color(.systemRed))
-                    } header: {
+                    } photo: {
+                        ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
+                    } subtitle: {
                         VStack {
-                            ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
-                                .padding(.top, 10)
                             Text(title)
                                 .bold()
                                 .font(.system(size: 20))
-                                .padding(.top, 5)
                                 .multilineTextAlignment(.center)
                             if let updatedAt = listStatus.updatedAt?.toFullString() {
                                 Text("Last updated at: \(updatedAt)")

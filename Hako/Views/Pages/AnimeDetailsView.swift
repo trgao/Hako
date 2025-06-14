@@ -95,10 +95,11 @@ struct AnimeDetailsView: View {
                     if !settings.hideAnimeStatistics {
                         AnimeStatistics(controller: controller)
                     }
-                } header: {
+                } photo: {
                     ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
-                        .padding(.top, 10)
+                } title: {
                     TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
+                } subtitle: {
                     HStack {
                         VStack {
                             if (controller.anime?.myListStatus?.score ?? 0) > 0 {

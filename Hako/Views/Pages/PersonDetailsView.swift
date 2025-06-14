@@ -29,9 +29,9 @@ struct PersonDetailsView: View {
                         PersonVoiceSection(voices: person.voices)
                         PersonAnimeSection(animes: person.anime)
                         PersonMangaSection(mangas: person.manga)
-                    } header: {
+                    } photo: {
                         ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .large)
-                            .padding(.vertical, 10)
+                    } title: {
                         NameText(english: person.name, birthday: person.birthday?.toString())
                     }
                     .task(id: isRefresh) {

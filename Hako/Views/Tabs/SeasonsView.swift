@@ -24,10 +24,10 @@ struct SeasonsView: View {
                         ErrorView(refresh: { await controller.refresh() })
                     } else {
                         LazyVGrid(columns: columns) {
-                            ForEach(controller.getCurrentSeasonItems()) { item in
+                            ForEach(Array(controller.getCurrentSeasonItems().enumerated()), id: \.1.id) { index, item in
                                 AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                                     .task {
-                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                        await controller.loadMoreIfNeeded(index: index)
                                     }
                             }
                             if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {

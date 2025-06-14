@@ -41,7 +41,7 @@ struct MyListView: View {
                                             AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                        await controller.loadMoreIfNeeded(index: index)
                                                     }
                                                 }
                                                 .swipeActions(edge: .leading) {
@@ -103,7 +103,7 @@ struct MyListView: View {
                                             MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                                 .onAppear {
                                                     Task {
-                                                        await controller.loadMoreIfNeeded(currentItem: item)
+                                                        await controller.loadMoreIfNeeded(index: index)
                                                     }
                                                 }
                                                 .swipeActions(edge: .leading) {

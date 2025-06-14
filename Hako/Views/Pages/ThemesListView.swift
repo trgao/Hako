@@ -19,7 +19,13 @@ struct ThemesListView: View {
             ForEach(themes) { theme in
                 if let text = theme.text {
                     Label(text, systemImage: "music.note")
-                        .textSelection(.enabled)
+                        .contextMenu {
+                            Button {
+                                UIPasteboard.general.string = text
+                            } label: {
+                                Label("Copy song", systemImage: "document.on.document")
+                            }
+                        }
                 }
             }
         }

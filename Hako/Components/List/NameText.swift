@@ -43,7 +43,7 @@ struct NameText: View {
         }
         .padding(.vertical, 5)
         .contextMenu {
-            if let english = english {
+            if let english = english, !english.isEmpty {
                 Button {
                     UIPasteboard.general.string = english
                 } label: {
@@ -51,11 +51,11 @@ struct NameText: View {
                     Text(english)
                 }
             }
-            if let japanese = japanese {
+            if let japanese = japanese, !japanese.isEmpty {
                 Button {
                     UIPasteboard.general.string = japanese
                 } label: {
-                    Text("Copy Japanese name")
+                    Text("Copy native language name")
                     Text(japanese)
                 }
             }

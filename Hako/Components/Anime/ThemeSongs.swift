@@ -101,14 +101,23 @@ struct ThemeSong: View {
             .buttonStyle(.bordered)
             .contentTransition(.symbolEffect(.replace))
         }
-            .multilineTextAlignment(.center)
-            .lineLimit(3)
+            .multilineTextAlignment(.leading)
+            .lineLimit(settings.truncateThemeSongs ? 3 : nil)
             .fixedSize(horizontal: false, vertical: true)
             .font(.system(size: 17))
-            .padding(20)
-            .frame(width: UIScreen.main.bounds.size.width - 30, height: 100, alignment: .center)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .frame(width: UIScreen.main.bounds.size.width - 30, alignment: .center)
+            .frame(minHeight: 100)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)
             .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background {
+                ViewThatFits(in: .vertical) {
+                    Text(text)
+                        .hidden()
+                    Color.clear
+                }
+            }
     }
 }

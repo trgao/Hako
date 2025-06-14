@@ -38,6 +38,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideAnimeRelated") var hideAnimeRelated = false
     @AppStorage("hideAnimeRecommendations") var hideAnimeRecommendations = false
     @AppStorage("hideThemeSongs") var hideThemeSongs = false
+    @AppStorage("truncateThemeSongs") var truncateThemeSongs = false
     @AppStorage("hideAnimeStatistics") var hideAnimeStatistics = false
     
     @AppStorage("hideMangaProgress") var hideMangaProgress = false

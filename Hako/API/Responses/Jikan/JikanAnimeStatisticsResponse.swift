@@ -10,4 +10,3 @@ import Foundation
 struct JikanAnimeStatisticsResponse: Codable {
     let data: AnimeStats
 }
-

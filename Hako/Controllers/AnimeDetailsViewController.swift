@@ -11,6 +11,7 @@ import Retry
 @MainActor
 class AnimeDetailsViewController: ObservableObject {
     @Published var anime: Anime?
+    @Published var nextEpisode: NextAiringEpisode?
     @Published var characters = [ListCharacter]()
     @Published var staffs = [Staff]()
     @Published var relatedItems = [RelatedItem]()
@@ -43,6 +44,21 @@ class AnimeDetailsViewController: ObservableObject {
             isLoadingError = true
         }
         isLoading = false
+        
+        // Load airing schedule
+        try? await retry {
+            if let nextEpisode = networker.animeNextEpisodeCache[id] {
+                self.nextEpisode = nextEpisode
+            } else {
+                do {
+                    let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
+                    self.nextEpisode = nextEpisode
+                    networker.animeNextEpisodeCache[id] = nextEpisode
+                } catch {
+                    print(error)
+                }
+            }
+        }
         
         // Load characters
         try? await retry {

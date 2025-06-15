@@ -54,7 +54,7 @@ class MangaDetailsViewController: ObservableObject {
                     self.characters = characters
                     networker.mangaCharactersCache[id] = characters
                 } catch {
-                    print("Some unknown error occurred loading characters")
+                    print("Some unknown error occurred loading manga characters")
                 }
             }
         }
@@ -75,7 +75,7 @@ class MangaDetailsViewController: ObservableObject {
                     self.authors = authors
                     networker.mangaAuthorsCache[id] = authors
                 } catch {
-                    print("Some unknown error occurred loading authors")
+                    print("Some unknown error occurred loading manga authors")
                 }
             }
         }
@@ -104,7 +104,7 @@ class MangaDetailsViewController: ObservableObject {
                     self.relatedItems = relatedItems
                     networker.mangaRelatedCache[id] = relatedItems
                 } catch {
-                    print("Some unknown error occurred loading related")
+                    print("Some unknown error occurred loading manga related")
                 }
             }
         }

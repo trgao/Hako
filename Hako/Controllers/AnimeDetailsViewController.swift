@@ -55,7 +55,7 @@ class AnimeDetailsViewController: ObservableObject {
                     self.nextEpisode = nextEpisode
                     networker.animeNextEpisodeCache[id] = nextEpisode
                 } catch {
-                    print(error)
+                    print("Some unknown error occurred loading anime next airing episode")
                 }
             }
         }
@@ -70,7 +70,7 @@ class AnimeDetailsViewController: ObservableObject {
                     self.characters = characters
                     networker.animeCharactersCache[id] = characters
                 } catch {
-                    print("Some unknown error occurred loading characters")
+                    print("Some unknown error occurred loading anime characters")
                 }
             }
         }
@@ -85,7 +85,7 @@ class AnimeDetailsViewController: ObservableObject {
                     self.staffs = staffs
                     networker.animeStaffsCache[id] = staffs
                 } catch {
-                    print("Some unknown error occurred loading staffs")
+                    print("Some unknown error occurred loading anime staffs")
                 }
             }
         }
@@ -114,7 +114,7 @@ class AnimeDetailsViewController: ObservableObject {
                     self.relatedItems = relatedItems
                     networker.animeRelatedCache[id] = relatedItems
                 } catch {
-                    print("Some unknown error occurred loading related")
+                    print("Some unknown error occurred loading anime related")
                 }
             }
         }

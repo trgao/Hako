@@ -15,7 +15,6 @@ struct Review: Codable, Identifiable {
     let review: String?
     let tags: [String]?
     let user: ReviewUser?
-    let episodesWatched: Int?
 }
 
 struct ReviewUser: Codable {

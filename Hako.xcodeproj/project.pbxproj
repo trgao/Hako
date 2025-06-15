@@ -595,13 +595,13 @@
 		EE40F56C2BEF92BE00BB2E79 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				EE712FE22DFD9F7500DC7202 /* Review.swift */,
+				EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */,
 				EE9A89152BEF35A10048DD73 /* MainPicture.swift */,
 				EE3A59C32BD23BDC009E9F79 /* Images.swift */,
 				EEDB8FE22BEBCD2B00EAA985 /* Related.swift */,
 				EE3A59D42BD24405009E9F79 /* Theme.swift */,
+				EE712FE22DFD9F7500DC7202 /* Review.swift */,
 				EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */,
-				EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";

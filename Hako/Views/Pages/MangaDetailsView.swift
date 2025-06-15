@@ -11,8 +11,6 @@ struct MangaDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: MangaDetailsViewController
     @StateObject private var networker = NetworkManager.shared
-    @State private var synopsisLines = 4
-    @State private var isShowingMore = false
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
@@ -147,6 +145,9 @@ struct MangaDetailsView: View {
                     if !settings.hideMangaRecommendations {
                         Recommendations(mangaRecommendations: manga.recommendations)
                     }
+                    if !settings.hideMangaReviews {
+                        MangaReviews(id: id, controller: controller)
+                    }
                     if !settings.hideMangaStatistics {
                         MangaStatistics(controller: controller)
                     }
@@ -181,7 +182,7 @@ struct MangaDetailsView: View {
                         Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
                     }
                     .opacity(0.7)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                 }
                 .task(id: isRefresh) {
                     if isRefresh {

@@ -169,7 +169,7 @@ struct MangaListItem: View {
                             }
                         }
                         .opacity(0.7)
-                        .font(.system(size: 12))
+                        .font(.system(size: 13))
                         .padding(.top, 1)
                         Spacer()
                         if networker.isSignedIn && manga.listStatus != nil {

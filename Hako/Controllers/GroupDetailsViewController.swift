@@ -103,7 +103,7 @@ class GroupDetailsViewController: ObservableObject {
         isLoading = false
     }
     
-    // Load more items when reaching the 5th last items in list
+    // Load more items when reaching the 4th last items in list
     func loadMoreIfNeeded(index: Int) async -> Void {
         let thresholdIndex = items.index(items.endIndex, offsetBy: -4)
         if index == thresholdIndex {

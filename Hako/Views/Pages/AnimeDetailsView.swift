@@ -11,8 +11,6 @@ struct AnimeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: AnimeDetailsViewController
     @StateObject private var networker = NetworkManager.shared
-    @State private var synopsisLines = 4
-    @State private var isShowingMore = false
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
@@ -92,6 +90,9 @@ struct AnimeDetailsView: View {
                     if !settings.hideThemeSongs {
                         ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                     }
+                    if !settings.hideAnimeReviews {
+                        AnimeReviews(id: id, controller: controller)
+                    }
                     if !settings.hideAnimeStatistics {
                         AnimeStatistics(controller: controller)
                     }
@@ -129,7 +130,7 @@ struct AnimeDetailsView: View {
                         Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
                     }
                     .opacity(0.7)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                 }
                 .task(id: isRefresh) {
                     if isRefresh {

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct JikanStaffListResponse: Codable {
-    let data: [Staff]
+struct JikanReviewsListResponse: Codable {
+    let data: [Review]
 }

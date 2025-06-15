@@ -105,8 +105,8 @@ struct GeneralView: View {
                 Toggle(isOn: $settings.hideThemeSongs) {
                     Text("Hide theme songs")
                 }
-                Toggle(isOn: $settings.truncateThemeSongs) {
-                    Text("Truncate theme song names")
+                Toggle(isOn: $settings.hideAnimeReviews) {
+                    Text("Hide reviews")
                 }
                 Toggle(isOn: $settings.hideAnimeStatistics) {
                     Text("Hide statistics")
@@ -131,6 +131,9 @@ struct GeneralView: View {
                     Toggle(isOn: $settings.hideMangaRecommendations) {
                         Text("Hide recommendations")
                     }
+                }
+                Toggle(isOn: $settings.hideMangaReviews) {
+                    Text("Hide reviews")
                 }
                 Toggle(isOn: $settings.hideMangaStatistics) {
                     Text("Hide statistics")

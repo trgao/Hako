@@ -14,6 +14,7 @@ class MangaDetailsViewController: ObservableObject {
     @Published var characters = [ListCharacter]()
     @Published var authors = [Author]()
     @Published var relatedItems = [RelatedItem]()
+    @Published var reviews = [Review]()
     @Published var statistics: MangaStats?
     @Published var isLoading = false
     @Published var isLoadingError = false
@@ -108,13 +109,23 @@ class MangaDetailsViewController: ObservableObject {
             }
         }
         
+        // Load reviews
+        try? await retry {
+            do {
+                let reviews = try await networker.getMangaReviewsList(id: id, page: 1)
+                self.reviews = reviews
+            } catch {
+                print("Some unknown error occurred loading manga reviews")
+            }
+        }
+        
         // Load statistics
         try? await retry {
             if let statistics = networker.mangaStatsCache[id] {
                 self.statistics = statistics
             } else {
                 do {
-                    self.statistics = try await networker.getMangaStatistics(id: self.id)
+                    self.statistics = try await networker.getMangaStatistics(id: id)
                     networker.mangaStatsCache[id] = statistics
                 } catch {
                     print("Some unknown error occurred loading manga statistics")

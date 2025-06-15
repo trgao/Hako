@@ -280,7 +280,7 @@ class SeasonsViewController: ObservableObject {
         updateCurrentSeasonLoading(false)
     }
     
-    // Load more items from current season when reaching the 5th last anime in list
+    // Load more items from current season when reaching the 4th last anime in list
     func loadMoreIfNeeded(index: Int) async -> Void {
         if season == "winter" {
             let thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)

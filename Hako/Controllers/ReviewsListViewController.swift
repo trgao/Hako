@@ -77,6 +77,7 @@ class ReviewsListViewController: ObservableObject {
                 canLoadMore = !(reviewsList.isEmpty)
                 reviews.append(contentsOf: reviewsList)
             } catch {
+                print(error)
                 isLoadingError = true
             }
         } else if type == .manga {

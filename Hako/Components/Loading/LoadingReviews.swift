@@ -38,7 +38,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor neque et nu
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.system(size: 17))
             }
-            .padding(25)
+            .padding(20)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)
             .clipShape(RoundedRectangle(cornerRadius: 10))

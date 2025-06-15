@@ -31,7 +31,7 @@ struct ReviewsListView: View {
                             LoadingReviews()
                         }
                     }
-                    .padding(15)
+                    .padding(17)
                 }
                 .background {
                     ImageFrame(id: "", imageUrl: nil, imageSize: .background)

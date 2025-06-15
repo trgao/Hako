@@ -388,8 +388,8 @@
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
 				EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */,
-				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
 				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
+				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
 				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
 				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
 			);
@@ -479,8 +479,8 @@
 				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
-				EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */,
 				EE712FE82DFDA2A900DC7202 /* ReviewItem.swift */,
+				EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

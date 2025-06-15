@@ -75,6 +75,7 @@ struct AnimeDetailsView: View {
                         }
                     }
                     AnimeInformation(anime: anime)
+                    AnimeAiringInformation(nextEpisode: controller.nextEpisode)
                     if !settings.hideAnimeCharacters {
                         AnimeCharacters(controller: controller)
                     }

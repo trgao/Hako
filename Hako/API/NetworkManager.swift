@@ -18,6 +18,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     let imageCache = NSCache<NSString, ImageCache>()
     var imageUrlMap = ThreadSafeDictionary<String, String>()
     let animeCache = ItemCache<Int, Anime>()
+    let animeNextEpisodeCache = ItemCache<Int, NextAiringEpisode?>()
     let animeCharactersCache = ItemCache<Int, [ListCharacter]>()
     let animeStaffsCache = ItemCache<Int, [Staff]>()
     let animeRelatedCache = ItemCache<Int, [RelatedItem]>()
@@ -512,6 +513,42 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getAnimeDetails(id: Int) async throws -> Anime {
         let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,recommendations{alternative_titles}", type: Anime.self)
         return response
+    }
+    
+    func getAnimeNextAiringDetails(id: Int) async throws -> NextAiringEpisode? {
+        let url = URL(string: "https://graphql.anilist.co")!
+        let query = """
+            query Media {
+                Media(idMal: \(id)) {
+                    nextAiringEpisode {
+                        airingAt
+                        timeUntilAiring
+                        episode
+                    }
+                }
+            }
+            """
+        let body = ["query": query]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        request.httpBody = try! JSONSerialization.data(withJSONObject: body)
+        let (data, response) = try await URLSession.shared.data(for: request)
+            
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.badResponse
+        }
+            
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.badStatusCode(httpResponse.statusCode)
+        }
+            
+        do {
+            let decoded = try decoder.decode(AniListAiringResponse.self, from: data)
+            return decoded.data.Media.nextAiringEpisode
+        } catch {
+            throw NetworkError.jsonParseFailure
+        }
     }
     
     func getAnimeCharacters(id: Int) async throws -> [ListCharacter] {

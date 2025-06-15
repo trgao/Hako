@@ -167,7 +167,7 @@ class MyListViewController: ObservableObject {
         }
     }
     
-    // Load more anime when reaching the 5th last anime/manga in list
+    // Load more anime when reaching the 4th last anime/manga in list
     func loadMoreIfNeeded(index: Int) async -> Void {
         if type == .anime {
             let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -4)

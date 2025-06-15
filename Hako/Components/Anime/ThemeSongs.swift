@@ -77,7 +77,7 @@ struct ThemeSongs: View {
 }
 
 struct ThemeSong: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @State private var isCopied = false
     private let text: String
@@ -92,7 +92,6 @@ struct ThemeSong: View {
             Spacer()
             Button {
                 isCopied = true
-                print("copied")
                 UIPasteboard.general.string = text
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     isCopied = false
@@ -107,7 +106,7 @@ struct ThemeSong: View {
             .sensoryFeedback(.impact(weight: .light), trigger: isCopied)
         }
             .multilineTextAlignment(.leading)
-            .lineLimit(settings.truncateThemeSongs ? 3 : nil)
+            .lineLimit(3)
             .fixedSize(horizontal: false, vertical: true)
             .font(.system(size: 17))
             .padding(.horizontal, 20)

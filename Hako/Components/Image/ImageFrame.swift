@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ImageSize {
-    case small, medium, large, background
+    case reviewUser, small, medium, large, background
 }
 
 struct ImageFrame: View {
@@ -22,7 +22,10 @@ struct ImageFrame: View {
     
     init(id: String, imageUrl: String?, imageSize: ImageSize) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
-        if imageSize == .small {
+        if imageSize == .reviewUser {
+            self.width = 30
+            self.height = 30
+        } else if imageSize == .small {
             self.width = 75
             self.height = 106
         } else if imageSize == .medium {

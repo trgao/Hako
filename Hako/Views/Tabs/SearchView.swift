@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SearchViewController()
     @StateObject var networker = NetworkManager.shared

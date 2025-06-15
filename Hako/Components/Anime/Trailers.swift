@@ -55,27 +55,3 @@ class YouTubePlayers: ObservableObject {
         self.players = (videos ?? []).filter{ $0.url != nil }.map{ YouTubePlayer(urlString: $0.url!) }
     }
 }
-
-struct YouTubeVideo: View {
-    @StateObject private var player: YouTubePlayer
-    let url: String?
-    
-    init(url: String?) {
-        self.url = url
-        if let url = url {
-            self._player = StateObject(wrappedValue: YouTubePlayer(urlString: url))
-        } else {
-            self._player = StateObject(wrappedValue: YouTubePlayer())
-        }
-    }
-    
-    var body: some View {
-        if let _ = url {
-            YouTubePlayerView(player)
-                .frame(width: 300, height: 170)
-                .cornerRadius(10)
-                .shadow(radius: 2)
-                .padding(5)
-        }
-    }
-}

@@ -80,13 +80,13 @@ struct GeneralView: View {
                 }
             }
             Section("Anime details") {
-                Toggle(isOn: $settings.hideTrailers) {
-                    Text("Hide trailers")
-                }
                 if networker.isSignedIn {
                     Toggle(isOn: $settings.hideAnimeProgress) {
                         Text("Hide watch progress")
                     }
+                }
+                Toggle(isOn: $settings.hideTrailers) {
+                    Text("Hide trailers")
                 }
                 Toggle(isOn: $settings.hideAnimeCharacters) {
                     Text("Hide characters")

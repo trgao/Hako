@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct AnimeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -76,6 +77,9 @@ struct AnimeDetailsView: View {
                     }
                     AnimeInformation(anime: anime)
                     AnimeAiringInformation(nextEpisode: controller.nextEpisode)
+                    if !settings.hideTrailers {
+                        Trailers(videos: controller.anime?.videos)
+                    }
                     if !settings.hideAnimeCharacters {
                         AnimeCharacters(controller: controller)
                     }
@@ -196,13 +200,6 @@ struct AnimeDetailsView: View {
             }
             Menu {
                 ShareLink("Share", item: url)
-                if let videos = controller.anime?.videos, !videos.isEmpty, !settings.hideTrailers {
-                    NavigationLink {
-                        TrailersView(videos: videos)
-                    } label: {
-                        Label("Trailers", systemImage: "play.rectangle")
-                    }
-                }
                 Link(destination: url) {
                     Label("Open in browser", systemImage: "globe")
                 }

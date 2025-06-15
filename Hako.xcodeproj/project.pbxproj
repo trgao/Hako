@@ -29,6 +29,7 @@
 		EE35826C2DD8883900E0AF33 /* AppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582682DD8883900E0AF33 /* AppIcon@3x.png */; };
 		EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582632DD8883900E0AF33 /* AltAppIcon.png */; };
 		EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */; };
+		EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -341,6 +342,7 @@
 			files = (
 				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
 				EE3B401A2DD4B5C6000846A1 /* DMRetry in Frameworks */,
+				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,7 +388,6 @@
 			children = (
 				EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */,
 				EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */,
-				EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */,
 				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
 				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
 				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
@@ -564,6 +565,7 @@
 				EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */,
 				EE20B1D02BDF9F45006F4CFF /* AnimeInformation.swift */,
 				EEC4359A2DFEB22D00F36789 /* AnimeAiringInformation.swift */,
+				EE40F56D2BEF936F00BB2E79 /* TrailersView.swift */,
 				EE33A4C12BE1666400A98F00 /* AnimeCharacters.swift */,
 				EEFEFD492BF34BB500200AF1 /* Staffs.swift */,
 				EE222D7E2BE90E3900A14A45 /* AnimeRelatedItems.swift */,
@@ -775,6 +777,7 @@
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
 				EE3B40192DD4B5C6000846A1 /* DMRetry */,
 				EE3B40222DD4CB6E000846A1 /* Shimmer */,
+				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -808,6 +811,7 @@
 				EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */,
 				EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -1207,6 +1211,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fumoboy007/swift-retry";
@@ -1234,6 +1246,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
+		};
 		EE3B40192DD4B5C6000846A1 /* DMRetry */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */;

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReviewItem: View {
+    @Environment(\.colorScheme) private var colorScheme
     private let item: Review
     
     init(item: Review) {
@@ -28,8 +29,8 @@ struct ReviewItem: View {
                             .padding(5)
                     }
                 }
-                if let tags = item.tags {
-                    TagCloudView(tags: tags)
+                if let tags = item.tags?.prefix(1) {
+                    TagCloudView(tags: Array(tags))
                 }
                 Text(item.review ?? "")
                     .multilineTextAlignment(.leading)
@@ -37,6 +38,11 @@ struct ReviewItem: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.system(size: 17))
             }
+            .padding(25)
+            .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+            .shadow(radius: 0.5)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
+        .buttonStyle(.plain)
     }
 }

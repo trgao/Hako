@@ -28,11 +28,8 @@ struct AnimeReviews: View {
                         HStack(alignment: .top) {
                             ForEach(controller.reviews.prefix(10)) { item in
                                 ReviewItem(item: item)
-                                    .frame(width: UIScreen.main.bounds.size.width - 80, alignment: .center)
-                                    .padding(25)
-                                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                                    .shadow(radius: 0.5)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .frame(width: UIScreen.main.bounds.size.width - 30, alignment: .center)
+                                    
                             }
                         }
                         .padding(.horizontal, 20)

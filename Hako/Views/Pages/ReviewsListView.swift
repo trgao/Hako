@@ -18,19 +18,23 @@ struct ReviewsListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                List {
-                    ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
-                        ReviewItem(item: item)
-                            .id(item.id)
-                            .onAppear {
-                                Task {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
+                            ReviewItem(item: item)
+                                .id(item.id)
+                                .task {
                                     await controller.loadMoreIfNeeded(index: index)
                                 }
-                            }
+                        }
+                        if controller.isLoading {
+                            LoadingReviews()
+                        }
                     }
-                    if controller.isLoading {
-                        LoadingReviews()
-                    }
+                    .padding(15)
+                }
+                .background {
+                    ImageFrame(id: "", imageUrl: nil, imageSize: .background)
                 }
                 if isRefresh && controller.isLoading {
                     LoadingView()

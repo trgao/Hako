@@ -16,40 +16,38 @@ struct ReviewsListView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                ScrollView {
-                    LazyVStack {
-                        ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
-                            ReviewItem(item: item)
-                                .id(item.id)
-                                .task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                        }
-                        if controller.isLoading {
-                            LoadingReviews()
-                        }
+        ZStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
+                        ReviewItem(item: item)
+                            .id(item.id)
+                            .task {
+                                await controller.loadMoreIfNeeded(index: index)
+                            }
                     }
-                    .padding(17)
+                    if controller.isLoading {
+                        LoadingReviews()
+                    }
                 }
-                .background {
-                    ImageFrame(id: "", imageUrl: nil, imageSize: .background)
-                }
-                if isRefresh && controller.isLoading {
-                    LoadingView()
-                }
+                .padding(17)
             }
-            .task(id: isRefresh) {
-                if controller.shouldRefresh() || isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
-                }
+            .background {
+                ImageFrame(id: "", imageUrl: nil, imageSize: .background)
             }
-            .refreshable {
-                isRefresh = true
+            if isRefresh && controller.isLoading {
+                LoadingView()
             }
-            .navigationTitle("Reviews")
         }
+        .task(id: isRefresh) {
+            if controller.shouldRefresh() || isRefresh {
+                await controller.refresh()
+                isRefresh = false
+            }
+        }
+        .refreshable {
+            isRefresh = true
+        }
+        .navigationTitle("Reviews")
     }
 }

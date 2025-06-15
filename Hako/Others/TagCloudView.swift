@@ -55,7 +55,7 @@ struct TagCloudView: View {
     }
 
     private func item(for text: String) -> some View {
-        var color: Color = colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground)
+        var color: Color = colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)
         if text == "Recommended" {
             color = .green
         } else if text == "Not Recommended" {

@@ -19,62 +19,60 @@ struct ReviewDetailsView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    if let username = item.user?.username, let date = item.date {
-                        HStack {
-                            ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
-                            Text("\(username) ・ \(date.toString())")
-                                .font(.system(size: 12))
-                                .bold()
-                                .padding(5)
-                        }
+        ScrollView {
+            VStack(alignment: .leading) {
+                if let username = item.user?.username, let date = item.date {
+                    HStack {
+                        ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
+                        Text("\(username) ・ \(date.toString())")
+                            .font(.system(size: 12))
+                            .bold()
+                            .padding(5)
                     }
-                    if let tags = item.tags {
-                        TagCloudView(tags: tags)
-                    }
-                    if let text = item.review {
-                        Text(text)
-                            .multilineTextAlignment(.leading)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(.system(size: 17))
-                            .padding(20)
-                            .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                            .shadow(radius: 0.5)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .contextMenu {
-                                Button {
-                                    UIPasteboard.general.string = text
-                                } label: {
-                                    Label("Copy", systemImage: "document.on.document")
-                                }
-                                Button {
-                                    showTranslation = true
-                                } label: {
-                                    Label("Translate", systemImage: "translate")
-                                }
+                }
+                if let tags = item.tags {
+                    TagCloudView(tags: tags)
+                }
+                if let text = item.review {
+                    Text(text)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .font(.system(size: 17))
+                        .padding(20)
+                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                        .shadow(radius: 0.5)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .contextMenu {
+                            Button {
+                                UIPasteboard.general.string = text
+                            } label: {
+                                Label("Copy", systemImage: "document.on.document")
                             }
-                            .translationPresentation(isPresented: $showTranslation,
-                                                     text: text)
-                    }
+                            Button {
+                                showTranslation = true
+                            } label: {
+                                Label("Translate", systemImage: "translate")
+                            }
+                        }
+                        .translationPresentation(isPresented: $showTranslation,
+                                                 text: text)
                 }
-                .padding(17)
             }
-            .background {
-                ImageFrame(id: "user\(item.user?.username ?? "")", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .background)
-            }
-            .toolbar {
-                Menu {
-                    ShareLink("Share", item: url)
-                    Link(destination: url) {
-                        Label("Open in browser", systemImage: "globe")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
+            .padding(17)
+        }
+        .background {
+            ImageFrame(id: "user\(item.user?.username ?? "")", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .background)
+        }
+        .toolbar {
+            Menu {
+                ShareLink("Share", item: url)
+                Link(destination: url) {
+                    Label("Open in browser", systemImage: "globe")
                 }
-                .handleOpenURLInApp()
+            } label: {
+                Image(systemName: "ellipsis.circle")
             }
+            .handleOpenURLInApp()
         }
     }
 }

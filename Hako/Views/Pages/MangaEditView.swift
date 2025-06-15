@@ -60,147 +60,145 @@ struct MangaEditView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                VStack {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        Spacer()
-                        Button {
-                            Task {
-                                isLoading = true
-                                do {
-                                    try await networker.editUserManga(id: id, listStatus: listStatus)
-                                    mangaStatus = listStatus
-                                    dismiss()
-                                } catch {
-                                    isEditError = true
-                                }
-                                isLoading = false
-                            }
-                        } label: {
-                            Text("Save")
-                        }
-                        .buttonStyle(.borderedProminent)
+        ZStack {
+            VStack {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
                     }
-                    .padding([.horizontal, .top], 20)
-                    PageList {
-                        Section {
-                            MangaStatusPickerRow(selection: $listStatus.status)
-                                .onChange(of: listStatus.status) { _, status in
-                                    if status == .reading && listStatus.startDate == nil {
-                                        listStatus.startDate = Date()
-                                    }
-                                    if status == .completed {
-                                        if listStatus.finishDate == nil {
-                                            listStatus.finishDate = Date()
-                                        }
-                                        if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes {
-                                            listStatus.numVolumesRead = numVolumes
-                                        }
-                                        if let numChapters = numChapters, listStatus.numChaptersRead != numChapters {
-                                            listStatus.numChaptersRead = numChapters
-                                        }
-                                    }
-                                }
-                            PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
-                            NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes read", max: numVolumes)
-                                .onChange(of: listStatus.numVolumesRead) { prev, cur in
-                                    if listStatus.status == .planToRead && prev == 0 && cur > 0 {
-                                        listStatus.status = .reading
-                                    }
-                                }
-                            NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters read", max: numChapters)
-                                .onChange(of: listStatus.numChaptersRead) { prev, cur in
-                                    if listStatus.status == .planToRead && prev == 0 && cur > 0 {
-                                        listStatus.status = .reading
-                                    }
-                                }
-                        }
-                        Section {
-                            if listStatus.startDate != nil {
-                                HStack {
-                                    DatePicker(
-                                        "Start date",
-                                        selection: $listStatus.startDate ?? Date(),
-                                        displayedComponents: [.date]
-                                    )
-                                    Button {
-                                        listStatus.startDate = nil
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                    }
-                                }
-                            } else {
-                                HStack {
-                                    Text("Start date")
-                                    Spacer()
-                                    Button {
-                                        listStatus.startDate = Date()
-                                    } label: {
-                                        Text("Add start date")
-                                    }
-                                }
+                    Spacer()
+                    Button {
+                        Task {
+                            isLoading = true
+                            do {
+                                try await networker.editUserManga(id: id, listStatus: listStatus)
+                                mangaStatus = listStatus
+                                dismiss()
+                            } catch {
+                                isEditError = true
                             }
-                            if listStatus.finishDate != nil {
-                                HStack {
-                                    DatePicker(
-                                        "Finish date",
-                                        selection: $listStatus.finishDate ?? Date(),
-                                        displayedComponents: [.date]
-                                    )
-                                    Button {
-                                        listStatus.finishDate = nil
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                    }
+                            isLoading = false
+                        }
+                    } label: {
+                        Text("Save")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding([.horizontal, .top], 20)
+                PageList {
+                    Section {
+                        MangaStatusPickerRow(selection: $listStatus.status)
+                            .onChange(of: listStatus.status) { _, status in
+                                if status == .reading && listStatus.startDate == nil {
+                                    listStatus.startDate = Date()
                                 }
-                            } else {
-                                HStack {
-                                    Text("Finish date")
-                                    Spacer()
-                                    Button {
+                                if status == .completed {
+                                    if listStatus.finishDate == nil {
                                         listStatus.finishDate = Date()
-                                    } label: {
-                                        Text("Add finish date")
+                                    }
+                                    if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes {
+                                        listStatus.numVolumesRead = numVolumes
+                                    }
+                                    if let numChapters = numChapters, listStatus.numChaptersRead != numChapters {
+                                        listStatus.numChaptersRead = numChapters
                                     }
                                 }
                             }
+                        PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
+                        NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes read", max: numVolumes)
+                            .onChange(of: listStatus.numVolumesRead) { prev, cur in
+                                if listStatus.status == .planToRead && prev == 0 && cur > 0 {
+                                    listStatus.status = .reading
+                                }
+                            }
+                        NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters read", max: numChapters)
+                            .onChange(of: listStatus.numChaptersRead) { prev, cur in
+                                if listStatus.status == .planToRead && prev == 0 && cur > 0 {
+                                    listStatus.status = .reading
+                                }
+                            }
+                    }
+                    Section {
+                        if listStatus.startDate != nil {
+                            HStack {
+                                DatePicker(
+                                    "Start date",
+                                    selection: $listStatus.startDate ?? Date(),
+                                    displayedComponents: [.date]
+                                )
+                                Button {
+                                    listStatus.startDate = nil
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        } else {
+                            HStack {
+                                Text("Start date")
+                                Spacer()
+                                Button {
+                                    listStatus.startDate = Date()
+                                } label: {
+                                    Text("Add start date")
+                                }
+                            }
                         }
-                        Button {
-                            isDeleting = true
-                        } label: {
-                            Label("Remove from list", systemImage: "trash")
-                        }
-                        .foregroundStyle(Color(.systemRed))
-                    } photo: {
-                        ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    } subtitle: {
-                        VStack {
-                            Text(title)
-                                .bold()
-                                .font(.system(size: 20))
-                                .multilineTextAlignment(.center)
-                            if let updatedAt = listStatus.updatedAt?.toFullString() {
-                                Text("Last updated at: \(updatedAt)")
-                                    .font(.system(size: 12))
-                                    .opacity(0.7)
-                            } else {
-                                Text("Not added to list")
-                                    .font(.system(size: 12))
-                                    .opacity(0.7)
+                        if listStatus.finishDate != nil {
+                            HStack {
+                                DatePicker(
+                                    "Finish date",
+                                    selection: $listStatus.finishDate ?? Date(),
+                                    displayedComponents: [.date]
+                                )
+                                Button {
+                                    listStatus.finishDate = nil
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        } else {
+                            HStack {
+                                Text("Finish date")
+                                Spacer()
+                                Button {
+                                    listStatus.finishDate = Date()
+                                } label: {
+                                    Text("Add finish date")
+                                }
                             }
                         }
                     }
-                    .scrollContentBackground(.hidden)
+                    Button {
+                        isDeleting = true
+                    } label: {
+                        Label("Remove from list", systemImage: "trash")
+                    }
+                    .foregroundStyle(Color(.systemRed))
+                } photo: {
+                    ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
+                } subtitle: {
+                    VStack {
+                        Text(title)
+                            .bold()
+                            .font(.system(size: 20))
+                            .multilineTextAlignment(.center)
+                        if let updatedAt = listStatus.updatedAt?.toFullString() {
+                            Text("Last updated at: \(updatedAt)")
+                                .font(.system(size: 12))
+                                .opacity(0.7)
+                        } else {
+                            Text("Not added to list")
+                                .font(.system(size: 12))
+                                .opacity(0.7)
+                        }
+                    }
                 }
-                if isLoading {
-                    LoadingView()
-                }
+                .scrollContentBackground(.hidden)
+            }
+            if isLoading {
+                LoadingView()
             }
         }
         .onAppear {

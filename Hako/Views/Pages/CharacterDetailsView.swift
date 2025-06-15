@@ -12,9 +12,11 @@ struct CharacterDetailsView: View {
     @StateObject var controller: CharacterDetailsViewController
     @State private var isRefresh = false
     private let id: Int
+    private let url: URL
     
     init (id: Int) {
         self.id = id
+        self.url = URL(string: "https://myanimelist.net/character/\(id)")!
         self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id))
     }
     
@@ -54,6 +56,17 @@ struct CharacterDetailsView: View {
                     LoadingView()
                 }
             }
+        }
+        .toolbar {
+            Menu {
+                ShareLink("Share", item: url)
+                Link(destination: url) {
+                    Label("Open in browser", systemImage: "globe")
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+            .handleOpenURLInApp()
         }
         .navigationBarTitleDisplayMode(.inline)
     }

@@ -18,7 +18,13 @@ struct LoadingText<T>: View {
     var body: some View {
         if let content = content {
             Text("\(content)")
-                .textSelection(.enabled)
+                .contextMenu {
+                    Button {
+                        UIPasteboard.general.string = "\(content)"
+                    } label: {
+                        Label("Copy", systemImage: "document.on.document")
+                    }
+                }
         } else {
             Text("example")
                 .redacted(reason: .placeholder)

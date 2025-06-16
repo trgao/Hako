@@ -73,6 +73,9 @@ struct AnimeDetailsView: View {
                                 .foregroundColor(Color.primary)
                                 .font(.system(size: 17))
                                 .bold()
+                                .listRowInsets(.init())
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 5)
                         }
                     }
                     AnimeInformation(anime: anime)

@@ -23,6 +23,7 @@ struct LoadingText<T>: View {
                         UIPasteboard.general.string = "\(content)"
                     } label: {
                         Label("Copy", systemImage: "document.on.document")
+                        Text("\(content)")
                     }
                 }
         } else {

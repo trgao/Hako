@@ -27,6 +27,7 @@ struct PersonDetailsView: View {
             } else {
                 if let person = controller.person {
                     PageList {
+                        Favourites(favorites: controller.person?.favorites)
                         TextBox(title: "About", text: person.about)
                         PersonVoiceSection(voices: person.voices)
                         PersonAnimeSection(animes: person.anime)

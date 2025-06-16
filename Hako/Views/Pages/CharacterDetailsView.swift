@@ -27,6 +27,7 @@ struct CharacterDetailsView: View {
             } else {
                 if let character = controller.character {
                     PageList {
+                        Favourites(favorites: controller.character?.favorites)
                         TextBox(title: "About", text: character.about)
                         CharacterAnimeSection(animes: character.anime)
                         CharacterMangaSection(mangas: character.manga)

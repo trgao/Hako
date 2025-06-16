@@ -85,6 +85,9 @@ struct GeneralView: View {
                         Text("Hide watch progress")
                     }
                 }
+                Toggle(isOn: $settings.hideAiring) {
+                    Text("Hide airing")
+                }
                 Toggle(isOn: $settings.hideTrailers) {
                     Text("Hide trailers")
                 }

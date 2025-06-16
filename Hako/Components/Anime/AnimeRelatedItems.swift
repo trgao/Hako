@@ -38,6 +38,7 @@ struct AnimeRelatedItems: View {
                 }
                 .textCase(nil)
                 .padding(.horizontal, -20)
+                .padding(.top, 5)
                 .foregroundColor(Color.primary)
                 .listRowInsets(.init())
             }

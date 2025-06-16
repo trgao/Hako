@@ -27,7 +27,10 @@ struct Trailers: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(playerManager.players) { player in
-                                YouTubePlayerView(player)
+                                YouTubePlayerView(player, placeholderOverlay: {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .foregroundStyle(.black)
+                                })
                                     .frame(width: 300, height: 170)
                                     .cornerRadius(10)
                                     .shadow(radius: 2)

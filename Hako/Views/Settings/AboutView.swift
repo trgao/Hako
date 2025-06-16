@@ -22,9 +22,10 @@ struct AboutView: View {
                 Link("Jikan API", destination: URL(string: "https://jikan.moe")!)
             }
             Section("Packages") {
-                Link("keychainaccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)
-                Link("swiftui-shimmer", destination: URL(string: "https://github.com/markiv/SwiftUI-Shimmer")!)
+                Link("KeychainAccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)
+                Link("SwiftUI-Shimmer", destination: URL(string: "https://github.com/markiv/SwiftUI-Shimmer")!)
                 Link("swift-retry", destination: URL(string: "https://github.com/fumoboy007/swift-retry")!)
+                Link("YouTubePlayerKit", destination: URL(string: "https://github.com/SvenTiigi/YouTubePlayerKit")!)
             }
         } photo: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

@@ -20,7 +20,7 @@ struct AnimeAiringInformation: View {
                 ListRow(title: "Next episode", content: nextEpisode.episode)
                 ListRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
             } header: {
-                Text("Airing schedule")
+                Text("Airing")
                     .textCase(nil)
                     .foregroundColor(Color.primary)
                     .font(.system(size: 17))

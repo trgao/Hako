@@ -31,8 +31,9 @@ class SettingsManager: ObservableObject {
     @AppStorage("mangaSwipeActions") var mangaSwipeActions = 0
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
-    @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
+    @AppStorage("hideAiring") var hideAiring = false
+    @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false
     @AppStorage("hideAnimeRelated") var hideAnimeRelated = false

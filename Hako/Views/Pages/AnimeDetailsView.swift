@@ -76,7 +76,9 @@ struct AnimeDetailsView: View {
                         }
                     }
                     AnimeInformation(anime: anime)
-                    AnimeAiringInformation(nextEpisode: controller.nextEpisode)
+                    if !settings.hideAiring {
+                        AnimeAiringInformation(nextEpisode: controller.nextEpisode)
+                    }
                     if !settings.hideTrailers {
                         Trailers(videos: controller.anime?.videos)
                     }

@@ -14,8 +14,8 @@ struct Character: Codable, Identifiable {
     let images: Images?
     let name: String?
     let nameKanji: String?
-    let favorites: Int?
     let about: String?
+    let favorites: Int?
     let anime: [Animeography]?
     let manga: [Mangaography]?
     let voices: [Voice]?

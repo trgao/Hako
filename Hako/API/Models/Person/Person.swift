@@ -14,6 +14,7 @@ struct Person: Codable, Identifiable {
     let birthday: Date?
     let about: String?
     let images: Images?
+    let favorites: Int?
     let anime: [AnimePosition]?
     let manga: [MangaPosition]?
     let voices: [AnimeVoice]?

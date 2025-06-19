@@ -37,9 +37,6 @@ struct AnimeDetailsView: View {
                     if !settings.hideAiring {
                         AnimeAiringInformation(nextEpisode: controller.nextEpisode)
                     }
-                    if !settings.hideTrailers {
-                        Trailers(videos: controller.anime?.videos)
-                    }
                     if !settings.hideAnimeCharacters {
                         AnimeCharacters(controller: controller)
                     }
@@ -162,6 +159,13 @@ struct AnimeDetailsView: View {
                 ShareLink("Share", item: url)
                 Link(destination: url) {
                     Label("Open in browser", systemImage: "globe")
+                }
+                if let videos = controller.anime?.videos, !videos.isEmpty, !settings.hideTrailers {
+                    NavigationLink {
+                        TrailersView(videos: videos)
+                    } label: {
+                        Label("Trailers", systemImage: "play.rectangle")
+                    }
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

@@ -15,14 +15,6 @@ struct MangaDetailsView: View {
     @State private var isRefresh = false
     private let id: Int
     private let url: URL
-    private let colours: [StatusEnum:Color] = [
-        .reading: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToRead: .primary,
-        .none: Color(.systemGray)
-    ]
     
     init(id: Int) {
         self.id = id
@@ -38,102 +30,7 @@ struct MangaDetailsView: View {
                 PageList {
                     TextBox(title: "Synopsis", text: manga.synopsis)
                     if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
-                        Section {
-                            if settings.mangaReadProgress == 0 {
-                                if let numChapters = manga.numChapters, numChapters > 0 {
-                                    VStack {
-                                        ProgressView(value: Float(listStatus.numChaptersRead) / Float(numChapters))
-                                            .tint(colours[listStatus.status ?? .none])
-                                        HStack {
-                                            Text(listStatus.status?.toString() ?? "")
-                                                .bold()
-                                            Spacer()
-                                            if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                                Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            } else {
-                                                Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            }
-                                            Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                        }
-                                    }
-                                    .padding(.vertical, 10)
-                                } else {
-                                    VStack {
-                                        ProgressView(value: listStatus.numChaptersRead == 0 ? 0 : 0.5)
-                                            .tint(colours[listStatus.status ?? .none])
-                                        HStack {
-                                            Text(listStatus.status?.toString() ?? "")
-                                                .bold()
-                                            Spacer()
-                                            if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                                Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            } else {
-                                                Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            }
-                                            Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                        }
-                                    }
-                                    .padding(.vertical, 10)
-                                }
-                            } else {
-                                if let numVolumes = manga.numVolumes, numVolumes > 0 {
-                                    VStack {
-                                        ProgressView(value: Float(listStatus.numVolumesRead) / Float(numVolumes))
-                                            .tint(colours[listStatus.status ?? .none])
-                                        HStack {
-                                            Text(listStatus.status?.toString() ?? "")
-                                                .bold()
-                                            Spacer()
-                                            Label("\(String(listStatus.numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                            if let numChapters = manga.numChapters, numChapters > 0 {
-                                                Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            } else {
-                                                Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            }
-                                        }
-                                    }
-                                    .padding(.vertical, 10)
-                                } else {
-                                    VStack {
-                                        ProgressView(value: listStatus.numVolumesRead == 0 ? 0 : 0.5)
-                                            .tint(colours[listStatus.status ?? .none])
-                                        HStack {
-                                            Text(listStatus.status?.toString() ?? "")
-                                                .bold()
-                                            Spacer()
-                                            Label("\(String(listStatus.numVolumesRead)) / ?", systemImage: "book.closed.fill")
-                                                .labelStyle(CustomLabel(spacing: 2))
-                                            if let numChapters = manga.numChapters, numChapters > 0 {
-                                                Label("\(String(listStatus.numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            } else {
-                                                Label("\(String(listStatus.numChaptersRead)) / ?", systemImage: "book.pages.fill")
-                                                    .labelStyle(CustomLabel(spacing: 2))
-                                            }
-                                        }
-                                    }
-                                    .padding(.vertical, 10)
-                                }
-                            }
-                        } header: {
-                            Text("Your progress")
-                                .textCase(nil)
-                                .foregroundColor(Color.primary)
-                                .font(.system(size: 17))
-                                .bold()
-                                .listRowInsets(.init())
-                                .padding(.horizontal, 15)
-                                .padding(.vertical, 5)
-                        }
+                        MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
                     }
                     MangaInformation(manga: manga)
                     if !settings.hideMangaCharacters {

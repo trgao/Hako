@@ -16,14 +16,6 @@ struct AnimeDetailsView: View {
     @State private var isRefresh = false
     private let id: Int
     private let url: URL
-    private let colours: [StatusEnum:Color] = [
-        .watching: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToWatch: .primary,
-        .none: Color(.systemGray)
-    ]
     
     init(id: Int) {
         self.id = id
@@ -39,44 +31,7 @@ struct AnimeDetailsView: View {
                 PageList {
                     TextBox(title: "Synopsis", text: anime.synopsis)
                     if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
-                        Section {
-                            if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
-                                VStack {
-                                    ProgressView(value: Float(listStatus.numEpisodesWatched) / Float(numEpisodes))
-                                        .tint(colours[listStatus.status ?? .none])
-                                    HStack {
-                                        Text(listStatus.status?.toString() ?? "")
-                                            .bold()
-                                        Spacer()
-                                        Label("\(String(listStatus.numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                    }
-                                }
-                                .padding(.vertical, 10)
-                            } else {
-                                VStack {
-                                    ProgressView(value: listStatus.numEpisodesWatched == 0 ? 0 : 0.5)
-                                        .tint(colours[anime.myListStatus?.status ?? .none])
-                                    HStack {
-                                        Text(listStatus.status?.toString() ?? "")
-                                            .bold()
-                                        Spacer()
-                                        Label("\(String(listStatus.numEpisodesWatched)) / ?", systemImage: "video.fill")
-                                            .labelStyle(CustomLabel(spacing: 2))
-                                    }
-                                }
-                                .padding(.vertical, 10)
-                            }
-                        } header: {
-                            Text("Your progress")
-                                .textCase(nil)
-                                .foregroundColor(Color.primary)
-                                .font(.system(size: 17))
-                                .bold()
-                                .listRowInsets(.init())
-                                .padding(.horizontal, 15)
-                                .padding(.vertical, 5)
-                        }
+                        AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
                     }
                     AnimeInformation(anime: anime)
                     if !settings.hideAiring {

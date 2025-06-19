@@ -34,7 +34,6 @@ struct MangaInformation: View {
                 } label: {
                     ListRow(title: "Serialization", content: "\(serialization.map{ $0.node.name }.joined(separator: ", "))")
                 }
-                .buttonStyle(.plain)
             }
             if let genres = manga.genres, !genres.isEmpty {
                 NavigationLink {
@@ -42,7 +41,6 @@ struct MangaInformation: View {
                 } label: {
                     ListRow(title: "Genres", content: "\(genres.map{ $0.name }.joined(separator: ", "))")
                 }
-                .buttonStyle(.plain)
             }
         } header: {
             Text("Information")

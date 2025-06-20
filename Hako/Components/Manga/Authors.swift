@@ -24,7 +24,7 @@ struct Authors: View {
         if !controller.authors.isEmpty {
             ScrollViewCarousel(title: "Authors") {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top) {
+                    HStack(alignment: .top, spacing: 15) {
                         ForEach(controller.authors.prefix(10)) { author in
                             ZoomTransition {
                                 PersonDetailsView(id: author.id)
@@ -35,11 +35,11 @@ struct Authors: View {
                                         .lineLimit(settings.getLineLimit())
                                         .font(.system(size: 14))
                                 }
-                                .frame(width: 120)
+                                .frame(width: 110)
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 17)
                 }
             }
         }

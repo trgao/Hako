@@ -31,7 +31,7 @@ struct LoadingCarousel: View {
                             .shimmering()
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 17)
             }
             .disabled(true)
         }

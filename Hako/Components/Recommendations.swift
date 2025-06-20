@@ -31,7 +31,7 @@ struct Recommendations: View {
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 15)
                 }
             }
         } else if type == .manga && !mangaRecommendations.isEmpty {
@@ -42,7 +42,7 @@ struct Recommendations: View {
                             MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 15)
                 }
             }
         }

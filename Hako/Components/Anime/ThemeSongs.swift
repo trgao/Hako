@@ -27,7 +27,7 @@ struct ThemeSongs: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 17)
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
@@ -43,7 +43,7 @@ struct ThemeSongs: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 17)
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
@@ -87,7 +87,7 @@ struct ThemeSong: View {
             .font(.system(size: 17))
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .frame(width: UIScreen.main.bounds.size.width - 40, alignment: .center)
+            .frame(width: UIScreen.main.bounds.size.width - 34, alignment: .center)
             .frame(minHeight: 100)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)

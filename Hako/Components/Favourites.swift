@@ -23,9 +23,6 @@ struct Favourites: View {
         } header: {
             Rectangle()
                 .frame(height: 0)
-        } footer: {
-            Rectangle()
-                .frame(height: 0)
         }
         .listRowInsets(.init())
     }

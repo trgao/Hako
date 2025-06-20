@@ -18,61 +18,36 @@ struct ThemeSongs: View {
     
     var body: some View {
         if let openingThemes = openingThemes {
-            Section {} header: {
-                VStack {
-                    ListViewLink(title: "Openings", items: openingThemes) {
-                        ThemesListView(themes: openingThemes)
-                            .navigationTitle("Openings")
-                    }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(openingThemes.prefix(10)) { theme in
-                                if let text = theme.text {
-                                    ThemeSong(text: text.formatThemeSong())
-                                }
+            ScrollViewCarousel(title: "Openings") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(openingThemes.prefix(10)) { theme in
+                            if let text = theme.text {
+                                ThemeSong(text: text.formatThemeSong())
                             }
                         }
-                        .padding(.horizontal, 20)
-                        .scrollTargetLayout()
                     }
-                    .scrollTargetBehavior(.viewAligned)
+                    .padding(.horizontal, 20)
+                    .scrollTargetLayout()
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
+                .scrollTargetBehavior(.viewAligned)
             }
-            .frame(maxWidth: .infinity)
-            .listRowInsets(.init())
         }
         if let endingThemes = endingThemes {
-            Section {} header: {
-                VStack {
-                    ListViewLink(title: "Endings", items: endingThemes) {
-                        ThemesListView(themes: endingThemes)
-                            .navigationTitle("Endings")
-                    }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(endingThemes.prefix(10)) { theme in
-                                if let text = theme.text {
-                                    ThemeSong(text: text.formatThemeSong())
-                                }
+            ScrollViewCarousel(title: "Endings") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(endingThemes.prefix(10)) { theme in
+                            if let text = theme.text {
+                                ThemeSong(text: text.formatThemeSong())
                             }
                         }
-                        .padding(.horizontal, 20)
-                        .scrollTargetLayout()
                     }
-                    .scrollTargetBehavior(.viewAligned)
+                    .padding(.horizontal, 20)
+                    .scrollTargetLayout()
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
+                .scrollTargetBehavior(.viewAligned)
             }
-            .frame(maxWidth: .infinity)
-            .listRowInsets(.init())
         }
     }
 }
@@ -112,17 +87,10 @@ struct ThemeSong: View {
             .font(.system(size: 17))
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .frame(width: UIScreen.main.bounds.size.width - 30, alignment: .center)
+            .frame(width: UIScreen.main.bounds.size.width - 40, alignment: .center)
             .frame(minHeight: 100)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .background {
-                ViewThatFits(in: .vertical) {
-                    Text(text)
-                        .hidden()
-                    Color.clear
-                }
-            }
     }
 }

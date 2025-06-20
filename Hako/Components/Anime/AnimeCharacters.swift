@@ -18,37 +18,28 @@ struct AnimeCharacters: View {
     
     var body: some View {
         if !controller.characters.isEmpty {
-            Section {} header: {
-                VStack {
-                    ListViewLink(title: "Characters", items: controller.characters) {
-                        CharactersListView(characters: controller.characters)
-                    }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.characters.prefix(10)) { character in
-                                ZoomTransition {
-                                    CharacterDetailsView(id: character.id)
-                                } label: {
-                                    VStack {
-                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
-                                        Text(character.character.name ?? "")
-                                            .lineLimit(settings.getLineLimit())
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(width: 120)
+            ScrollViewCarousel(title: "Characters", items: controller.characters) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.characters.prefix(10)) { character in
+                            ZoomTransition {
+                                CharacterDetailsView(id: character.id)
+                            } label: {
+                                VStack {
+                                    ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
+                                    Text(character.character.name ?? "")
+                                        .lineLimit(settings.getLineLimit())
+                                        .font(.system(size: 14))
                                 }
+                                .frame(width: 120)
                             }
                         }
-                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
+            } destination: {
+                CharactersListView(characters: controller.characters)
             }
-            .listRowInsets(.init())
         }
     }
 }

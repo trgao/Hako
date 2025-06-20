@@ -24,57 +24,27 @@ struct Recommendations: View {
     
     var body: some View {
         if type == .anime && !animeRecommendations.isEmpty {
-            Section {} header: {
-                VStack {
-                    Text("Recommendations")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(animeRecommendations) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                            }
+            ScrollViewCarousel(title: "Recommendations") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(animeRecommendations) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                         }
-                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
             }
-            .listRowInsets(.init())
         } else if type == .manga && !mangaRecommendations.isEmpty {
-            Section {} header: {
-                VStack {
-                    Text("Recommendations")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(mangaRecommendations) { item in
-                                NavigationLink {
-                                    MangaDetailsView(id: item.id)
-                                } label: {
-                                    MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                }
-                                .buttonStyle(.plain)
-                            }
+            ScrollViewCarousel(title: "Recommendations") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(mangaRecommendations) { item in
+                            MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                         }
-                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
             }
-            .listRowInsets(.init())
         }
     }
 }

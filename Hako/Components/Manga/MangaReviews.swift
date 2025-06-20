@@ -19,31 +19,21 @@ struct MangaReviews: View {
     
     var body: some View {
         if !controller.reviews.isEmpty {
-            Section {} header: {
-                VStack {
-                    ListViewLink(title: "Reviews", items: controller.reviews) {
-                        ReviewsListView(id: id, type: .manga)
-                    }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.reviews.prefix(10)) { item in
-                                ReviewItem(item: item)
-                                    .frame(width: UIScreen.main.bounds.size.width - 30, alignment: .center)
-                            }
+            ScrollViewCarousel(title: "Reviews", items: controller.reviews) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.reviews.prefix(10)) { item in
+                            ReviewItem(item: item)
+                                .frame(width: UIScreen.main.bounds.size.width - 40, alignment: .center)
                         }
-                        .padding(.horizontal, 20)
-                        .scrollTargetLayout()
                     }
-                    .scrollTargetBehavior(.viewAligned)
+                    .padding(.horizontal, 20)
+                    .scrollTargetLayout()
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
+                .scrollTargetBehavior(.viewAligned)
+            } destination: {
+                ReviewsListView(id: id, type: .manga)
             }
-            .frame(maxWidth: .infinity)
-            .listRowInsets(.init())
         }
     }
 }

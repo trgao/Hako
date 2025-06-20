@@ -27,9 +27,9 @@ struct AnimeProgress: View {
     }
     
     var body: some View {
-        Section {
-            if let numEpisodes = numEpisodes, numEpisodes > 0 {
-                VStack {
+        ScrollViewSection(title: "Your progress") {
+            VStack {
+                if let numEpisodes = numEpisodes, numEpisodes > 0 {
                     ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
                         .tint(colours[status ?? .none])
                     HStack {
@@ -39,10 +39,7 @@ struct AnimeProgress: View {
                         Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                             .labelStyle(CustomLabel(spacing: 2))
                     }
-                }
-                .padding(.vertical, 10)
-            } else {
-                VStack {
+                } else {
                     ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
                         .tint(colours[status ?? .none])
                     HStack {
@@ -53,17 +50,9 @@ struct AnimeProgress: View {
                             .labelStyle(CustomLabel(spacing: 2))
                     }
                 }
-                .padding(.vertical, 10)
             }
-        } header: {
-            Text("Your progress")
-                .textCase(nil)
-                .foregroundColor(Color.primary)
-                .font(.system(size: 17))
-                .bold()
-                .listRowInsets(.init())
-                .padding(.horizontal, 15)
-                .padding(.vertical, 5)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
         }
     }
 }

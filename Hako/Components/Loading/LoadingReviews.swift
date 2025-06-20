@@ -25,6 +25,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor neque et nu
                         .bold()
                         .padding(5)
                 }
+                .shimmering()
                 Text("placeholder")
                     .font(.system(size: 13))
                     .padding(8)
@@ -32,18 +33,19 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor neque et nu
                     .opacity(0.9)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 3)
+                    .shimmering()
                 Text(text)
                     .multilineTextAlignment(.leading)
                     .lineLimit(6)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.system(size: 17))
+                    .shimmering()
             }
             .padding(20)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .redacted(reason: .placeholder)
-            .shimmering()
         }
     }
 }

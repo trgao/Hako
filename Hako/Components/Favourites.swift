@@ -19,6 +19,13 @@ struct Favourites: View {
             if let favorites = favorites {
                 Label("\(favorites) favorites", systemImage: "star.fill")
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .contextMenu {
+                        Button {
+                            UIPasteboard.general.string = "\(favorites) favorites"
+                        } label: {
+                            Label("Copy", systemImage: "document.on.document")
+                        }
+                    }
             }
         } header: {
             Rectangle()

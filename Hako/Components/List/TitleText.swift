@@ -75,12 +75,11 @@ struct TitleText: View {
                 }
             } preview: {
                 text
-                    .frame(width: UIScreen.main.bounds.width - 40, alignment: .center)
+                    .frame(width: UIScreen.main.bounds.width - 34, alignment: .center)
                     .background {
                         Rectangle()
                             .foregroundStyle(.thickMaterial)
                     }
-//                    .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
             }
     }
 }

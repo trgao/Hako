@@ -24,10 +24,10 @@ struct MangaReviews: View {
                     HStack(alignment: .top) {
                         ForEach(controller.reviews.prefix(10)) { item in
                             ReviewItem(item: item)
-                                .frame(width: UIScreen.main.bounds.size.width - 40, alignment: .center)
+                                .frame(width: UIScreen.main.bounds.size.width - 34, alignment: .center)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 17)
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)

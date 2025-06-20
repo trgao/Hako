@@ -32,10 +32,10 @@ struct MangaProgress: View {
     }
     
     var body: some View {
-        Section {
-            if settings.mangaReadProgress == 0 {
-                if let numChapters = numChapters, numChapters > 0 {
-                    VStack {
+        ScrollViewSection(title: "Your progress") {
+            VStack {
+                if settings.mangaReadProgress == 0 {
+                    if let numChapters = numChapters, numChapters > 0 {
                         ProgressView(value: Float(numChaptersRead) / Float(numChapters))
                             .tint(colours[status ?? .none])
                         HStack {
@@ -52,10 +52,7 @@ struct MangaProgress: View {
                             Label("\(String(numChaptersRead)) / \(String(numChapters))", systemImage: "book.pages.fill")
                                 .labelStyle(CustomLabel(spacing: 2))
                         }
-                    }
-                    .padding(.vertical, 10)
-                } else {
-                    VStack {
+                    } else {
                         ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
                             .tint(colours[status ?? .none])
                         HStack {
@@ -73,11 +70,8 @@ struct MangaProgress: View {
                                 .labelStyle(CustomLabel(spacing: 2))
                         }
                     }
-                    .padding(.vertical, 10)
-                }
-            } else {
-                if let numVolumes = numVolumes, numVolumes > 0 {
-                    VStack {
+                } else {
+                    if let numVolumes = numVolumes, numVolumes > 0 {
                         ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
                             .tint(colours[status ?? .none])
                         HStack {
@@ -94,10 +88,7 @@ struct MangaProgress: View {
                                     .labelStyle(CustomLabel(spacing: 2))
                             }
                         }
-                    }
-                    .padding(.vertical, 10)
-                } else {
-                    VStack {
+                    } else {
                         ProgressView(value: numVolumesRead == 0 ? 0 : 0.5)
                             .tint(colours[status ?? .none])
                         HStack {
@@ -115,18 +106,10 @@ struct MangaProgress: View {
                             }
                         }
                     }
-                    .padding(.vertical, 10)
                 }
             }
-        } header: {
-            Text("Your progress")
-                .textCase(nil)
-                .foregroundColor(Color.primary)
-                .font(.system(size: 17))
-                .bold()
-                .listRowInsets(.init())
-                .padding(.horizontal, 15)
-                .padding(.vertical, 5)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
         }
     }
 }

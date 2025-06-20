@@ -9,53 +9,41 @@ import SwiftUI
 import YouTubePlayerKit
 
 struct Trailers: View {
-    @StateObject private var playerManager: YouTubePlayers
+    private let videos: [Video]
     
     init(videos: [Video]?) {
-        self._playerManager = StateObject(wrappedValue: YouTubePlayers(videos: videos))
+        self.videos = videos ?? []
     }
     
     var body: some View {
-        if !playerManager.players.isEmpty {
-            Section {} header: {
-                VStack {
-                    Text("Trailers")
-                        .bold()
-                        .font(.system(size: 17))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(playerManager.players) { player in
-                                YouTubePlayerView(player, placeholderOverlay: {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .foregroundStyle(.black)
+        if !videos.isEmpty {
+            ScrollViewCarousel(title: "Trailers") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(videos) { video in
+                            if let url = video.url {
+                                YouTubePlayerView(YouTubePlayer(urlString: url), overlay: { state in
+                                    switch state {
+                                    case .idle:
+                                        ZStack {
+                                            Rectangle()
+                                                .foregroundStyle(.black)
+                                            ProgressView()
+                                        }
+                                    default:
+                                        EmptyView()
+                                    }
                                 })
-                                    .frame(width: 300, height: 170)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 2)
-                                    .padding(5)
+                                .frame(width: 300, height: 170)
+                                .cornerRadius(10)
+                                .shadow(radius: 2)
+                                .padding(5)
                             }
                         }
-                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
             }
-            .listRowInsets(.init())
         }
-    }
-}
-
-@MainActor
-class YouTubePlayers: ObservableObject {
-    var players: [YouTubePlayer]
-    
-    init(videos: [Video]?) {
-        self.players = (videos ?? []).filter{ $0.url != nil }.map{ YouTubePlayer(urlString: $0.url!) }
     }
 }

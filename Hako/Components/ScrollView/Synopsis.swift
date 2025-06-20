@@ -1,28 +1,27 @@
 //
-//  TextBox.swift
+//  Synopsis.swift
 //  Hako
 //
-//  Created by Gao Tianrun on 29/4/24.
+//  Created by Gao Tianrun on 20/6/25.
 //
 
 import SwiftUI
 import Translation
 
-struct TextBox: View {
+struct Synopsis: View {
+    @Environment(\.colorScheme) private var colorScheme
     @State private var isExpanded = false
     @State private var canBeExpanded = false
     @State private var showTranslation = false
-    private let title: String
     private let text: String?
     
-    init(title: String, text: String?) {
-        self.title = title
+    init(text: String?) {
         self.text = text
     }
     
     var body: some View {
         if let text = text, !text.isEmpty {
-            Section {
+            ScrollViewSection(title: "Synopsis") {
                 VStack {
                     Text(text)
                         .multilineTextAlignment(.leading)
@@ -40,20 +39,8 @@ struct TextBox: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(5)
                         .lineSpacing(2)
-                        .contextMenu {
-                            Button {
-                                UIPasteboard.general.string = text
-                            } label: {
-                                Label("Copy", systemImage: "document.on.document")
-                            }
-                            Button {
-                                showTranslation = true
-                            } label: {
-                                Label("Translate", systemImage: "translate")
-                            }
-                        }
                         .translationPresentation(isPresented: $showTranslation,
-                                                         text: text)
+                                                 text: text)
                     if canBeExpanded {
                         Button {
                             isExpanded.toggle()
@@ -71,15 +58,22 @@ struct TextBox: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-            } header: {
-                Text(title)
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
-                    .listRowInsets(.init())
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 5)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                .contextMenu {
+                    Button {
+                        UIPasteboard.general.string = text
+                    } label: {
+                        Label("Copy", systemImage: "document.on.document")
+                    }
+                    Button {
+                        showTranslation = true
+                    } label: {
+                        Label("Translate", systemImage: "translate")
+                    }
+                }
             }
         }
     }

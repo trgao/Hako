@@ -48,9 +48,7 @@ struct PersonDetailsView: View {
                     }
                     .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                     .background {
-                        if settings.translucentBackground {
-                            ImageFrame(id: "person\(id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .background)
-                        }
+                        ImageFrame(id: "person\(id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .background)
                     }
                 }
                 if controller.isLoading {

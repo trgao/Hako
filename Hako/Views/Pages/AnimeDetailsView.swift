@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVKit
 
 struct AnimeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -28,71 +27,77 @@ struct AnimeDetailsView: View {
             if controller.isLoadingError && controller.anime == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let anime = controller.anime {
-                PageList {
-                    TextBox(title: "Synopsis", text: anime.synopsis)
-                    if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
-                        AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
-                    }
-                    AnimeInformation(anime: anime)
-                    if !settings.hideAiring {
-                        AnimeAiringInformation(nextEpisode: controller.nextEpisode)
-                    }
-                    if !settings.hideAnimeCharacters {
-                        AnimeCharacters(controller: controller)
-                    }
-                    if !settings.hideStaffs {
-                        Staffs(controller: controller)
-                    }
-                    if !settings.hideAnimeRelated {
-                        AnimeRelatedItems(controller: controller)
-                    }
-                    if !settings.hideAnimeRecommendations {
-                        Recommendations(animeRecommendations: anime.recommendations)
-                    }
-                    if !settings.hideThemeSongs {
-                        ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                    }
-                    if !settings.hideAnimeReviews {
-                        AnimeReviews(id: id, controller: controller)
-                    }
-                    if !settings.hideAnimeStatistics {
-                        AnimeStatistics(controller: controller)
-                    }
-                } photo: {
-                    ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
-                } title: {
-                    TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
-                } subtitle: {
-                    HStack {
-                        VStack {
-                            if (controller.anime?.myListStatus?.score ?? 0) > 0 {
-                                Text("MAL score:")
-                                    .font(.system(size: 13))
-                            }
-                            Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
-                        }
-                        if (controller.anime?.myListStatus?.score ?? 0) > 0 {
-                            VStack {
-                                Text("Your score:")
-                                    .font(.system(size: 13))
-                                Text("\(controller.anime!.myListStatus!.score) ⭐")
-                            }
-                            .padding(.leading, 20)
-                        }
-                    }
-                    .bold()
-                    .font(.system(size: 25))
+                ScrollView {
                     VStack {
-                        if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
-                            Text("\(season.capitalized), \(String(year))")
+                        VStack {
+                            ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
+                            TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
+                            HStack {
+                                VStack {
+                                    if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                                        Text("MAL score:")
+                                            .font(.system(size: 13))
+                                    }
+                                    Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
+                                }
+                                if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                                    VStack {
+                                        Text("Your score:")
+                                            .font(.system(size: 13))
+                                        Text("\(controller.anime!.myListStatus!.score) ⭐")
+                                    }
+                                    .padding(.leading, 20)
+                                }
+                            }
+                            .bold()
+                            .font(.system(size: 25))
+                            VStack {
+                                if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
+                                    Text("\(season.capitalized), \(String(year))")
+                                }
+                                if let mediaType = anime.mediaType, let status = anime.status {
+                                    Text("\(mediaType == "tv" || mediaType == "ova" || mediaType == "ona" ? mediaType.uppercased() : mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                                }
+                                Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
+                            }
+                            .opacity(0.7)
+                            .font(.system(size: 13))
                         }
-                        if let mediaType = anime.mediaType, let status = anime.status {
-                            Text("\(mediaType == "tv" || mediaType == "ova" || mediaType == "ona" ? mediaType.uppercased() : mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                        .padding(.horizontal, 20)
+                        Synopsis(text: anime.synopsis)
+                        if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
+                            AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
                         }
-                        Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episodes, \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
+                        AnimeInformation(anime: anime)
+                        if !settings.hideAiring {
+                            AnimeAiringInformation(nextEpisode: controller.nextEpisode)
+                        }
+                        if !settings.hideTrailers {
+                            Trailers(videos: anime.videos)
+                        }
+                        if !settings.hideAnimeCharacters {
+                            AnimeCharacters(controller: controller)
+                        }
+                        if !settings.hideStaffs {
+                            Staffs(controller: controller)
+                        }
+                        if !settings.hideAnimeRelated {
+                            AnimeRelatedItems(controller: controller)
+                        }
+                        if !settings.hideAnimeRecommendations {
+                            Recommendations(animeRecommendations: anime.recommendations)
+                        }
+                        if !settings.hideThemeSongs {
+                            ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
+                        }
+                        if !settings.hideAnimeReviews {
+                            AnimeReviews(id: id, controller: controller)
+                        }
+                        if !settings.hideAnimeStatistics {
+                            AnimeStatistics(controller: controller)
+                        }
                     }
-                    .opacity(0.7)
-                    .font(.system(size: 13))
+                    .padding(.vertical, 20)
                 }
                 .task(id: isRefresh) {
                     if isRefresh {
@@ -103,11 +108,8 @@ struct AnimeDetailsView: View {
                 .refreshable {
                     isRefresh = true
                 }
-                .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                 .background {
-                    if settings.translucentBackground {
-                        ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
-                    }
+                    ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                 }
             }
             if controller.isLoading {
@@ -140,11 +142,7 @@ struct AnimeDetailsView: View {
                     } content: {
                         AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
                             .presentationBackground {
-                                if settings.translucentBackground {
-                                    ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
-                                } else {
-                                    Color(.systemGray6)
-                                }
+                                ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                             }
                     }
                     .disabled(controller.isLoading)
@@ -159,13 +157,6 @@ struct AnimeDetailsView: View {
                 ShareLink("Share", item: url)
                 Link(destination: url) {
                     Label("Open in browser", systemImage: "globe")
-                }
-                if let videos = controller.anime?.videos, !videos.isEmpty, !settings.hideTrailers {
-                    NavigationLink {
-                        TrailersView(videos: videos)
-                    } label: {
-                        Label("Trailers", systemImage: "play.rectangle")
-                    }
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

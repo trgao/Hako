@@ -27,62 +27,65 @@ struct MangaDetailsView: View {
             if controller.isLoadingError && controller.manga == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let manga = controller.manga {
-                PageList {
-                    TextBox(title: "Synopsis", text: manga.synopsis)
-                    if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
-                        MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
-                    }
-                    MangaInformation(manga: manga)
-                    if !settings.hideMangaCharacters {
-                        MangaCharacters(controller: controller)
-                    }
-                    if !settings.hideAuthors {
-                        Authors(controller: controller)
-                    }
-                    if !settings.hideMangaRelated {
-                        MangaRelatedItems(controller: controller)
-                    }
-                    if !settings.hideMangaRecommendations {
-                        Recommendations(mangaRecommendations: manga.recommendations)
-                    }
-                    if !settings.hideMangaReviews {
-                        MangaReviews(id: id, controller: controller)
-                    }
-                    if !settings.hideMangaStatistics {
-                        MangaStatistics(controller: controller)
-                    }
-                } photo: {
-                    ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
-                } title: {
-                    TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
-                } subtitle: {
-                    HStack {
-                        VStack {
-                            if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                Text("MAL score:")
-                                    .font(.system(size: 13))
-                            }
-                            Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
-                        }
-                        if let myScore = manga.myListStatus?.score, myScore > 0 {
-                            VStack {
-                                Text("Your score:")
-                                    .font(.system(size: 13))
-                                Text("\(myScore) ⭐")
-                            }
-                            .padding(.leading, 20)
-                        }
-                    }
-                    .bold()
-                    .font(.system(size: 25))
+                ScrollView {
                     VStack {
-                        if let mediaType = manga.mediaType, let status = manga.status {
-                            Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                        VStack {
+                            ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
+                            TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
+                            HStack {
+                                VStack {
+                                    if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                        Text("MAL score:")
+                                            .font(.system(size: 13))
+                                    }
+                                    Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
+                                }
+                                if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                    VStack {
+                                        Text("Your score:")
+                                            .font(.system(size: 13))
+                                        Text("\(myScore) ⭐")
+                                    }
+                                    .padding(.leading, 20)
+                                }
+                            }
+                            .bold()
+                            .font(.system(size: 25))
+                            VStack {
+                                if let mediaType = manga.mediaType, let status = manga.status {
+                                    Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                                }
+                                Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
+                            }
+                            .opacity(0.7)
+                            .font(.system(size: 13))
                         }
-                        Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
+                        .padding(.horizontal, 20)
+                        Synopsis(text: manga.synopsis)
+                        if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
+                            MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
+                        }
+                        MangaInformation(manga: manga)
+                        if !settings.hideMangaCharacters {
+                            MangaCharacters(controller: controller)
+                        }
+                        if !settings.hideAuthors {
+                            Authors(controller: controller)
+                        }
+                        if !settings.hideMangaRelated {
+                            MangaRelatedItems(controller: controller)
+                        }
+                        if !settings.hideMangaRecommendations {
+                            Recommendations(mangaRecommendations: manga.recommendations)
+                        }
+                        if !settings.hideMangaReviews {
+                            MangaReviews(id: id, controller: controller)
+                        }
+                        if !settings.hideMangaStatistics {
+                            MangaStatistics(controller: controller)
+                        }
                     }
-                    .opacity(0.7)
-                    .font(.system(size: 13))
+                    .padding(.vertical, 20)
                 }
                 .task(id: isRefresh) {
                     if isRefresh {
@@ -93,11 +96,8 @@ struct MangaDetailsView: View {
                 .refreshable {
                     isRefresh = true
                 }
-                .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                 .background {
-                    if settings.translucentBackground {
-                        ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
-                    }
+                    ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                 }
             }
             if controller.isLoading {
@@ -131,11 +131,7 @@ struct MangaDetailsView: View {
                     } content: {
                         MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
                             .presentationBackground {
-                                if settings.translucentBackground {
-                                    ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
-                                } else {
-                                    Color(.systemGray6)
-                                }
+                                ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                             }
                     }
                     .disabled(controller.isLoading)

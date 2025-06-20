@@ -15,51 +15,38 @@ struct AnimeInformation: View {
     }
     
     var body: some View {
-        Section {
+        ScrollViewSection(title: "Information") {
             if let source = anime.source {
-                ListRow(title: "Source", content: "\(source.replacingOccurrences(of: "_", with: " ").capitalized)")
+                ScrollViewRow(title: "Source", content: "\(source.replacingOccurrences(of: "_", with: " ").capitalized)")
             }
             if let rank = anime.rank {
-                ListRow(title: "Rank", content: "#\(rank)")
+                ScrollViewRow(title: "Rank", content: "#\(rank)")
             }
             if let popularity = anime.popularity {
-                ListRow(title: "Popularity", content: "#\(popularity)")
+                ScrollViewRow(title: "Popularity", content: "#\(popularity)")
             }
             if let startDate = anime.startDate {
-                ListRow(title: "Start date", content: startDate.toString())
+                ScrollViewRow(title: "Start date", content: startDate.toString())
             }
             if let endDate = anime.endDate {
-                ListRow(title: "End date", content: endDate.toString())
+                ScrollViewRow(title: "End date", content: endDate.toString())
             }
             if let broadcast = anime.broadcast, let dayOfTheWeek = broadcast.dayOfTheWeek, let startTime = broadcast.startTime {
-                ListRow(title: "Broadcast", content: "\(dayOfTheWeek.capitalized), \(startTime) (JST)")
+                ScrollViewRow(title: "Broadcast", content: "\(dayOfTheWeek.capitalized), \(startTime) (JST)")
             }
             if let rating = anime.rating {
-                ListRow(title: "Rating", content: "\(rating.filter { $0 != "_" }.uppercased())")
+                ScrollViewRow(title: "Rating", content: "\(rating.filter { $0 != "_" }.uppercased())")
             }
             if let studios = anime.studios, !studios.isEmpty {
-                NavigationLink {
+                ScrollViewNavigationLink(title: "Studios", content: studios.map{ $0.name }.joined(separator: ", ")) {
                     GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)
-                } label: {
-                    ListRow(title: "Studios", content: "\(studios.map{ $0.name }.joined(separator: ", "))")
                 }
             }
             if let genres = anime.genres, !genres.isEmpty {
-                NavigationLink {
+                ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
                     GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
-                } label: {
-                    ListRow(title: "Genres", content: "\(genres.map{ $0.name }.joined(separator: ", "))")
                 }
             }
-        } header: {
-            Text("Information")
-                .textCase(nil)
-                .foregroundColor(Color.primary)
-                .font(.system(size: 17))
-                .bold()
-                .listRowInsets(.init())
-                .padding(.horizontal, 15)
-                .padding(.vertical, 5)
         }
     }
 }

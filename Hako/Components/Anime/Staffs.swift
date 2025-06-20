@@ -18,37 +18,28 @@ struct Staffs: View {
     
     var body: some View {
         if !controller.staffs.isEmpty {
-            Section {} header: {
-                VStack {
-                    ListViewLink(title: "Staffs", items: controller.staffs) {
-                        StaffsListView(staffs: controller.staffs)
-                    }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.staffs.prefix(10)) { staff in
-                                ZoomTransition {
-                                    PersonDetailsView(id: staff.id)
-                                } label: {
-                                    VStack {
-                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
-                                        Text(staff.person.name ?? "")
-                                            .lineLimit(settings.getLineLimit())
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(width: 120)
+            ScrollViewCarousel(title: "Staffs", items: controller.staffs) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.staffs.prefix(10)) { staff in
+                            ZoomTransition {
+                                PersonDetailsView(id: staff.id)
+                            } label: {
+                                VStack {
+                                    ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
+                                    Text(staff.person.name ?? "")
+                                        .lineLimit(settings.getLineLimit())
+                                        .font(.system(size: 14))
                                 }
+                                .frame(width: 120)
                             }
                         }
-                        .padding(.horizontal, 20)
                     }
+                    .padding(.horizontal, 20)
                 }
-                .textCase(nil)
-                .padding(.horizontal, -20)
-                .padding(.top, 5)
-                .foregroundColor(Color.primary)
-                .listRowInsets(.init())
+            } destination: {
+                StaffsListView(staffs: controller.staffs)
             }
-            .listRowInsets(.init())
         }
     }
 }

@@ -15,42 +15,29 @@ struct MangaInformation: View {
     }
     
     var body: some View {
-        Section {
+        ScrollViewSection(title: "Information") {
             if let rank = manga.rank {
-                ListRow(title: "Rank", content: "#\(rank)")
+                ScrollViewRow(title: "Rank", content: "#\(rank)")
             }
             if let popularity = manga.popularity {
-                ListRow(title: "Popularity", content: "#\(popularity)")
+                ScrollViewRow(title: "Popularity", content: "#\(popularity)")
             }
             if let startDate = manga.startDate {
-                ListRow(title: "Start date", content: startDate.toString())
+                ScrollViewRow(title: "Start date", content: startDate.toString())
             }
             if let endDate = manga.endDate {
-                ListRow(title: "End date", content: endDate.toString())
+                ScrollViewRow(title: "End date", content: endDate.toString())
             }
             if let serialization = manga.serialization, !serialization.isEmpty {
-                NavigationLink {
-                    GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .manga)
-                } label: {
-                    ListRow(title: "Serialization", content: "\(serialization.map{ $0.node.name }.joined(separator: ", "))")
+                ScrollViewNavigationLink(title: "Serialization", content: serialization.map{ $0.node.name }.joined(separator: ", ")) {
+                    GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .anime)
                 }
             }
             if let genres = manga.genres, !genres.isEmpty {
-                NavigationLink {
-                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
-                } label: {
-                    ListRow(title: "Genres", content: "\(genres.map{ $0.name }.joined(separator: ", "))")
+                ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
+                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
                 }
             }
-        } header: {
-            Text("Information")
-                .textCase(nil)
-                .foregroundColor(Color.primary)
-                .font(.system(size: 17))
-                .bold()
-                .listRowInsets(.init())
-                .padding(.horizontal, 15)
-                .padding(.vertical, 5)
         }
     }
 }

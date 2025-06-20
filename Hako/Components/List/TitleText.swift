@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TitleText: View {
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     private let romaji: String
     private let english: String?
@@ -19,7 +20,7 @@ struct TitleText: View {
         self.japanese = japanese
     }
     
-    var body: some View {
+    var text: some View {
         VStack {
             if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                 Text(title)
@@ -43,29 +44,43 @@ struct TitleText: View {
             }
         }
         .padding(.vertical, 5)
-        .contextMenu {
-            Button {
-                UIPasteboard.general.string = romaji
-            } label: {
-                Text("Copy Romaji title")
-                Text(romaji)
-            }
-            if let english = english, !english.isEmpty {
+    }
+    
+    var body: some View {
+        text
+            .frame(maxWidth: .infinity, alignment: .center)
+            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+            .contextMenu {
                 Button {
-                    UIPasteboard.general.string = english
+                    UIPasteboard.general.string = romaji
                 } label: {
-                    Text("Copy English title")
-                    Text(english)
+                    Text("Copy Romaji title")
+                    Text(romaji)
                 }
-            }
-            if let japanese = japanese, !japanese.isEmpty {
-                Button {
-                    UIPasteboard.general.string = japanese
-                } label: {
-                    Text("Copy native language title")
-                    Text(japanese)
+                if let english = english, !english.isEmpty {
+                    Button {
+                        UIPasteboard.general.string = english
+                    } label: {
+                        Text("Copy English title")
+                        Text(english)
+                    }
                 }
+                if let japanese = japanese, !japanese.isEmpty {
+                    Button {
+                        UIPasteboard.general.string = japanese
+                    } label: {
+                        Text("Copy native language title")
+                        Text(japanese)
+                    }
+                }
+            } preview: {
+                text
+                    .frame(width: UIScreen.main.bounds.width - 40, alignment: .center)
+                    .background {
+                        Rectangle()
+                            .foregroundStyle(.thickMaterial)
+                    }
+//                    .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
             }
-        }
     }
 }

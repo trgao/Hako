@@ -16,18 +16,9 @@ struct AnimeAiringInformation: View {
     
     var body: some View {
         if let nextEpisode = nextEpisode {
-            Section {
-                ListRow(title: "Next episode", content: nextEpisode.episode)
-                ListRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
-            } header: {
-                Text("Airing")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
-                    .listRowInsets(.init())
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 5)
+            ScrollViewSection(title: "Airing") {
+                ScrollViewRow(title: "Next episode", content: nextEpisode.episode)
+                ScrollViewRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
             }
         }
     }

@@ -43,7 +43,6 @@ struct TitleText: View {
         }
         .padding(.vertical, 5)
         .frame(maxWidth: .infinity, alignment: .center)
-        .frame(width: UIScreen.main.bounds.width - 34)
         .background(.black.opacity(0.000000001))
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
@@ -74,12 +73,6 @@ struct TitleText: View {
                         Text(japanese)
                     }
                 }
-            } preview: {
-                text
-                    .background {
-                        RoundedRectangle(cornerRadius: 10)
-                            .foregroundStyle(.thickMaterial)
-                    }
             }
     }
 }

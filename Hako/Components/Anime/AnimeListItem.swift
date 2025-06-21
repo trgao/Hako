@@ -13,14 +13,6 @@ struct AnimeListItem: View {
     @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
     private let index: Int
-    private let colours: [StatusEnum:Color] = [
-        .watching: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToWatch: .primary,
-        .none: Color(.systemGray)
-    ]
     let networker = NetworkManager.shared
     
     init(anime: MALListAnime) {
@@ -59,7 +51,7 @@ struct AnimeListItem: View {
                         if let numEpisodes = anime.node.numEpisodes, numEpisodes > 0 {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                                    .tint(colours[anime.listStatus?.status ?? .none])
+                                    .tint(anime.listStatus?.status?.toColour())
                                 HStack {
                                     Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
                                         .foregroundStyle(Color(.systemGray))
@@ -75,7 +67,7 @@ struct AnimeListItem: View {
                         } else {
                             VStack(alignment: .leading) {
                                 ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
-                                    .tint(colours[anime.listStatus?.status ?? .none])
+                                    .tint(anime.listStatus?.status?.toColour())
                                 HStack {
                                     Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
                                         .foregroundStyle(Color(.systemGray))

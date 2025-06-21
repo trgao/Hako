@@ -14,14 +14,6 @@ struct MangaProgress: View {
     private var numChaptersRead: Int
     private var numVolumesRead: Int
     private var status: StatusEnum?
-    private let colours: [StatusEnum:Color] = [
-        .reading: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToRead: .primary,
-        .none: Color(.systemGray)
-    ]
     
     init(numChapters: Int?, numVolumes: Int?, numChaptersRead: Int, numVolumesRead: Int, status: StatusEnum?) {
         self.numChapters = numChapters
@@ -37,7 +29,7 @@ struct MangaProgress: View {
                 if settings.mangaReadProgress == 0 {
                     if let numChapters = numChapters, numChapters > 0 {
                         ProgressView(value: Float(numChaptersRead) / Float(numChapters))
-                            .tint(colours[status ?? .none])
+                            .tint(status?.toColour())
                         HStack {
                             Text(status?.toString() ?? "")
                                 .bold()
@@ -54,7 +46,7 @@ struct MangaProgress: View {
                         }
                     } else {
                         ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
-                            .tint(colours[status ?? .none])
+                            .tint(status?.toColour())
                         HStack {
                             Text(status?.toString() ?? "")
                                 .bold()
@@ -73,7 +65,7 @@ struct MangaProgress: View {
                 } else {
                     if let numVolumes = numVolumes, numVolumes > 0 {
                         ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
-                            .tint(colours[status ?? .none])
+                            .tint(status?.toColour())
                         HStack {
                             Text(status?.toString() ?? "")
                                 .bold()
@@ -90,7 +82,7 @@ struct MangaProgress: View {
                         }
                     } else {
                         ProgressView(value: numVolumesRead == 0 ? 0 : 0.5)
-                            .tint(colours[status ?? .none])
+                            .tint(status?.toColour())
                         HStack {
                             Text(status?.toString() ?? "")
                                 .bold()

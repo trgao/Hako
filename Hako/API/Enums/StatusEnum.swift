@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum StatusEnum: Codable {
     case watching, completed, onHold, dropped, planToWatch, reading, planToRead, none
@@ -27,42 +28,65 @@ enum StatusEnum: Codable {
     }
     
     func toParameter() -> String {
-        if self == .watching {
+        switch self {
+        case .watching:
             return "watching"
-        } else if self == .completed {
+        case .completed:
             return "completed"
-        } else if self == .onHold {
+        case .onHold:
             return "on_hold"
-        } else if self == .dropped {
+        case .dropped:
             return "dropped"
-        } else if self == .planToWatch {
+        case .planToWatch:
             return "plan_to_watch"
-        } else if self == .reading {
+        case .reading:
             return "reading"
-        } else if self == .planToRead {
+        case .planToRead:
             return "plan_to_read"
-        } else {
+        default:
             return ""
         }
     }
     
     func toString() -> String {
-        if self == .watching {
+        switch self {
+        case .watching:
             return "Watching"
-        } else if self == .completed {
+        case .completed:
             return "Completed"
-        } else if self == .onHold {
+        case .onHold:
             return "On hold"
-        } else if self == .dropped {
+        case .dropped:
             return "Dropped"
-        } else if self == .planToWatch {
+        case .planToWatch:
             return "Plan to watch"
-        } else if self == .reading {
+        case .reading:
             return "Reading"
-        } else if self == .planToRead {
+        case .planToRead:
             return "Plan to read"
-        } else {
+        default:
             return ""
+        }
+    }
+    
+    func toColour() -> Color {
+        switch self {
+        case .watching:
+            return Color(.systemGreen)
+        case .completed:
+            return Color(.systemBlue)
+        case .onHold:
+            return Color(.systemYellow)
+        case .dropped:
+            return Color(.systemRed)
+        case .planToWatch:
+            return .primary
+        case .reading:
+            return Color(.systemGreen)
+        case .planToRead:
+            return .primary
+        default:
+            return .primary
         }
     }
 }

@@ -147,7 +147,7 @@
 		EEC3579A2BE38EAC00DAAB0B /* Mangaography.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC357992BE38EAC00DAAB0B /* Mangaography.swift */; };
 		EEC435972DFEAB0600F36789 /* AniListAiringResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC435962DFEAAF700F36789 /* AniListAiringResponse.swift */; };
 		EEC435992DFEAB6D00F36789 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC435982DFEAB6B00F36789 /* Media.swift */; };
-		EEC4359B2DFEB23000F36789 /* AnimeAiringInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC4359A2DFEB22D00F36789 /* AnimeAiringInformation.swift */; };
+		EEC4359B2DFEB23000F36789 /* AnimeAiringSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC4359A2DFEB22D00F36789 /* AnimeAiringSchedule.swift */; };
 		EECC382E2BFA146C0063A891 /* Staff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC382D2BFA146C0063A891 /* Staff.swift */; };
 		EECC38302BFA14EB0063A891 /* JikanStaffsListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC382F2BFA14EB0063A891 /* JikanStaffsListResponse.swift */; };
 		EECC38322BFA23330063A891 /* AnimeEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC38312BFA23330063A891 /* AnimeEditView.swift */; };
@@ -317,7 +317,7 @@
 		EEC357992BE38EAC00DAAB0B /* Mangaography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mangaography.swift; sourceTree = "<group>"; };
 		EEC435962DFEAAF700F36789 /* AniListAiringResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AniListAiringResponse.swift; sourceTree = "<group>"; };
 		EEC435982DFEAB6B00F36789 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
-		EEC4359A2DFEB22D00F36789 /* AnimeAiringInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAiringInformation.swift; sourceTree = "<group>"; };
+		EEC4359A2DFEB22D00F36789 /* AnimeAiringSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAiringSchedule.swift; sourceTree = "<group>"; };
 		EECC382D2BFA146C0063A891 /* Staff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staff.swift; sourceTree = "<group>"; };
 		EECC382F2BFA14EB0063A891 /* JikanStaffsListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanStaffsListResponse.swift; sourceTree = "<group>"; };
 		EECC38312BFA23330063A891 /* AnimeEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeEditView.swift; sourceTree = "<group>"; };
@@ -596,7 +596,7 @@
 				EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */,
 				EE10719A2E042D4700666452 /* AnimeProgress.swift */,
 				EE20B1D02BDF9F45006F4CFF /* AnimeInformation.swift */,
-				EEC4359A2DFEB22D00F36789 /* AnimeAiringInformation.swift */,
+				EEC4359A2DFEB22D00F36789 /* AnimeAiringSchedule.swift */,
 				EE40F56D2BEF936F00BB2E79 /* Trailers.swift */,
 				EE33A4C12BE1666400A98F00 /* AnimeCharacters.swift */,
 				EEFEFD492BF34BB500200AF1 /* Staffs.swift */,
@@ -914,7 +914,7 @@
 				EEC3578E2BE3889900DAAB0B /* CharacterDetailsViewController.swift in Sources */,
 				EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */,
 				EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */,
-				EEC4359B2DFEB23000F36789 /* AnimeAiringInformation.swift in Sources */,
+				EEC4359B2DFEB23000F36789 /* AnimeAiringSchedule.swift in Sources */,
 				EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */,
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
 				EEFEFD4C2BF3527D00200AF1 /* Recommendations.swift in Sources */,

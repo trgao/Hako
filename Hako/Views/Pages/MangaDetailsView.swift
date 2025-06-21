@@ -65,7 +65,9 @@ struct MangaDetailsView: View {
                         if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
                             MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
                         }
-                        MangaInformation(manga: manga)
+                        if !settings.hideMangaInformation {
+                            MangaInformation(manga: manga)
+                        }
                         if !settings.hideMangaCharacters {
                             MangaCharacters(controller: controller)
                         }

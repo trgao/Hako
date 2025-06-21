@@ -20,6 +20,7 @@ struct AboutView: View {
             Section("Data sources") {
                 Link("MyAnimeList", destination: URL(string: "https://myanimelist.net")!)
                 Link("Jikan API", destination: URL(string: "https://jikan.moe")!)
+                Link("AniList", destination: URL(string: "https://anilist.co/")!)
             }
             Section("Packages") {
                 Link("KeychainAccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)

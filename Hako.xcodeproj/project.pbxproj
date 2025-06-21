@@ -158,6 +158,7 @@
 		EECECC632DF4BD4300232E8C /* NameText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECECC622DF4BD4300232E8C /* NameText.swift */; };
 		EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118B2DD71AFC00F78170 /* LoadingList.swift */; };
 		EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118D2DD729AF00F78170 /* PickerRow.swift */; };
+		EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED452602E06905C00EA8B9F /* NetworkMonitor.swift */; };
 		EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB8FE22BEBCD2B00EAA985 /* Related.swift */; };
 		EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */; };
 		EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabel.swift */; };
@@ -328,6 +329,7 @@
 		EECECC622DF4BD4300232E8C /* NameText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameText.swift; sourceTree = "<group>"; };
 		EED4118B2DD71AFC00F78170 /* LoadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingList.swift; sourceTree = "<group>"; };
 		EED4118D2DD729AF00F78170 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
+		EED452602E06905C00EA8B9F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		EEDB8FE22BEBCD2B00EAA985 /* Related.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Related.swift; sourceTree = "<group>"; };
 		EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EEDBDB642C07547300F2E821 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
 				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
@@ -1008,6 +1011,7 @@
 				EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */,
 				EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */,
 				EE960E992DD3A0FD00E4EDC9 /* JikanMangaStatisticsResponse.swift in Sources */,
+				EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */,
 				EE135E032E055A0200F02638 /* ScrollViewRow.swift in Sources */,
 				EE5CEE072E00119F0000FC90 /* Favourites.swift in Sources */,
 				EEDDC63F2BF8E23700B22D87 /* ListFilter.swift in Sources */,

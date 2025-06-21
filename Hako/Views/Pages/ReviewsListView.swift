@@ -17,28 +17,32 @@ struct ReviewsListView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVStack {
-                    ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
-                        ReviewItem(item: item)
-                            .id(item.id)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
+            if controller.isLoadingError && controller.reviews.isEmpty {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
+                            ReviewItem(item: item)
+                                .id(item.id)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
+                                    }
                                 }
-                            }
+                        }
+                        if controller.isLoading {
+                            LoadingReviews()
+                        }
                     }
-                    if controller.isLoading {
-                        LoadingReviews()
-                    }
+                    .padding(17)
                 }
-                .padding(17)
-            }
-            .background {
-                ImageFrame(id: "", imageUrl: nil, imageSize: .background)
-            }
-            if isRefresh && controller.isLoading {
-                LoadingView()
+                .background {
+                    ImageFrame(id: "", imageUrl: nil, imageSize: .background)
+                }
+                if isRefresh && controller.isLoading {
+                    LoadingView()
+                }
             }
         }
         .task(id: isRefresh) {

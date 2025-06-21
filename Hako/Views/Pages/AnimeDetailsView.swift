@@ -68,9 +68,11 @@ struct AnimeDetailsView: View {
                         if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
                             AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
                         }
-                        AnimeInformation(anime: anime)
-                        if !settings.hideAiring {
-                            AnimeAiringInformation(nextEpisode: controller.nextEpisode)
+                        if !settings.hideAnimeInformation {
+                            AnimeInformation(anime: anime)
+                        }
+                        if !settings.hideAiringSchedule {
+                            AnimeAiringSchedule(nextEpisode: controller.nextEpisode)
                         }
                         if !settings.hideTrailers {
                             Trailers(videos: anime.videos)

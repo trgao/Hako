@@ -32,7 +32,8 @@ class SettingsManager: ObservableObject {
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
-    @AppStorage("hideAiring") var hideAiring = false
+    @AppStorage("hideAnimeInformation") var hideAnimeInformation = false
+    @AppStorage("hideAiring") var hideAiringSchedule = false
     @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false
@@ -43,6 +44,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideAnimeStatistics") var hideAnimeStatistics = false
     
     @AppStorage("hideMangaProgress") var hideMangaProgress = false
+    @AppStorage("hideMangaInformation") var hideMangaInformation = false
     @AppStorage("hideMangaCharacters") var hideMangaCharacters = false
     @AppStorage("hideAuthors") var hideAuthors = false
     @AppStorage("hideMangaRelated") var hideMangaRelated = false

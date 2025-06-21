@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AnimeAiringInformation: View {
+struct AnimeAiringSchedule: View {
     private var nextEpisode: NextAiringEpisode?
     
     init(nextEpisode: NextAiringEpisode?) {
@@ -16,7 +16,7 @@ struct AnimeAiringInformation: View {
     
     var body: some View {
         if let nextEpisode = nextEpisode {
-            ScrollViewSection(title: "Airing") {
+            ScrollViewSection(title: "Airing schedule") {
                 ScrollViewRow(title: "Next episode", content: nextEpisode.episode)
                 ScrollViewRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
             }

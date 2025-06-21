@@ -34,16 +34,15 @@ struct Trailers: View {
                                         EmptyView()
                                     }
                                 })
-                                .frame(width: UIScreen.main.bounds.width - 34, height: (UIScreen.main.bounds.width - 34) * 17 / 30)
+                                .frame(width: 300, height: 170)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
+                                .padding(5)
                             }
                         }
                     }
-                    .scrollTargetLayout()
                     .padding(.horizontal, 17)
                 }
-                .scrollTargetBehavior(.viewAligned)
             }
         }
     }

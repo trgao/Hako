@@ -39,7 +39,7 @@ struct StatisticsRow<T>: View {
             } icon: {
                 Image(systemName: icon)
                     .foregroundColor(color)
-                    .font(.system(size: 20))
+                    .font(.system(size: 22))
                     .padding(.trailing, 10)
             }
             Spacer()

@@ -11,14 +11,6 @@ struct AnimeProgress: View {
     private var numEpisodes: Int?
     private var numEpisodesWatched: Int
     private var status: StatusEnum?
-    private let colours: [StatusEnum:Color] = [
-        .watching: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToWatch: .primary,
-        .none: Color(.systemGray)
-    ]
     
     init(numEpisodes: Int?, numEpisodesWatched: Int, status: StatusEnum?) {
         self.numEpisodes = numEpisodes
@@ -31,7 +23,7 @@ struct AnimeProgress: View {
             VStack {
                 if let numEpisodes = numEpisodes, numEpisodes > 0 {
                     ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                        .tint(colours[status ?? .none])
+                        .tint(status?.toColour())
                     HStack {
                         Text(status?.toString() ?? "")
                             .bold()
@@ -41,7 +33,7 @@ struct AnimeProgress: View {
                     }
                 } else {
                     ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
-                        .tint(colours[status ?? .none])
+                        .tint(status?.toColour())
                     HStack {
                         Text(status?.toString() ?? "")
                             .bold()

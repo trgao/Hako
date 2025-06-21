@@ -13,14 +13,6 @@ struct MangaListItem: View {
     @Binding private var selectedMangaIndex: Int?
     private let manga: MALListManga
     private let index: Int
-    private let colours: [StatusEnum:Color] = [
-        .reading: Color(.systemGreen),
-        .completed: Color(.systemBlue),
-        .onHold: Color(.systemYellow),
-        .dropped: Color(.systemRed),
-        .planToRead: .primary,
-        .none: Color(.systemGray)
-    ]
     let networker = NetworkManager.shared
     
     init(manga: MALListManga) {
@@ -60,7 +52,7 @@ struct MangaListItem: View {
                             if let numChapters = manga.node.numChapters, numChapters > 0 {
                                 VStack(alignment: .leading) {
                                     ProgressView(value: Float(numChaptersRead) / Float(numChapters))
-                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                        .tint(manga.listStatus?.status?.toColour())
                                     HStack {
                                         if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                             Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
@@ -85,7 +77,7 @@ struct MangaListItem: View {
                             } else {
                                 VStack(alignment: .leading) {
                                     ProgressView(value: numChaptersRead == 0 ? 0 : 0.5)
-                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                        .tint(manga.listStatus?.status?.toColour())
                                     HStack {
                                         if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                             Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
@@ -112,7 +104,7 @@ struct MangaListItem: View {
                             if let numVolumes = manga.node.numVolumes, numVolumes > 0 {
                                 VStack(alignment: .leading) {
                                     ProgressView(value: Float(numVolumesRead) / Float(numVolumes))
-                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                        .tint(manga.listStatus?.status?.toColour())
                                     HStack {
                                         Label("\(String(numVolumesRead)) / \(String(numVolumes))", systemImage: "book.closed.fill")
                                             .foregroundStyle(Color(.systemGray))
@@ -137,7 +129,7 @@ struct MangaListItem: View {
                             } else {
                                 VStack(alignment: .leading) {
                                     ProgressView(value: numVolumesRead == 0 ? 0 : 0.5)
-                                        .tint(colours[manga.listStatus?.status ?? .none])
+                                        .tint(manga.listStatus?.status?.toColour())
                                     HStack {
                                         Label("\(String(numVolumesRead)) / ?", systemImage: "book.closed.fill")
                                             .foregroundStyle(Color(.systemGray))

@@ -26,9 +26,7 @@ struct ScrollViewSection<Content: View>: View {
                 .padding(.top, 15)
                 .font(.system(size: 17))
             VStack(spacing: 0) {
-                Divided {
-                    content()
-                }
+                content()
             }
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -36,44 +34,3 @@ struct ScrollViewSection<Content: View>: View {
         .padding(.horizontal, 17)
     }
 }
-
-struct Divided<Content: View>: View {
-    private let hasIcon: Bool
-    private let content: Content
-
-    init(hasIcon: Bool = false, @ViewBuilder content: () -> Content) {
-        self.hasIcon = hasIcon
-        self.content = content()
-    }
-
-    var body: some View {
-        _VariadicView.Tree(DividedLayout()) {
-            content
-        }
-    }
-
-    struct DividedLayout: _VariadicView_MultiViewRoot {
-        @ViewBuilder
-        func body(children: _VariadicView.Children) -> some View {
-            let last = children.last?.id
-
-            ForEach(children) { child in
-                child
-
-                if child.id != last {
-                    HStack(spacing: 0) {
-                        Rectangle()
-                            .frame(width: 20, height: 0.33)
-                            .foregroundStyle(.clear)
-                        Rectangle()
-                            .fill(Color.gray)
-                            .opacity(0.4)
-                            .frame(height: 0.33)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-            }
-        }
-    }
-}
-

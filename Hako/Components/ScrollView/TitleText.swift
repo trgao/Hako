@@ -27,13 +27,11 @@ struct TitleText: View {
                     .bold()
                     .font(.system(size: 25))
                     .multilineTextAlignment(.center)
-                    .contentShape(Rectangle())
             } else {
                 Text(romaji)
                     .bold()
                     .font(.system(size: 25))
                     .multilineTextAlignment(.center)
-                    .contentShape(Rectangle())
             }
             if let japanese = japanese {
                 Text(japanese)
@@ -44,11 +42,14 @@ struct TitleText: View {
             }
         }
         .padding(.vertical, 5)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(width: UIScreen.main.bounds.width - 34)
+        .background(.black.opacity(0.000000001))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
     
     var body: some View {
         text
-            .frame(maxWidth: .infinity, alignment: .center)
             .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
             .contextMenu {
                 Button {
@@ -75,9 +76,8 @@ struct TitleText: View {
                 }
             } preview: {
                 text
-                    .frame(width: UIScreen.main.bounds.width - 34, alignment: .center)
                     .background {
-                        Rectangle()
+                        RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.thickMaterial)
                     }
             }

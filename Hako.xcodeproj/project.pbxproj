@@ -390,6 +390,7 @@
 		EE135DF92E053D0400F02638 /* ScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				EEBBB1032DF463F200BA6F8B /* TitleText.swift */,
 				EE135DFC2E054A2800F02638 /* ScrollViewSection.swift */,
 				EE135E002E05562600F02638 /* Synopsis.swift */,
 				EE135E022E055A0200F02638 /* ScrollViewRow.swift */,
@@ -506,13 +507,13 @@
 		EE3A59B42BD21C65009E9F79 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				EE135DF92E053D0400F02638 /* ScrollView */,
 				EE3B40162DD4B43B000846A1 /* Anime */,
 				EE3B40172DD4B475000846A1 /* Manga */,
 				EE6F33DC2DDC80B5009DED2B /* Image */,
 				EE6F33DD2DDC80D7009DED2B /* Season */,
 				EE6F33DB2DDC8094009DED2B /* Loading */,
 				EE6F33DE2DDC80F4009DED2B /* List */,
+				EE135DF92E053D0400F02638 /* ScrollView */,
 				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
@@ -683,13 +684,12 @@
 		EE6F33DE2DDC80F4009DED2B /* List */ = {
 			isa = PBXGroup;
 			children = (
+				EECECC622DF4BD4300232E8C /* NameText.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
 				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
 				EE0C539F2BDF94B400DEB6F1 /* TextBox.swift */,
-				EEBBB1032DF463F200BA6F8B /* TitleText.swift */,
-				EECECC622DF4BD4300232E8C /* NameText.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";

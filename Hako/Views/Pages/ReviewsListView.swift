@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReviewsListView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var controller: ReviewsListViewController
     @State private var isRefresh = false
     
@@ -37,9 +38,7 @@ struct ReviewsListView: View {
                     }
                     .padding(17)
                 }
-                .background {
-                    ImageFrame(id: "", imageUrl: nil, imageSize: .background)
-                }
+                .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
                 if isRefresh && controller.isLoading {
                     LoadingView()
                 }

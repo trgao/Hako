@@ -428,8 +428,8 @@
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
 				EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */,
-				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
 				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
+				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
 				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
 				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
 			);

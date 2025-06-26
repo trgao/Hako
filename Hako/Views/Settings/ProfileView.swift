@@ -99,6 +99,10 @@ struct ProfileView: View {
             } message: {
                 Text("This will sign you out of your account")
             }
+            .scrollContentBackground(.hidden)
+            .background {
+                ImageFrame(id: "userImage", imageUrl: user.picture, imageSize: .background)
+            }
         }
     }
 }

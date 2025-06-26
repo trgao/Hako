@@ -28,7 +28,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMostPopularManga") var hideMostPopularManga = false
     
     @AppStorage("useSwipeActions") var useSwipeActions = true
-    @AppStorage("mangaSwipeActions") var mangaSwipeActions = 0
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false

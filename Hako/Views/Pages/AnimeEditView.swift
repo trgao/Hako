@@ -96,7 +96,7 @@ struct AnimeEditView: View {
                                     if listStatus.finishDate == nil {
                                         listStatus.finishDate = Date()
                                     }
-                                    if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes {
+                                    if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
                                         listStatus.numEpisodesWatched = numEpisodes
                                     }
                                 }
@@ -106,6 +106,9 @@ struct AnimeEditView: View {
                             .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
                                 if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
                                     listStatus.status = .watching
+                                }
+                                if let numEpisodes = numEpisodes, cur == numEpisodes && numEpisodes > 0 {
+                                    listStatus.status = .completed
                                 }
                             }
                     }

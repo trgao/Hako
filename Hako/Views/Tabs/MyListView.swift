@@ -108,7 +108,7 @@ struct MyListView: View {
                                                 }
                                                 .swipeActions(edge: .leading) {
                                                     if settings.useSwipeActions {
-                                                        if settings.mangaSwipeActions == 0 {
+                                                        if settings.mangaReadProgress == 0 {
                                                             if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
                                                                 Button {
                                                                     Task {
@@ -133,7 +133,7 @@ struct MyListView: View {
                                                 }
                                                 .swipeActions(edge: .trailing) {
                                                     if settings.useSwipeActions {
-                                                        if settings.mangaSwipeActions == 0 {
+                                                        if settings.mangaReadProgress == 0 {
                                                             if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
                                                                 Button {
                                                                     Task {

@@ -149,10 +149,8 @@ struct GeneralView: View {
                 Section("List view") {
                     Toggle(isOn: $settings.useSwipeActions) {
                         Text("Enable swipe actions")
-                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaSwipeActions == 0 ? "chapters" : "volumes") read")
+                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
-                    PickerRow(title: "Manga swipe actions", selection: $settings.mangaSwipeActions, labels: ["Chapters", "Volumes"])
-                        .disabled(!settings.useSwipeActions)
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
             }

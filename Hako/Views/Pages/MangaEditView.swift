@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaEditView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @Environment(\.dismiss) private var dismiss
     @Binding private var isDeleted: Bool
     @Binding private var mangaStatus: MangaListStatus?
@@ -98,10 +99,10 @@ struct MangaEditView: View {
                                     if listStatus.finishDate == nil {
                                         listStatus.finishDate = Date()
                                     }
-                                    if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes {
+                                    if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {
                                         listStatus.numVolumesRead = numVolumes
                                     }
-                                    if let numChapters = numChapters, listStatus.numChaptersRead != numChapters {
+                                    if let numChapters = numChapters, listStatus.numChaptersRead != numChapters, numChapters > 0 {
                                         listStatus.numChaptersRead = numChapters
                                     }
                                 }
@@ -112,11 +113,17 @@ struct MangaEditView: View {
                                 if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                     listStatus.status = .reading
                                 }
+                                if settings.mangaReadProgress == 1, let numVolumes = numVolumes, cur == numVolumes && numVolumes > 0 {
+                                    listStatus.status = .completed
+                                }
                             }
                         NumberSelector(num: $listStatus.numChaptersRead, title: "Chapters read", max: numChapters)
                             .onChange(of: listStatus.numChaptersRead) { prev, cur in
                                 if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                     listStatus.status = .reading
+                                }
+                                if settings.mangaReadProgress == 0, let numChapters = numChapters, cur == numChapters && numChapters > 0 {
+                                    listStatus.status = .completed
                                 }
                             }
                     }

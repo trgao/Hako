@@ -22,7 +22,7 @@ struct NumberSelector: View {
     }
 
     var body: some View {
-        if let max = max, max > 0 && max < 500 {
+        if let max = max, max > 0 && max <= 500 {
             PickerRow(title: title, selection: $num, labels: (0...max).map(String.init))
         } else {
             HStack {

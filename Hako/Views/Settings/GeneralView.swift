@@ -127,6 +127,9 @@ struct GeneralView: View {
                 }
             }
             Section("Search view") {
+                Toggle(isOn: $settings.hideRandom) {
+                    Text("Hide random button")
+                }
                 if networker.isSignedIn {
                     Toggle(isOn: $settings.hideForYou) {
                         Text("Hide for you")

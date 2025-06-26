@@ -21,6 +21,7 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
+    @AppStorage("hideRandom") var hideRandom = false
     @AppStorage("hideForYou") var hideForYou = false
     @AppStorage("hideTopAiring") var hideTopAiring = false
     @AppStorage("hideTopUpcoming") var hideTopUpcoming = false

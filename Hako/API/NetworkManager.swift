@@ -440,6 +440,26 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
+    func getRandomAnime() async throws -> Int {
+        let response = try await getJikanResponse(urlExtend: "/random/anime", type: JikanRandomItemResponse.self)
+        return response.data.malId
+    }
+    
+    func getRandomManga() async throws -> Int {
+        let response = try await getJikanResponse(urlExtend: "/random/manga", type: JikanRandomItemResponse.self)
+        return response.data.malId
+    }
+    
+    func getRandomCharacter() async throws -> Int {
+        let response = try await getJikanResponse(urlExtend: "/random/characters", type: JikanRandomItemResponse.self)
+        return response.data.malId
+    }
+    
+    func getRandomPerson() async throws -> Int {
+        let response = try await getJikanResponse(urlExtend: "/random/people", type: JikanRandomItemResponse.self)
+        return response.data.malId
+    }
+    
     func getUserAnimeSuggestionList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/suggestions?fields=alternative_titles", type: MALAnimeListResponse.self)
         return response.data

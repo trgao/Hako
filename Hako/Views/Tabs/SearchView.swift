@@ -227,30 +227,30 @@ struct SearchView: View {
                     .padding(.bottom, 5)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                     .ignoresSafeArea(.keyboard, edges: .all)
-                } else if !settings.hideRandom {
-                    VStack {
-                        Menu {
-                            Button("Random person") {
-                                isRandomPerson = true
-                            }
-                            Button("Random character") {
-                                isRandomCharacter = true
-                            }
-                            Button("Random manga") {
-                                isRandomManga = true
-                            }
-                            Button("Random anime") {
-                                isRandomAnime = true
-                            }
-                        } label: {
-                            Button {} label: {
-                                Image(systemName: "dice")
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .padding(10)
+                }
+            }
+            .navigationTitle("Search")
+            .toolbar {
+                if !settings.hideRandom {
+                    Menu {
+                        Button("Random anime") {
+                            isRandomAnime = true
                         }
+                        Button("Random manga") {
+                            isRandomManga = true
+                        }
+                        Button("Random character") {
+                            isRandomCharacter = true
+                        }
+                        Button("Random person") {
+                            isRandomPerson = true
+                        }
+                    } label: {
+                        Button {} label: {
+                            Image(systemName: "dice")
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .navigationDestination(isPresented: $isRandomAnime) {
                         RandomAnimeView()
                     }
@@ -265,7 +265,6 @@ struct SearchView: View {
                     }
                 }
             }
-            .navigationTitle("Search")
         }
     }
 }

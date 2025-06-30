@@ -23,9 +23,7 @@ struct SearchView: View {
                     if isPresented {
                         Section {
                             if controller.type == .anime {
-                                if controller.isAnimeLoadingError {
-                                    ErrorView(refresh: { await controller.search(searchText) })
-                                } else if controller.isAnimeSearchLoading {
+                                if controller.isAnimeSearchLoading {
                                     LoadingList()
                                 } else if controller.animeItems.isEmpty {
                                     VStack {
@@ -38,15 +36,15 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
-                                } else {
+                                } else if !controller.isAnimeLoadingError {
                                     ForEach(controller.animeItems, id: \.id) { item in
                                         AnimeListItem(anime: item)
                                     }
+                                } else {
+                                    ErrorView(refresh: { await controller.search(searchText) })
                                 }
                             } else if controller.type == .manga {
-                                if controller.isMangaLoadingError {
-                                    ErrorView(refresh: { await controller.search(searchText) })
-                                } else if controller.isMangaSearchLoading {
+                                if controller.isMangaSearchLoading {
                                     LoadingList()
                                 } else if controller.mangaItems.isEmpty {
                                     VStack {
@@ -59,15 +57,15 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
-                                } else {
+                                } else if !controller.isMangaLoadingError {
                                     ForEach(controller.mangaItems, id: \.id) { item in
                                         MangaListItem(manga: item)
                                     }
+                                } else {
+                                    ErrorView(refresh: { await controller.search(searchText) })
                                 }
                             } else if controller.type == .character {
-                                if controller.isCharacterLoadingError {
-                                    ErrorView(refresh: { await controller.search(searchText) })
-                                } else if controller.isCharacterSearchLoading {
+                                if controller.isCharacterSearchLoading {
                                     LoadingList()
                                 } else if controller.characterItems.isEmpty {
                                     VStack {
@@ -80,7 +78,7 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
-                                } else {
+                                } else if !controller.isCharacterLoadingError {
                                     ForEach(controller.characterItems, id: \.id) { item in
                                         NavigationLink {
                                             CharacterDetailsView(id: item.id)
@@ -97,11 +95,11 @@ struct SearchView: View {
                                         }
                                         .padding(5)
                                     }
+                                } else {
+                                    ErrorView(refresh: { await controller.search(searchText) })
                                 }
                             } else if controller.type == .person {
-                                if controller.isPersonLoadingError {
-                                    ErrorView(refresh: { await controller.search(searchText) })
-                                } else if controller.isPersonSearchLoading {
+                                if controller.isPersonSearchLoading {
                                     LoadingList()
                                 } else if controller.personItems.isEmpty {
                                     VStack {
@@ -114,7 +112,7 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
-                                } else {
+                                } else if !controller.isPersonLoadingError {
                                     ForEach(controller.personItems, id: \.id) { item in
                                         NavigationLink {
                                             PersonDetailsView(id: item.id)
@@ -131,6 +129,8 @@ struct SearchView: View {
                                         }
                                         .padding(5)
                                     }
+                                } else {
+                                    ErrorView(refresh: { await controller.search(searchText) })
                                 }
                             }
                         } footer: {
@@ -271,6 +271,9 @@ struct SearchView: View {
                         controller.characterItems = []
                         controller.personItems = []
                     }
+                }
+                .task {
+                    await controller.refresh()
                 }
                 .onChange(of: isPresented) {
                     controller.animeItems = []

@@ -23,10 +23,9 @@ struct SearchView: View {
                     if isPresented {
                         Section {
                             if controller.type == .anime {
-                                ForEach(controller.animeItems, id: \.id) { item in
-                                    AnimeListItem(anime: item)
-                                }
-                                if controller.isAnimeSearchLoading {
+                                if controller.isAnimeLoadingError {
+                                    ErrorView(refresh: { await controller.search(searchText) })
+                                } else if controller.isAnimeSearchLoading {
                                     LoadingList()
                                 } else if controller.animeItems.isEmpty {
                                     VStack {
@@ -39,12 +38,15 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
+                                } else {
+                                    ForEach(controller.animeItems, id: \.id) { item in
+                                        AnimeListItem(anime: item)
+                                    }
                                 }
                             } else if controller.type == .manga {
-                                ForEach(controller.mangaItems, id: \.id) { item in
-                                    MangaListItem(manga: item)
-                                }
-                                if controller.isMangaSearchLoading {
+                                if controller.isMangaLoadingError {
+                                    ErrorView(refresh: { await controller.search(searchText) })
+                                } else if controller.isMangaSearchLoading {
                                     LoadingList()
                                 } else if controller.mangaItems.isEmpty {
                                     VStack {
@@ -57,6 +59,78 @@ struct SearchView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 40)
+                                } else {
+                                    ForEach(controller.mangaItems, id: \.id) { item in
+                                        MangaListItem(manga: item)
+                                    }
+                                }
+                            } else if controller.type == .character {
+                                if controller.isCharacterLoadingError {
+                                    ErrorView(refresh: { await controller.search(searchText) })
+                                } else if controller.isCharacterSearchLoading {
+                                    LoadingList()
+                                } else if controller.characterItems.isEmpty {
+                                    VStack {
+                                        Image(systemName: "magnifyingglass")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .padding(.bottom, 10)
+                                        Text("Nothing found")
+                                            .bold()
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.vertical, 40)
+                                } else {
+                                    ForEach(controller.characterItems, id: \.id) { item in
+                                        NavigationLink {
+                                            CharacterDetailsView(id: item.id)
+                                        } label: {
+                                            HStack {
+                                                ImageFrame(id: "character\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .small)
+                                                VStack(alignment: .leading) {
+                                                    Text(item.name ?? "")
+                                                        .bold()
+                                                        .font(.system(size: 16))
+                                                }
+                                                .padding(5)
+                                            }
+                                        }
+                                        .padding(5)
+                                    }
+                                }
+                            } else if controller.type == .person {
+                                if controller.isPersonLoadingError {
+                                    ErrorView(refresh: { await controller.search(searchText) })
+                                } else if controller.isPersonSearchLoading {
+                                    LoadingList()
+                                } else if controller.personItems.isEmpty {
+                                    VStack {
+                                        Image(systemName: "magnifyingglass")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .padding(.bottom, 10)
+                                        Text("Nothing found")
+                                            .bold()
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.vertical, 40)
+                                } else {
+                                    ForEach(controller.personItems, id: \.id) { item in
+                                        NavigationLink {
+                                            PersonDetailsView(id: item.id)
+                                        } label: {
+                                            HStack {
+                                                ImageFrame(id: "person\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .small)
+                                                VStack(alignment: .leading) {
+                                                    Text(item.name ?? "")
+                                                        .bold()
+                                                        .font(.system(size: 16))
+                                                }
+                                                .padding(5)
+                                            }
+                                        }
+                                        .padding(5)
+                                    }
                                 }
                             }
                         } footer: {
@@ -194,15 +268,15 @@ struct SearchView: View {
                     } else {
                         controller.animeItems = []
                         controller.mangaItems = []
+                        controller.characterItems = []
+                        controller.personItems = []
                     }
-                }
-                .task {
-                    await controller.refresh()
                 }
                 .onChange(of: isPresented) {
                     controller.animeItems = []
                     controller.mangaItems = []
-                    controller.type = .anime
+                    controller.characterItems = []
+                    controller.personItems = []
                 }
                 if isPresented {
                     ZStack {
@@ -211,9 +285,13 @@ struct SearchView: View {
                             .foregroundColor(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                         Picker(selection: $controller.type, label: EmptyView()) {
                             Text("Anime")
-                                .tag(TypeEnum.anime)
+                                .tag(SearchEnum.anime)
                             Text("Manga")
-                                .tag(TypeEnum.manga)
+                                .tag(SearchEnum.manga)
+                            Text("Character")
+                                .tag(SearchEnum.character)
+                            Text("Person")
+                                .tag(SearchEnum.person)
                         }
                         .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
                         .pickerStyle(.segmented)

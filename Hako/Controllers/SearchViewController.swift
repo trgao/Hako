@@ -6,16 +6,29 @@
 //
 
 import Foundation
+import Retry
 
 @MainActor
 class SearchViewController: ObservableObject {
     // Anime search list variables
     @Published var animeItems = [MALListAnime]()
     @Published var isAnimeSearchLoading = false
+    @Published var isAnimeLoadingError = false
     
     // Manga search list variables
     @Published var mangaItems = [MALListManga]()
     @Published var isMangaSearchLoading = false
+    @Published var isMangaLoadingError = false
+    
+    // Character search list variables
+    @Published var characterItems = [JikanListItem]()
+    @Published var isCharacterSearchLoading = false
+    @Published var isCharacterLoadingError = false
+    
+    // Person search list variables
+    @Published var personItems = [JikanListItem]()
+    @Published var isPersonSearchLoading = false
+    @Published var isPersonLoadingError = false
     
     // Non-search page list variables
     @Published var animeSuggestions = [MALListAnime]()
@@ -25,58 +38,96 @@ class SearchViewController: ObservableObject {
     @Published var topPopularManga = [MALListManga]()
     
     // Common variables
-    @Published var isLoadingError = false
-    @Published var type: TypeEnum = .anime
+    @Published var type: SearchEnum = .anime
     let networker = NetworkManager.shared
     
-    func refresh() async -> Void {
-        if networker.isSignedIn && self.animeSuggestions.isEmpty {
-            let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
-            self.animeSuggestions = animeSuggestions ?? []
-        }
-        if self.topAiringAnime.isEmpty {
-            let topAiringAnime = try? await networker.getAnimeTopAiringList()
-            self.topAiringAnime = topAiringAnime ?? []
-        }
-        if self.topUpcomingAnime.isEmpty {
-            let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
-            self.topUpcomingAnime = topUpcomingAnime ?? []
-        }
-        if self.topPopularAnime.isEmpty {
-            let topPopularAnime = try? await networker.getAnimeTopPopularList()
-            self.topPopularAnime = topPopularAnime ?? []
-        }
-        if self.topPopularManga.isEmpty {
-            let topPopularManga = try? await networker.getMangaTopPopularList()
-            self.topPopularManga = topPopularManga ?? []
+    init() {
+        Task {
+            if networker.isSignedIn && self.animeSuggestions.isEmpty {
+                try? await retry {
+                    let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
+                    self.animeSuggestions = animeSuggestions ?? []
+                }
+            }
+            if self.topAiringAnime.isEmpty {
+                try? await retry {
+                    let topAiringAnime = try? await networker.getAnimeTopAiringList()
+                    self.topAiringAnime = topAiringAnime ?? []
+                }
+            }
+            if self.topUpcomingAnime.isEmpty {
+                try? await retry {
+                    let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
+                    self.topUpcomingAnime = topUpcomingAnime ?? []
+                }
+            }
+            if self.topPopularAnime.isEmpty {
+                try? await retry {
+                    let topPopularAnime = try? await networker.getAnimeTopPopularList()
+                    self.topPopularAnime = topPopularAnime ?? []
+                }
+            }
+            if self.topPopularManga.isEmpty {
+                try? await retry {
+                    let topPopularManga = try? await networker.getMangaTopPopularList()
+                    self.topPopularManga = topPopularManga ?? []
+                }
+            }
         }
     }
     
-    // Search for the anime/manga with the title
-    func search(_ title: String) async -> Void {
-        // Search anime
-        isLoadingError = false
-        isAnimeSearchLoading = true
-        animeItems = []
-        do {
-            let animeList = try await networker.searchAnime(anime: title)
-            animeItems = animeList
-        } catch {
-            isLoadingError = true
+    // Search for the anime/manga with the name
+    func search(_ name: String) async -> Void {
+        Task {
+            // Search anime
+            isAnimeLoadingError = false
+            isAnimeSearchLoading = true
+            do {
+                let animeList = try await networker.searchAnime(anime: name)
+                animeItems = animeList
+            } catch {
+                isAnimeLoadingError = true
+            }
+            isAnimeSearchLoading = false
         }
-        isAnimeSearchLoading = false
         
         // Search manga
-        isLoadingError = false
-        isMangaSearchLoading = true
-        mangaItems = []
-        do {
-            let mangaList = try await networker.searchManga(manga: title)
-            mangaItems = mangaList
-        } catch {
-            isLoadingError = true
+        Task {
+            isMangaLoadingError = false
+            isMangaSearchLoading = true
+            do {
+                let mangaList = try await networker.searchManga(manga: name)
+                mangaItems = mangaList
+            } catch {
+                isMangaLoadingError = true
+            }
+            isMangaSearchLoading = false
         }
-        isMangaSearchLoading = false
+        
+        // Search character
+        Task {
+            isCharacterLoadingError = false
+            isCharacterSearchLoading = true
+            do {
+                let characterList = try await networker.searchCharacter(character: name)
+                characterItems = characterList
+            } catch {
+                isCharacterLoadingError = true
+            }
+            isCharacterSearchLoading = false
+        }
+        
+        // Search person
+        Task {
+            isPersonLoadingError = false
+            isPersonSearchLoading = true
+            do {
+                let personList = try await networker.searchPerson(person: name)
+                personItems = personList
+            } catch {
+                isPersonLoadingError = true
+            }
+            isPersonSearchLoading = false
+        }
     }
 }
-

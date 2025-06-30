@@ -38,12 +38,10 @@ struct AnimeListItem: View {
                 VStack(alignment: .leading) {
                     if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                         Text(title)
-                            .lineLimit(settings.getLineLimit())
                             .bold()
                             .font(.system(size: 16))
                     } else {
                         Text(anime.node.title)
-                            .lineLimit(settings.getLineLimit())
                             .bold()
                             .font(.system(size: 16))
                     }

@@ -41,37 +41,35 @@ class SearchViewController: ObservableObject {
     @Published var type: SearchEnum = .anime
     let networker = NetworkManager.shared
     
-    init() {
-        Task {
-            if networker.isSignedIn && self.animeSuggestions.isEmpty {
-                try? await retry {
-                    let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
-                    self.animeSuggestions = animeSuggestions ?? []
-                }
+    func refresh() async -> Void {
+        if networker.isSignedIn && self.animeSuggestions.isEmpty {
+            try? await retry {
+                let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
+                self.animeSuggestions = animeSuggestions ?? []
             }
-            if self.topAiringAnime.isEmpty {
-                try? await retry {
-                    let topAiringAnime = try? await networker.getAnimeTopAiringList()
-                    self.topAiringAnime = topAiringAnime ?? []
-                }
+        }
+        if self.topAiringAnime.isEmpty {
+            try? await retry {
+                let topAiringAnime = try? await networker.getAnimeTopAiringList()
+                self.topAiringAnime = topAiringAnime ?? []
             }
-            if self.topUpcomingAnime.isEmpty {
-                try? await retry {
-                    let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
-                    self.topUpcomingAnime = topUpcomingAnime ?? []
-                }
+        }
+        if self.topUpcomingAnime.isEmpty {
+            try? await retry {
+                let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
+                self.topUpcomingAnime = topUpcomingAnime ?? []
             }
-            if self.topPopularAnime.isEmpty {
-                try? await retry {
-                    let topPopularAnime = try? await networker.getAnimeTopPopularList()
-                    self.topPopularAnime = topPopularAnime ?? []
-                }
+        }
+        if self.topPopularAnime.isEmpty {
+            try? await retry {
+                let topPopularAnime = try? await networker.getAnimeTopPopularList()
+                self.topPopularAnime = topPopularAnime ?? []
             }
-            if self.topPopularManga.isEmpty {
-                try? await retry {
-                    let topPopularManga = try? await networker.getMangaTopPopularList()
-                    self.topPopularManga = topPopularManga ?? []
-                }
+        }
+        if self.topPopularManga.isEmpty {
+            try? await retry {
+                let topPopularManga = try? await networker.getMangaTopPopularList()
+                self.topPopularManga = topPopularManga ?? []
             }
         }
     }

@@ -30,10 +30,10 @@ struct ImageFrame: View {
             self.height = 106
         } else if imageSize == .medium {
             self.width = 100
-            self.height = 141
+            self.height = 142
         } else if imageSize == .large {
             self.width = 150
-            self.height = 212
+            self.height = 213
         } else {
             self.fullscreen = true
             self.width = UIScreen.main.bounds.width

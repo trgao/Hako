@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class PersonDetailsViewController: ObservableObject {
     @Published var person: Person?
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var isLoadingError = false
     private let id: Int
     let networker = NetworkManager.shared

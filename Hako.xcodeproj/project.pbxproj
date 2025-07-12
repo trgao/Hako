@@ -62,6 +62,7 @@
 		EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D1B2BDE92A8009992AC /* MALListAnime.swift */; };
 		EE3F1D202BDF4FE2009992AC /* AnimeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */; };
 		EE3F1D242BDF5523009992AC /* AnimeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */; };
+		EE3FAD1B2E22876600CE9CB9 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */; };
 		EE40F56E2BEF936F00BB2E79 /* Trailers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE40F56D2BEF936F00BB2E79 /* Trailers.swift */; };
 		EE429BE02DDB2BEB00D399BA /* SignInSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE429BDF2DDB2BE800D399BA /* SignInSections.swift */; };
 		EE4729E62BF4D503005D17EF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E52BF4D503005D17EF /* User.swift */; };
@@ -242,6 +243,7 @@
 		EE3F1D1B2BDE92A8009992AC /* MALListAnime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALListAnime.swift; sourceTree = "<group>"; };
 		EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsView.swift; sourceTree = "<group>"; };
 		EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsViewController.swift; sourceTree = "<group>"; };
+		EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		EE40F56D2BEF936F00BB2E79 /* Trailers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailers.swift; sourceTree = "<group>"; };
 		EE429BDF2DDB2BE800D399BA /* SignInSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSections.swift; sourceTree = "<group>"; };
 		EE4729E52BF4D503005D17EF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
@@ -927,6 +930,7 @@
 				EEC357902BE3896500DAAB0B /* JikanCharacterDetailsResponse.swift in Sources */,
 				EE8BE62C2DFDD13200D09F46 /* MangaReviews.swift in Sources */,
 				EE135DFB2E053D0C00F02638 /* ScrollViewNavigationLink.swift in Sources */,
+				EE3FAD1B2E22876600CE9CB9 /* ImageSaver.swift in Sources */,
 				EE960E9B2DD3A2CC00E4EDC9 /* MangaStatistics.swift in Sources */,
 				EE91BE682BFCB4E8002AC6C4 /* AnimePosition.swift in Sources */,
 				EE3A59BE2BD21EE5009E9F79 /* Anime.swift in Sources */,

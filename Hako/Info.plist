@@ -28,30 +28,32 @@
 			<false/>
 		</dict>
 	</dict>
-    <key>CFBundleIcons~ipad</key>
-    <dict>
-        <key>CFBundleAlternateIcons</key>
-        <dict>
-            <key>AltAppIcon</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>AltAppIcon</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-        </dict>
-        <key>CFBundlePrimaryIcon</key>
-        <dict>
-            <key>CFBundleIconFiles</key>
-            <array>
-                <string>AppIcon</string>
-            </array>
-            <key>UIPrerenderedIcon</key>
-            <false/>
-        </dict>
-    </dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>AltAppIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AltAppIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AppIcon</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>The app needs access to photo library to save images</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

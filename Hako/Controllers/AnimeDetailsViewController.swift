@@ -17,7 +17,7 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var relatedItems = [RelatedItem]()
     @Published var reviews = [Review]()
     @Published var statistics: AnimeStats?
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var isLoadingError = false
     private let id: Int
     let networker = NetworkManager.shared

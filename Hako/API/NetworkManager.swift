@@ -504,7 +504,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getSeasonAnimeList(season: String, year: Int, page: Int) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season)?fields=alternative_titles,start_season&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season)?nsfw=true&fields=alternative_titles,start_season&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
     }
     
@@ -539,7 +539,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeDetails(id: Int) async throws -> Anime {
-        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,recommendations{alternative_titles}", type: Anime.self)
+        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles}", type: Anime.self)
         return response
     }
     
@@ -605,7 +605,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getMangaDetails(id: Int) async throws -> Manga {
-        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,recommendations{alternative_titles}", type: Manga.self)
+        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles}", type: Manga.self)
         return response
     }
     

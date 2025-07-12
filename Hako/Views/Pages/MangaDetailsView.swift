@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MangaDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
+    @Namespace private var transitionNamespace
     @StateObject private var controller: MangaDetailsViewController
     @StateObject private var networker = NetworkManager.shared
     @State private var isEditViewPresented = false
+    @State private var isPicturesPresented = false
     @State private var isRefresh = false
     private let id: Int
     private let url: URL
@@ -30,7 +32,20 @@ struct MangaDetailsView: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
+                            if #available(iOS 18.0, *) {
+                                Button {
+                                    isPicturesPresented = true
+                                } label: {
+                                    ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
+                                }
+                                .matchedTransitionSource(id: "pictures", in: transitionNamespace)
+                            } else {
+                                Button {
+                                    isPicturesPresented = true
+                                } label: {
+                                    ImageFrame(id: "manga\(manga.id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .large)
+                                }
+                            }
                             TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
                             HStack {
                                 VStack {
@@ -118,6 +133,14 @@ struct MangaDetailsView: View {
         }
         .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(isPresented: $isPicturesPresented) {
+            if #available(iOS 18.0, *) {
+                ImageCarousel(pictures: controller.manga?.pictures)
+                    .navigationTransition(.zoom(sourceID: "pictures", in: transitionNamespace))
+            } else {
+                ImageCarousel(pictures: controller.manga?.pictures)
+            }
+        }
         .toolbar {
             if networker.isSignedIn && !settings.useWithoutAccount {
                 if let manga = controller.manga {

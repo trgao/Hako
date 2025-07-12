@@ -136,6 +136,8 @@
 		EEB905DB2DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */; };
 		EEB905DC2DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */; };
 		EEBBB1042DF463F200BA6F8B /* TitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBBB1032DF463F200BA6F8B /* TitleText.swift */; };
+		EEBC7B182E2248BC00AF83BB /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B172E2248B900AF83BB /* Picture.swift */; };
+		EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */; };
 		EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */; };
 		EEC1B8FC2BF12413001E08C4 /* MangaListStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */; };
 		EEC1B9022BF1266B001E08C4 /* ListCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */; };
@@ -313,6 +315,8 @@
 		EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x~ipad.png"; sourceTree = "<group>"; };
 		EEB905D82DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x~ipad.png"; sourceTree = "<group>"; };
 		EEBBB1032DF463F200BA6F8B /* TitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleText.swift; sourceTree = "<group>"; };
+		EEBC7B172E2248B900AF83BB /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
+		EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarousel.swift; sourceTree = "<group>"; };
 		EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailsViewController.swift; sourceTree = "<group>"; };
 		EEC1B8FB2BF12413001E08C4 /* MangaListStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListStatus.swift; sourceTree = "<group>"; };
 		EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCharacter.swift; sourceTree = "<group>"; };
@@ -658,6 +662,7 @@
 			children = (
 				EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */,
 				EE9A89152BEF35A10048DD73 /* MainPicture.swift */,
+				EEBC7B172E2248B900AF83BB /* Picture.swift */,
 				EE3A59C32BD23BDC009E9F79 /* Images.swift */,
 				EEDB8FE22BEBCD2B00EAA985 /* Related.swift */,
 				EE3A59D42BD24405009E9F79 /* Theme.swift */,
@@ -683,6 +688,7 @@
 		EE6F33DC2DDC80B5009DED2B /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */,
 				EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */,
 				EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */,
 			);
@@ -987,6 +993,7 @@
 				EEC3579A2BE38EAC00DAAB0B /* Mangaography.swift in Sources */,
 				EEC435992DFEAB6D00F36789 /* Media.swift in Sources */,
 				EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */,
+				EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */,
 				EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */,
 				EE960E8B2DD3945200E4EDC9 /* AnimeStatistics.swift in Sources */,
 				EE3A59B12BD21707009E9F79 /* TopView.swift in Sources */,
@@ -1003,6 +1010,7 @@
 				EEDBDB672C075BAF00F2E821 /* DebouncedState.swift in Sources */,
 				EE3B40152DD4AFE9000846A1 /* MangaCharacters.swift in Sources */,
 				EE91BE572BFCAA28002AC6C4 /* PersonDetailsView.swift in Sources */,
+				EEBC7B182E2248BC00AF83BB /* Picture.swift in Sources */,
 				EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */,
 				EE937B912BE8CE9700E5F0BE /* MALMangaListResponse.swift in Sources */,
 				EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */,

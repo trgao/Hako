@@ -11,6 +11,7 @@ struct Anime: Codable, Identifiable {
     let id: Int
     let title: String
     let mainPicture: MainPicture?
+    let pictures: [Picture]
     let alternativeTitles: AlternativeTitles?
     let startDate: Date?
     let endDate: Date?

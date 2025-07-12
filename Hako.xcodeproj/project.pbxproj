@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE00FE062E2292CA001A3836 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00FE052E2292C8001A3836 /* ViewExtension.swift */; };
 		EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02C1292DD44BA400CB041C /* ZoomTransition.swift */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
@@ -190,6 +191,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE00FE052E2292C8001A3836 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
@@ -958,6 +961,7 @@
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
 				EEFEFD4C2BF3527D00200AF1 /* Recommendations.swift in Sources */,
 				EE3A59B82BD21CA1009E9F79 /* NetworkManager.swift in Sources */,
+				EE00FE062E2292CA001A3836 /* ViewExtension.swift in Sources */,
 				EE40F56E2BEF936F00BB2E79 /* Trailers.swift in Sources */,
 				EECC38302BFA14EB0063A891 /* JikanStaffsListResponse.swift in Sources */,
 				EEB7DE622E0D29F000A2C8CC /* RandomMangaView.swift in Sources */,

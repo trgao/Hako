@@ -13,83 +13,6 @@ struct GeneralView: View {
     @State private var isAuthenticationError = false
     let networker = NetworkManager.shared
     
-    var animeDetails: some View {
-        List {
-            if networker.isSignedIn {
-                Toggle(isOn: $settings.hideAnimeProgress) {
-                    Text("Hide watch progress")
-                }
-            }
-            Toggle(isOn: $settings.hideAnimeInformation) {
-                Text("Hide anime information")
-            }
-            Toggle(isOn: $settings.hideAiringSchedule) {
-                Text("Hide airing schedule")
-            }
-            Toggle(isOn: $settings.hideTrailers) {
-                Text("Hide trailers")
-            }
-            Toggle(isOn: $settings.hideAnimeCharacters) {
-                Text("Hide characters")
-            }
-            Toggle(isOn: $settings.hideStaffs) {
-                Text("Hide staffs")
-            }
-            Toggle(isOn: $settings.hideAnimeRelated) {
-                Text("Hide related")
-            }
-            if networker.isSignedIn {
-                Toggle(isOn: $settings.hideAnimeRecommendations) {
-                    Text("Hide recommendations")
-                }
-            }
-            Toggle(isOn: $settings.hideThemeSongs) {
-                Text("Hide theme songs")
-            }
-            Toggle(isOn: $settings.hideAnimeReviews) {
-                Text("Hide reviews")
-            }
-            Toggle(isOn: $settings.hideAnimeStatistics) {
-                Text("Hide statistics")
-            }
-        }
-        .navigationTitle("Anime details")
-    }
-    
-    var mangaDetails: some View {
-        List {
-            if networker.isSignedIn {
-                Toggle(isOn: $settings.hideMangaProgress) {
-                    Text("Hide read progress")
-                }
-            }
-            Toggle(isOn: $settings.hideMangaInformation) {
-                Text("Hide manga information")
-            }
-            Toggle(isOn: $settings.hideMangaCharacters) {
-                Text("Hide characters")
-            }
-            Toggle(isOn: $settings.hideAuthors) {
-                Text("Hide authors")
-            }
-            Toggle(isOn: $settings.hideMangaRelated) {
-                Text("Hide related")
-            }
-            if networker.isSignedIn {
-                Toggle(isOn: $settings.hideMangaRecommendations) {
-                    Text("Hide recommendations")
-                }
-            }
-            Toggle(isOn: $settings.hideMangaReviews) {
-                Text("Hide reviews")
-            }
-            Toggle(isOn: $settings.hideMangaStatistics) {
-                Text("Hide statistics")
-            }
-        }
-        .navigationTitle("Manga details")
-    }
-    
     var body: some View {
         List {
             Section("General") {
@@ -140,7 +63,7 @@ struct GeneralView: View {
                             }
                         }
                     )) {
-                        Text("Use Face ID to lock anime and manga list")
+                        Text("Use Face ID to lock app")
                     }
                 }
             }

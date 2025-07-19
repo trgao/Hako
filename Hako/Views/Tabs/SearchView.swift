@@ -189,20 +189,41 @@ struct SearchView: View {
                                         }
                                     }
                                 }
-                                if !settings.hideTopUpcoming {
-                                    if controller.topUpcomingAnime.isEmpty {
-                                        LoadingCarousel(title: "Top upcoming")
+                                if !settings.hideNewlyAddedAnime {
+                                    if controller.newlyAddedAnime.isEmpty {
+                                        LoadingCarousel(title: "Newly added anime")
                                     } else {
                                         VStack {
-                                            Text("Top upcoming")
+                                            Text("Newly added anime")
                                                 .bold()
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .padding(.horizontal, 35)
                                                 .font(.system(size: 17))
                                             ScrollView(.horizontal, showsIndicators: false) {
                                                 HStack(alignment: .top) {
-                                                    ForEach(controller.topUpcomingAnime) { item in
-                                                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                    ForEach(controller.newlyAddedAnime) { item in
+                                                        AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl)
+                                                    }
+                                                }
+                                                .padding(.horizontal, 20)
+                                            }
+                                        }
+                                    }
+                                }
+                                if !settings.hideNewlyAddedManga {
+                                    if controller.newlyAddedManga.isEmpty {
+                                        LoadingCarousel(title: "Newly added manga")
+                                    } else {
+                                        VStack {
+                                            Text("Newly added manga")
+                                                .bold()
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.horizontal, 35)
+                                                .font(.system(size: 17))
+                                            ScrollView(.horizontal, showsIndicators: false) {
+                                                HStack(alignment: .top) {
+                                                    ForEach(controller.newlyAddedManga) { item in
+                                                        AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl)
                                                     }
                                                 }
                                                 .padding(.horizontal, 20)

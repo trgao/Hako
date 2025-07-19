@@ -34,6 +34,8 @@ class SearchViewController: ObservableObject {
     @Published var animeSuggestions = [MALListAnime]()
     @Published var topAiringAnime = [MALListAnime]()
     @Published var topUpcomingAnime = [MALListAnime]()
+    @Published var newlyAddedAnime = [JikanListItem]()
+    @Published var newlyAddedManga = [JikanListItem]()
     @Published var topPopularAnime = [MALListAnime]()
     @Published var topPopularManga = [MALListManga]()
     
@@ -43,33 +45,86 @@ class SearchViewController: ObservableObject {
     
     func refresh() async -> Void {
         if networker.isSignedIn && self.animeSuggestions.isEmpty {
-            try? await retry {
-                let animeSuggestions = try? await networker.getUserAnimeSuggestionList()
-                self.animeSuggestions = animeSuggestions ?? []
+            do {
+                try await retry {
+                    self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
+                }
+            } catch {
+                print("Some unknown error occurred loading anime suggestions")
             }
         }
         if self.topAiringAnime.isEmpty {
-            try? await retry {
-                let topAiringAnime = try? await networker.getAnimeTopAiringList()
-                self.topAiringAnime = topAiringAnime ?? []
+            do {
+                try await retry {
+                    self.topAiringAnime = try await networker.getAnimeTopAiringList()
+                }
+            } catch {
+                print("Some unknown error occurred loading anime top airing")
             }
         }
         if self.topUpcomingAnime.isEmpty {
-            try? await retry {
-                let topUpcomingAnime = try? await networker.getAnimeTopUpcomingList()
-                self.topUpcomingAnime = topUpcomingAnime ?? []
+            do {
+                try await retry {
+                    self.topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
+                }
+            } catch {
+                print("Some unknown error occurred loading anime top upcoming")
+            }
+        }
+        if self.newlyAddedAnime.isEmpty {
+            do {
+                try await retry {
+                    var ids: Set<Int> = []
+                    let newlyAddedAnime = try await networker.getAnimeNewlyAddedList()
+                    for item in newlyAddedAnime {
+                        if self.newlyAddedAnime.count == 10 {
+                            break
+                        }
+                        if !ids.contains(item.id) {
+                            ids.insert(item.id)
+                            self.newlyAddedAnime.append(item)
+                        }
+                    }
+                }
+            } catch {
+                print("Some unknown error occurred loading anime newly added")
+            }
+        }
+        if self.newlyAddedManga.isEmpty {
+            do {
+                try await retry {
+                    var ids: Set<Int> = []
+                    let newlyAddedManga = try await networker.getMangaNewlyAddedList()
+                    for item in newlyAddedManga {
+                        if self.newlyAddedManga.count == 10 {
+                            break
+                        }
+                        if !ids.contains(item.id) {
+                            ids.insert(item.id)
+                            self.newlyAddedManga.append(item)
+                        }
+                    }
+                }
+            } catch {
+                print("Some unknown error occurred loading manga newly added")
             }
         }
         if self.topPopularAnime.isEmpty {
-            try? await retry {
-                let topPopularAnime = try? await networker.getAnimeTopPopularList()
-                self.topPopularAnime = topPopularAnime ?? []
+            do {
+                try await retry {
+                    self.topPopularAnime = try await networker.getAnimeTopPopularList()
+                }
+            } catch {
+                print("Some unknown error occurred loading anime top popular")
             }
         }
         if self.topPopularManga.isEmpty {
-            try? await retry {
-                let topPopularManga = try? await networker.getMangaTopPopularList()
-                self.topPopularManga = topPopularManga ?? []
+            do {
+                try await retry {
+                    self.topPopularManga = try await networker.getMangaTopPopularList()
+                }
+            } catch {
+                print("Some unknown error occurred loading manga top popular")
             }
         }
     }

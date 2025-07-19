@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 
 struct MyListView: View {
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
@@ -27,6 +28,9 @@ struct MyListView: View {
     @State private var mangaStatus: MangaListStatus?
     
     func authenticate() {
+        guard settings.useFaceID else {
+            return
+        }
         let context = LAContext()
         var error: NSError?
 
@@ -288,6 +292,14 @@ struct MyListView: View {
         }
         .onAppear {
             authenticate()
+        }
+        .onDisappear {
+            isUnlocked = false
+        }
+        .onChange(of: scenePhase) { prev, cur in
+            if cur == .background {
+                isUnlocked = false
+            }
         }
     }
 }

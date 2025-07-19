@@ -11,7 +11,6 @@ import LocalAuthentication
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var isAuthenticationError = false
-    private let context = LAContext()
     let networker = NetworkManager.shared
     
     var animeDetails: some View {
@@ -117,9 +116,10 @@ struct GeneralView: View {
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
             }
-            Section("Privacy") {
-                var error: NSError?
-                if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let context = LAContext()
+            var error: NSError?
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                Section("Privacy") {
                     Toggle(isOn: Binding(
                         get: { settings.useFaceID },
                         set: { value in

@@ -10,16 +10,17 @@ import Foundation
 
 @MainActor
 class ImageFrameController: ObservableObject {
-    @Published var image: Data?
-    private let isProfile: Bool
+    @Published var image: UIImage?
     let networker = NetworkManager.shared
     
     init(id: String, imageUrl: String?, isProfile: Bool = false) {
-        self.isProfile = isProfile
         Task {
-            self.image = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
-            if let image = self.image, isProfile {
-                UserDefaults.standard.set(image, forKey: "userImage")
+            let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
+            if let data = data {
+                self.image = UIImage(data: data)
+                if isProfile {
+                    UserDefaults.standard.set(data, forKey: "userImage")
+                }
             }
         }
     }

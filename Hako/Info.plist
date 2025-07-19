@@ -54,6 +54,8 @@
 	</dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>The app needs access to photo library to save images</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>The app needs Face ID to lock user anime and manga list</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

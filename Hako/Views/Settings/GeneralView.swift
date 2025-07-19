@@ -113,6 +113,9 @@ struct GeneralView: View {
                 }
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
+                Toggle(isOn: $settings.useFaceID) {
+                    Text("Use Face ID to lock anime and manga list")
+                }
             }
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {

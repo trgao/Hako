@@ -283,6 +283,7 @@ struct MyListView: View {
                 Button("Unlock") {
                     authenticate()
                 }
+                .buttonStyle(.borderedProminent)
             }
         }
         .onAppear {

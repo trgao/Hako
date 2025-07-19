@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
+    @State private var isAuthenticationError = false
     let networker = NetworkManager.shared
     
     var animeDetails: some View {
@@ -113,8 +115,29 @@ struct GeneralView: View {
                 }
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
-                Toggle(isOn: $settings.useFaceID) {
-                    Text("Use Face ID to lock anime and manga list")
+                
+                let context = LAContext()
+                var error: NSError?
+
+                if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                    Toggle(isOn: Binding(
+                        get: { settings.useFaceID },
+                        set: { value in
+                            let reason = "Face ID is required to change settings"
+                            
+                            if !value {
+                                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                                    if success {
+                                        settings.useFaceID = false
+                                    } else {
+                                        isAuthenticationError = true
+                                    }
+                                }
+                            }
+                        }
+                    )) {
+                        Text("Use Face ID to lock anime and manga list")
+                    }
                 }
             }
             Section("Grid view") {
@@ -168,6 +191,9 @@ struct GeneralView: View {
                     mangaDetails
                 }
             }
+        }
+        .alert("Unable to change settings", isPresented: $isAuthenticationError) {
+            Button("Ok") {}
         }
     }
 }

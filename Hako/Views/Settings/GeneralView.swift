@@ -128,11 +128,15 @@ struct GeneralView: View {
                             if !value {
                                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
                                     if success {
-                                        settings.useFaceID = false
+                                        DispatchQueue.main.async {
+                                            settings.useFaceID = false
+                                        }
                                     } else {
                                         isAuthenticationError = true
                                     }
                                 }
+                            } else {
+                                settings.useFaceID = true
                             }
                         }
                     )) {

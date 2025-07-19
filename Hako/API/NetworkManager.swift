@@ -475,6 +475,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
+    func getAnimeNewlyAddedList() async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/anime?order_by=mal_id&sort=desc&limit=20", type: JikanListResponse.self)
+        return response.data
+    }
+    
+    func getMangaNewlyAddedList() async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/manga?order_by=mal_id&sort=desc&limit=20", type: JikanListResponse.self)
+        return response.data
+    }
+    
     func getAnimeTopPopularList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=bypopularity&limit=10&fields=alternative_titles", type: MALAnimeListResponse.self)
         return response.data

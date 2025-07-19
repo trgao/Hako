@@ -63,80 +63,90 @@ class AnimeDetailsViewController: ObservableObject {
         }
         
         // Load characters
-        do {
-            try await retry {
-                if let characters = networker.animeCharactersCache[id] {
-                    self.characters = characters
-                } else {
-                    let characters = try await networker.getAnimeCharacters(id: id)
-                    self.characters = characters
-                    networker.animeCharactersCache[id] = characters
+        Task {
+            do {
+                try await retry {
+                    if let characters = networker.animeCharactersCache[id] {
+                        self.characters = characters
+                    } else {
+                        let characters = try await networker.getAnimeCharacters(id: id)
+                        self.characters = characters
+                        networker.animeCharactersCache[id] = characters
+                    }
                 }
+            } catch {
+                print("Some unknown error occurred loading anime characters")
             }
-        } catch {
-            print("Some unknown error occurred loading anime characters")
         }
         
         // Load staffs
-        do {
-            try await retry {
-                if let staffs = networker.animeStaffsCache[id] {
-                    self.staffs = staffs
-                } else {
-                    let staffs = try await networker.getAnimeStaff(id: id)
-                    self.staffs = staffs
-                    networker.animeStaffsCache[id] = staffs
+        Task {
+            do {
+                try await retry {
+                    if let staffs = networker.animeStaffsCache[id] {
+                        self.staffs = staffs
+                    } else {
+                        let staffs = try await networker.getAnimeStaff(id: id)
+                        self.staffs = staffs
+                        networker.animeStaffsCache[id] = staffs
+                    }
                 }
+            } catch {
+                print("Some unknown error occurred loading anime staffs")
             }
-        } catch {
-            print("Some unknown error occurred loading anime staffs")
         }
         
         // Load related
-        do {
-            try await retry {
-                if let relatedItems = networker.animeRelatedCache[id] {
-                    self.relatedItems = relatedItems
-                } else {
-                    let relations = try await networker.getAnimeRelations(id: id)
-                    var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, enTitle: nil, url: $0.url, relation: category.relation, imageUrl: nil) } }
-                    relatedItems = try await relatedItems.concurrentMap { item in
-                        var newItem = item
-                        if item.type == .anime {
-                            let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
-                            newItem.imageUrl = anime.mainPicture?.large
-                            newItem.enTitle = anime.alternativeTitles?.en
-                        } else if item.type == .manga {
-                            let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
-                            newItem.imageUrl = manga.mainPicture?.large
-                            newItem.enTitle = manga.alternativeTitles?.en
+        Task {
+            do {
+                try await retry {
+                    if let relatedItems = networker.animeRelatedCache[id] {
+                        self.relatedItems = relatedItems
+                    } else {
+                        let relations = try await networker.getAnimeRelations(id: id)
+                        var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, enTitle: nil, url: $0.url, relation: category.relation, imageUrl: nil) } }
+                        relatedItems = try await relatedItems.concurrentMap { item in
+                            var newItem = item
+                            if item.type == .anime {
+                                let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
+                                newItem.imageUrl = anime.mainPicture?.large
+                                newItem.enTitle = anime.alternativeTitles?.en
+                            } else if item.type == .manga {
+                                let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
+                                newItem.imageUrl = manga.mainPicture?.large
+                                newItem.enTitle = manga.alternativeTitles?.en
+                            }
+                            return newItem
                         }
-                        return newItem
+                        self.relatedItems = relatedItems
+                        networker.animeRelatedCache[id] = relatedItems
                     }
-                    self.relatedItems = relatedItems
-                    networker.animeRelatedCache[id] = relatedItems
                 }
+            } catch {
+                print("Some unknown error occurred loading anime related items")
             }
-        } catch {
-            print("Some unknown error occurred loading anime related items")
         }
         
         // Load reviews
-        do {
-            try await retry {
-                self.reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
+        Task {
+            do {
+                try await retry {
+                    self.reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
+                }
+            } catch {
+                print("Some unknown error occurred loading anime reviews")
             }
-        } catch {
-            print("Some unknown error occurred loading anime reviews")
         }
         
         // Load statistics
-        do {
-            try await retry {
-                self.statistics = try await networker.getAnimeStatistics(id: id)
+        Task {
+            do {
+                try await retry {
+                    self.statistics = try await networker.getAnimeStatistics(id: id)
+                }
+            } catch {
+                print("Some unknown error occurred loading anime statistics")
             }
-        } catch {
-            print("Some unknown error occurred loading anime statistics")
         }
     }
 }

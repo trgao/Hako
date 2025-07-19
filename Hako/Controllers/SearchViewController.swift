@@ -136,8 +136,7 @@ class SearchViewController: ObservableObject {
             isAnimeLoadingError = false
             isAnimeSearchLoading = true
             do {
-                let animeList = try await networker.searchAnime(anime: name)
-                animeItems = animeList
+                self.animeItems = try await networker.searchAnime(anime: name).filter{ $0.node.rating != "rx" }
             } catch {
                 isAnimeLoadingError = true
             }
@@ -149,8 +148,7 @@ class SearchViewController: ObservableObject {
             isMangaLoadingError = false
             isMangaSearchLoading = true
             do {
-                let mangaList = try await networker.searchManga(manga: name)
-                mangaItems = mangaList
+                self.mangaItems = try await networker.searchManga(manga: name)
             } catch {
                 isMangaLoadingError = true
             }
@@ -162,8 +160,7 @@ class SearchViewController: ObservableObject {
             isCharacterLoadingError = false
             isCharacterSearchLoading = true
             do {
-                let characterList = try await networker.searchCharacter(character: name)
-                characterItems = characterList
+                self.characterItems = try await networker.searchCharacter(character: name)
             } catch {
                 isCharacterLoadingError = true
             }
@@ -175,8 +172,7 @@ class SearchViewController: ObservableObject {
             isPersonLoadingError = false
             isPersonSearchLoading = true
             do {
-                let personList = try await networker.searchPerson(person: name)
-                personItems = personList
+                self.personItems = try await networker.searchPerson(person: name)
             } catch {
                 isPersonLoadingError = true
             }

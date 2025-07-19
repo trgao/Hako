@@ -17,6 +17,7 @@ struct Node: Codable {
     let numVolumes: Int?
     let numChapters: Int?
     let status: String?
+    let rating: String?
 }
 
 struct Ranking: Codable {

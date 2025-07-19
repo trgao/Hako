@@ -11,6 +11,7 @@ import LocalAuthentication
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var isAuthenticationError = false
+    private let context = LAContext()
     let networker = NetworkManager.shared
     
     var animeDetails: some View {
@@ -115,10 +116,9 @@ struct GeneralView: View {
                 }
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
                 PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
-                
-                let context = LAContext()
+            }
+            Section("Privacy") {
                 var error: NSError?
-
                 if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
                     Toggle(isOn: Binding(
                         get: { settings.useFaceID },
@@ -151,33 +151,6 @@ struct GeneralView: View {
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
             }
-            Section("Seasons view") {
-                Toggle(isOn: $settings.hideContinuingSeries) {
-                    Text("Hide continuing series")
-                }
-            }
-            Section("Search view") {
-                Toggle(isOn: $settings.hideRandom) {
-                    Text("Hide random button")
-                }
-                if networker.isSignedIn {
-                    Toggle(isOn: $settings.hideForYou) {
-                        Text("Hide for you")
-                    }
-                }
-                Toggle(isOn: $settings.hideTopAiring) {
-                    Text("Hide top airing")
-                }
-                Toggle(isOn: $settings.hideTopUpcoming) {
-                    Text("Hide top upcoming")
-                }
-                Toggle(isOn: $settings.hideMostPopularAnime) {
-                    Text("Hide most popular anime")
-                }
-                Toggle(isOn: $settings.hideMostPopularManga) {
-                    Text("Hide most popular manga")
-                }
-            }
             if networker.isSignedIn {
                 Section("List view") {
                     Toggle(isOn: $settings.useSwipeActions) {
@@ -185,14 +158,6 @@ struct GeneralView: View {
                         Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
-                }
-            }
-            Section("Details view") {
-                NavigationLink("Anime details") {
-                    animeDetails
-                }
-                NavigationLink("Manga details") {
-                    mangaDetails
                 }
             }
         }

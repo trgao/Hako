@@ -22,34 +22,24 @@ struct SettingsView: View {
                     NavigationLink {
                         GeneralView()
                     } label: {
-                        Label {
-                            Text("General")
-                        } icon: {
-                            Image(systemName: "gear")
-                                .foregroundStyle(.primary)
-                        }
+                        Label("General", systemImage: "gear")
                     }
                     NavigationLink {
                         AppearanceView()
                     } label: {
-                        Label {
-                            Text("Appearance")
-                        } icon: {
-                            Image(systemName: "paintpalette.fill")
-                                .foregroundStyle(.primary)
-                        }
+                        Label("Appearance", systemImage: "paintpalette.fill")
+                    }
+                    NavigationLink {
+                        HideItemsView()
+                    } label: {
+                        Label("Hide items", systemImage: "eye.slash.fill")
                     }
                 }
                 Section {
                     NavigationLink {
                         AboutView()
                     } label: {
-                        Label {
-                            Text("About")
-                        } icon: {
-                            Image(systemName: "info.circle")
-                                .foregroundStyle(.primary)
-                        }
+                        Label("About", systemImage: "info.circle")
                     }
                 }
             }

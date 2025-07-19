@@ -23,9 +23,9 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideRandom") var hideRandom = false
-    @AppStorage("hideForYou") var hideForYou = false
-    @AppStorage("hideTopAiring") var hideTopAiring = false
-    @AppStorage("hideTopUpcoming") var hideTopUpcoming = false
+    @AppStorage("hideAnimeForYou") var hideAnimeForYou = false
+    @AppStorage("hideTopAiringAnime") var hideTopAiringAnime = false
+    @AppStorage("hideTopUpcomingAnime") var hideTopUpcomingAnime = false
     @AppStorage("hideNewlyAddedAnime") var hideNewlyAddedAnime = false
     @AppStorage("hideNewlyAddedManga") var hideNewlyAddedManga = false
     @AppStorage("hideMostPopularAnime") var hideMostPopularAnime = false

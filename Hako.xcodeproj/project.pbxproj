@@ -116,6 +116,7 @@
 		EE9A891E2BEF39790048DD73 /* JikanListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A891D2BEF39790048DD73 /* JikanListItem.swift */; };
 		EE9A89202BEF3C6C0048DD73 /* AlternativeTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */; };
 		EE9A89222BEF46EA0048DD73 /* JikanRelationsListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A89212BEF46EA0048DD73 /* JikanRelationsListResponse.swift */; };
+		EEA237882E2B7FD1005ED3CC /* HideItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA237872E2B7FD1005ED3CC /* HideItemsView.swift */; };
 		EEA5E93F2CEE825B00B2513B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5E93E2CEE825800B2513B /* ImageCache.swift */; };
 		EEA5E9412CEE826900B2513B /* ItemCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5E9402CEE826200B2513B /* ItemCache.swift */; };
 		EEA5E94E2CEE8D4100B2513B /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5E94D2CEE8D3B00B2513B /* GeneralView.swift */; };
@@ -297,6 +298,7 @@
 		EE9A891D2BEF39790048DD73 /* JikanListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanListItem.swift; sourceTree = "<group>"; };
 		EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeTitles.swift; sourceTree = "<group>"; };
 		EE9A89212BEF46EA0048DD73 /* JikanRelationsListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanRelationsListResponse.swift; sourceTree = "<group>"; };
+		EEA237872E2B7FD1005ED3CC /* HideItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideItemsView.swift; sourceTree = "<group>"; };
 		EEA5E93E2CEE825800B2513B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		EEA5E9402CEE826200B2513B /* ItemCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCache.swift; sourceTree = "<group>"; };
 		EEA5E94D2CEE8D3B00B2513B /* GeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralView.swift; sourceTree = "<group>"; };
@@ -794,6 +796,7 @@
 		EEA5E94B2CEE8D1500B2513B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				EEA237872E2B7FD1005ED3CC /* HideItemsView.swift */,
 				EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */,
 				EEA5E94F2CEE95B600B2513B /* ProfileView.swift */,
 				EEA5E94D2CEE8D3B00B2513B /* GeneralView.swift */,
@@ -925,6 +928,7 @@
 				EEB274792C0635F700D6F257 /* MangaEditView.swift in Sources */,
 				EE8B96D12DD097460070DD4E /* MangaGridItem.swift in Sources */,
 				EEA924382DD62A2600FB40A9 /* AppearanceView.swift in Sources */,
+				EEA237882E2B7FD1005ED3CC /* HideItemsView.swift in Sources */,
 				EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */,
 				EECC79622CF142DC00C1C773 /* JikanUserStatisticsResponse.swift in Sources */,
 				EE8BE6302DFDD52600D09F46 /* TagCloudView.swift in Sources */,

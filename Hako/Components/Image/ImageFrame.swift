@@ -43,7 +43,7 @@ struct ImageFrame: View {
     
     var body: some View {
         if fullscreen {
-            if let data = controller.image, let image = UIImage(data: data), settings.translucentBackground {
+            if let image = controller.image, settings.translucentBackground {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
@@ -58,7 +58,7 @@ struct ImageFrame: View {
                     .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
                     .frame(width: width, height: height)
             }
-        } else if let data = controller.image, let image = UIImage(data: data) {
+        } else if let image = controller.image {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()

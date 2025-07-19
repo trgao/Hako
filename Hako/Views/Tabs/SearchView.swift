@@ -147,12 +147,12 @@ struct SearchView: View {
                     if !isPresented {
                         ScrollView {
                             VStack {
-                                if networker.isSignedIn && !settings.hideForYou {
+                                if networker.isSignedIn && !settings.hideAnimeForYou {
                                     if controller.animeSuggestions.isEmpty {
-                                        LoadingCarousel(title: "For you")
+                                        LoadingCarousel(title: "Anime for you")
                                     } else {
                                         VStack {
-                                            Text("For you")
+                                            Text("Anime for you")
                                                 .bold()
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .padding(.horizontal, 35)
@@ -168,12 +168,12 @@ struct SearchView: View {
                                         }
                                     }
                                 }
-                                if !settings.hideTopAiring {
+                                if !settings.hideTopAiringAnime {
                                     if controller.topAiringAnime.isEmpty {
-                                        LoadingCarousel(title: "Top airing")
+                                        LoadingCarousel(title: "Top airing anime")
                                     } else {
                                         VStack {
-                                            Text("Top airing")
+                                            Text("Top airing anime")
                                                 .bold()
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .padding(.horizontal, 35)
@@ -181,6 +181,27 @@ struct SearchView: View {
                                             ScrollView(.horizontal, showsIndicators: false) {
                                                 HStack(alignment: .top) {
                                                     ForEach(controller.topAiringAnime) { item in
+                                                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                                                    }
+                                                }
+                                                .padding(.horizontal, 20)
+                                            }
+                                        }
+                                    }
+                                }
+                                if !settings.hideTopUpcomingAnime {
+                                    if controller.topUpcomingAnime.isEmpty {
+                                        LoadingCarousel(title: "Top upcoming anime")
+                                    } else {
+                                        VStack {
+                                            Text("Top upcoming anime")
+                                                .bold()
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.horizontal, 35)
+                                                .font(.system(size: 17))
+                                            ScrollView(.horizontal, showsIndicators: false) {
+                                                HStack(alignment: .top) {
+                                                    ForEach(controller.topUpcomingAnime) { item in
                                                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
                                                     }
                                                 }

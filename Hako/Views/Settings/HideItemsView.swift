@@ -24,15 +24,21 @@ struct HideItemsView: View {
                     Text("Hide random button")
                 }
                 if networker.isSignedIn {
-                    Toggle(isOn: $settings.hideForYou) {
-                        Text("Hide for you")
+                    Toggle(isOn: $settings.hideAnimeForYou) {
+                        Text("Hide anime for you")
                     }
                 }
-                Toggle(isOn: $settings.hideTopAiring) {
-                    Text("Hide top airing")
+                Toggle(isOn: $settings.hideTopAiringAnime) {
+                    Text("Hide top airing anime")
                 }
-                Toggle(isOn: $settings.hideTopUpcoming) {
-                    Text("Hide top upcoming")
+                Toggle(isOn: $settings.hideTopUpcomingAnime) {
+                    Text("Hide top upcoming anime")
+                }
+                Toggle(isOn: $settings.hideNewlyAddedAnime) {
+                    Text("Hide newly added anime")
+                }
+                Toggle(isOn: $settings.hideNewlyAddedManga) {
+                    Text("Hide newly added manga")
                 }
                 Toggle(isOn: $settings.hideMostPopularAnime) {
                     Text("Hide most popular anime")

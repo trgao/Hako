@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct AnimeMangaToggle: View {
-    @EnvironmentObject private var settings: SettingsManager
     @Environment(\.isEnabled) private var isEnabled
+    @EnvironmentObject private var settings: SettingsManager
     @Binding var type: TypeEnum
     @State private var offset: CGFloat = -17
     private let refresh: () async -> Void

@@ -41,7 +41,7 @@ struct GeneralView: View {
             }
             let context = LAContext()
             var error: NSError?
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
                 Section("Privacy") {
                     Toggle(isOn: Binding(
                         get: { settings.useFaceID },
@@ -49,7 +49,7 @@ struct GeneralView: View {
                             let reason = "Face ID is required to change settings"
                             
                             if !value {
-                                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
                                     if success {
                                         DispatchQueue.main.async {
                                             settings.useFaceID = false

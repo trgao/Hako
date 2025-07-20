@@ -12,28 +12,28 @@ class SeasonsViewController: ObservableObject {
     // Winter season variables
     @Published var winterItems = [MALListAnime]()
     @Published var winterContinuingItems = [MALListAnime]()
-    @Published var isWinterLoading = false
+    @Published var isWinterLoading = true
     @Published var canLoadMoreWinterPages = true
     private var currentWinterPage = 1
     
     // Spring season variables
     @Published var springItems = [MALListAnime]()
     @Published var springContinuingItems = [MALListAnime]()
-    @Published var isSpringLoading = false
+    @Published var isSpringLoading = true
     @Published var canLoadMoreSpringPages = true
     private var currentSpringPage = 1
     
     // Summer season variables
     @Published var summerItems = [MALListAnime]()
     @Published var summerContinuingItems = [MALListAnime]()
-    @Published var isSummerLoading = false
+    @Published var isSummerLoading = true
     @Published var canLoadMoreSummerPages = true
     private var currentSummerPage = 1
     
     // Fall season variables
     @Published var fallItems = [MALListAnime]()
     @Published var fallContinuingItems = [MALListAnime]()
-    @Published var isFallLoading = false
+    @Published var isFallLoading = true
     @Published var canLoadMoreFallPages = true
     private var currentFallPage = 1
     

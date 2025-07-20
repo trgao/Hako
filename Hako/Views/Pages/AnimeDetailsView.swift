@@ -165,7 +165,7 @@ struct AnimeDetailsView: View {
                             await controller.refresh()
                         }
                     } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
+                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, enTitle: anime.alternativeTitles?.en, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
                             .presentationBackground {
                                 ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                             }

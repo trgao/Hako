@@ -1,5 +1,5 @@
 //
-//  AnimeEditView.swift
+//  MangaEditView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 19/5/24.
@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MangaEditView: View {
-    @EnvironmentObject private var settings: SettingsManager
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
     @Binding private var mangaStatus: MangaListStatus?
     @State private var listStatus: MangaListStatus
@@ -18,7 +18,8 @@ struct MangaEditView: View {
     @State private var isEditError = false
     @State private var isLoading = false
     private let id: Int
-    private let title: String
+    private let title: String?
+    private let enTitle: String?
     private let numVolumes: Int?
     private let numChapters: Int?
     private let imageUrl: String?
@@ -37,7 +38,7 @@ struct MangaEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<MangaListStatus?>? = nil) {
+    init(id: Int, listStatus: MangaListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<MangaListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -45,6 +46,7 @@ struct MangaEditView: View {
             self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0, updatedAt: nil)
         }
         self.title = title
+        self.enTitle = enTitle
         self.numVolumes = numVolumes
         self.numChapters = numChapters
         self.imageUrl = imageUrl
@@ -187,10 +189,17 @@ struct MangaEditView: View {
                     ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
                 } subtitle: {
                     VStack {
-                        Text(title)
-                            .bold()
-                            .font(.system(size: 20))
-                            .multilineTextAlignment(.center)
+                        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                            Text(title)
+                                .bold()
+                                .font(.system(size: 20))
+                                .multilineTextAlignment(.center)
+                        } else {
+                            Text(title ?? "")
+                                .bold()
+                                .font(.system(size: 20))
+                                .multilineTextAlignment(.center)
+                        }
                         if let updatedAt = listStatus.updatedAt?.toFullString() {
                             Text("Last updated at: \(updatedAt)")
                                 .font(.system(size: 12))

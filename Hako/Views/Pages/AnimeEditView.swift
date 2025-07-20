@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
     @Binding private var animeStatus: AnimeListStatus?
     @State private var listStatus: AnimeListStatus
@@ -17,7 +18,8 @@ struct AnimeEditView: View {
     @State private var isEditError = false
     @State private var isLoading = false
     private let id: Int
-    private let title: String
+    private let title: String?
+    private let enTitle: String?
     private let numEpisodes: Int?
     private let imageUrl: String?
     private let scoreLabels = [
@@ -35,7 +37,7 @@ struct AnimeEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<AnimeListStatus?>? = nil) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<AnimeListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -43,6 +45,7 @@ struct AnimeEditView: View {
             self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0, updatedAt: nil)
         }
         self.title = title
+        self.enTitle = enTitle
         self.numEpisodes = numEpisodes
         self.imageUrl = imageUrl
         if let isDeleted = isDeleted {
@@ -172,10 +175,17 @@ struct AnimeEditView: View {
                     ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
                 } subtitle: {
                     VStack {
-                        Text(title)
-                            .bold()
-                            .font(.system(size: 20))
-                            .multilineTextAlignment(.center)
+                        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                            Text(title)
+                                .bold()
+                                .font(.system(size: 20))
+                                .multilineTextAlignment(.center)
+                        } else {
+                            Text(title ?? "")
+                                .bold()
+                                .font(.system(size: 20))
+                                .multilineTextAlignment(.center)
+                        }
                         if let updatedAt = listStatus.updatedAt?.toFullString() {
                             Text("Last updated at: \(updatedAt)")
                                 .font(.system(size: 12))

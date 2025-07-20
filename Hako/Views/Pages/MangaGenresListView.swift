@@ -126,6 +126,6 @@ struct MangaGenresListView: View {
                 }
             }
         }
-        .navigationTitle("Explore anime")
+        .navigationTitle("Explore manga")
     }
 }

@@ -42,29 +42,33 @@ struct ProfileView: View {
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
                     }
-                    ScrollViewSection(title: "Anime statistics") {
-                        StatisticsRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
-                        StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
-                        StatisticsRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
-                        StatisticsRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
-                        StatisticsRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
-                        StatisticsRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
-                        StatisticsRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
-                        StatisticsRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
+                    if !settings.hideUserAnimeStatistics {
+                        ScrollViewSection(title: "Anime statistics") {
+                            StatisticsRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
+                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
+                            StatisticsRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
+                            StatisticsRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
+                            StatisticsRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
+                            StatisticsRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
+                            StatisticsRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
+                            StatisticsRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
+                        }
                     }
-                    ScrollViewSection(title: "Manga statistics") {
-                        StatisticsRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
-                        StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
-                        StatisticsRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
-                        StatisticsRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
-                        StatisticsRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
-                        StatisticsRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
-                        StatisticsRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
-                        StatisticsRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
-                        StatisticsRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
+                    if !settings.hideUserMangaStatistics {
+                        ScrollViewSection(title: "Manga statistics") {
+                            StatisticsRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
+                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
+                            StatisticsRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
+                            StatisticsRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
+                            StatisticsRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
+                            StatisticsRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
+                            StatisticsRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
+                            StatisticsRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
+                            StatisticsRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
+                        }
                     }
                     if let userFavourites = controller.userFavourites {
-                        if !controller.anime.isEmpty {
+                        if !controller.anime.isEmpty && !settings.hideUserFavouriteAnime {
                             ScrollViewCarousel(title: "Favourite anime", items: controller.anime) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {
@@ -76,7 +80,7 @@ struct ProfileView: View {
                                 }
                             }
                         }
-                        if !controller.manga.isEmpty {
+                        if !controller.manga.isEmpty && !settings.hideUserFavouriteManga {
                             ScrollViewCarousel(title: "Favourite manga", items: controller.manga) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {
@@ -88,7 +92,7 @@ struct ProfileView: View {
                                 }
                             }
                         }
-                        if !userFavourites.characters.isEmpty {
+                        if !userFavourites.characters.isEmpty && !settings.hideUserFavouriteCharacters {
                             ScrollViewCarousel(title: "Favourite characters", items: userFavourites.characters) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {
@@ -110,7 +114,7 @@ struct ProfileView: View {
                                 }
                             }
                         }
-                        if !userFavourites.people.isEmpty {
+                        if !userFavourites.people.isEmpty && !settings.hideUserFavouritePeople {
                             ScrollViewCarousel(title: "Favourite people", items: userFavourites.people) {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {

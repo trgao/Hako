@@ -12,4 +12,10 @@ struct MALListAnime: Codable, Identifiable {
     let node: Node
     let ranking: Ranking?
     var listStatus: AnimeListStatus?
+    
+    init(anime: Anime) {
+        self.node = .init(id: anime.id, title: anime.title, mainPicture: anime.mainPicture, alternativeTitles: anime.alternativeTitles, startSeason: anime.startSeason, numEpisodes: anime.numEpisodes, numVolumes: nil, numChapters: nil, status: anime.status, rating: anime.rating)
+        self.ranking = .init(rank: anime.rank)
+        self.listStatus = anime.myListStatus
+    }
 }

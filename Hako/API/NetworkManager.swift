@@ -242,6 +242,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
         return response.data
     }
+    
+    func getUserFavourites() async throws -> UserFavourites {
+        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
+        return response.data
+    }
 
     // Sign out user
     func signOut() {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ProfileViewController()
     @State private var isRefresh = false
     @State private var isSigningOut = false
@@ -21,59 +22,143 @@ struct ProfileView: View {
     
     var body: some View {
         ZStack {
-            List {
-                Section {
-                    HStack {
-                        ProfileImage(imageUrl: user.picture, username: user.name, allowExpand: true)
-                        VStack {
-                            Text("Hello, \(user.name ?? "")")
-                                .frame(maxWidth: .infinity)
-                                .font(.system(size: 20))
-                                .bold()
-                            Button("Sign Out") {
-                                isSigningOut = true
+            ScrollView {
+                VStack {
+                    ScrollViewSection(title: "") {
+                        HStack {
+                            ProfileImage(imageUrl: user.picture, username: user.name, allowExpand: true)
+                            VStack {
+                                Text("Hello, \(user.name ?? "")")
+                                    .frame(maxWidth: .infinity)
+                                    .font(.system(size: 20))
+                                    .bold()
+                                Button("Sign Out") {
+                                    isSigningOut = true
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .tint(.red)
                             }
-                            .buttonStyle(.borderedProminent)
-                            .tint(.red)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                    }
+                    ScrollViewSection(title: "Anime statistics") {
+                        StatisticsRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
+                        StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
+                        StatisticsRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
+                        StatisticsRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
+                        StatisticsRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
+                        StatisticsRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
+                        StatisticsRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
+                        StatisticsRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
+                    }
+                    ScrollViewSection(title: "Manga statistics") {
+                        StatisticsRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
+                        StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
+                        StatisticsRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
+                        StatisticsRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
+                        StatisticsRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
+                        StatisticsRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
+                        StatisticsRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
+                        StatisticsRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
+                        StatisticsRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
+                    }
+                    if let userFavourites = controller.userFavourites {
+                        if !controller.anime.isEmpty {
+                            ScrollViewCarousel(title: "Favourite anime", items: controller.anime) {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(alignment: .top, spacing: 15) {
+                                        ForEach(controller.anime) { anime in
+                                            AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, imageUrl: anime.node.mainPicture?.large)
+                                        }
+                                    }
+                                    .padding(.horizontal, 17)
+                                }
+                            }
+                        }
+                        if !controller.manga.isEmpty {
+                            ScrollViewCarousel(title: "Favourite manga", items: controller.manga) {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(alignment: .top, spacing: 15) {
+                                        ForEach(controller.manga) { manga in
+                                            MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, imageUrl: manga.node.mainPicture?.large)
+                                        }
+                                    }
+                                    .padding(.horizontal, 17)
+                                }
+                            }
+                        }
+                        if !userFavourites.characters.isEmpty {
+                            ScrollViewCarousel(title: "Favourite characters", items: userFavourites.characters) {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(alignment: .top, spacing: 15) {
+                                        ForEach(userFavourites.characters) { character in
+                                            ZoomTransition {
+                                                CharacterDetailsView(id: character.id)
+                                            } label: {
+                                                VStack {
+                                                    ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .medium)
+                                                    Text(character.name ?? "")
+                                                        .lineLimit(settings.getLineLimit())
+                                                        .font(.system(size: 14))
+                                                }
+                                                .frame(width: 110)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal, 17)
+                                }
+                            }
+                        }
+                        if !userFavourites.people.isEmpty {
+                            ScrollViewCarousel(title: "Favourite people", items: userFavourites.people) {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(alignment: .top, spacing: 15) {
+                                        ForEach(userFavourites.people) { person in
+                                            ZoomTransition {
+                                                PersonDetailsView(id: person.id)
+                                            } label: {
+                                                VStack {
+                                                    ImageFrame(id: "character\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .medium)
+                                                    Text(person.name ?? "")
+                                                        .lineLimit(settings.getLineLimit())
+                                                        .font(.system(size: 14))
+                                                }
+                                                .frame(width: 110)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal, 17)
+                                }
+                            }
                         }
                     }
-                }
-                Section {
-                    ListRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
-                    ListRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
-                    ListRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
-                    ListRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
-                    ListRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
-                    ListRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
-                    ListRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
-                    ListRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
-                } header: {
-                    Text("Anime Statistics")
-                }
-                Section {
-                    ListRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
-                    ListRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
-                    ListRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
-                    ListRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
-                    ListRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
-                    ListRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
-                    ListRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
-                    ListRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
-                    ListRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
-                } header: {
-                    Text("Manga Statistics")
-                }
-                Section {
-                    Link("Edit account", destination: URL(string: "https://myanimelist.net/editprofile.php?go=myoptions")!)
-                        .handleOpenURLInApp()
-                    Link("Delete account", destination: URL(string: "https://myanimelist.net/account_deletion")!)
-                        .foregroundStyle(.red)
-                } footer: {
-                    Text("This will bring you to the MyAnimeList website")
-                }
-                Section {} footer: {
+                    ScrollViewSection(title: "") {
+                        ScrollViewLink(text: "Edit account", url: "https://myanimelist.net/editprofile.php?go=myoptions")
+                            .foregroundStyle(settings.getAccentColor())
+                            .handleOpenURLInApp()
+                        ScrollViewLink(text: "Delete account", url: "https://myanimelist.net/account_deletion")
+                            .foregroundStyle(.red)
+                    }
+                    HStack {
+                        Text("This will bring you to the MyAnimeList website")
+                            .font(.system(size: 13))
+                            .opacity(0.7)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.top, 5)
+                    .padding(.bottom, 10)
                     if let dateString = user.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
-                        Text("Joined MyAnimeList on \(date.toString())")
+                        HStack {
+                            Text("Joined MyAnimeList on \(date.toString())")
+                                .font(.system(size: 13))
+                                .opacity(0.7)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 30)
+                        .padding(.top, 5)
+                        .padding(.bottom, 10)
                     }
                 }
             }

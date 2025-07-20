@@ -52,13 +52,3 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }
-
-struct CustomListNavigationLink: ButtonStyle {
-    @Environment(\.colorScheme) private var colorScheme
-
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .background(configuration.isPressed ? Color(.systemGray3) : (colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-}

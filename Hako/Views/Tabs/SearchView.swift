@@ -147,19 +147,21 @@ struct SearchView: View {
                     if !isPresented {
                         ScrollView {
                             VStack {
-                                VStack(alignment: .leading) {
-                                    VStack(spacing: 0) {
-                                        ScrollViewNavigationLink(title: "Explore anime") {
-                                            AnimeGenresListView()
+                                if !settings.hideExploreAnimeManga {
+                                    VStack(alignment: .leading) {
+                                        VStack(spacing: 0) {
+                                            ScrollViewNavigationLink(title: "Explore anime") {
+                                                AnimeGenresListView()
+                                            }
+                                            ScrollViewNavigationLink(title: "Explore manga") {
+                                                MangaGenresListView()
+                                            }
                                         }
-                                        ScrollViewNavigationLink(title: "Explore manga") {
-                                            MangaGenresListView()
-                                        }
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                     }
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(.horizontal, 17)
+                                    .padding(.bottom, 10)
                                 }
-                                .padding(.horizontal, 17)
-                                .padding(.bottom, 10)
                                 if networker.isSignedIn && !settings.hideAnimeForYou {
                                     if controller.animeSuggestions.isEmpty {
                                         LoadingCarousel(title: "Anime for you")

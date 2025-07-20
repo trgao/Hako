@@ -15,14 +15,19 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
+    
     @AppStorage("useFaceID") var useFaceID = false
     
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
     
+    @AppStorage("useSwipeActions") var useSwipeActions = true
+    @AppStorage("mangaReadProgress") var mangaReadProgress = 0
+    
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideRandom") var hideRandom = false
+    @AppStorage("hideExploreAnimeManga") var hideExploreAnimeManga = false
     @AppStorage("hideAnimeForYou") var hideAnimeForYou = false
     @AppStorage("hideTopAiringAnime") var hideTopAiringAnime = false
     @AppStorage("hideTopUpcomingAnime") var hideTopUpcomingAnime = false
@@ -31,8 +36,12 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMostPopularAnime") var hideMostPopularAnime = false
     @AppStorage("hideMostPopularManga") var hideMostPopularManga = false
     
-    @AppStorage("useSwipeActions") var useSwipeActions = true
-    @AppStorage("mangaReadProgress") var mangaReadProgress = 0
+    @AppStorage("hideUserAnimeStatistics") var hideUserAnimeStatistics = false
+    @AppStorage("hideUserMangaStatistics") var hideUserMangaStatistics = false
+    @AppStorage("hideUserFavouriteAnime") var hideUserFavouriteAnime = false
+    @AppStorage("hideUserFavouriteManga") var hideUserFavouriteManga = false
+    @AppStorage("hideUserFavouriteCharacters") var hideUserFavouriteCharacters = false
+    @AppStorage("hideUserFavouritePeople") var hideUserFavouritePeople = false
     
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
     @AppStorage("hideAnimeInformation") var hideAnimeInformation = false

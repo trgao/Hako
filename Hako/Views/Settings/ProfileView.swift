@@ -24,7 +24,7 @@ struct ProfileView: View {
         ZStack {
             ScrollView {
                 VStack {
-                    ScrollViewSection(title: "") {
+                    ScrollViewSection {
                         HStack {
                             ProfileImage(imageUrl: user.picture, username: user.name, allowExpand: true)
                             VStack {
@@ -133,7 +133,7 @@ struct ProfileView: View {
                             }
                         }
                     }
-                    ScrollViewSection(title: "") {
+                    ScrollViewSection {
                         ScrollViewLink(text: "Edit account", url: "https://myanimelist.net/editprofile.php?go=myoptions")
                             .foregroundStyle(settings.getAccentColor())
                             .handleOpenURLInApp()

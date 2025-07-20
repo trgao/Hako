@@ -130,6 +130,8 @@
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
 		EEAA57502E2CB7DE00377906 /* JikanUserFavouritesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574F2E2CB7D800377906 /* JikanUserFavouritesResponse.swift */; };
 		EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57512E2CB7F500377906 /* UserFavourites.swift */; };
+		EEAA57562E2CCC4600377906 /* AnimeGenresListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57552E2CCC4100377906 /* AnimeGenresListView.swift */; };
+		EEAA57582E2CD18000377906 /* MangaGenresListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57572E2CD18000377906 /* MangaGenresListView.swift */; };
 		EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */; };
 		EEB274792C0635F700D6F257 /* MangaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB274782C0635F700D6F257 /* MangaEditView.swift */; };
 		EEB7DE5E2E0D259500A2C8CC /* RandomAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7DE5D2E0D259000A2C8CC /* RandomAnimeView.swift */; };
@@ -315,6 +317,8 @@
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
 		EEAA574F2E2CB7D800377906 /* JikanUserFavouritesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanUserFavouritesResponse.swift; sourceTree = "<group>"; };
 		EEAA57512E2CB7F500377906 /* UserFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavourites.swift; sourceTree = "<group>"; };
+		EEAA57552E2CCC4100377906 /* AnimeGenresListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeGenresListView.swift; sourceTree = "<group>"; };
+		EEAA57572E2CD18000377906 /* MangaGenresListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGenresListView.swift; sourceTree = "<group>"; };
 		EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		EEB274782C0635F700D6F257 /* MangaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaEditView.swift; sourceTree = "<group>"; };
 		EEB7DE5D2E0D259000A2C8CC /* RandomAnimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAnimeView.swift; sourceTree = "<group>"; };
@@ -454,6 +458,8 @@
 				EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */,
 				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
 				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
+				EEAA57552E2CCC4100377906 /* AnimeGenresListView.swift */,
+				EEAA57572E2CD18000377906 /* MangaGenresListView.swift */,
 				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
 				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
@@ -949,6 +955,7 @@
 				EE3FAD1B2E22876600CE9CB9 /* ImageSaver.swift in Sources */,
 				EE960E9B2DD3A2CC00E4EDC9 /* MangaStatistics.swift in Sources */,
 				EE91BE682BFCB4E8002AC6C4 /* AnimePosition.swift in Sources */,
+				EEAA57582E2CD18000377906 /* MangaGenresListView.swift in Sources */,
 				EE3A59BE2BD21EE5009E9F79 /* Anime.swift in Sources */,
 				EE960E892DD3923B00E4EDC9 /* StaffsListView.swift in Sources */,
 				EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */,
@@ -1071,6 +1078,7 @@
 				EE960E952DD3A02200E4EDC9 /* MangaStats.swift in Sources */,
 				EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */,
 				EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */,
+				EEAA57562E2CCC4600377906 /* AnimeGenresListView.swift in Sources */,
 				EE960E992DD3A0FD00E4EDC9 /* JikanMangaStatisticsResponse.swift in Sources */,
 				EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */,
 				EE135E032E055A0200F02638 /* ScrollViewRow.swift in Sources */,

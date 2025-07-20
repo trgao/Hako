@@ -7,7 +7,11 @@ import SwiftUI
 
 struct TagCloudView: View {
     @Environment(\.colorScheme) private var colorScheme
-    var tags: [String]
+    private let tags: [String]
+    
+    init(tags: [String]) {
+        self.tags = tags
+    }
 
     @State private var totalHeight
           = CGFloat.zero

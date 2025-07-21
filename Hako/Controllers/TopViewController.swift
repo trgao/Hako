@@ -12,12 +12,14 @@ class TopViewController: ObservableObject {
     // Anime list variables
     @Published var animeItems = [MALListAnime]()
     @Published var isAnimeLoading = false
+    @Published var animeRankingType = "all"
     private var currentAnimePage = 1
     private var canLoadMoreAnimePages = true
     
     // Manga list variables
     @Published var mangaItems = [MALListManga]()
     @Published var isMangaLoading = false
+    @Published var mangaRankingType = "all"
     private var currentMangaPage = 1
     private var canLoadMoreMangaPages = true
     
@@ -44,7 +46,7 @@ class TopViewController: ObservableObject {
             canLoadMoreAnimePages = true
             isAnimeLoading = true
             do {
-                let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
+                let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
                 currentAnimePage = 2
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems = animeList
@@ -57,7 +59,7 @@ class TopViewController: ObservableObject {
             canLoadMoreMangaPages = true
             isMangaLoading = true
             do {
-                let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
+                let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
                 currentMangaPage = 2
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems = mangaList
@@ -84,7 +86,7 @@ class TopViewController: ObservableObject {
             isAnimeLoading = true
             isLoadingError = false
             do {
-                let animeList = try await networker.getTopAnimeList(page: currentAnimePage)
+                let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
                 currentAnimePage += 1
                 canLoadMoreAnimePages = !(animeList.isEmpty)
                 animeItems.append(contentsOf: animeList)
@@ -106,7 +108,7 @@ class TopViewController: ObservableObject {
             isMangaLoading = true
             isLoadingError = false
             do {
-                let mangaList = try await networker.getTopMangaList(page: currentMangaPage)
+                let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
                 currentMangaPage += 1
                 canLoadMoreMangaPages = !(mangaList.isEmpty)
                 mangaItems.append(contentsOf: mangaList)

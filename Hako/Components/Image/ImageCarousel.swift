@@ -44,6 +44,7 @@ struct ImageCarousel: View {
                         }
                         .frame(width: UIScreen.main.bounds.width * 4 / 5, height: (UIScreen.main.bounds.width * 4 / 5) / 150 * 213)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.bottom, 50)
                         .contextMenu {
                             if let inputImage = images[index] {
                                 Button {

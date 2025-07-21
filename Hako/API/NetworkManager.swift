@@ -508,13 +508,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return try await deleteItem(id: id, type: .manga)
     }
     
-    func getTopAnimeList(page: Int) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=all&limit=500&offset=\((page - 1) * 500)&fields=alternative_titles", type: MALAnimeListResponse.self)
+    func getTopAnimeList(page: Int, rankingType: String) async throws -> [MALListAnime] {
+        let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType)&limit=500&offset=\((page - 1) * 500)&fields=alternative_titles,rating&nsfw=true", type: MALAnimeListResponse.self)
         return response.data
     }
     
-    func getTopMangaList(page: Int) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=all&limit=500&offset=\((page - 1) * 500)&fields=alternative_titles", type: MALMangaListResponse.self)
+    func getTopMangaList(page: Int, rankingType: String) async throws -> [MALListManga] {
+        let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType)&limit=500&offset=\((page - 1) * 500)&fields=alternative_titles,rating&nsfw=true", type: MALMangaListResponse.self)
         return response.data
     }
     

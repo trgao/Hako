@@ -106,11 +106,16 @@ struct TopView: View {
                 isRefresh = true
             }
             .toolbar {
-                AnimeMangaToggle(type: $controller.type, refresh: {
-                    if controller.isItemsEmpty() {
-                        await controller.refresh()
-                    }
-                })
+                ToolbarItem(placement: .topBarLeading) {
+                    TopFilter(controller: controller)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    AnimeMangaToggle(type: $controller.type, refresh: {
+                        if controller.isItemsEmpty() {
+                            await controller.refresh()
+                        }
+                    })
+                }
             }
         }
     }

@@ -95,7 +95,6 @@ struct MainView: View {
             authenticate()
         }
         .onChange(of: scenePhase) { prev, cur in
-            print("test", prev, cur)
             if cur == .background {
                 isUnlocked = false
             } else if prev == .background {

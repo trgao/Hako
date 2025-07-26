@@ -18,9 +18,9 @@ struct TopFilter: View {
         Menu {
             if controller.type == .anime {
                 Picker(selection: $controller.animeRankingType, label: EmptyView()) {
-                    Text("All").tag("all")
-                    Text("By popularity").tag("bypopularity")
-                    Text("By favourites").tag("favorite")
+                    Label("All", systemImage: "circle.circle").tag("all")
+                    Label("By popularity", systemImage: "popcorn").tag("bypopularity")
+                    Label("By favourites", systemImage: "star").tag("favorite")
                 }
                 .onChange(of: controller.animeRankingType) {
                     Task {
@@ -29,10 +29,10 @@ struct TopFilter: View {
                 }
                 Divider()
                 Picker(selection: $controller.animeRankingType, label: EmptyView()) {
-                    Text("TV").tag("tv")
-                    Text("OVA").tag("ova")
-                    Text("Movie").tag("movie")
-                    Text("Special").tag("special")
+                    Label("TV", systemImage: "tv").tag("tv")
+                    Label("OVA", systemImage: "tv").tag("ova")
+                    Label("Movie", systemImage: "movieclapper").tag("movie")
+                    Label("Special", systemImage: "sparkles.tv").tag("special")
                 }
                 .onChange(of: controller.animeRankingType) {
                     Task {
@@ -41,9 +41,9 @@ struct TopFilter: View {
                 }
             } else if controller.type == .manga {
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
-                    Text("All").tag("all")
-                    Text("By popularity").tag("bypopularity")
-                    Text("By favourites").tag("favorite")
+                    Label("All", systemImage: "circle.circle").tag("all")
+                    Label("By popularity", systemImage: "popcorn").tag("bypopularity")
+                    Label("By favourites", systemImage: "star").tag("favorite")
                 }
                 .onChange(of: controller.mangaRankingType) {
                     Task {
@@ -52,11 +52,11 @@ struct TopFilter: View {
                 }
                 Divider()
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
-                    Text("Manga").tag("manga")
-                    Text("Novels").tag("novels")
-                    Text("One Shots").tag("oneshots")
-                    Text("Manhwa").tag("manhwa")
-                    Text("Manhua").tag("manhua")
+                    Label("Manga", systemImage: "book").tag("manga")
+                    Label("Novels", systemImage: "book.closed").tag("novels")
+                    Label("One Shots", systemImage: "book.pages").tag("oneshots")
+                    Label("Manhwa", systemImage: "book").tag("manhwa")
+                    Label("Manhua", systemImage: "book").tag("manhua")
                 }
                 .onChange(of: controller.mangaRankingType) {
                     Task {

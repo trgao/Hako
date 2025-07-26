@@ -14,7 +14,6 @@ struct MainView: View {
     @State private var tab: Int = 0
     @State private var isUnlocked = false
     @State private var isAuthenticationError = false
-    private let context = LAContext()
     
     init() {
         let tabBarAppearance = UITabBarAppearance()
@@ -30,6 +29,7 @@ struct MainView: View {
             return
         }
         
+        let context = LAContext()
         var error: NSError?
 
         if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
@@ -95,8 +95,11 @@ struct MainView: View {
             authenticate()
         }
         .onChange(of: scenePhase) { prev, cur in
+            print("test", prev, cur)
             if cur == .background {
                 isUnlocked = false
+            } else if prev == .background {
+                authenticate()
             }
         }
     }

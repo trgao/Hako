@@ -9,7 +9,7 @@ import SwiftUI
 import Shimmer
 
 struct LoadingList: View {
-    private let dummyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    private let dummyList = [1, 2, 3, 4, 5]
     
     var body: some View {
         ForEach(dummyList, id: \.self) { id in

@@ -19,8 +19,8 @@ struct TopFilter: View {
             if controller.type == .anime {
                 Picker(selection: $controller.animeRankingType, label: EmptyView()) {
                     Text("All").tag("all")
-                    Text("Airing").tag("airing")
-                    Text("Upcoming").tag("upcoming")
+                    Text("By popularity").tag("bypopularity")
+                    Text("By favourites").tag("favorite")
                 }
                 .onChange(of: controller.animeRankingType) {
                     Task {
@@ -39,19 +39,11 @@ struct TopFilter: View {
                         await controller.refresh()
                     }
                 }
-                Divider()
-                Picker(selection: $controller.animeRankingType, label: EmptyView()) {
-                    Text("By popularity").tag("bypopularity")
-                    Text("By favourites").tag("favorite")
-                }
-                .onChange(of: controller.animeRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
-                }
             } else if controller.type == .manga {
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
                     Text("All").tag("all")
+                    Text("By popularity").tag("bypopularity")
+                    Text("By favourites").tag("favorite")
                 }
                 .onChange(of: controller.mangaRankingType) {
                     Task {
@@ -62,7 +54,7 @@ struct TopFilter: View {
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
                     Text("Manga").tag("manga")
                     Text("Novels").tag("novels")
-                    Text("Oneshots").tag("oneshots")
+                    Text("One Shots").tag("oneshots")
                     Text("Manhwa").tag("manhwa")
                     Text("Manhua").tag("manhua")
                 }
@@ -70,11 +62,6 @@ struct TopFilter: View {
                     Task {
                         await controller.refresh()
                     }
-                }
-                Divider()
-                Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
-                    Text("By popularity").tag("bypopularity")
-                    Text("By favourites").tag("favorite")
                 }
                 .onChange(of: controller.mangaRankingType) {
                     Task {

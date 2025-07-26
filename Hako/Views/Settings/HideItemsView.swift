@@ -43,12 +43,6 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideNewlyAddedManga) {
                     Text("Hide newly added manga")
                 }
-                Toggle(isOn: $settings.hideMostPopularAnime) {
-                    Text("Hide most popular anime")
-                }
-                Toggle(isOn: $settings.hideMostPopularManga) {
-                    Text("Hide most popular manga")
-                }
             }
             Section("User profile") {
                 Toggle(isOn: $settings.hideUserAnimeStatistics) {

@@ -267,48 +267,6 @@ struct SearchView: View {
                                         }
                                     }
                                 }
-                                if !settings.hideMostPopularAnime {
-                                    if controller.topPopularAnime.isEmpty {
-                                        LoadingCarousel(title: "Most popular anime")
-                                    } else {
-                                        VStack {
-                                            Text("Most popular anime")
-                                                .bold()
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.horizontal, 35)
-                                                .font(.system(size: 17))
-                                            ScrollView(.horizontal, showsIndicators: false) {
-                                                HStack(alignment: .top) {
-                                                    ForEach(controller.topPopularAnime) { item in
-                                                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                                    }
-                                                }
-                                                .padding(.horizontal, 20)
-                                            }
-                                        }
-                                    }
-                                }
-                                if !settings.hideMostPopularManga {
-                                    if controller.topPopularManga.isEmpty {
-                                        LoadingCarousel(title: "Most popular manga")
-                                    } else {
-                                        VStack {
-                                            Text("Most popular manga")
-                                                .bold()
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.horizontal, 35)
-                                                .font(.system(size: 17))
-                                            ScrollView(.horizontal, showsIndicators: false) {
-                                                HStack(alignment: .top) {
-                                                    ForEach(controller.topPopularManga) { item in
-                                                        MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                                    }
-                                                }
-                                                .padding(.horizontal, 20)
-                                            }
-                                        }
-                                    }
-                                }
                             }
                             .padding(.bottom, 10)
                         }

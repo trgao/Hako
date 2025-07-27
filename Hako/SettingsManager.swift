@@ -51,7 +51,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideAnimeRecommendations") var hideAnimeRecommendations = false
     @AppStorage("hideThemeSongs") var hideThemeSongs = false
     @AppStorage("hideAnimeReviews") var hideAnimeReviews = false
-    @AppStorage("hideAnimeStatistics") var hideAnimeStatistics = false
     
     @AppStorage("hideMangaProgress") var hideMangaProgress = false
     @AppStorage("hideMangaInformation") var hideMangaInformation = false
@@ -60,7 +59,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
-    @AppStorage("hideMangaStatistics") var hideMangaStatistics = false
     
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0

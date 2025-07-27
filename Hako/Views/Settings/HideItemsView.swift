@@ -99,9 +99,6 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideAnimeReviews) {
                     Text("Hide reviews")
                 }
-                Toggle(isOn: $settings.hideAnimeStatistics) {
-                    Text("Hide statistics")
-                }
             }
             Section("Manga details") {
                 if networker.isSignedIn {
@@ -128,9 +125,6 @@ struct HideItemsView: View {
                 }
                 Toggle(isOn: $settings.hideMangaReviews) {
                     Text("Hide reviews")
-                }
-                Toggle(isOn: $settings.hideMangaStatistics) {
-                    Text("Hide statistics")
                 }
             }
         }

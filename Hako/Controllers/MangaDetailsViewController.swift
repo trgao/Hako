@@ -14,7 +14,6 @@ class MangaDetailsViewController: ObservableObject {
     @Published var authors = [Author]()
     @Published var relatedItems = [RelatedItem]()
     @Published var reviews = [Review]()
-    @Published var statistics: MangaStats?
     @Published var isLoading = true
     @Published var isLoadingError = false
     private let id: Int
@@ -106,13 +105,6 @@ class MangaDetailsViewController: ObservableObject {
             self.reviews = try await networker.getMangaReviewsList(id: id, page: 1)
         } catch {
             print("Some unknown error occurred loading manga reviews")
-        }
-        
-        // Load statistics
-        do {
-            self.statistics = try await networker.getMangaStatistics(id: id)
-        } catch {
-            print("Some unknown error occurred loading manga statistics")
         }
     }
 }

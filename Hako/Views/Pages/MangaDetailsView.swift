@@ -98,9 +98,6 @@ struct MangaDetailsView: View {
                         if !settings.hideMangaReviews {
                             MangaReviews(id: id, controller: controller)
                         }
-                        if !settings.hideMangaStatistics {
-                            MangaStatistics(controller: controller)
-                        }
                     }
                     .padding(.vertical, 20)
                 }

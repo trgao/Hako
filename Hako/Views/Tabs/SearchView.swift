@@ -12,9 +12,15 @@ struct SearchView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SearchViewController()
     @StateObject var networker = NetworkManager.shared
-    @State private var isPresented = false
     @DebouncedState private var searchText = ""
     @State private var previousSearch = ""
+    @Binding private var isPresented: Bool
+    @Binding private var isRoot: Bool
+    
+    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>) {
+        self._isPresented = isPresented
+        self._isRoot = isRoot
+    }
     
     var body: some View {
         NavigationStack {
@@ -352,6 +358,12 @@ struct SearchView: View {
                         .buttonStyle(.borderedProminent)
                     }
                 }
+            }
+            .onAppear {
+                isRoot = true
+            }
+            .onDisappear {
+                isRoot = false
             }
         }
     }

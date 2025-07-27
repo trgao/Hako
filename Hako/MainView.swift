@@ -14,6 +14,8 @@ struct MainView: View {
     @State private var tab: Int = 0
     @State private var isUnlocked = false
     @State private var isAuthenticationError = false
+    @State private var isSearchPresented = false
+    @State private var isSearchRoot = true
     
     init() {
         let tabBarAppearance = UITabBarAppearance()
@@ -23,6 +25,19 @@ struct MainView: View {
         navBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
     }
+    
+    var tabBinding: Binding<Int> { Binding(
+        get: {
+            self.tab
+        },
+        set: {
+            print(isSearchRoot, self.tab)
+            if $0 == self.tab && self.tab == 2 && isSearchRoot {
+                isSearchPresented = true
+            }
+            self.tab = $0
+        }
+    )}
     
     func authenticate() {
         guard settings.useFaceID else {
@@ -50,7 +65,7 @@ struct MainView: View {
     var body: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
-                TabView(selection: $tab) {
+                TabView(selection: tabBinding) {
                     if !settings.hideTop {
                         TopView()
                             .tabItem {
@@ -63,7 +78,7 @@ struct MainView: View {
                             Label("Seasons", systemImage: "calendar")
                         }
                         .tag(1)
-                    SearchView()
+                    SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
                         .tabItem {
                             Label("Search", systemImage: "magnifyingglass")
                         }

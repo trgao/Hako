@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Retry
 
 struct RandomCharacterView: View {
     @StateObject private var controller = RandomCharacterViewController()
@@ -15,6 +14,8 @@ struct RandomCharacterView: View {
     var body: some View {
         if let id = controller.id {
             CharacterDetailsView(id: id)
+        } else if controller.isError {
+            ErrorView(refresh: controller.refresh)
         } else {
             LoadingView()
         }
@@ -24,13 +25,20 @@ struct RandomCharacterView: View {
 @MainActor
 class RandomCharacterViewController: ObservableObject {
     @Published var id: Int?
+    @Published var isError = false
     let networker = NetworkManager.shared
     
     init() {
         Task {
-            try? await retry {
-                self.id = try? await networker.getRandomCharacter()
-            }
+            await refresh()
+        }
+    }
+    
+    func refresh() async -> Void {
+        do {
+            self.id = try await networker.getRandomCharacter()
+        } catch {
+            isError = true
         }
     }
 }

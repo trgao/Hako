@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Retry
 
 @MainActor
 class ProfileViewController: ObservableObject {
@@ -18,26 +17,22 @@ class ProfileViewController: ObservableObject {
     
     func refresh() async -> Void {
         do {
-            try await retry {
-                self.userStatistics = try await networker.getUserStatistics()
-            }
+            self.userStatistics = try await networker.getUserStatistics()
         } catch {
             print("Some unknown error occurred loading user statistics")
         }
         
         do {
-            try await retry {
-                self.userFavourites = try await networker.getUserFavourites()
-                
-                self.anime = try await userFavourites?.anime.concurrentMap { anime in
-                    let anime = try await NetworkManager.shared.getAnimeDetails(id: anime.id)
-                    return MALListAnime(anime: anime)
-                } ?? []
-                self.manga = try await userFavourites?.manga.concurrentMap { manga in
-                    let manga = try await NetworkManager.shared.getMangaDetails(id: manga.id)
-                    return MALListManga(manga: manga)
-                } ?? []
-            }
+            self.userFavourites = try await networker.getUserFavourites()
+            
+            self.anime = try await userFavourites?.anime.concurrentMap { anime in
+                let anime = try await NetworkManager.shared.getAnimeDetails(id: anime.id)
+                return MALListAnime(anime: anime)
+            } ?? []
+            self.manga = try await userFavourites?.manga.concurrentMap { manga in
+                let manga = try await NetworkManager.shared.getMangaDetails(id: manga.id)
+                return MALListManga(manga: manga)
+            } ?? []
         } catch {
             print("Some unknown error occurred loading user favourites")
         }

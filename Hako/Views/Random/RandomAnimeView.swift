@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Retry
 
 struct RandomAnimeView: View {
     @StateObject private var controller = RandomAnimeViewController()
@@ -15,6 +14,8 @@ struct RandomAnimeView: View {
     var body: some View {
         if let id = controller.id {
             AnimeDetailsView(id: id)
+        } else if controller.isError {
+            ErrorView(refresh: controller.refresh)
         } else {
             LoadingView()
         }
@@ -24,13 +25,20 @@ struct RandomAnimeView: View {
 @MainActor
 class RandomAnimeViewController: ObservableObject {
     @Published var id: Int?
+    @Published var isError = false
     let networker = NetworkManager.shared
     
     init() {
         Task {
-            try? await retry {
-                self.id = try? await networker.getRandomAnime()
-            }
+            await refresh()
+        }
+    }
+    
+    func refresh() async -> Void {
+        do {
+            self.id = try await networker.getRandomAnime()
+        } catch {
+            isError = true
         }
     }
 }

@@ -110,9 +110,6 @@ struct AnimeDetailsView: View {
                         if !settings.hideAnimeReviews {
                             AnimeReviews(id: id, controller: controller)
                         }
-                        if !settings.hideAnimeStatistics {
-                            AnimeStatistics(controller: controller)
-                        }
                     }
                     .padding(.vertical, 20)
                 }

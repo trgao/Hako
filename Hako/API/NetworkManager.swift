@@ -140,10 +140,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
             print(responseObject)
-            DispatchQueue.main.async {
-                self.keychain["accessToken"] = responseObject.accessToken
-                self.keychain["refreshToken"] = responseObject.refreshToken
-            }
+            self.keychain["accessToken"] = responseObject.accessToken
+            self.keychain["refreshToken"] = responseObject.refreshToken
         } catch {
             throw NetworkError.jsonParseFailure
         }
@@ -288,15 +286,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             try await refreshToken()
             return try await getMALResponse(urlExtend: urlExtend, type: type, retries - 1)
         }
-            
+        
         guard (200...299).contains(httpResponse.statusCode) else {
+            print(httpResponse.statusCode)
             if httpResponse.statusCode == 404 {
                 throw NetworkError.notFound
             } else {
                 throw NetworkError.badStatusCode(httpResponse.statusCode)
             }
         }
-            
+        
         do {
             let decoded = try decoder.decode(type.self, from: data)
             return decoded

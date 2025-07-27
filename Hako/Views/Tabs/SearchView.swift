@@ -325,17 +325,25 @@ struct SearchView: View {
             .toolbar {
                 if !settings.hideRandom {
                     Menu {
-                        NavigationLink("Random anime") {
+                        NavigationLink {
                             RandomAnimeView()
+                        } label: {
+                            Label("Random anime", systemImage: "tv")
                         }
-                        NavigationLink("Random manga") {
+                        NavigationLink {
                             RandomMangaView()
+                        } label: {
+                            Label("Random manga", systemImage: "book")
                         }
-                        NavigationLink("Random character") {
+                        NavigationLink {
                             RandomCharacterView()
+                        } label: {
+                            Label("Random character", systemImage: "person")
                         }
-                        NavigationLink("Random person") {
+                        NavigationLink {
                             RandomPersonView()
+                        } label: {
+                            Label("Random person", systemImage: "person")
                         }
                     } label: {
                         Button {} label: {

@@ -70,7 +70,7 @@ struct MangaDetailsView: View {
                                 if let mediaType = manga.mediaType, let status = manga.status {
                                     Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
                                 }
-                                Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volumes, \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapters")
+                                Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volume\(manga.numVolumes == 1 ? "" : "s"), \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapter\(manga.numChapters == 1 ? "" : "s")")
                             }
                             .opacity(0.7)
                             .font(.system(size: 13))

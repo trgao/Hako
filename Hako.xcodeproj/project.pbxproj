@@ -57,7 +57,6 @@
 		EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B155A2CE2A4CE00C23687 /* NetworkError.swift */; };
 		EE3B40132DD4AEA6000846A1 /* MangaRelatedItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B40122DD4AEA6000846A1 /* MangaRelatedItems.swift */; };
 		EE3B40152DD4AFE9000846A1 /* MangaCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B40142DD4AFE9000846A1 /* MangaCharacters.swift */; };
-		EE3B401A2DD4B5C6000846A1 /* DMRetry in Frameworks */ = {isa = PBXBuildFile; productRef = EE3B40192DD4B5C6000846A1 /* DMRetry */; };
 		EE3B40202DD4CB33000846A1 /* LoadingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B401F2DD4CB33000846A1 /* LoadingText.swift */; };
 		EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = EE3B40222DD4CB6E000846A1 /* Shimmer */; };
 		EE3F1D1A2BDE9249009992AC /* MALAnimeListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */; };
@@ -381,7 +380,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
-				EE3B401A2DD4B5C6000846A1 /* DMRetry in Frameworks */,
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
 			);
@@ -851,7 +849,6 @@
 			name = Hako;
 			packageProductDependencies = (
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
-				EE3B40192DD4B5C6000846A1 /* DMRetry */,
 				EE3B40222DD4CB6E000846A1 /* Shimmer */,
 				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
 			);
@@ -885,7 +882,6 @@
 			mainGroup = EE3A59952BD21479009E9F79;
 			packageReferences = (
 				EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */,
 				EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
@@ -1315,14 +1311,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fumoboy007/swift-retry";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.4;
-			};
-		};
 		EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
@@ -1346,11 +1334,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
 			productName = YouTubePlayerKit;
-		};
-		EE3B40192DD4B5C6000846A1 /* DMRetry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE3B40182DD4B5C6000846A1 /* XCRemoteSwiftPackageReference "swift-retry" */;
-			productName = DMRetry;
 		};
 		EE3B40222DD4CB6E000846A1 /* Shimmer */ = {
 			isa = XCSwiftPackageProductDependency;

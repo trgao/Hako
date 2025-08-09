@@ -37,6 +37,9 @@ struct AnimeInformation: View {
             if let rating = anime.rating {
                 ScrollViewRow(title: "Rating", content: "\(rating.filter { $0 != "_" }.uppercased())")
             }
+            if let numListUsers = anime.numListUsers {
+                ScrollViewRow(title: "Number of users", content: "\(numListUsers)")
+            }
             if let studios = anime.studios, !studios.isEmpty {
                 ScrollViewNavigationLink(title: "Studios", content: studios.map{ $0.name }.joined(separator: ", ")) {
                     GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)

@@ -31,7 +31,6 @@ struct MainView: View {
             self.tab
         },
         set: {
-            print(isSearchRoot, self.tab)
             if $0 == self.tab && self.tab == 2 && isSearchRoot {
                 isSearchPresented = true
             }

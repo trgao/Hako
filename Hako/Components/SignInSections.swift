@@ -63,7 +63,7 @@ struct SignInSections: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .font(.system(size: 20))
                                         .bold()
-                                    Text("User settings")
+                                    Text("User profile")
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding(20)

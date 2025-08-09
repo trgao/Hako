@@ -28,4 +28,5 @@ struct Manga: Codable, Identifiable {
     let authors: [Author]?
     let serialization: [Magazine]?
     let recommendations: [MALListManga]?
+    let numListUsers: Int?
 }

@@ -16,44 +16,54 @@ struct SeasonsView: View {
     ]
     let networker = NetworkManager.shared
     
+    @ViewBuilder private func SeasonView(_ season: String, _ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
+        ScrollView {
+            LazyVGrid(columns: columns) {
+                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
+                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                        .task {
+                            await controller.loadMoreIfNeeded(index: index)
+                        }
+                }
+                if seasonItems.count % 2 != 0 {
+                    AnimeGridItem(id: 0, title: nil, enTitle: nil, imageUrl: nil)
+                        .hidden()
+                }
+                if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
+                    Text("Continuing")
+                        .padding(.bottom, 10)
+                        .padding([.top, .horizontal], 20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                        .font(.title2)
+                    Rectangle()
+                        .frame(height: 20)
+                        .hidden()
+                    ForEach(seasonContinuingItems) { item in
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                    }
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.bottom, 45)
+        }
+        .navigationTitle(season.capitalized)
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                ScrollView {
-                    if controller.isLoadingError && controller.isSeasonEmpty() {
-                        ErrorView(refresh: { await controller.refresh() })
-                    } else {
-                        LazyVGrid(columns: columns) {
-                            ForEach(Array(controller.getCurrentSeasonItems().enumerated()), id: \.1.id) { index, item in
-                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                    .task {
-                                        await controller.loadMoreIfNeeded(index: index)
-                                    }
-                            }
-                            if controller.getCurrentSeasonItems().count % 2 != 0 {
-                                AnimeGridItem(id: 0, title: nil, enTitle: nil, imageUrl: nil)
-                                    .hidden()
-                            }
-                            if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
-                                Text("Continuing")
-                                    .padding(.bottom, 10)
-                                    .padding([.top, .horizontal], 20)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .bold()
-                                    .font(.title2)
-                                Rectangle()
-                                    .frame(height: 20)
-                                    .hidden()
-                                ForEach(controller.getCurrentSeasonContinuingItems()) { item in
-                                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 10)
-                        .padding(.bottom, 45)
-                    }
+                if controller.isLoadingError && controller.isSeasonEmpty() {
+                    ErrorView(refresh: { await controller.refresh() })
+                } else if controller.season == "winter" {
+                    SeasonView("winter", controller.winterItems, controller.winterContinuingItems)
+                } else if controller.season == "spring" {
+                    SeasonView("spring", controller.springItems, controller.springContinuingItems)
+                } else if controller.season == "summer" {
+                    SeasonView("summer", controller.summerItems, controller.summerContinuingItems)
+                } else if controller.season == "fall" {
+                    SeasonView("fall", controller.fallItems, controller.fallContinuingItems)
                 }
-                .navigationTitle(controller.season.capitalized)
                 SeasonPicker(controller: controller)
                     .disabled(controller.getCurrentSeasonLoading())
                 if controller.getCurrentSeasonLoading() {

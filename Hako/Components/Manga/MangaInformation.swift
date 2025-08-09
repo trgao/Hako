@@ -28,6 +28,9 @@ struct MangaInformation: View {
             if let endDate = manga.endDate {
                 ScrollViewRow(title: "End date", content: endDate.toString())
             }
+            if let numListUsers = manga.numListUsers {
+                ScrollViewRow(title: "Number of users", content: "\(numListUsers)")
+            }
             if let serialization = manga.serialization, !serialization.isEmpty {
                 ScrollViewNavigationLink(title: "Serialization", content: serialization.map{ $0.node.name }.joined(separator: ", ")) {
                     GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .anime)

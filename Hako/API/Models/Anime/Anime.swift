@@ -34,4 +34,5 @@ struct Anime: Codable, Identifiable {
     let endingThemes: [Theme]?
     let videos: [Video]?
     let recommendations: [MALListAnime]?
+    let numListUsers: Int?
 }

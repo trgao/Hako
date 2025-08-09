@@ -75,6 +75,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 print("Currently logged in")
                 
                 self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
+                _ = await downloadImage(id: "userImage", imageUrl: UserDefaults.standard.string(forKey: "picture"))
             }
         }
     }
@@ -435,12 +436,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getUserAnimeList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=alternative_titles,start_season,status,list_status,num_episodes\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)&nsfw=true", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=alternative_titles,start_season,status,list_status,num_episodes&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
     }
     
     func getUserMangaList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=alternative_titles,start_season,status,list_status,num_volumes,num_chapters\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)&nsfw=true", type: MALMangaListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=alternative_titles,start_season,status,list_status,num_volumes,num_chapters&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)", type: MALMangaListResponse.self)
         return response.data
     }
     
@@ -553,7 +554,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeDetails(id: Int) async throws -> Anime {
-        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles}", type: Anime.self)
+        let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles},num_list_users", type: Anime.self)
         return response
     }
     
@@ -561,7 +562,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let url = URL(string: "https://graphql.anilist.co")!
         let query = """
             query Media {
-                Media(idMal: \(id)) {
+                Media(idMal: \(id), type: ANIME) {
                     nextAiringEpisode {
                         airingAt
                         timeUntilAiring
@@ -576,15 +577,15 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
         let (data, response) = try await URLSession.shared.data(for: request)
-            
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-            
+        
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-            
+        
         do {
             let decoded = try decoder.decode(AniListAiringResponse.self, from: data)
             return decoded.data.Media.nextAiringEpisode
@@ -614,7 +615,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getMangaDetails(id: Int) async throws -> Manga {
-        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles}", type: Manga.self)
+        let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles},num_list_users", type: Manga.self)
         return response
     }
     

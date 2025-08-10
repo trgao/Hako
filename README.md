@@ -19,10 +19,7 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 
 ## Things to be done
 
-* Add QR code for sharing pages
 * Add more context menus for grid/list items
-* Add default status/sort in my list for behaviours settings
-* Add random anime/manga in search
 * Add ipad support for NavigationSplitView
 * Try integration with Spotify API (for opening and ending themes)
 * Try playing with live activities/widgets

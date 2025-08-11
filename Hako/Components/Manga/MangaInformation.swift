@@ -33,12 +33,12 @@ struct MangaInformation: View {
             }
             if let serialization = manga.serialization, !serialization.isEmpty {
                 ScrollViewNavigationLink(title: "Serialization", content: serialization.map{ $0.node.name }.joined(separator: ", ")) {
-                    GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .anime)
+                    GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .manga)
                 }
             }
             if let genres = manga.genres, !genres.isEmpty {
                 ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
-                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
+                    GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
                 }
             }
         }

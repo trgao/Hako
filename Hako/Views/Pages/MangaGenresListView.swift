@@ -86,7 +86,7 @@ struct MangaGenresListView: View {
         MALItem(id: 83, name: "Urban Fantasy"),
     ]
     private let demographics = [
-        MALItem(id: 43, name: "Josei"),
+        MALItem(id: 42, name: "Josei"),
         MALItem(id: 15, name: "Kids"),
         MALItem(id: 42, name: "Seinen"),
         MALItem(id: 25, name: "Shoujo"),

@@ -67,7 +67,7 @@ class MyListViewController: ObservableObject {
     // Refresh the current anime/manga list
     func refresh(_ refresh: Bool = false) async -> Void {
         isLoadingError = false
-        if type == .anime {
+        Task {
             currentAnimePage = 1
             canLoadMoreAnimePages = false
             if refresh {
@@ -90,7 +90,8 @@ class MyListViewController: ObservableObject {
             } else {
                 isAnimeLoading = false
             }
-        } else if type == .manga {
+        }
+        Task {
             currentMangaPage = 1
             canLoadMoreMangaPages = false
             if refresh {

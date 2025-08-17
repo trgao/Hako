@@ -41,7 +41,7 @@ class TopViewController: ObservableObject {
     // Refresh the current anime/manga list
     func refresh() async -> Void {
         isLoadingError = false
-        if type == .anime {
+        Task {
             currentAnimePage = 1
             canLoadMoreAnimePages = true
             isAnimeLoading = true
@@ -54,7 +54,8 @@ class TopViewController: ObservableObject {
                 isLoadingError = true
             }
             isAnimeLoading = false
-        } else {
+        }
+        Task {
             currentMangaPage = 1
             canLoadMoreMangaPages = true
             isMangaLoading = true

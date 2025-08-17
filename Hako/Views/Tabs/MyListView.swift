@@ -242,11 +242,7 @@ struct MyListView: View {
                         ListFilter(controller: controller)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        AnimeMangaToggle(type: $controller.type, refresh: {
-                            if controller.shouldRefresh() {
-                                await controller.refresh()
-                            }
-                        })
+                        AnimeMangaToggle(type: $controller.type)
                     }
                 }
                 .navigationTitle(controller.type == .anime ? "My Anime List" : "My Manga List")

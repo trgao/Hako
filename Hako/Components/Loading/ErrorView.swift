@@ -15,15 +15,17 @@ struct ErrorView: View {
     }
     
     var body: some View {
-        VStack {
-            Text("Unable to load")
-            Button("Try again") {
-                Task {
-                    await refresh()
+        ZStack {
+            Spacer().containerRelativeFrame([.horizontal, .vertical])
+            VStack {
+                Text("Unable to load")
+                Button("Try again") {
+                    Task {
+                        await refresh()
+                    }
                 }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
         }
-        .frame(maxWidth: .infinity, minHeight: 500, maxHeight: .infinity)
     }
 }

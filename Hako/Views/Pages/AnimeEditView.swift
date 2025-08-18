@@ -165,12 +165,14 @@ struct AnimeEditView: View {
                             }
                         }
                     }
-                    Button {
-                        isDeleting = true
-                    } label: {
-                        Label("Remove from list", systemImage: "trash")
+                    if let _ = listStatus.updatedAt {
+                        Button {
+                            isDeleting = true
+                        } label: {
+                            Label("Remove from list", systemImage: "trash")
+                        }
+                        .foregroundStyle(Color(.systemRed))
                     }
-                    .foregroundStyle(Color(.systemRed))
                 } photo: {
                     ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
                 } subtitle: {

@@ -80,8 +80,12 @@ struct AnimeDetailsView: View {
                         }
                         .padding(.horizontal, 20)
                         Synopsis(text: anime.synopsis)
-                        if let listStatus = anime.myListStatus, networker.isSignedIn && !settings.hideAnimeProgress {
-                            AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
+                        if networker.isSignedIn && !settings.hideAnimeProgress {
+                            if let listStatus = anime.myListStatus {
+                                AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
+                            } else {
+                                AnimeProgressNotAdded(numEpisodes: anime.numEpisodes)
+                            }
                         }
                         if !settings.hideAnimeInformation {
                             AnimeInformation(anime: anime)

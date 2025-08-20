@@ -77,8 +77,12 @@ struct MangaDetailsView: View {
                         }
                         .padding(.horizontal, 20)
                         Synopsis(text: manga.synopsis)
-                        if let listStatus = manga.myListStatus, networker.isSignedIn && !settings.hideMangaProgress {
-                            MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
+                        if networker.isSignedIn && !settings.hideMangaProgress {
+                            if let listStatus = manga.myListStatus {
+                                MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
+                            } else {
+                                MangaProgressNotAdded(numChapters: manga.numChapters, numVolumes: manga.numVolumes)
+                            }
                         }
                         if !settings.hideMangaInformation {
                             MangaInformation(manga: manga)

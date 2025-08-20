@@ -47,3 +47,38 @@ struct AnimeProgress: View {
         }
     }
 }
+
+struct AnimeProgressNotAdded: View {
+    private var numEpisodes: Int?
+    
+    init(numEpisodes: Int?) {
+        self.numEpisodes = numEpisodes
+    }
+    
+    var body: some View {
+        ScrollViewSection(title: "Progress") {
+            VStack {
+                if let numEpisodes = numEpisodes, numEpisodes > 0 {
+                    ProgressView(value: 0)
+                    HStack {
+                        Text("Not added")
+                            .bold()
+                        Spacer()
+                        Label("0 / \(String(numEpisodes))", systemImage: "video.fill")
+                            .labelStyle(CustomLabel(spacing: 2))
+                    }
+                } else {
+                    ProgressView(value: 0)
+                    HStack {
+                        Text("Not added")
+                            .bold()
+                        Spacer()
+                        Label("0 / ?", systemImage: "video.fill")
+                            .labelStyle(CustomLabel(spacing: 2))
+                    }
+                }
+            }
+            .padding(20)
+        }
+    }
+}

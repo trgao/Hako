@@ -104,3 +104,91 @@ struct MangaProgress: View {
         }
     }
 }
+
+struct MangaProgressNotAdded: View {
+    @EnvironmentObject private var settings: SettingsManager
+    private var numChapters: Int?
+    private var numVolumes: Int?
+    
+    init(numChapters: Int?, numVolumes: Int?) {
+        self.numChapters = numChapters
+        self.numVolumes = numVolumes
+    }
+    
+    var body: some View {
+        ScrollViewSection(title: "Progress") {
+            VStack {
+                if settings.mangaReadProgress == 0 {
+                    if let numChapters = numChapters, numChapters > 0 {
+                        ProgressView(value: 0)
+                        HStack {
+                            Text("Not added")
+                                .bold()
+                            Spacer()
+                            if let numVolumes = numVolumes, numVolumes > 0 {
+                                Label("0 / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            } else {
+                                Label("0 / ?", systemImage: "book.closed.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            }
+                            Label("0 / \(String(numChapters))", systemImage: "book.pages.fill")
+                                .labelStyle(CustomLabel(spacing: 2))
+                        }
+                    } else {
+                        ProgressView(value: 0)
+                        HStack {
+                            Text("Not added")
+                                .bold()
+                            Spacer()
+                            if let numVolumes = numVolumes, numVolumes > 0 {
+                                Label("0 / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            } else {
+                                Label("0 / ?", systemImage: "book.closed.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            }
+                            Label("0 / ?", systemImage: "book.pages.fill")
+                                .labelStyle(CustomLabel(spacing: 2))
+                        }
+                    }
+                } else {
+                    if let numVolumes = numVolumes, numVolumes > 0 {
+                        ProgressView(value: 0)
+                        HStack {
+                            Text("Not added")
+                                .bold()
+                            Spacer()
+                            Label("0 / \(String(numVolumes))", systemImage: "book.closed.fill")
+                                .labelStyle(CustomLabel(spacing: 2))
+                            if let numChapters = numChapters, numChapters > 0 {
+                                Label("0 / \(String(numChapters))", systemImage: "book.pages.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            } else {
+                                Label("0 / ?", systemImage: "book.pages.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            }
+                        }
+                    } else {
+                        ProgressView(value: 0)
+                        HStack {
+                            Text("Not added")
+                                .bold()
+                            Spacer()
+                            Label("0 / ?", systemImage: "book.closed.fill")
+                                .labelStyle(CustomLabel(spacing: 2))
+                            if let numChapters = numChapters, numChapters > 0 {
+                                Label("0 / \(String(numChapters))", systemImage: "book.pages.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            } else {
+                                Label("0 / ?", systemImage: "book.pages.fill")
+                                    .labelStyle(CustomLabel(spacing: 2))
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(20)
+        }
+    }
+}

@@ -664,6 +664,7 @@
 				EEC357972BE38E7A00DAAB0B /* Animeography.swift */,
 				EEC357992BE38EAC00DAAB0B /* Mangaography.swift */,
 				EEC357932BE38E3600DAAB0B /* Voice.swift */,
+				EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */,
 			);
 			path = Character;
 			sourceTree = "<group>";
@@ -678,7 +679,6 @@
 				EEDB8FE22BEBCD2B00EAA985 /* Related.swift */,
 				EE3A59D42BD24405009E9F79 /* Theme.swift */,
 				EE712FE22DFD9F7500DC7202 /* Review.swift */,
-				EEC1B9012BF1266B001E08C4 /* ListCharacter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";

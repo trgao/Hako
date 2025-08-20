@@ -23,7 +23,7 @@ struct StaffsListView: View {
                     HStack {
                         ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .small)
                             .padding(.trailing, 10)
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 5) {
                             Text(staff.person.name ?? "")
                             Text(staff.positions.joined(separator: ", "))
                                 .foregroundStyle(Color(.systemGray))

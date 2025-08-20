@@ -64,56 +64,67 @@ class MyListViewController: ObservableObject {
         isLoading = false
     }
     
-    // Refresh the current anime/manga list
+    // Refresh both anime and manga list
     func refresh(_ refresh: Bool = false) async -> Void {
-        isLoadingError = false
         Task {
-            currentAnimePage = 1
-            canLoadMoreAnimePages = false
-            if refresh {
-                isLoading = true
-            } else {
-                animeItems = []
-                isAnimeLoading = true
-            }
-            do {
-                let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
-                
-                currentAnimePage = 2
-                canLoadMoreAnimePages = animeList.count > 20
-                animeItems = animeList
-            } catch {
-                isLoadingError = true
-            }
-            if refresh {
-                isLoading = false
-            } else {
-                isAnimeLoading = false
-            }
+            await refreshAnime(refresh)
         }
         Task {
-            currentMangaPage = 1
-            canLoadMoreMangaPages = false
-            if refresh {
-                isLoading = true
-            } else {
-                mangaItems = []
-                isMangaLoading = true
-            }
-            do {
-                let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
-                
-                currentMangaPage = 2
-                canLoadMoreMangaPages = mangaList.count > 20
-                mangaItems = mangaList
-            } catch {
-                isLoadingError = true
-            }
-            if refresh {
-                isLoading = false
-            } else {
-                isMangaLoading = false
-            }
+            await refreshManga(refresh)
+        }
+    }
+    
+    // Refresh anime list
+    func refreshAnime(_ refresh: Bool = false) async -> Void {
+        isLoadingError = false
+        currentAnimePage = 1
+        canLoadMoreAnimePages = false
+        if refresh {
+            isLoading = true
+        } else {
+            animeItems = []
+            isAnimeLoading = true
+        }
+        do {
+            let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
+            
+            currentAnimePage = 2
+            canLoadMoreAnimePages = animeList.count > 20
+            animeItems = animeList
+        } catch {
+            isLoadingError = true
+        }
+        if refresh {
+            isLoading = false
+        } else {
+            isAnimeLoading = false
+        }
+    }
+    
+    // Refresh manga list
+    func refreshManga(_ refresh: Bool = false) async -> Void {
+        isLoadingError = false
+        currentMangaPage = 1
+        canLoadMoreMangaPages = false
+        if refresh {
+            isLoading = true
+        } else {
+            mangaItems = []
+            isMangaLoading = true
+        }
+        do {
+            let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
+            
+            currentMangaPage = 2
+            canLoadMoreMangaPages = mangaList.count > 20
+            mangaItems = mangaList
+        } catch {
+            isLoadingError = true
+        }
+        if refresh {
+            isLoading = false
+        } else {
+            isMangaLoading = false
         }
     }
     

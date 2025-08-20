@@ -27,7 +27,7 @@ struct ListFilter: View {
                 }
                 .onChange(of: controller.animeStatus) {
                     Task {
-                        await controller.refresh()
+                        await controller.refreshAnime()
                     }
                 }
                 Divider()
@@ -39,7 +39,7 @@ struct ListFilter: View {
                 }
                 .onChange(of: controller.animeSort) {
                     Task {
-                        await controller.refresh()
+                        await controller.refreshAnime()
                     }
                 }
             } else if controller.type == .manga {
@@ -53,7 +53,7 @@ struct ListFilter: View {
                 }
                 .onChange(of: controller.mangaStatus) {
                     Task {
-                        await controller.refresh()
+                        await controller.refreshManga()
                     }
                 }
                 Divider()
@@ -65,7 +65,7 @@ struct ListFilter: View {
                 }
                 .onChange(of: controller.mangaSort) {
                     Task {
-                        await controller.refresh()
+                        await controller.refreshManga()
                     }
                 }
             }

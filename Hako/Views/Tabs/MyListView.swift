@@ -188,7 +188,11 @@ struct MyListView: View {
                 }
                 .task(id: isRefresh) {
                     if isRefresh {
-                        await controller.refresh(!controller.isItemsEmpty())
+                        if controller.type == .anime {
+                            await controller.refreshAnime(!controller.isItemsEmpty())
+                        } else if controller.type == .manga {
+                            await controller.refreshManga(!controller.isItemsEmpty())
+                        }
                         isRefresh = false
                     }
                 }

@@ -23,7 +23,12 @@ struct CharactersListView: View {
                     HStack {
                         ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .small)
                             .padding(.trailing, 10)
-                        Text(character.character.name ?? "")
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(character.character.name ?? "")
+                            Text(character.role ?? "")
+                                .foregroundStyle(Color(.systemGray))
+                                .font(.system(size: 13))
+                        }
                     }
                 }
                 .buttonStyle(.plain)

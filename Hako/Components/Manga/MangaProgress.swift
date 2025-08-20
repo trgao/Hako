@@ -24,7 +24,7 @@ struct MangaProgress: View {
     }
     
     var body: some View {
-        ScrollViewSection(title: "Your progress") {
+        ScrollViewSection(title: "Progress") {
             VStack {
                 if settings.mangaReadProgress == 0 {
                     if let numChapters = numChapters, numChapters > 0 {

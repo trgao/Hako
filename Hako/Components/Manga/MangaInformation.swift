@@ -29,7 +29,7 @@ struct MangaInformation: View {
                 ScrollViewRow(title: "End date", content: endDate.toString())
             }
             if let numListUsers = manga.numListUsers {
-                ScrollViewRow(title: "Members", content: "\(numListUsers)")
+                ScrollViewRow(title: "Members", content: "\(numListUsers.formatted(.number.grouping(.automatic)))")
             }
             if let serialization = manga.serialization, !serialization.isEmpty {
                 ScrollViewNavigationLink(title: "Serialization", content: serialization.map{ $0.node.name }.joined(separator: ", ")) {

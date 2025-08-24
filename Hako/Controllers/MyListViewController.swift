@@ -11,7 +11,7 @@ import Foundation
 class MyListViewController: ObservableObject {
     // Anime list variables
     @Published var animeItems = [MALListAnime]()
-    @Published var isAnimeLoading = false
+    @Published var isAnimeLoading = true
     @Published var animeStatus: StatusEnum = .watching
     @Published var animeSort = "anime_title"
     private var currentAnimePage = 1
@@ -19,7 +19,7 @@ class MyListViewController: ObservableObject {
     
     // Manga list variables
     @Published var mangaItems = [MALListManga]()
-    @Published var isMangaLoading = false
+    @Published var isMangaLoading = true
     @Published var mangaStatus: StatusEnum = .reading
     @Published var mangaSort = "manga_title"
     private var currentMangaPage = 1

@@ -64,16 +64,6 @@ class MyListViewController: ObservableObject {
         isLoading = false
     }
     
-    // Refresh both anime and manga list
-    func refresh(_ refresh: Bool = false) async -> Void {
-        Task {
-            await refreshAnime(refresh)
-        }
-        Task {
-            await refreshManga(refresh)
-        }
-    }
-    
     // Refresh anime list
     func refreshAnime(_ refresh: Bool = false) async -> Void {
         isLoadingError = false
@@ -126,6 +116,12 @@ class MyListViewController: ObservableObject {
         } else {
             isMangaLoading = false
         }
+    }
+    
+    // Refresh both anime and manga list
+    func refresh(_ refresh: Bool = false) async -> Void {
+        await refreshAnime(refresh)
+        await refreshManga(refresh)
     }
     
     // Load more of the current anime/manga list

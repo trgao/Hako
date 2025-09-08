@@ -32,8 +32,8 @@ struct TopView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if controller.type == .anime {
-                    ZStack {
+                ZStack {
+                    if controller.type == .anime {
                         ScrollView {
                             if controller.isLoadingError && controller.animeItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
@@ -49,22 +49,7 @@ struct TopView: View {
                                 .padding(10)
                             }
                         }
-                        if controller.isAnimeLoading {
-                            LoadingView()
-                        }
-                        if controller.isItemsEmpty() && !controller.isAnimeLoading && !controller.isLoadingError {
-                            VStack {
-                                Image(systemName: "medal")
-                                    .resizable()
-                                    .frame(width: 40, height: 50)
-                                Text("Nothing found")
-                                    .bold()
-                            }
-                        }
-                    }
-                    .navigationTitle("Top Anime")
-                } else if controller.type == .manga {
-                    ZStack {
+                    } else if controller.type == .manga {
                         ScrollView {
                             if controller.isLoadingError && controller.mangaItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
@@ -80,21 +65,21 @@ struct TopView: View {
                                 .padding(10)
                             }
                         }
-                        if controller.isMangaLoading {
-                            LoadingView()
-                        }
-                        if controller.isItemsEmpty() && !controller.isMangaLoading && !controller.isLoadingError {
-                            VStack {
-                                Image(systemName: "medal")
-                                    .resizable()
-                                    .frame(width: 40, height: 50)
-                                Text("Nothing found")
-                                    .bold()
-                            }
+                    }
+                    if controller.isLoading {
+                        LoadingView()
+                    }
+                    if controller.isItemsEmpty() && !controller.isLoading && !controller.isLoadingError {
+                        VStack {
+                            Image(systemName: "medal")
+                                .resizable()
+                                .frame(width: 40, height: 50)
+                            Text("Nothing found")
+                                .bold()
                         }
                     }
-                    .navigationTitle("Top Manga")
                 }
+                .navigationTitle("Top \(controller.type.toString().capitalized)")
             }
             .task(id: isRefresh) {
                 if controller.shouldRefresh() || isRefresh {

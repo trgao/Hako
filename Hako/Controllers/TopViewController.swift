@@ -11,19 +11,18 @@ import Foundation
 class TopViewController: ObservableObject {
     // Anime list variables
     @Published var animeItems = [MALListAnime]()
-    @Published var isAnimeLoading = true
     @Published var animeRankingType = "all"
     private var currentAnimePage = 1
     private var canLoadMoreAnimePages = true
     
     // Manga list variables
     @Published var mangaItems = [MALListManga]()
-    @Published var isMangaLoading = true
     @Published var mangaRankingType = "all"
     private var currentMangaPage = 1
     private var canLoadMoreMangaPages = true
     
     // Common variables
+    @Published var isLoading = true
     @Published var isLoadingError = false
     @Published var type: TypeEnum = .anime
     let networker = NetworkManager.shared
@@ -38,44 +37,42 @@ class TopViewController: ObservableObject {
         return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
     }
     
-    // Refresh the current anime/manga list
+    // Refresh both anime and manga list
     func refresh() async -> Void {
+        isLoading = true
         isLoadingError = false
-        Task {
-            currentAnimePage = 1
-            canLoadMoreAnimePages = true
-            isAnimeLoading = true
-            do {
-                let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
-                currentAnimePage = 2
-                canLoadMoreAnimePages = !(animeList.isEmpty)
-                animeItems = animeList
-            } catch {
-                isLoadingError = true
-            }
-            isAnimeLoading = false
+        
+        // Refresh anime list
+        currentAnimePage = 1
+        canLoadMoreAnimePages = true
+        do {
+            let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
+            currentAnimePage = 2
+            canLoadMoreAnimePages = !(animeList.isEmpty)
+            animeItems = animeList
+        } catch {
+            isLoadingError = true
         }
-        Task {
-            currentMangaPage = 1
-            canLoadMoreMangaPages = true
-            isMangaLoading = true
-            do {
-                let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
-                currentMangaPage = 2
-                canLoadMoreMangaPages = !(mangaList.isEmpty)
-                mangaItems = mangaList
-            } catch {
-                isLoadingError = true
-            }
-            isMangaLoading = false
+        
+        // Refresh manga list
+        currentMangaPage = 1
+        canLoadMoreMangaPages = true
+        do {
+            let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
+            currentMangaPage = 2
+            canLoadMoreMangaPages = !(mangaList.isEmpty)
+            mangaItems = mangaList
+        } catch {
+            isLoadingError = true
         }
+        isLoading = false
     }
     
     // Load more of the current anime/manga list
     private func loadMore() async -> Void {
         if type == .anime {
             // only load more when it is not loading and there are more pages to be loaded
-            guard !isAnimeLoading && canLoadMoreAnimePages else {
+            guard !isLoading && canLoadMoreAnimePages else {
                 return
             }
             
@@ -84,7 +81,7 @@ class TopViewController: ObservableObject {
                 return
             }
             
-            isAnimeLoading = true
+            isLoading = true
             isLoadingError = false
             do {
                 let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
@@ -94,10 +91,10 @@ class TopViewController: ObservableObject {
             } catch {
                 isLoadingError = true
             }
-            isAnimeLoading = false
+            isLoading = false
         } else if type == .manga {
             // only load more when it is not loading and there are more pages to be loaded
-            guard !isMangaLoading && canLoadMoreMangaPages else {
+            guard !isLoading && canLoadMoreMangaPages else {
                 return
             }
             
@@ -106,7 +103,7 @@ class TopViewController: ObservableObject {
                 return
             }
             
-            isMangaLoading = true
+            isLoading = true
             isLoadingError = false
             do {
                 let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
@@ -116,7 +113,7 @@ class TopViewController: ObservableObject {
             } catch {
                 isLoadingError = true
             }
-            isMangaLoading = false
+            isLoading = false
         }
     }
     

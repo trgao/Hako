@@ -70,13 +70,15 @@ class MangaDetailsViewController: ObservableObject {
             if let authors = networker.mangaAuthorsCache[id] {
                 self.authors = authors
             } else {
-                let authors = manga?.authors ?? [];
-                for author in authors {
+                let mangaAuthors = manga?.authors ?? []
+                var authors: [Author] = []
+                for author in mangaAuthors {
                     var newAuthor = author
                     let person = try await self.networker.getPersonDetails(id: author.id)
                     newAuthor.imageUrl = person.images?.jpg?.imageUrl
-                    self.authors.append(newAuthor)
+                    authors.append(newAuthor)
                 }
+                self.authors = authors
                 networker.mangaAuthorsCache[id] = self.authors
             }
         } catch {

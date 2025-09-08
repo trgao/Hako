@@ -92,11 +92,11 @@ struct AnimeEditView: View {
                     Section {
                         AnimeStatusPickerRow(selection: $listStatus.status)
                             .onChange(of: listStatus.status) { _, status in
-                                if status == .watching && listStatus.startDate == nil {
+                                if status == .watching && listStatus.startDate == nil && settings.autofillStartDate {
                                     listStatus.startDate = Date()
                                 }
                                 if status == .completed {
-                                    if listStatus.finishDate == nil {
+                                    if listStatus.finishDate == nil && settings.autofillEndDate {
                                         listStatus.finishDate = Date()
                                     }
                                     if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {

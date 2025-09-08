@@ -23,7 +23,7 @@ struct ScrollViewSection<Content: View>: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 20)
-                .padding(.top, 15)
+                .padding(.top, 10)
                 .font(.system(size: 17))
             VStack(spacing: 0) {
                 content()
@@ -32,5 +32,6 @@ struct ScrollViewSection<Content: View>: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }
         .padding(.horizontal, 17)
+        .padding(.bottom, 5)
     }
 }

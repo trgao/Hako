@@ -34,9 +34,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     private let dateFormatter = ISO8601DateFormatter()
     
     // API token bucket rate limiting
-    let malBucket = TokenBucket(capacity: 2, tokensPerInterval: 1, interval: 0.5)
-    let jikanBucket = TokenBucket(capacity: 2, tokensPerInterval: 1, interval: 0.5)
-    let anilistBucket = TokenBucket(capacity: 90, tokensPerInterval: 1, interval: 1)
+    let malBucket = TokenBucket(capacity: 2, refillRate: 1)
+    let jikanBucket = TokenBucket(capacity: 2, refillRate: 1)
+    let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
     
     override init() {
         // JSON Decoder
@@ -281,7 +281,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             hasToken = true
         }
         let session = URLSession(configuration: config)
-        malBucket.consume(1)
+        await malBucket.consumeOrWaitAsync()
         let (data, response) = try await session.data(for: URLRequest(url: url))
             
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -314,7 +314,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Generic JikanAPI GET request
     private func getJikanResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: jikanBaseApi + urlExtend)!
-        jikanBucket.consume(1)
+        await jikanBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
             
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -583,7 +583,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
-        anilistBucket.consume(1)
+        await anilistBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {

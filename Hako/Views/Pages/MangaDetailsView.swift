@@ -152,7 +152,7 @@ struct MangaDetailsView: View {
                     }
                     .sheet(isPresented: $isEditViewPresented) {
                         Task {
-                            await controller.refresh()
+                            await controller.loadDetails()
                         }
                     } content: {
                         MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, enTitle: manga.alternativeTitles?.en, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)

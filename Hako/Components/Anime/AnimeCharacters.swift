@@ -17,29 +17,34 @@ struct AnimeCharacters: View {
     }
     
     var body: some View {
-        if !controller.characters.isEmpty {
-            ScrollViewCarousel(title: "Characters", items: controller.characters) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: 15) {
-                        ForEach(controller.characters.prefix(10)) { character in
-                            ZoomTransition {
-                                CharacterDetailsView(id: character.id)
-                            } label: {
-                                VStack {
-                                    ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
-                                    Text(character.character.name ?? "")
-                                        .lineLimit(settings.getLineLimit())
-                                        .font(.system(size: 14))
+        VStack {
+            if !controller.characters.isEmpty {
+                ScrollViewCarousel(title: "Characters", items: controller.characters) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top, spacing: 15) {
+                            ForEach(controller.characters.prefix(10)) { character in
+                                ZoomTransition {
+                                    CharacterDetailsView(id: character.id)
+                                } label: {
+                                    VStack {
+                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
+                                        Text(character.character.name ?? "")
+                                            .lineLimit(settings.getLineLimit())
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(width: 110)
                                 }
-                                .frame(width: 110)
                             }
                         }
+                        .padding(.horizontal, 17)
                     }
-                    .padding(.horizontal, 17)
+                } destination: {
+                    CharactersListView(characters: controller.characters)
                 }
-            } destination: {
-                CharactersListView(characters: controller.characters)
             }
+        }
+        .task {
+            await controller.loadCharacters()
         }
     }
 }

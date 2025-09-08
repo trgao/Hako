@@ -21,27 +21,32 @@ struct Authors: View {
     }
     
     var body: some View {
-        if !controller.authors.isEmpty {
-            ScrollViewCarousel(title: "Authors") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: 15) {
-                        ForEach(controller.authors.prefix(10)) { author in
-                            ZoomTransition {
-                                PersonDetailsView(id: author.id)
-                            } label: {
-                                VStack {
-                                    ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
-                                    Text("\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")")
-                                        .lineLimit(settings.getLineLimit())
-                                        .font(.system(size: 14))
+        VStack {
+            if !controller.authors.isEmpty {
+                ScrollViewCarousel(title: "Authors") {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top, spacing: 15) {
+                            ForEach(controller.authors.prefix(10)) { author in
+                                ZoomTransition {
+                                    PersonDetailsView(id: author.id)
+                                } label: {
+                                    VStack {
+                                        ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
+                                        Text("\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")")
+                                            .lineLimit(settings.getLineLimit())
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(width: 110)
                                 }
-                                .frame(width: 110)
                             }
                         }
+                        .padding(.horizontal, 17)
                     }
-                    .padding(.horizontal, 17)
                 }
             }
+        }
+        .task {
+            await controller.loadAuthors()
         }
     }
 }

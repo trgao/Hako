@@ -24,7 +24,7 @@ struct MyListView: View {
     @State private var mangaStatus: MangaListStatus?
     
     var body: some View {
-    NavigationStack {
+        NavigationStack {
             if networker.isSignedIn {
                 VStack {
                     ZStack {

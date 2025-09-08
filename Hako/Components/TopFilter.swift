@@ -22,11 +22,6 @@ struct TopFilter: View {
                     Label("By popularity", systemImage: "popcorn").tag("bypopularity")
                     Label("By favourites", systemImage: "star").tag("favorite")
                 }
-                .onChange(of: controller.animeRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
-                }
                 Divider()
                 Picker(selection: $controller.animeRankingType, label: EmptyView()) {
                     Label("TV", systemImage: "tv").tag("tv")
@@ -34,21 +29,11 @@ struct TopFilter: View {
                     Label("Movie", systemImage: "movieclapper").tag("movie")
                     Label("Special", systemImage: "sparkles.tv").tag("special")
                 }
-                .onChange(of: controller.animeRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
-                }
             } else if controller.type == .manga {
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
                     Label("All", systemImage: "circle.circle").tag("all")
                     Label("By popularity", systemImage: "popcorn").tag("bypopularity")
                     Label("By favourites", systemImage: "star").tag("favorite")
-                }
-                .onChange(of: controller.mangaRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
                 }
                 Divider()
                 Picker(selection: $controller.mangaRankingType, label: EmptyView()) {
@@ -58,20 +43,20 @@ struct TopFilter: View {
                     Label("Manhwa", systemImage: "book").tag("manhwa")
                     Label("Manhua", systemImage: "book").tag("manhua")
                 }
-                .onChange(of: controller.mangaRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
-                }
-                .onChange(of: controller.mangaRankingType) {
-                    Task {
-                        await controller.refresh()
-                    }
-                }
             }
         } label: {
             Button{} label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
+            }
+        }
+        .onChange(of: controller.animeRankingType) {
+            Task {
+                await controller.refresh()
+            }
+        }
+        .onChange(of: controller.mangaRankingType) {
+            Task {
+                await controller.refresh()
             }
         }
     }

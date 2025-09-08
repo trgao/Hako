@@ -72,6 +72,7 @@ struct PersonDetailsView: View {
 }
 
 struct PersonVoiceSection: View {
+    @State private var isExpanded = true
     private let voices: [AnimeVoice]
     
     init(voices: [AnimeVoice]?) {
@@ -84,7 +85,7 @@ struct PersonVoiceSection: View {
     
     var body: some View {
         if !voices.isEmpty {
-            Section {
+            Section(isExpanded: $isExpanded) {
                 ForEach(voices) { voice in
                     NavigationLink {
                         AnimeDetailsView(id: voice.anime.id)
@@ -102,17 +103,14 @@ struct PersonVoiceSection: View {
                     }
                 }
             } header: {
-                Text("Voice Acting Roles")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
+                ExpandableSectionHeader(title: "Voice acting roles", isExpanded: $isExpanded)
             }
         }
     }
 }
 
 struct PersonAnimeSection: View {
+    @State private var isExpanded = true
     private let animes: [AnimePosition]
     
     init(animes: [AnimePosition]?) {
@@ -125,7 +123,7 @@ struct PersonAnimeSection: View {
     
     var body: some View {
         if !animes.isEmpty {
-            Section {
+            Section(isExpanded: $isExpanded) {
                 ForEach(animes) { anime in
                     NavigationLink {
                         AnimeDetailsView(id: anime.id)
@@ -145,17 +143,14 @@ struct PersonAnimeSection: View {
                     }
                 }
             } header: {
-                Text("Anime Staff Positions")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
+                ExpandableSectionHeader(title: "Anime staff positions", isExpanded: $isExpanded)
             }
         }
     }
 }
 
 struct PersonMangaSection: View {
+    @State private var isExpanded = true
     private let mangas: [MangaPosition]
     
     init(mangas: [MangaPosition]?) {
@@ -168,7 +163,7 @@ struct PersonMangaSection: View {
     
     var body: some View {
         if !mangas.isEmpty {
-            Section {
+            Section(isExpanded: $isExpanded) {
                 ForEach(mangas) { manga in
                     NavigationLink {
                         MangaDetailsView(id: manga.id)
@@ -188,11 +183,7 @@ struct PersonMangaSection: View {
                     }
                 }
             } header: {
-                Text("Manga Staff Positions")
-                    .textCase(nil)
-                    .foregroundColor(Color.primary)
-                    .font(.system(size: 17))
-                    .bold()
+                ExpandableSectionHeader(title: "Manga staff positions", isExpanded: $isExpanded)
             }
         }
     }

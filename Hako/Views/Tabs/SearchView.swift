@@ -352,6 +352,14 @@ struct SearchView: View {
                     controller.personItems = []
                 }
             }
+            .onChange(of: searchText) {
+                if searchText.count > 2 {
+                    controller.isAnimeSearchLoading = true
+                    controller.isMangaSearchLoading = true
+                    controller.isCharacterSearchLoading = true
+                    controller.isPersonSearchLoading = true
+                }
+            }
             .task {
                 await controller.refresh()
             }

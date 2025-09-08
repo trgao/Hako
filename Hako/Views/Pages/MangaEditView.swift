@@ -94,11 +94,11 @@ struct MangaEditView: View {
                     Section {
                         MangaStatusPickerRow(selection: $listStatus.status)
                             .onChange(of: listStatus.status) { _, status in
-                                if status == .reading && listStatus.startDate == nil {
+                                if status == .reading && listStatus.startDate == nil && settings.autofillStartDate {
                                     listStatus.startDate = Date()
                                 }
                                 if status == .completed {
-                                    if listStatus.finishDate == nil {
+                                    if listStatus.finishDate == nil && settings.autofillEndDate {
                                         listStatus.finishDate = Date()
                                     }
                                     if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {

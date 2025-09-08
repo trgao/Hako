@@ -24,6 +24,9 @@ class SettingsManager: ObservableObject {
     @AppStorage("useSwipeActions") var useSwipeActions = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
+    @AppStorage("autofillStartDate") var autofillStartDate = true
+    @AppStorage("autofillEndDate") var autofillEndDate = true
+    
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideRandom") var hideRandom = false

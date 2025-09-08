@@ -82,6 +82,16 @@ struct GeneralView: View {
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
+                Section("Edit view") {
+                    Toggle(isOn: $settings.autofillStartDate) {
+                        Text("Autofill start date")
+                        Text("Autofill start date when anime is changed to watching or manga is changed to reading")
+                    }
+                    Toggle(isOn: $settings.autofillEndDate) {
+                        Text("Autofill end date")
+                        Text("Autofill end date when anime or manga is changed to completed")
+                    }
+                }
             }
         }
         .alert("Unable to change settings", isPresented: $isAuthenticationError) {

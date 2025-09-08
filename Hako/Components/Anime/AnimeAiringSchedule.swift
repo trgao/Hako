@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct AnimeAiringSchedule: View {
-    private var nextEpisode: NextAiringEpisode?
+    @StateObject private var controller: AnimeDetailsViewController
     
-    init(nextEpisode: NextAiringEpisode?) {
-        self.nextEpisode = nextEpisode
+    init(controller: AnimeDetailsViewController) {
+        self._controller = StateObject(wrappedValue: controller)
     }
     
     var body: some View {
-        if let nextEpisode = nextEpisode {
-            ScrollViewSection(title: "Airing") {
-                ScrollViewRow(title: "Next episode", content: nextEpisode.episode)
-                ScrollViewRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
+        VStack {
+            if let nextEpisode = controller.nextEpisode {
+                ScrollViewSection(title: "Airing") {
+                    ScrollViewRow(title: "Next episode", content: nextEpisode.episode)
+                    ScrollViewRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
+                }
             }
+        }
+        .task {
+            await controller.loadAiringSchedule()
         }
     }
 }

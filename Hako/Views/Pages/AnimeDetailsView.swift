@@ -91,7 +91,7 @@ struct AnimeDetailsView: View {
                             AnimeInformation(anime: anime)
                         }
                         if !settings.hideAiringSchedule {
-                            AnimeAiringSchedule(nextEpisode: controller.nextEpisode)
+                            AnimeAiringSchedule(controller: controller)
                         }
                         if !settings.hideTrailers {
                             Trailers(videos: anime.videos)
@@ -163,7 +163,7 @@ struct AnimeDetailsView: View {
                     }
                     .sheet(isPresented: $isEditViewPresented) {
                         Task {
-                            await controller.refresh()
+                            await controller.loadDetails()
                         }
                     } content: {
                         AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, enTitle: anime.alternativeTitles?.en, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)

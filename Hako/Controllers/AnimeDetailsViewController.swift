@@ -26,12 +26,23 @@ class AnimeDetailsViewController: ObservableObject {
             self.anime = anime
         }
         Task {
-            await refresh()
+            await loadDetails()
         }
     }
     
     // Refresh the current anime details page
     func refresh() async -> Void {
+        await loadDetails()
+        Task {
+            await loadAiringSchedule()
+        }
+        await loadCharacters()
+        await loadStaffs()
+        await loadRelated()
+        await loadReviews()
+    }
+    
+    func loadDetails() async -> Void {
         isLoading = true
         isLoadingError = false
         do {
@@ -42,23 +53,23 @@ class AnimeDetailsViewController: ObservableObject {
             isLoadingError = true
         }
         isLoading = false
-        
-        // Load airing schedule
-        Task {
-            do {
-                if let nextEpisode = networker.animeNextEpisodeCache[id] {
-                    self.nextEpisode = nextEpisode
-                } else {
-                    let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
-                    self.nextEpisode = nextEpisode
-                    networker.animeNextEpisodeCache[id] = nextEpisode
-                }
-            } catch {
-                print("Some unknown error occurred loading anime airing schedule")
+    }
+    
+    func loadAiringSchedule() async -> Void {
+        do {
+            if let nextEpisode = networker.animeNextEpisodeCache[id] {
+                self.nextEpisode = nextEpisode
+            } else {
+                let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
+                self.nextEpisode = nextEpisode
+                networker.animeNextEpisodeCache[id] = nextEpisode
             }
+        } catch {
+            print("Some unknown error occurred loading anime airing schedule")
         }
-        
-        // Load characters
+    }
+    
+    func loadCharacters() async -> Void {
         do {
             if let characters = networker.animeCharactersCache[id] {
                 self.characters = characters
@@ -70,8 +81,9 @@ class AnimeDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading anime characters")
         }
-        
-        // Load staffs
+    }
+    
+    func loadStaffs() async -> Void {
         do {
             if let staffs = networker.animeStaffsCache[id] {
                 self.staffs = staffs
@@ -83,8 +95,9 @@ class AnimeDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading anime staffs")
         }
-        
-        // Load related
+    }
+    
+    func loadRelated() async -> Void {
         do {
             if let relatedItems = networker.animeRelatedCache[id] {
                 self.relatedItems = relatedItems
@@ -110,8 +123,9 @@ class AnimeDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading anime related items")
         }
-        
-        // Load reviews
+    }
+    
+    func loadReviews() async -> Void {
         do {
             self.reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
         } catch {

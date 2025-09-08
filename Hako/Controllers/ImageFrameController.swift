@@ -14,12 +14,16 @@ class ImageFrameController: ObservableObject {
     let networker = NetworkManager.shared
     
     init(id: String, imageUrl: String?, isProfile: Bool = false) {
-        Task {
-            let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
-            if let data = data {
-                self.image = UIImage(data: data)
-                if isProfile {
-                    UserDefaults.standard.set(data, forKey: "userImage")
+        if let data = networker.getImage(id: id) {
+            self.image = UIImage(data: data)
+        } else {
+            Task {
+                let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
+                if let data = data {
+                    self.image = UIImage(data: data)
+                    if isProfile {
+                        UserDefaults.standard.set(data, forKey: "userImage")
+                    }
                 }
             }
         }

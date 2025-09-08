@@ -25,12 +25,20 @@ class MangaDetailsViewController: ObservableObject {
             self.manga = manga
         }
         Task {
-            await refresh()
+            await loadDetails()
         }
     }
     
     // Refresh the current manga details page
     func refresh() async -> Void {
+        await loadDetails()
+        await loadCharacters()
+        await loadAuthors()
+        await loadRelated()
+        await loadReviews()
+    }
+    
+    func loadDetails() async -> Void {
         isLoading = true
         isLoadingError = false
         do {
@@ -41,8 +49,9 @@ class MangaDetailsViewController: ObservableObject {
             isLoadingError = true
         }
         isLoading = false
-        
-        // Load characters
+    }
+    
+    func loadCharacters() async -> Void {
         do {
             if let characters = networker.mangaCharactersCache[id] {
                 self.characters = characters
@@ -54,8 +63,9 @@ class MangaDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading manga characters")
         }
-        
-        // Load authors
+    }
+    
+    func loadAuthors() async -> Void {
         do {
             if let authors = networker.mangaAuthorsCache[id] {
                 self.authors = authors
@@ -72,8 +82,9 @@ class MangaDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading manga authors")
         }
-        
-        // Load related
+    }
+    
+    func loadRelated() async -> Void {
         do {
             if let relatedItems = networker.mangaRelatedCache[id] {
                 self.relatedItems = relatedItems
@@ -99,8 +110,9 @@ class MangaDetailsViewController: ObservableObject {
         } catch {
             print("Some unknown error occurred loading manga related items")
         }
-        
-        // Load reviews
+    }
+    
+    func loadReviews() async -> Void {
         do {
             self.reviews = try await networker.getMangaReviewsList(id: id, page: 1)
         } catch {

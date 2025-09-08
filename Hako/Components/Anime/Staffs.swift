@@ -17,29 +17,34 @@ struct Staffs: View {
     }
     
     var body: some View {
-        if !controller.staffs.isEmpty {
-            ScrollViewCarousel(title: "Staffs", items: controller.staffs) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: 15) {
-                        ForEach(controller.staffs.prefix(10)) { staff in
-                            ZoomTransition {
-                                PersonDetailsView(id: staff.id)
-                            } label: {
-                                VStack {
-                                    ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
-                                    Text(staff.person.name ?? "")
-                                        .lineLimit(settings.getLineLimit())
-                                        .font(.system(size: 14))
+        VStack {
+            if !controller.staffs.isEmpty {
+                ScrollViewCarousel(title: "Staffs", items: controller.staffs) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top, spacing: 15) {
+                            ForEach(controller.staffs.prefix(10)) { staff in
+                                ZoomTransition {
+                                    PersonDetailsView(id: staff.id)
+                                } label: {
+                                    VStack {
+                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
+                                        Text(staff.person.name ?? "")
+                                            .lineLimit(settings.getLineLimit())
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(width: 110)
                                 }
-                                .frame(width: 110)
                             }
                         }
+                        .padding(.horizontal, 17)
                     }
-                    .padding(.horizontal, 17)
+                } destination: {
+                    StaffsListView(staffs: controller.staffs)
                 }
-            } destination: {
-                StaffsListView(staffs: controller.staffs)
             }
+        }
+        .task {
+            await controller.loadStaffs()
         }
     }
 }

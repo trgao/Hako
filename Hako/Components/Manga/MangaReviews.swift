@@ -18,22 +18,27 @@ struct MangaReviews: View {
     }
     
     var body: some View {
-        if !controller.reviews.isEmpty {
-            ScrollViewCarousel(title: "Reviews", items: controller.reviews) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.reviews.prefix(10)) { item in
-                            ReviewItem(item: item)
-                                .frame(width: UIScreen.main.bounds.size.width - 34, alignment: .center)
+        VStack {
+            if !controller.reviews.isEmpty {
+                ScrollViewCarousel(title: "Reviews", items: controller.reviews) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top) {
+                            ForEach(controller.reviews.prefix(10)) { item in
+                                ReviewItem(item: item)
+                                    .frame(width: UIScreen.main.bounds.size.width - 34, alignment: .center)
+                            }
                         }
+                        .padding(.horizontal, 17)
+                        .scrollTargetLayout()
                     }
-                    .padding(.horizontal, 17)
-                    .scrollTargetLayout()
+                    .scrollTargetBehavior(.viewAligned)
+                } destination: {
+                    ReviewsListView(id: id, type: .manga)
                 }
-                .scrollTargetBehavior(.viewAligned)
-            } destination: {
-                ReviewsListView(id: id, type: .manga)
             }
+        }
+        .task {
+            await controller.loadReviews()
         }
     }
 }

@@ -15,21 +15,26 @@ struct AnimeRelatedItems: View {
     }
     
     var body: some View {
-        if !controller.relatedItems.isEmpty {
-            ScrollViewCarousel(title: "Related", items: controller.relatedItems, showLink: false) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.relatedItems) { item in
-                            if item.type == .anime {
-                                AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
-                            } else if item.type == .manga {
-                                MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
+        VStack {
+            if !controller.relatedItems.isEmpty {
+                ScrollViewCarousel(title: "Related", items: controller.relatedItems, showLink: false) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .top) {
+                            ForEach(controller.relatedItems) { item in
+                                if item.type == .anime {
+                                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
+                                } else if item.type == .manga {
+                                    MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
+                                }
                             }
                         }
+                        .padding(.horizontal, 15)
                     }
-                    .padding(.horizontal, 15)
                 }
             }
+        }
+        .task {
+            await controller.loadRelated()
         }
     }
 }

@@ -11,22 +11,18 @@ import Foundation
 class SearchViewController: ObservableObject {
     // Anime search list variables
     @Published var animeItems = [MALListAnime]()
-    @Published var isAnimeSearchLoading = false
     @Published var isAnimeLoadingError = false
     
     // Manga search list variables
     @Published var mangaItems = [MALListManga]()
-    @Published var isMangaSearchLoading = false
     @Published var isMangaLoadingError = false
     
     // Character search list variables
     @Published var characterItems = [JikanListItem]()
-    @Published var isCharacterSearchLoading = false
     @Published var isCharacterLoadingError = false
     
     // Person search list variables
     @Published var personItems = [JikanListItem]()
-    @Published var isPersonSearchLoading = false
     @Published var isPersonLoadingError = false
     
     // Non-search page list variables
@@ -40,6 +36,7 @@ class SearchViewController: ObservableObject {
     
     // Common variables
     @Published var type: SearchEnum = .anime
+    @Published var isLoading = false
     let networker = NetworkManager.shared
     
     func refresh() async -> Void {
@@ -115,49 +112,48 @@ class SearchViewController: ObservableObject {
     }
     
     // Search for the anime/manga with the name
-    func search(_ name: String) async -> Void {
-        Task {
-            // Search anime
-            isAnimeLoadingError = false
-            do {
-                self.animeItems = try await networker.searchAnime(anime: name).filter{ $0.node.rating != "rx" }
-            } catch {
-                isAnimeLoadingError = true
-            }
-            isAnimeSearchLoading = false
+    func search(_ query: String) async -> Void {
+        guard query.count > 2 else {
+            self.animeItems = []
+            self.mangaItems = []
+            self.characterItems = []
+            self.personItems = []
+            isLoading = false
+            return
+        }
+
+        // Search anime
+        isAnimeLoadingError = false
+        do {
+            self.animeItems = try await networker.searchAnime(anime: query).filter{ $0.node.rating != "rx" }
+        } catch {
+            isAnimeLoadingError = true
         }
         
         // Search manga
-        Task {
-            isMangaLoadingError = false
-            do {
-                self.mangaItems = try await networker.searchManga(manga: name)
-            } catch {
-                isMangaLoadingError = true
-            }
-            isMangaSearchLoading = false
+        isMangaLoadingError = false
+        do {
+            self.mangaItems = try await networker.searchManga(manga: query)
+        } catch {
+            isMangaLoadingError = true
         }
         
         // Search character
-        Task {
-            isCharacterLoadingError = false
-            do {
-                self.characterItems = try await networker.searchCharacter(character: name)
-            } catch {
-                isCharacterLoadingError = true
-            }
-            isCharacterSearchLoading = false
+        isCharacterLoadingError = false
+        do {
+            self.characterItems = try await networker.searchCharacter(character: query)
+        } catch {
+            isCharacterLoadingError = true
         }
         
         // Search person
-        Task {
-            isPersonLoadingError = false
-            do {
-                self.personItems = try await networker.searchPerson(person: name)
-            } catch {
-                isPersonLoadingError = true
-            }
-            isPersonSearchLoading = false
+        isPersonLoadingError = false
+        do {
+            self.personItems = try await networker.searchPerson(person: query)
+        } catch {
+            isPersonLoadingError = true
         }
+
+        isLoading = false
     }
 }

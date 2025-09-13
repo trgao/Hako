@@ -24,7 +24,7 @@ public class TokenBucket {
     private let refillRate: Double
 
     /// The current number of tokens available in the bucket.
-    private var tokens: Int
+    private var tokens: Double
 
     /// The timestamp of the last time the bucket was refilled with tokens.
     private var lastRefillTimestamp: Date
@@ -49,7 +49,7 @@ public class TokenBucket {
         self.refillRate = refillRate
 
         // Start with a full bucket.
-        self.tokens = capacity
+        self.tokens = Double(capacity)
         self.lastRefillTimestamp = Date()
     }
 
@@ -70,7 +70,7 @@ public class TokenBucket {
 
         if tokensToAdd > 0 {
             // Add the new tokens, ensuring we don't exceed the bucket's capacity.
-            self.tokens = min(self.capacity, Int(floor(Double(self.tokens) + tokensToAdd)))
+            self.tokens = min(Double(self.capacity), self.tokens + tokensToAdd)
             self.lastRefillTimestamp = now
         }
     }

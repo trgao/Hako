@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import AsyncAlgorithms
+import Shimmer
 
 struct SearchView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SearchViewController()
     @StateObject var networker = NetworkManager.shared
-    @DebouncedState private var searchText = ""
+    @State private var searchText = ""
     @State private var previousSearch = ""
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
+    private let queryChannel = AsyncChannel<String>()
     
     init(isPresented: Binding<Bool>, isRoot: Binding<Bool>) {
         self._isPresented = isPresented
@@ -156,8 +159,9 @@ struct SearchView: View {
             if controller.type == .anime {
                 List {
                     Section {
-                        if controller.isAnimeSearchLoading {
+                        if controller.isLoading {
                             LoadingList()
+                                .id(searchText)
                         } else if controller.animeItems.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
@@ -186,8 +190,9 @@ struct SearchView: View {
             } else if controller.type == .manga {
                 List {
                     Section {
-                        if controller.isMangaSearchLoading {
+                        if controller.isLoading {
                             LoadingList()
+                                .id(searchText)
                         } else if controller.mangaItems.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
@@ -216,8 +221,9 @@ struct SearchView: View {
             } else if controller.type == .character {
                 List {
                     Section {
-                        if controller.isCharacterSearchLoading {
+                        if controller.isLoading {
                             LoadingList()
+                                .id(searchText)
                         } else if controller.characterItems.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
@@ -259,8 +265,9 @@ struct SearchView: View {
             } else if controller.type == .person {
                 List {
                     Section {
-                        if controller.isPersonSearchLoading {
+                        if controller.isLoading {
                             LoadingList()
+                                .id(searchText)
                         } else if controller.personItems.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
@@ -340,24 +347,15 @@ struct SearchView: View {
             .ignoresSafeArea(.keyboard)
             .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
             .task(id: searchText) {
-                if searchText.count > 2 {
-                    if previousSearch != searchText {
-                        await controller.search(searchText)
-                        previousSearch = searchText
-                    }
-                } else {
-                    controller.animeItems = []
-                    controller.mangaItems = []
-                    controller.characterItems = []
-                    controller.personItems = []
+                if searchText != previousSearch {
+                    controller.isLoading = true
+                    await queryChannel.send(searchText)
+                    previousSearch = searchText
                 }
             }
-            .onChange(of: searchText) {
-                if searchText.count > 2 {
-                    controller.isAnimeSearchLoading = true
-                    controller.isMangaSearchLoading = true
-                    controller.isCharacterSearchLoading = true
-                    controller.isPersonSearchLoading = true
+            .task {
+                for await query in queryChannel.debounce(for: .seconds(0.35)) {
+                    await controller.search(query)
                 }
             }
             .task {

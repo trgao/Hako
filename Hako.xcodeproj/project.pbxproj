@@ -16,6 +16,7 @@
 		EE0C53A02BDF94B400DEB6F1 /* TextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539F2BDF94B400DEB6F1 /* TextBox.swift */; };
 		EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10719A2E042D4700666452 /* AnimeProgress.swift */; };
 		EE10719D2E042E5900666452 /* MangaProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10719C2E042E5700666452 /* MangaProgress.swift */; };
+		EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */; };
 		EE135DFB2E053D0C00F02638 /* ScrollViewNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE135DFA2E053D0C00F02638 /* ScrollViewNavigationLink.swift */; };
 		EE135DFD2E054A2C00F02638 /* ScrollViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE135DFC2E054A2800F02638 /* ScrollViewSection.swift */; };
 		EE135DFF2E054EFB00F02638 /* ScrollViewCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE135DFE2E054EF800F02638 /* ScrollViewCarousel.swift */; };
@@ -174,7 +175,6 @@
 		EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB8FE22BEBCD2B00EAA985 /* Related.swift */; };
 		EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */; };
 		EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabel.swift */; };
-		EEDBDB672C075BAF00F2E821 /* DebouncedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB662C075BAF00F2E821 /* DebouncedState.swift */; };
 		EEDDC63F2BF8E23700B22D87 /* ListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */; };
 		EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */; };
 		EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84D2BD2C02F0036E779 /* MyListView.swift */; };
@@ -358,7 +358,6 @@
 		EEDB8FE22BEBCD2B00EAA985 /* Related.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Related.swift; sourceTree = "<group>"; };
 		EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EEDBDB642C07547300F2E821 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
-		EEDBDB662C075BAF00F2E821 /* DebouncedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebouncedState.swift; sourceTree = "<group>"; };
 		EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilter.swift; sourceTree = "<group>"; };
 		EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EEEBF84D2BD2C02F0036E779 /* MyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListView.swift; sourceTree = "<group>"; };
@@ -386,6 +385,7 @@
 				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
+				EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +411,6 @@
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
 				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
 				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
-				EEDBDB662C075BAF00F2E821 /* DebouncedState.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
 			);
 			path = Others;
@@ -857,6 +856,7 @@
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
 				EE3B40222DD4CB6E000846A1 /* Shimmer */,
 				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
+				EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -890,6 +890,7 @@
 				EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -1022,7 +1023,6 @@
 				EE3A59B32BD217D9009E9F79 /* SettingsView.swift in Sources */,
 				EE8B96D52DD0A8850070DD4E /* ProfileImage.swift in Sources */,
 				EEC1B9042BF127D5001E08C4 /* MangaInformation.swift in Sources */,
-				EEDBDB672C075BAF00F2E821 /* DebouncedState.swift in Sources */,
 				EE3B40152DD4AFE9000846A1 /* MangaCharacters.swift in Sources */,
 				EE91BE572BFCAA28002AC6C4 /* PersonDetailsView.swift in Sources */,
 				EEBC7B182E2248BC00AF83BB /* Picture.swift in Sources */,
@@ -1311,6 +1311,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 		EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit";
@@ -1338,6 +1346,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
 		EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;

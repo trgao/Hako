@@ -33,7 +33,7 @@ struct MyListView: View {
                                 Section(controller.animeStatus.toString()) {
                                     if controller.isLoadingError && controller.animeItems.isEmpty {
                                         HStack {
-                                            ErrorView(refresh: { await controller.refresh() })
+                                            ErrorView(refresh: { await controller.refreshAnime() })
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
@@ -87,6 +87,7 @@ struct MyListView: View {
                                     }
                                     if controller.isAnimeLoading {
                                         LoadingList()
+                                            .id(controller.animeLoadId)
                                     }
                                 }
                             }
@@ -95,7 +96,7 @@ struct MyListView: View {
                                 Section(controller.mangaStatus.toString()) {
                                     if controller.isLoadingError && controller.mangaItems.isEmpty {
                                         HStack {
-                                            ErrorView(refresh: { await controller.refresh() })
+                                            ErrorView(refresh: { await controller.refreshManga() })
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
@@ -171,6 +172,7 @@ struct MyListView: View {
                                     }
                                     if controller.isMangaLoading {
                                         LoadingList()
+                                            .id(controller.mangaLoadId)
                                     }
                                 }
                             }

@@ -14,6 +14,7 @@ class MyListViewController: ObservableObject {
     @Published var isAnimeLoading = true
     @Published var animeStatus: StatusEnum = .watching
     @Published var animeSort = "anime_title"
+    @Published var animeLoadId = UUID()
     private var currentAnimePage = 1
     var canLoadMoreAnimePages = true
     
@@ -22,6 +23,7 @@ class MyListViewController: ObservableObject {
     @Published var isMangaLoading = true
     @Published var mangaStatus: StatusEnum = .reading
     @Published var mangaSort = "manga_title"
+    @Published var mangaLoadId = UUID()
     private var currentMangaPage = 1
     var canLoadMoreMangaPages = true
     
@@ -66,6 +68,7 @@ class MyListViewController: ObservableObject {
     
     // Refresh anime list
     func refreshAnime(_ refresh: Bool = false) async -> Void {
+        animeLoadId = UUID()
         isLoadingError = false
         currentAnimePage = 1
         canLoadMoreAnimePages = false
@@ -93,6 +96,7 @@ class MyListViewController: ObservableObject {
     
     // Refresh manga list
     func refreshManga(_ refresh: Bool = false) async -> Void {
+        mangaLoadId = UUID()
         isLoadingError = false
         currentMangaPage = 1
         canLoadMoreMangaPages = false

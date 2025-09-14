@@ -16,12 +16,12 @@ struct MyListView: View {
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
-    @State private var animeStatus: AnimeListStatus?
+    @State private var animeListStatus: AnimeListStatus?
     
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
-    @State private var mangaStatus: MangaListStatus?
+    @State private var mangaListStatus: MangaListStatus?
     
     var body: some View {
         NavigationStack {
@@ -200,17 +200,17 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
-                        if let index = selectedAnimeIndex, let animeStatus = animeStatus {
-                            if isAnimeDeleted || animeStatus.status != controller.animeStatus {
+                        if let index = selectedAnimeIndex, let animeListStatus = animeListStatus {
+                            if isAnimeDeleted || animeListStatus.status != controller.animeStatus {
                                 controller.animeItems.remove(at: index)
                             } else {
-                                controller.animeItems[index].listStatus = animeStatus
+                                controller.animeItems[index].listStatus = animeListStatus
                                 selectedAnimeIndex = nil
                             }
                         }
                     }
                 } content: { anime in
-                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large, isDeleted: $isAnimeDeleted, animeStatus: $animeStatus)
+                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large, isDeleted: $isAnimeDeleted, animeListStatus: $animeListStatus)
                         .presentationBackground {
                             if settings.translucentBackground {
                                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .background)
@@ -221,17 +221,17 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedManga) {
                     Task {
-                        if let index = selectedMangaIndex, let mangaStatus = mangaStatus {
-                            if isMangaDeleted || mangaStatus.status != controller.mangaStatus {
+                        if let index = selectedMangaIndex, let mangaListStatus = mangaListStatus {
+                            if isMangaDeleted || mangaListStatus.status != controller.mangaStatus {
                                 controller.mangaItems.remove(at: index)
                             } else {
-                                controller.mangaItems[index].listStatus = mangaStatus
+                                controller.mangaItems[index].listStatus = mangaListStatus
                                 selectedMangaIndex = nil
                             }
                         }
                     }
                 } content: { manga in
-                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large, isDeleted: $isMangaDeleted, mangaStatus: $mangaStatus)
+                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large, isDeleted: $isMangaDeleted, mangaListStatus: $mangaListStatus)
                         .presentationBackground {
                             if settings.translucentBackground {
                                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .background)

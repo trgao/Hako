@@ -11,7 +11,7 @@ struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
-    @Binding private var animeStatus: AnimeListStatus?
+    @Binding private var animeListStatus: AnimeListStatus?
     @State private var listStatus: AnimeListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -37,7 +37,7 @@ struct AnimeEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeStatus: Binding<AnimeListStatus?>? = nil) {
+    init(id: Int, listStatus: AnimeListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<AnimeListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -53,10 +53,10 @@ struct AnimeEditView: View {
         } else {
             self._isDeleted = .constant(false)
         }
-        if let animeStatus = animeStatus {
-            self._animeStatus = animeStatus
+        if let animeListStatus = animeListStatus {
+            self._animeListStatus = animeListStatus
         } else {
-            self._animeStatus = .constant(nil)
+            self._animeListStatus = .constant(nil)
         }
     }
     
@@ -75,7 +75,7 @@ struct AnimeEditView: View {
                             isLoading = true
                             do {
                                 try await networker.editUserAnime(id: id, listStatus: listStatus)
-                                animeStatus = listStatus
+                                animeListStatus = listStatus
                                 dismiss()
                             } catch {
                                 isEditError = true
@@ -206,7 +206,7 @@ struct AnimeEditView: View {
             }
         }
         .onAppear {
-            animeStatus = listStatus
+            animeListStatus = listStatus
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

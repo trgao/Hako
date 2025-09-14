@@ -11,7 +11,7 @@ struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
-    @Binding private var mangaStatus: MangaListStatus?
+    @Binding private var mangaListStatus: MangaListStatus?
     @State private var listStatus: MangaListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
@@ -38,7 +38,7 @@ struct MangaEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaStatus: Binding<MangaListStatus?>? = nil) {
+    init(id: Int, listStatus: MangaListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MangaListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
@@ -55,10 +55,10 @@ struct MangaEditView: View {
         } else {
             self._isDeleted = .constant(false)
         }
-        if let mangaStatus = mangaStatus {
-            self._mangaStatus = mangaStatus
+        if let mangaListStatus = mangaListStatus {
+            self._mangaListStatus = mangaListStatus
         } else {
-            self._mangaStatus = .constant(nil)
+            self._mangaListStatus = .constant(nil)
         }
     }
     
@@ -77,7 +77,7 @@ struct MangaEditView: View {
                             isLoading = true
                             do {
                                 try await networker.editUserManga(id: id, listStatus: listStatus)
-                                mangaStatus = listStatus
+                                mangaListStatus = listStatus
                                 dismiss()
                             } catch {
                                 isEditError = true
@@ -220,7 +220,7 @@ struct MangaEditView: View {
             }
         }
         .onAppear {
-            mangaStatus = listStatus
+            mangaListStatus = listStatus
         }
         .alert("Unable to delete", isPresented: $isDeleteError) {
             Button("OK", role: .cancel) {}

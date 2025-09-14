@@ -22,7 +22,7 @@ struct Manga: Codable, Identifiable {
     let mediaType: String?
     let status: String?
     let genres: [MALItem]?
-    var myListStatus: MangaListStatus?
+    var myListStatus: MyListStatus?
     let numVolumes: Int?
     let numChapters: Int?
     let authors: [Author]?

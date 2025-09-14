@@ -11,7 +11,7 @@ struct MALListManga: Codable, Identifiable {
     var id: Int { node.id }
     let node: Node
     let ranking: Ranking?
-    var listStatus: MangaListStatus?
+    var listStatus: MyListStatus?
     
     init(manga: Manga) {
         self.node = .init(id: manga.id, title: manga.title, mainPicture: manga.mainPicture, alternativeTitles: manga.alternativeTitles, startSeason: nil, numEpisodes: nil, numVolumes: manga.numVolumes, numChapters: manga.numChapters, status: manga.status, rating: nil)

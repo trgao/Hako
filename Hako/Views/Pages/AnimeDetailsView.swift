@@ -49,17 +49,17 @@ struct AnimeDetailsView: View {
                             TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                             HStack {
                                 VStack {
-                                    if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                                    if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
                                         Text("MAL score:")
                                             .font(.system(size: 13))
                                     }
                                     Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
                                 }
-                                if (controller.anime?.myListStatus?.score ?? 0) > 0 {
+                                if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
                                     VStack {
                                         Text("Your score:")
                                             .font(.system(size: 13))
-                                        Text("\(controller.anime!.myListStatus!.score) ⭐")
+                                        Text("\(myScore) ⭐")
                                     }
                                     .padding(.leading, 20)
                                 }

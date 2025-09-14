@@ -11,8 +11,8 @@ struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
-    @Binding private var animeListStatus: AnimeListStatus?
-    @State private var listStatus: AnimeListStatus
+    @Binding private var animeListStatus: MyListStatus?
+    @State private var listStatus: MyListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
@@ -37,12 +37,12 @@ struct AnimeEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: AnimeListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<AnimeListStatus?>? = nil) {
+    init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
         } else {
-            self.listStatus = AnimeListStatus(status: .planToWatch, score: 0, numEpisodesWatched: 0, updatedAt: nil)
+            self.listStatus = MyListStatus(status: .planToWatch)
         }
         self.title = title
         self.enTitle = enTitle

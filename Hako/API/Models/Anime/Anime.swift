@@ -22,7 +22,7 @@ struct Anime: Codable, Identifiable {
     let mediaType: String?
     let status: String?
     let genres: [MALItem]?
-    var myListStatus: AnimeListStatus?
+    var myListStatus: MyListStatus?
     let numEpisodes: Int?
     let startSeason: Season?
     let broadcast: Broadcast?

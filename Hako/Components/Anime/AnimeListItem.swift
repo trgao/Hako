@@ -22,7 +22,7 @@ struct AnimeListItem: View {
         self.index = 0
     }
     
-    init(anime: MALListAnime, status: StatusEnum, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
+    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
         self.anime = anime
         self._selectedAnime = selectedAnime
         self._selectedAnimeIndex = selectedAnimeIndex

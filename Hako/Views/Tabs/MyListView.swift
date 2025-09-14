@@ -38,7 +38,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                            AnimeListItem(anime: item, status: controller.animeStatus, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                                            AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(index: index)
@@ -101,7 +101,7 @@ struct MyListView: View {
                                         .frame(maxWidth: .infinity, alignment: .center)
                                     } else {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                            MangaListItem(manga: item, status: controller.mangaStatus, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                                            MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                                 .onAppear {
                                                     Task {
                                                         await controller.loadMoreIfNeeded(index: index)

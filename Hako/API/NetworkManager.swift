@@ -368,7 +368,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         print("deleted successfully")
     }
     
-    func editUserAnime(id: Int, listStatus: AnimeListStatus, _ retries: Int = 3) async throws -> Void {
+    func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws -> Void {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }
@@ -405,7 +405,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         print("edited successfully")
     }
     
-    func editUserManga(id: Int, listStatus: MangaListStatus, _ retries: Int = 3) async throws -> Void {
+    func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws -> Void {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }

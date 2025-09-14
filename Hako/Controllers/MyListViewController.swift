@@ -44,7 +44,7 @@ class MyListViewController: ObservableObject {
         return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
     }
     
-    func updateAnime(index: Int, id: Int, listStatus: AnimeListStatus) async -> Void {
+    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
         isLoading = true
         do {
             try await networker.editUserAnime(id: id, listStatus: listStatus)
@@ -55,7 +55,7 @@ class MyListViewController: ObservableObject {
         isLoading = false
     }
     
-    func updateManga(index: Int, id: Int, listStatus: MangaListStatus) async -> Void {
+    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
         isLoading = true
         do {
             try await networker.editUserManga(id: id, listStatus: listStatus)

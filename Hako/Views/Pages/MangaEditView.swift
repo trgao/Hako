@@ -11,8 +11,8 @@ struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var isDeleted: Bool
-    @Binding private var mangaListStatus: MangaListStatus?
-    @State private var listStatus: MangaListStatus
+    @Binding private var mangaListStatus: MyListStatus?
+    @State private var listStatus: MyListStatus
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
@@ -38,12 +38,12 @@ struct MangaEditView: View {
     ]
     let networker = NetworkManager.shared
     
-    init(id: Int, listStatus: MangaListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MangaListStatus?>? = nil) {
+    init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         if let listStatus = listStatus {
             self.listStatus = listStatus
         } else {
-            self.listStatus = MangaListStatus(status: .planToRead, score: 0, numVolumesRead: 0, numChaptersRead: 0, updatedAt: nil)
+            self.listStatus = MyListStatus(status: .planToRead)
         }
         self.title = title
         self.enTitle = enTitle

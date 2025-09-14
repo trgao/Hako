@@ -16,12 +16,12 @@ struct MyListView: View {
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
-    @State private var animeListStatus: AnimeListStatus?
+    @State private var animeListStatus: MyListStatus?
     
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
-    @State private var mangaListStatus: MangaListStatus?
+    @State private var mangaListStatus: MyListStatus?
     
     var body: some View {
         NavigationStack {

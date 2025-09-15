@@ -531,12 +531,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func searchAnime(anime: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=alternative_titles,start_season,status,rating", type: MALAnimeListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=alternative_titles,start_season,status,rating,my_list_status,num_episodes", type: MALAnimeListResponse.self)
         return response.data
     }
     
     func searchManga(manga: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=alternative_titles,start_season,status", type: MALMangaListResponse.self)
+        let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=alternative_titles,start_season,status,my_list_status,num_volumes,num_chapters", type: MALMangaListResponse.self)
         return response.data
     }
     

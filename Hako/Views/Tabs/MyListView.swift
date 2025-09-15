@@ -86,7 +86,7 @@ struct MyListView: View {
                                         }
                                     }
                                     if controller.isAnimeLoading {
-                                        LoadingList()
+                                        LoadingList(length: 5)
                                             .id(controller.animeLoadId)
                                     }
                                 }
@@ -171,7 +171,7 @@ struct MyListView: View {
                                         }
                                     }
                                     if controller.isMangaLoading {
-                                        LoadingList()
+                                        LoadingList(length: 5)
                                             .id(controller.mangaLoadId)
                                     }
                                 }
@@ -205,8 +205,9 @@ struct MyListView: View {
                                 controller.animeItems.remove(at: index)
                             } else {
                                 controller.animeItems[index].listStatus = animeListStatus
-                                selectedAnimeIndex = nil
                             }
+                            isAnimeDeleted = false
+                            selectedAnimeIndex = nil
                         }
                     }
                 } content: { anime in
@@ -226,8 +227,9 @@ struct MyListView: View {
                                 controller.mangaItems.remove(at: index)
                             } else {
                                 controller.mangaItems[index].listStatus = mangaListStatus
-                                selectedMangaIndex = nil
                             }
+                            isMangaDeleted = false
+                            selectedMangaIndex = nil
                         }
                     }
                 } content: { manga in

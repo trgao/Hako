@@ -37,6 +37,8 @@ class SearchViewController: ObservableObject {
     // Common variables
     @Published var type: SearchEnum = .anime
     @Published var isLoading = false
+    @Published var isRefreshLoading = false
+    @Published var isEditError = false
     let networker = NetworkManager.shared
     
     func refresh() async -> Void {
@@ -111,49 +113,109 @@ class SearchViewController: ObservableObject {
         }
     }
     
-    // Search for the anime/manga with the name
-    func search(_ query: String) async -> Void {
+    // Search for the anime/manga/character/person with query
+    func search(query: String) async -> Void {
         guard query.count > 2 else {
             self.animeItems = []
             self.mangaItems = []
             self.characterItems = []
             self.personItems = []
-            isLoading = false
+            self.isLoading = false
             return
         }
 
-        // Search anime
+        do {
+            await searchAnime(query: query)
+
+            try Task.checkCancellation()
+            await searchManga(query: query)
+
+            try Task.checkCancellation()
+            await searchCharacter(query: query)
+
+            try Task.checkCancellation()
+            await searchPerson(query: query)
+
+            try Task.checkCancellation()
+            self.isLoading = false
+        } catch {}
+    }
+    
+    func refreshSearch(query: String) async -> Void {
+        guard query.count > 2 && (!animeItems.isEmpty || !mangaItems.isEmpty) else {
+            return
+        }
+        isRefreshLoading = true
+        await searchAnime(query: query)
+        await searchManga(query: query)
+        isRefreshLoading = false
+    }
+    
+    func searchAnime(query: String) async -> Void {
         isAnimeLoadingError = false
         do {
-            self.animeItems = try await networker.searchAnime(anime: query).filter{ $0.node.rating != "rx" }
+            self.animeItems = try await networker.searchAnime(anime: query).filter{ $0.node.rating != "rx" }.map { item in
+                var newItem = item
+                newItem.listStatus = item.node.myListStatus
+                return newItem
+            }
         } catch {
             isAnimeLoadingError = true
         }
-        
-        // Search manga
+    }
+    
+    func searchManga(query: String) async -> Void {
         isMangaLoadingError = false
         do {
-            self.mangaItems = try await networker.searchManga(manga: query)
+            self.mangaItems = try await networker.searchManga(manga: query).map { item in
+                var newItem = item
+                newItem.listStatus = item.node.myListStatus
+                return newItem
+            }
         } catch {
             isMangaLoadingError = true
         }
-        
-        // Search character
+    }
+    
+    func searchCharacter(query: String) async -> Void {
         isCharacterLoadingError = false
         do {
             self.characterItems = try await networker.searchCharacter(character: query)
         } catch {
             isCharacterLoadingError = true
         }
-        
-        // Search person
+    }
+    
+    func searchPerson(query: String) async -> Void {
         isPersonLoadingError = false
         do {
             self.personItems = try await networker.searchPerson(person: query)
         } catch {
             isPersonLoadingError = true
         }
-
-        isLoading = false
+    }
+    
+    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+        isRefreshLoading = true
+        do {
+            try await networker.editUserAnime(id: id, listStatus: listStatus)
+            animeItems[index].listStatus = listStatus
+            animeItems[index].node.myListStatus = listStatus
+        } catch {
+            isEditError = true
+        }
+        isRefreshLoading = false
+    }
+    
+    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+        isRefreshLoading = true
+        do {
+            try await networker.editUserManga(id: id, listStatus: listStatus)
+            mangaItems[index].listStatus = listStatus
+            mangaItems[index].node.myListStatus = listStatus
+        } catch {
+            isEditError = true
+        }
+        isRefreshLoading = false
     }
 }

@@ -9,18 +9,11 @@ import SwiftUI
 
 struct AnimeListItem: View {
     @EnvironmentObject private var settings: SettingsManager
+    @StateObject private var networker = NetworkManager.shared
     @Binding private var selectedAnime: MALListAnime?
     @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
     private let index: Int
-    let networker = NetworkManager.shared
-    
-    init(anime: MALListAnime) {
-        self.anime = anime
-        self._selectedAnime = .constant(nil)
-        self._selectedAnimeIndex = .constant(nil)
-        self.index = 0
-    }
     
     init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
         self.anime = anime
@@ -45,7 +38,8 @@ struct AnimeListItem: View {
                             .bold()
                             .font(.system(size: 16))
                     }
-                    if let numEpisodesWatched = anime.listStatus?.numEpisodesWatched {
+                    if networker.isSignedIn {
+                        let numEpisodesWatched = anime.listStatus?.numEpisodesWatched ?? 0
                         if let numEpisodes = anime.node.numEpisodes, numEpisodes > 0 {
                             VStack(alignment: .leading) {
                                 ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
@@ -93,7 +87,7 @@ struct AnimeListItem: View {
                         .font(.system(size: 13))
                         .padding(.top, 1)
                         Spacer()
-                        if networker.isSignedIn && anime.listStatus != nil {
+                        if networker.isSignedIn {
                             Button {
                                 selectedAnime = anime
                                 selectedAnimeIndex = index

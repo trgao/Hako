@@ -9,18 +9,11 @@ import SwiftUI
 
 struct MangaListItem: View {
     @EnvironmentObject private var settings: SettingsManager
+    @StateObject private var networker = NetworkManager.shared
     @Binding private var selectedManga: MALListManga?
     @Binding private var selectedMangaIndex: Int?
     private let manga: MALListManga
     private let index: Int
-    let networker = NetworkManager.shared
-    
-    init(manga: MALListManga) {
-        self.manga = manga
-        self._selectedManga = .constant(nil)
-        self._selectedMangaIndex = .constant(nil)
-        self.index = 0
-    }
     
     init(manga: MALListManga, selectedManga: Binding<MALListManga?>, selectedMangaIndex: Binding<Int?>, index: Int) {
         self.manga = manga
@@ -45,7 +38,9 @@ struct MangaListItem: View {
                             .bold()
                             .font(.system(size: 16))
                     }
-                    if let numChaptersRead = manga.listStatus?.numChaptersRead, let numVolumesRead = manga.listStatus?.numVolumesRead {
+                    if networker.isSignedIn {
+                        let numChaptersRead = manga.listStatus?.numChaptersRead ?? 0
+                        let numVolumesRead = manga.listStatus?.numVolumesRead ?? 0
                         if settings.mangaReadProgress == 0 {
                             if let numChapters = manga.node.numChapters, numChapters > 0 {
                                 VStack(alignment: .leading) {
@@ -162,7 +157,7 @@ struct MangaListItem: View {
                         .font(.system(size: 13))
                         .padding(.top, 1)
                         Spacer()
-                        if networker.isSignedIn && manga.listStatus != nil {
+                        if networker.isSignedIn {
                             Button {
                                 selectedManga = manga
                                 selectedMangaIndex = index

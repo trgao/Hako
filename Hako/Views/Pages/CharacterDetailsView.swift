@@ -33,7 +33,7 @@ struct CharacterDetailsView: View {
                         CharacterMangaSection(mangas: character.manga)
                         CharacterVoiceSection(voices: character.voices)
                     } photo: {
-                        ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .large)
+                        ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(medium: character.images?.jpg?.imageUrl, large: character.images?.jpg?.largeImageUrl)])
                     } title: {
                         NameText(english: character.name, japanese: character.nameKanji)
                     }

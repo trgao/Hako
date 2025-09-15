@@ -30,12 +30,10 @@ struct ExpandableSectionHeader: View {
                 }
             } label: {
                 Image(systemName: "chevron.right")
-                    .rotationEffect(
-                        !isExpanded ? Angle(degrees: 0) : Angle(degrees: 90)
-                    )
+                    .rotationEffect(!isExpanded ? Angle(degrees: 0) : Angle(degrees: 90))
                     .foregroundStyle(Color(.systemGray2))
             }
-            .frame(width: 15, height: 15)
+            .frame(width: 10, height: 10)
         }
     }
 }

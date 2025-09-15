@@ -9,21 +9,34 @@ import SwiftUI
 
 struct ImageCarousel: View {
     @Environment(\.displayScale) var displayScale
-    @Environment(\.dismiss) private var dismiss
+    @Namespace private var transitionNamespace
     @State private var images: [UIImage?]
+    @State private var isPicturesPresented = false
     @State private var isSuccessPresented = false
     @State private var isErrorPresented = false
+    let id: String
+    let imageUrl: String?
     let pictures: [Picture]
     
-    init(pictures: [Picture]?) {
+    init(id: String, imageUrl: String?, pictures: [Picture]?) {
+        self.id = id
+        self.imageUrl = imageUrl
         self.pictures = pictures ?? []
         self.images = pictures?.map { _ in nil } ?? []
     }
     
-    var body: some View {
+    var image: some View {
+        Button {
+            isPicturesPresented = true
+        } label: {
+            ImageFrame(id: id, imageUrl: imageUrl, imageSize: .large)
+        }
+    }
+    
+    var carousel: some View {
         VStack(alignment: .trailing) {
             Button {
-                dismiss()
+                isPicturesPresented = false
             } label: {
                 Image(systemName: "xmark")
             }
@@ -44,7 +57,8 @@ struct ImageCarousel: View {
                         }
                         .frame(width: UIScreen.main.bounds.width * 4 / 5, height: (UIScreen.main.bounds.width * 4 / 5) / 150 * 213)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(.bottom, 50)
+                        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                        .padding(.bottom, 70)
                         .contextMenu {
                             if let inputImage = images[index] {
                                 Button {
@@ -68,6 +82,25 @@ struct ImageCarousel: View {
             Button("Ok") {}
         } message: {
             Text("Check that you have provided permission for the app to access your photo library, in the Settings app under Apps > Hako > Photos > Add Photos Only")
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            if #available(iOS 18.0, *) {
+                image
+                    .matchedTransitionSource(id: "pictures", in: transitionNamespace)
+            } else {
+                image
+            }
+        }
+        .fullScreenCover(isPresented: $isPicturesPresented) {
+            if #available(iOS 18.0, *) {
+                carousel
+                    .navigationTransition(.zoom(sourceID: "pictures", in: transitionNamespace))
+            } else {
+                carousel
+            }
         }
     }
 }

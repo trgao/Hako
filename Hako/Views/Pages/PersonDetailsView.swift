@@ -33,7 +33,7 @@ struct PersonDetailsView: View {
                         PersonAnimeSection(animes: person.anime)
                         PersonMangaSection(mangas: person.manga)
                     } photo: {
-                        ImageFrame(id: "person\(person.id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .large)
+                        ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(medium: person.images?.jpg?.imageUrl, large: person.images?.jpg?.largeImageUrl)])
                     } title: {
                         NameText(english: person.name, birthday: person.birthday?.toString())
                     }
@@ -48,7 +48,7 @@ struct PersonDetailsView: View {
                     }
                     .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                     .background {
-                        ImageFrame(id: "person\(id)", imageUrl: controller.person?.images?.jpg?.imageUrl, imageSize: .background)
+                        ImageFrame(id: "person\(id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .background)
                     }
                 }
                 if controller.isLoading {

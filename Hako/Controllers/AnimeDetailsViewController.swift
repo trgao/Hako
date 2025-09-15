@@ -31,7 +31,7 @@ class AnimeDetailsViewController: ObservableObject {
     }
     
     // Refresh the current anime details page
-    func refresh() async -> Void {
+    func refresh() async {
         await loadDetails()
         Task {
             await loadAiringSchedule()
@@ -42,7 +42,7 @@ class AnimeDetailsViewController: ObservableObject {
         await loadReviews()
     }
     
-    func loadDetails() async -> Void {
+    func loadDetails() async {
         isLoading = true
         isLoadingError = false
         do {
@@ -55,7 +55,7 @@ class AnimeDetailsViewController: ObservableObject {
         isLoading = false
     }
     
-    func loadAiringSchedule() async -> Void {
+    func loadAiringSchedule() async {
         do {
             if let nextEpisode = networker.animeNextEpisodeCache[id] {
                 self.nextEpisode = nextEpisode
@@ -69,7 +69,7 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
-    func loadCharacters() async -> Void {
+    func loadCharacters() async {
         do {
             if let characters = networker.animeCharactersCache[id] {
                 self.characters = characters
@@ -83,7 +83,7 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
-    func loadStaffs() async -> Void {
+    func loadStaffs() async {
         do {
             if let staffs = networker.animeStaffsCache[id] {
                 self.staffs = staffs
@@ -97,7 +97,7 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
-    func loadRelated() async -> Void {
+    func loadRelated() async {
         do {
             if let relatedItems = networker.animeRelatedCache[id] {
                 self.relatedItems = relatedItems
@@ -125,7 +125,7 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
-    func loadReviews() async -> Void {
+    func loadReviews() async {
         do {
             self.reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
         } catch {

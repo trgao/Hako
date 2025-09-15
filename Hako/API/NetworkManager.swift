@@ -118,7 +118,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Refresh access token using stored refresh token
-    private func refreshToken() async throws -> Void {
+    private func refreshToken() async throws {
         guard let token = keychain["refreshToken"] else {
             throw NetworkError.invalidRefreshToken
         }
@@ -177,7 +177,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Sign in user (async wrapper for signInWithCompletion)
-    func signIn() async throws -> Void {
+    func signIn() async throws {
         let pkce = PKCE.generateCodeVerifier()
         let token = try await withCheckedThrowingContinuation { continuation in
             signInWithCompletion(pkce) { result in
@@ -194,7 +194,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         try await getUserProfile(accessToken)
     }
     
-    func getUserProfile(_ token: String? = nil, _ retries: Int = 3) async throws -> Void {
+    func getUserProfile(_ token: String? = nil, _ retries: Int = 3) async throws {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }
@@ -334,7 +334,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Delete anime or manga from user list
-    private func deleteItem(id: Int, type: TypeEnum, _ retries: Int = 3) async throws -> Void {
+    private func deleteItem(id: Int, type: TypeEnum, _ retries: Int = 3) async throws {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }
@@ -368,7 +368,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         print("deleted successfully")
     }
     
-    func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws -> Void {
+    func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }
@@ -405,7 +405,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         print("edited successfully")
     }
     
-    func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws -> Void {
+    func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         if retries == 0 {
             throw NetworkError.outOfRetries
         }
@@ -507,11 +507,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func deleteUserAnime(id: Int) async throws -> Void {
+    func deleteUserAnime(id: Int) async throws {
         return try await deleteItem(id: id, type: .anime)
     }
     
-    func deleteUserManga(id: Int) async throws -> Void {
+    func deleteUserManga(id: Int) async throws {
         return try await deleteItem(id: id, type: .manga)
     }
     

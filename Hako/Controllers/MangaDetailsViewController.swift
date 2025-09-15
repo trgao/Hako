@@ -30,7 +30,7 @@ class MangaDetailsViewController: ObservableObject {
     }
     
     // Refresh the current manga details page
-    func refresh() async -> Void {
+    func refresh() async {
         await loadDetails()
         await loadCharacters()
         await loadAuthors()
@@ -38,7 +38,7 @@ class MangaDetailsViewController: ObservableObject {
         await loadReviews()
     }
     
-    func loadDetails() async -> Void {
+    func loadDetails() async {
         isLoading = true
         isLoadingError = false
         do {
@@ -51,7 +51,7 @@ class MangaDetailsViewController: ObservableObject {
         isLoading = false
     }
     
-    func loadCharacters() async -> Void {
+    func loadCharacters() async {
         do {
             if let characters = networker.mangaCharactersCache[id] {
                 self.characters = characters
@@ -65,7 +65,7 @@ class MangaDetailsViewController: ObservableObject {
         }
     }
     
-    func loadAuthors() async -> Void {
+    func loadAuthors() async {
         do {
             if let authors = networker.mangaAuthorsCache[id] {
                 self.authors = authors
@@ -86,7 +86,7 @@ class MangaDetailsViewController: ObservableObject {
         }
     }
     
-    func loadRelated() async -> Void {
+    func loadRelated() async {
         do {
             if let relatedItems = networker.mangaRelatedCache[id] {
                 self.relatedItems = relatedItems
@@ -114,7 +114,7 @@ class MangaDetailsViewController: ObservableObject {
         }
     }
     
-    func loadReviews() async -> Void {
+    func loadReviews() async {
         do {
             self.reviews = try await networker.getMangaReviewsList(id: id, page: 1)
         } catch {

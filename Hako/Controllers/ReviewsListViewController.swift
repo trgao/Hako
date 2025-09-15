@@ -29,7 +29,7 @@ class ReviewsListViewController: ObservableObject {
     }
     
     // Refresh the current reviews list
-    func refresh() async -> Void {
+    func refresh() async {
         isLoadingError = false
         currentPage = 1
         canLoadMore = false
@@ -57,7 +57,7 @@ class ReviewsListViewController: ObservableObject {
     }
     
     // Load more of the current reviews list
-    private func loadMore() async -> Void {
+    private func loadMore() async {
         // only load more when it is not loading and there are more pages to be loaded
         guard !isLoading && canLoadMore else {
             return
@@ -93,7 +93,7 @@ class ReviewsListViewController: ObservableObject {
     }
     
     // Load more review when reaching the 4th last review in list
-    func loadMoreIfNeeded(index: Int) async -> Void {
+    func loadMoreIfNeeded(index: Int) async {
         let thresholdIndex = reviews.index(reviews.endIndex, offsetBy: -4)
         if index == thresholdIndex {
             return await loadMore()

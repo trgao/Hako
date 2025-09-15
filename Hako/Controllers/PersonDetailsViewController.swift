@@ -23,7 +23,7 @@ class PersonDetailsViewController: ObservableObject {
     }
     
     // Refresh the current person details page
-    func refresh() async -> Void {
+    func refresh() async {
         isLoading = true
         do {
             let person = try await networker.getPersonDetails(id: id)

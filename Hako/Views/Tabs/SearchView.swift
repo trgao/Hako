@@ -166,6 +166,19 @@ struct SearchView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
+    var nothingFoundView: some View {
+        VStack {
+            Image(systemName: "magnifyingglass")
+                .resizable()
+                .frame(width: 40, height: 40)
+                .padding(.bottom, 10)
+            Text("Nothing found")
+                .bold()
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.vertical, 50)
+    }
+    
     var searchView: some View {
         ZStack {
             VStack {
@@ -179,22 +192,13 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.animeItems.isEmpty {
-                                VStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.bottom, 10)
-                                    Text("Nothing found")
-                                        .bold()
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 40)
-                            } else if !controller.isAnimeLoadingError {
+                                nothingFoundView
+                            } else if controller.isAnimeLoadingError {
+                                ListErrorView(refresh: { await controller.search(query: searchText) })
+                            } else {
                                 ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
                                     AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                 }
-                            } else {
-                                ErrorView(refresh: { await controller.search(query: searchText) })
                             }
                         } footer: {
                             Rectangle()
@@ -207,22 +211,13 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.mangaItems.isEmpty {
-                                VStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.bottom, 10)
-                                    Text("Nothing found")
-                                        .bold()
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 40)
-                            } else if !controller.isMangaLoadingError {
+                                nothingFoundView
+                            } else if controller.isMangaLoadingError {
+                                ListErrorView(refresh: { await controller.search(query: searchText) })
+                            } else {
                                 ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
                                     MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                 }
-                            } else {
-                                ErrorView(refresh: { await controller.search(query: searchText) })
                             }
                         } footer: {
                             Rectangle()
@@ -235,16 +230,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.characterItems.isEmpty {
-                                VStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.bottom, 10)
-                                    Text("Nothing found")
-                                        .bold()
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 40)
+                                nothingFoundView
                             } else if !controller.isCharacterLoadingError {
                                 ForEach(controller.characterItems) { item in
                                     NavigationLink {
@@ -276,16 +262,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.personItems.isEmpty {
-                                VStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .padding(.bottom, 10)
-                                    Text("Nothing found")
-                                        .bold()
-                                }
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 40)
+                                nothingFoundView
                             } else if !controller.isPersonLoadingError {
                                 ForEach(controller.personItems) { item in
                                     NavigationLink {

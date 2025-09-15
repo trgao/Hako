@@ -32,10 +32,17 @@ struct MyListView: View {
                             List {
                                 Section(controller.animeStatus.toString()) {
                                     if controller.isLoadingError && controller.animeItems.isEmpty {
-                                        HStack {
-                                            ErrorView(refresh: { await controller.refreshAnime() })
+                                        ListErrorView(refresh: { await controller.refreshAnime() })
+                                    } else if !controller.isAnimeLoading && controller.animeItems.isEmpty {
+                                        VStack {
+                                            Image(systemName: "tv.fill")
+                                                .resizable()
+                                                .frame(width: 45, height: 40)
+                                            Text("Nothing found")
+                                                .bold()
                                         }
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 50)
                                     } else {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
                                             AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
@@ -73,17 +80,6 @@ struct MyListView: View {
                                                     }
                                                 }
                                         }
-                                        if !controller.isAnimeLoading && controller.isItemsEmpty() {
-                                            VStack {
-                                                Image(systemName: "tv.fill")
-                                                    .resizable()
-                                                    .frame(width: 45, height: 40)
-                                                Text("Nothing found")
-                                                    .bold()
-                                            }
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 50)
-                                        }
                                     }
                                     if controller.isAnimeLoading {
                                         LoadingList(length: 5)
@@ -95,10 +91,17 @@ struct MyListView: View {
                             List {
                                 Section(controller.mangaStatus.toString()) {
                                     if controller.isLoadingError && controller.mangaItems.isEmpty {
-                                        HStack {
-                                            ErrorView(refresh: { await controller.refreshManga() })
+                                        ListErrorView(refresh: { await controller.refreshManga() })
+                                    } else if !controller.isMangaLoading && controller.mangaItems.isEmpty {
+                                        VStack {
+                                            Image(systemName: "book.fill")
+                                                .resizable()
+                                                .frame(width: 45, height: 40)
+                                            Text("Nothing found")
+                                                .bold()
                                         }
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 50)
                                     } else {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
                                             MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
@@ -157,17 +160,6 @@ struct MyListView: View {
                                                         }
                                                     }
                                                 }
-                                        }
-                                        if !controller.isMangaLoading && controller.isItemsEmpty() {
-                                            VStack {
-                                                Image(systemName: "book.fill")
-                                                    .resizable()
-                                                    .frame(width: 45, height: 40)
-                                                Text("Nothing found")
-                                                    .bold()
-                                            }
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 50)
                                         }
                                     }
                                     if controller.isMangaLoading {

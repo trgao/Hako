@@ -15,7 +15,7 @@ struct MyListStatus: Codable, Equatable {
     var numVolumesRead = 0
     var startDate: Date?
     var finishDate: Date?
-    let updatedAt: Date?
+    var updatedAt: Date?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MyListStatus.CodingKeys.self)

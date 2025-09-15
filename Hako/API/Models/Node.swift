@@ -18,6 +18,7 @@ struct Node: Codable {
     let numChapters: Int?
     let status: String?
     let rating: String?
+    var myListStatus: MyListStatus?
 }
 
 struct Ranking: Codable {

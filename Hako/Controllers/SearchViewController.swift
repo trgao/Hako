@@ -41,6 +41,20 @@ class SearchViewController: ObservableObject {
     @Published var isEditError = false
     let networker = NetworkManager.shared
     
+    func resetSearch() -> Void {
+        animeItems = []
+        mangaItems = []
+        characterItems = []
+        personItems = []
+        isAnimeLoadingError = false
+        isMangaLoadingError = false
+        isCharacterLoadingError = false
+        isPersonLoadingError = false
+        
+        isLoading = false
+        isRefreshLoading = false
+    }
+    
     func refresh() async -> Void {
         if networker.isSignedIn && self.animeSuggestions.isEmpty {
             do {
@@ -124,21 +138,30 @@ class SearchViewController: ObservableObject {
             return
         }
 
-        do {
-            await searchAnime(query: query)
+        if Task.isCancelled {
+            return
+        }
+        await searchAnime(query: query)
 
-            try Task.checkCancellation()
-            await searchManga(query: query)
+        if Task.isCancelled {
+            return
+        }
+        await searchManga(query: query)
 
-            try Task.checkCancellation()
-            await searchCharacter(query: query)
+        if Task.isCancelled {
+            return
+        }
+        await searchCharacter(query: query)
 
-            try Task.checkCancellation()
-            await searchPerson(query: query)
+        if Task.isCancelled {
+            return
+        }
+        await searchPerson(query: query)
 
-            try Task.checkCancellation()
-            self.isLoading = false
-        } catch {}
+        if Task.isCancelled {
+            return
+        }
+        self.isLoading = false
     }
     
     func refreshSearch(query: String) async -> Void {

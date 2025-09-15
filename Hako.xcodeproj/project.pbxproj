@@ -718,13 +718,13 @@
 		EE6F33DE2DDC80F4009DED2B /* List */ = {
 			isa = PBXGroup;
 			children = (
-				EE928DAE2E6ED78900D09966 /* ExpandableSectionHeader.swift */,
 				EECECC622DF4BD4300232E8C /* NameText.swift */,
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EE960E8E2DD3964D00E4EDC9 /* ListRow.swift */,
 				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
 				EE0C539F2BDF94B400DEB6F1 /* TextBox.swift */,
+				EE928DAE2E6ED78900D09966 /* ExpandableSectionHeader.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";

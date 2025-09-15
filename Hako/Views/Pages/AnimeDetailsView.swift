@@ -9,11 +9,9 @@ import SwiftUI
 
 struct AnimeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @Namespace private var transitionNamespace
     @StateObject private var controller: AnimeDetailsViewController
     @StateObject private var networker = NetworkManager.shared
     @State private var isEditViewPresented = false
-    @State private var isPicturesPresented = false
     @State private var isRefresh = false
     private let id: Int
     private let url: URL
@@ -32,20 +30,7 @@ struct AnimeDetailsView: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            if #available(iOS 18.0, *) {
-                                Button {
-                                    isPicturesPresented = true
-                                } label: {
-                                    ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
-                                }
-                                .matchedTransitionSource(id: "pictures", in: transitionNamespace)
-                            } else {
-                                Button {
-                                    isPicturesPresented = true
-                                } label: {
-                                    ImageFrame(id: "anime\(anime.id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .large)
-                                }
-                            }
+                            ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures.reversed())
                             TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                             HStack {
                                 VStack {
@@ -145,14 +130,6 @@ struct AnimeDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .fullScreenCover(isPresented: $isPicturesPresented) {
-            if #available(iOS 18.0, *) {
-                ImageCarousel(pictures: controller.anime?.pictures)
-                    .navigationTransition(.zoom(sourceID: "pictures", in: transitionNamespace))
-            } else {
-                ImageCarousel(pictures: controller.anime?.pictures)
-            }
-        }
         .toolbar {
             if networker.isSignedIn && !settings.useWithoutAccount {
                 if let anime = controller.anime {

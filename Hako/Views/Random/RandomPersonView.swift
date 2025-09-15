@@ -34,7 +34,7 @@ class RandomPersonViewController: ObservableObject {
         }
     }
     
-    func refresh() async -> Void {
+    func refresh() async {
         do {
             self.id = try await networker.getRandomPerson()
         } catch {

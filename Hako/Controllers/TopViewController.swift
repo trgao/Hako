@@ -38,7 +38,7 @@ class TopViewController: ObservableObject {
     }
     
     // Refresh both anime and manga list
-    func refresh() async -> Void {
+    func refresh() async {
         isLoading = true
         isLoadingError = false
         
@@ -69,7 +69,7 @@ class TopViewController: ObservableObject {
     }
     
     // Load more of the current anime/manga list
-    private func loadMore() async -> Void {
+    private func loadMore() async {
         if type == .anime {
             // only load more when it is not loading and there are more pages to be loaded
             guard !isLoading && canLoadMoreAnimePages else {
@@ -118,7 +118,7 @@ class TopViewController: ObservableObject {
     }
     
     // Load more anime when reaching the 4th last anime/manga in list
-    func loadMoreIfNeeded(index: Int) async -> Void {
+    func loadMoreIfNeeded(index: Int) async {
         if type == .anime {
             let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -4)
             if index == thresholdIndex {

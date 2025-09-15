@@ -178,7 +178,7 @@ class SeasonsViewController: ObservableObject {
     }
     
     // Refresh the current season list
-    func refresh(_ clear: Bool = false) async -> Void {
+    func refresh(_ clear: Bool = false) async {
         // Reset all lists if need to clear (to change year)
         if clear {
             winterItems = []
@@ -237,7 +237,7 @@ class SeasonsViewController: ObservableObject {
     }
     
     // Load more of the current season
-    private func loadMore() async -> Void {
+    private func loadMore() async {
         // only load more when it is not loading and there are more pages to be loaded
         guard !getCurrentSeasonLoading() && getCurrentSeasonCanLoadMore() else {
             return
@@ -281,7 +281,7 @@ class SeasonsViewController: ObservableObject {
     }
     
     // Load more items from current season when reaching the 4th last anime in list
-    func loadMoreIfNeeded(index: Int) async -> Void {
+    func loadMoreIfNeeded(index: Int) async {
         if season == "winter" {
             let thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)
             if index == thresholdIndex {

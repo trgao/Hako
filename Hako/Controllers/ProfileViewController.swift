@@ -15,7 +15,7 @@ class ProfileViewController: ObservableObject {
     @Published var manga = [MALListManga]()
     let networker = NetworkManager.shared
     
-    func refresh() async -> Void {
+    func refresh() async {
         do {
             self.userStatistics = try await networker.getUserStatistics()
         } catch {

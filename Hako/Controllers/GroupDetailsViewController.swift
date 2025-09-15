@@ -28,7 +28,7 @@ class GroupDetailsViewController: ObservableObject {
     }
     
     // Refresh the current anime/manga list
-    func refresh() async -> Void {
+    func refresh() async {
         currentPage = 1
         canLoadMorePages = true
         isLoading = true
@@ -62,7 +62,7 @@ class GroupDetailsViewController: ObservableObject {
     }
     
     // Load more of the current anime/manga list
-    private func loadMore() async -> Void {
+    private func loadMore() async {
         // only load more when it is not loading and there are more pages to be loaded
         guard !isLoading && canLoadMorePages else {
             return
@@ -104,7 +104,7 @@ class GroupDetailsViewController: ObservableObject {
     }
     
     // Load more items when reaching the 4th last items in list
-    func loadMoreIfNeeded(index: Int) async -> Void {
+    func loadMoreIfNeeded(index: Int) async {
         let thresholdIndex = items.index(items.endIndex, offsetBy: -4)
         if index == thresholdIndex {
             return await loadMore()

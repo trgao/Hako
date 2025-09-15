@@ -44,7 +44,7 @@ class MyListViewController: ObservableObject {
         return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
     }
     
-    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {
         isLoading = true
         do {
             try await networker.editUserAnime(id: id, listStatus: listStatus)
@@ -55,7 +55,7 @@ class MyListViewController: ObservableObject {
         isLoading = false
     }
     
-    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async {
         isLoading = true
         do {
             try await networker.editUserManga(id: id, listStatus: listStatus)
@@ -67,7 +67,7 @@ class MyListViewController: ObservableObject {
     }
     
     // Refresh anime list
-    func refreshAnime(_ refresh: Bool = false) async -> Void {
+    func refreshAnime(_ refresh: Bool = false) async {
         animeLoadId = UUID()
         isLoadingError = false
         currentAnimePage = 1
@@ -95,7 +95,7 @@ class MyListViewController: ObservableObject {
     }
     
     // Refresh manga list
-    func refreshManga(_ refresh: Bool = false) async -> Void {
+    func refreshManga(_ refresh: Bool = false) async {
         mangaLoadId = UUID()
         isLoadingError = false
         currentMangaPage = 1
@@ -123,13 +123,13 @@ class MyListViewController: ObservableObject {
     }
     
     // Refresh both anime and manga list
-    func refresh(_ refresh: Bool = false) async -> Void {
+    func refresh(_ refresh: Bool = false) async {
         await refreshAnime(refresh)
         await refreshManga(refresh)
     }
     
     // Load more of the current anime/manga list
-    private func loadMore() async -> Void {
+    private func loadMore() async {
         if type == .anime {
             // only load more when it is not loading and there are more pages to be loaded
             guard !isAnimeLoading && canLoadMoreAnimePages else {
@@ -180,7 +180,7 @@ class MyListViewController: ObservableObject {
     }
     
     // Load more anime when reaching the 4th last anime/manga in list
-    func loadMoreIfNeeded(index: Int) async -> Void {
+    func loadMoreIfNeeded(index: Int) async {
         if type == .anime {
             let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -4)
             if index == thresholdIndex {

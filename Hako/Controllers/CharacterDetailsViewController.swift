@@ -23,7 +23,7 @@ class CharacterDetailsViewController: ObservableObject {
     }
     
     // Refresh the current character details page
-    func refresh() async -> Void {
+    func refresh() async {
         isLoading = true
         do {
             let character = try await networker.getCharacterDetails(id: id)

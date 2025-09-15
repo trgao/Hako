@@ -41,7 +41,7 @@ class SearchViewController: ObservableObject {
     @Published var isEditError = false
     let networker = NetworkManager.shared
     
-    func resetSearch() -> Void {
+    func resetSearch() {
         animeItems = []
         mangaItems = []
         characterItems = []
@@ -55,7 +55,7 @@ class SearchViewController: ObservableObject {
         isRefreshLoading = false
     }
     
-    func refresh() async -> Void {
+    func refresh() async {
         if networker.isSignedIn && self.animeSuggestions.isEmpty {
             do {
                 self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
@@ -128,7 +128,7 @@ class SearchViewController: ObservableObject {
     }
     
     // Search for the anime/manga/character/person with query
-    func search(query: String) async -> Void {
+    func search(query: String) async {
         guard query.count > 2 else {
             self.animeItems = []
             self.mangaItems = []
@@ -164,7 +164,7 @@ class SearchViewController: ObservableObject {
         self.isLoading = false
     }
     
-    func refreshSearch(query: String) async -> Void {
+    func refreshSearch(query: String) async {
         guard query.count > 2 && (!animeItems.isEmpty || !mangaItems.isEmpty) else {
             return
         }
@@ -174,7 +174,7 @@ class SearchViewController: ObservableObject {
         isRefreshLoading = false
     }
     
-    func searchAnime(query: String) async -> Void {
+    func searchAnime(query: String) async {
         isAnimeLoadingError = false
         do {
             self.animeItems = try await networker.searchAnime(anime: query).filter{ $0.node.rating != "rx" }.map { item in
@@ -187,7 +187,7 @@ class SearchViewController: ObservableObject {
         }
     }
     
-    func searchManga(query: String) async -> Void {
+    func searchManga(query: String) async {
         isMangaLoadingError = false
         do {
             self.mangaItems = try await networker.searchManga(manga: query).map { item in
@@ -200,7 +200,7 @@ class SearchViewController: ObservableObject {
         }
     }
     
-    func searchCharacter(query: String) async -> Void {
+    func searchCharacter(query: String) async {
         isCharacterLoadingError = false
         do {
             self.characterItems = try await networker.searchCharacter(character: query)
@@ -209,7 +209,7 @@ class SearchViewController: ObservableObject {
         }
     }
     
-    func searchPerson(query: String) async -> Void {
+    func searchPerson(query: String) async {
         isPersonLoadingError = false
         do {
             self.personItems = try await networker.searchPerson(person: query)
@@ -218,7 +218,7 @@ class SearchViewController: ObservableObject {
         }
     }
     
-    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
             try await networker.editUserAnime(id: id, listStatus: listStatus)
@@ -230,7 +230,7 @@ class SearchViewController: ObservableObject {
         isRefreshLoading = false
     }
     
-    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async -> Void {
+    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
             try await networker.editUserManga(id: id, listStatus: listStatus)

@@ -192,9 +192,11 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.animeItems.isEmpty {
-                                nothingFoundView
-                            } else if controller.isAnimeLoadingError {
-                                ListErrorView(refresh: { await controller.search(query: searchText) })
+                                if controller.isAnimeLoadingError {
+                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                } else {
+                                    nothingFoundView
+                                }
                             } else {
                                 ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
                                     AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
@@ -211,9 +213,11 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.mangaItems.isEmpty {
-                                nothingFoundView
-                            } else if controller.isMangaLoadingError {
-                                ListErrorView(refresh: { await controller.search(query: searchText) })
+                                if controller.isMangaLoadingError {
+                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                } else {
+                                    nothingFoundView
+                                }
                             } else {
                                 ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
                                     MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
@@ -230,8 +234,12 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.characterItems.isEmpty {
-                                nothingFoundView
-                            } else if !controller.isCharacterLoadingError {
+                                if controller.isCharacterLoadingError {
+                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                } else {
+                                    nothingFoundView
+                                }
+                            } else {
                                 ForEach(controller.characterItems) { item in
                                     NavigationLink {
                                         CharacterDetailsView(id: item.id)
@@ -248,8 +256,6 @@ struct SearchView: View {
                                     }
                                     .padding(5)
                                 }
-                            } else {
-                                ErrorView(refresh: { await controller.search(query: searchText) })
                             }
                         } footer: {
                             Rectangle()
@@ -262,8 +268,12 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.personItems.isEmpty {
-                                nothingFoundView
-                            } else if !controller.isPersonLoadingError {
+                                if controller.isPersonLoadingError {
+                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                } else {
+                                    nothingFoundView
+                                }
+                            } else {
                                 ForEach(controller.personItems) { item in
                                     NavigationLink {
                                         PersonDetailsView(id: item.id)
@@ -280,8 +290,6 @@ struct SearchView: View {
                                     }
                                     .padding(5)
                                 }
-                            } else {
-                                ErrorView(refresh: { await controller.search(query: searchText) })
                             }
                         } footer: {
                             Rectangle()
@@ -292,7 +300,7 @@ struct SearchView: View {
                     }
                 }
             }
-            if controller.isRefreshLoading {
+            if controller.isRefreshLoading && !controller.isLoading {
                 LoadingView()
             }
         }
@@ -413,10 +421,7 @@ struct SearchView: View {
             .onChange(of: isPresented) {
                 searchText = ""
                 previousSearch = ""
-                controller.animeItems = []
-                controller.mangaItems = []
-                controller.characterItems = []
-                controller.personItems = []
+                controller.resetSearch()
             }
             .navigationTitle("Search")
             .toolbar {

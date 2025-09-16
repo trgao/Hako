@@ -83,34 +83,73 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    // Get access token when user is signing in for the first time
-    private func getAccessToken(_ code: String, _ codeVerifier: String) async throws -> String {
-        let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
-        let parameters: Data = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
-        request.httpBody = parameters
+    // Generic MALApi request
+    private func sendMALRequest<T: Decodable>(url: URL, method: String, body: Data? = nil, token: String? = nil, _ contentType: String? = nil, _ retries: Int = 3) async throws -> T {
+        if retries == 0 {
+            throw NetworkError.outOfRetries
+        }
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        if let contentType = contentType {
+            request.setValue(contentType, forHTTPHeaderField:"Content-Type")
+        }
+        if let body = body {
+            request.httpBody = body
+        }
+        
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = [
+            "X-MAL-CLIENT-ID": clientId
+        ]
+        var hasToken = false
+        if let token = keychain["accessToken"] ?? token {
+            config.httpAdditionalHeaders?["Authorization"] = "Bearer \(token)"
+            hasToken = true
+        }
+        let session = URLSession(configuration: config)
+        
+        let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
         
+        if httpResponse.statusCode == 401 && hasToken {
+            try await refreshToken()
+            let result: T = try await sendMALRequest(url: url, method: method, body: body, token: token, contentType, retries - 1)
+            return result
+        }
+
         guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.badStatusCode(httpResponse.statusCode)
+            if httpResponse.statusCode == 404 {
+                throw NetworkError.notFound
+            } else {
+                throw NetworkError.badStatusCode(httpResponse.statusCode)
+            }
         }
         
         do {
-            let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
-            print(responseObject)
-            self.keychain["accessToken"] = responseObject.accessToken
-            self.keychain["refreshToken"] = responseObject.refreshToken
-            return responseObject.accessToken
+            var decoded: T
+            if data.isEmpty {
+                decoded = try decoder.decode(T.self, from: Data())
+            } else {
+                decoded = try decoder.decode(T.self, from: data)
+            }
+            return decoded
         } catch {
             throw NetworkError.jsonParseFailure
         }
+    }
+    
+    // Get access token when user is signing in for the first time
+    private func getAccessToken(_ code: String, _ codeVerifier: String) async throws -> String {
+        let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
+        let body = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
+        let responseObject: MALAuthenticationResponse = try await sendMALRequest(url: url, method: "POST", body: body, "application/x-www-form-urlencoded", 1)
+        self.keychain["accessToken"] = responseObject.accessToken
+        self.keychain["refreshToken"] = responseObject.refreshToken
+        return responseObject.accessToken
     }
     
     // Refresh access token using stored refresh token
@@ -141,7 +180,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
-            print(responseObject)
             self.keychain["accessToken"] = responseObject.accessToken
             self.keychain["refreshToken"] = responseObject.refreshToken
         } catch {
@@ -187,64 +225,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         self.isSignedIn = true
         try await getUserProfile(accessToken)
     }
-    
-    func getUserProfile(_ token: String? = nil, _ retries: Int = 3) async throws {
-        if retries == 0 {
-            throw NetworkError.outOfRetries
-        }
-        let url = URL(string: malBaseApi + "/users/@me")!
-        let config = URLSessionConfiguration.default
-        config.httpAdditionalHeaders = [
-            "X-MAL-CLIENT-ID": clientId
-        ]
-        var hasToken = false
-        if let token = keychain["accessToken"] {
-            config.httpAdditionalHeaders?["Authorization"] = "Bearer \(token)"
-            hasToken = true
-        } else if let token = token {
-            config.httpAdditionalHeaders?["Authorization"] = "Bearer \(token)"
-            hasToken = true
-        }
-        let session = URLSession(configuration: config)
-        let (data, response) = try await session.data(for: URLRequest(url: url))
-            
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-            
-        if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
-            return try await getUserProfile(token, retries - 1)
-        }
-        
-        guard (200...299).contains(httpResponse.statusCode) else {
-            if httpResponse.statusCode == 404 {
-                throw NetworkError.notFound
-            } else {
-                throw NetworkError.badStatusCode(httpResponse.statusCode)
-            }
-        }
-            
-        do {
-            let user = try decoder.decode(User.self, from: data)
-            self.user = user
-            UserDefaults.standard.set(user.name, forKey: "name")
-            UserDefaults.standard.set(user.joinedAt, forKey: "joinedAt")
-            UserDefaults.standard.set(user.picture, forKey: "picture")
-        } catch {
-            throw NetworkError.jsonParseFailure
-        }
-    }
-    
-    func getUserStatistics() async throws -> UserStatistics {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
-        return response.data
-    }
-    
-    func getUserFavourites() async throws -> UserFavourites {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
-        return response.data
-    }
 
     // Sign out user
     func signOut() {
@@ -258,49 +238,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Generic MALApi GET request
-    private func getMALResponse<T: Codable>(urlExtend: String, type: T.Type, _ retries: Int = 3) async throws -> T {
-        if retries == 0 {
-            throw NetworkError.outOfRetries
-        }
+    private func getMALResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: malBaseApi + urlExtend)!
-        let config = URLSessionConfiguration.default
-        config.httpAdditionalHeaders = [
-            "X-MAL-CLIENT-ID": clientId
-        ]
-        var hasToken = false
-        if let token = keychain["accessToken"] {
-            config.httpAdditionalHeaders?["Authorization"] = "Bearer \(token)"
-            hasToken = true
-        }
-        let session = URLSession(configuration: config)
         await malBucket.consumeOrWaitAsync()
-        let (data, response) = try await session.data(for: URLRequest(url: url))
-            
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-        
-        // Retry refreshing the token a fixed number of times
-        if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
-            return try await getMALResponse(urlExtend: urlExtend, type: type, retries - 1)
-        }
-        
-        guard (200...299).contains(httpResponse.statusCode) else {
-            print(httpResponse.statusCode)
-            if httpResponse.statusCode == 404 {
-                throw NetworkError.notFound
-            } else {
-                throw NetworkError.badStatusCode(httpResponse.statusCode)
-            }
-        }
-        
-        do {
-            let decoded = try decoder.decode(type.self, from: data)
-            return decoded
-        } catch {
-            throw NetworkError.jsonParseFailure
-        }
+        let decoded: T = try await sendMALRequest(url: url, method: "GET")
+        return decoded
     }
     
     // Generic JikanAPI GET request
@@ -325,115 +267,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    // Delete anime or manga from user list
-    private func deleteItem(id: Int, type: TypeEnum, _ retries: Int = 3) async throws {
-        if retries == 0 {
-            throw NetworkError.outOfRetries
-        }
-        let url = URL(string: malBaseApi + "/\(type)/\(id)/my_list_status")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        var hasToken = false
-        if let token = keychain["accessToken"] {
-            request.allHTTPHeaderFields = [
-                "Authorization": "Bearer \(token)"
-            ]
-            hasToken = true
-        }
-
-        let (_, response) = try await URLSession.shared.data(for: request)
-            
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-        
-        // Retry refreshing the token a fixed number of times
-        if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
-            return try await deleteItem(id: id, type: type, retries - 1)
-        }
-            
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.badStatusCode(httpResponse.statusCode)
-        }
-            
-        print("deleted successfully")
-    }
-    
-    func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
-        if retries == 0 {
-            throw NetworkError.outOfRetries
-        }
-        let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
-        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
-        request.httpBody = parameters
-        var hasToken = false
-        if let token = keychain["accessToken"] {
-            request.allHTTPHeaderFields = [
-                "Authorization": "Bearer \(token)"
-            ]
-            hasToken = true
-        }
-
-        let (_, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-        
-        // Retry refreshing the token a fixed number of times
-        if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
-            return try await editUserAnime(id: id, listStatus: listStatus, retries - 1)
-        }
-            
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.badStatusCode(httpResponse.statusCode)
-        }
-            
-        print("edited successfully")
-    }
-    
-    func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
-        if retries == 0 {
-            throw NetworkError.outOfRetries
-        }
-        let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
-        let parameters: Data = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
-        request.httpBody = parameters
-        var hasToken = false
-        if let token = keychain["accessToken"] {
-            request.allHTTPHeaderFields = [
-                "Authorization": "Bearer \(token)"
-            ]
-            hasToken = true
-        }
-
-        let (_, response) = try await URLSession.shared.data(for: request)
-            
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-        
-        // Retry refreshing the token a fixed number of times
-        if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
-            return try await editUserManga(id: id, listStatus: listStatus, retries - 1)
-        }
-            
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.badStatusCode(httpResponse.statusCode)
-        }
-            
-        print("edited successfully")
-    }
-    
     func getUserAnimeList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=alternative_titles,start_season,status,list_status,num_episodes&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
@@ -442,6 +275,51 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getUserMangaList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=alternative_titles,start_season,status,list_status,num_volumes,num_chapters&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=500&offset=\((page - 1) * 500)", type: MALMangaListResponse.self)
         return response.data
+    }
+    
+    func getUserProfile(_ token: String? = nil) async throws {
+        let url = URL(string: malBaseApi + "/users/@me")!
+        let user: User = try await sendMALRequest(url: url, method: "GET", token: token)
+        self.user = user
+        UserDefaults.standard.set(user.name, forKey: "name")
+        UserDefaults.standard.set(user.joinedAt, forKey: "joinedAt")
+        UserDefaults.standard.set(user.picture, forKey: "picture")
+    }
+    
+    func getUserStatistics() async throws -> UserStatistics {
+        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
+        return response.data
+    }
+    
+    func getUserFavourites() async throws -> UserFavourites {
+        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
+        return response.data
+    }
+    
+    func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
+        let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
+        let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
+        let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        print("edited anime successfully")
+    }
+    
+    func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
+        let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
+        let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
+        let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        print("edited manga successfully")
+    }
+    
+    func deleteUserAnime(id: Int) async throws {
+        let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
+        let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
+        print("deleted anime successfully")
+    }
+    
+    func deleteUserManga(id: Int) async throws {
+        let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
+        let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
+        print("deleted manga successfully")
     }
     
     func getRandomAnime() async throws -> Int {
@@ -497,14 +375,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getMangaTopPopularList() async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=bypopularity&limit=10&fields=alternative_titles", type: MALMangaListResponse.self)
         return response.data
-    }
-    
-    func deleteUserAnime(id: Int) async throws {
-        return try await deleteItem(id: id, type: .anime)
-    }
-    
-    func deleteUserManga(id: Int) async throws {
-        return try await deleteItem(id: id, type: .manga)
     }
     
     func getTopAnimeList(page: Int, rankingType: String) async throws -> [MALListAnime] {

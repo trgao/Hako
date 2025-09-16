@@ -41,6 +41,7 @@
 		EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582632DD8883900E0AF33 /* AltAppIcon.png */; };
 		EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */; };
 		EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */; };
+		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -225,6 +226,7 @@
 		EE3582662DD8883900E0AF33 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		EE3582672DD8883900E0AF33 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		EE3582682DD8883900E0AF33 /* AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x.png"; sourceTree = "<group>"; };
+		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 		EE6F33DF2DDC820F009DED2B /* MAL */ = {
 			isa = PBXGroup;
 			children = (
+				EE3867382E799D0600F69537 /* MALEmptyResponse.swift */,
 				EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */,
 				EE937B902BE8CE9700E5F0BE /* MALMangaListResponse.swift */,
 				EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */,
@@ -942,6 +945,7 @@
 				EE135DFB2E053D0C00F02638 /* ScrollViewNavigationLink.swift in Sources */,
 				EE3FAD1B2E22876600CE9CB9 /* ImageSaver.swift in Sources */,
 				EE91BE682BFCB4E8002AC6C4 /* AnimePosition.swift in Sources */,
+				EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */,
 				EEAA57582E2CD18000377906 /* MangaGenresListView.swift in Sources */,
 				EE3A59BE2BD21EE5009E9F79 /* Anime.swift in Sources */,
 				EE960E892DD3923B00E4EDC9 /* StaffsListView.swift in Sources */,

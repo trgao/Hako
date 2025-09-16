@@ -48,18 +48,16 @@ struct AnimeMangaToggle: View {
         }
         .sensoryFeedback(.impact(weight: .light), trigger: type)
         .onTapGesture {
-            DispatchQueue.main.async {
+            if type == .anime {
+                type = .manga
+            } else if type == .manga {
+                type = .anime
+            }
+            withAnimation {
                 if type == .anime {
-                    type = .manga
+                    offset -= 34
                 } else if type == .manga {
-                    type = .anime
-                }
-                withAnimation {
-                    if type == .anime {
-                        offset -= 34
-                    } else if type == .manga {
-                        offset += 34
-                    }
+                    offset += 34
                 }
             }
         }

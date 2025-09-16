@@ -74,9 +74,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         // Check if user is currently signed in and retrieve user profile
         Task {
             if keychain["accessToken"] != nil, let name = UserDefaults.standard.string(forKey: "name") {
-                DispatchQueue.main.async {
-                    self.isSignedIn = true
-                }
+                self.isSignedIn = true
                 print("Currently logged in")
                 
                 self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
@@ -107,10 +105,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
             print(responseObject)
-            DispatchQueue.main.async {
-                self.keychain["accessToken"] = responseObject.accessToken
-                self.keychain["refreshToken"] = responseObject.refreshToken
-            }
+            self.keychain["accessToken"] = responseObject.accessToken
+            self.keychain["refreshToken"] = responseObject.refreshToken
             return responseObject.accessToken
         } catch {
             throw NetworkError.jsonParseFailure
@@ -157,9 +153,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { callbackURL, error in
             if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(.unknownError(error)))
-                }
+                completion(.failure(.unknownError(error)))
                 return
             }
 
@@ -254,15 +248,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     // Sign out user
     func signOut() {
-        DispatchQueue.main.async {
-            self.isSignedIn = false
-            self.keychain["accessToken"] = nil
-            self.keychain["refreshToken"] = nil
-            UserDefaults.standard.set(nil, forKey: "name")
-            UserDefaults.standard.set(nil, forKey: "joinedAt")
-            UserDefaults.standard.set(nil, forKey: "picture")
-            UserDefaults.standard.set(nil, forKey: "userImage")
-        }
+        self.isSignedIn = false
+        self.keychain["accessToken"] = nil
+        self.keychain["refreshToken"] = nil
+        UserDefaults.standard.set(nil, forKey: "name")
+        UserDefaults.standard.set(nil, forKey: "joinedAt")
+        UserDefaults.standard.set(nil, forKey: "picture")
+        UserDefaults.standard.set(nil, forKey: "userImage")
     }
     
     // Generic MALApi GET request

@@ -31,10 +31,29 @@ class MangaDetailsViewController: ObservableObject {
     
     // Refresh the current manga details page
     func refresh() async {
+        if Task.isCancelled {
+            return
+        }
         await loadDetails()
+        
+        if Task.isCancelled {
+            return
+        }
         await loadCharacters()
+        
+        if Task.isCancelled {
+            return
+        }
         await loadAuthors()
+        
+        if Task.isCancelled {
+            return
+        }
         await loadRelated()
+        
+        if Task.isCancelled {
+            return
+        }
         await loadReviews()
     }
     

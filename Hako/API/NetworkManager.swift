@@ -86,6 +86,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Generic MALApi request
     private func sendMALRequest<T: Decodable>(url: URL, method: String, body: Data? = nil, token: String? = nil, _ contentType: String? = nil, _ retries: Int = 3) async throws -> T {
         if retries == 0 {
+            signOut()
             throw NetworkError.outOfRetries
         }
         
@@ -145,11 +146,31 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Get access token when user is signing in for the first time
     private func getAccessToken(_ code: String, _ codeVerifier: String) async throws -> String {
         let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
-        let body = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
-        let responseObject: MALAuthenticationResponse = try await sendMALRequest(url: url, method: "POST", body: body, "application/x-www-form-urlencoded", 1)
-        self.keychain["accessToken"] = responseObject.accessToken
-        self.keychain["refreshToken"] = responseObject.refreshToken
-        return responseObject.accessToken
+        let parameters: Data = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
+        request.httpBody = parameters
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.badResponse
+        }
+        
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.badStatusCode(httpResponse.statusCode)
+        }
+        
+        do {
+            let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
+            print(responseObject)
+            self.keychain["accessToken"] = responseObject.accessToken
+            self.keychain["refreshToken"] = responseObject.refreshToken
+            return responseObject.accessToken
+        } catch {
+            throw NetworkError.jsonParseFailure
+        }
     }
     
     // Refresh access token using stored refresh token

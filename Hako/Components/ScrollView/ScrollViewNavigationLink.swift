@@ -37,8 +37,8 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
         .background(isPressed ? Color(.systemGray3) : (content == "" || colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             if content != "" {

@@ -34,8 +34,8 @@ struct ScrollViewLink: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
         .background(isPressed ? Color(.systemGray3) : (colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
     }
 }

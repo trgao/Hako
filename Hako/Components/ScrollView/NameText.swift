@@ -18,7 +18,7 @@ struct NameText: View {
         self.birthday = birthday
     }
     
-    var body: some View {
+    var text: some View {
         VStack {
             if let english = english {
                 Text(english)
@@ -42,23 +42,30 @@ struct NameText: View {
             }
         }
         .padding(.vertical, 5)
-        .contextMenu {
-            if let english = english, !english.isEmpty {
-                Button {
-                    UIPasteboard.general.string = english
-                } label: {
-                    Text("Copy English name")
-                    Text(english)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+    
+    var body: some View {
+        text
+            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+            .contextMenu {
+                if let english = english, !english.isEmpty {
+                    Button {
+                        UIPasteboard.general.string = english
+                    } label: {
+                        Text("Copy English name")
+                        Text(english)
+                    }
+                }
+                if let japanese = japanese, !japanese.isEmpty {
+                    Button {
+                        UIPasteboard.general.string = japanese
+                    } label: {
+                        Text("Copy native language name")
+                        Text(japanese)
+                    }
                 }
             }
-            if let japanese = japanese, !japanese.isEmpty {
-                Button {
-                    UIPasteboard.general.string = japanese
-                } label: {
-                    Text("Copy native language name")
-                    Text(japanese)
-                }
-            }
-        }
     }
 }

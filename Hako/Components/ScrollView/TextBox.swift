@@ -1,5 +1,5 @@
 //
-//  Synopsis.swift
+//  TextBox.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 20/6/25.
@@ -8,20 +8,22 @@
 import SwiftUI
 import Translation
 
-struct Synopsis: View {
+struct TextBox: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var isExpanded = false
     @State private var canBeExpanded = false
     @State private var showTranslation = false
+    private let title: String
     private let text: String?
     
-    init(text: String?) {
+    init(title: String, text: String?) {
+        self.title = title
         self.text = text
     }
     
     var body: some View {
         if let text = text, !text.isEmpty {
-            ScrollViewSection(title: "Synopsis") {
+            ScrollViewSection(title: title) {
                 VStack {
                     Text(text)
                         .multilineTextAlignment(.leading)

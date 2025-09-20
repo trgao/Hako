@@ -26,8 +26,8 @@ struct ScrollViewRow<T>: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             Button {

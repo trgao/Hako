@@ -61,7 +61,7 @@ struct MangaDetailsView: View {
                             .font(.system(size: 13))
                         }
                         .padding(.horizontal, 20)
-                        Synopsis(text: manga.synopsis)
+                        TextBox(title: "Synopsis", text: manga.synopsis)
                         if networker.isSignedIn && !settings.hideMangaProgress {
                             if let listStatus = manga.myListStatus {
                                 MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)

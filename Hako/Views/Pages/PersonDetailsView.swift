@@ -20,22 +20,63 @@ struct PersonDetailsView: View {
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
     }
     
+    private func formatPosition(_ position: String?) -> String? {
+        if let position = position, position.prefix(3) == "add" {
+            return String(position.suffix(from: position.index(position.startIndex, offsetBy: 4)))
+        }
+        return position
+    }
+    
     var body: some View {
         ZStack {
             if controller.isLoadingError && controller.person == nil {
                 ErrorView(refresh: controller.refresh)
             } else {
                 if let person = controller.person {
-                    PageList {
-                        Favourites(favorites: controller.person?.favorites)
-                        TextBox(title: "About", text: person.about)
-                        PersonVoiceSection(voices: person.voices)
-                        PersonAnimeSection(animes: person.anime)
-                        PersonMangaSection(mangas: person.manga)
-                    } photo: {
-                        ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(medium: person.images?.jpg?.imageUrl, large: person.images?.jpg?.largeImageUrl)])
-                    } title: {
-                        NameText(english: person.name, birthday: person.birthday?.toString())
+                    ScrollView {
+                        VStack {
+                            VStack {
+                                ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(medium: person.images?.jpg?.imageUrl, large: person.images?.jpg?.largeImageUrl)])
+                                NameText(english: person.name, birthday: person.birthday?.toString())
+                                Favourites(favorites: controller.person?.favorites)
+                            }
+                            .padding(.horizontal, 20)
+                            TextBox(title: "About", text: person.about)
+                            if let voices = person.voices, !voices.isEmpty {
+                                ScrollViewListSection(title: "Voice acting roles", isExpandable: true) {
+                                    ForEach(voices) { voice in
+                                        ScrollViewListItem(title: voice.anime.title, subtitle: voice.character.name) {
+                                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg?.imageUrl, imageSize: .small)
+                                        } destination: {
+                                            AnimeDetailsView(id: voice.anime.id)
+                                        }
+                                    }
+                                }
+                            }
+                            if let animes = person.anime, !animes.isEmpty {
+                                ScrollViewListSection(title: "Anime staff positions", isExpandable: true) {
+                                    ForEach(animes) { anime in
+                                        ScrollViewListItem(title: anime.anime.title, subtitle: formatPosition(anime.position)) {
+                                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
+                                        } destination: {
+                                            AnimeDetailsView(id: anime.id)
+                                        }
+                                    }
+                                }
+                            }
+                            if let mangas = person.manga, !mangas.isEmpty {
+                                ScrollViewListSection(title: "Manga staff positions", isExpandable: true) {
+                                    ForEach(mangas) { manga in
+                                        ScrollViewListItem(title: manga.manga.title, subtitle: formatPosition(manga.position)) {
+                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
+                                        } destination: {
+                                            MangaDetailsView(id: manga.id)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.bottom, 20)
                     }
                     .task(id: isRefresh) {
                         if isRefresh {
@@ -68,123 +109,5 @@ struct PersonDetailsView: View {
             .handleOpenURLInApp()
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct PersonVoiceSection: View {
-    @State private var isExpanded = true
-    private let voices: [AnimeVoice]
-    
-    init(voices: [AnimeVoice]?) {
-        if let voices = voices {
-            self.voices = voices
-        } else {
-            self.voices = []
-        }
-    }
-    
-    var body: some View {
-        if !voices.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(voices) { voice in
-                    NavigationLink {
-                        AnimeDetailsView(id: voice.anime.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg?.imageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(voice.anime.title ?? "")
-                                Text(voice.character.name ?? "")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Voice acting roles", isExpanded: $isExpanded)
-            }
-        }
-    }
-}
-
-struct PersonAnimeSection: View {
-    @State private var isExpanded = true
-    private let animes: [AnimePosition]
-    
-    init(animes: [AnimePosition]?) {
-        if let animes = animes {
-            self.animes = animes
-        } else {
-            self.animes = []
-        }
-    }
-    
-    var body: some View {
-        if !animes.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(animes) { anime in
-                    NavigationLink {
-                        AnimeDetailsView(id: anime.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(anime.anime.title ?? "")
-                                if let position = anime.position {
-                                    Text(position.prefix(3) == "add" ? position.suffix(position.count - 4) : position.prefix(position.count))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .font(.system(size: 13))
-                                }
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Anime staff positions", isExpanded: $isExpanded)
-            }
-        }
-    }
-}
-
-struct PersonMangaSection: View {
-    @State private var isExpanded = true
-    private let mangas: [MangaPosition]
-    
-    init(mangas: [MangaPosition]?) {
-        if let mangas = mangas {
-            self.mangas = mangas
-        } else {
-            self.mangas = []
-        }
-    }
-    
-    var body: some View {
-        if !mangas.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(mangas) { manga in
-                    NavigationLink {
-                        MangaDetailsView(id: manga.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(manga.manga.title ?? "")
-                                if let position = manga.position {
-                                    Text(position.prefix(3) == "add" ? position.suffix(position.count - 4) : position.prefix(position.count))
-                                        .foregroundStyle(Color(.systemGray))
-                                        .font(.system(size: 13))
-                                }
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Manga staff positions", isExpanded: $isExpanded)
-            }
-        }
     }
 }

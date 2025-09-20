@@ -24,36 +24,68 @@ struct CharacterDetailsView: View {
         ZStack {
             if controller.isLoadingError && controller.character == nil {
                 ErrorView(refresh: controller.refresh)
-            } else {
-                if let character = controller.character {
-                    PageList {
-                        Favourites(favorites: controller.character?.favorites)
+            } else if let character = controller.character {
+                ScrollView {
+                    VStack {
+                        VStack {
+                            ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(medium: character.images?.jpg?.imageUrl, large: character.images?.jpg?.largeImageUrl)])
+                            NameText(english: character.name, japanese: character.nameKanji)
+                            Favourites(favorites: controller.character?.favorites)
+                        }
+                        .padding(.horizontal, 20)
                         TextBox(title: "About", text: character.about)
-                        CharacterAnimeSection(animes: character.anime)
-                        CharacterMangaSection(mangas: character.manga)
-                        CharacterVoiceSection(voices: character.voices)
-                    } photo: {
-                        ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(medium: character.images?.jpg?.imageUrl, large: character.images?.jpg?.largeImageUrl)])
-                    } title: {
-                        NameText(english: character.name, japanese: character.nameKanji)
-                    }
-                    .task(id: isRefresh) {
-                        if isRefresh {
-                            await controller.refresh()
-                            isRefresh = false
+                        if let animes = character.anime, !animes.isEmpty {
+                            ScrollViewListSection(title: "Animes", isExpandable: true) {
+                                ForEach(animes) { anime in
+                                    ScrollViewListItem(title: anime.anime.title, subtitle: anime.role) {
+                                        ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
+                                    } destination: {
+                                        AnimeDetailsView(id: anime.id)
+                                    }
+                                }
+                            }
+                        }
+                        if let mangas = character.manga, !mangas.isEmpty {
+                            ScrollViewListSection(title: "Mangas", isExpandable: true) {
+                                ForEach(mangas) { manga in
+                                    ScrollViewListItem(title: manga.manga.title, subtitle: manga.role) {
+                                        ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
+                                    } destination: {
+                                        MangaDetailsView(id: manga.id)
+                                    }
+                                }
+                            }
+                        }
+                        if let voices = character.voices, !voices.isEmpty {
+                            ScrollViewListSection(title: "Voices", isExpandable: true) {
+                                ForEach(voices) { voice in
+                                    ScrollViewListItem(title: voice.person.name, subtitle: voice.language) {
+                                        ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg?.imageUrl, imageSize: .small)
+                                    } destination: {
+                                        PersonDetailsView(id: voice.id)
+                                    }
+                                }
+                            }
                         }
                     }
-                    .refreshable {
-                        isRefresh = true
-                    }
-                    .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
-                    .background {
-                        ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
+                    .padding(.bottom, 20)
+                }
+                .task(id: isRefresh) {
+                    if isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
                     }
                 }
-                if controller.isLoading {
-                    LoadingView()
+                .refreshable {
+                    isRefresh = true
                 }
+                .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
+                .background {
+                    ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
+                }
+            }
+            if controller.isLoading {
+                LoadingView()
             }
         }
         .toolbar {
@@ -68,119 +100,5 @@ struct CharacterDetailsView: View {
             .handleOpenURLInApp()
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct CharacterAnimeSection: View {
-    @State private var isExpanded = true
-    private let animes: [Animeography]
-    
-    init(animes: [Animeography]?) {
-        if let animes = animes {
-            self.animes = animes
-        } else {
-            self.animes = []
-        }
-    }
-    
-    var body: some View {
-        if !animes.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(animes) { anime in
-                    NavigationLink {
-                        AnimeDetailsView(id: anime.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(anime.anime.title ?? "")
-                                Text(anime.role ?? "")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Animes", isExpanded: $isExpanded)
-            }
-        }
-    }
-}
-
-struct CharacterMangaSection: View {
-    @State private var isExpanded = true
-    private let mangas: [Mangaography]
-    
-    init(mangas: [Mangaography]?) {
-        if let mangas = mangas {
-            self.mangas = mangas
-        } else {
-            self.mangas = []
-        }
-    }
-    
-    var body: some View {
-        if !mangas.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(mangas) { manga in
-                    NavigationLink {
-                        MangaDetailsView(id: manga.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(manga.manga.title ?? "")
-                                Text(manga.role ?? "")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Mangas", isExpanded: $isExpanded)
-            }
-        }
-    }
-}
-
-struct CharacterVoiceSection: View {
-    @State private var isExpanded = true
-    private let voices: [Voice]
-    
-    init(voices: [Voice]?) {
-        if let voices = voices {
-            self.voices = voices
-        } else {
-            self.voices = []
-        }
-    }
-    
-    var body: some View {
-        if !voices.isEmpty {
-            Section(isExpanded: $isExpanded) {
-                ForEach(voices) { voice in
-                    NavigationLink {
-                        PersonDetailsView(id: voice.id)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg?.imageUrl, imageSize: .small)
-                                .padding(.trailing, 10)
-                            VStack(alignment: .leading) {
-                                Text(voice.person.name ?? "")
-                                Text(voice.language ?? "")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .font(.system(size: 13))
-                            }
-                        }
-                    }
-                }
-            } header: {
-                ExpandableSectionHeader(title: "Voices", isExpanded: $isExpanded)
-            }
-        }
     }
 }

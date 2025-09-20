@@ -43,7 +43,6 @@ struct TitleText: View {
         }
         .padding(.vertical, 5)
         .frame(maxWidth: .infinity, alignment: .center)
-        .background(.black.opacity(0.000000001))
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
     

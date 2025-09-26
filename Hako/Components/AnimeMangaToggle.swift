@@ -26,7 +26,6 @@ struct AnimeMangaToggle: View {
                 Circle()
                     .frame(width: 33, height: 33)
                     .foregroundColor(.white)
-                
             }
             .shadow(color: .black.opacity(0.14), radius: 4, x: 0, y: 2)
             .offset(x: offset)

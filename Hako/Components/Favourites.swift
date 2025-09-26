@@ -34,8 +34,6 @@ struct Favourites: View {
                         Label("Copy", systemImage: "document.on.document")
                     }
                 }
-//                .padding(.horizontal, 17)
-//                .padding(.bottom, 5)
         }
     }
 }

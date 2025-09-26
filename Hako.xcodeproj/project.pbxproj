@@ -421,11 +421,11 @@
 		EE135DF92E053D0400F02638 /* ScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				EE94C7642E7C4AC200AF722D /* ScrollViewListSection.swift */,
-				EECA2DF92E7EADF500D6C28B /* ScrollViewListItem.swift */,
 				EEBBB1032DF463F200BA6F8B /* TitleText.swift */,
 				EECECC622DF4BD4300232E8C /* NameText.swift */,
 				EE135DFC2E054A2800F02638 /* ScrollViewSection.swift */,
+				EE94C7642E7C4AC200AF722D /* ScrollViewListSection.swift */,
+				EECA2DF92E7EADF500D6C28B /* ScrollViewListItem.swift */,
 				EE135E002E05562600F02638 /* TextBox.swift */,
 				EE135E022E055A0200F02638 /* ScrollViewRow.swift */,
 				EE135E042E0564BE00F02638 /* StatisticsRow.swift */,

@@ -127,5 +127,6 @@ struct AnimeGenresListView: View {
             }
         }
         .navigationTitle("Explore anime")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

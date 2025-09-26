@@ -40,21 +40,6 @@ struct SearchView: View {
     var exploreView: some View {
         ScrollView {
             VStack {
-                if !settings.hideExploreAnimeManga {
-                    VStack(alignment: .leading) {
-                        VStack(spacing: 0) {
-                            ScrollViewNavigationLink(title: "Explore anime") {
-                                AnimeGenresListView()
-                            }
-                            ScrollViewNavigationLink(title: "Explore manga") {
-                                MangaGenresListView()
-                            }
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                    .padding(.horizontal, 17)
-                    .padding(.bottom, 10)
-                }
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     if controller.animeSuggestions.isEmpty {
                         LoadingCarousel(title: "Anime for you")
@@ -157,6 +142,16 @@ struct SearchView: View {
                                 }
                                 .padding(.horizontal, 20)
                             }
+                        }
+                    }
+                }
+                if !settings.hideExploreAnimeManga {
+                    ScrollViewSection(title: "") {
+                        ScrollViewNavigationLink(title: "Explore anime") {
+                            AnimeGenresListView()
+                        }
+                        ScrollViewNavigationLink(title: "Explore manga") {
+                            MangaGenresListView()
                         }
                     }
                 }
@@ -320,7 +315,9 @@ struct SearchView: View {
             }
         }
         .task {
-            await controller.refreshSearch(query: searchText)
+            if networker.isSignedIn {
+                await controller.refreshSearch(query: searchText)
+            }
         }
         .sheet(item: $selectedAnime) {
             Task {

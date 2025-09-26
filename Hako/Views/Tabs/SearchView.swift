@@ -387,8 +387,8 @@ struct SearchView: View {
                 if isPresented {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(height: 40)
-                            .foregroundColor(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                            .fill(.regularMaterial)
+                            .frame(height: 42)
                         Picker(selection: $controller.type, label: EmptyView()) {
                             Text("Anime")
                                 .tag(SearchEnum.anime)
@@ -399,13 +399,12 @@ struct SearchView: View {
                             Text("Person")
                                 .tag(SearchEnum.person)
                         }
-                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
                         .pickerStyle(.segmented)
                         .padding(5)
+                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.bottom, 5)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .padding(5)
                     .ignoresSafeArea(.keyboard, edges: .all)
                 }
             }

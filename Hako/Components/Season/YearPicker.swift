@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct YearPicker: View {
-    @StateObject var controller: SeasonsViewController
+    @StateObject private var controller: SeasonsViewController
     @State private var year = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     private let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     

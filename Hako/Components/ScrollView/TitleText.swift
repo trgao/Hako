@@ -53,14 +53,14 @@ struct TitleText: View {
                 Button {
                     UIPasteboard.general.string = romaji
                 } label: {
-                    Text("Copy Romaji title")
+                    Text("Copy romaji title")
                     Text(romaji)
                 }
                 if let english = english, !english.isEmpty {
                     Button {
                         UIPasteboard.general.string = english
                     } label: {
-                        Text("Copy English title")
+                        Text("Copy english title")
                         Text(english)
                     }
                 }

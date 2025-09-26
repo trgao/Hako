@@ -54,7 +54,7 @@ struct NameText: View {
                     Button {
                         UIPasteboard.general.string = english
                     } label: {
-                        Text("Copy English name")
+                        Text("Copy english name")
                         Text(english)
                     }
                 }
@@ -64,6 +64,14 @@ struct NameText: View {
                     } label: {
                         Text("Copy native language name")
                         Text(japanese)
+                    }
+                }
+                if let birthday = birthday, !birthday.isEmpty {
+                    Button {
+                        UIPasteboard.general.string = birthday
+                    } label: {
+                        Text("Copy birthday")
+                        Text(birthday)
                     }
                 }
             }

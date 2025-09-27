@@ -34,7 +34,7 @@ struct ReviewDetailsView: View {
                     TagCloudView(tags: tags)
                 }
                 if let text = item.review {
-                    Text("\(text)\(item.score != nil ? "\n\nScore: \(item.score!) / 10" : "")")
+                    Text("\(text)\(item.score != nil ? "\n\nScore: \(item.score, default: "?") / 10" : "")")
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.system(size: 17))
@@ -57,15 +57,6 @@ struct ReviewDetailsView: View {
                         .translationPresentation(isPresented: $showTranslation,
                                                  text: text)
                 }
-//                if let score = item.score {
-//                    Text("")
-//                        .multilineTextAlignment(.leading)
-//                        .font(.system(size: 17))
-//                        .padding(20)
-//                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-//                        .shadow(radius: 0.5)
-//                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                }
             }
             .padding(17)
         }

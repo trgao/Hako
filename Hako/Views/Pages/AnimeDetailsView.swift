@@ -156,15 +156,9 @@ struct AnimeDetailsView: View {
                     .disabled(true)
                 }
             }
-            Menu {
-                ShareLink("Share", item: url)
-                Link(destination: url) {
-                    Label("Open in browser", systemImage: "globe")
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
+            ShareLink(item: url) {
+                Image(systemName: "square.and.arrow.up")
             }
-            .handleOpenURLInApp()
             .disabled(controller.isLoading)
         }
     }

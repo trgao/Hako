@@ -73,15 +73,9 @@ struct ReviewDetailsView: View {
             ImageFrame(id: "user\(item.user?.username ?? "")", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .background)
         }
         .toolbar {
-            Menu {
-                ShareLink("Share", item: url)
-                Link(destination: url) {
-                    Label("Open in browser", systemImage: "globe")
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
+            ShareLink(item: url) {
+                Image(systemName: "square.and.arrow.up")
             }
-            .handleOpenURLInApp()
         }
     }
 }

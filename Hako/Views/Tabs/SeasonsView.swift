@@ -14,6 +14,12 @@ struct SeasonsView: View {
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
+    private let options = [
+        ("Winter", "winter"),
+        ("Spring", "spring"),
+        ("Summer", "summer"),
+        ("Fall", "fall"),
+    ]
     let networker = NetworkManager.shared
     
     @ViewBuilder private func SeasonView(_ season: String, _ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
@@ -64,7 +70,11 @@ struct SeasonsView: View {
                 } else if controller.season == "fall" {
                     SeasonView("fall", controller.fallItems, controller.fallContinuingItems)
                 }
-                SeasonPicker(controller: controller)
+                TabPicker(selection: $controller.season, options: options, refresh: {
+                    if controller.shouldRefresh() {
+                        await controller.refresh()
+                    }
+                })
                     .disabled(controller.getCurrentSeasonLoading())
                 if controller.getCurrentSeasonLoading() {
                     LoadingView()
@@ -89,8 +99,22 @@ struct SeasonsView: View {
                 isRefresh = true
             }
             .toolbar {
-                YearPicker(controller: controller)
-                    .disabled(controller.getCurrentSeasonLoading())
+                Menu {
+                    Picker(selection: $controller.year, label: EmptyView()) {
+                        ForEach((1917...controller.currentYear + 1).reversed(), id: \.self) { year in
+                            Text(String(year)).tag(String(year))
+                        }
+                    }
+                    .onChange(of: controller.year) {
+                        Task {
+                            await controller.refresh(true)
+                        }
+                    }
+                } label: {
+                    Button(String(controller.year)) {}
+                        .buttonStyle(.borderedProminent)
+                }
+                .disabled(controller.getCurrentSeasonLoading())
             }
         }
     }

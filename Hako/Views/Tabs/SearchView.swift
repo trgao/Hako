@@ -31,6 +31,12 @@ struct SearchView: View {
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
     private let queryChannel = AsyncChannel<String>()
+    private let options = [
+        ("Anime", SearchEnum.anime),
+        ("Manga", SearchEnum.manga),
+        ("Person", SearchEnum.person),
+        ("Character", SearchEnum.character),
+    ]
     
     init(isPresented: Binding<Bool>, isRoot: Binding<Bool>) {
         self._isPresented = isPresented
@@ -389,26 +395,7 @@ struct SearchView: View {
                     exploreView
                 }
                 if isPresented {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(.regularMaterial)
-                            .frame(height: 42)
-                        Picker(selection: $controller.type, label: EmptyView()) {
-                            Text("Anime")
-                                .tag(SearchEnum.anime)
-                            Text("Manga")
-                                .tag(SearchEnum.manga)
-                            Text("Character")
-                                .tag(SearchEnum.character)
-                            Text("Person")
-                                .tag(SearchEnum.person)
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(5)
-                        .sensoryFeedback(.impact(weight: .light), trigger: controller.type)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                    .padding(5)
+                    TabPicker(selection: $controller.type, options: options, refresh: {})
                     .ignoresSafeArea(.keyboard, edges: .all)
                 }
             }

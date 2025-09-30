@@ -68,7 +68,7 @@ struct CharacterDetailsView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 20)
+                    .padding(.vertical, 20)
                 }
                 .task(id: isRefresh) {
                     if isRefresh {

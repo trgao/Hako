@@ -64,39 +64,66 @@ struct MainView: View {
     var body: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
-                TabView(selection: tabBinding) {
-                    if !settings.hideTop {
-                        TopView()
-                            .tabItem {
-                                Label("Top", systemImage: "medal")
+                if #available(iOS 18.0, *) {
+                    TabView(selection: tabBinding) {
+                        if !settings.hideTop {
+                            Tab("Top", systemImage: "medal", value: 0) {
+                                TopView()
                             }
-                            .tag(0)
-                    }
-                    SeasonsView()
-                        .tabItem {
-                            Label("Seasons", systemImage: "calendar")
                         }
-                        .tag(1)
-                    SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
-                        .tabItem {
-                            Label("Search", systemImage: "magnifyingglass")
+                        Tab("Seasons", systemImage: "calendar", value: 1) {
+                            SeasonsView()
                         }
-                        .tag(2)
-                    if !settings.useWithoutAccount {
-                        MyListView()
-                            .tabItem {
-                                Label("My List", systemImage: "list.bullet")
+                        Tab("Search", systemImage: "magnifyingglass", value: 2, role: .search) {
+                            SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                        }
+                        if !settings.useWithoutAccount {
+                            Tab("My List", systemImage: "list.bullet", value: 3) {
+                                MyListView()
                             }
-                            .tag(3)
-                    }
-                    SettingsView()
-                        .tabItem {
-                            Label("Settings", systemImage: "gear")
                         }
-                        .tag(4)
-                }
-                .onAppear {
-                    tab = settings.defaultView
+                        Tab("Settings", systemImage: "gear", value: 4) {
+                            SettingsView()
+                        }
+                    }
+                    .onAppear {
+                        tab = settings.defaultView
+                    }
+                } else {
+                    TabView(selection: tabBinding) {
+                        if !settings.hideTop {
+                            TopView()
+                                .tabItem {
+                                    Label("Top", systemImage: "medal")
+                                }
+                                .tag(0)
+                        }
+                        SeasonsView()
+                            .tabItem {
+                                Label("Seasons", systemImage: "calendar")
+                            }
+                            .tag(1)
+                        SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                            .tabItem {
+                                Label("Search", systemImage: "magnifyingglass")
+                            }
+                            .tag(2)
+                        if !settings.useWithoutAccount {
+                            MyListView()
+                                .tabItem {
+                                    Label("My List", systemImage: "list.bullet")
+                                }
+                                .tag(3)
+                        }
+                        SettingsView()
+                            .tabItem {
+                                Label("Settings", systemImage: "gear")
+                            }
+                            .tag(4)
+                    }
+                    .onAppear {
+                        tab = settings.defaultView
+                    }
                 }
             } else {
                 Button("Unlock") {

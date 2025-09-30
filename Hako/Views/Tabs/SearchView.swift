@@ -396,7 +396,6 @@ struct SearchView: View {
                 }
                 if isPresented {
                     TabPicker(selection: $controller.type, options: options, refresh: {})
-                    .ignoresSafeArea(.keyboard, edges: .all)
                 }
             }
             .scrollDismissesKeyboard(.immediately)

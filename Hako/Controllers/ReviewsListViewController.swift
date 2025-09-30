@@ -16,6 +16,7 @@ class ReviewsListViewController: ObservableObject {
     @Published var isLoadingError = false
     private let id: Int
     private let type: TypeEnum
+    private var ids: Set<Int> = []
     let networker = NetworkManager.shared
     
     init(id: Int, type: TypeEnum) {
@@ -34,24 +35,23 @@ class ReviewsListViewController: ObservableObject {
         currentPage = 1
         canLoadMore = false
         isLoading = true
-        if type == .anime {
-            do {
-                let reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
-                currentPage = 2
-                canLoadMore = !(reviewsList.isEmpty)
-                reviews = reviewsList
-            } catch {
-                isLoadingError = true
+        do {
+            var reviewsList: [Review] = []
+            if type == .anime {
+                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
+            } else if type == .manga {
+                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
-        } else if type == .manga {
-            do {
-                let reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
-                currentPage = 2
-                canLoadMore = !(reviewsList.isEmpty)
-                reviews = reviewsList
-            } catch {
-                isLoadingError = true
+            currentPage = 2
+            canLoadMore = !(reviewsList.isEmpty)
+            for item in reviewsList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    reviews.append(item)
+                }
             }
+        } catch {
+            isLoadingError = true
         }
         isLoading = false
     }
@@ -70,24 +70,23 @@ class ReviewsListViewController: ObservableObject {
         
         isLoading = true
         isLoadingError = false
-        if type == .anime {
-            do {
-                let reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
-                currentPage += 1
-                canLoadMore = !(reviewsList.isEmpty)
-                reviews.append(contentsOf: reviewsList)
-            } catch {
-                isLoadingError = true
+        do {
+            var reviewsList: [Review] = []
+            if type == .anime {
+                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
+            } else if type == .manga {
+                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
-        } else if type == .manga {
-            do {
-                let reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
-                currentPage = 2
-                canLoadMore = !(reviewsList.isEmpty)
-                reviews.append(contentsOf: reviewsList)
-            } catch {
-                isLoadingError = true
+            currentPage += 1
+            canLoadMore = !(reviewsList.isEmpty)
+            for item in reviewsList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    reviews.append(item)
+                }
             }
+        } catch {
+            isLoadingError = true
         }
         isLoading = false
     }

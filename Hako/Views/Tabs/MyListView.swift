@@ -31,8 +31,10 @@ struct MyListView: View {
                         if controller.type == .anime {
                             if controller.isAnimeLoading && controller.animeItems.isEmpty {
                                 List {
-                                    LoadingList(length: 10)
-                                        .id(controller.animeLoadId)
+                                    Section(controller.animeStatus.toString()) {
+                                        LoadingList(length: 10)
+                                            .id(controller.animeLoadId)
+                                    }
                                 }
                                 .disabled(true)
                             } else {
@@ -98,8 +100,10 @@ struct MyListView: View {
                         } else if controller.type == .manga {
                             if controller.isMangaLoading && controller.mangaItems.isEmpty {
                                 List {
-                                    LoadingList(length: 10)
-                                        .id(controller.mangaLoadId)
+                                    Section(controller.mangaStatus.toString()) {
+                                        LoadingList(length: 10)
+                                            .id(controller.mangaLoadId)
+                                    }
                                 }
                                 .disabled(true)
                             } else {

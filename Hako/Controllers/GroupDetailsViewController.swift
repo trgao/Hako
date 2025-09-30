@@ -14,7 +14,7 @@ class GroupDetailsViewController: ObservableObject {
     @Published var isLoadingError = false
     private var currentPage = 1
     private var canLoadMorePages = true
-    private var ids: Set<Int> = [] // Set is needed to remove duplicates from response
+    private var ids: Set<Int> = []
     private let urlExtend: String
     private let type: TypeEnum
     let networker = NetworkManager.shared

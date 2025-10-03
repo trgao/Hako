@@ -91,9 +91,9 @@ class ReviewsListViewController: ObservableObject {
         isLoading = false
     }
     
-    // Load more review when reaching the 4th last review in list
+    // Load more review when reaching the 3rd last review in list
     func loadMoreIfNeeded(index: Int) async {
-        let thresholdIndex = reviews.index(reviews.endIndex, offsetBy: -4)
+        let thresholdIndex = reviews.index(reviews.endIndex, offsetBy: -3)
         if index == thresholdIndex {
             return await loadMore()
         }

@@ -65,7 +65,7 @@ struct TagCloudView: View {
         } else if text == "Not Recommended" {
             color = .red
         } else if text == "Mixed Feelings" {
-            color = .gray
+            color = Color(.systemGray3)
         }
         return
             Text(text)

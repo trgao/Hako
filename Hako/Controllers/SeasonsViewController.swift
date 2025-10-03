@@ -283,26 +283,18 @@ class SeasonsViewController: ObservableObject {
     
     // Load more items from current season when reaching the 4th last anime in list
     func loadMoreIfNeeded(index: Int) async {
+        var thresholdIndex: Int?
         if season == "winter" {
-            let thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
+            thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)
         } else if season == "spring" {
-            let thresholdIndex = springItems.index(springItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
+            thresholdIndex = springItems.index(springItems.endIndex, offsetBy: -4)
         } else if season == "summer" {
-            let thresholdIndex = summerItems.index(summerItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
+            thresholdIndex = summerItems.index(summerItems.endIndex, offsetBy: -4)
         } else if season == "fall" {
-            let thresholdIndex = fallItems.index(fallItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
+            thresholdIndex = fallItems.index(fallItems.endIndex, offsetBy: -4)
+        }
+        if index == thresholdIndex {
+            return await loadMore()
         }
     }
 }

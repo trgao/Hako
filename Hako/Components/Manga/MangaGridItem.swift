@@ -3,7 +3,6 @@
 //  Hako
 //
 //  Created by Gao Tianrun on 11/5/25.
-//  Cannot directly use MALListItem as JikanListItem also uses this
 //
 
 import SwiftUI

@@ -396,22 +396,22 @@
 			isa = PBXGroup;
 			children = (
 				EE68FB712E49972800E9EE36 /* TokenBucket.swift */,
-				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
-				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
-				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
-				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
 				EEA5E9402CEE826200B2513B /* ItemCache.swift */,
 				EEA5E93E2CEE825800B2513B /* ImageCache.swift */,
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,
-				EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */,
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
-				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
 				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
+				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
+				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
+				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
+				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
+				EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */,
+				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1239,7 +1239,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1272,7 +1272,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

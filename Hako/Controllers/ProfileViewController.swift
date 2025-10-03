@@ -24,7 +24,6 @@ class ProfileViewController: ObservableObject {
         
         do {
             self.userFavourites = try await networker.getUserFavourites()
-            
             self.anime = try await userFavourites?.anime.concurrentMap { anime in
                 let anime = try await NetworkManager.shared.getAnimeDetails(id: anime.id)
                 return MALListAnime(anime: anime)

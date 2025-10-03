@@ -15,6 +15,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     @Published var isSignedIn = false
     @Published var user: User?
     static var shared = NetworkManager()
+    
+    // Caches
     let imageCache = NSCache<NSString, ImageCache>()
     var imageUrlMap = ThreadSafeDictionary<String, String>()
     let animeCache = ItemCache<Int, Anime>()
@@ -26,17 +28,21 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     let mangaCharactersCache = ItemCache<Int, [ListCharacter]>()
     let mangaAuthorsCache = ItemCache<Int, [Author]>()
     let mangaRelatedCache = ItemCache<Int, [RelatedItem]>()
+    
+    // API base urls
     private let jikanBaseApi = "https://api.jikan.moe/v4"
     private let malBaseApi = "https://api.myanimelist.net/v2"
+    private let anilistBaseApi = "https://graphql.anilist.co"
+    
+    // API token bucket rate limiting
+    private let malBucket = TokenBucket(capacity: 2, refillRate: 1)
+    private let jikanBucket = TokenBucket(capacity: 2, refillRate: 1)
+    private let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
+    
     private let decoder: JSONDecoder
     private let clientId = Bundle.main.infoDictionary?["API_CLIENT_ID"] as! String
     private let keychain = Keychain(service: "mal-api")
     private let dateFormatter = ISO8601DateFormatter()
-    
-    // API token bucket rate limiting
-    let malBucket = TokenBucket(capacity: 2, refillRate: 1)
-    let jikanBucket = TokenBucket(capacity: 2, refillRate: 1)
-    let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
     
     override init() {
         // JSON Decoder
@@ -449,7 +455,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeNextAiringDetails(id: Int) async throws -> NextAiringEpisode? {
-        let url = URL(string: "https://graphql.anilist.co")!
+        let url = URL(string: anilistBaseApi)!
         let query = """
             query Media {
                 Media(idMal: \(id), type: ANIME) {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabPicker<T: Hashable>: View {
+    @Environment(\.colorScheme) private var colorScheme
     @Binding private var selection: T
     private let options: [(String, T)]
     private let refresh: () async -> Void
@@ -30,7 +31,7 @@ struct TabPicker<T: Hashable>: View {
         ZStack {
             if #available(iOS 26.0, *) {
                 RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.6))
                     .glassEffect(.regular)
                     .frame(height: 42)
                     .padding(.horizontal, 15)

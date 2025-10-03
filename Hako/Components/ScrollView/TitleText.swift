@@ -48,7 +48,6 @@ struct TitleText: View {
     
     var body: some View {
         text
-            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = romaji

@@ -93,6 +93,7 @@ struct TopView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     TopFilter(controller: controller)
+                        .disabled(controller.isLoading)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type)

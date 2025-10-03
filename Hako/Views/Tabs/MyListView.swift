@@ -260,6 +260,7 @@ struct MyListView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         ListFilter(controller: controller)
+                            .disabled(controller.isAnimeLoading || controller.isMangaLoading)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         AnimeMangaToggle(type: $controller.type)

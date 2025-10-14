@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AsyncAlgorithms
 import Shimmer
 
 struct SearchView: View {
@@ -30,7 +29,6 @@ struct SearchView: View {
     @State private var searchTask: Task<Void, Never>?
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
-    private let queryChannel = AsyncChannel<String>()
     private let options = [
         ("Anime", SearchEnum.anime),
         ("Manga", SearchEnum.manga),
@@ -191,7 +189,7 @@ struct SearchView: View {
                     List {
                         LoadingList(length: 20)
                     }
-                    .id(searchText)
+                    .id(controller.isLoading)
                     .disabled(true)
                 } else if controller.type == .anime {
                     List {
@@ -312,12 +310,12 @@ struct SearchView: View {
         .task(id: searchText) {
             if searchText != previousSearch {
                 controller.isLoading = true
-                await queryChannel.send(searchText)
+                await controller.queryChannel.send(searchText)
                 previousSearch = searchText
             }
         }
         .task {
-            for await query in queryChannel.debounce(for: .seconds(0.35)) {
+            for await query in controller.queryChannel.debounce(for: .seconds(0.35)) {
                 searchTask?.cancel()
                 searchTask = Task {
                     await controller.search(query: query)

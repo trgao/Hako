@@ -126,6 +126,9 @@ struct MainView: View {
                     }
                 }
             } else {
+                Text("Hako is locked")
+                    .font(.title)
+                    .bold()
                 Button("Unlock") {
                     authenticate()
                 }

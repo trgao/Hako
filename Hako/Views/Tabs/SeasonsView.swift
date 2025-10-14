@@ -53,7 +53,6 @@ struct SeasonsView: View {
             .padding(.horizontal, 10)
             .padding(.bottom, 45)
         }
-        .navigationTitle(season.capitalized)
     }
     
     var body: some View {
@@ -89,6 +88,7 @@ struct SeasonsView: View {
                     }
                 }
             }
+            .navigationTitle(controller.season.capitalized)
             .task(id: isRefresh) {
                 if controller.shouldRefresh() || isRefresh {
                     await controller.refresh()

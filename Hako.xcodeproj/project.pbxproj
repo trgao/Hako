@@ -176,6 +176,7 @@
 		EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */; };
 		EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabel.swift */; };
 		EEDDC63F2BF8E23700B22D87 /* ListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */; };
+		EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */; };
 		EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */; };
 		EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84D2BD2C02F0036E779 /* MyListView.swift */; };
 		EEEBF8502BD2C0740036E779 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84F2BD2C0740036E779 /* SearchView.swift */; };
@@ -359,6 +360,7 @@
 		EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		EEDBDB642C07547300F2E821 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilter.swift; sourceTree = "<group>"; };
+		EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EEEBF84D2BD2C02F0036E779 /* MyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListView.swift; sourceTree = "<group>"; };
 		EEEBF84F2BD2C0740036E779 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */,
 				EE68FB712E49972800E9EE36 /* TokenBucket.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
@@ -936,6 +939,7 @@
 				EE91BE682BFCB4E8002AC6C4 /* AnimePosition.swift in Sources */,
 				EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */,
 				EEAA57582E2CD18000377906 /* MangaGenresListView.swift in Sources */,
+				EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */,
 				EE3A59BE2BD21EE5009E9F79 /* Anime.swift in Sources */,
 				EE960E892DD3923B00E4EDC9 /* StaffsListView.swift in Sources */,
 				EEDBDB632C073F9B00F2E821 /* SearchViewController.swift in Sources */,
@@ -1239,7 +1243,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1272,7 +1276,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.1;
+				MARKETING_VERSION = 1.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

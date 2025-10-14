@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AsyncAlgorithms
 
 @MainActor
 class SearchViewController: ObservableObject {
@@ -39,6 +40,7 @@ class SearchViewController: ObservableObject {
     @Published var isLoading = false
     @Published var isRefreshLoading = false
     @Published var isEditError = false
+    let queryChannel = AsyncChannel<String>()
     let networker = NetworkManager.shared
     
     func resetSearch() {

@@ -21,7 +21,7 @@ struct ErrorView: View {
                 Image(systemName: "exclamationmark.circle")
                     .resizable()
                     .frame(width: 40, height: 40)
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 10)
                 Text("Unable to load")
                     .bold()
                 Button("Try again") {

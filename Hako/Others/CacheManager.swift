@@ -1,5 +1,5 @@
 //
-//  CacheHelper.swift
+//  CacheManager.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 14/10/25.
@@ -7,10 +7,17 @@
 
 import Foundation
 
-struct CacheHelper {
+actor CacheManager {
+    static var shared = CacheManager()
+    private let formatter = ByteCountFormatter()
+    private let fileManager = FileManager.default
+    
+    init() {
+        formatter.countStyle = .file
+    }
+    
     private func calculateDirectorySize(_ url: URL) -> Int64 {
         var size: Int64 = 0
-        let fileManager = FileManager.default
         do {
             let files = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: [.fileSizeKey])
             for file in files {
@@ -23,21 +30,26 @@ struct CacheHelper {
         return size
     }
     
-    func calculateCacheSize() -> Int64 {
+    private func clearDirectory(_ url: URL) {
+        do {
+            let files = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+            for file in files {
+                try? fileManager.removeItem(at: file)
+            }
+        } catch {
+            print("Error clearing \(url.lastPathComponent) directory: \(error.localizedDescription)")
+        }
+    }
+    
+    func calculateCacheSize() -> String {
         var size: Int64 = 0
-        let fileManager = FileManager.default
-        
-        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let tmpDirectory = fileManager.temporaryDirectory
-
         size += Int64(URLCache.shared.currentDiskUsage)
-        size += calculateDirectorySize(cacheDirectory)
-        size += calculateDirectorySize(tmpDirectory)
-        
-        return size
+        size += calculateDirectorySize(fileManager.temporaryDirectory)
+        return formatter.string(fromByteCount: size)
     }
     
     func clearCache() {
-        
+        URLCache.shared.removeAllCachedResponses()
+        clearDirectory(fileManager.temporaryDirectory)
     }
 }

@@ -14,6 +14,12 @@ struct HakoApp: App {
     @State private var networkMonitor = NetworkMonitor()
     @State private var showNetworkAlert = false
     
+    init() {
+        Task {
+            await CacheManager.shared.clearCache()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             MainView()

@@ -11,7 +11,9 @@ import LocalAuthentication
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var isAuthenticationError = false
+    @State private var cacheSizeString = ""
     let networker = NetworkManager.shared
+    let cacheManager = CacheManager.shared
     
     var body: some View {
         List {
@@ -93,6 +95,20 @@ struct GeneralView: View {
                     }
                 }
             }
+            Section {
+                Button("Clear cache", role: .destructive) {
+                    Task {
+                        await cacheManager.clearCache()
+                        cacheSizeString = await cacheManager.calculateCacheSize()
+                    }
+                }
+            } footer: {
+                Text("Cache size: \(cacheSizeString)")
+                    .padding(.bottom, 10)
+            }
+        }
+        .task {
+            cacheSizeString = await cacheManager.calculateCacheSize()
         }
         .alert("Unable to change settings", isPresented: $isAuthenticationError) {
             Button("Ok") {}

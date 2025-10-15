@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class MangaDetailsViewController: ObservableObject {
@@ -73,10 +74,14 @@ class MangaDetailsViewController: ObservableObject {
     func loadCharacters() async {
         do {
             if let characters = networker.mangaCharactersCache[id] {
-                self.characters = characters
+                withAnimation {
+                    self.characters = characters
+                }
             } else {
                 let characters = try await networker.getMangaCharacters(id: id)
-                self.characters = characters
+                withAnimation {
+                    self.characters = characters
+                }
                 networker.mangaCharactersCache[id] = characters
             }
         } catch {
@@ -87,7 +92,9 @@ class MangaDetailsViewController: ObservableObject {
     func loadAuthors() async {
         do {
             if let authors = networker.mangaAuthorsCache[id] {
-                self.authors = authors
+                withAnimation {
+                    self.authors = authors
+                }
             } else {
                 let mangaAuthors = manga?.authors ?? []
                 var authors: [Author] = []
@@ -97,7 +104,9 @@ class MangaDetailsViewController: ObservableObject {
                     newAuthor.imageUrl = person.images?.jpg?.imageUrl
                     authors.append(newAuthor)
                 }
-                self.authors = authors
+                withAnimation {
+                    self.authors = authors
+                }
                 networker.mangaAuthorsCache[id] = self.authors
             }
         } catch {
@@ -108,7 +117,9 @@ class MangaDetailsViewController: ObservableObject {
     func loadRelated() async {
         do {
             if let relatedItems = networker.mangaRelatedCache[id] {
-                self.relatedItems = relatedItems
+                withAnimation {
+                    self.relatedItems = relatedItems
+                }
             } else {
                 let relations = try await networker.getMangaRelations(id: id)
                 var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, enTitle: nil, url: $0.url, relation: category.relation, imageUrl: nil) } }
@@ -125,7 +136,9 @@ class MangaDetailsViewController: ObservableObject {
                     }
                     return newItem
                 }
-                self.relatedItems = relatedItems
+                withAnimation {
+                    self.relatedItems = relatedItems
+                }
                 networker.mangaRelatedCache[id] = relatedItems
             }
         } catch {
@@ -135,7 +148,10 @@ class MangaDetailsViewController: ObservableObject {
     
     func loadReviews() async {
         do {
-            self.reviews = try await networker.getMangaReviewsList(id: id, page: 1)
+            let reviews = try await networker.getMangaReviewsList(id: id, page: 1)
+            withAnimation {
+                self.reviews = reviews
+            }
         } catch {
             print("Some unknown error occurred loading manga reviews")
         }

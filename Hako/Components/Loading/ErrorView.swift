@@ -21,9 +21,10 @@ struct ErrorView: View {
                 Image(systemName: "exclamationmark.circle")
                     .resizable()
                     .frame(width: 40, height: 40)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 5)
                 Text("Unable to load")
                     .bold()
+                    .padding(.bottom, 5)
                 Button("Try again") {
                     Task {
                         await refresh()

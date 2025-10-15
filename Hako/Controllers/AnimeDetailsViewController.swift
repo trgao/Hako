@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class AnimeDetailsViewController: ObservableObject {
@@ -95,10 +96,14 @@ class AnimeDetailsViewController: ObservableObject {
     func loadCharacters() async {
         do {
             if let characters = networker.animeCharactersCache[id] {
-                self.characters = characters
+                withAnimation {
+                    self.characters = characters
+                }
             } else {
                 let characters = try await networker.getAnimeCharacters(id: id)
-                self.characters = characters
+                withAnimation {
+                    self.characters = characters
+                }
                 networker.animeCharactersCache[id] = characters
             }
         } catch {
@@ -109,10 +114,14 @@ class AnimeDetailsViewController: ObservableObject {
     func loadStaffs() async {
         do {
             if let staffs = networker.animeStaffsCache[id] {
-                self.staffs = staffs
+                withAnimation {
+                    self.staffs = staffs
+                }
             } else {
                 let staffs = try await networker.getAnimeStaff(id: id)
-                self.staffs = staffs
+                withAnimation {
+                    self.staffs = staffs
+                }
                 networker.animeStaffsCache[id] = staffs
             }
         } catch {
@@ -123,7 +132,9 @@ class AnimeDetailsViewController: ObservableObject {
     func loadRelated() async {
         do {
             if let relatedItems = networker.animeRelatedCache[id] {
-                self.relatedItems = relatedItems
+                withAnimation {
+                    self.relatedItems = relatedItems
+                }
             } else {
                 let relations = try await networker.getAnimeRelations(id: id)
                 var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, enTitle: nil, url: $0.url, relation: category.relation, imageUrl: nil) } }
@@ -140,7 +151,9 @@ class AnimeDetailsViewController: ObservableObject {
                     }
                     return newItem
                 }
-                self.relatedItems = relatedItems
+                withAnimation {
+                    self.relatedItems = relatedItems
+                }
                 networker.animeRelatedCache[id] = relatedItems
             }
         } catch {
@@ -150,7 +163,10 @@ class AnimeDetailsViewController: ObservableObject {
     
     func loadReviews() async {
         do {
-            self.reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
+            let reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
+            withAnimation {
+                self.reviews = reviews
+            }
         } catch {
             print("Some unknown error occurred loading anime reviews")
         }

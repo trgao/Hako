@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct ScrollViewRow<T>: View {
+struct ScrollViewRow: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
-    private let content: T
+    private let content: String
     
-    init(title: String, content: T) {
+    init(title: String, content: String) {
         self.title = title
         self.content = content
     }
@@ -22,7 +22,7 @@ struct ScrollViewRow<T>: View {
             Text(title)
                 .bold()
             Spacer()
-            Text("\(content)")
+            Text(content)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
@@ -31,10 +31,10 @@ struct ScrollViewRow<T>: View {
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             Button {
-                UIPasteboard.general.string = "\(content)"
+                UIPasteboard.general.string = content
             } label: {
                 Label("Copy", systemImage: "document.on.document")
-                Text("\(content)")
+                Text(content)
             }
         }
     }

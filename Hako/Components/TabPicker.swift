@@ -23,7 +23,7 @@ struct TabPicker<T: Hashable>: View {
         if #available(iOS 26.0, *) {
             return 20
         } else {
-            return 5
+            return 12
         }
     }
     
@@ -39,6 +39,7 @@ struct TabPicker<T: Hashable>: View {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.regularMaterial)
                     .frame(height: 42)
+                    .padding(.horizontal, 7)
             }
             Picker(selection: $selection, label: EmptyView()) {
                 ForEach(options, id: \.0) { key, value in

@@ -45,11 +45,22 @@ actor CacheManager {
         var size: Int64 = 0
         size += Int64(URLCache.shared.currentDiskUsage)
         size += calculateDirectorySize(fileManager.temporaryDirectory)
+        if let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            size += calculateDirectorySize(cacheDirectory)
+        }
         return formatter.string(fromByteCount: size)
+    }
+    
+    func clearTemp() {
+        URLCache.shared.removeAllCachedResponses()
+        clearDirectory(fileManager.temporaryDirectory)
     }
     
     func clearCache() {
         URLCache.shared.removeAllCachedResponses()
         clearDirectory(fileManager.temporaryDirectory)
+        if let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            clearDirectory(cacheDirectory)
+        }
     }
 }

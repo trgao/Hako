@@ -82,10 +82,14 @@ class AnimeDetailsViewController: ObservableObject {
     func loadAiringSchedule() async {
         do {
             if let nextEpisode = networker.animeNextEpisodeCache[id] {
-                self.nextEpisode = nextEpisode
+                withAnimation {
+                    self.nextEpisode = nextEpisode
+                }
             } else {
                 let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
-                self.nextEpisode = nextEpisode
+                withAnimation {
+                    self.nextEpisode = nextEpisode
+                }
                 networker.animeNextEpisodeCache[id] = nextEpisode
             }
         } catch {

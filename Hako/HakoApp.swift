@@ -16,7 +16,7 @@ struct HakoApp: App {
     
     init() {
         Task {
-            await CacheManager.shared.clearCache()
+            await CacheManager.shared.clearTemp()
         }
     }
     

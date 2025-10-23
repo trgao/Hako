@@ -18,7 +18,7 @@ struct AnimeAiringSchedule: View {
         VStack {
             if let nextEpisode = controller.nextEpisode {
                 ScrollViewSection(title: "Airing") {
-                    ScrollViewRow(title: "Next episode", content: nextEpisode.episode)
+                    ScrollViewRow(title: "Next episode", content: String(nextEpisode.episode))
                     ScrollViewRow(title: "Airing at", content: Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt)).toFullString())
                 }
             }

@@ -25,10 +25,10 @@ struct StatisticsRow<T>: View {
         let contextMenu = ContextMenu {
             if let content = content {
                 Button {
-                    UIPasteboard.general.string = "\(content)"
+                    UIPasteboard.general.string = String(describing: content)
                 } label: {
                     Label("Copy", systemImage: "document.on.document")
-                    Text("\(content)")
+                    Text(String(describing: content))
                 }
             }
         }
@@ -44,7 +44,7 @@ struct StatisticsRow<T>: View {
             }
             Spacer()
             if let content = content {
-                Text("\(content)")
+                Text(String(describing: content))
             } else {
                 Text("example")
                     .redacted(reason: .placeholder)

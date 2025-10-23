@@ -18,18 +18,8 @@ struct GeneralView: View {
     var body: some View {
         List {
             Section("General") {
-                Toggle(isOn: $settings.safariInApp) {
-                    Text("Open links in app")
-                }
-                Toggle(isOn: $settings.useWithoutAccount) {
-                    Text("Use app without account")
-                    Text("It will hide the login view and my list tab")
-                }
-                .onChange(of: settings.useWithoutAccount) { _, cur in
-                    if cur == true && settings.defaultView == 3 {
-                        settings.defaultView = settings.hideTop ? 1 : 0
-                    }
-                }
+                PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
+                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
                 Toggle(isOn: $settings.hideTop) {
                     Text("Hide top tab")
                 }
@@ -38,8 +28,18 @@ struct GeneralView: View {
                         settings.defaultView = 1
                     }
                 }
-                PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
-                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
+                Toggle(isOn: $settings.useWithoutAccount) {
+                    Text("Use app without account")
+                    Text("It will hide the login button and My List tab")
+                }
+                .onChange(of: settings.useWithoutAccount) { _, cur in
+                    if cur == true && settings.defaultView == 3 {
+                        settings.defaultView = settings.hideTop ? 1 : 0
+                    }
+                }
+                Toggle(isOn: $settings.safariInApp) {
+                    Text("Open links in app")
+                }
             }
             let context = LAContext()
             var error: NSError?
@@ -72,6 +72,7 @@ struct GeneralView: View {
             Section("Grid view") {
                 Toggle(isOn: $settings.truncate) {
                     Text("Truncate titles or names")
+                    Text("Limit length of titles or names to a maximum number of lines")
                 }
                 PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
                     .disabled(!settings.truncate)
@@ -79,7 +80,7 @@ struct GeneralView: View {
             if networker.isSignedIn {
                 Section("List view") {
                     Toggle(isOn: $settings.useSwipeActions) {
-                        Text("Enable swipe actions")
+                        Text("Allow swipe actions")
                         Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
@@ -87,11 +88,11 @@ struct GeneralView: View {
                 Section("Edit view") {
                     Toggle(isOn: $settings.autofillStartDate) {
                         Text("Autofill start date")
-                        Text("Autofill start date when anime is changed to watching or manga is changed to reading")
+                        Text("Autofill start date when an anime is changed to watching or a manga is changed to reading")
                     }
                     Toggle(isOn: $settings.autofillEndDate) {
                         Text("Autofill end date")
-                        Text("Autofill end date when anime or manga is changed to completed")
+                        Text("Autofill end date when an anime or a manga is changed to completed")
                     }
                 }
             }

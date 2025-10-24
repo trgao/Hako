@@ -18,6 +18,10 @@ extension String {
         return range(of: string, options: .literal)?.lowerBound
     }
     
+    func formatMediaType() -> String {
+        return self == "tv" || self == "ova" || self == "ona" ? self.uppercased() : self == "tv_special" ? "TV Special" : self.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+    
     func formatStatus() -> String {
         let text = self.replacingOccurrences(of: "_", with: " ")
         let first = text.prefix(1).capitalized

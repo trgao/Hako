@@ -27,17 +27,7 @@ struct Authors: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.authors.prefix(10)) { author in
-                                ZoomTransition {
-                                    PersonDetailsView(id: author.id)
-                                } label: {
-                                    VStack {
-                                        ImageFrame(id: "person\(author.id)", imageUrl: author.imageUrl, imageSize: .medium)
-                                        Text("\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")")
-                                            .lineLimit(settings.getLineLimit())
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(width: 110)
-                                }
+                                PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
                             }
                         }
                         .padding(.horizontal, 17)

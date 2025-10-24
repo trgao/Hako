@@ -23,17 +23,7 @@ struct AnimeCharacters: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.characters.prefix(10)) { character in
-                                ZoomTransition {
-                                    CharacterDetailsView(id: character.id)
-                                } label: {
-                                    VStack {
-                                        ImageFrame(id: "character\(character.id)", imageUrl: character.character.images?.jpg?.imageUrl, imageSize: .medium)
-                                        Text(character.character.name ?? "")
-                                            .lineLimit(settings.getLineLimit())
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(width: 110)
-                                }
+                                CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
                             }
                         }
                         .padding(.horizontal, 17)

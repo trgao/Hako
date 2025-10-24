@@ -14,18 +14,24 @@ struct MangaGridItem: View {
     private let enTitle: String?
     private let imageUrl: String?
     private let subtitle: String?
+    private let manga: Manga?
     
-    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil) {
+    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil) {
         self.id = id
         self.title = title
         self.enTitle = enTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
+        self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle)
     }
     
     var body: some View {
         ZoomTransition {
-            MangaDetailsView(id: id)
+            if let manga = manga {
+                MangaDetailsView(manga: manga)
+            } else {
+                MangaDetailsView(id: id)
+            }
         } label: {
             VStack {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .large)

@@ -21,8 +21,9 @@ struct ImageCarousel: View {
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id
         self.imageUrl = imageUrl
-        self.pictures = pictures ?? []
-        self.images = pictures?.map { _ in nil } ?? []
+        let allPictures = pictures ?? [Picture(medium: imageUrl, large: nil)]
+        self.pictures = allPictures
+        self.images = allPictures.map { _ in nil }
     }
     
     var image: some View {

@@ -11,3 +11,7 @@ struct MALItem: Codable, Identifiable {
     let id: Int
     let name: String
 }
+
+struct Ranking: Codable {
+    let rank: Int?
+}

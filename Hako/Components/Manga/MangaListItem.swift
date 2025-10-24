@@ -24,7 +24,7 @@ struct MangaListItem: View {
     
     var body: some View {
         NavigationLink {
-            MangaDetailsView(id: manga.id)
+            MangaDetailsView(manga: manga.node)
         } label: {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .small)

@@ -30,6 +30,14 @@ class MangaDetailsViewController: ObservableObject {
         }
     }
     
+    init(manga: Manga) {
+        self.id = manga.id
+        self.manga = manga
+        Task {
+            await loadDetails()
+        }
+    }
+    
     // Refresh the current manga details page
     func refresh() async {
         if Task.isCancelled {

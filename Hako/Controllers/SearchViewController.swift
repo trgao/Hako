@@ -32,8 +32,6 @@ class SearchViewController: ObservableObject {
     @Published var topUpcomingAnime = [MALListAnime]()
     @Published var newlyAddedAnime = [JikanListItem]()
     @Published var newlyAddedManga = [JikanListItem]()
-    @Published var topPopularAnime = [MALListAnime]()
-    @Published var topPopularManga = [MALListManga]()
     
     // Common variables
     @Published var type: SearchEnum = .anime
@@ -111,20 +109,6 @@ class SearchViewController: ObservableObject {
                 }
             } catch {
                 print("Some unknown error occurred loading manga newly added")
-            }
-        }
-        if self.topPopularAnime.isEmpty {
-            do {
-                self.topPopularAnime = try await networker.getAnimeTopPopularList()
-            } catch {
-                print("Some unknown error occurred loading anime top popular")
-            }
-        }
-        if self.topPopularManga.isEmpty {
-            do {
-                self.topPopularManga = try await networker.getMangaTopPopularList()
-            } catch {
-                print("Some unknown error occurred loading manga top popular")
             }
         }
     }

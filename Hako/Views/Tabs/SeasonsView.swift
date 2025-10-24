@@ -26,7 +26,7 @@ struct SeasonsView: View {
         ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
-                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         .task {
                             await controller.loadMoreIfNeeded(index: index)
                         }
@@ -46,7 +46,7 @@ struct SeasonsView: View {
                         .frame(height: 20)
                         .hidden()
                     ForEach(seasonContinuingItems) { item in
-                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large)
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                     }
                 }
             }

@@ -11,7 +11,7 @@ struct Manga: Codable, Identifiable {
     let id: Int
     let title: String
     let mainPicture: MainPicture?
-    let pictures: [Picture]
+    let pictures: [Picture]?
     let alternativeTitles: AlternativeTitles?
     let startDate: Date?
     let endDate: Date?
@@ -29,4 +29,28 @@ struct Manga: Codable, Identifiable {
     let serialization: [Magazine]?
     let recommendations: [MALListManga]?
     let numListUsers: Int?
+    
+    init(id: Int, title: String, enTitle: String?) {
+        self.id = id
+        self.title = title
+        self.alternativeTitles = AlternativeTitles(ja: nil, en: enTitle)
+        self.mainPicture = nil
+        self.pictures = nil
+        self.startDate = nil
+        self.endDate = nil
+        self.synopsis = nil
+        self.mean = nil
+        self.rank = nil
+        self.popularity = nil
+        self.mediaType = nil
+        self.status = nil
+        self.genres = nil
+        self.myListStatus = nil
+        self.numVolumes = nil
+        self.numChapters = nil
+        self.authors = nil
+        self.serialization = nil
+        self.recommendations = nil
+        self.numListUsers = nil
+    }
 }

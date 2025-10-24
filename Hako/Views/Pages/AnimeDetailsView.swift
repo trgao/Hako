@@ -14,12 +14,15 @@ struct AnimeDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
-    private let url: URL
     
     init(id: Int) {
         self.id = id
-        self.url = URL(string: "https://myanimelist.net/anime/\(id)")!
         self._controller = StateObject(wrappedValue: AnimeDetailsViewController(id: id))
+    }
+    
+    init(anime: Anime) {
+        self.id = anime.id
+        self._controller = StateObject(wrappedValue: AnimeDetailsViewController(anime: anime))
     }
     
     var body: some View {
@@ -30,7 +33,7 @@ struct AnimeDetailsView: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures.reversed())
+                            ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures?.reversed())
                             TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                             HStack {
                                 VStack {
@@ -156,7 +159,7 @@ struct AnimeDetailsView: View {
                     .disabled(true)
                 }
             }
-            ShareLink(item: url) {
+            ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
             .disabled(controller.isLoading)

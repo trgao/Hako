@@ -31,6 +31,14 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
+    init(anime: Anime) {
+        self.id = anime.id
+        self.anime = anime
+        Task {
+            await loadDetails()
+        }
+    }
+    
     // Refresh the current anime details page
     func refresh() async {
         if Task.isCancelled {

@@ -21,7 +21,7 @@ struct PersonGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            PersonDetailsView(id: id)
+            PersonDetailsView(id: id, name: name)
         } label: {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)

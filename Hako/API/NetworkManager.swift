@@ -19,15 +19,20 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Caches
     let imageCache = NSCache<NSString, ImageCache>()
     var imageUrlMap = ThreadSafeDictionary<String, String>()
+    
     let animeCache = ItemCache<Int, Anime>()
     let animeNextEpisodeCache = ItemCache<Int, NextAiringEpisode?>()
     let animeCharactersCache = ItemCache<Int, [ListCharacter]>()
     let animeStaffsCache = ItemCache<Int, [Staff]>()
     let animeRelatedCache = ItemCache<Int, [RelatedItem]>()
+    
     let mangaCache = ItemCache<Int, Manga>()
     let mangaCharactersCache = ItemCache<Int, [ListCharacter]>()
     let mangaAuthorsCache = ItemCache<Int, [Author]>()
     let mangaRelatedCache = ItemCache<Int, [RelatedItem]>()
+    
+    let characterCache = ItemCache<Int, Character>()
+    let personCache = ItemCache<Int, Person>()
     
     // API base urls
     private let jikanBaseApi = "https://api.jikan.moe/v4"

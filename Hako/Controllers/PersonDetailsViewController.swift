@@ -17,6 +17,20 @@ class PersonDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
+        if let person = networker.personCache[id] {
+            self.person = person
+        }
+        Task {
+            await refresh()
+        }
+    }
+    
+    init(id: Int, name: String?) {
+        self.id = id
+        self.person = Person(id: id, name: name)
+        if let person = networker.personCache[id] {
+            self.person = person
+        }
         Task {
             await refresh()
         }
@@ -28,6 +42,7 @@ class PersonDetailsViewController: ObservableObject {
         do {
             let person = try await networker.getPersonDetails(id: id)
             self.person = person
+            networker.personCache[id] = person
         } catch {
             isLoadingError = true
         }

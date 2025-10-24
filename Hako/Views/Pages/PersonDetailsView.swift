@@ -12,12 +12,15 @@ struct PersonDetailsView: View {
     @StateObject var controller: PersonDetailsViewController
     @State private var isRefresh = false
     private let id: Int
-    private let url: URL
     
     init (id: Int) {
         self.id = id
-        self.url = URL(string: "https://myanimelist.net/people/\(id)")!
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
+    }
+    
+    init (id: Int, name: String?) {
+        self.id = id
+        self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id, name: name))
     }
     
     private func formatPosition(_ position: String?) -> String? {
@@ -98,7 +101,7 @@ struct PersonDetailsView: View {
             }
         }
         .toolbar {
-            ShareLink(item: url) {
+            ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
         }

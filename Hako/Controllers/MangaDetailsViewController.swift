@@ -33,6 +33,9 @@ class MangaDetailsViewController: ObservableObject {
     init(manga: Manga) {
         self.id = manga.id
         self.manga = manga
+        if let manga = networker.mangaCache[id] {
+            self.manga = manga
+        }
         Task {
             await loadDetails()
         }

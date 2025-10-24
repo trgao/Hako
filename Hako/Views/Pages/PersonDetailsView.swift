@@ -82,7 +82,7 @@ struct PersonDetailsView: View {
                         .padding(.vertical, 20)
                     }
                     .task(id: isRefresh) {
-                        if isRefresh {
+                        if isRefresh || controller.isLoadingError {
                             await controller.refresh()
                             isRefresh = false
                         }

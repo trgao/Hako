@@ -244,20 +244,7 @@ struct SearchView: View {
                                 }
                             } else {
                                 ForEach(controller.characterItems) { item in
-                                    NavigationLink {
-                                        CharacterDetailsView(id: item.id)
-                                    } label: {
-                                        HStack {
-                                            ImageFrame(id: "character\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .small)
-                                            VStack(alignment: .leading) {
-                                                Text(item.name ?? "")
-                                                    .bold()
-                                                    .font(.system(size: 16))
-                                            }
-                                            .padding(5)
-                                        }
-                                    }
-                                    .padding(5)
+                                    CharacterListItem(character: item)
                                 }
                             }
                         } footer: {
@@ -278,20 +265,7 @@ struct SearchView: View {
                                 }
                             } else {
                                 ForEach(controller.personItems) { item in
-                                    NavigationLink {
-                                        PersonDetailsView(id: item.id)
-                                    } label: {
-                                        HStack {
-                                            ImageFrame(id: "person\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .small)
-                                            VStack(alignment: .leading) {
-                                                Text(item.name ?? "")
-                                                    .bold()
-                                                    .font(.system(size: 16))
-                                            }
-                                            .padding(5)
-                                        }
-                                    }
-                                    .padding(5)
+                                    PersonListItem(person: item)
                                 }
                             }
                         } footer: {

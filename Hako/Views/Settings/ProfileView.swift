@@ -97,17 +97,7 @@ struct ProfileView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {
                                         ForEach(userFavourites.characters) { character in
-                                            ZoomTransition {
-                                                CharacterDetailsView(id: character.id)
-                                            } label: {
-                                                VStack {
-                                                    ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .medium)
-                                                    Text(character.name ?? "")
-                                                        .lineLimit(settings.getLineLimit())
-                                                        .font(.system(size: 14))
-                                                }
-                                                .frame(width: 110)
-                                            }
+                                            CharacterGridItem(id: character.id, name: character.name, imageUrl: character.images?.jpg?.imageUrl)
                                         }
                                     }
                                     .padding(.horizontal, 17)
@@ -119,17 +109,7 @@ struct ProfileView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(alignment: .top, spacing: 15) {
                                         ForEach(userFavourites.people) { person in
-                                            ZoomTransition {
-                                                PersonDetailsView(id: person.id)
-                                            } label: {
-                                                VStack {
-                                                    ImageFrame(id: "character\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .medium)
-                                                    Text(person.name ?? "")
-                                                        .lineLimit(settings.getLineLimit())
-                                                        .font(.system(size: 14))
-                                                }
-                                                .frame(width: 110)
-                                            }
+                                            PersonGridItem(id: person.id, name: person.name, imageUrl: person.images?.jpg?.imageUrl)
                                         }
                                     }
                                     .padding(.horizontal, 17)

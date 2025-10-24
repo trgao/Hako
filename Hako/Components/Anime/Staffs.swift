@@ -23,17 +23,7 @@ struct Staffs: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.staffs.prefix(10)) { staff in
-                                ZoomTransition {
-                                    PersonDetailsView(id: staff.id)
-                                } label: {
-                                    VStack {
-                                        ImageFrame(id: "person\(staff.id)", imageUrl: staff.person.images?.jpg?.imageUrl, imageSize: .medium)
-                                        Text(staff.person.name ?? "")
-                                            .lineLimit(settings.getLineLimit())
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(width: 110)
-                                }
+                                PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
                             }
                         }
                         .padding(.horizontal, 17)

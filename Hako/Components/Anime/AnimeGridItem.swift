@@ -14,7 +14,7 @@ struct AnimeGridItem: View {
     private let enTitle: String?
     private let imageUrl: String?
     private let subtitle: String?
-    private let anime: Anime?
+    private let anime: Anime
     
     init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, anime: Anime? = nil) {
         self.id = id
@@ -27,11 +27,7 @@ struct AnimeGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            if let anime = anime {
-                AnimeDetailsView(anime: anime)
-            } else {
-                AnimeDetailsView(id: id)
-            }
+            AnimeDetailsView(anime: anime)
         } label: {
             VStack {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)

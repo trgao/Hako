@@ -34,6 +34,9 @@ class AnimeDetailsViewController: ObservableObject {
     init(anime: Anime) {
         self.id = anime.id
         self.anime = anime
+        if let anime = networker.animeCache[id] {
+            self.anime = anime
+        }
         Task {
             await loadDetails()
         }

@@ -12,12 +12,15 @@ struct CharacterDetailsView: View {
     @StateObject var controller: CharacterDetailsViewController
     @State private var isRefresh = false
     private let id: Int
-    private let url: URL
     
-    init (id: Int) {
+    init(id: Int) {
         self.id = id
-        self.url = URL(string: "https://myanimelist.net/character/\(id)")!
         self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id))
+    }
+    
+    init(id: Int, name: String?) {
+        self.id = id
+        self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id, name: name))
     }
     
     var body: some View {
@@ -62,7 +65,7 @@ struct CharacterDetailsView: View {
                                     ScrollViewListItem(title: voice.person.name, subtitle: voice.language) {
                                         ImageFrame(id: "person\(voice.id)", imageUrl: voice.person.images?.jpg?.imageUrl, imageSize: .small)
                                     } destination: {
-                                        PersonDetailsView(id: voice.id)
+                                        PersonDetailsView(id: voice.id, name: voice.person.name)
                                     }
                                 }
                             }
@@ -89,7 +92,7 @@ struct CharacterDetailsView: View {
             }
         }
         .toolbar {
-            ShareLink(item: url) {
+            ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
         }

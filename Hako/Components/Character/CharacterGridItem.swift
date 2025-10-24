@@ -21,7 +21,7 @@ struct CharacterGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            CharacterDetailsView(id: id)
+            CharacterDetailsView(id: id, name: name)
         } label: {
             VStack {
                 ImageFrame(id: "character\(id)", imageUrl: imageUrl, imageSize: .medium)

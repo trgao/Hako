@@ -297,7 +297,7 @@ struct SearchView: View {
             }
         }
         .task {
-            if networker.isSignedIn {
+            if networker.isSignedIn && (controller.type == .anime || controller.type == .manga) {
                 await controller.refreshSearch(query: searchText)
             }
         }

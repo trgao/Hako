@@ -46,6 +46,14 @@ struct MangaGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
+                    .contextMenu {
+                        if let mean = manga.mean {
+                            Text("\(String(mean)) ⭐")
+                        }
+                        if let mediaType = manga.mediaType, let status = manga.status {
+                            Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                        }
+                    }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                     Text(title)
                         .lineLimit(settings.getLineLimit())

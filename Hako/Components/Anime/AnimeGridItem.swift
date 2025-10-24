@@ -46,6 +46,17 @@ struct AnimeGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
+                    .contextMenu {
+                        if let mean = anime.mean {
+                            Text("\(String(mean)) ⭐")
+                        }
+                        if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
+                            Text("\(season.capitalized), \(String(year))")
+                        }
+                        if let mediaType = anime.mediaType, let status = anime.status {
+                            Text("\(mediaType == "tv" || mediaType == "ova" || mediaType == "ona" ? mediaType.uppercased() : mediaType == "tv_special" ? "TV Special" : mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                        }
+                    }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                     Text(title)
                         .lineLimit(settings.getLineLimit())

@@ -104,6 +104,14 @@ struct AppearanceView: View {
                     Text("Allow translucent backgrounds")
                 }
             }
+            Section("Grid") {
+                Toggle(isOn: $settings.truncate) {
+                    Text("Truncate titles or names")
+                    Text("Limit length of titles or names to a maximum number of lines")
+                }
+                PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
+                    .disabled(!settings.truncate)
+            }
         }
         .alert("Unable to change app icon", isPresented: $isChangeIconError) {
             Button("OK", role: .cancel) {}

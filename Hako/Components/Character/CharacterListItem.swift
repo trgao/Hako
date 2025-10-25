@@ -30,6 +30,7 @@ struct CharacterListItem: View {
                 ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .small)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(character.name ?? "")
+                        .lineLimit(settings.getLineLimit())
                         .bold()
                         .font(.system(size: 16))
                     if let subtitle = subtitle {

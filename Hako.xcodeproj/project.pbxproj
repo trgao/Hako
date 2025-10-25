@@ -818,11 +818,11 @@
 		EEA5E94B2CEE8D1500B2513B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				EEA237872E2B7FD1005ED3CC /* HideItemsView.swift */,
-				EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */,
 				EEA5E94F2CEE95B600B2513B /* ProfileView.swift */,
 				EEA5E94D2CEE8D3B00B2513B /* GeneralView.swift */,
 				EEA924372DD62A2600FB40A9 /* AppearanceView.swift */,
+				EEA237872E2B7FD1005ED3CC /* HideItemsView.swift */,
+				EEAB73DE2DDDCDAB00D15137 /* AboutView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";

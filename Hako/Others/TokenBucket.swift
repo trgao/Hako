@@ -1,7 +1,5 @@
 //
 //  TokenBucket.swift
-//  TokenBucket
-//
 //  Code modified from Gemini 2.5 Pro response
 //
 

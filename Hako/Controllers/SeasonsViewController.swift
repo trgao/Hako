@@ -205,7 +205,7 @@ class SeasonsViewController: ObservableObject {
         
         updateCurrentSeasonPage(1)
         updateCurrentSeasonLoading(true)
-        updateCurrentSeasonCanLoadMore(false)
+        updateCurrentSeasonCanLoadMore(true)
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" }

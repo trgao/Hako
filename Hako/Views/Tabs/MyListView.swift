@@ -194,13 +194,11 @@ struct MyListView: View {
                         }
                     }
                 }
-                .task {
-                    await controller.refresh(!controller.isItemsEmpty())
-                }
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
+                    await controller.refresh(!controller.isItemsEmpty())
                     if isRefresh {
                         if controller.type == .anime {
                             await controller.refreshAnime(!controller.isItemsEmpty())

@@ -5,7 +5,6 @@
 //  Created by Gao Tianrun on 15/5/24.
 //
 
-import Foundation
 import SwiftUI
 
 enum StatusEnum: Codable {

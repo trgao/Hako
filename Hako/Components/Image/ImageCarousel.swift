@@ -44,14 +44,16 @@ struct ImageCarousel: View {
             .padding([.horizontal, .top], 20)
             TabView {
                 ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { index, item in
-                    let url = item.large == nil ? item.medium : item.large
+                    let url = item.large ?? item.medium
                     if let url = url {
                         AsyncImage(url: URL(string: url)!) { image in
                             image
                                 .resizable()
                                 .scaledToFill()
                                 .onAppear {
-                                    images[index] = image.render(scale: displayScale)
+                                    if index < images.count {
+                                        images[index] = image.render(scale: displayScale)
+                                    }
                                 }
                         } placeholder: {
                             Color.gray
@@ -61,7 +63,7 @@ struct ImageCarousel: View {
                         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                         .padding(.bottom, 70)
                         .contextMenu {
-                            if let inputImage = images[index] {
+                            if index < images.count, let inputImage = images[index] {
                                 Button {
                                     let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
                                     imageSaver.writeToPhotoAlbum(image: inputImage)

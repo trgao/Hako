@@ -586,8 +586,8 @@
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
 				EE712FE82DFDA2A900DC7202 /* ReviewItem.swift */,
 				EE5CEE062E00119B0000FC90 /* Favourites.swift */,
-				EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */,
 				EE08FF792E2E31D90045EAA8 /* TopFilter.swift */,
+				EEDDC63E2BF8E23700B22D87 /* ListFilter.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

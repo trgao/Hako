@@ -5,7 +5,6 @@
 //  Created by Gao Tianrun on 19/4/24.
 //
 
-import Foundation
 import SwiftUI
 import AuthenticationServices
 import KeychainAccess

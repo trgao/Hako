@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
 
 @MainActor
 class ImageFrameController: ObservableObject {

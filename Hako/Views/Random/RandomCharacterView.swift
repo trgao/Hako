@@ -5,7 +5,6 @@
 //  Created by Gao Tianrun on 26/6/25.
 //
 
-import Foundation
 import SwiftUI
 
 struct RandomCharacterView: View {

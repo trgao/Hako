@@ -3,7 +3,6 @@
 //  Code taken from https://gist.github.com/nealarch01/b28f15e9b077f7e3f0a08f055cf1b25c
 //
 
-import Foundation
 import SwiftUI
 
 extension Color {

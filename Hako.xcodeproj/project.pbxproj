@@ -70,6 +70,7 @@
 		EE3FAD1B2E22876600CE9CB9 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */; };
 		EE40F56E2BEF936F00BB2E79 /* Trailers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE40F56D2BEF936F00BB2E79 /* Trailers.swift */; };
 		EE429BE02DDB2BEB00D399BA /* SignInSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE429BDF2DDB2BE800D399BA /* SignInSections.swift */; };
+		EE45CD9A2EACB61B00DED576 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE45CD992EACB61700DED576 /* UIImageExtension.swift */; };
 		EE4729E62BF4D503005D17EF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E52BF4D503005D17EF /* User.swift */; };
 		EE4729E82BF4FD3D005D17EF /* AnimeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */; };
 		EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */; };
@@ -256,6 +257,7 @@
 		EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		EE40F56D2BEF936F00BB2E79 /* Trailers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailers.swift; sourceTree = "<group>"; };
 		EE429BDF2DDB2BE800D399BA /* SignInSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSections.swift; sourceTree = "<group>"; };
+		EE45CD992EACB61700DED576 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		EE4729E52BF4D503005D17EF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListItem.swift; sourceTree = "<group>"; };
 		EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusEnum.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
 				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
 				EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */,
+				EE45CD992EACB61700DED576 /* UIImageExtension.swift */,
 				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
 			);
 			path = Others;
@@ -995,6 +998,7 @@
 				EE712FE92DFDA2A900DC7202 /* ReviewItem.swift in Sources */,
 				EE3A59DA2BD24550009E9F79 /* MyListViewController.swift in Sources */,
 				EE9A89202BEF3C6C0048DD73 /* AlternativeTitles.swift in Sources */,
+				EE45CD9A2EACB61B00DED576 /* UIImageExtension.swift in Sources */,
 				EEDB839E2E76C6CD00B208B2 /* MyListStatus.swift in Sources */,
 				EE33A4C82BE1766400A98F00 /* GroupDetailsView.swift in Sources */,
 				EEC1B9062BF12928001E08C4 /* TypeEnum.swift in Sources */,

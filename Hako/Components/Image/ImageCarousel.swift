@@ -10,7 +10,7 @@ import SwiftUI
 struct ImageCarousel: View {
     @Environment(\.displayScale) var displayScale
     @Namespace private var transitionNamespace
-    @State private var images: [UIImage?]
+    @State private var images: [String:UIImage?] = [:]
     @State private var isPicturesPresented = false
     @State private var isSuccessPresented = false
     @State private var isErrorPresented = false
@@ -23,7 +23,6 @@ struct ImageCarousel: View {
         self.imageUrl = imageUrl
         let allPictures = pictures ?? [Picture(medium: imageUrl, large: nil)]
         self.pictures = allPictures
-        self.images = allPictures.map { _ in nil }
     }
     
     var image: some View {
@@ -49,21 +48,19 @@ struct ImageCarousel: View {
                         AsyncImage(url: URL(string: url)!) { image in
                             image
                                 .resizable()
-                                .scaledToFill()
+                                .scaledToFit()
                                 .onAppear {
-                                    if index < images.count {
-                                        images[index] = image.render(scale: displayScale)
-                                    }
+                                    images[url] = image.render(scale: displayScale)?.removingAlpha()
                                 }
                         } placeholder: {
-                            Color.gray
+                            ProgressView()
                         }
-                        .frame(width: UIScreen.main.bounds.width * 4 / 5, height: (UIScreen.main.bounds.width * 4 / 5) / 150 * 213)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 4 / 5)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                         .padding(.bottom, 70)
                         .contextMenu {
-                            if index < images.count, let inputImage = images[index] {
+                            if let image = images[url], let inputImage = image {
                                 Button {
                                     let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
                                     imageSaver.writeToPhotoAlbum(image: inputImage)

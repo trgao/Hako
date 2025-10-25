@@ -43,7 +43,7 @@ struct ScrollViewListSection<Content: View>: View {
                 .padding(.top, 10)
                 .font(.system(size: 17))
             if !isExpandable || isExpanded {
-                VStack(spacing: 5) {
+                LazyVStack(spacing: 5) {
                     content()
                 }
             }

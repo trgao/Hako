@@ -32,8 +32,8 @@ struct SearchView: View {
     private let options = [
         ("Anime", SearchEnum.anime),
         ("Manga", SearchEnum.manga),
-        ("Person", SearchEnum.person),
         ("Character", SearchEnum.character),
+        ("Person", SearchEnum.person),
     ]
     
     init(isPresented: Binding<Bool>, isRoot: Binding<Bool>) {

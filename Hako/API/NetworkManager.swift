@@ -39,8 +39,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     private let anilistBaseApi = "https://graphql.anilist.co"
     
     // Fields for MAL API
-    private let animeFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles},num_list_users,list_status"
-    private let mangaFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles},num_list_users,list_status"
+    private let animeFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,num_list_users,list_status},num_list_users,list_status"
+    private let mangaFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,num_list_users,list_status},num_list_users,list_status"
     
     // API token bucket rate limiting
     private let malBucket = TokenBucket(capacity: 2, refillRate: 1)

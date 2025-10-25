@@ -69,23 +69,15 @@ struct GeneralView: View {
                     }
                 }
             }
-            Section("Grid view") {
-                Toggle(isOn: $settings.truncate) {
-                    Text("Truncate titles or names")
-                    Text("Limit length of titles or names to a maximum number of lines")
-                }
-                PickerRow(title: "Line limit", selection: $settings.lineLimit, labels: ["1", "2", "3"])
-                    .disabled(!settings.truncate)
-            }
             if networker.isSignedIn {
-                Section("List view") {
+                Section("List") {
                     Toggle(isOn: $settings.useSwipeActions) {
                         Text("Allow swipe actions")
                         Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
-                Section("Edit view") {
+                Section("Edit") {
                     Toggle(isOn: $settings.autofillStartDate) {
                         Text("Autofill start date")
                         Text("Autofill start date when an anime is changed to watching or a manga is changed to reading")

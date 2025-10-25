@@ -30,6 +30,7 @@ struct PersonListItem: View {
                 ImageFrame(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .small)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(person.name ?? "")
+                        .lineLimit(settings.getLineLimit())
                         .bold()
                         .font(.system(size: 16))
                     if let subtitle = subtitle {

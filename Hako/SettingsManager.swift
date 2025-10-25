@@ -17,14 +17,18 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("useFaceID") var useFaceID = false
     
-    @AppStorage("truncateTitle") var truncate = false
-    @AppStorage("lineLimit") var lineLimit = 1
-    
     @AppStorage("useSwipeActions") var useSwipeActions = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
     @AppStorage("autofillStartDate") var autofillStartDate = true
     @AppStorage("autofillEndDate") var autofillEndDate = true
+    
+    @AppStorage("colorScheme") var colorScheme = 0
+    @AppStorage("accentColor") var accentColor = 0
+    @AppStorage("translucentBackground") var translucentBackground = true
+    
+    @AppStorage("truncateTitle") var truncate = false
+    @AppStorage("lineLimit") var lineLimit = 1
     
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
@@ -61,10 +65,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
-    
-    @AppStorage("colorScheme") var colorScheme = 0
-    @AppStorage("accentColor") var accentColor = 0
-    @AppStorage("translucentBackground") var translucentBackground = true
     
     var colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     var accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]

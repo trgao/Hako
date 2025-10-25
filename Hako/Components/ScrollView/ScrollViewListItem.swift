@@ -7,23 +7,27 @@
 
 import SwiftUI
 
-struct ScrollViewListItem<Photo: View, Destination: View>: View {
+struct ScrollViewListItem: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Binding private var selectedIndex: Int?
     @State private var isPressed = false
+    private let id: String
     private let title: String?
     private let subtitle: String?
-    private let photo: () -> Photo
-    private let destination: () -> Destination
-    init(title: String?, subtitle: String?, @ViewBuilder photo: @escaping () -> Photo, @ViewBuilder destination: @escaping () -> Destination) {
+    private let imageUrl: String?
+    private let index: Int
+    init(id: String, title: String?, subtitle: String?, imageUrl: String?, index: Int, selectedIndex: Binding<Int?>) {
+        self.id = id
         self.title = title
         self.subtitle = subtitle
-        self.photo = photo
-        self.destination = destination
+        self.imageUrl = imageUrl
+        self.index = index
+        self._selectedIndex = selectedIndex
     }
     
     var body: some View {
         HStack(spacing: 10) {
-            photo()
+            ImageFrame(id: id, imageUrl: imageUrl, imageSize: .small)
                 .padding(.trailing, 10)
             HStack {
                 VStack(alignment: .leading) {
@@ -43,12 +47,11 @@ struct ScrollViewListItem<Photo: View, Destination: View>: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            isPressed = true
+            selectedIndex = index
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
         .background(isPressed ? Color(.systemGray3) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }

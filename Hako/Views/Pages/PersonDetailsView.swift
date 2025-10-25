@@ -11,6 +11,9 @@ struct PersonDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject var controller: PersonDetailsViewController
     @State private var isRefresh = false
+    @State private var voiceIndex: Int?
+    @State private var animeIndex: Int?
+    @State private var mangaIndex: Int?
     private let id: Int
     
     init (id: Int) {
@@ -47,39 +50,42 @@ struct PersonDetailsView: View {
                             TextBox(title: "About", text: person.about)
                             if let voices = person.voices, !voices.isEmpty {
                                 ScrollViewListSection(title: "Voice acting roles", isExpandable: true) {
-                                    ForEach(voices) { voice in
-                                        ScrollViewListItem(title: voice.anime.title, subtitle: voice.character.name) {
-                                            ImageFrame(id: "anime\(voice.anime.id)", imageUrl: voice.anime.images?.jpg?.imageUrl, imageSize: .small)
-                                        } destination: {
-                                            AnimeDetailsView(id: voice.anime.id)
-                                        }
+                                    ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
+                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, index: index, selectedIndex: $voiceIndex)
                                     }
                                 }
                             }
                             if let animes = person.anime, !animes.isEmpty {
                                 ScrollViewListSection(title: "Anime staff positions", isExpandable: true) {
-                                    ForEach(animes) { anime in
-                                        ScrollViewListItem(title: anime.anime.title, subtitle: formatPosition(anime.position)) {
-                                            ImageFrame(id: "anime\(anime.id)", imageUrl: anime.anime.images?.jpg?.largeImageUrl, imageSize: .small)
-                                        } destination: {
-                                            AnimeDetailsView(id: anime.id)
-                                        }
+                                    ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
+                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, index: index, selectedIndex: $animeIndex)
                                     }
                                 }
                             }
                             if let mangas = person.manga, !mangas.isEmpty {
                                 ScrollViewListSection(title: "Manga staff positions", isExpandable: true) {
-                                    ForEach(mangas) { manga in
-                                        ScrollViewListItem(title: manga.manga.title, subtitle: formatPosition(manga.position)) {
-                                            ImageFrame(id: "manga\(manga.id)", imageUrl: manga.manga.images?.jpg?.largeImageUrl, imageSize: .small)
-                                        } destination: {
-                                            MangaDetailsView(id: manga.id)
-                                        }
+                                    ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
+                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, index: index, selectedIndex: $mangaIndex)
                                     }
                                 }
                             }
                         }
                         .padding(.vertical, 20)
+                    }
+                    .navigationDestination(item: $voiceIndex) { index in
+                        if let voices = person.voices {
+                            AnimeDetailsView(anime: Anime(id: voices[index].anime.id, title: voices[index].anime.title ?? "", enTitle: nil))
+                        }
+                    }
+                    .navigationDestination(item: $animeIndex) { index in
+                        if let animes = person.anime {
+                            AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", enTitle: nil))
+                        }
+                    }
+                    .navigationDestination(item: $mangaIndex) { index in
+                        if let mangas = person.manga {
+                            MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", enTitle: nil))
+                        }
                     }
                     .task(id: isRefresh) {
                         if isRefresh || controller.isLoadingError {

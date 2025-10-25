@@ -17,7 +17,7 @@ struct ListFilter: View {
     var body: some View {
         Menu {
             if controller.type == .anime {
-                Picker(selection: $controller.animeStatus, label: EmptyView()) {
+                Picker(selection: $controller.animeStatus, label: Text("Status")) {
                     Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
                     Label("Watching", systemImage: "play.circle").tag(StatusEnum.watching)
                     Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
@@ -31,7 +31,7 @@ struct ListFilter: View {
                     }
                 }
                 Divider()
-                Picker(selection: $controller.animeSort, label: EmptyView()) {
+                Picker(selection: $controller.animeSort, label: Text("Sort")) {
                     Label("By score", systemImage: "star").tag("list_score")
                     Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
                     Label("By title", systemImage: "character").tag("anime_title")
@@ -43,7 +43,7 @@ struct ListFilter: View {
                     }
                 }
             } else if controller.type == .manga {
-                Picker(selection: $controller.mangaStatus, label: EmptyView()) {
+                Picker(selection: $controller.mangaStatus, label: Text("Status")) {
                     Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
                     Label("Reading", systemImage: "book.circle").tag(StatusEnum.reading)
                     Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
@@ -57,7 +57,7 @@ struct ListFilter: View {
                     }
                 }
                 Divider()
-                Picker(selection: $controller.mangaSort, label: EmptyView()) {
+                Picker(selection: $controller.mangaSort, label: Text("Sort")) {
                     Label("By score", systemImage: "star").tag("list_score")
                     Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
                     Label("By title", systemImage: "character").tag("manga_title")

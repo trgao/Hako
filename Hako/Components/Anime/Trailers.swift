@@ -9,36 +9,52 @@ import SwiftUI
 import YouTubePlayerKit
 
 struct Trailers: View {
-    private let videos: [Video]
+    private let players: [YouTubePlayer]
     
     init(videos: [Video]?) {
-        self.videos = videos ?? []
+        var youtubePlayers: [YouTubePlayer] = []
+        for v in videos ?? [] {
+            if let url = v.url {
+                youtubePlayers.append(YouTubePlayer(urlString: url))
+            }
+        }
+        self.players = youtubePlayers
     }
     
     var body: some View {
-        if !videos.isEmpty {
+        if !players.isEmpty {
             ScrollViewCarousel(title: "Trailers") {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(videos) { video in
-                            if let url = video.url {
-                                YouTubePlayerView(YouTubePlayer(urlString: url), overlay: { state in
-                                    switch state {
-                                    case .idle:
-                                        ZStack {
-                                            Rectangle()
-                                                .foregroundStyle(.black)
-                                            ProgressView()
+                        ForEach(players) { player in
+                            YouTubePlayerView(player, overlay: { state in
+                                switch state {
+                                case .error:
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundStyle(.black)
+                                        VStack {
+                                            Image(systemName: "exclamationmark.circle")
+                                                .padding(.bottom, 5)
+                                            Text("Unable to load")
+                                                .bold()
                                         }
-                                    default:
-                                        EmptyView()
+                                        .foregroundStyle(.white)
                                     }
-                                })
-                                .frame(width: 300, height: 170)
-                                .cornerRadius(10)
-                                .shadow(radius: 2)
-                                .padding(5)
-                            }
+                                case .idle:
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundStyle(.black)
+                                        ProgressView()
+                                    }
+                                case .ready:
+                                    EmptyView()
+                                }
+                            })
+                            .frame(width: 300, height: 170)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(5)
                         }
                     }
                     .padding(.horizontal, 17)

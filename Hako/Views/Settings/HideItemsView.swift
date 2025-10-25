@@ -46,22 +46,22 @@ struct HideItemsView: View {
             }
             Section("User profile") {
                 Toggle(isOn: $settings.hideUserAnimeStatistics) {
-                    Text("Hide user anime statistics")
+                    Text("Hide anime statistics")
                 }
                 Toggle(isOn: $settings.hideUserMangaStatistics) {
-                    Text("Hide user manga statistics")
+                    Text("Hide manga statistics")
                 }
                 Toggle(isOn: $settings.hideUserFavouriteAnime) {
-                    Text("Hide user favourite anime")
+                    Text("Hide favourite anime")
                 }
                 Toggle(isOn: $settings.hideUserFavouriteManga) {
-                    Text("Hide user favourite manga")
+                    Text("Hide favourite manga")
                 }
                 Toggle(isOn: $settings.hideUserFavouriteCharacters) {
-                    Text("Hide user favourite characters")
+                    Text("Hide favourite characters")
                 }
                 Toggle(isOn: $settings.hideUserFavouritePeople) {
-                    Text("Hide user favourite people")
+                    Text("Hide favourite people")
                 }
             }
             Section("Anime details") {
@@ -71,7 +71,7 @@ struct HideItemsView: View {
                     }
                 }
                 Toggle(isOn: $settings.hideAnimeInformation) {
-                    Text("Hide anime information")
+                    Text("Hide information")
                 }
                 Toggle(isOn: $settings.hideAiringSchedule) {
                     Text("Hide airing schedule")
@@ -107,7 +107,7 @@ struct HideItemsView: View {
                     }
                 }
                 Toggle(isOn: $settings.hideMangaInformation) {
-                    Text("Hide manga information")
+                    Text("Hide information")
                 }
                 Toggle(isOn: $settings.hideMangaCharacters) {
                     Text("Hide characters")

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaReviews: View {
+    @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var controller: MangaDetailsViewController
     private var id: Int
@@ -25,7 +26,7 @@ struct MangaReviews: View {
                         HStack(alignment: .top) {
                             ForEach(controller.reviews.prefix(10)) { item in
                                 ReviewItem(item: item)
-                                    .frame(width: UIScreen.main.bounds.size.width - 34, alignment: .center)
+                                    .frame(width: screenSize.width - 34, alignment: .center)
                             }
                         }
                         .padding(.horizontal, 17)

@@ -36,8 +36,8 @@ struct ImageFrame: View {
             self.height = 213
         } else {
             self.fullscreen = true
-            self.width = UIScreen.main.bounds.width
-            self.height = UIScreen.main.bounds.height + 70
+            self.width = 0
+            self.height = 0
         }
     }
     
@@ -47,7 +47,7 @@ struct ImageFrame: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: width, height: height)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay {
                         Rectangle()
                             .foregroundStyle(.thickMaterial)

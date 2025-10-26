@@ -22,17 +22,31 @@ struct HakoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .environmentObject(settings)
-                .preferredColorScheme(settings.getColorScheme())
-                .tint(settings.getAccentColor())
-                .onChange(of: networkMonitor.isConnected) { _, cur in
-                    showNetworkAlert = !cur
-                }
-                .alert(
-                    "Network connection seems to be offline. Please reconnect to Wifi. ",
-                    isPresented: $showNetworkAlert
-                ) {}
+            GeometryReader { proxy in
+                MainView()
+                    .environment(\.screenSize, proxy.size)
+                    .environmentObject(settings)
+                    .preferredColorScheme(settings.getColorScheme())
+                    .tint(settings.getAccentColor())
+                    .onChange(of: networkMonitor.isConnected) { _, cur in
+                        showNetworkAlert = !cur
+                    }
+                    .alert(
+                        "Network connection seems to be offline. Please reconnect to Wifi. ",
+                        isPresented: $showNetworkAlert
+                    ) {}
+            }
         }
+    }
+}
+
+private struct ScreenSizeKey: EnvironmentKey {
+    static let defaultValue: CGSize = .zero
+}
+
+extension EnvironmentValues {
+    var screenSize: CGSize {
+        get { self[ScreenSizeKey.self] }
+        set { self[ScreenSizeKey.self] = newValue }
     }
 }

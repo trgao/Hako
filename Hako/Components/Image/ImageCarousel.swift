@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImageCarousel: View {
+    @Environment(\.screenSize) private var screenSize
     @Environment(\.displayScale) var displayScale
     @Namespace private var transitionNamespace
     @State private var selection = 0
@@ -52,7 +53,7 @@ struct ImageCarousel: View {
                             } placeholder: {
                                 ProgressView()
                             }
-                            .frame(maxWidth: UIScreen.main.bounds.width * 4 / 5)
+                            .frame(maxWidth: screenSize.width * 4 / 5)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                             .contextMenu {

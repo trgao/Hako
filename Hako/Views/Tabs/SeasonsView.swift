@@ -24,16 +24,14 @@ struct SeasonsView: View {
     
     @ViewBuilder private func SeasonView(_ season: String, _ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
-            LazyVGrid(columns: columns) {
-                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
-                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        .task {
-                            await controller.loadMoreIfNeeded(index: index)
-                        }
-                }
-                if seasonItems.count % 2 != 0 {
-                    AnimeGridItem(id: 0, title: nil, enTitle: nil, imageUrl: nil)
-                        .hidden()
+            VStack {
+                LazyVGrid(columns: columns) {
+                    ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                            .task {
+                                await controller.loadMoreIfNeeded(index: index)
+                            }
+                    }
                 }
                 if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
                     Text("Continuing")
@@ -42,11 +40,10 @@ struct SeasonsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .bold()
                         .font(.title2)
-                    Rectangle()
-                        .frame(height: 20)
-                        .hidden()
-                    ForEach(seasonContinuingItems) { item in
-                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                    LazyVGrid(columns: columns) {
+                        ForEach(seasonContinuingItems) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        }
                     }
                 }
             }

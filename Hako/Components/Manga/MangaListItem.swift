@@ -172,6 +172,11 @@ struct MangaListItem: View {
                 }
                 .padding(5)
             }
+            .contextMenu {
+                ShareLink(item: URL(string: "https://myanimelist.net/manga/\(manga.id)")!) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
         }
         .padding(5)
     }

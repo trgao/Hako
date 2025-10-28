@@ -14,13 +14,15 @@ struct ScrollViewListItem: View {
     private let title: String?
     private let subtitle: String?
     private let imageUrl: String?
+    private let url: String
     private let index: Int
     
-    init(id: String, title: String?, subtitle: String?, imageUrl: String?, index: Int, selectedIndex: Binding<Int?>) {
+    init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, index: Int, selectedIndex: Binding<Int?>) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
         self.imageUrl = imageUrl
+        self.url = url
         self.index = index
         self._selectedIndex = selectedIndex
     }
@@ -45,7 +47,7 @@ struct ScrollViewListItem: View {
                     .foregroundStyle(Color(.systemGray2))
             }
         }
-        .contentShape(Rectangle())
+        .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             selectedIndex = index
         }
@@ -53,5 +55,10 @@ struct ScrollViewListItem: View {
         .padding(.vertical, 10)
         .background(selectedIndex == index ? Color(.systemGray3) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .contextMenu {
+            ShareLink(item: URL(string: url)!) {
+                Label("Share", systemImage: "square.and.arrow.up")
+            }
+        }
     }
 }

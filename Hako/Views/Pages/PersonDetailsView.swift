@@ -51,21 +51,21 @@ struct PersonDetailsView: View {
                             if let voices = person.voices, !voices.isEmpty {
                                 ScrollViewListSection(title: "Voice acting roles", isExpandable: true) {
                                     ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
-                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, index: index, selectedIndex: $voiceIndex)
+                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", index: index, selectedIndex: $voiceIndex)
                                     }
                                 }
                             }
                             if let animes = person.anime, !animes.isEmpty {
                                 ScrollViewListSection(title: "Anime staff positions", isExpandable: true) {
                                     ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
-                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, index: index, selectedIndex: $animeIndex)
+                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", index: index, selectedIndex: $animeIndex)
                                     }
                                 }
                             }
                             if let mangas = person.manga, !mangas.isEmpty {
                                 ScrollViewListSection(title: "Manga staff positions", isExpandable: true) {
                                     ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
-                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, index: index, selectedIndex: $mangaIndex)
+                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", index: index, selectedIndex: $mangaIndex)
                                     }
                                 }
                             }

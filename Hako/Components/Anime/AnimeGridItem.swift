@@ -48,13 +48,16 @@ struct AnimeGridItem: View {
                     }
                     .contextMenu {
                         if let mean = anime.mean {
-                            Text("\(String(mean)) ⭐")
+                            Label("\(String(mean))", systemImage: "star.fill")
                         }
                         if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
-                            Text("\(season.capitalized), \(String(year))")
+                            Label("\(season.capitalized), \(String(year))", systemImage: "calendar")
                         }
                         if let mediaType = anime.mediaType, let status = anime.status {
-                            Text("\(mediaType == "tv" || mediaType == "ova" || mediaType == "ona" ? mediaType.uppercased() : mediaType == "tv_special" ? "TV Special" : mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                            Label("\(mediaType.formatMediaType()) ・ \(status.formatStatus())", systemImage: "info.circle")
+                        }
+                        ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
+                            Label("Share", systemImage: "square.and.arrow.up")
                         }
                     }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {

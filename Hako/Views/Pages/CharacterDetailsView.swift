@@ -43,21 +43,21 @@ struct CharacterDetailsView: View {
                         if let animes = character.anime, !animes.isEmpty {
                             ScrollViewListSection(title: "Animes", isExpandable: true) {
                                 ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
-                                    ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: anime.role, imageUrl: anime.anime.images?.jpg?.largeImageUrl, index: index, selectedIndex: $animeIndex)
+                                    ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: anime.role, imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", index: index, selectedIndex: $animeIndex)
                                 }
                             }
                         }
                         if let mangas = character.manga, !mangas.isEmpty {
                             ScrollViewListSection(title: "Mangas", isExpandable: true) {
                                 ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
-                                    ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: manga.role, imageUrl: manga.manga.images?.jpg?.largeImageUrl, index: index, selectedIndex: $mangaIndex)
+                                    ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: manga.role, imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", index: index, selectedIndex: $mangaIndex)
                                 }
                             }
                         }
                         if let voices = character.voices, !voices.isEmpty {
                             ScrollViewListSection(title: "Voices", isExpandable: true) {
                                 ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
-                                    ScrollViewListItem(id: "person\(voice.id)", title: voice.person.name, subtitle: voice.language, imageUrl: voice.person.images?.jpg?.imageUrl, index: index, selectedIndex: $voiceIndex)
+                                    ScrollViewListItem(id: "person\(voice.id)", title: voice.person.name, subtitle: voice.language, imageUrl: voice.person.images?.jpg?.imageUrl, url: "https://myanimelist.net/people/\(voice.id)", index: index, selectedIndex: $voiceIndex)
                                 }
                             }
                         }

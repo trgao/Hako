@@ -15,6 +15,7 @@ struct ScrollViewListItem: View {
     private let subtitle: String?
     private let imageUrl: String?
     private let index: Int
+    
     init(id: String, title: String?, subtitle: String?, imageUrl: String?, index: Int, selectedIndex: Binding<Int?>) {
         self.id = id
         self.title = title

@@ -48,10 +48,13 @@ struct MangaGridItem: View {
                     }
                     .contextMenu {
                         if let mean = manga.mean {
-                            Text("\(String(mean)) ⭐")
+                            Label("\(String(mean))", systemImage: "star.fill")
                         }
                         if let mediaType = manga.mediaType, let status = manga.status {
-                            Text("\(mediaType.replacingOccurrences(of: "_", with: " ").capitalized) ・ \(status.formatStatus())")
+                            Label("\(mediaType.formatMediaType()) ・ \(status.formatStatus())", systemImage: "info.circle")
+                        }
+                        ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
+                            Label("Share", systemImage: "square.and.arrow.up")
                         }
                     }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {

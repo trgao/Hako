@@ -27,6 +27,7 @@ struct AnimeCharacters: View {
                             }
                         }
                         .padding(.horizontal, 17)
+                        .padding(.top, 7)
                     }
                 } destination: {
                     CharactersListView(characters: controller.characters)

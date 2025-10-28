@@ -102,6 +102,11 @@ struct AnimeListItem: View {
                 }
                 .padding(5)
             }
+            .contextMenu {
+                ShareLink(item: URL(string: "https://myanimelist.net/anime/\(anime.id)")!) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+            }
         }
         .padding(5)
     }

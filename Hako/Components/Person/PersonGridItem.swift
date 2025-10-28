@@ -25,6 +25,11 @@ struct PersonGridItem: View {
         } label: {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
+                    .contextMenu {
+                        ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                    }
                 Text(name ?? "")
                     .lineLimit(settings.getLineLimit())
                     .font(.system(size: 14))

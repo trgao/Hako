@@ -29,6 +29,16 @@ struct Trailers: View {
                         ForEach(players) { player in
                             YouTubePlayerView(player, overlay: { state in
                                 switch state {
+                                case .idle:
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundStyle(.black)
+                                        ProgressView()
+                                    }
+                                case .ready:
+                                    EmptyView()
+                                case .error(.embeddedVideoPlayingNotAllowed):
+                                    EmptyView()
                                 case .error:
                                     ZStack {
                                         Rectangle()
@@ -41,14 +51,6 @@ struct Trailers: View {
                                         }
                                         .foregroundStyle(.white)
                                     }
-                                case .idle:
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundStyle(.black)
-                                        ProgressView()
-                                    }
-                                case .ready:
-                                    EmptyView()
                                 }
                             })
                             .frame(width: 300, height: 170)

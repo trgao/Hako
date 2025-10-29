@@ -58,18 +58,20 @@ struct ImageFrame: View {
                     .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
                     .frame(width: width, height: height)
             }
-        } else if let image = controller.image {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .shadow(radius: 2)
         } else {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundStyle(.gray)
-                .frame(width: width, height: height)
-                .shadow(radius: 2)
+            VStack {
+                if let image = controller.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.gray)
+                }
+            }
+            .frame(width: width, height: height)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .shadow(radius: 2)
         }
     }
 }

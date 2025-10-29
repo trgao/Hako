@@ -403,13 +403,13 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				EE917FD92EACF90900D62F8B /* ZoomableScrollView.swift */,
 				EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */,
 				EE68FB712E49972800E9EE36 /* TokenBucket.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
+				EE917FD92EACF90900D62F8B /* ZoomableScrollView.swift */,
 				EEA5E9402CEE826200B2513B /* ItemCache.swift */,
 				EEA5E93E2CEE825800B2513B /* ImageCache.swift */,
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,

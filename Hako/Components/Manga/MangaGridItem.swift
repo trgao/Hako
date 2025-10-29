@@ -63,12 +63,14 @@ struct MangaGridItem: View {
                         .frame(width: 150, alignment: .leading)
                         .padding(5)
                         .font(.system(size: 16))
+                        .tint(.primary)
                 } else {
                     Text(title ?? "")
                         .lineLimit(settings.getLineLimit())
                         .frame(width: 150, alignment: .leading)
                         .padding(5)
                         .font(.system(size: 16))
+                        .tint(.primary)
                 }
             }
         }

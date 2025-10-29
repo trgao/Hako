@@ -33,6 +33,7 @@ struct CharacterGridItem: View {
                 Text(name ?? "")
                     .lineLimit(settings.getLineLimit())
                     .font(.system(size: 14))
+                    .tint(.primary)
             }
             .frame(width: 110)
         }

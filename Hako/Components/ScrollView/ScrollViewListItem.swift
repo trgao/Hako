@@ -10,6 +10,7 @@ import SwiftUI
 struct ScrollViewListItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @Binding private var selectedIndex: Int?
+    @State private var isPressed = false
     private let id: String
     private let title: String?
     private let subtitle: String?
@@ -50,15 +51,19 @@ struct ScrollViewListItem: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             selectedIndex = index
+            isPressed = true
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(selectedIndex == index ? Color(.systemGray3) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
+        .background(isPressed ? Color(.systemGray3) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             ShareLink(item: URL(string: url)!) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
+        }
+        .onAppear {
+            isPressed = false
         }
     }
 }

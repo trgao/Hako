@@ -132,17 +132,15 @@ class MangaDetailsViewController: ObservableObject {
                 }
             } else {
                 let relations = try await networker.getMangaRelations(id: id)
-                var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, enTitle: nil, url: $0.url, relation: category.relation, imageUrl: nil) } }
+                var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
                 relatedItems = try await relatedItems.concurrentMap { item in
                     var newItem = item
                     if item.type == .anime {
                         let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
-                        newItem.imageUrl = anime.mainPicture?.large
-                        newItem.enTitle = anime.alternativeTitles?.en
+                        newItem.anime = anime
                     } else if item.type == .manga {
                         let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
-                        newItem.imageUrl = manga.mainPicture?.large
-                        newItem.enTitle = manga.alternativeTitles?.en
+                        newItem.manga = manga
                     }
                     return newItem
                 }

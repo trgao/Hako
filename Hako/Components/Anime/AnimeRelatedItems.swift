@@ -22,9 +22,9 @@ struct AnimeRelatedItems: View {
                         HStack(alignment: .top) {
                             ForEach(controller.relatedItems) { item in
                                 if item.type == .anime {
-                                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
+                                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.medium, subtitle: item.relation, anime: item.anime)
                                 } else if item.type == .manga {
-                                    MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl, subtitle: item.relation)
+                                    MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.medium, subtitle: item.relation, manga: item.manga)
                                 }
                             }
                         }

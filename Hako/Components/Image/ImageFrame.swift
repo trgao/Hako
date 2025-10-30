@@ -72,7 +72,6 @@ struct ImageFrame: View {
             .frame(width: width, height: height)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .shadow(radius: 2)
-            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         }
     }
 }

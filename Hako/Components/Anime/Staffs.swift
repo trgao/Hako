@@ -27,9 +27,9 @@ struct Staffs: View {
                             }
                         }
                         .padding(.horizontal, 17)
-                        .padding(.top, 50)
+                        .padding(.top, 15)
                     }
-                    .padding(.top, -50)
+                    .padding(.top, -15)
                 } destination: {
                     StaffsListView(staffs: controller.staffs)
                 }

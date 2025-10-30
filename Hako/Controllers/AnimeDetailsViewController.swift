@@ -22,22 +22,16 @@ class AnimeDetailsViewController: ObservableObject {
     
     init(id: Int) {
         self.id = id
-        if let anime = networker.animeCache[id] {
-            self.anime = anime
-        }
         Task {
-            await loadDetails()
+            await loadCachedDetails()
         }
     }
     
     init(anime: Anime) {
         self.id = anime.id
         self.anime = anime
-        if let anime = networker.animeCache[id] {
-            self.anime = anime
-        }
         Task {
-            await loadDetails()
+            await loadCachedDetails()
         }
     }
     
@@ -76,11 +70,22 @@ class AnimeDetailsViewController: ObservableObject {
         await loadReviews()
     }
     
+    func loadCachedDetails() async {
+        isLoading = true
+        isLoadingError = false
+        do {
+            self.anime = try await networker.getCachedAnimeDetails(id: id)
+        } catch {
+            isLoadingError = true
+        }
+        isLoading = false
+    }
+    
     func loadDetails() async {
         isLoading = true
         isLoadingError = false
         do {
-            let anime = try await networker.getAnimeDetails(id: id)
+            let anime = try await networker.getCachedAnimeDetails(id: id)
             self.anime = anime
             networker.animeCache[id] = anime
         } catch {
@@ -155,10 +160,10 @@ class AnimeDetailsViewController: ObservableObject {
                 relatedItems = try await relatedItems.concurrentMap { item in
                     var newItem = item
                     if item.type == .anime {
-                        let anime = try await NetworkManager.shared.getAnimeDetails(id: item.id)
+                        let anime = try await NetworkManager.shared.getCachedAnimeDetails(id: item.id)
                         newItem.anime = anime
                     } else if item.type == .manga {
-                        let manga = try await NetworkManager.shared.getMangaDetails(id: item.id)
+                        let manga = try await NetworkManager.shared.getCachedMangaDetails(id: item.id)
                         newItem.manga = manga
                     }
                     return newItem

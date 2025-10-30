@@ -32,7 +32,9 @@ struct Recommendations: View {
                         }
                     }
                     .padding(.horizontal, 15)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         } else if type == .manga && !mangaRecommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations") {
@@ -43,7 +45,9 @@ struct Recommendations: View {
                         }
                     }
                     .padding(.horizontal, 15)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
     }

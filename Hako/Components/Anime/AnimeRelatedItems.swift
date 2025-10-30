@@ -29,7 +29,9 @@ struct AnimeRelatedItems: View {
                             }
                         }
                         .padding(.horizontal, 15)
+                        .padding(.top, 50)
                     }
+                    .padding(.top, -50)
                 }
             }
         }

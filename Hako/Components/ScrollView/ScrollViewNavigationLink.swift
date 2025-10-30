@@ -10,6 +10,7 @@ import SwiftUI
 struct ScrollViewNavigationLink<Destination: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var isPressed = false
+    @State private var isNavigating = false
     private let title: String
     private let content: String
     private let destination: () -> Destination
@@ -34,10 +35,14 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         .contentShape(Rectangle())
         .onTapGesture {
             isPressed = true
+            isNavigating = true
         }
+        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
+            isPressed = pressing
+        }) {}
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(isPressed ? Color(.systemGray3) : (content == "" || colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
+        .background(isPressed ? Color(.systemGray4) : (content == "" || colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
@@ -51,6 +56,6 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
-        .navigationDestination(isPresented: $isPressed, destination: destination)
+        .navigationDestination(isPresented: $isNavigating, destination: destination)
     }
 }

@@ -452,6 +452,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response
     }
     
+    func getCachedAnimeDetails(id: Int) async throws -> Anime {
+        if let anime = animeCache[id] {
+            return anime
+        }
+        return try await getAnimeDetails(id: id)
+    }
+    
     func getAnimeNextAiringDetails(id: Int) async throws -> NextAiringEpisode? {
         let url = URL(string: anilistBaseApi)!
         let query = """
@@ -512,6 +519,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getMangaDetails(id: Int) async throws -> Manga {
         let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=\(mangaFields)", type: Manga.self)
         return response
+    }
+    
+    func getCachedMangaDetails(id: Int) async throws -> Manga {
+        if let manga = mangaCache[id] {
+            return manga
+        }
+        return try await getMangaDetails(id: id)
     }
     
     func getMangaCharacters(id: Int) async throws -> [ListCharacter] {

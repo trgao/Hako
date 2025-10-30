@@ -77,7 +77,9 @@ struct ProfileView: View {
                                         }
                                     }
                                     .padding(.horizontal, 17)
+                                    .padding(.top, 50)
                                 }
+                                .padding(.top, -50)
                             }
                         }
                         if !controller.manga.isEmpty && !settings.hideUserFavouriteManga {
@@ -89,7 +91,9 @@ struct ProfileView: View {
                                         }
                                     }
                                     .padding(.horizontal, 17)
+                                    .padding(.top, 50)
                                 }
+                                .padding(.top, -50)
                             }
                         }
                         if !userFavourites.characters.isEmpty && !settings.hideUserFavouriteCharacters {
@@ -101,8 +105,9 @@ struct ProfileView: View {
                                         }
                                     }
                                     .padding(.horizontal, 17)
-                                    .padding(.top, 7)
+                                    .padding(.top, 50)
                                 }
+                                .padding(.top, -50)
                             }
                         }
                         if !userFavourites.people.isEmpty && !settings.hideUserFavouritePeople {
@@ -114,8 +119,9 @@ struct ProfileView: View {
                                         }
                                     }
                                     .padding(.horizontal, 17)
-                                    .padding(.top, 7)
+                                    .padding(.top, 50)
                                 }
+                                .padding(.top, -50)
                             }
                         }
                     }

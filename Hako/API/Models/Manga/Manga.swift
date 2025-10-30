@@ -53,4 +53,28 @@ struct Manga: Codable, Identifiable {
         self.recommendations = nil
         self.numListUsers = nil
     }
+    
+    init(item: JikanListItem) {
+        self.id = item.id
+        self.title = item.title ?? ""
+        self.alternativeTitles = AlternativeTitles(ja: item.titleJapanese, en: item.titleEnglish)
+        self.mainPicture = MainPicture(medium: item.images?.jpg?.imageUrl, large: item.images?.jpg?.largeImageUrl)
+        self.pictures = nil
+        self.startDate = nil
+        self.endDate = nil
+        self.synopsis = item.synopsis
+        self.mean = item.score
+        self.rank = item.rank
+        self.popularity = item.popularity
+        self.mediaType = item.type
+        self.status = item.status
+        self.genres = nil
+        self.myListStatus = nil
+        self.numVolumes = item.volumes
+        self.numChapters = item.chapters
+        self.authors = nil
+        self.serialization = nil
+        self.recommendations = nil
+        self.numListUsers = item.members
+    }
 }

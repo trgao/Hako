@@ -19,7 +19,8 @@ extension String {
     }
     
     func formatMediaType() -> String {
-        return self == "tv" || self == "ova" || self == "ona" ? self.uppercased() : self == "tv_special" ? "TV Special" : self.replacingOccurrences(of: "_", with: " ").capitalized
+        let cur = self.lowercased()
+        return cur == "tv" || cur == "ova" || cur == "ona" ? cur.uppercased() : cur == "tv_special" ? "TV Special" : cur.replacingOccurrences(of: "_", with: " ").capitalized
     }
     
     func formatStatus() -> String {

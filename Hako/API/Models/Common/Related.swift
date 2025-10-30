@@ -9,7 +9,14 @@ import Foundation
 
 struct Related: Codable {
     let relation: String?
-    let entry: [JikanListItem]
+    let entry: [RelatedEntry]
+}
+
+struct RelatedEntry: Codable, Identifiable {
+    var id: Int { malId }
+    let malId: Int
+    let name: String?
+    let type: TypeEnum?
 }
 
 struct RelatedItem: Codable, Identifiable {

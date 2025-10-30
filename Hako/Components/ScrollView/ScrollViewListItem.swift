@@ -53,9 +53,12 @@ struct ScrollViewListItem: View {
             selectedIndex = index
             isPressed = true
         }
+        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
+            isPressed = pressing
+        }) {}
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(isPressed ? Color(.systemGray3) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
+        .background(isPressed ? Color(.systemGray4) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             ShareLink(item: URL(string: url)!) {

@@ -18,9 +18,23 @@ extension String {
         return range(of: string, options: .literal)?.lowerBound
     }
     
+    func formatRankingType() -> String {
+        if self == "bypopularity" {
+            return "Popularity"
+        } else {
+            return self.formatMediaType()
+        }
+    }
+    
     func formatMediaType() -> String {
         let cur = self.lowercased()
-        return cur == "tv" || cur == "ova" || cur == "ona" ? cur.uppercased() : cur == "tv_special" ? "TV Special" : cur.replacingOccurrences(of: "_", with: " ").capitalized
+        if cur == "tv" || cur == "ova" || cur == "ona" {
+            return cur.uppercased()
+        } else if cur == "tv_special" {
+            return "Special"
+        } else {
+            return cur.replacingOccurrences(of: "_", with: " ").capitalized
+        }
     }
     
     func formatStatus() -> String {

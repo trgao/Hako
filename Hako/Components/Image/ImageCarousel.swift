@@ -82,6 +82,7 @@ struct ImageCarousel: View {
             } label: {
                 Image(systemName: "xmark")
             }
+            .buttonStyle(.borderedProminent)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             .padding([.horizontal, .top], 20)
         }

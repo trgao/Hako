@@ -19,7 +19,7 @@ struct Favourites: View {
         if let favorites = favorites {
             HStack {
                 Spacer()
-                Label("\(favorites) favorites", systemImage: "star.fill")
+                Label("\(favorites) favorites", systemImage: "heart.fill")
                 Spacer()
             }
                 .padding(.horizontal, 20)

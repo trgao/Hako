@@ -46,7 +46,7 @@ struct TopView: View {
                     Label("All", systemImage: "star").tag("all")
                     Label("Manga", systemImage: "book").tag("manga")
                     Label("Novels", systemImage: "book.closed").tag("novels")
-                    Label("One Shots", systemImage: "book.pages").tag("oneshots")
+                    Label("Oneshots", systemImage: "book.pages").tag("oneshots")
                     Label("Manhwa", systemImage: "book").tag("manhwa")
                     Label("Manhua", systemImage: "book").tag("manhua")
                     Label("Popularity", systemImage: "popcorn").tag("bypopularity")
@@ -79,12 +79,22 @@ struct TopView: View {
                             if controller.isLoadingError && controller.animeItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
                             } else {
-                                LazyVGrid(columns: columns) {
-                                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
-                                        AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
-                                            .task {
-                                                await controller.loadMoreIfNeeded(index: index)
-                                            }
+                                VStack {
+                                    if controller.animeRankingType != "all" {
+                                        Text(controller.animeRankingType.formatRankingType())
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal, 20)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(Color(.systemGray))
+                                            .bold()
+                                    }
+                                    LazyVGrid(columns: columns) {
+                                        ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
+                                            AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
+                                                .task {
+                                                    await controller.loadMoreIfNeeded(index: index)
+                                                }
+                                        }
                                     }
                                 }
                                 .padding(10)
@@ -95,12 +105,22 @@ struct TopView: View {
                             if controller.isLoadingError && controller.mangaItems.isEmpty {
                                 ErrorView(refresh: controller.refresh)
                             } else {
-                                LazyVGrid(columns: columns) {
-                                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
-                                        MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
-                                            .task {
-                                                await controller.loadMoreIfNeeded(index: index)
-                                            }
+                                VStack {
+                                    if controller.mangaRankingType != "all" {
+                                        Text(controller.mangaRankingType.formatRankingType())
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal, 20)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(Color(.systemGray))
+                                            .bold()
+                                    }
+                                    LazyVGrid(columns: columns) {
+                                        ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
+                                            MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
+                                                .task {
+                                                    await controller.loadMoreIfNeeded(index: index)
+                                                }
+                                        }
                                     }
                                 }
                                 .padding(10)

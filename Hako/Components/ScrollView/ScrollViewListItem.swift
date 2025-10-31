@@ -60,6 +60,7 @@ struct ScrollViewListItem: View {
         .padding(.vertical, 10)
         .background(isPressed ? Color(.systemGray4) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             ShareLink(item: URL(string: url)!) {
                 Label("Share", systemImage: "square.and.arrow.up")

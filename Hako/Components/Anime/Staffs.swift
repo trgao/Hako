@@ -27,7 +27,7 @@ struct Staffs: View {
                             }
                         }
                         .padding(.horizontal, 17)
-                        .padding(.top, 15)
+                        .padding(.top, 17)
                     }
                     .padding(.top, -15)
                 } destination: {

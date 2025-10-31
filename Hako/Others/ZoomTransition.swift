@@ -29,11 +29,9 @@ struct ZoomTransition<Content: View, Label: View>: View {
             if #available(iOS 18.0, *) {
                 label()
                     .matchedTransitionSource(id: "item", in: namespace)
-//                    .tint(.primary)
                     .multilineTextAlignment(.leading)
             } else {
                 label()
-//                    .tint(.primary)
                     .multilineTextAlignment(.leading)
             }
         }

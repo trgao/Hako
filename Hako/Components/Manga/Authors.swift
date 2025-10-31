@@ -33,7 +33,7 @@ struct Authors: View {
                         .padding(.horizontal, 17)
                         .padding(.top, 50)
                     }
-                    .padding(.top, 50)
+                    .padding(.top, -50)
                 }
             }
         }

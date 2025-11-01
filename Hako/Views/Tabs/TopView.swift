@@ -77,7 +77,7 @@ struct TopView: View {
                     if controller.type == .anime {
                         ScrollView {
                             if controller.isLoadingError && controller.animeItems.isEmpty {
-                                ErrorView(refresh: controller.refresh)
+                                ErrorView(refresh: { await controller.refresh() })
                             } else {
                                 VStack {
                                     if controller.animeRankingType != "all" {
@@ -103,7 +103,7 @@ struct TopView: View {
                     } else if controller.type == .manga {
                         ScrollView {
                             if controller.isLoadingError && controller.mangaItems.isEmpty {
-                                ErrorView(refresh: controller.refresh)
+                                ErrorView(refresh: { await controller.refresh() })
                             } else {
                                 VStack {
                                     if controller.mangaRankingType != "all" {
@@ -144,7 +144,7 @@ struct TopView: View {
             }
             .task(id: isRefresh) {
                 if controller.shouldRefresh() || isRefresh {
-                    await controller.refresh()
+                    await controller.refresh(true)
                     isRefresh = false
                 }
             }

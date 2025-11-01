@@ -21,6 +21,8 @@ extension String {
     func formatRankingType() -> String {
         if self == "bypopularity" {
             return "Popularity"
+        } else if self == "favorite" {
+            return "Favourites"
         } else {
             return self.formatMediaType()
         }

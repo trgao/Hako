@@ -38,9 +38,14 @@ class TopViewController: ObservableObject {
     }
     
     // Refresh both anime and manga list
-    func refresh() async {
+    func refresh(_ refresh: Bool = false) async {
         isLoading = true
         isLoadingError = false
+        
+        if !refresh {
+            animeItems = []
+            mangaItems = []
+        }
         
         // Refresh anime list
         currentAnimePage = 1

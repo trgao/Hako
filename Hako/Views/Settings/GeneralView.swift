@@ -19,7 +19,7 @@ struct GeneralView: View {
         List {
             Section("General") {
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
-                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My List"])
+                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My list"])
                 Toggle(isOn: $settings.hideTop) {
                     Text("Hide top tab")
                 }
@@ -30,7 +30,7 @@ struct GeneralView: View {
                 }
                 Toggle(isOn: $settings.useWithoutAccount) {
                     Text("Use app without account")
-                    Text("It will hide the login button and My List tab")
+                    Text("It will hide the login button and My list tab")
                 }
                 .onChange(of: settings.useWithoutAccount) { _, cur in
                     if cur == true && settings.defaultView == 3 {
@@ -70,13 +70,12 @@ struct GeneralView: View {
                 }
             }
             Section("Top") {
-                let animeRankingTypes = settings.animeRankingTypes.map{ $0.formatRankingType() }
-                let mangaRankingTypes = settings.mangaRankingTypes.map{ $0.formatRankingType() }
-                PickerRow(title: "Default anime ranking type", selection: $settings.defaultAnimeRankingType, labels: animeRankingTypes)
-                PickerRow(title: "Default manga ranking type", selection: $settings.defaultMangaRankingType, labels: mangaRankingTypes)
+                let animeRankings = settings.animeRankings.map{ $0.formatRankingType() }
+                let mangaRankings = settings.mangaRankings.map{ $0.formatRankingType() }
+                PickerRow(title: "Default anime ranking", selection: $settings.defaultAnimeRanking, labels: animeRankings)
+                PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
-            
-            Section("My List") {
+            Section("My list") {
                 let animeStatuses = settings.animeStatuses.map{ $0.toString() }
                 let animeSorts = settings.animeSorts.map{ $0.formatSort() }
                 PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
@@ -91,7 +90,7 @@ struct GeneralView: View {
                 Section("List") {
                     Toggle(isOn: $settings.useSwipeActions) {
                         Text("Allow swipe actions")
-                        Text("Swipe left or right on items in My List tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
+                        Text("Swipe left or right on items in My list tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }

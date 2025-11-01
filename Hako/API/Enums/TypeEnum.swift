@@ -23,9 +23,9 @@ enum TypeEnum: Codable {
     func toString() -> String {
         switch self {
         case .anime:
-            return "Anime"
+            return "anime"
         case .manga:
-            return "Manga"
+            return "manga"
         default:
             return ""
         }

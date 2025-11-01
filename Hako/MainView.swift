@@ -78,7 +78,7 @@ struct MainView: View {
                             SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
                         }
                         if !settings.useWithoutAccount {
-                            Tab("My List", systemImage: "list.bullet", value: 3) {
+                            Tab("My list", systemImage: "list.bullet", value: 3) {
                                 MyListView()
                             }
                         }
@@ -111,7 +111,7 @@ struct MainView: View {
                         if !settings.useWithoutAccount {
                             MyListView()
                                 .tabItem {
-                                    Label("My List", systemImage: "list.bullet")
+                                    Label("My list", systemImage: "list.bullet")
                                 }
                                 .tag(3)
                         }

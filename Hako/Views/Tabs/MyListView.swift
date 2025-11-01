@@ -11,6 +11,7 @@ struct MyListView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = MyListViewController()
     @StateObject private var networker = NetworkManager.shared
+    @State private var isInit = false
     @State private var isRefresh = false
     
     @State private var selectedAnime: MALListAnime?
@@ -332,6 +333,15 @@ struct MyListView: View {
                     SignInSections()
                 }
                 .navigationTitle("My List")
+            }
+        }
+        .onAppear {
+            if !isInit {
+                controller.animeStatus = settings.getAnimeStatus()
+                controller.animeSort = settings.getAnimeSort()
+                controller.mangaStatus = settings.getMangaStatus()
+                controller.mangaSort = settings.getMangaSort()
+                isInit = true
             }
         }
     }

@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct TopView: View {
+    @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = TopViewController()
+    @State private var isInit = false
+    @State private var offset: CGFloat = -18
+    @State private var isRefresh = false
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
-    @State private var offset: CGFloat = -18
-    @State private var isRefresh = false
     let networker = NetworkManager.shared
     
     // Display medals instead of numbers for the first 3 ranks
@@ -159,6 +161,13 @@ struct TopView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type)
                 }
+            }
+        }
+        .onAppear {
+            if !isInit {
+                controller.animeRankingType = settings.getAnimeRanking()
+                controller.mangaRankingType = settings.getMangaRanking()
+                isInit = true
             }
         }
     }

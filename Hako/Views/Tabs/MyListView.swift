@@ -327,12 +327,12 @@ struct MyListView: View {
                         AnimeMangaToggle(type: $controller.type)
                     }
                 }
-                .navigationTitle(controller.type == .anime ? "My Anime List" : "My Manga List")
+                .navigationTitle(controller.type == .anime ? "My anime list" : "My manga list")
             } else {
                 List {
                     SignInSections()
                 }
-                .navigationTitle("My List")
+                .navigationTitle("My list")
             }
         }
         .onAppear {

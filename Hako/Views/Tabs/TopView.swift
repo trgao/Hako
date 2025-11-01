@@ -62,12 +62,12 @@ struct TopView: View {
         }
         .onChange(of: controller.animeRankingType) {
             Task {
-                await controller.refresh()
+                await controller.refreshAnime()
             }
         }
         .onChange(of: controller.mangaRankingType) {
             Task {
-                await controller.refresh()
+                await controller.refreshManga()
             }
         }
     }
@@ -75,11 +75,11 @@ struct TopView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack {
-                    if controller.type == .anime {
+                if controller.type == .anime {
+                    ZStack {
                         ScrollView {
-                            if controller.isLoadingError && controller.animeItems.isEmpty {
-                                ErrorView(refresh: { await controller.refresh() })
+                            if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
+                                ErrorView(refresh: { await controller.refreshAnime() })
                             } else {
                                 VStack {
                                     if controller.animeRankingType != "all" {
@@ -102,10 +102,24 @@ struct TopView: View {
                                 .padding(10)
                             }
                         }
-                    } else if controller.type == .manga {
+                        if controller.isAnimeLoading {
+                            LoadingView()
+                        }
+                        if controller.animeItems.isEmpty && !controller.isAnimeLoading && !controller.isAnimeLoadingError {
+                            VStack {
+                                Image(systemName: "medal")
+                                    .resizable()
+                                    .frame(width: 40, height: 50)
+                                Text("Nothing found")
+                                    .bold()
+                            }
+                        }
+                    }
+                } else if controller.type == .manga {
+                    ZStack {
                         ScrollView {
-                            if controller.isLoadingError && controller.mangaItems.isEmpty {
-                                ErrorView(refresh: { await controller.refresh() })
+                            if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
+                                ErrorView(refresh: { await controller.refreshManga() })
                             } else {
                                 VStack {
                                     if controller.mangaRankingType != "all" {
@@ -128,22 +142,22 @@ struct TopView: View {
                                 .padding(10)
                             }
                         }
-                    }
-                    if controller.isLoading {
-                        LoadingView()
-                    }
-                    if controller.isItemsEmpty() && !controller.isLoading && !controller.isLoadingError {
-                        VStack {
-                            Image(systemName: "medal")
-                                .resizable()
-                                .frame(width: 40, height: 50)
-                            Text("Nothing found")
-                                .bold()
+                        if controller.isMangaLoading {
+                            LoadingView()
+                        }
+                        if controller.mangaItems.isEmpty && !controller.isMangaLoading && !controller.isMangaLoadingError {
+                            VStack {
+                                Image(systemName: "medal")
+                                    .resizable()
+                                    .frame(width: 40, height: 50)
+                                Text("Nothing found")
+                                    .bold()
+                            }
                         }
                     }
                 }
-                .navigationTitle("Top \(controller.type.toString().capitalized)")
             }
+            .navigationTitle("Top \(controller.type.toString())")
             .task(id: isRefresh) {
                 if controller.shouldRefresh() || isRefresh {
                     await controller.refresh(true)
@@ -156,7 +170,7 @@ struct TopView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     filter
-                        .disabled(controller.isLoading)
+                        .disabled(controller.isLoading())
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type)

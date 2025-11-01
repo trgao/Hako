@@ -39,11 +39,6 @@ class MyListViewController: ObservableObject {
         return (type == .anime && animeItems.isEmpty) || (type == .manga && mangaItems.isEmpty)
     }
     
-    // Check if the current anime/manga list should be refreshed
-    func shouldRefresh() -> Bool {
-        return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
-    }
-    
     func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {
         isLoading = true
         do {
@@ -124,8 +119,53 @@ class MyListViewController: ObservableObject {
     
     // Refresh both anime and manga list
     func refresh(_ refresh: Bool = false) async {
-        await refreshAnime(refresh)
-        await refreshManga(refresh)
+        animeLoadId = UUID()
+        isLoadingError = false
+        currentAnimePage = 1
+        canLoadMoreAnimePages = false
+        mangaLoadId = UUID()
+        isLoadingError = false
+        currentMangaPage = 1
+        canLoadMoreMangaPages = false
+        
+        if refresh {
+            isLoading = true
+        } else {
+            animeItems = []
+            isAnimeLoading = true
+            mangaItems = []
+            isMangaLoading = true
+        }
+        
+        do {
+            let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
+            
+            currentAnimePage = 2
+            canLoadMoreAnimePages = animeList.count > 20
+            animeItems = animeList
+        } catch {
+            isLoadingError = true
+        }
+        
+        if !refresh {
+            isAnimeLoading = false
+        }
+        
+        do {
+            let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
+            
+            currentMangaPage = 2
+            canLoadMoreMangaPages = mangaList.count > 20
+            mangaItems = mangaList
+        } catch {
+            isLoadingError = true
+        }
+        
+        if refresh {
+            isLoading = false
+        } else {
+            isMangaLoading = false
+        }
     }
     
     // Load more of the current anime/manga list

@@ -45,6 +45,20 @@ extension String {
         return first + text.dropFirst()
     }
     
+    func formatSort() -> String {
+        if self == "list_score" {
+            return "By score"
+        } else if self == "list_updated_at" {
+            return "By last update"
+        } else if self == "anime_title" || self == "manga_title" {
+            return "By title"
+        } else if self == "anime_start_date" || self == "manga_start_date" {
+            return "By start date"
+        } else {
+            return ""
+        }
+    }
+    
     func formatThemeSong() -> String {
         var cur = self
         if let number = cur.firstIndex(of: "\""), cur.distance(from: cur.startIndex, to: number) < 6 {

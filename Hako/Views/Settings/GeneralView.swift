@@ -69,6 +69,24 @@ struct GeneralView: View {
                     }
                 }
             }
+            Section("Top") {
+                let animeRankingTypes = settings.animeRankingTypes.map{ $0.formatRankingType() }
+                let mangaRankingTypes = settings.mangaRankingTypes.map{ $0.formatRankingType() }
+                PickerRow(title: "Default anime ranking type", selection: $settings.defaultAnimeRankingType, labels: animeRankingTypes)
+                PickerRow(title: "Default manga ranking type", selection: $settings.defaultMangaRankingType, labels: mangaRankingTypes)
+            }
+            
+            Section("My List") {
+                let animeStatuses = settings.animeStatuses.map{ $0.toString() }
+                let animeSorts = settings.animeSorts.map{ $0.formatSort() }
+                PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
+                PickerRow(title: "Default anime sort", selection: $settings.defaultAnimeSort, labels: animeSorts)
+                
+                let mangaStatuses = settings.mangaStatuses.map{ $0.toString() }
+                let mangaSorts = settings.mangaSorts.map{ $0.formatSort() }
+                PickerRow(title: "Default manga status", selection: $settings.defaultMangaStatus, labels: mangaStatuses)
+                PickerRow(title: "Default manga sort", selection: $settings.defaultMangaSort, labels: mangaSorts)
+            }
             if networker.isSignedIn {
                 Section("List") {
                     Toggle(isOn: $settings.useSwipeActions) {

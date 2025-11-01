@@ -17,6 +17,14 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("useFaceID") var useFaceID = false
     
+    @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
+    @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
+    
+    @AppStorage("defaultAnimeStatus") var defaultAnimeStatus = 1
+    @AppStorage("defaultAnimeSort") var defaultAnimeSort = 2
+    @AppStorage("defaultMangaStatus") var defaultMangaStatus = 1
+    @AppStorage("defaultMangaSort") var defaultMangaSort = 2
+    
     @AppStorage("useSwipeActions") var useSwipeActions = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
@@ -66,8 +74,40 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
     
+    var animeRankings = ["all", "tv", "ova", "movie", "special", "bypopularity", "favorite"]
+    var mangaRankings = ["all", "manga", "novels", "oneshots", "manhwa", "manhua", "bypopularity", "favorite"]
+    
+    var animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
+    var animeSorts = ["list_score", "list_updated_at", "anime_title", "anime_start_date"]
+    var mangaStatuses: [StatusEnum] = [.none, .reading, .completed, .onHold, .dropped, .planToRead]
+    var mangaSorts = ["list_score", "list_updated_at", "manga_title", "manga_start_date"]
+    
     var colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     var accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
+    
+    func getAnimeRanking() -> String {
+        return animeRankings[defaultAnimeRanking]
+    }
+    
+    func getMangaRanking() -> String {
+        return mangaRankings[defaultMangaRanking]
+    }
+    
+    func getAnimeStatus() -> StatusEnum {
+        return animeStatuses[defaultAnimeStatus]
+    }
+    
+    func getAnimeSort() -> String {
+        return animeSorts[defaultAnimeSort]
+    }
+    
+    func getMangaStatus() -> StatusEnum {
+        return mangaStatuses[defaultMangaStatus]
+    }
+    
+    func getMangaSort() -> String {
+        return mangaSorts[defaultMangaSort]
+    }
     
     func getLineLimit() -> Int? {
         return truncate ? lineLimit + 1 : nil

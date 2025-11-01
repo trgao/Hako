@@ -49,6 +49,8 @@ enum StatusEnum: Codable {
     
     func toString() -> String {
         switch self {
+        case .none:
+            return "All"
         case .watching:
             return "Watching"
         case .completed:
@@ -63,8 +65,6 @@ enum StatusEnum: Codable {
             return "Reading"
         case .planToRead:
             return "Plan to read"
-        default:
-            return ""
         }
     }
     

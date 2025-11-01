@@ -62,7 +62,11 @@ struct ImageCarousel: View {
                                         let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
                                         imageSaver.writeToPhotoAlbum(image: inputImage)
                                     } label: {
-                                        Label("Save image", systemImage: "square.and.arrow.down")
+                                        Label("Save", systemImage: "square.and.arrow.down")
+                                    }
+                                    let shareImage = Image(uiImage: inputImage)
+                                    ShareLink(item: shareImage, preview: SharePreview("Image", image: shareImage)) {
+                                        Label("Share", systemImage: "square.and.arrow.up")
                                     }
                                 }
                             }

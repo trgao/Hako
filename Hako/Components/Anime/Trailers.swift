@@ -61,6 +61,13 @@ struct Trailers: View {
                 }
             }
         }
+        .onChange(of: scenePhase) {
+            if scenePhase == .background {
+                self.players = players.map{ _ in YouTubePlayer(urlString: "") }
+            } else {
+                self.players = videos.filter{ $0.url != nil }.map{ YouTubePlayer(urlString: $0.url!) }
+            }
+        }
         .onChange(of: videos) {
             self.players = videos.filter{ $0.url != nil }.map{ YouTubePlayer(urlString: $0.url!) }
         }

@@ -63,10 +63,16 @@ class MangaDetailsViewController: ObservableObject {
     }
     
     func loadCachedDetails() async {
+        if let manga = networker.mangaCache[id] {
+            self.manga = manga
+        }
+        
         isLoading = true
         isLoadingError = false
         do {
-            self.manga = try await networker.getCachedMangaDetails(id: id)
+            let manga = try await networker.getMangaDetails(id: id)
+            self.manga = manga
+            networker.mangaCache[id] = manga
         } catch {
             isLoadingError = true
         }
@@ -77,7 +83,7 @@ class MangaDetailsViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
-            let manga = try await networker.getCachedMangaDetails(id: id)
+            let manga = try await networker.getMangaDetails(id: id)
             self.manga = manga
             networker.mangaCache[id] = manga
         } catch {
@@ -141,11 +147,19 @@ class MangaDetailsViewController: ObservableObject {
                 relatedItems = try await relatedItems.concurrentMap { item in
                     var newItem = item
                     if item.type == .anime {
-                        let anime = try await NetworkManager.shared.getCachedAnimeDetails(id: item.id)
-                        newItem.anime = anime
+                        if let anime = self.networker.animeCache[item.id] {
+                            newItem.anime = anime
+                        } else {
+                            let anime = try await self.networker.getAnimeDetails(id: item.id)
+                            newItem.anime = anime
+                        }
                     } else if item.type == .manga {
-                        let manga = try await NetworkManager.shared.getCachedMangaDetails(id: item.id)
-                        newItem.manga = manga
+                        if let manga = self.networker.mangaCache[item.id] {
+                            newItem.manga = manga
+                        } else {
+                            let manga = try await self.networker.getMangaDetails(id: item.id)
+                            newItem.manga = manga
+                        }
                     }
                     return newItem
                 }

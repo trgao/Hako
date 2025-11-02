@@ -7,61 +7,62 @@
 
 import SwiftUI
 import YouTubePlayerKit
+import Combine
 
 struct Trailers: View {
-    private let players: [YouTubePlayer]
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var players: [YouTubePlayer] = []
+    private let videos: [Video]
     
     init(videos: [Video]?) {
-        var youtubePlayers: [YouTubePlayer] = []
-        for v in videos ?? [] {
-            if let url = v.url {
-                youtubePlayers.append(YouTubePlayer(urlString: url))
-            }
-        }
-        self.players = youtubePlayers
+        self.videos = videos ?? []
     }
     
     var body: some View {
-        if !players.isEmpty {
-            ScrollViewCarousel(title: "Trailers") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(players) { player in
-                            YouTubePlayerView(player, overlay: { state in
-                                switch state {
-                                case .idle:
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundStyle(.black)
-                                        ProgressView()
-                                    }
-                                case .ready:
-                                    EmptyView()
-                                case .error(.embeddedVideoPlayingNotAllowed):
-                                    EmptyView()
-                                case .error:
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundStyle(.black)
-                                        VStack {
-                                            Image(systemName: "exclamationmark.circle")
-                                                .padding(.bottom, 5)
-                                            Text("Unable to load")
-                                                .bold()
+        VStack {
+            if !players.isEmpty {
+                ScrollViewCarousel(title: "Trailers") {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(players) { player in
+                                YouTubePlayerView(player, overlay: { state in
+                                    switch state {
+                                    case .idle:
+                                        ZStack {
+                                            Rectangle()
+                                                .foregroundStyle(.black)
+                                            ProgressView()
                                         }
-                                        .foregroundStyle(.white)
+                                    case .ready:
+                                        EmptyView()
+                                    case .error(.embeddedVideoPlayingNotAllowed):
+                                        EmptyView()
+                                    case .error:
+                                        ZStack {
+                                            Rectangle()
+                                                .foregroundStyle(.black)
+                                            VStack {
+                                                Image(systemName: "exclamationmark.circle")
+                                                    .padding(.bottom, 5)
+                                                Text("Unable to load")
+                                                    .bold()
+                                            }
+                                            .foregroundStyle(.white)
+                                        }
                                     }
-                                }
-                            })
-                            .frame(width: 300, height: 170)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
-                            .padding(5)
+                                })
+                                .frame(width: 300, height: 170)
+                                .cornerRadius(10)
+                                .padding(5)
+                            }
                         }
+                        .padding(.horizontal, 17)
                     }
-                    .padding(.horizontal, 17)
                 }
             }
+        }
+        .onChange(of: videos) {
+            self.players = videos.filter{ $0.url != nil }.map{ YouTubePlayer(urlString: $0.url!) }
         }
     }
 }

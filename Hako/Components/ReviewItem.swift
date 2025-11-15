@@ -38,6 +38,7 @@ struct ReviewItem: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.system(size: 17))
             }
+            .frame(height: 200)
             .padding(20)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)

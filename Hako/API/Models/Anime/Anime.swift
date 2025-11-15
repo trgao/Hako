@@ -86,7 +86,8 @@ struct Anime: Codable, Identifiable {
         self.startSeason = Season(year: item.year, season: item.season)
         self.broadcast = nil
         self.source = item.source
-        self.averageEpisodeDuration = nil
+        let parsedDuration = Int(item.duration?.components(separatedBy: " ").first ?? "")
+        self.averageEpisodeDuration = parsedDuration == nil ? nil : parsedDuration! * 60
         self.rating = nil
         self.studios = nil
         self.openingThemes = nil

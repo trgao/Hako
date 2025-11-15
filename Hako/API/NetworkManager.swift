@@ -270,6 +270,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         UserDefaults.standard.set(nil, forKey: "joinedAt")
         UserDefaults.standard.set(nil, forKey: "picture")
         UserDefaults.standard.set(nil, forKey: "userImage")
+        imageCache.removeObject(forKey: "userImage")
     }
     
     // Generic MALApi GET request

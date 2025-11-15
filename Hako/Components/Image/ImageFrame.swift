@@ -36,8 +36,8 @@ struct ImageFrame: View {
             self.height = 213
         } else {
             self.fullscreen = true
-            self.width = 0
-            self.height = 0
+            self.width = 5000
+            self.height = 5000
         }
     }
     

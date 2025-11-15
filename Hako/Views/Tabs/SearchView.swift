@@ -205,7 +205,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.animeItems.isEmpty {
-                                if controller.isAnimeLoadingError {
+                                if controller.isAnimeLoadingError && searchText.count > 2 {
                                     ListErrorView(refresh: { await controller.search(query: searchText) })
                                 } else {
                                     nothingFoundView
@@ -226,7 +226,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.mangaItems.isEmpty {
-                                if controller.isMangaLoadingError {
+                                if controller.isMangaLoadingError && searchText.count > 2 {
                                     ListErrorView(refresh: { await controller.search(query: searchText) })
                                 } else {
                                     nothingFoundView
@@ -247,7 +247,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.characterItems.isEmpty {
-                                if controller.isCharacterLoadingError {
+                                if controller.isCharacterLoadingError && searchText.count > 2 {
                                     ListErrorView(refresh: { await controller.search(query: searchText) })
                                 } else {
                                     nothingFoundView
@@ -268,7 +268,7 @@ struct SearchView: View {
                     List {
                         Section {
                             if controller.personItems.isEmpty {
-                                if controller.isPersonLoadingError {
+                                if controller.isPersonLoadingError && searchText.count > 2 {
                                     ListErrorView(refresh: { await controller.search(query: searchText) })
                                 } else {
                                     nothingFoundView

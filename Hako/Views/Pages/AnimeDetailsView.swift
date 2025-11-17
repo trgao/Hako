@@ -105,6 +105,9 @@ struct AnimeDetailsView: View {
                     }
                     .padding(.vertical, 20)
                 }
+                .task(id: networker.isSignedIn) {
+                    await controller.refresh()
+                }
                 .task(id: isRefresh) {
                     if isRefresh || controller.isLoadingError {
                         await controller.refresh()

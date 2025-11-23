@@ -54,8 +54,11 @@ struct AnimeGridItem: View {
                         if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
                             Label("\(season.capitalized), \(String(year))", systemImage: "calendar")
                         }
-                        if let mediaType = anime.mediaType, let status = anime.status {
-                            Label("\(mediaType.formatMediaType()) ・ \(status.formatStatus())", systemImage: "info.circle")
+                        if let mediaType = anime.mediaType {
+                            Label(mediaType.formatMediaType(), systemImage: "tv")
+                        }
+                        if let status = anime.status {
+                            Label(status.formatStatus(), systemImage: "info.circle")
                         }
                         ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")

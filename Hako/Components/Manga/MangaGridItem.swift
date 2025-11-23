@@ -51,8 +51,11 @@ struct MangaGridItem: View {
                         if let mean = manga.mean {
                             Label("\(String(mean))", systemImage: "star.fill")
                         }
-                        if let mediaType = manga.mediaType, let status = manga.status {
-                            Label("\(mediaType.formatMediaType()) ・ \(status.formatStatus())", systemImage: "info.circle")
+                        if let mediaType = manga.mediaType {
+                            Label(mediaType.formatMediaType(), systemImage: "book")
+                        }
+                        if let status = manga.status {
+                            Label(status.formatStatus(), systemImage: "info.circle")
                         }
                         ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")

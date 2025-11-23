@@ -33,12 +33,10 @@ struct TabPicker<T: Hashable>: View {
                 RoundedRectangle(cornerRadius: 20)
                     .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.6))
                     .glassEffect(.regular)
-                    .frame(height: 42)
                     .padding(.horizontal, 15)
             } else {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.regularMaterial)
-                    .frame(height: 42)
                     .padding(.horizontal, 7)
             }
             Picker(selection: $selection, label: EmptyView()) {
@@ -48,11 +46,13 @@ struct TabPicker<T: Hashable>: View {
             }
             .pickerStyle(.segmented)
             .padding(.horizontal, getPadding())
+            .padding(.bottom, 1)
             .sensoryFeedback(.impact(weight: .light), trigger: selection)
             .task(id: selection) {
                 await refresh()
             }
         }
+        .frame(height: 42)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         .padding(5)
     }

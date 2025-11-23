@@ -126,13 +126,16 @@ struct MainView: View {
                     }
                 }
             } else {
-                Text("Hako is locked")
-                    .font(.title)
-                    .bold()
-                Button("Unlock") {
-                    authenticate()
+                VStack {
+                    Text("Hako is locked")
+                        .font(.title)
+                        .bold()
+                    Button("Unlock") {
+                        authenticate()
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
-                .buttonStyle(.borderedProminent)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
         }
         .onAppear {

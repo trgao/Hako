@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaInformation: View {
+    @Environment(\.screenSize) private var screenSize
     private let manga: Manga
     private let isEmpty: Bool
     
@@ -45,6 +46,7 @@ struct MangaInformation: View {
                     }
                 }
             }
+            .frame(width: screenSize.width)
         }
     }
 }

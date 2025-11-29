@@ -24,6 +24,7 @@ struct ScrollViewRow: View {
             Spacer()
             Text(content)
         }
+        .contentShape(Rectangle())
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))

@@ -52,7 +52,6 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                     Label("Copy", systemImage: "document.on.document")
                     Text(content)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
         .navigationDestination(isPresented: $isPressed, destination: destination)

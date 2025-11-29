@@ -29,5 +29,7 @@ struct ThemesListView: View {
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Theme songs")
     }
 }

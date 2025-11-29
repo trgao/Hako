@@ -53,6 +53,7 @@ struct ReviewsListView: View {
         .refreshable {
             isRefresh = true
         }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Reviews")
     }
 }

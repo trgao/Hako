@@ -1,3 +1,4 @@
+
 //
 //  ThemeSongs.swift
 //  Hako
@@ -18,7 +19,7 @@ struct ThemeSongs: View {
     
     var body: some View {
         if let openingThemes = openingThemes {
-            ScrollViewCarousel(title: "Openings") {
+            ScrollViewCarousel(title: "Openings", items: openingThemes) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                         ForEach(openingThemes.prefix(10)) { theme in
@@ -31,10 +32,12 @@ struct ThemeSongs: View {
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
+            } destination: {
+                ThemesListView(themes: openingThemes)
             }
         }
         if let endingThemes = endingThemes {
-            ScrollViewCarousel(title: "Endings") {
+            ScrollViewCarousel(title: "Endings", items: endingThemes) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                         ForEach(endingThemes.prefix(10)) { theme in
@@ -47,6 +50,8 @@ struct ThemeSongs: View {
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
+            } destination: {
+                ThemesListView(themes: endingThemes)
             }
         }
     }

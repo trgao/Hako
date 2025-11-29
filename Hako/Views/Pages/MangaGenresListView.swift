@@ -126,7 +126,7 @@ struct MangaGenresListView: View {
                 }
             }
         }
-        .navigationTitle("Explore manga")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Explore manga")
     }
 }

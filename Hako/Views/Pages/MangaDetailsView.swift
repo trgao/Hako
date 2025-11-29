@@ -125,7 +125,6 @@ struct MangaDetailsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
-        .background(Color(.secondarySystemBackground))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if networker.isSignedIn && !settings.useWithoutAccount {

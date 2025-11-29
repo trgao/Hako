@@ -56,11 +56,11 @@ struct GroupDetailsView: View {
                         isRefresh = true
                     }
                 }
-                .navigationTitle(title)
                 if controller.isLoading {
                     LoadingView()
                 }
             }
         }
+        .navigationTitle(title)
     }
 }

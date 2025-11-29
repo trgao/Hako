@@ -19,9 +19,16 @@ struct AnimeMangaToggle: View {
     
     var body: some View {
         ZStack {
-            Capsule()
-                .frame(width: 70, height: 35)
-                .foregroundColor(Color(.systemGray5))
+            if #available (iOS 26.0, *) {
+                Capsule()
+                    .stroke(Color(.systemGray6), lineWidth: 1)
+                    .frame(width: 70, height: 35)
+                    .foregroundStyle(.clear)
+            } else {
+                Capsule()
+                    .frame(width: 70, height: 35)
+                    .foregroundStyle(Color(.systemGray5))
+            }
             ZStack{
                 Circle()
                     .frame(width: 33, height: 33)

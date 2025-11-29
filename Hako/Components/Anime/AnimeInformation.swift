@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeInformation: View {
+    @Environment(\.screenSize) private var screenSize
     private let anime: Anime
     private let isEmpty: Bool
     
@@ -54,6 +55,7 @@ struct AnimeInformation: View {
                     }
                 }
             }
+            .frame(width: screenSize.width)
         }
     }
 }

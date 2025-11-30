@@ -17,8 +17,10 @@ struct MangaEditView: View {
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
+    @State private var isDiscardingChanges = false
     @State private var isLoading = false
     private let id: Int
+    private let initialData: MyListStatus
     private let title: String?
     private let enTitle: String?
     private let numVolumes: Int?
@@ -28,11 +30,12 @@ struct MangaEditView: View {
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
+        var initialData = MyListStatus(status: .planToWatch)
         if let listStatus = listStatus {
-            self.listStatus = listStatus
-        } else {
-            self.listStatus = MyListStatus(status: .planToRead)
+            initialData = listStatus
         }
+        self.initialData = initialData
+        self.listStatus = initialData
         self.title = title
         self.enTitle = enTitle
         self.numVolumes = numVolumes
@@ -175,6 +178,11 @@ struct MangaEditView: View {
                                     .font(.system(size: 12))
                                     .opacity(0.7)
                             }
+                            if listStatus != initialData {
+                                Text("Unsaved changes")
+                                    .font(.system(size: 12))
+                                    .opacity(0.7)
+                            }
                         }
                     }
                     .scrollContentBackground(.hidden)
@@ -207,9 +215,20 @@ struct MangaEditView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        dismiss()
+                        if listStatus == initialData {
+                            dismiss()
+                        } else {
+                            isDiscardingChanges = true
+                        }
                     } label: {
                         Image(systemName: "xmark")
+                    }
+                    .confirmationDialog("Are you sure?", isPresented: $isDiscardingChanges) {
+                        Button("Discard", role: .destructive) {
+                            dismiss()
+                        }
+                    } message: {
+                        Text("Are you sure you want to discard changes?")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -246,6 +265,7 @@ struct MangaEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
+        .interactiveDismissDisabled(initialData != listStatus)
     }
 }
 

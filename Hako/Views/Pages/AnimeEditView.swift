@@ -17,8 +17,10 @@ struct AnimeEditView: View {
     @State private var isDeleteError = false
     @State private var isDeleting = false
     @State private var isEditError = false
+    @State private var isDiscardingChanges = false
     @State private var isLoading = false
     private let id: Int
+    private let initialData: MyListStatus
     private let title: String?
     private let enTitle: String?
     private let numEpisodes: Int?
@@ -27,11 +29,12 @@ struct AnimeEditView: View {
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
+        var initialData = MyListStatus(status: .planToWatch)
         if let listStatus = listStatus {
-            self.listStatus = listStatus
-        } else {
-            self.listStatus = MyListStatus(status: .planToWatch)
+            initialData = listStatus
         }
+        self.initialData = initialData
+        self.listStatus = initialData
         self.title = title
         self.enTitle = enTitle
         self.numEpisodes = numEpisodes
@@ -161,6 +164,11 @@ struct AnimeEditView: View {
                                     .font(.system(size: 12))
                                     .opacity(0.7)
                             }
+                            if listStatus != initialData {
+                                Text("Unsaved changes")
+                                    .font(.system(size: 12))
+                                    .opacity(0.7)
+                            }
                         }
                     }
                     .scrollContentBackground(.hidden)
@@ -193,9 +201,20 @@ struct AnimeEditView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        dismiss()
+                        if listStatus == initialData {
+                            dismiss()
+                        } else {
+                            isDiscardingChanges = true
+                        }
                     } label: {
                         Image(systemName: "xmark")
+                    }
+                    .confirmationDialog("Are you sure?", isPresented: $isDiscardingChanges) {
+                        Button("Discard", role: .destructive) {
+                            dismiss()
+                        }
+                    } message: {
+                        Text("Are you sure you want to discard changes?")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -232,6 +251,7 @@ struct AnimeEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
+        .interactiveDismissDisabled(initialData != listStatus)
     }
 }
 

@@ -108,8 +108,13 @@ struct SeasonsView: View {
                         }
                     }
                 } label: {
-                    Button(String(controller.year)) {}
-                        .buttonStyle(.borderedProminent)
+                    if #available (iOS 26.0, *) {
+                        Button(String(controller.year)) {}
+                            .padding()
+                    } else {
+                        Button(String(controller.year)) {}
+                            .buttonStyle(.borderedProminent)
+                    }
                 }
                 .disabled(controller.getCurrentSeasonLoading())
             }

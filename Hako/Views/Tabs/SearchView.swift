@@ -414,10 +414,16 @@ struct SearchView: View {
                             Label("Random person", systemImage: "person")
                         }
                     } label: {
-                        Button {} label: {
-                            Image(systemName: "dice")
+                        if #available (iOS 26.0, *) {
+                            Button {} label: {
+                                Image(systemName: "dice")
+                            }
+                        } else {
+                            Button {} label: {
+                                Image(systemName: "dice")
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
-                        .buttonStyle(.borderedProminent)
                     }
                 }
             }

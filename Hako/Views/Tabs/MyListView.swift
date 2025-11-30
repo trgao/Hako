@@ -346,7 +346,7 @@ struct MyListView: View {
             }
         }
         .systemNotification(isActive: $controller.isEditError) {
-            Label("Unable to save", systemImage: "exclamationmark.circle.fill")
+            Label("Unable to save", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(.iconTint(.red))
                 .padding()
         }

@@ -219,12 +219,12 @@ struct AnimeEditView: View {
             }
         }
         .systemNotification(isActive: $isDeleteError) {
-            Label("Unable to delete", systemImage: "exclamationmark.circle.fill")
+            Label("Unable to delete", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
         .systemNotification(isActive: $isEditError) {
-            Label("Unable to save", systemImage: "exclamationmark.circle.fill")
+            Label("Unable to save", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(.iconTint(.red))
                 .padding()
         }

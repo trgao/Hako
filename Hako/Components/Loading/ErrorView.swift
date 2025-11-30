@@ -18,7 +18,7 @@ struct ErrorView: View {
         ZStack {
             Spacer().containerRelativeFrame([.horizontal, .vertical])
             VStack {
-                Image(systemName: "exclamationmark.circle")
+                Image(systemName: "exclamationmark.triangle")
                     .resizable()
                     .frame(width: 40, height: 40)
                     .padding(.bottom, 5)

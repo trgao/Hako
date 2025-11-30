@@ -115,7 +115,7 @@ struct AppearanceView: View {
             }
         }
         .systemNotification(isActive: $isChangeIconError) {
-            Label("Unable to change icon", systemImage: "exclamationmark.circle.fill")
+            Label("Unable to change icon", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(.iconTint(.red))
                 .padding()
         }

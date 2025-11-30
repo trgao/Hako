@@ -42,7 +42,7 @@ struct Trailers: View {
                                             Rectangle()
                                                 .foregroundStyle(.black)
                                             VStack {
-                                                Image(systemName: "exclamationmark.circle")
+                                                Image(systemName: "exclamationmark.triangle")
                                                     .padding(.bottom, 5)
                                                 Text("Unable to load")
                                                     .bold()

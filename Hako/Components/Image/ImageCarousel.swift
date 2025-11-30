@@ -38,58 +38,59 @@ struct ImageCarousel: View {
     }
     
     var carousel: some View {
-        ZStack {
-            TabView(selection: $selection) {
-                ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { index, item in
-                    let url = item.large ?? item.medium
-                    if let url = url {
-                        ZoomableScrollView(isZoomReset: $isZoomReset) {
-                            AsyncImage(url: URL(string: url)!) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .onAppear {
-                                        images[url] = image.render(scale: displayScale)?.removingAlpha()
-                                    }
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(maxWidth: screenSize.width * 4 / 5)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-                            .contextMenu {
-                                if let image = images[url], let inputImage = image {
-                                    Button {
-                                        let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
-                                        imageSaver.writeToPhotoAlbum(image: inputImage)
-                                    } label: {
-                                        Label("Save", systemImage: "square.and.arrow.down")
-                                    }
-                                    let shareImage = Image(uiImage: inputImage)
-                                    ShareLink(item: shareImage, preview: SharePreview("Image", image: shareImage)) {
-                                        Label("Share", systemImage: "square.and.arrow.up")
+        NavigationStack {
+            ZStack {
+                TabView(selection: $selection) {
+                    ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { index, item in
+                        let url = item.large ?? item.medium
+                        if let url = url {
+                            ZoomableScrollView(isZoomReset: $isZoomReset) {
+                                AsyncImage(url: URL(string: url)!) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .onAppear {
+                                            images[url] = image.render(scale: displayScale)?.removingAlpha()
+                                        }
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(maxWidth: screenSize.width * 4 / 5)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                                .contextMenu {
+                                    if let image = images[url], let inputImage = image {
+                                        Button {
+                                            let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
+                                            imageSaver.writeToPhotoAlbum(image: inputImage)
+                                        } label: {
+                                            Label("Save", systemImage: "square.and.arrow.down")
+                                        }
+                                        let shareImage = Image(uiImage: inputImage)
+                                        ShareLink(item: shareImage, preview: SharePreview("Image", image: shareImage)) {
+                                            Label("Share", systemImage: "square.and.arrow.up")
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    .ignoresSafeArea()
                 }
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
                 .ignoresSafeArea()
+                .onChange(of: selection) {
+                    isZoomReset = true
+                }
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-            .ignoresSafeArea()
-            .onChange(of: selection) {
-                isZoomReset = true
+            .toolbar {
+                Button {
+                    isPicturesPresented = false
+                } label: {
+                    Image(systemName: "xmark")
+                }
             }
-            Button {
-                isPicturesPresented = false
-            } label: {
-                Image(systemName: "xmark")
-            }
-            .buttonStyle(.borderedProminent)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-            .padding([.horizontal, .top], 20)
         }
         .systemNotification(isActive: $isSuccessPresented) {
             Label("Successfully saved photo", systemImage: "checkmark.circle.fill")

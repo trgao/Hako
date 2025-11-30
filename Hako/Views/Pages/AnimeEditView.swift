@@ -23,19 +23,6 @@ struct AnimeEditView: View {
     private let enTitle: String?
     private let numEpisodes: Int?
     private let imageUrl: String?
-    private let scoreLabels = [
-        "0 - Not yet scored",
-        "1 - Appalling",
-        "2 - Horrible",
-        "3 - Very bad",
-        "4 - Bad",
-        "5 - Average",
-        "6 - Fine",
-        "7 - Good",
-        "8 - Very good",
-        "9 - Great",
-        "10 - Masterpiece"
-    ]
     let networker = NetworkManager.shared
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
@@ -105,7 +92,7 @@ struct AnimeEditView: View {
                                     }
                                 }
                             }
-                        PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
+                        PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
                         NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes watched", max: numEpisodes)
                             .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
                                 if listStatus.status == .planToWatch && prev == 0 && cur > 0 {

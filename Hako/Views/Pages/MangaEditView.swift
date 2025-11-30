@@ -24,19 +24,6 @@ struct MangaEditView: View {
     private let numVolumes: Int?
     private let numChapters: Int?
     private let imageUrl: String?
-    private let scoreLabels = [
-        "0 - Not yet scored",
-        "1 - Appalling",
-        "2 - Horrible",
-        "3 - Very bad",
-        "4 - Bad",
-        "5 - Average",
-        "6 - Fine",
-        "7 - Good",
-        "8 - Very good",
-        "9 - Great",
-        "10 - Masterpiece"
-    ]
     let networker = NetworkManager.shared
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
@@ -110,7 +97,7 @@ struct MangaEditView: View {
                                     }
                                 }
                             }
-                        PickerRow(title: "Score", selection: $listStatus.score, labels: scoreLabels)
+                        PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
                         NumberSelector(num: $listStatus.numVolumesRead, title: "Volumes read", max: numVolumes)
                             .onChange(of: listStatus.numVolumesRead) { prev, cur in
                                 if listStatus.status == .planToRead && prev == 0 && cur > 0 {

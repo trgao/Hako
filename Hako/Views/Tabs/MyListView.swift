@@ -87,171 +87,183 @@ struct MyListView: View {
         }
     }
     
+    var animeList: some View {
+        VStack {
+            if controller.isAnimeLoading && controller.animeItems.isEmpty {
+                List {
+                    Section(controller.animeStatus.toString()) {
+                        LoadingList(length: 10)
+                            .id(controller.animeLoadId)
+                    }
+                }
+                .disabled(true)
+            } else {
+                List {
+                    Section(controller.animeStatus.toString()) {
+                        if controller.isLoadingError && controller.animeItems.isEmpty {
+                            ListErrorView(refresh: { await controller.refreshAnime() })
+                        } else if !controller.isAnimeLoading && controller.animeItems.isEmpty {
+                            VStack {
+                                Image(systemName: "tv.fill")
+                                    .resizable()
+                                    .frame(width: 45, height: 40)
+                                Text("Nothing found")
+                                    .bold()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 50)
+                        } else {
+                            ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
+                                AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
+                                        }
+                                    }
+                                    .swipeActions(edge: .leading) {
+                                        if settings.useSwipeActions {
+                                            if var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
+                                                Button {
+                                                    Task {
+                                                        listStatus.numEpisodesWatched -= 1
+                                                        await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                                    }
+                                                } label: {
+                                                    Label("-1 episode watched", systemImage: "minus.circle")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .swipeActions(edge: .trailing) {
+                                        if settings.useSwipeActions {
+                                            if var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
+                                                Button {
+                                                    Task {
+                                                        listStatus.numEpisodesWatched += 1
+                                                        await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                                    }
+                                                } label: {
+                                                    Label("+1 episode watched", systemImage: "plus.circle")
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                        if controller.isAnimeLoading {
+                            LoadingList(length: 5)
+                                .id(controller.animeLoadId)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    var mangaList: some View {
+        VStack {
+            if controller.isMangaLoading && controller.mangaItems.isEmpty {
+                List {
+                    Section(controller.mangaStatus.toString()) {
+                        LoadingList(length: 10)
+                            .id(controller.mangaLoadId)
+                    }
+                }
+                .disabled(true)
+            } else {
+                List {
+                    Section(controller.mangaStatus.toString()) {
+                        if controller.isLoadingError && controller.mangaItems.isEmpty {
+                            ListErrorView(refresh: { await controller.refreshManga() })
+                        } else if !controller.isMangaLoading && controller.mangaItems.isEmpty {
+                            VStack {
+                                Image(systemName: "book.fill")
+                                    .resizable()
+                                    .frame(width: 45, height: 40)
+                                Text("Nothing found")
+                                    .bold()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 50)
+                        } else {
+                            ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
+                                MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
+                                        }
+                                    }
+                                    .swipeActions(edge: .leading) {
+                                        if settings.useSwipeActions {
+                                            if settings.mangaReadProgress == 0 {
+                                                if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
+                                                    Button {
+                                                        Task {
+                                                            listStatus.numChaptersRead -= 1
+                                                            await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                        }
+                                                    } label: {
+                                                        Label("-1 chapter read", systemImage: "minus.circle")
+                                                    }
+                                                }
+                                            } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
+                                                Button {
+                                                    Task {
+                                                        listStatus.numVolumesRead -= 1
+                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                    }
+                                                } label: {
+                                                    Label("-1 volume read", systemImage: "minus.circle")
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .swipeActions(edge: .trailing) {
+                                        if settings.useSwipeActions {
+                                            if settings.mangaReadProgress == 0 {
+                                                if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
+                                                    Button {
+                                                        Task {
+                                                            listStatus.numChaptersRead += 1
+                                                            await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                        }
+                                                    } label: {
+                                                        Label("+1 chapter read", systemImage: "plus.circle")
+                                                    }
+                                                }
+                                            } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
+                                                Button {
+                                                    Task {
+                                                        listStatus.numVolumesRead += 1
+                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                                    }
+                                                } label: {
+                                                    Label("+1 volume read", systemImage: "plus.circle")
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                        if controller.isMangaLoading {
+                            LoadingList(length: 5)
+                                .id(controller.mangaLoadId)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             if networker.isSignedIn {
                 VStack {
                     ZStack {
                         if controller.type == .anime {
-                            if controller.isAnimeLoading && controller.animeItems.isEmpty {
-                                List {
-                                    Section(controller.animeStatus.toString()) {
-                                        LoadingList(length: 10)
-                                            .id(controller.animeLoadId)
-                                    }
-                                }
-                                .disabled(true)
-                            } else {
-                                List {
-                                    Section(controller.animeStatus.toString()) {
-                                        if controller.isLoadingError && controller.animeItems.isEmpty {
-                                            ListErrorView(refresh: { await controller.refreshAnime() })
-                                        } else if !controller.isAnimeLoading && controller.animeItems.isEmpty {
-                                            VStack {
-                                                Image(systemName: "tv.fill")
-                                                    .resizable()
-                                                    .frame(width: 45, height: 40)
-                                                Text("Nothing found")
-                                                    .bold()
-                                            }
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 50)
-                                        } else {
-                                            ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                                AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
-                                                    .onAppear {
-                                                        Task {
-                                                            await controller.loadMoreIfNeeded(index: index)
-                                                        }
-                                                    }
-                                                    .swipeActions(edge: .leading) {
-                                                        if settings.useSwipeActions {
-                                                            if var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
-                                                                Button {
-                                                                    Task {
-                                                                        listStatus.numEpisodesWatched -= 1
-                                                                        await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                                                    }
-                                                                } label: {
-                                                                    Label("-1 episode watched", systemImage: "minus.circle")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    .swipeActions(edge: .trailing) {
-                                                        if settings.useSwipeActions {
-                                                            if var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
-                                                                Button {
-                                                                    Task {
-                                                                        listStatus.numEpisodesWatched += 1
-                                                                        await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                                                    }
-                                                                } label: {
-                                                                    Label("+1 episode watched", systemImage: "plus.circle")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                            }
-                                        }
-                                        if controller.isAnimeLoading {
-                                            LoadingList(length: 5)
-                                                .id(controller.animeLoadId)
-                                        }
-                                    }
-                                }
-                            }
+                            animeList
                         } else if controller.type == .manga {
-                            if controller.isMangaLoading && controller.mangaItems.isEmpty {
-                                List {
-                                    Section(controller.mangaStatus.toString()) {
-                                        LoadingList(length: 10)
-                                            .id(controller.mangaLoadId)
-                                    }
-                                }
-                                .disabled(true)
-                            } else {
-                                List {
-                                    Section(controller.mangaStatus.toString()) {
-                                        if controller.isLoadingError && controller.mangaItems.isEmpty {
-                                            ListErrorView(refresh: { await controller.refreshManga() })
-                                        } else if !controller.isMangaLoading && controller.mangaItems.isEmpty {
-                                            VStack {
-                                                Image(systemName: "book.fill")
-                                                    .resizable()
-                                                    .frame(width: 45, height: 40)
-                                                Text("Nothing found")
-                                                    .bold()
-                                            }
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 50)
-                                        } else {
-                                            ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                                MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
-                                                    .onAppear {
-                                                        Task {
-                                                            await controller.loadMoreIfNeeded(index: index)
-                                                        }
-                                                    }
-                                                    .swipeActions(edge: .leading) {
-                                                        if settings.useSwipeActions {
-                                                            if settings.mangaReadProgress == 0 {
-                                                                if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
-                                                                    Button {
-                                                                        Task {
-                                                                            listStatus.numChaptersRead -= 1
-                                                                            await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                                        }
-                                                                    } label: {
-                                                                        Label("-1 chapter read", systemImage: "minus.circle")
-                                                                    }
-                                                                }
-                                                            } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
-                                                                Button {
-                                                                    Task {
-                                                                        listStatus.numVolumesRead -= 1
-                                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                                    }
-                                                                } label: {
-                                                                    Label("-1 volume read", systemImage: "minus.circle")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    .swipeActions(edge: .trailing) {
-                                                        if settings.useSwipeActions {
-                                                            if settings.mangaReadProgress == 0 {
-                                                                if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
-                                                                    Button {
-                                                                        Task {
-                                                                            listStatus.numChaptersRead += 1
-                                                                            await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                                        }
-                                                                    } label: {
-                                                                        Label("+1 chapter read", systemImage: "plus.circle")
-                                                                    }
-                                                                }
-                                                            } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
-                                                                Button {
-                                                                    Task {
-                                                                        listStatus.numVolumesRead += 1
-                                                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                                    }
-                                                                } label: {
-                                                                    Label("+1 volume read", systemImage: "plus.circle")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                            }
-                                        }
-                                        if controller.isMangaLoading {
-                                            LoadingList(length: 5)
-                                                .id(controller.mangaLoadId)
-                                        }
-                                    }
-                                }
-                            }
+                            mangaList
                         }
                         if controller.isLoading {
                             LoadingView()

@@ -16,7 +16,7 @@ struct ListErrorView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "exclamationmark.circle")
+            Image(systemName: "exclamationmark.triangle")
                 .resizable()
                 .frame(width: 40, height: 40)
                 .padding(.bottom, 5)

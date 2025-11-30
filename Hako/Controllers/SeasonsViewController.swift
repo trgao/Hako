@@ -38,7 +38,7 @@ class SeasonsViewController: ObservableObject {
     private var currentFallPage = 1
     
     // Common variables
-    @Published var season = ["winter", "spring", "summer", "fall"][((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
+    @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     @Published var year = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     @Published var isLoadingError = false
     let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001

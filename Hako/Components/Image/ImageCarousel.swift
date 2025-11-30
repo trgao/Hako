@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SystemNotification
 
 struct ImageCarousel: View {
     @Environment(\.screenSize) private var screenSize
@@ -90,8 +91,10 @@ struct ImageCarousel: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             .padding([.horizontal, .top], 20)
         }
-        .alert("Successfully saved photo", isPresented: $isSuccessPresented) {
-            Button("Ok") {}
+        .systemNotification(isActive: $isSuccessPresented) {
+            Label("Successfully saved photo", systemImage: "checkmark.circle.fill")
+                .labelStyle(.iconTint(.green))
+                .padding()
         }
         .alert("Could not successfully save photo", isPresented: $isErrorPresented) {
             Button("Ok") {}

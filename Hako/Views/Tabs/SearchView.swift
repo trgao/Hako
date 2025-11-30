@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Shimmer
+import SystemNotification
 
 struct SearchView: View {
     @Environment(\.colorScheme) private var colorScheme
@@ -362,9 +363,6 @@ struct SearchView: View {
                         Color(.systemGray6)
                     }
                 }
-        }
-        .alert("Unable to edit", isPresented: $controller.isEditError) {
-            Button("OK", role: .cancel) {}
         }
     }
     

@@ -90,6 +90,8 @@
 		EE8BE62E2DFDD37500D09F46 /* LoadingReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */; };
 		EE8BE6302DFDD52600D09F46 /* TagCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */; };
 		EE8BE6322DFDD86A00D09F46 /* ReviewDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */; };
+		EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */ = {isa = PBXBuildFile; productRef = EE8E52FB2EDC0F1800B7A316 /* SystemNotification */; };
+		EE8E52FE2EDC128300B7A316 /* IconTintLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */; };
 		EE917FDA2EACF90900D62F8B /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE917FD92EACF90900D62F8B /* ZoomableScrollView.swift */; };
 		EE91BE572BFCAA28002AC6C4 /* PersonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */; };
 		EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */; };
@@ -276,6 +278,7 @@
 		EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReviews.swift; sourceTree = "<group>"; };
 		EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCloudView.swift; sourceTree = "<group>"; };
 		EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsView.swift; sourceTree = "<group>"; };
+		EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTintLabelStyle.swift; sourceTree = "<group>"; };
 		EE917FD92EACF90900D62F8B /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailsView.swift; sourceTree = "<group>"; };
 		EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewController.swift; sourceTree = "<group>"; };
@@ -389,6 +392,7 @@
 				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
+				EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */,
 				EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +415,7 @@
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
 				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
+				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
 				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
 				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
@@ -871,6 +876,7 @@
 				EE3B40222DD4CB6E000846A1 /* Shimmer */,
 				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
 				EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */,
+				EE8E52FB2EDC0F1800B7A316 /* SystemNotification */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -905,6 +911,7 @@
 				EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -1068,6 +1075,7 @@
 				EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */,
 				EE222D7D2BE8E2A200A14A45 /* Manga.swift in Sources */,
 				EEFEFD4A2BF34BB500200AF1 /* Staffs.swift in Sources */,
+				EE8E52FE2EDC128300B7A316 /* IconTintLabelStyle.swift in Sources */,
 				EE4729E62BF4D503005D17EF /* User.swift in Sources */,
 				EE94C7652E7C4AC200AF722D /* ScrollViewListSection.swift in Sources */,
 				EE960E752DD3627D00E4EDC9 /* Author.swift in Sources */,
@@ -1353,6 +1361,14 @@
 				minimumVersion = 1.5.1;
 			};
 		};
+		EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SystemNotification";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
@@ -1378,6 +1394,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		EE8E52FB2EDC0F1800B7A316 /* SystemNotification */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */;
+			productName = SystemNotification;
 		};
 		EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

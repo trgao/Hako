@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SystemNotification
 
 struct ProfileImage: View {
     @StateObject private var controller: ImageFrameController
@@ -95,8 +96,10 @@ struct ProfileImage: View {
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .never))
         }
-        .alert("Successfully saved photo", isPresented: $isSuccessPresented) {
-            Button("Ok") {}
+        .systemNotification(isActive: $isSuccessPresented) {
+            Label("Successfully saved photo", systemImage: "checkmark.circle.fill")
+                .labelStyle(.iconTint(.green))
+                .padding()
         }
         .alert("Could not successfully save photo", isPresented: $isErrorPresented) {
             Button("Ok") {}

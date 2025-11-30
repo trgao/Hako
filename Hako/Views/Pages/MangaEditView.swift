@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SystemNotification
 
 struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
@@ -222,11 +223,15 @@ struct MangaEditView: View {
         .onAppear {
             mangaListStatus = listStatus
         }
-        .alert("Unable to delete", isPresented: $isDeleteError) {
-            Button("OK", role: .cancel) {}
+        .systemNotification(isActive: $isDeleteError) {
+            Label("Unable to delete", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
         }
-        .alert("Unable to save", isPresented: $isEditError) {
-            Button("OK", role: .cancel) {}
+        .systemNotification(isActive: $isEditError) {
+            Label("Unable to save", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
         }
         .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
             Button("Confirm", role: .destructive) {

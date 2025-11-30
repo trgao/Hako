@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SystemNotification
 
 struct AppearanceView: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -113,8 +114,10 @@ struct AppearanceView: View {
                     .disabled(!settings.truncate)
             }
         }
-        .alert("Unable to change app icon", isPresented: $isChangeIconError) {
-            Button("OK", role: .cancel) {}
+        .systemNotification(isActive: $isChangeIconError) {
+            Label("Unable to change icon", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
         }
     }
 }

@@ -213,7 +213,7 @@ struct MangaEditView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
+                    let button = Button {
                         Task {
                             isLoading = true
                             do {
@@ -228,7 +228,11 @@ struct MangaEditView: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
-                    .buttonStyle(.borderedProminent)
+                    if #available (iOS 26.0, *) {
+                        button.buttonStyle(.glassProminent)
+                    } else {
+                        button.buttonStyle(.borderedProminent)
+                    }
                 }
             }
         }

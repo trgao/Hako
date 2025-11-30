@@ -199,7 +199,7 @@ struct AnimeEditView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
+                    let button = Button {
                         Task {
                             isLoading = true
                             do {
@@ -214,7 +214,11 @@ struct AnimeEditView: View {
                     } label: {
                         Image(systemName: "checkmark")
                     }
-                    .buttonStyle(.borderedProminent)
+                    if #available (iOS 26.0, *) {
+                        button.buttonStyle(.glassProminent)
+                    } else {
+                        button.buttonStyle(.borderedProminent)
+                    }
                 }
             }
         }

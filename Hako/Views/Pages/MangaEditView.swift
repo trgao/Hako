@@ -186,16 +186,6 @@ struct MangaEditView: View {
             .onAppear {
                 mangaListStatus = listStatus
             }
-            .systemNotification(isActive: $isDeleteError) {
-                Label("Unable to delete", systemImage: "exclamationmark.circle.fill")
-                    .labelStyle(.iconTint(.red))
-                    .padding()
-            }
-            .systemNotification(isActive: $isEditError) {
-                Label("Unable to save", systemImage: "exclamationmark.circle.fill")
-                    .labelStyle(.iconTint(.red))
-                    .padding()
-            }
             .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
                 Button("Confirm", role: .destructive) {
                     Task {
@@ -241,6 +231,16 @@ struct MangaEditView: View {
                     .buttonStyle(.borderedProminent)
                 }
             }
+        }
+        .systemNotification(isActive: $isDeleteError) {
+            Label("Unable to delete", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
+        }
+        .systemNotification(isActive: $isEditError) {
+            Label("Unable to save", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
         }
     }
 }

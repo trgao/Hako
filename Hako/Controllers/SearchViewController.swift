@@ -37,7 +37,6 @@ class SearchViewController: ObservableObject {
     @Published var type: SearchEnum = .anime
     @Published var isLoading = false
     @Published var isRefreshLoading = false
-    @Published var isEditError = false
     let queryChannel = AsyncChannel<String>()
     let networker = NetworkManager.shared
     
@@ -202,29 +201,5 @@ class SearchViewController: ObservableObject {
         } catch {
             isPersonLoadingError = true
         }
-    }
-    
-    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {
-        isRefreshLoading = true
-        do {
-            try await networker.editUserAnime(id: id, listStatus: listStatus)
-            animeItems[index].listStatus = listStatus
-            animeItems[index].node.myListStatus = listStatus
-        } catch {
-            isEditError = true
-        }
-        isRefreshLoading = false
-    }
-    
-    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async {
-        isRefreshLoading = true
-        do {
-            try await networker.editUserManga(id: id, listStatus: listStatus)
-            mangaItems[index].listStatus = listStatus
-            mangaItems[index].node.myListStatus = listStatus
-        } catch {
-            isEditError = true
-        }
-        isRefreshLoading = false
     }
 }

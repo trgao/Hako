@@ -1,5 +1,5 @@
 {
-  "originHash" : "91ee5d03acb7ac3e33d3fa8714ad0e486392f8f2ab9af44580f646d70e464db9",
+  "originHash" : "50a1b7a152ffe67cb2d4ea1c2d46e7b4a1f9d06e8c642c44d466df19af096f1d",
   "pins" : [
     {
       "identity" : "keychainaccess",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
         "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "systemnotification",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielsaidi/SystemNotification",
+      "state" : {
+        "revision" : "31a63e5674d8ca0b4ae646142a7a53c50b1937fa",
+        "version" : "1.4.0"
       }
     },
     {

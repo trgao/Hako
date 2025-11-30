@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SystemNotification
 
 struct MyListView: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -315,9 +316,6 @@ struct MyListView: View {
                             }
                         }
                 }
-                .alert("Unable to edit", isPresented: $controller.isEditError) {
-                    Button("OK", role: .cancel) {}
-                }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         filter
@@ -334,6 +332,11 @@ struct MyListView: View {
                 }
                 .navigationTitle("My list")
             }
+        }
+        .systemNotification(isActive: $controller.isEditError) {
+            Label("Unable to save", systemImage: "exclamationmark.circle.fill")
+                .labelStyle(.iconTint(.red))
+                .padding()
         }
         .onAppear {
             if !isInit {

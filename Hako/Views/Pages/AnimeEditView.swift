@@ -284,7 +284,7 @@ struct AnimeStatusPickerRow: View {
     var body: some View {
         HStack {
             Text("Status")
-                .foregroundColor(.primary)
+                .foregroundStyle(Color.primary)
             Spacer()
             menu
         }

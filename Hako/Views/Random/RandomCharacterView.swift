@@ -34,6 +34,7 @@ class RandomCharacterViewController: ObservableObject {
     }
     
     func refresh() async {
+        isError = false
         do {
             self.id = try await networker.getRandomCharacter()
         } catch {

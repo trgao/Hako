@@ -52,7 +52,7 @@ struct ExploreView: View {
                         }
                         Spacer()
                         ScrollViewBox(title: "Explore manga", image: "book") {
-                            AnimeGenresListView()
+                            MangaGenresListView()
                         }
                     }
                     .padding(.horizontal, 17)

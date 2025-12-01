@@ -139,6 +139,23 @@ struct AnimeEditView: View {
                                 Label("Remove from list", systemImage: "trash")
                             }
                             .foregroundStyle(Color(.systemRed))
+                            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
+                                Button("Confirm", role: .destructive) {
+                                    Task {
+                                        isLoading = true
+                                        do {
+                                            try await networker.deleteUserAnime(id: id)
+                                            isDeleted = true
+                                            dismiss()
+                                        } catch {
+                                            isDeleteError = true
+                                        }
+                                        isLoading = false
+                                    }
+                                }
+                            } message: {
+                                Text("This will remove this anime from your list")
+                            }
                         }
                     } photo: {
                         ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
@@ -172,6 +189,7 @@ struct AnimeEditView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
+                    .scrollBounceBehavior(.basedOnSize)
                 }
                 if isLoading {
                     LoadingView()
@@ -179,23 +197,6 @@ struct AnimeEditView: View {
             }
             .onAppear {
                 animeListStatus = listStatus
-            }
-            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
-                Button("Confirm", role: .destructive) {
-                    Task {
-                        isLoading = true
-                        do {
-                            try await networker.deleteUserAnime(id: id)
-                            isDeleted = true
-                            dismiss()
-                        } catch {
-                            isDeleteError = true
-                        }
-                        isLoading = false
-                    }
-                }
-            } message: {
-                Text("This will remove this anime from your list")
             }
             .scrollDismissesKeyboard(.immediately)
             .toolbar {
@@ -251,7 +252,7 @@ struct AnimeEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .interactiveDismissDisabled(initialData != listStatus)
+        .checkSwipeDismissChanges(listStatus != initialData, isDiscardingChanges: $isDiscardingChanges)
     }
 }
 

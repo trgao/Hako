@@ -153,6 +153,23 @@ struct MangaEditView: View {
                                 Label("Remove from list", systemImage: "trash")
                             }
                             .foregroundStyle(Color(.systemRed))
+                            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
+                                Button("Confirm", role: .destructive) {
+                                    Task {
+                                        isLoading = true
+                                        do {
+                                            try await networker.deleteUserManga(id: id)
+                                            isDeleted = true
+                                            dismiss()
+                                        } catch {
+                                            isDeleteError = true
+                                        }
+                                        isLoading = false
+                                    }
+                                }
+                            } message: {
+                                Text("This will remove this manga from your list")
+                            }
                         }
                     } photo: {
                         ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
@@ -186,6 +203,7 @@ struct MangaEditView: View {
                         }
                     }
                     .scrollContentBackground(.hidden)
+                    .scrollBounceBehavior(.basedOnSize)
                 }
                 if isLoading {
                     LoadingView()
@@ -193,23 +211,6 @@ struct MangaEditView: View {
             }
             .onAppear {
                 mangaListStatus = listStatus
-            }
-            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
-                Button("Confirm", role: .destructive) {
-                    Task {
-                        isLoading = true
-                        do {
-                            try await networker.deleteUserManga(id: id)
-                            isDeleted = true
-                            dismiss()
-                        } catch {
-                            isDeleteError = true
-                        }
-                        isLoading = false
-                    }
-                }
-            } message: {
-                Text("This will remove this manga from your list")
             }
             .scrollDismissesKeyboard(.immediately)
             .toolbar {
@@ -265,7 +266,7 @@ struct MangaEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .interactiveDismissDisabled(initialData != listStatus)
+        .checkSwipeDismissChanges(listStatus != initialData, isDiscardingChanges: $isDiscardingChanges)
     }
 }
 

@@ -21,15 +21,15 @@ struct ThemesListView: View {
                     Label(text, systemImage: "music.note")
                         .contextMenu {
                             Button {
-                                UIPasteboard.general.string = text
+                                UIPasteboard.general.string = text.formatThemeSong()
                             } label: {
-                                Label("Copy song", systemImage: "document.on.document")
+                                Label("Copy", systemImage: "document.on.document")
                             }
                         }
                 }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Theme songs")
+        .navigationTitle("Songs")
     }
 }

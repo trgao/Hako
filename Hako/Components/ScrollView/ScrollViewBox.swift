@@ -41,7 +41,7 @@ struct ScrollViewBox<Content: View>: View {
             isLongPress = pressing
         }) {}
         .padding(20)
-        .frame(height: 70)
+        .frame(height: 75)
         .frame(maxWidth: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))

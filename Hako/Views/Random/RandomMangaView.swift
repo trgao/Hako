@@ -34,6 +34,7 @@ class RandomMangaViewController: ObservableObject {
     }
     
     func refresh() async {
+        isError = false
         do {
             self.id = try await networker.getRandomManga()
         } catch {

@@ -34,6 +34,7 @@ class RandomAnimeViewController: ObservableObject {
     }
     
     func refresh() async {
+        isError = false
         do {
             self.id = try await networker.getRandomAnime()
         } catch {

@@ -24,6 +24,7 @@ class NewsListViewController: ObservableObject {
     // Refresh the news list page
     func refresh() async {
         isLoading = true
+        isLoadingError = false
         do {
             let news = try await networker.getNews() ?? []
             self.news = news

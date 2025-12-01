@@ -19,7 +19,7 @@ struct GeneralView: View {
         List {
             Section("General") {
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
-                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Search", settings.useWithoutAccount ? "" : "My list"])
+                PickerRow(title: "Default view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Explore", settings.useWithoutAccount ? "" : "My list"])
                 Toggle(isOn: $settings.hideTop) {
                     Text("Hide top tab")
                 }

@@ -39,12 +39,9 @@ struct ScrollViewBox<Content: View>: View {
         }
         .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
             isLongPress = pressing
-            if !pressing {
-                isPressed = true
-            }
         }) {}
         .padding(20)
-        .frame(height: 80)
+        .frame(height: 70)
         .frame(maxWidth: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))

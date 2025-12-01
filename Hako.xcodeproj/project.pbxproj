@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE00FE062E2292CA001A3836 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00FE052E2292C8001A3836 /* ViewExtension.swift */; };
 		EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02C1292DD44BA400CB041C /* ZoomTransition.swift */; };
+		EE0696BF2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
@@ -200,6 +201,7 @@
 /* Begin PBXFileReference section */
 		EE00FE052E2292C8001A3836 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
+		EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSwipeDismissChanges.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
+				EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */,
 				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
 				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
 				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
@@ -1122,6 +1125,7 @@
 				EE33360F2EAB4D41005F2613 /* CharacterListItem.swift in Sources */,
 				EEBBB1042DF463F200BA6F8B /* TitleText.swift in Sources */,
 				EE937B8B2BE8C29700E5F0BE /* MALListManga.swift in Sources */,
+				EE0696BF2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift in Sources */,
 				EEA693D72E126E1100FDAAD7 /* SearchEnum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

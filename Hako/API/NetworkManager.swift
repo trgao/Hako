@@ -8,6 +8,7 @@
 import SwiftUI
 import AuthenticationServices
 import KeychainAccess
+import FeedKit
 
 @MainActor
 class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
@@ -376,6 +377,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getRandomPerson() async throws -> Int {
         let response = try await getJikanResponse(urlExtend: "/random/people", type: JikanRandomItemResponse.self)
         return response.data.malId
+    }
+    
+    func getNews() async throws -> [RSSFeedItem]? {
+        let rssfeed = try await RSSFeed(urlString: "https://myanimelist.net/rss/news.xml")
+        return rssfeed.channel?.items
     }
     
     func getUserAnimeSuggestionList() async throws -> [MALListAnime] {

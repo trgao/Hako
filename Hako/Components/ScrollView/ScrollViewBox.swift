@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScrollViewBox<Content: View>: View {
     @Environment(\.screenSize) private var screenSize
-    @EnvironmentObject private var settingsManager: SettingsManager
+    @EnvironmentObject private var settings: SettingsManager
     @State private var isPressed = false
     @State private var isLongPress = false
     private let title: String
@@ -27,7 +27,7 @@ struct ScrollViewBox<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading) {
             Image(systemName: image)
-                .foregroundStyle(settingsManager.getAccentColor())
+                .foregroundStyle(settings.getAccentColor())
                 .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
             Text(title)

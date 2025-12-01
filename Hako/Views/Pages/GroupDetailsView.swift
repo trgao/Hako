@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GroupDetailsView: View {
-    @StateObject var controller: GroupDetailsViewController
+    @StateObject private var controller: GroupDetailsViewController
     @State private var isRefresh = false
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),

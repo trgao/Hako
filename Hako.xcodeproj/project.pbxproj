@@ -11,6 +11,10 @@
 		EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02C1292DD44BA400CB041C /* ZoomTransition.swift */; };
 		EE0696BF2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */; };
 		EE0696C12EDD801800F965B2 /* ScrollViewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696C02EDD801500F965B2 /* ScrollViewBox.swift */; };
+		EE0696C32EDD8DC500F965B2 /* NewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696C22EDD8DC500F965B2 /* NewsListView.swift */; };
+		EE0696C52EDD8F1200F965B2 /* NewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */; };
+		EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE0696C92EDD97F500F965B2 /* FeedKit */; };
+		EE0696CC2EDD97F500F965B2 /* XMLKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE0696CB2EDD97F500F965B2 /* XMLKit */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
@@ -204,6 +208,8 @@
 		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
 		EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSwipeDismissChanges.swift; sourceTree = "<group>"; };
 		EE0696C02EDD801500F965B2 /* ScrollViewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewBox.swift; sourceTree = "<group>"; };
+		EE0696C22EDD8DC500F965B2 /* NewsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
+		EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -398,8 +404,10 @@
 				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
+				EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */,
 				EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */,
 				EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */,
+				EE0696CC2EDD97F500F965B2 /* XMLKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +501,7 @@
 				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
 				EEAA57552E2CCC4100377906 /* AnimeGenresListView.swift */,
 				EEAA57572E2CD18000377906 /* MangaGenresListView.swift */,
+				EE0696C22EDD8DC500F965B2 /* NewsListView.swift */,
 				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
 				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
@@ -644,6 +653,7 @@
 				EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */,
 				EEDBDB622C073F9B00F2E821 /* SearchViewController.swift */,
 				EE3A59D92BD24550009E9F79 /* MyListViewController.swift */,
+				EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */,
 				EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */,
 				EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */,
 				EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */,
@@ -886,6 +896,8 @@
 				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
 				EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */,
 				EE8E52FB2EDC0F1800B7A316 /* SystemNotification */,
+				EE0696C92EDD97F500F965B2 /* FeedKit */,
+				EE0696CB2EDD97F500F965B2 /* XMLKit */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -921,6 +933,7 @@
 				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */,
+				EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -967,6 +980,7 @@
 				EECC79622CF142DC00C1C773 /* JikanUserStatisticsResponse.swift in Sources */,
 				EE8BE6302DFDD52600D09F46 /* TagCloudView.swift in Sources */,
 				EE20B1D12BDF9F45006F4CFF /* AnimeInformation.swift in Sources */,
+				EE0696C32EDD8DC500F965B2 /* NewsListView.swift in Sources */,
 				EE91BE6A2BFCB513002AC6C4 /* MangaPosition.swift in Sources */,
 				EEC357902BE3896500DAAB0B /* JikanCharacterDetailsResponse.swift in Sources */,
 				EE8BE62C2DFDD13200D09F46 /* MangaReviews.swift in Sources */,
@@ -1048,6 +1062,7 @@
 				EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */,
 				EE3A59B12BD21707009E9F79 /* TopView.swift in Sources */,
 				EEB7DE5E2E0D259500A2C8CC /* RandomAnimeView.swift in Sources */,
+				EE0696C52EDD8F1200F965B2 /* NewsListViewController.swift in Sources */,
 				EEB7DE662E0D2AD500A2C8CC /* RandomPersonView.swift in Sources */,
 				EECC79642CF1443B00C1C773 /* ProfileViewController.swift in Sources */,
 				EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */,
@@ -1349,6 +1364,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nmdias/FeedKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.1.3;
+			};
+		};
 		EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
@@ -1392,6 +1415,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EE0696C92EDD97F500F965B2 /* FeedKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */;
+			productName = FeedKit;
+		};
+		EE0696CB2EDD97F500F965B2 /* XMLKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */;
+			productName = XMLKit;
+		};
 		EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;

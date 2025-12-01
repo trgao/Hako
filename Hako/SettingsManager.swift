@@ -42,6 +42,7 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("hideRandom") var hideRandom = false
     @AppStorage("hideExploreAnimeManga") var hideExploreAnimeManga = false
+    @AppStorage("hideNews") var hideNews = false
     @AppStorage("hideAnimeForYou") var hideAnimeForYou = false
     @AppStorage("hideTopAiringAnime") var hideTopAiringAnime = false
     @AppStorage("hideTopUpcomingAnime") var hideTopUpcomingAnime = false

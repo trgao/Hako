@@ -26,6 +26,9 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideExploreAnimeManga) {
                     Text("Hide explore anime and manga")
                 }
+                Toggle(isOn: $settings.hideNews) {
+                    Text("Hide news")
+                }
                 if networker.isSignedIn {
                     Toggle(isOn: $settings.hideAnimeForYou) {
                         Text("Hide anime for you")

@@ -35,7 +35,7 @@ struct ScrollViewListItem: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(title ?? "")
-                        .foregroundColor(.primary)
+                        .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
                     Text(subtitle ?? "")
                         .foregroundStyle(Color(.systemGray))

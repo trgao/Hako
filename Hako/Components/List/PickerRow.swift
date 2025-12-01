@@ -21,7 +21,7 @@ struct PickerRow: View {
     var body: some View {
         HStack {
             Text(title)
-                .foregroundColor(.primary)
+                .foregroundStyle(Color.primary)
             Spacer()
             menu
         }

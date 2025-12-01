@@ -64,6 +64,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             var date: Date? = nil
             let yearOnlyFormatter = DateFormatter()
             yearOnlyFormatter.dateFormat = "yyyy"
+            yearOnlyFormatter.locale = Locale(identifier: "en_US_POSIX")
+            yearOnlyFormatter.timeZone = TimeZone(secondsFromGMT: 3600)
             let monthOnlyFormatter = DateFormatter()
             monthOnlyFormatter.dateFormat = "yyyy-MM"
             let normalDateFormatter = DateFormatter()

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CharacterDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject var controller: CharacterDetailsViewController
+    @StateObject private var controller: CharacterDetailsViewController
     @State private var isRefresh = false
     @State private var animeIndex: Int?
     @State private var mangaIndex: Int?

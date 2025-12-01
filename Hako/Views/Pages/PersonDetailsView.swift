@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PersonDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject var controller: PersonDetailsViewController
+    @StateObject private var controller: PersonDetailsViewController
     @State private var isRefresh = false
     @State private var voiceIndex: Int?
     @State private var animeIndex: Int?

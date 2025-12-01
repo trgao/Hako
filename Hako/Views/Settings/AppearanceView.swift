@@ -105,7 +105,7 @@ struct AppearanceView: View {
                     Text("Allow translucent backgrounds")
                 }
             }
-            Section("Grid") {
+            Section("Text") {
                 Toggle(isOn: $settings.truncate) {
                     Text("Truncate titles or names")
                     Text("Limit length of titles or names to a maximum number of lines")

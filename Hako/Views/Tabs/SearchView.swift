@@ -56,7 +56,14 @@ struct SearchView: View {
                         }
                     }
                     .padding(.horizontal, 17)
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 5)
+                }
+                if !settings.hideNews {
+                    ScrollViewBox(title: "News", image: "newspaper") {
+                        NewsListView()
+                    }
+                    .padding(.horizontal, 17)
+                    .padding(.bottom, 10)
                 }
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     if controller.animeSuggestions.isEmpty {

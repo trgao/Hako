@@ -15,7 +15,7 @@ struct ScrollViewNavigationLink<Destination: View>: View {
     private let content: String
     private let destination: () -> Destination
     
-    init(title: String, content: String = "", destination: @escaping () -> Destination) {
+    init(title: String, content: String, destination: @escaping () -> Destination) {
         self.title = title
         self.content = content
         self.destination = destination
@@ -41,17 +41,15 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         }) {}
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(isPressed || isLongPress ? Color(.systemGray4) : (content == "" || colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
+        .background(isPressed || isLongPress ? Color(.systemGray4) : colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
-            if content != "" {
-                Button {
-                    UIPasteboard.general.string = content
-                } label: {
-                    Label("Copy", systemImage: "document.on.document")
-                    Text(content)
-                }
+            Button {
+                UIPasteboard.general.string = content
+            } label: {
+                Label("Copy", systemImage: "document.on.document")
+                Text(content)
             }
         }
         .navigationDestination(isPresented: $isPressed, destination: destination)

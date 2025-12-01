@@ -10,6 +10,7 @@
 		EE00FE062E2292CA001A3836 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00FE052E2292C8001A3836 /* ViewExtension.swift */; };
 		EE02C12A2DD44BAD00CB041C /* ZoomTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02C1292DD44BA400CB041C /* ZoomTransition.swift */; };
 		EE0696BF2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */; };
+		EE0696C12EDD801800F965B2 /* ScrollViewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0696C02EDD801500F965B2 /* ScrollViewBox.swift */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
@@ -202,6 +203,7 @@
 		EE00FE052E2292C8001A3836 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
 		EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckSwipeDismissChanges.swift; sourceTree = "<group>"; };
+		EE0696C02EDD801500F965B2 /* ScrollViewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewBox.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				EE135E022E055A0200F02638 /* ScrollViewRow.swift */,
 				EE135E042E0564BE00F02638 /* StatisticsRow.swift */,
 				EE135DFA2E053D0C00F02638 /* ScrollViewNavigationLink.swift */,
+				EE0696C02EDD801500F965B2 /* ScrollViewBox.swift */,
 				EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */,
 				EE135DFE2E054EF800F02638 /* ScrollViewCarousel.swift */,
 			);
@@ -1085,6 +1088,7 @@
 				EE8E52FE2EDC128300B7A316 /* IconTintLabelStyle.swift in Sources */,
 				EE4729E62BF4D503005D17EF /* User.swift in Sources */,
 				EE94C7652E7C4AC200AF722D /* ScrollViewListSection.swift in Sources */,
+				EE0696C12EDD801800F965B2 /* ScrollViewBox.swift in Sources */,
 				EE960E752DD3627D00E4EDC9 /* Author.swift in Sources */,
 				EECC382E2BFA146C0063A891 /* Staff.swift in Sources */,
 				EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */,

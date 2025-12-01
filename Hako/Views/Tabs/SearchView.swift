@@ -46,18 +46,17 @@ struct SearchView: View {
         ScrollView {
             VStack {
                 if !settings.hideExploreAnimeManga {
-                    VStack(spacing: 0) {
-                        ScrollViewNavigationLink(title: "Explore anime") {
+                    HStack {
+                        ScrollViewBox(title: "Explore anime", image: "tv") {
                             AnimeGenresListView()
                         }
-                        ScrollViewNavigationLink(title: "Explore manga") {
-                            MangaGenresListView()
+                        Spacer()
+                        ScrollViewBox(title: "Explore manga", image: "book") {
+                            AnimeGenresListView()
                         }
                     }
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 17)
-                    .padding(.vertical, 5)
+                    .padding(.bottom, 15)
                 }
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     if controller.animeSuggestions.isEmpty {
@@ -175,7 +174,7 @@ struct SearchView: View {
                     }
                 }
             }
-            .padding(.bottom, 10)
+            .padding(.vertical, 10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

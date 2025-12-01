@@ -74,8 +74,8 @@ struct MainView: View {
                         Tab("Seasons", systemImage: "calendar", value: 1) {
                             SeasonsView()
                         }
-                        Tab("Search", systemImage: "magnifyingglass", value: 2, role: .search) {
-                            SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                        Tab("Explore", systemImage: "magnifyingglass", value: 2, role: .search) {
+                            ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
                         }
                         if !settings.useWithoutAccount {
                             Tab("My list", systemImage: "list.bullet", value: 3) {
@@ -103,9 +103,9 @@ struct MainView: View {
                                 Label("Seasons", systemImage: "calendar")
                             }
                             .tag(1)
-                        SearchView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                        ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
                             .tabItem {
-                                Label("Search", systemImage: "magnifyingglass")
+                                Label("Explore", systemImage: "magnifyingglass")
                             }
                             .tag(2)
                         if !settings.useWithoutAccount {

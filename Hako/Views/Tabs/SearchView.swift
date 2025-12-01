@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  ExploreView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 19/4/24.
@@ -9,10 +9,10 @@ import SwiftUI
 import Shimmer
 import SystemNotification
 
-struct SearchView: View {
+struct ExploreView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var controller = SearchViewController()
+    @StateObject private var controller = ExploreViewController()
     @StateObject var networker = NetworkManager.shared
     
     @State private var selectedAnime: MALListAnime?
@@ -395,7 +395,7 @@ struct SearchView: View {
                 previousSearch = ""
                 controller.resetSearch()
             }
-            .navigationTitle("Search")
+            .navigationTitle("Explore")
             .toolbar {
                 if !settings.hideRandom {
                     Menu {

@@ -19,7 +19,7 @@ struct HideItemsView: View {
                     Text("Hide continuing series")
                 }
             }
-            Section("Search") {
+            Section("Explore") {
                 Toggle(isOn: $settings.hideRandom) {
                     Text("Hide random button")
                 }

@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  ExploreViewController.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 29/5/24.
@@ -9,7 +9,7 @@ import Foundation
 import AsyncAlgorithms
 
 @MainActor
-class SearchViewController: ObservableObject {
+class ExploreViewController: ObservableObject {
     // Anime search list variables
     @Published var animeItems = [MALListAnime]()
     @Published var isAnimeLoadingError = false

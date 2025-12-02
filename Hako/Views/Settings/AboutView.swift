@@ -27,6 +27,7 @@ struct AboutView: View {
                 Link("SwiftUI-Shimmer", destination: URL(string: "https://github.com/markiv/SwiftUI-Shimmer")!)
                 Link("YouTubePlayerKit", destination: URL(string: "https://github.com/SvenTiigi/YouTubePlayerKit")!)
                 Link("SystemNotification", destination: URL(string: "https://github.com/danielsaidi/SystemNotification")!)
+                Link("FeedKit", destination: URL(string: "https://github.com/nmdias/FeedKit")!)
             }
         } photo: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

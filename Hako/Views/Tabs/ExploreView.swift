@@ -45,26 +45,29 @@ struct ExploreView: View {
     var exploreView: some View {
         ScrollView {
             VStack {
-                if !settings.hideExploreAnimeManga {
-                    HStack {
-                        ScrollViewBox(title: "Explore anime", image: "tv") {
-                            AnimeGenresListView()
+                VStack {
+                    if !settings.hideExploreAnimeManga {
+                        HStack {
+                            ScrollViewBox(title: "Explore anime", image: "tv") {
+                                AnimeGenresListView()
+                            }
+                            Spacer()
+                            ScrollViewBox(title: "Explore manga", image: "book") {
+                                MangaGenresListView()
+                            }
                         }
+                        .padding(.horizontal, 17)
                         Spacer()
-                        ScrollViewBox(title: "Explore manga", image: "book") {
-                            MangaGenresListView()
+                    }
+                    if !settings.hideNews {
+                        ScrollViewBox(title: "News", image: "newspaper") {
+                            NewsListView()
                         }
+                        .padding(.horizontal, 17)
+                        .padding(.bottom, 10)
                     }
-                    .padding(.horizontal, 17)
-                    .padding(.bottom, 5)
                 }
-                if !settings.hideNews {
-                    ScrollViewBox(title: "News", image: "newspaper") {
-                        NewsListView()
-                    }
-                    .padding(.horizontal, 17)
-                    .padding(.bottom, 10)
-                }
+                .padding(.bottom, 5)
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     if controller.animeSuggestions.isEmpty {
                         LoadingCarousel(title: "Anime for you")

@@ -64,14 +64,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             var date: Date? = nil
             let yearOnlyFormatter = DateFormatter()
             yearOnlyFormatter.dateFormat = "yyyy"
-            yearOnlyFormatter.locale = Locale(identifier: "en_US_POSIX")
-            yearOnlyFormatter.timeZone = TimeZone(secondsFromGMT: 3600)
             let monthOnlyFormatter = DateFormatter()
             monthOnlyFormatter.dateFormat = "yyyy-MM"
             let normalDateFormatter = DateFormatter()
             normalDateFormatter.dateFormat = "yyyy-MM-dd"
             let iso8601DateFormatter = ISO8601DateFormatter()
-            if len == 4 {
+            
+            // Only does not work for 1 Jan 1933
+            if dateStr == "1933" || dateStr == "1933-01" || dateStr == "1933-01-01" {
+                date = iso8601DateFormatter.date(from: "1932-12-31T23:00:00+00:00")
+            } else if len == 4 {
                 date = yearOnlyFormatter.date(from: dateStr)
             } else if len == 7 {
                 date = monthOnlyFormatter.date(from: dateStr)

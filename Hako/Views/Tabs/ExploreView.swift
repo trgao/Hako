@@ -48,11 +48,11 @@ struct ExploreView: View {
                 VStack {
                     if !settings.hideExploreAnimeManga {
                         HStack {
-                            ScrollViewBox(title: "Explore anime", image: "tv") {
+                            ScrollViewBox(title: "Explore anime", image: "tv.fill") {
                                 AnimeGenresListView()
                             }
                             Spacer()
-                            ScrollViewBox(title: "Explore manga", image: "book") {
+                            ScrollViewBox(title: "Explore manga", image: "book.fill") {
                                 MangaGenresListView()
                             }
                         }
@@ -60,7 +60,7 @@ struct ExploreView: View {
                         Spacer()
                     }
                     if !settings.hideNews {
-                        ScrollViewBox(title: "News", image: "newspaper") {
+                        ScrollViewBox(title: "News", image: "newspaper.fill") {
                             NewsListView()
                         }
                         .padding(.horizontal, 17)

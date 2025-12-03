@@ -30,4 +30,8 @@ struct Person: Codable, Identifiable {
         self.manga = nil
         self.voices = nil
     }
+    
+    func isEmpty() -> Bool {
+        return self.birthday == nil && self.about == nil && self.images == nil && self.favorites == nil && self.anime == nil && self.manga == nil && self.voices == nil
+    }
 }

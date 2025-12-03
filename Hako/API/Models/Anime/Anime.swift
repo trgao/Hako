@@ -96,4 +96,8 @@ struct Anime: Codable, Identifiable {
         self.recommendations = nil
         self.numListUsers = item.members
     }
+    
+    func isEmpty() -> Bool {
+        return self.mainPicture == nil && self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numEpisodes == nil && self.startSeason == nil && self.broadcast == nil && self.source == nil && self.averageEpisodeDuration == nil && self.rating == nil && self.studios == nil && self.openingThemes == nil && self.endingThemes == nil && self.videos == nil && self.recommendations == nil && self.numListUsers == nil
+    }
 }

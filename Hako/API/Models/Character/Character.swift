@@ -30,4 +30,8 @@ struct Character: Codable, Identifiable {
         self.manga = nil
         self.voices = nil
     }
+    
+    func isEmpty() -> Bool {
+        return self.nameKanji == nil && self.about == nil && self.images == nil && self.favorites == nil && self.anime == nil && self.manga == nil && self.voices == nil
+    }
 }

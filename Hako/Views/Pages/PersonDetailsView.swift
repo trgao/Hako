@@ -101,12 +101,23 @@ struct PersonDetailsView: View {
                         ImageFrame(id: "person\(id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .background)
                     }
                 }
-                if controller.isLoading {
+                if controller.isLoading && (controller.person == nil || controller.person!.isEmpty()) {
                     LoadingView()
                 }
             }
         }
         .toolbar {
+            if let person = controller.person, !person.isEmpty() && controller.isLoading {
+                    ProgressView()
+            } else if controller.isLoadingError {
+                Button {
+                    Task {
+                        await controller.refresh()
+                    }
+                } label: {
+                    Image(systemName: "exclamationmark.triangle")
+                }
+            }
             ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }

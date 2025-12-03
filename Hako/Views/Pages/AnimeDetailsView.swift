@@ -123,7 +123,7 @@ struct AnimeDetailsView: View {
                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                 }
             }
-            if controller.isLoading {
+            if controller.isLoading && (controller.anime == nil || controller.anime!.isEmpty()) {
                 LoadingView()
             }
             if controller.anime == nil && !controller.isLoading && !controller.isLoadingError {
@@ -139,8 +139,10 @@ struct AnimeDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if networker.isSignedIn && !settings.useWithoutAccount {
-                if let anime = controller.anime {
+            if let anime = controller.anime, !anime.isEmpty() {
+                if controller.isLoading {
+                    ProgressView()
+                } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
                         isEditViewPresented = true
                     } label: {
@@ -157,17 +159,19 @@ struct AnimeDetailsView: View {
                             }
                     }
                     .disabled(controller.isLoading)
-                } else {
-                    Button {} label: {
-                        Image(systemName: "square.and.pencil")
+                }
+            } else if controller.isLoadingError {
+                Button {
+                    Task {
+                        await controller.refresh()
                     }
-                    .disabled(true)
+                } label: {
+                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
-            .disabled(controller.isLoading)
         }
     }
 }

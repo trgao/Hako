@@ -93,11 +93,22 @@ struct CharacterDetailsView: View {
                     ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
                 }
             }
-            if controller.isLoading {
+            if controller.isLoading && (controller.character == nil || controller.character!.isEmpty()) {
                 LoadingView()
             }
         }
         .toolbar {
+            if let character = controller.character, !character.isEmpty() && controller.isLoading {
+                ProgressView()
+            } else if controller.isLoadingError {
+                Button {
+                    Task {
+                        await controller.refresh()
+                    }
+                } label: {
+                    Image(systemName: "exclamationmark.triangle")
+                }
+            }
             ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }

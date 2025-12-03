@@ -111,7 +111,7 @@ struct MangaDetailsView: View {
                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                 }
             }
-            if controller.isLoading {
+            if controller.isLoading && (controller.manga == nil || controller.manga!.isEmpty()) {
                 LoadingView()
             }
             if controller.manga == nil && !controller.isLoading && !controller.isLoadingError {
@@ -127,8 +127,10 @@ struct MangaDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if networker.isSignedIn && !settings.useWithoutAccount {
-                if let manga = controller.manga {
+            if let manga = controller.manga, !manga.isEmpty() {
+                if controller.isLoading {
+                    ProgressView()
+                } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
                         isEditViewPresented = true
                     } label: {
@@ -145,17 +147,19 @@ struct MangaDetailsView: View {
                             }
                     }
                     .disabled(controller.isLoading)
-                } else {
-                    Button {} label: {
-                        Image(systemName: "square.and.pencil")
+                }
+            } else if controller.isLoadingError {
+                Button {
+                    Task {
+                        await controller.refresh()
                     }
-                    .disabled(true)
+                } label: {
+                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
-            .disabled(controller.isLoading)
         }
     }
 }

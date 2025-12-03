@@ -77,4 +77,8 @@ struct Manga: Codable, Identifiable {
         self.recommendations = nil
         self.numListUsers = item.members
     }
+    
+    func isEmpty() -> Bool {
+        return self.mainPicture == nil && self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numVolumes == nil && self.numChapters == nil && self.authors == nil && self.serialization == nil && self.recommendations == nil && self.numListUsers == nil
+    }
 }

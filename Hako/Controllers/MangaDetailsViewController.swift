@@ -23,6 +23,7 @@ class MangaDetailsViewController: ObservableObject {
         self.id = id
         Task {
             await loadCachedDetails()
+            await loadAuthors()
         }
     }
     
@@ -31,6 +32,7 @@ class MangaDetailsViewController: ObservableObject {
         self.manga = manga
         Task {
             await loadCachedDetails()
+            await loadAuthors()
         }
     }
     

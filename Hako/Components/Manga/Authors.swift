@@ -37,8 +37,5 @@ struct Authors: View {
                 }
             }
         }
-        .task {
-            await controller.loadAuthors()
-        }
     }
 }

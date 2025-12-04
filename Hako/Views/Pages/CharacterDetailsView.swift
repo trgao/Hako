@@ -98,9 +98,7 @@ struct CharacterDetailsView: View {
             }
         }
         .toolbar {
-            if let character = controller.character, !character.isEmpty() && controller.isLoading {
-                ProgressView()
-            } else if controller.isLoadingError {
+            if controller.isLoadingError && controller.character != nil && controller.character!.isEmpty() {
                 Button {
                     Task {
                         await controller.refresh()

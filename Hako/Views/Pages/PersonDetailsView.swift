@@ -107,9 +107,7 @@ struct PersonDetailsView: View {
             }
         }
         .toolbar {
-            if let person = controller.person, !person.isEmpty() && controller.isLoading {
-                    ProgressView()
-            } else if controller.isLoadingError {
+            if controller.isLoadingError && controller.person != nil && controller.person!.isEmpty() {
                 Button {
                     Task {
                         await controller.refresh()

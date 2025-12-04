@@ -90,13 +90,10 @@ struct MangaProgressNotAdded: View {
                         .redacted(reason: .placeholder)
                         .shimmering()
                     HStack {
-                        Text("Not added")
+                        Text("Placeholder")
                             .bold()
                         Spacer()
-                        Label("0 / \(numVolumes)", systemImage: "book.closed.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
-                        Label("0 / \(numChapters)", systemImage: "book.pages.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                        Text("0 / 0  0 / 0")
                     }
                     .redacted(reason: .placeholder)
                     .shimmering()

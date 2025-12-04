@@ -144,7 +144,6 @@ struct AnimeDetailsView: View {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
-                        controller.isLoading = true
                         isEditViewPresented = true
                     } label: {
                         Image(systemName: "square.and.pencil")

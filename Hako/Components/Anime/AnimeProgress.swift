@@ -68,8 +68,7 @@ struct AnimeProgressNotAdded: View {
                         Text("Placeholder")
                             .bold()
                         Spacer()
-                        Label("0 / 0", systemImage: "video.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                        Text("0 / 0")
                     }
                     .redacted(reason: .placeholder)
                     .shimmering()

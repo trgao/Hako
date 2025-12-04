@@ -68,11 +68,11 @@ struct AnimeDetailsView: View {
                         }
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: anime.synopsis)
-                        if networker.isSignedIn && !settings.hideAnimeProgress {
-                            if let listStatus = anime.myListStatus {
+                        if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
+                            if let listStatus = anime.myListStatus, !controller.isLoading {
                                 AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
                             } else {
-                                AnimeProgressNotAdded(numEpisodes: anime.numEpisodes)
+                                AnimeProgressNotAdded(numEpisodes: anime.numEpisodes, isLoading: controller.isLoading)
                             }
                         }
                         if !settings.hideAnimeInformation {
@@ -144,6 +144,7 @@ struct AnimeDetailsView: View {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
+                        controller.isLoading = true
                         isEditViewPresented = true
                     } label: {
                         Image(systemName: "square.and.pencil")

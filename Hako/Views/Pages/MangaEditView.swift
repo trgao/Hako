@@ -30,7 +30,7 @@ struct MangaEditView: View {
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
-        var initialData = MyListStatus(status: .planToWatch)
+        var initialData = MyListStatus(status: .planToRead)
         if let listStatus = listStatus {
             initialData = listStatus
         }

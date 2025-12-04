@@ -6,41 +6,37 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct AnimeProgress: View {
-    private var numEpisodes: Int?
-    private var numEpisodesWatched: Int
-    private var status: StatusEnum?
+    private let numEpisodes: String
+    private let numEpisodesWatched: String
+    private let watchProgress: Float
+    private let status: StatusEnum?
     
     init(numEpisodes: Int?, numEpisodesWatched: Int, status: StatusEnum?) {
-        self.numEpisodes = numEpisodes
-        self.numEpisodesWatched = numEpisodesWatched
+        if let numEpisodes = numEpisodes, numEpisodes > 0 {
+            self.numEpisodes = String(numEpisodes)
+            self.watchProgress = Float(numEpisodesWatched) / Float(numEpisodes)
+        } else {
+            self.numEpisodes = "?"
+            self.watchProgress = numEpisodesWatched == 0 ? 0 : 0.5
+        }
+        self.numEpisodesWatched = String(numEpisodesWatched)
         self.status = status
     }
     
     var body: some View {
         ScrollViewSection(title: "Progress") {
             VStack {
-                if let numEpisodes = numEpisodes, numEpisodes > 0 {
-                    ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                        .tint(status?.toColour())
-                    HStack {
-                        Text(status?.toString() ?? "")
-                            .bold()
-                        Spacer()
-                        Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
-                    }
-                } else {
-                    ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
-                        .tint(status?.toColour())
-                    HStack {
-                        Text(status?.toString() ?? "")
-                            .bold()
-                        Spacer()
-                        Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
-                    }
+                ProgressView(value: watchProgress)
+                    .tint(status?.toColour())
+                HStack {
+                    Text(status?.toString() ?? "")
+                        .bold()
+                    Spacer()
+                    Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
+                        .labelStyle(CustomLabel(spacing: 2))
                 }
             }
             .padding(20)
@@ -49,31 +45,41 @@ struct AnimeProgress: View {
 }
 
 struct AnimeProgressNotAdded: View {
-    private var numEpisodes: Int?
+    private let numEpisodes: String
+    private let isLoading: Bool
     
-    init(numEpisodes: Int?) {
-        self.numEpisodes = numEpisodes
+    init(numEpisodes: Int?, isLoading: Bool) {
+        if let numEpisodes = numEpisodes, numEpisodes > 0 {
+            self.numEpisodes = String(numEpisodes)
+        } else {
+            self.numEpisodes = "?"
+        }
+        self.isLoading = isLoading
     }
     
     var body: some View {
         ScrollViewSection(title: "Progress") {
             VStack {
-                if let numEpisodes = numEpisodes, numEpisodes > 0 {
+                if isLoading {
                     ProgressView(value: 0)
+                        .redacted(reason: .placeholder)
+                        .shimmering()
                     HStack {
-                        Text("Not added")
+                        Text("Placeholder")
                             .bold()
                         Spacer()
-                        Label("0 / \(String(numEpisodes))", systemImage: "video.fill")
+                        Label("0 / 0", systemImage: "video.fill")
                             .labelStyle(CustomLabel(spacing: 2))
                     }
+                    .redacted(reason: .placeholder)
+                    .shimmering()
                 } else {
                     ProgressView(value: 0)
                     HStack {
                         Text("Not added")
                             .bold()
                         Spacer()
-                        Label("0 / ?", systemImage: "video.fill")
+                        Label("0 / \(numEpisodes)", systemImage: "video.fill")
                             .labelStyle(CustomLabel(spacing: 2))
                     }
                 }

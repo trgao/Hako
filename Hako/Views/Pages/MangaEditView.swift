@@ -205,9 +205,6 @@ struct MangaEditView: View {
                     .scrollContentBackground(.hidden)
                     .scrollBounceBehavior(.basedOnSize)
                 }
-                if isLoading {
-                    LoadingView()
-                }
             }
             .onAppear {
                 mangaListStatus = listStatus
@@ -246,7 +243,13 @@ struct MangaEditView: View {
                             isLoading = false
                         }
                     } label: {
-                        Image(systemName: "checkmark")
+                        if isLoading {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.white)
+                        }
                     }
                     if #available (iOS 26.0, *) {
                         button.buttonStyle(.glassProminent)

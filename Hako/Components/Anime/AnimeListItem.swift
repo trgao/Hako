@@ -14,12 +14,25 @@ struct AnimeListItem: View {
     @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
     private let index: Int
+    private let numEpisodes: String
+    private let numEpisodesWatched: String
+    private let watchProgress: Float
+    
     
     init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
         self.anime = anime
         self._selectedAnime = selectedAnime
         self._selectedAnimeIndex = selectedAnimeIndex
         self.index = index
+        let watched = anime.listStatus?.numEpisodesWatched ?? 0
+        if let episodes = anime.node.numEpisodes, episodes > 0 {
+            self.numEpisodes = String(episodes)
+            self.watchProgress = Float(watched) / Float(episodes)
+        } else {
+            self.numEpisodes = "?"
+            self.watchProgress = watched == 0 ? 0 : 0.5
+        }
+        self.numEpisodesWatched = String(watched)
     }
     
     var body: some View {
@@ -41,36 +54,17 @@ struct AnimeListItem: View {
                             .font(.system(size: 16))
                     }
                     if networker.isSignedIn {
-                        let numEpisodesWatched = anime.listStatus?.numEpisodesWatched ?? 0
-                        if let numEpisodes = anime.node.numEpisodes, numEpisodes > 0 {
-                            VStack(alignment: .leading) {
-                                ProgressView(value: Float(numEpisodesWatched) / Float(numEpisodes))
-                                    .tint(anime.listStatus?.status?.toColour())
-                                HStack {
-                                    Label("\(String(numEpisodesWatched)) / \(String(numEpisodes))", systemImage: "video.fill")
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
-                                    Spacer()
-                                    if let score = anime.listStatus?.score, score > 0 {
-                                        Text("\(score) ⭐")
-                                            .bold()
-                                    }
-                                }
-                                .font(.system(size: 13))
-                            }
-                        } else {
-                            VStack(alignment: .leading) {
-                                ProgressView(value: numEpisodesWatched == 0 ? 0 : 0.5)
-                                    .tint(anime.listStatus?.status?.toColour())
-                                HStack {
-                                    Label("\(String(numEpisodesWatched)) / ?", systemImage: "video.fill")
-                                        .foregroundStyle(Color(.systemGray))
-                                        .labelStyle(CustomLabel(spacing: 2))
-                                    Spacer()
-                                    if let score = anime.listStatus?.score, score > 0 {
-                                        Text("\(score) ⭐")
-                                            .bold()
-                                    }
+                        VStack(alignment: .leading) {
+                            ProgressView(value: watchProgress)
+                                .tint(anime.listStatus?.status?.toColour())
+                            HStack {
+                                Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
+                                    .foregroundStyle(Color(.systemGray))
+                                    .labelStyle(CustomLabel(spacing: 2))
+                                Spacer()
+                                if let score = anime.listStatus?.score, score > 0 {
+                                    Text("\(score) ⭐")
+                                        .bold()
                                 }
                             }
                             .font(.system(size: 13))

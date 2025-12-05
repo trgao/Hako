@@ -14,11 +14,12 @@ struct AnimeEditView: View {
     @Binding private var isDeleted: Bool
     @Binding private var animeListStatus: MyListStatus?
     @State private var listStatus: MyListStatus
-    @State private var isDeleteError = false
+    @State private var isLoading = false
+    @State private var isConfirmDeleting = false
     @State private var isDeleting = false
+    @State private var isDeleteError = false
     @State private var isEditError = false
     @State private var isDiscardingChanges = false
-    @State private var isLoading = false
     private let id: Int
     private let initialData: MyListStatus
     private let title: String?
@@ -134,15 +135,21 @@ struct AnimeEditView: View {
                         }
                         if let _ = listStatus.updatedAt {
                             Button {
-                                isDeleting = true
+                                isConfirmDeleting = true
                             } label: {
-                                Label("Remove from list", systemImage: "trash")
+                                if isDeleting {
+                                    ProgressView()
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                } else {
+                                    Label("Remove from list", systemImage: "trash")
+                                }
                             }
+                            .disabled(isLoading || isDeleting)
                             .foregroundStyle(Color(.systemRed))
-                            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
+                            .confirmationDialog("Are you sure?", isPresented: $isConfirmDeleting) {
                                 Button("Confirm", role: .destructive) {
                                     Task {
-                                        isLoading = true
+                                        isDeleting = true
                                         do {
                                             try await networker.deleteUserAnime(id: id)
                                             isDeleted = true
@@ -150,11 +157,12 @@ struct AnimeEditView: View {
                                         } catch {
                                             isDeleteError = true
                                         }
-                                        isLoading = false
+                                        isDeleting = false
                                     }
                                 }
+                                .disabled(isLoading || isDeleting)
                             } message: {
-                                Text("This will remove this anime from your list")
+                                Text("This will remove the anime from your list")
                             }
                         }
                     } photo: {
@@ -207,6 +215,7 @@ struct AnimeEditView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .disabled(isLoading || isDeleting)
                     .confirmationDialog("Are you sure?", isPresented: $isDiscardingChanges) {
                         Button("Discard", role: .destructive) {
                             dismiss()
@@ -237,6 +246,7 @@ struct AnimeEditView: View {
                                 .foregroundStyle(.white)
                         }
                     }
+                    .disabled(isLoading || isDeleting)
                     if #available (iOS 26.0, *) {
                         button.buttonStyle(.glassProminent)
                     } else {
@@ -255,7 +265,7 @@ struct AnimeEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .checkSwipeDismissChanges(listStatus != initialData, isDiscardingChanges: $isDiscardingChanges)
+        .checkSwipeDismissChanges(isDisabled: listStatus != initialData, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
     }
 }
 

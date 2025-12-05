@@ -8,8 +8,8 @@ import SwiftUI
 struct SetSheetDelegate: UIViewRepresentable {
     let delegate: SheetDelegate
 
-    init(isDisabled: Bool, isDiscardingChanges: Binding<Bool>){
-        self.delegate = SheetDelegate(isDisabled, isDiscardingChanges: isDiscardingChanges)
+    init(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>){
+        self.delegate = SheetDelegate(isDisabled: isDisabled, isLoading: isLoading, isDiscardingChanges: isDiscardingChanges)
     }
 
     func makeUIView(context: Context) -> some UIView {
@@ -26,19 +26,21 @@ struct SetSheetDelegate: UIViewRepresentable {
 
 final class SheetDelegate: NSObject, UIAdaptivePresentationControllerDelegate {
     @Binding var isDiscardingChanges: Bool
-    var isDisabled: Bool
+    let isDisabled: Bool
+    let isLoading: Bool
 
-    init(_ isDisabled: Bool, isDiscardingChanges: Binding<Bool>) {
+    init(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>) {
         self.isDisabled = isDisabled
+        self.isLoading = isLoading
         self._isDiscardingChanges = isDiscardingChanges
     }
 
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        !isDisabled
+        !isDisabled && !isLoading
     }
 
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-        if isDisabled {
+        if isDisabled && !isLoading {
             isDiscardingChanges = true
         }
     }
@@ -58,7 +60,7 @@ extension UIView {
 }
 
 public extension View{
-    func checkSwipeDismissChanges(_ isDisabled: Bool, isDiscardingChanges: Binding<Bool>) -> some View{
-        background(SetSheetDelegate(isDisabled: isDisabled, isDiscardingChanges: isDiscardingChanges))
+    func checkSwipeDismissChanges(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>) -> some View{
+        background(SetSheetDelegate(isDisabled: isDisabled, isLoading: isLoading, isDiscardingChanges: isDiscardingChanges))
     }
 }

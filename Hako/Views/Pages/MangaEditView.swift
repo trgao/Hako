@@ -14,11 +14,12 @@ struct MangaEditView: View {
     @Binding private var isDeleted: Bool
     @Binding private var mangaListStatus: MyListStatus?
     @State private var listStatus: MyListStatus
-    @State private var isDeleteError = false
+    @State private var isLoading = false
+    @State private var isConfirmingDelete = false
     @State private var isDeleting = false
+    @State private var isDeleteError = false
     @State private var isEditError = false
     @State private var isDiscardingChanges = false
-    @State private var isLoading = false
     private let id: Int
     private let initialData: MyListStatus
     private let title: String?
@@ -148,15 +149,21 @@ struct MangaEditView: View {
                         }
                         if let _ = listStatus.updatedAt {
                             Button {
-                                isDeleting = true
+                                isConfirmingDelete = true
                             } label: {
-                                Label("Remove from list", systemImage: "trash")
+                                if isDeleting {
+                                    ProgressView()
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                } else {
+                                    Label("Remove from list", systemImage: "trash")
+                                }
                             }
+                            .disabled(isLoading || isDeleting)
                             .foregroundStyle(Color(.systemRed))
-                            .confirmationDialog("Are you sure?", isPresented: $isDeleting) {
+                            .confirmationDialog("Are you sure?", isPresented: $isConfirmingDelete) {
                                 Button("Confirm", role: .destructive) {
                                     Task {
-                                        isLoading = true
+                                        isDeleting = true
                                         do {
                                             try await networker.deleteUserManga(id: id)
                                             isDeleted = true
@@ -164,11 +171,12 @@ struct MangaEditView: View {
                                         } catch {
                                             isDeleteError = true
                                         }
-                                        isLoading = false
+                                        isDeleting = false
                                     }
                                 }
+                                .disabled(isLoading || isDeleting)
                             } message: {
-                                Text("This will remove this manga from your list")
+                                Text("This will remove the manga from your list")
                             }
                         }
                     } photo: {
@@ -221,6 +229,7 @@ struct MangaEditView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .disabled(isLoading || isDeleting)
                     .confirmationDialog("Are you sure?", isPresented: $isDiscardingChanges) {
                         Button("Discard", role: .destructive) {
                             dismiss()
@@ -250,7 +259,7 @@ struct MangaEditView: View {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.white)
                         }
-                    }
+                    }.disabled(isLoading || isDeleting)
                     if #available (iOS 26.0, *) {
                         button.buttonStyle(.glassProminent)
                     } else {
@@ -269,7 +278,7 @@ struct MangaEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .checkSwipeDismissChanges(listStatus != initialData, isDiscardingChanges: $isDiscardingChanges)
+        .checkSwipeDismissChanges(isDisabled: listStatus != initialData, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
     }
 }
 

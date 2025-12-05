@@ -45,6 +45,9 @@ struct NewsListView: View {
                         }
                     }
                 }
+                .refreshable {
+                    await controller.refresh()
+                }
             }
             if controller.isLoading {
                 LoadingView()

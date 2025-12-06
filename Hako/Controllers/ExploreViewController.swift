@@ -54,7 +54,7 @@ class ExploreViewController: ObservableObject {
         isRefreshLoading = false
     }
     
-    func refresh() async {
+    func loadAnimeSuggestions() async {
         if networker.isSignedIn && self.animeSuggestions.isEmpty {
             do {
                 self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
@@ -62,20 +62,29 @@ class ExploreViewController: ObservableObject {
                 print("Some unknown error occurred loading anime suggestions")
             }
         }
+    }
+    
+    func loadTopAiringAnime() async {
         if self.topAiringAnime.isEmpty {
             do {
                 self.topAiringAnime = try await networker.getAnimeTopAiringList()
             } catch {
-                print("Some unknown error occurred loading anime top airing")
+                print("Some unknown error occurred loading top airing anime")
             }
         }
+    }
+    
+    func loadTopUpcomingAnime() async {
         if self.topUpcomingAnime.isEmpty {
             do {
                 self.topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
             } catch {
-                print("Some unknown error occurred loading anime top upcoming")
+                print("Some unknown error occurred loading top upcoming anime")
             }
         }
+    }
+    
+    func loadNewlyAddedAnime() async {
         if self.newlyAddedAnime.isEmpty {
             do {
                 var ids: Set<Int> = []
@@ -90,9 +99,12 @@ class ExploreViewController: ObservableObject {
                     }
                 }
             } catch {
-                print("Some unknown error occurred loading anime newly added")
+                print("Some unknown error occurred loading newly added anime")
             }
         }
+    }
+    
+    func loadNewlyAddedManga() async {
         if self.newlyAddedManga.isEmpty {
             do {
                 var ids: Set<Int> = []
@@ -107,7 +119,7 @@ class ExploreViewController: ObservableObject {
                     }
                 }
             } catch {
-                print("Some unknown error occurred loading manga newly added")
+                print("Some unknown error occurred loading newly added manga")
             }
         }
     }

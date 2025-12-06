@@ -68,6 +68,29 @@ struct ExploreView: View {
                     }
                 }
                 .padding(.bottom, 5)
+                if !settings.hideRecentlyViewed && !settings.recentlyViewedItems.isEmpty {
+                    VStack {
+                        Text("Recently viewed")
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 35)
+                            .font(.system(size: 17))
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(alignment: .top) {
+                                ForEach(settings.recentlyViewedItems.reversed()) { item in
+                                    if item.type == .anime {
+                                        AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl)
+                                    } else if item.type == .manga {
+                                        MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 50)
+                        }
+                        .padding(.top, -50)
+                    }
+                }
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     if controller.animeSuggestions.isEmpty {
                         LoadingCarousel(title: "Anime for you")

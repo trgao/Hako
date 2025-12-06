@@ -25,6 +25,19 @@ struct MangaDetailsView: View {
         self._controller = StateObject(wrappedValue: MangaDetailsViewController(manga: manga))
     }
     
+    private func addToRecentlyViewed() {
+        guard let manga = controller.manga else {
+            return
+        }
+        var itemList = settings.recentlyViewedItems
+        itemList.removeAll(where: { $0.id == manga.id && $0.type == .manga })
+        if itemList.count == 10 {
+            itemList.removeFirst()
+        }
+        itemList.append(ListItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.medium, type: .manga))
+        settings.recentlyViewedItems = itemList
+    }
+    
     var body: some View {
         ZStack {
             if controller.isLoadingError && controller.manga == nil {
@@ -96,6 +109,11 @@ struct MangaDetailsView: View {
                 .onChange(of: networker.isSignedIn) {
                     Task {
                         await controller.refresh()
+                    }
+                }
+                .onChange(of: controller.isLoading) { prev, cur in
+                    if prev && !cur {
+                        addToRecentlyViewed()
                     }
                 }
                 .task(id: isRefresh) {

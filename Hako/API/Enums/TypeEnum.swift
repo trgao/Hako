@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TypeEnum: Codable {
+enum TypeEnum: String, Codable {
     case anime, manga, none
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -15,8 +15,7 @@ enum TypeEnum: Codable {
         switch status {
             case "anime": self = .anime
             case "manga": self = .manga
-            default:
-                self = .none
+            default: self = .none
         }
     }
     

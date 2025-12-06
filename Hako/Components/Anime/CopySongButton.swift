@@ -57,6 +57,7 @@ struct CopySongButton: View {
                 }
             } label: {
                 Image(systemName: "ellipsis")
+                    .padding(.vertical, 10)
             }
             .buttonStyle(.bordered)
         }

@@ -157,8 +157,8 @@ struct AnimeDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if let anime = controller.anime {
-                if controller.isLoading && !anime.isEmpty() {
+            if let anime = controller.anime, !anime.isEmpty() {
+                if controller.isLoading {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {

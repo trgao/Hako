@@ -145,8 +145,8 @@ struct MangaDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if let manga = controller.manga {
-                if controller.isLoading && !manga.isEmpty() {
+            if let manga = controller.manga, !manga.isEmpty() {
+                if controller.isLoading {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {

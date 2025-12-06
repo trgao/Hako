@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ThemeSongs: View {
+    @Environment(\.screenSize) private var screenSize
+    @Environment(\.colorScheme) private var colorScheme
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
@@ -23,8 +25,22 @@ struct ThemeSongs: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                         ForEach(openingThemes.prefix(10)) { theme in
-                            if let text = theme.text {
-                                ThemeSong(text: text.formatThemeSong())
+                            if let text = theme.text?.formatThemeSong() {
+                                HStack {
+                                    Text(text)
+                                    Spacer()
+                                    CopySongButton(text: text)
+                                }
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(3)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.system(size: 17))
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 10)
+                                    .frame(width: min(450, screenSize.width - 34), height: 100, alignment: .center)
+                                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                                    .shadow(radius: 0.5)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
                     }
@@ -41,8 +57,22 @@ struct ThemeSongs: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top) {
                         ForEach(endingThemes.prefix(10)) { theme in
-                            if let text = theme.text {
-                                ThemeSong(text: text.formatThemeSong())
+                            if let text = theme.text?.formatThemeSong() {
+                                HStack {
+                                    Text(text)
+                                    Spacer()
+                                    CopySongButton(text: text)
+                                }
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(3)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.system(size: 17))
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 10)
+                                    .frame(width: min(450, screenSize.width - 34), height: 100, alignment: .center)
+                                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                                    .shadow(radius: 0.5)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
                     }
@@ -54,48 +84,5 @@ struct ThemeSongs: View {
                 ThemesListView(themes: endingThemes)
             }
         }
-    }
-}
-
-struct ThemeSong: View {
-    @Environment(\.screenSize) private var screenSize
-    @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject private var settings: SettingsManager
-    @State private var isCopied = false
-    private let text: String
-    
-    init(text: String) {
-        self.text = text
-    }
-    
-    var body: some View {
-        HStack {
-            Text(text)
-            Spacer()
-            Button {
-                isCopied = true
-                UIPasteboard.general.string = text
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                    isCopied = false
-                })
-            } label: {
-                Image(systemName: isCopied ? "checkmark" : "document.on.document")
-                    .foregroundStyle(settings.getAccentColor())
-                    .frame(width: 20, height: 20)
-            }
-            .buttonStyle(.bordered)
-            .contentTransition(.symbolEffect(.replace))
-            .sensoryFeedback(.impact(weight: .light), trigger: isCopied)
-        }
-            .multilineTextAlignment(.leading)
-            .lineLimit(3)
-            .fixedSize(horizontal: false, vertical: true)
-            .font(.system(size: 17))
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .frame(width: min(450, screenSize.width - 34), height: 100, alignment: .center)
-            .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-            .shadow(radius: 0.5)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

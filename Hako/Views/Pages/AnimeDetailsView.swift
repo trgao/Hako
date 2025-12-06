@@ -34,7 +34,6 @@ struct AnimeDetailsView: View {
         if itemList.count == 10 {
             itemList.removeFirst()
         }
-        print(itemList)
         itemList.append(ListItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, imageUrl: anime.mainPicture?.medium, type: .anime))
         settings.recentlyViewedItems = itemList
     }

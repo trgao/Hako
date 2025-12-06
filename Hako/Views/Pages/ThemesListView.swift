@@ -18,14 +18,11 @@ struct ThemesListView: View {
         List {
             ForEach(themes) { theme in
                 if let text = theme.text {
-                    Label(text, systemImage: "music.note")
-                        .contextMenu {
-                            Button {
-                                UIPasteboard.general.string = text.formatThemeSong()
-                            } label: {
-                                Label("Copy", systemImage: "document.on.document")
-                            }
-                        }
+                    HStack {
+                        Text(text)
+                        Spacer()
+                        CopySongButton(text: text.formatThemeSong())
+                    }
                 }
             }
         }

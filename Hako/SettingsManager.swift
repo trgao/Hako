@@ -43,6 +43,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideRandom") var hideRandom = false
     @AppStorage("hideExploreAnimeManga") var hideExploreAnimeManga = false
     @AppStorage("hideNews") var hideNews = false
+    @AppStorage("hideRecentlyViewed") var hideRecentlyViewed = false
     @AppStorage("hideAnimeForYou") var hideAnimeForYou = false
     @AppStorage("hideTopAiringAnime") var hideTopAiringAnime = false
     @AppStorage("hideTopUpcomingAnime") var hideTopUpcomingAnime = false
@@ -74,6 +75,8 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
+    
+    @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
     
     var animeRankings = ["all", "tv", "ova", "movie", "special", "bypopularity", "favorite"]
     var mangaRankings = ["all", "manga", "novels", "oneshots", "manhwa", "manhua", "bypopularity", "favorite"]

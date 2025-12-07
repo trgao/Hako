@@ -20,9 +20,7 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 
 ## Things to be done
 
-* Change alerts to banners toasts style
-* Add more context menus for grid/list items
 * Add iPad support for NavigationSplitView
-* Try integration with Spotify/Apple Music API (for opening and ending themes)
 * Try playing with live activities/widgets
 * Try adding notifications for upcoming episode
+* Add ability to view other people profiles (?)

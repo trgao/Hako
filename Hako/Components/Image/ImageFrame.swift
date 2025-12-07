@@ -42,35 +42,40 @@ struct ImageFrame: View {
     }
     
     var body: some View {
-        if fullscreen {
-            if let image = controller.image, settings.translucentBackground {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .overlay {
-                        Rectangle()
-                            .foregroundStyle(.thickMaterial)
-                            .padding(-500)
-                    }
-            } else {
-                Rectangle()
-                    .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
-                    .frame(width: width, height: height)
-            }
-        } else {
-            VStack {
-                if let image = controller.image {
+        VStack {
+            if fullscreen {
+                if let image = controller.image, settings.translucentBackground {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .overlay {
+                            Rectangle()
+                                .foregroundStyle(.thickMaterial)
+                                .padding(-500)
+                        }
                 } else {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.gray)
+                    Rectangle()
+                        .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
+                        .frame(width: width, height: height)
                 }
+            } else {
+                VStack {
+                    if let image = controller.image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle(.gray)
+                    }
+                }
+                .frame(width: width, height: height)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .task {
+            await controller.refresh()
         }
     }
 }

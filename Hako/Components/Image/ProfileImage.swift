@@ -57,6 +57,9 @@ struct ProfileImage: View {
                     .shadow(radius: 2)
             }
         }
+        .task {
+            await controller.refresh()
+        }
     }
     
     var cover: some View {

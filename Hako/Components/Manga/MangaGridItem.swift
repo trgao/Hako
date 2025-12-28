@@ -15,14 +15,16 @@ struct MangaGridItem: View {
     private let imageUrl: String?
     private let subtitle: String?
     private let manga: Manga
+    private let isRecentlyViewed: Bool
     
-    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil) {
+    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
         self.enTitle = enTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
         self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle)
+        self.isRecentlyViewed = isRecentlyViewed
     }
     
     var body: some View {
@@ -59,6 +61,13 @@ struct MangaGridItem: View {
                         }
                         ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                        if isRecentlyViewed {
+                            Button {
+                                settings.recentlyViewedItems.removeAll(where: { $0.id == "manga\(id)" })
+                            } label: {
+                                Label("Remove", systemImage: "trash")
+                            }
                         }
                     }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {

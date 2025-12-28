@@ -8,9 +8,7 @@
 import Foundation
 
 struct ListItem: Codable, Identifiable {
-    let id: Int
-    let title: String
-    let enTitle: String?
-    let imageUrl: String?
-    let type: TypeEnum
+    let id: String
+    let anime: Anime?
+    let manga: Manga?
 }

@@ -208,7 +208,7 @@ class SeasonsViewController: ObservableObject {
         updateCurrentSeasonCanLoadMore(true)
         isLoadingError = false
         do {
-            let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" }
+            let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" && $0.node.mediaType != "music" }
             updateCurrentSeasonPage(2)
             updateCurrentSeasonCanLoadMore(animeList.count > 450)
             if season == "winter" {
@@ -252,7 +252,7 @@ class SeasonsViewController: ObservableObject {
         updateCurrentSeasonLoading(true)
         isLoadingError = false
         do {
-            let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter{ $0.node.rating != "rx" }
+            let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter{ $0.node.rating != "rx" && $0.node.mediaType != "music" }
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
             updateCurrentSeasonCanLoadMore(animeList.count > 450)
             if season == "winter" {

@@ -29,12 +29,13 @@ struct MangaDetailsView: View {
         guard let manga = controller.manga else {
             return
         }
+        let id = "manga\(manga.id)"
         var itemList = settings.recentlyViewedItems
-        itemList.removeAll(where: { $0.id == manga.id && $0.type == .manga })
+        itemList.removeAll(where: { $0.id == id })
         if itemList.count == 10 {
             itemList.removeFirst()
         }
-        itemList.append(ListItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.medium, type: .manga))
+        itemList.append(ListItem(id: id, anime: nil, manga: manga))
         settings.recentlyViewedItems = itemList
     }
     
@@ -111,11 +112,6 @@ struct MangaDetailsView: View {
                         await controller.refresh()
                     }
                 }
-                .onChange(of: controller.isLoading) { prev, cur in
-                    if prev && !cur {
-                        addToRecentlyViewed()
-                    }
-                }
                 .task(id: isRefresh) {
                     if isRefresh || controller.isLoadingError {
                         await controller.refresh()
@@ -177,6 +173,11 @@ struct MangaDetailsView: View {
             }
             ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
                 Image(systemName: "square.and.arrow.up")
+            }
+        }
+        .onChange(of: controller.isLoading) { prev, cur in
+            if prev && !cur {
+                addToRecentlyViewed()
             }
         }
     }

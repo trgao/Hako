@@ -15,14 +15,16 @@ struct AnimeGridItem: View {
     private let imageUrl: String?
     private let subtitle: String?
     private let anime: Anime
+    private let isRecentlyViewed: Bool
     
-    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, anime: Anime? = nil) {
+    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, anime: Anime? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
         self.enTitle = enTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
         self.anime = anime ?? Anime(id: id, title: title ?? "", enTitle: enTitle)
+        self.isRecentlyViewed = isRecentlyViewed
     }
     
     var body: some View {
@@ -62,6 +64,13 @@ struct AnimeGridItem: View {
                         }
                         ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                        if isRecentlyViewed {
+                            Button {
+                                settings.recentlyViewedItems.removeAll(where: { $0.id == "anime\(id)" })
+                            } label: {
+                                Label("Remove", systemImage: "trash")
+                            }
                         }
                     }
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {

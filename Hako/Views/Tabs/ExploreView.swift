@@ -52,10 +52,10 @@ struct ExploreView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top) {
                     ForEach(settings.recentlyViewedItems.reversed()) { item in
-                        if item.type == .anime {
-                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl)
-                        } else if item.type == .manga {
-                            MangaGridItem(id: item.id, title: item.title, enTitle: item.enTitle, imageUrl: item.imageUrl)
+                        if let anime = item.anime {
+                            AnimeGridItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, imageUrl: anime.mainPicture?.medium, anime: anime, isRecentlyViewed: true)
+                        } else if let manga = item.manga {
+                            MangaGridItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.medium, manga: manga, isRecentlyViewed: true)
                         }
                     }
                 }

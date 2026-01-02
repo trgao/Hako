@@ -76,7 +76,9 @@ class MangaDetailsViewController: ObservableObject {
             self.manga = manga
             networker.mangaCache[id] = manga
         } catch {
-            isLoadingError = true
+            if case NetworkError.notFound = error {} else {
+                isLoadingError = true
+            }
         }
         isLoading = false
     }

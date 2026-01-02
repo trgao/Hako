@@ -124,19 +124,19 @@ struct MangaDetailsView: View {
                 .background {
                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                 }
-            }
-            if controller.isLoading && (controller.manga == nil || controller.manga!.isEmpty()) {
-                LoadingView()
-            }
-            if controller.manga == nil && !controller.isLoading && !controller.isLoadingError {
+            } else if !controller.isLoading {
                 VStack {
                     Image(systemName: "book.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                    Text("Nothing found")
+                        .padding(.bottom, 10)
+                    Text("Manga not found")
                         .bold()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            if controller.isLoading && (controller.manga == nil || controller.manga!.isEmpty()) {
+                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

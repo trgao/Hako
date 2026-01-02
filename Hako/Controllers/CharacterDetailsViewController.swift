@@ -45,7 +45,9 @@ class CharacterDetailsViewController: ObservableObject {
             self.character = character
             networker.characterCache[id] = character
         } catch {
-            isLoadingError = true
+            if case NetworkError.notFound = error {} else {
+                isLoadingError = true
+            }
         }
         isLoading = false
     }

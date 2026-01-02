@@ -92,6 +92,16 @@ struct CharacterDetailsView: View {
                 .background {
                     ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
                 }
+            } else if !controller.isLoading {
+                VStack {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .padding(.bottom, 10)
+                    Text("Character not found")
+                        .bold()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             if controller.isLoading && (controller.character == nil || controller.character!.isEmpty()) {
                 LoadingView()

@@ -82,7 +82,9 @@ class AnimeDetailsViewController: ObservableObject {
             self.anime = anime
             networker.animeCache[id] = anime
         } catch {
-            isLoadingError = true
+            if case NetworkError.notFound = error {} else {
+                isLoadingError = true
+            }
         }
         isLoading = false
     }

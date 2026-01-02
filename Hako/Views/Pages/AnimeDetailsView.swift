@@ -136,19 +136,19 @@ struct AnimeDetailsView: View {
                 .background {
                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                 }
-            }
-            if controller.isLoading && (controller.anime == nil || controller.anime!.isEmpty()) {
-                LoadingView()
-            }
-            if controller.anime == nil && !controller.isLoading && !controller.isLoadingError {
+            } else if !controller.isLoading {
                 VStack {
                     Image(systemName: "tv.fill")
                         .resizable()
                         .frame(width: 40, height: 40)
-                    Text("Nothing found")
+                        .padding(.bottom, 10)
+                    Text("Anime not found")
                         .bold()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            if controller.isLoading && (controller.anime == nil || controller.anime!.isEmpty()) {
+                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

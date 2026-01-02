@@ -100,6 +100,16 @@ struct PersonDetailsView: View {
                     .background {
                         ImageFrame(id: "person\(id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .background)
                     }
+                } else if !controller.isLoading {
+                    VStack {
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .padding(.bottom, 10)
+                        Text("Person not found")
+                            .bold()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 if controller.isLoading && (controller.person == nil || controller.person!.isEmpty()) {
                     LoadingView()

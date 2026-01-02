@@ -297,7 +297,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
             
         guard (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkError.badStatusCode(httpResponse.statusCode)
+            if httpResponse.statusCode == 404 {
+                throw NetworkError.notFound
+            } else {
+                throw NetworkError.badStatusCode(httpResponse.statusCode)
+            }
         }
             
         do {

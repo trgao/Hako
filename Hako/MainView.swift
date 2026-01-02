@@ -16,6 +16,9 @@ struct MainView: View {
     @State private var isAuthenticationError = false
     @State private var isSearchPresented = false
     @State private var isSearchRoot = true
+    @State private var urlSearchText = ""
+    @State private var urlItemType = SearchEnum.none
+    @State private var urlItemId: Int?
     
     init() {
         let tabBarAppearance = UITabBarAppearance()
@@ -75,7 +78,7 @@ struct MainView: View {
                             SeasonsView()
                         }
                         Tab("Explore", systemImage: "magnifyingglass", value: 2, role: .search) {
-                            ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                            ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText, urlItemType: $urlItemType, urlItemId: $urlItemId)
                         }
                         if !settings.useWithoutAccount {
                             Tab("My list", systemImage: "list.bullet", value: 3) {
@@ -103,7 +106,7 @@ struct MainView: View {
                                 Label("Seasons", systemImage: "calendar")
                             }
                             .tag(1)
-                        ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot)
+                        ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText, urlItemType: $urlItemType, urlItemId: $urlItemId)
                             .tabItem {
                                 Label("Explore", systemImage: "magnifyingglass")
                             }
@@ -146,6 +149,50 @@ struct MainView: View {
                 isUnlocked = false
             } else if prev == .background {
                 authenticate()
+            }
+        }
+        .onOpenURL { url in
+            // Check for correct url scheme
+            guard url.scheme == "hako" else {
+                return
+            }
+            
+            // Check for url components and host
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+                return
+            }
+
+            if host == "top" {
+                tab = 0
+            } else if host == "seasons" {
+                tab = 1
+            } else if host == "explore" {
+                tab = 2
+                urlSearchText = components.queryItems?.first(where: { $0.name == "query" })?.value ?? ""
+            } else if host == "mylist" {
+                tab = 3
+            } else if host == "settings" {
+                tab = 4
+            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "anime" {
+                tab = 2
+                isSearchPresented = false
+                urlItemType = .anime
+                urlItemId = Int(id)
+            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "manga" {
+                tab = 2
+                isSearchPresented = false
+                urlItemType = .manga
+                urlItemId = Int(id)
+            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "character" {
+                tab = 2
+                isSearchPresented = false
+                urlItemType = .character
+                urlItemId = Int(id)
+            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "person" {
+                tab = 2
+                isSearchPresented = false
+                urlItemType = .person
+                urlItemId = Int(id)
             }
         }
     }

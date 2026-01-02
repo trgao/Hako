@@ -30,6 +30,9 @@ struct ExploreView: View {
     @State private var searchTask: Task<Void, Never>?
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
+    @Binding private var urlSearchText: String
+    @Binding private var urlItemType: SearchEnum
+    @Binding private var urlItemId: Int?
     private let options = [
         ("Anime", SearchEnum.anime),
         ("Manga", SearchEnum.manga),
@@ -37,9 +40,12 @@ struct ExploreView: View {
         ("Person", SearchEnum.person),
     ]
     
-    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>) {
+    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>, urlSearchText: Binding<String>, urlItemType: Binding<SearchEnum>, urlItemId: Binding<Int?>) {
         self._isPresented = isPresented
         self._isRoot = isRoot
+        self._urlSearchText = urlSearchText
+        self._urlItemType = urlItemType
+        self._urlItemId = urlItemId
     }
     
     var recentlyViewed: some View {
@@ -373,6 +379,16 @@ struct ExploreView: View {
                 LoadingView()
             }
         }
+        .onChange(of: urlSearchText) {
+            if urlSearchText != "" {
+                searchText = ""
+                previousSearch = ""
+                controller.resetSearch()
+                isPresented = true
+                searchText = urlSearchText
+                urlSearchText = ""
+            }
+        }
         .task(id: searchText) {
             if searchText != previousSearch {
                 controller.isLoading = true
@@ -463,9 +479,11 @@ struct ExploreView: View {
             .ignoresSafeArea(.keyboard)
             .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
             .onChange(of: isPresented) {
-                searchText = ""
-                previousSearch = ""
-                controller.resetSearch()
+                if !isPresented {
+                    searchText = ""
+                    previousSearch = ""
+                    controller.resetSearch()
+                }
             }
             .navigationTitle("Explore")
             .toolbar {
@@ -510,6 +528,27 @@ struct ExploreView: View {
             }
             .onDisappear {
                 isRoot = false
+            }
+            .onChange(of: urlSearchText) {
+                if urlSearchText != "" {
+                    searchText = ""
+                    previousSearch = ""
+                    controller.resetSearch()
+                    isPresented = true
+                    searchText = urlSearchText
+                    urlSearchText = ""
+                }
+            }
+            .navigationDestination(item: $urlItemId) { id in
+                if urlItemType == .anime {
+                    AnimeDetailsView(id: id)
+                } else if urlItemType == .manga {
+                    MangaDetailsView(id: id)
+                } else if urlItemType == .character {
+                    CharacterDetailsView(id: id)
+                } else if urlItemType == .person {
+                    PersonDetailsView(id: id)
+                }
             }
         }
     }

@@ -168,7 +168,10 @@ struct MainView: View {
                 tab = 1
             } else if host == "explore" {
                 tab = 2
-                urlSearchText = components.queryItems?.first(where: { $0.name == "query" })?.value ?? ""
+                if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
+                    isSearchPresented = true
+                    urlSearchText = text
+                }
             } else if host == "mylist" {
                 tab = 3
             } else if host == "settings" {

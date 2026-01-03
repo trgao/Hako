@@ -379,12 +379,10 @@ struct ExploreView: View {
                 LoadingView()
             }
         }
-        .onChange(of: urlSearchText) {
+        .task(id: urlSearchText) {
             if urlSearchText != "" {
-                searchText = ""
                 previousSearch = ""
                 controller.resetSearch()
-                isPresented = true
                 searchText = urlSearchText
                 urlSearchText = ""
             }
@@ -528,16 +526,6 @@ struct ExploreView: View {
             }
             .onDisappear {
                 isRoot = false
-            }
-            .onChange(of: urlSearchText) {
-                if urlSearchText != "" {
-                    searchText = ""
-                    previousSearch = ""
-                    controller.resetSearch()
-                    isPresented = true
-                    searchText = urlSearchText
-                    urlSearchText = ""
-                }
             }
             .navigationDestination(item: $urlItemId) { id in
                 if urlItemType == .anime {

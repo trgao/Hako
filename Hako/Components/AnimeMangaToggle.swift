@@ -61,11 +61,13 @@ struct AnimeMangaToggle: View {
             } else if type == .manga {
                 type = .anime
             }
+        }
+        .onChange(of: type) {
             withAnimation {
                 if type == .anime {
-                    offset -= 34
+                    offset = -17
                 } else if type == .manga {
-                    offset += 34
+                    offset = 17
                 }
             }
         }

@@ -13,10 +13,21 @@ struct TopView: View {
     @State private var isInit = false
     @State private var offset: CGFloat = -18
     @State private var isRefresh = false
+    @Binding private var id: UUID
+    @Binding private var type: TypeEnum?
+    @Binding private var animeRanking: String?
+    @Binding private var mangaRanking: String?
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
     let networker = NetworkManager.shared
+    
+    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<String?>, mangaRanking: Binding<String?>) {
+        self._id = id
+        self._type = type
+        self._animeRanking = animeRanking
+        self._mangaRanking = mangaRanking
+    }
     
     // Display medals instead of numbers for the first 3 ranks
     private func rankToString(_ rank: Int?) -> String {
@@ -175,6 +186,24 @@ struct TopView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type)
                 }
+            }
+        }
+        .id(id)
+        .task(id: id) {
+            if let type = type {
+                controller.type = type
+            }
+            type = nil
+            if type == .anime {
+                if let animeRanking = animeRanking {
+                    controller.animeRankingType = animeRanking
+                }
+                animeRanking = nil
+            } else if type == .manga {
+                if let mangaRanking = mangaRanking {
+                    controller.mangaRankingType = mangaRanking
+                }
+                mangaRanking = nil
             }
         }
         .onAppear {

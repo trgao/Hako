@@ -39,9 +39,8 @@ class SeasonsViewController: ObservableObject {
     
     // Common variables
     @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
-    @Published var year = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
+    @Published var year = Constants.currentYear
     @Published var isLoadingError = false
-    let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     let networker = NetworkManager.shared
     
     // Check if the anime list for the current season is empty

@@ -5,7 +5,10 @@
 //  Created by Gao Tianrun on 30/11/25.
 //
 
+import Foundation
+
 struct Constants {
+    static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let seasons = ["winter", "spring", "summer", "fall"]
     
     // Since genres should not change much, I have decided to hard code this instead of relying on Jikan API genres endpoint
@@ -190,4 +193,12 @@ struct Constants {
         "9 - Great",
         "10 - Masterpiece"
     ]
+    
+    static let animeRankings = ["all", "tv", "ova", "movie", "special", "bypopularity", "favorite"]
+    static let mangaRankings = ["all", "manga", "novels", "oneshots", "manhwa", "manhua", "bypopularity", "favorite"]
+    
+    static let animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
+    static let animeSorts = ["list_score", "list_updated_at", "anime_title", "anime_start_date"]
+    static let mangaStatuses: [StatusEnum] = [.none, .reading, .completed, .onHold, .dropped, .planToRead]
+    static let mangaSorts = ["list_score", "list_updated_at", "manga_title", "manga_start_date"]
 }

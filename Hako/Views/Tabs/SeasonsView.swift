@@ -11,6 +11,9 @@ struct SeasonsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
+    @Binding private var id: UUID
+    @Binding private var year: Int?
+    @Binding private var season: String?
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
@@ -21,6 +24,12 @@ struct SeasonsView: View {
         ("Fall", "fall"),
     ]
     let networker = NetworkManager.shared
+    
+    init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<String?>) {
+        self._id = id
+        self._year = year
+        self._season = season
+    }
     
     @ViewBuilder private func SeasonView(_ season: String, _ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
@@ -98,7 +107,7 @@ struct SeasonsView: View {
             .toolbar {
                 Menu {
                     Picker(selection: $controller.year, label: EmptyView()) {
-                        ForEach((1917...controller.currentYear + 1).reversed(), id: \.self) { year in
+                        ForEach((1917...Constants.currentYear + 1).reversed(), id: \.self) { year in
                             Text(String(year)).tag(String(year))
                         }
                     }
@@ -118,6 +127,15 @@ struct SeasonsView: View {
                 }
                 .disabled(controller.getCurrentSeasonLoading())
             }
+        }
+        .id(id)
+        .task(id: id) {
+            if let year = year, let season = season {
+                controller.year = year
+                controller.season = season
+            }
+            year = nil
+            season = nil
         }
     }
 }

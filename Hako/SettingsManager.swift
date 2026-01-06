@@ -79,39 +79,31 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
     
-    var animeRankings = ["all", "tv", "ova", "movie", "special", "bypopularity", "favorite"]
-    var mangaRankings = ["all", "manga", "novels", "oneshots", "manhwa", "manhua", "bypopularity", "favorite"]
-    
-    var animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
-    var animeSorts = ["list_score", "list_updated_at", "anime_title", "anime_start_date"]
-    var mangaStatuses: [StatusEnum] = [.none, .reading, .completed, .onHold, .dropped, .planToRead]
-    var mangaSorts = ["list_score", "list_updated_at", "manga_title", "manga_start_date"]
-    
-    var colorSchemes: [ColorScheme?] = [nil, .light, .dark]
-    var accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
+    let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
+    let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     
     func getAnimeRanking() -> String {
-        return animeRankings[defaultAnimeRanking]
+        return Constants.animeRankings[defaultAnimeRanking]
     }
     
     func getMangaRanking() -> String {
-        return mangaRankings[defaultMangaRanking]
+        return Constants.mangaRankings[defaultMangaRanking]
     }
     
     func getAnimeStatus() -> StatusEnum {
-        return animeStatuses[defaultAnimeStatus]
+        return Constants.animeStatuses[defaultAnimeStatus]
     }
     
     func getAnimeSort() -> String {
-        return animeSorts[defaultAnimeSort]
+        return Constants.animeSorts[defaultAnimeSort]
     }
     
     func getMangaStatus() -> StatusEnum {
-        return mangaStatuses[defaultMangaStatus]
+        return Constants.mangaStatuses[defaultMangaStatus]
     }
     
     func getMangaSort() -> String {
-        return mangaSorts[defaultMangaSort]
+        return Constants.mangaSorts[defaultMangaSort]
     }
     
     func getLineLimit() -> Int? {

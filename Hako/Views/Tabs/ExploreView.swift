@@ -28,10 +28,11 @@ struct ExploreView: View {
     @State private var searchText = ""
     @State private var previousSearch = ""
     @State private var searchTask: Task<Void, Never>?
+    @Binding private var id: UUID
+    @Binding private var path: [ViewItem]
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
-    @Binding private var path: [ViewItem]
-    @Binding private var urlSearchText: String
+    @Binding private var urlSearchText: String?
     private let options = [
         ("Anime", SearchEnum.anime),
         ("Manga", SearchEnum.manga),
@@ -39,10 +40,11 @@ struct ExploreView: View {
         ("Person", SearchEnum.person),
     ]
     
-    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>, path: Binding<[ViewItem]>, urlSearchText: Binding<String>) {
+    init(id: Binding<UUID>, path: Binding<[ViewItem]>, isPresented: Binding<Bool>, isRoot: Binding<Bool>, urlSearchText: Binding<String?>) {
+        self._id = id
+        self._path = path
         self._isPresented = isPresented
         self._isRoot = isRoot
-        self._path = path
         self._urlSearchText = urlSearchText
     }
     
@@ -378,12 +380,12 @@ struct ExploreView: View {
             }
         }
         .task(id: urlSearchText) {
-            if urlSearchText != "" {
+            if let urlSearchText = urlSearchText {
                 previousSearch = ""
                 controller.resetSearch()
                 searchText = urlSearchText
-                urlSearchText = ""
             }
+            urlSearchText = nil
         }
         .task(id: searchText) {
             if searchText != previousSearch {
@@ -547,5 +549,6 @@ struct ExploreView: View {
                 }
             }
         }
+        .id(id)
     }
 }

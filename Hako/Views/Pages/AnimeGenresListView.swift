@@ -11,31 +11,31 @@ struct AnimeGenresListView: View {
     var body: some View {
         List {
             Section("Genres") {
-                ForEach(Constants.animeGenres) { item in
+                ForEach(Array(Constants.animeGenres.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeGenres[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.animeGenres[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Themes") {
-                ForEach(Constants.animeThemes) { item in
+                ForEach(Array(Constants.animeThemes.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeThemes[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.animeThemes[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Demographics") {
-                ForEach(Constants.animeDemographics) { item in
+                ForEach(Array(Constants.animeDemographics.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeDemographics[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.animeDemographics[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }

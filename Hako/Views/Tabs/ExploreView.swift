@@ -30,9 +30,8 @@ struct ExploreView: View {
     @State private var searchTask: Task<Void, Never>?
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
+    @Binding private var path: [ViewItem]
     @Binding private var urlSearchText: String
-    @Binding private var urlItemType: SearchEnum
-    @Binding private var urlItemId: Int?
     private let options = [
         ("Anime", SearchEnum.anime),
         ("Manga", SearchEnum.manga),
@@ -40,12 +39,11 @@ struct ExploreView: View {
         ("Person", SearchEnum.person),
     ]
     
-    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>, urlSearchText: Binding<String>, urlItemType: Binding<SearchEnum>, urlItemId: Binding<Int?>) {
+    init(isPresented: Binding<Bool>, isRoot: Binding<Bool>, path: Binding<[ViewItem]>, urlSearchText: Binding<String>) {
         self._isPresented = isPresented
         self._isRoot = isRoot
+        self._path = path
         self._urlSearchText = urlSearchText
-        self._urlItemType = urlItemType
-        self._urlItemId = urlItemId
     }
     
     var recentlyViewed: some View {
@@ -462,7 +460,7 @@ struct ExploreView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 if isPresented {
                     searchView
@@ -527,15 +525,25 @@ struct ExploreView: View {
             .onDisappear {
                 isRoot = false
             }
-            .navigationDestination(item: $urlItemId) { id in
-                if urlItemType == .anime {
-                    AnimeDetailsView(id: id)
-                } else if urlItemType == .manga {
-                    MangaDetailsView(id: id)
-                } else if urlItemType == .character {
-                    CharacterDetailsView(id: id)
-                } else if urlItemType == .person {
-                    PersonDetailsView(id: id)
+            .navigationDestination(for: ViewItem.self) { item in
+                if item.type == .anime {
+                    AnimeDetailsView(id: item.id)
+                } else if item.type == .manga {
+                    MangaDetailsView(id: item.id)
+                } else if item.type == .character {
+                    CharacterDetailsView(id: item.id)
+                } else if item.type == .person {
+                    PersonDetailsView(id: item.id)
+                } else if item.type == .animeGenre {
+                    GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                } else if item.type == .mangaGenre {
+                    GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                } else if item.type == .producer {
+                    GroupDetailsView(title: "", urlExtend: "producers=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                } else if item.type == .magazine {
+                    GroupDetailsView(title: "", urlExtend: "magazines=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                } else if item.type == .news {
+                    NewsListView()
                 }
             }
         }

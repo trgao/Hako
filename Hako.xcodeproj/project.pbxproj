@@ -49,6 +49,8 @@
 		EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582632DD8883900E0AF33 /* AltAppIcon.png */; };
 		EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */; };
 		EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */; };
+		EE38471F2F0CEA360081A79E /* ViewTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */; };
+		EE3847232F0CFAC70081A79E /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3847222F0CFAC50081A79E /* ViewItem.swift */; };
 		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
@@ -245,6 +247,8 @@
 		EE3582662DD8883900E0AF33 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		EE3582672DD8883900E0AF33 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		EE3582682DD8883900E0AF33 /* AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x.png"; sourceTree = "<group>"; };
+		EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypeEnum.swift; sourceTree = "<group>"; };
+		EE3847222F0CFAC50081A79E /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
 		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
@@ -640,6 +644,7 @@
 				EE9A891B2BEF38990048DD73 /* MALItem.swift */,
 				EE3D4F5B2EE3E11B00926357 /* ListItem.swift */,
 				EE9A891D2BEF39790048DD73 /* JikanListItem.swift */,
+				EE3847222F0CFAC50081A79E /* ViewItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -650,6 +655,7 @@
 				EEA693D62E126E1100FDAAD7 /* SearchEnum.swift */,
 				EEC1B9052BF12928001E08C4 /* TypeEnum.swift */,
 				EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */,
+				EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1091,6 +1097,7 @@
 				EE3A59C62BD23D0C009E9F79 /* Video.swift in Sources */,
 				EEC357942BE38E3600DAAB0B /* Voice.swift in Sources */,
 				EE91BE5E2BFCAB42002AC6C4 /* Person.swift in Sources */,
+				EE3847232F0CFAC70081A79E /* ViewItem.swift in Sources */,
 				EE9A891A2BEF37A50048DD73 /* Season.swift in Sources */,
 				EEA5E94E2CEE8D4100B2513B /* GeneralView.swift in Sources */,
 				EEFEFD532BF3880D00200AF1 /* pkce.swift in Sources */,
@@ -1133,6 +1140,7 @@
 				EE8BE6322DFDD86A00D09F46 /* ReviewDetailsView.swift in Sources */,
 				EEEEA3172DD32F6A00302A81 /* PageList.swift in Sources */,
 				EEC357822BE3612C00DAAB0B /* JikanCharactersListResponse.swift in Sources */,
+				EE38471F2F0CEA360081A79E /* ViewTypeEnum.swift in Sources */,
 				EE58F88F2E78367A002CC1ED /* ListErrorView.swift in Sources */,
 				EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */,
 				EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */,

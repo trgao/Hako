@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension String {    
+extension String {
     func index(of string: String) -> Index? {
         return range(of: string, options: .literal)?.lowerBound
     }

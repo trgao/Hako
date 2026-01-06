@@ -16,8 +16,9 @@ struct MainView: View {
     @State private var isAuthenticationError = false
     @State private var isSearchPresented = false
     @State private var isSearchRoot = true
+    @State private var explorePath = [ViewItem]()
     @State private var urlSearchText = ""
-    @State private var urlItemType = SearchEnum.none
+    @State private var urlItemType = ViewTypeEnum.none
     @State private var urlItemId: Int?
     
     init() {
@@ -78,7 +79,7 @@ struct MainView: View {
                             SeasonsView()
                         }
                         Tab("Explore", systemImage: "magnifyingglass", value: 2, role: .search) {
-                            ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText, urlItemType: $urlItemType, urlItemId: $urlItemId)
+                            ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, path: $explorePath, urlSearchText: $urlSearchText)
                         }
                         if !settings.useWithoutAccount {
                             Tab("My list", systemImage: "list.bullet", value: 3) {
@@ -106,7 +107,7 @@ struct MainView: View {
                                 Label("Seasons", systemImage: "calendar")
                             }
                             .tag(1)
-                        ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText, urlItemType: $urlItemType, urlItemId: $urlItemId)
+                        ExploreView(isPresented: $isSearchPresented, isRoot: $isSearchRoot, path: $explorePath, urlSearchText: $urlSearchText)
                             .tabItem {
                                 Label("Explore", systemImage: "magnifyingglass")
                             }
@@ -161,7 +162,7 @@ struct MainView: View {
             guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
                 return
             }
-
+            
             if host == "top" {
                 tab = 0
             } else if host == "seasons" {
@@ -176,26 +177,20 @@ struct MainView: View {
                 tab = 3
             } else if host == "settings" {
                 tab = 4
-            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "anime" {
+            } else if host == "news" {
                 tab = 2
                 isSearchPresented = false
-                urlItemType = .anime
-                urlItemId = Int(id)
-            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "manga" {
-                tab = 2
-                isSearchPresented = false
-                urlItemType = .manga
-                urlItemId = Int(id)
-            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "character" {
-                tab = 2
-                isSearchPresented = false
-                urlItemType = .character
-                urlItemId = Int(id)
-            } else if let id = components.queryItems?.first(where: { $0.name == "id" })?.value, host == "person" {
-                tab = 2
-                isSearchPresented = false
-                urlItemType = .person
-                urlItemId = Int(id)
+                explorePath.append(ViewItem(type: .news, id: 1))
+            } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
+                if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
+                    tab = 2
+                    isSearchPresented = false
+                    explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
+                } else if host == "anime" || host == "manga" || host == "character" || host == "person" || host == "producer" || host == "magazine" {
+                    tab = 2
+                    isSearchPresented = false
+                    explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id))
+                }
             }
         }
     }

@@ -11,31 +11,31 @@ struct MangaGenresListView: View {
     var body: some View {
         List {
             Section("Genres") {
-                ForEach(Constants.mangaGenres) { item in
+                ForEach(Array(Constants.mangaGenres.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaGenres[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.mangaGenres[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Themes") {
-                ForEach(Constants.mangaThemes) { item in
+                ForEach(Array(Constants.mangaThemes.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaThemes[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.mangaThemes[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Demographics") {
-                ForEach(Constants.mangaDemographics) { item in
+                ForEach(Array(Constants.mangaDemographics.keys), id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: item.name, urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaDemographics[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
                     } label: {
-                        Text(item.name)
+                        Text(Constants.mangaDemographics[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }

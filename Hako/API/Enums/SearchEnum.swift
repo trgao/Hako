@@ -6,5 +6,5 @@
 //
 
 enum SearchEnum {
-    case anime, manga, character, person, none
+    case anime, manga, character, person
 }

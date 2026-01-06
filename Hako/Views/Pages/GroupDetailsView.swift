@@ -13,13 +13,11 @@ struct GroupDetailsView: View {
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
-    private let title: String
-    private let urlExtend: String
+    private let title: String?
     private let type: TypeEnum
     
-    init(title: String, urlExtend: String, type: TypeEnum) {
+    init(title: String?, urlExtend: String, type: TypeEnum) {
         self.title = title
-        self.urlExtend = urlExtend
         self.type = type
         self._controller = StateObject(wrappedValue: GroupDetailsViewController(urlExtend: urlExtend, type: type))
     }
@@ -28,7 +26,7 @@ struct GroupDetailsView: View {
         ZStack {
             if controller.isLoadingError && controller.items.isEmpty {
                 ErrorView(refresh: controller.refresh)
-            } else {
+            } else if !controller.items.isEmpty {
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach(Array(controller.items.enumerated()), id: \.1.id) { index, item in
@@ -56,11 +54,21 @@ struct GroupDetailsView: View {
                         isRefresh = true
                     }
                 }
-                if controller.isLoading {
-                    LoadingView()
+            } else if !controller.isLoading {
+                VStack {
+                    Image(systemName: "text.page.fill")
+                        .resizable()
+                        .frame(width: 30, height: 40)
+                        .padding(.bottom, 10)
+                    Text("Page not found")
+                        .bold()
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            if controller.isLoading {
+                LoadingView()
             }
         }
-        .navigationTitle(title)
+        .navigationTitle(title ?? "")
     }
 }

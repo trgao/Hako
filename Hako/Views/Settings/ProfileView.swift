@@ -45,7 +45,7 @@ struct ProfileView: View {
                     if !settings.hideUserAnimeStatistics {
                         ScrollViewSection(title: "Anime statistics") {
                             StatisticsRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
-                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star", color: .yellow)
+                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star.fill", color: .yellow)
                             StatisticsRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
                             StatisticsRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
                             StatisticsRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
@@ -57,7 +57,7 @@ struct ProfileView: View {
                     if !settings.hideUserMangaStatistics {
                         ScrollViewSection(title: "Manga statistics") {
                             StatisticsRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
-                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star", color: .yellow)
+                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star.fill", color: .yellow)
                             StatisticsRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
                             StatisticsRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
                             StatisticsRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)

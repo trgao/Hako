@@ -55,7 +55,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>The app needs access to photo library to save images</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>The app needs Face ID to lock user anime and manga list</string>
+	<string>The app needs Face ID to lock the app</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -71,7 +71,7 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-    		<string>spotify</string>
+		<string>spotify</string>
 		<string>music</string>
 	</array>
 </dict>

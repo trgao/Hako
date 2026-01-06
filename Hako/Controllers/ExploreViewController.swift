@@ -93,7 +93,7 @@ class ExploreViewController: ObservableObject {
                     if self.newlyAddedAnime.count == 10 {
                         break
                     }
-                    if !ids.contains(item.id) && item.type != "Music" {
+                    if !ids.contains(item.id) && item.type != "Music" && item.type != "Pv" {
                         ids.insert(item.id)
                         self.newlyAddedAnime.append(item)
                     }

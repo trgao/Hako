@@ -5,15 +5,7 @@
 
 import Foundation
 
-extension String {
-    func camelCaseToWords() -> String {
-        return unicodeScalars.dropFirst().reduce(String(prefix(1))) {
-            return (CharacterSet.uppercaseLetters.contains($1)
-                ? $0 + " " + String($1)
-                    : $0 + String($1)).capitalized
-        }
-    }
-    
+extension String {    
     func index(of string: String) -> Index? {
         return range(of: string, options: .literal)?.lowerBound
     }
@@ -30,7 +22,7 @@ extension String {
     
     func formatMediaType() -> String {
         let cur = self.lowercased()
-        if cur == "tv" || cur == "ova" || cur == "ona" {
+        if cur == "tv" || cur == "ova" || cur == "ona" || cur == "pv" {
             return cur.uppercased()
         } else if cur == "tv_special" {
             return "Special"

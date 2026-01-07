@@ -39,7 +39,7 @@ struct ProfileImage: View {
         return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
     
-    var label: some View {
+    private var label: some View {
         VStack {
             if let image = controller.image {
                 Image(uiImage: image)
@@ -62,7 +62,7 @@ struct ProfileImage: View {
         }
     }
     
-    var cover: some View {
+    private var cover: some View {
         VStack(alignment: .trailing) {
             Button {
                 isPresented = false

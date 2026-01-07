@@ -18,16 +18,7 @@ struct PickerRow: View {
         self.labels = labels
     }
     
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundStyle(Color.primary)
-            Spacer()
-            menu
-        }
-    }
-    
-    var menu: some View {
+    private var menu: some View {
         Menu {
             ForEach(labels.indices, id: \.self) { index in
                 if !labels[index].isEmpty {
@@ -51,6 +42,15 @@ struct PickerRow: View {
                 Image(systemName: "chevron.down")
                     .font(.system(size: 13))
             }
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            Text(title)
+                .foregroundStyle(Color.primary)
+            Spacer()
+            menu
         }
     }
 }

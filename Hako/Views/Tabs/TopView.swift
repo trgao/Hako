@@ -42,7 +42,7 @@ struct TopView: View {
         }
     }
     
-    var filter: some View {
+    private var filter: some View {
         Menu {
             if controller.type == .anime {
                 Picker(selection: $controller.animeRankingType, label: Text("Rank type")) {

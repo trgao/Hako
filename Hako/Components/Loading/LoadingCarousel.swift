@@ -8,30 +8,18 @@
 import SwiftUI
 
 struct LoadingCarousel: View {
-    private let title: String
     private let dummyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     
-    init(title: String) {
-        self.title = title
-    }
-    
     var body: some View {
-        VStack {
-            Text(title)
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.system(size: 17))
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top) {
-                    ForEach(dummyList, id: \.self) { id in
-                        AnimeGridItem(id: id, title: "placeholder", enTitle: "placeholder", imageUrl: nil)
-                            .skeleton()
-                    }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top) {
+                ForEach(dummyList, id: \.self) { id in
+                    AnimeGridItem(id: id, title: "placeholder", enTitle: "placeholder", imageUrl: nil)
+                        .skeleton()
                 }
-                .padding(.horizontal, 17)
             }
-            .disabled(true)
+            .padding(.horizontal, 17)
         }
+        .disabled(true)
     }
 }

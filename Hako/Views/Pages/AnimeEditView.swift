@@ -58,7 +58,7 @@ struct AnimeEditView: View {
                 VStack {
                     PageList {
                         Section {
-                            AnimeStatusPickerRow(selection: $listStatus.status)
+                            StatusPickerRow(selection: $listStatus.status, type: .anime)
                                 .onChange(of: listStatus.status) { _, status in
                                     if status == .watching && listStatus.startDate == nil && settings.autofillStartDate {
                                         listStatus.startDate = Date()
@@ -268,68 +268,3 @@ struct AnimeEditView: View {
         .checkSwipeDismissChanges(isDisabled: listStatus != initialData, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
     }
 }
-
-private func statusToIndex(_ status: StatusEnum?) -> Int {
-    if status == .watching {
-        return 0
-    } else if status == .completed {
-        return 1
-    } else if status == .onHold {
-        return 2
-    } else if status == .dropped {
-        return 3
-    } else {
-        return 4
-    }
-}
-
-struct AnimeStatusPickerRow: View {
-    @State private var selected: Int
-    @Binding var selection: StatusEnum?
-    private let labels = ["Watching", "Completed", "On hold", "Dropped", "Plan to watch"]
-    private let mappings: [StatusEnum?] = [.watching, .completed, .onHold, .dropped, .planToWatch]
-    
-    init(selection: Binding<StatusEnum?>) {
-        self._selection = selection
-        self.selected = statusToIndex(selection.wrappedValue)
-    }
-    
-    var body: some View {
-        HStack {
-            Text("Status")
-                .foregroundStyle(Color.primary)
-            Spacer()
-            menu
-        }
-    }
-    
-    var menu: some View {
-        Menu {
-            ForEach(labels.indices, id: \.self) { index in
-                Button {
-                    selected = index
-                    selection = mappings[index]
-                } label: {
-                    if selected == index {
-                        HStack {
-                            Image(systemName: "checkmark")
-                            Text(labels[index])
-                        }
-                    } else {
-                        Text(labels[index])
-                    }
-                }
-            }
-        } label: {
-            HStack {
-                Text(labels[selected])
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 13))
-            }
-        }
-        .onChange(of: selection) { _, cur in
-            selected = statusToIndex(cur)
-        }
-    }
-}
-

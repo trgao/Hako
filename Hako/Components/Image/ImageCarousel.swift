@@ -29,7 +29,7 @@ struct ImageCarousel: View {
         self.pictures = allPictures
     }
     
-    var image: some View {
+    private var image: some View {
         Button {
             isPicturesPresented = true
         } label: {
@@ -37,7 +37,7 @@ struct ImageCarousel: View {
         }
     }
     
-    var carousel: some View {
+    private var carousel: some View {
         NavigationStack {
             ZStack {
                 TabView(selection: $selection) {

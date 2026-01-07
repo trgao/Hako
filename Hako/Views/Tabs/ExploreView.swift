@@ -41,7 +41,7 @@ struct ExploreView: View {
         self._urlSearchText = urlSearchText
     }
     
-    var recentlyViewed: some View {
+    private var recentlyViewed: some View {
         VStack {
             Text("Recently viewed")
                 .bold()
@@ -65,28 +65,26 @@ struct ExploreView: View {
         }
     }
     
-    var animeSuggestions: some View {
+    private var animeSuggestions: some View {
         VStack {
+            Text("Anime for you")
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 35)
+                .font(.system(size: 17))
             if controller.animeSuggestions.isEmpty {
-                LoadingCarousel(title: "Anime for you")
+                LoadingCarousel()
             } else {
-                VStack {
-                    Text("Anime for you")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.animeSuggestions) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                            }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.animeSuggestions) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 50)
                     }
-                    .padding(.top, -50)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
         .task {
@@ -94,28 +92,26 @@ struct ExploreView: View {
         }
     }
     
-    var topAiringAnime: some View {
+    private var topAiringAnime: some View {
         VStack {
+            Text("Top airing anime")
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 35)
+                .font(.system(size: 17))
             if controller.topAiringAnime.isEmpty {
-                LoadingCarousel(title: "Top airing anime")
+                LoadingCarousel()
             } else {
-                VStack {
-                    Text("Top airing anime")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.topAiringAnime) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                            }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.topAiringAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 50)
                     }
-                    .padding(.top, -50)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
         .task {
@@ -123,28 +119,26 @@ struct ExploreView: View {
         }
     }
     
-    var topUpcomingAnime: some View {
+    private var topUpcomingAnime: some View {
         VStack {
+            Text("Top upcoming anime")
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 35)
+                .font(.system(size: 17))
             if controller.topUpcomingAnime.isEmpty {
-                LoadingCarousel(title: "Top upcoming anime")
+                LoadingCarousel()
             } else {
-                VStack {
-                    Text("Top upcoming anime")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.topUpcomingAnime) { item in
-                                AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                            }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.topUpcomingAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 50)
                     }
-                    .padding(.top, -50)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
         .task {
@@ -152,28 +146,26 @@ struct ExploreView: View {
         }
     }
     
-    var newlyAddedAnime: some View {
+    private var newlyAddedAnime: some View {
         VStack {
+            Text("Newly added anime")
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 35)
+                .font(.system(size: 17))
             if controller.newlyAddedAnime.isEmpty {
-                LoadingCarousel(title: "Newly added anime")
+                LoadingCarousel()
             } else {
-                VStack {
-                    Text("Newly added anime")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.newlyAddedAnime) { item in
-                                AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
-                            }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.newlyAddedAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 50)
                     }
-                    .padding(.top, -50)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
         .task {
@@ -181,28 +173,26 @@ struct ExploreView: View {
         }
     }
     
-    var newlyAddedManga: some View {
+    private var newlyAddedManga: some View {
         VStack {
+            Text("Newly added manga")
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 35)
+                .font(.system(size: 17))
             if controller.newlyAddedManga.isEmpty {
-                LoadingCarousel(title: "Newly added manga")
+                LoadingCarousel()
             } else {
-                VStack {
-                    Text("Newly added manga")
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 35)
-                        .font(.system(size: 17))
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.newlyAddedManga) { item in
-                                MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
-                            }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top) {
+                        ForEach(controller.newlyAddedManga) { item in
+                            MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 50)
                     }
-                    .padding(.top, -50)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 50)
                 }
+                .padding(.top, -50)
             }
         }
         .task {
@@ -210,7 +200,7 @@ struct ExploreView: View {
         }
     }
     
-    var exploreView: some View {
+    private var exploreView: some View {
         ScrollView {
             VStack {
                 VStack {
@@ -260,7 +250,7 @@ struct ExploreView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
-    var nothingFoundView: some View {
+    private var nothingFoundView: some View {
         VStack {
             Image(systemName: "magnifyingglass")
                 .resizable()
@@ -273,7 +263,7 @@ struct ExploreView: View {
         .padding(.vertical, 50)
     }
     
-    var searchView: some View {
+    private var searchView: some View {
         ZStack {
             VStack {
                 if controller.isLoading {

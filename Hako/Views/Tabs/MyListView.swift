@@ -40,7 +40,7 @@ struct MyListView: View {
         self._mangaSort = mangaSort
     }
     
-    var filter: some View {
+    private var filter: some View {
         Menu {
             if controller.type == .anime {
                 Picker(selection: $controller.animeStatus, label: Text("Status")) {
@@ -102,7 +102,7 @@ struct MyListView: View {
         }
     }
     
-    var animeList: some View {
+    private var animeList: some View {
         VStack {
             if controller.isAnimeLoading && controller.animeItems.isEmpty {
                 List {
@@ -175,7 +175,7 @@ struct MyListView: View {
         }
     }
     
-    var mangaList: some View {
+    private var mangaList: some View {
         VStack {
             if controller.isMangaLoading && controller.mangaItems.isEmpty {
                 List {

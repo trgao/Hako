@@ -11,17 +11,12 @@ struct SeasonsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
+    @State private var isLink = false
     @Binding private var id: UUID
     @Binding private var year: Int?
     @Binding private var season: String?
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
-    ]
-    private let options = [
-        ("Winter", "winter"),
-        ("Spring", "spring"),
-        ("Summer", "summer"),
-        ("Fall", "fall"),
     ]
     let networker = NetworkManager.shared
     
@@ -75,11 +70,14 @@ struct SeasonsView: View {
                 } else if controller.season == "fall" {
                     SeasonView("fall", controller.fallItems, controller.fallContinuingItems)
                 }
-                TabPicker(selection: $controller.season, options: options, refresh: {
-                    if controller.shouldRefresh() {
-                        await controller.refresh()
+                TabPicker(selection: $controller.season, options: [("Winter", "winter"), ("Spring", "spring"), ("Summer", "summer"), ("Fall", "fall")])
+                    .onChange(of: controller.season) {
+                        Task {
+                            if controller.shouldRefresh() && !isLink {
+                                await controller.refresh()
+                            }
+                        }
                     }
-                })
                     .disabled(controller.getCurrentSeasonLoading())
                 if controller.getCurrentSeasonLoading() {
                     LoadingView()
@@ -96,7 +94,7 @@ struct SeasonsView: View {
             }
             .navigationTitle(controller.season.capitalized)
             .task(id: isRefresh) {
-                if controller.shouldRefresh() || isRefresh {
+                if !isLink && (controller.shouldRefresh() || isRefresh) {
                     await controller.refresh()
                     isRefresh = false
                 }
@@ -113,7 +111,9 @@ struct SeasonsView: View {
                     }
                     .onChange(of: controller.year) {
                         Task {
-                            await controller.refresh(true)
+                            if !isLink {
+                                await controller.refresh(true)
+                            }
                         }
                     }
                 } label: {
@@ -131,8 +131,11 @@ struct SeasonsView: View {
         .id(id)
         .task(id: id) {
             if let year = year, let season = season {
+                isLink = true
                 controller.year = year
                 controller.season = season
+                await controller.refresh(true)
+                isLink = false
             }
             year = nil
             season = nil

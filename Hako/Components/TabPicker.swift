@@ -11,12 +11,10 @@ struct TabPicker<T: Hashable>: View {
     @Environment(\.colorScheme) private var colorScheme
     @Binding private var selection: T
     private let options: [(String, T)]
-    private let refresh: () async -> Void
     
-    init(selection: Binding<T>, options: [(String, T)], refresh: @escaping () async -> Void) {
+    init(selection: Binding<T>, options: [(String, T)]) {
         self._selection = selection
         self.options = options
-        self.refresh = refresh
     }
     
     private func getPadding() -> CGFloat {
@@ -48,9 +46,6 @@ struct TabPicker<T: Hashable>: View {
             .padding(.horizontal, getPadding())
             .padding(.bottom, 1)
             .sensoryFeedback(.impact(weight: .light), trigger: selection)
-            .task(id: selection) {
-                await refresh()
-            }
         }
         .frame(height: 42)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)

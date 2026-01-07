@@ -223,15 +223,13 @@ class SeasonsViewController: ObservableObject {
                 fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             }
-        } catch let error as NetworkError {
+        } catch {
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
             } else {
                 isLoadingError = true
             }
-        } catch {
-            isLoadingError = true
         }
         updateCurrentSeasonLoading(false)
     }
@@ -267,15 +265,13 @@ class SeasonsViewController: ObservableObject {
                 fallItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 fallContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             }
-        } catch let error as NetworkError {
+        } catch {
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
             } else {
                 isLoadingError = true
             }
-        } catch {
-            isLoadingError = true
         }
         updateCurrentSeasonLoading(false)
     }

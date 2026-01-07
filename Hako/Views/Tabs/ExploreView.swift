@@ -33,12 +33,6 @@ struct ExploreView: View {
     @Binding private var isPresented: Bool
     @Binding private var isRoot: Bool
     @Binding private var urlSearchText: String?
-    private let options = [
-        ("Anime", SearchEnum.anime),
-        ("Manga", SearchEnum.manga),
-        ("Character", SearchEnum.character),
-        ("Person", SearchEnum.person),
-    ]
     
     init(id: Binding<UUID>, path: Binding<[ViewItem]>, isPresented: Binding<Bool>, isRoot: Binding<Bool>, urlSearchText: Binding<String?>) {
         self._id = id
@@ -470,7 +464,7 @@ struct ExploreView: View {
                     exploreView
                 }
                 if isPresented {
-                    TabPicker(selection: $controller.type, options: options, refresh: {})
+                    TabPicker(selection: $controller.type, options: [("Anime", SearchEnum.anime), ("Manga", SearchEnum.manga), ("Character", SearchEnum.character), ("Person", SearchEnum.person)])
                 }
             }
             .scrollDismissesKeyboard(.immediately)

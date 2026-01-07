@@ -20,7 +20,7 @@ struct AppearanceView: View {
             }
             Section("Accent color") {
                 HStack {
-                    ForEach(Array(settings.accentColors.enumerated()), id: \.offset) { index, color in
+                    ForEach(Array(Constants.accentColors.enumerated()), id: \.offset) { index, color in
                         Button {
                             settings.accentColor = index
                         } label: {

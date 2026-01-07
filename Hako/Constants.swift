@@ -5,9 +5,12 @@
 //  Created by Gao Tianrun on 30/11/25.
 //
 
-import Foundation
+import SwiftUI
 
 struct Constants {
+    static let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
+    static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
+    
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let seasons = ["winter", "spring", "summer", "fall"]
     

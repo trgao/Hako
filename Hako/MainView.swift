@@ -44,16 +44,7 @@ struct MainView: View {
     // Settings tab
     @State private var settingsId = UUID()
     
-    init() {
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithTransparentBackground()
-        navBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-    }
-    
-    var tabBinding: Binding<Int> { Binding(
+    private var tabBinding: Binding<Int> { Binding(
         get: {
             self.tab
         },
@@ -65,7 +56,17 @@ struct MainView: View {
         }
     )}
     
-    func authenticate() {
+    init() {
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithTransparentBackground()
+        navBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
+    
+    // Handle FaceID
+    private func authenticate() {
         guard settings.useFaceID else {
             return
         }
@@ -85,6 +86,113 @@ struct MainView: View {
             }
         } else {
             isAuthenticationError = true
+        }
+    }
+    
+    // Handle deep links
+    private func handleUrl(url: URL) {
+        // Check for correct url scheme
+        guard url.scheme == "hako" else {
+            return
+        }
+        
+        // Check for url components and host
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+            return
+        }
+        
+        if host == "top" {
+            tab = 0
+            topId = UUID()
+            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
+                if type == "anime" {
+                    topType = .anime
+                    if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.animeRankings.contains(ranking) {
+                        animeRanking = ranking
+                    }
+                } else if type == "manga" {
+                    topType = .manga
+                    if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.mangaRankings.contains(ranking) {
+                        mangaRanking = ranking
+                    }
+                }
+            }
+        } else if host == "seasons" {
+            tab = 1
+            seasonsId = UUID()
+            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
+                year = yearInt
+            }
+            if let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, Constants.seasons.contains(seasonText) {
+                season = seasonText
+            }
+        } else if host == "explore" {
+            tab = 2
+            exploreId = UUID()
+            if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
+                isSearchPresented = true
+                urlSearchText = text
+            }
+        } else if host == "mylist" {
+            tab = 3
+            listId = UUID()
+            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
+                if type == "anime" {
+                    listType = .anime
+                    animeStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
+                    if animeStatus == .reading || animeStatus == .planToRead {
+                        animeStatus = StatusEnum.none
+                    }
+                    if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.animeSorts.contains(sort) {
+                        animeSort = sort
+                    }
+                } else if type == "manga" {
+                    listType = .manga
+                    mangaStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
+                    if mangaStatus == .watching || mangaStatus == .planToWatch {
+                        mangaStatus = StatusEnum.none
+                    }
+                    if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.mangaSorts.contains(sort) {
+                        mangaSort = sort
+                    }
+                }
+            }
+        } else if host == "settings" {
+            tab = 4
+            settingsId = UUID()
+        } else if host == "news" {
+            tab = 2
+            exploreId = UUID()
+            isSearchPresented = false
+            explorePath.append(ViewItem(type: .news, id: 1))
+        } else if host == "exploreAnime" {
+            tab = 2
+            exploreId = UUID()
+            isSearchPresented = false
+            explorePath.append(ViewItem(type: .exploreAnime, id: 1))
+        } else if host == "exploreManga" {
+            tab = 2
+            exploreId = UUID()
+            isSearchPresented = false
+            explorePath.append(ViewItem(type: .exploreManga, id: 1))
+        } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
+            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
+            } else if host == "anime" || host == "manga" || host == "character" || host == "person" {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id))
+            } else if host == "producer" || host == "magazine" {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                let name = components.queryItems?.first(where: { $0.name == "name" })?.value
+                explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id, name: name))
+            }
         }
     }
     
@@ -175,110 +283,6 @@ struct MainView: View {
                 authenticate()
             }
         }
-        .onOpenURL { url in
-            // Check for correct url scheme
-            guard url.scheme == "hako" else {
-                return
-            }
-            
-            // Check for url components and host
-            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
-                return
-            }
-            
-            if host == "top" {
-                tab = 0
-                topId = UUID()
-                if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
-                    if type == "anime" {
-                        topType = .anime
-                        if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.animeRankings.contains(ranking) {
-                            animeRanking = ranking
-                        }
-                    } else if type == "manga" {
-                        topType = .manga
-                        if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.mangaRankings.contains(ranking) {
-                            mangaRanking = ranking
-                        }
-                    }
-                }
-            } else if host == "seasons" {
-                tab = 1
-                seasonsId = UUID()
-                if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
-                    year = yearInt
-                }
-                if let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, Constants.seasons.contains(seasonText) {
-                    season = seasonText
-                }
-            } else if host == "explore" {
-                tab = 2
-                exploreId = UUID()
-                if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
-                    isSearchPresented = true
-                    urlSearchText = text
-                }
-            } else if host == "mylist" {
-                tab = 3
-                listId = UUID()
-                if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
-                    if type == "anime" {
-                        listType = .anime
-                        animeStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
-                        if animeStatus == .reading || animeStatus == .planToRead {
-                            animeStatus = StatusEnum.none
-                        }
-                        if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.animeSorts.contains(sort) {
-                            animeSort = sort
-                        }
-                    } else if type == "manga" {
-                        listType = .manga
-                        mangaStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
-                        if mangaStatus == .watching || mangaStatus == .planToWatch {
-                            mangaStatus = StatusEnum.none
-                        }
-                        if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.mangaSorts.contains(sort) {
-                            mangaSort = sort
-                        }
-                    }
-                }
-            } else if host == "settings" {
-                tab = 4
-                settingsId = UUID()
-            } else if host == "news" {
-                tab = 2
-                exploreId = UUID()
-                isSearchPresented = false
-                explorePath.append(ViewItem(type: .news, id: 1))
-            } else if host == "exploreAnime" {
-                tab = 2
-                exploreId = UUID()
-                isSearchPresented = false
-                explorePath.append(ViewItem(type: .exploreAnime, id: 1))
-            } else if host == "exploreManga" {
-                tab = 2
-                exploreId = UUID()
-                isSearchPresented = false
-                explorePath.append(ViewItem(type: .exploreManga, id: 1))
-            } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
-                if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
-                    tab = 2
-                    exploreId = UUID()
-                    isSearchPresented = false
-                    explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
-                } else if host == "anime" || host == "manga" || host == "character" || host == "person" {
-                    tab = 2
-                    exploreId = UUID()
-                    isSearchPresented = false
-                    explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id))
-                } else if host == "producer" || host == "magazine" {
-                    tab = 2
-                    exploreId = UUID()
-                    isSearchPresented = false
-                    let name = components.queryItems?.first(where: { $0.name == "name" })?.value
-                    explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id, name: name))
-                }
-            }
-        }
+        .onOpenURL(perform: handleUrl)
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 @MainActor
 class SettingsManager: ObservableObject {
+    // General
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("defaultView") var defaultView = 0
     @AppStorage("hideTop") var hideTop = false
@@ -31,6 +32,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("autofillStartDate") var autofillStartDate = true
     @AppStorage("autofillEndDate") var autofillEndDate = true
     
+    // Appearance
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
     @AppStorage("translucentBackground") var translucentBackground = true
@@ -38,6 +40,8 @@ class SettingsManager: ObservableObject {
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
     
+    
+    // Hide items
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideRandom") var hideRandom = false
@@ -79,9 +83,6 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
     
-    let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
-    let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
-    
     func getAnimeRanking() -> String {
         return Constants.animeRankings[defaultAnimeRanking]
     }
@@ -111,10 +112,10 @@ class SettingsManager: ObservableObject {
     }
     
     func getColorScheme() -> ColorScheme? {
-        return colorSchemes[colorScheme]
+        return Constants.colorSchemes[colorScheme]
     }
     
     func getAccentColor() -> Color {
-        return accentColors[accentColor]
+        return Constants.accentColors[accentColor]
     }
 }

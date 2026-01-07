@@ -494,7 +494,7 @@ struct ExploreView: View {
                         NavigationLink {
                             RandomCharacterView()
                         } label: {
-                            Label("Random character", systemImage: "person")
+                            Label("Random character", systemImage: "person.crop.circle")
                         }
                         NavigationLink {
                             RandomPersonView()
@@ -540,6 +540,10 @@ struct ExploreView: View {
                     GroupDetailsView(title: item.name, urlExtend: "magazines=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
                 } else if item.type == .news {
                     NewsListView()
+                } else if item.type == .exploreAnime {
+                    AnimeGenresListView()
+                } else if item.type == .exploreManga {
+                    MangaGenresListView()
                 }
             }
         }

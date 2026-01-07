@@ -250,6 +250,16 @@ struct MainView: View {
                 exploreId = UUID()
                 isSearchPresented = false
                 explorePath.append(ViewItem(type: .news, id: 1))
+            } else if host == "exploreAnime" {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: .exploreAnime, id: 1))
+            } else if host == "exploreManga" {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: .exploreManga, id: 1))
             } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
                 if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
                     tab = 2

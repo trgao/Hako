@@ -207,11 +207,24 @@ struct ExploreView: View {
                     if !settings.hideExploreAnimeManga {
                         HStack {
                             ScrollViewBox(title: "Explore anime", image: "tv.fill") {
-                                AnimeGenresListView()
+                                ExploreAnimeView()
                             }
                             Spacer()
                             ScrollViewBox(title: "Explore manga", image: "book.fill") {
-                                MangaGenresListView()
+                                ExploreMangaView()
+                            }
+                        }
+                        .padding(.horizontal, 17)
+                        Spacer()
+                    }
+                    if !settings.hideExploreCharactersPeople {
+                        HStack {
+                            ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+                                ExploreCharactersView()
+                            }
+                            Spacer()
+                            ScrollViewBox(title: "People", image: "person.fill") {
+                                ExplorePeopleView()
                             }
                         }
                         .padding(.horizontal, 17)
@@ -222,10 +235,10 @@ struct ExploreView: View {
                             NewsListView()
                         }
                         .padding(.horizontal, 17)
-                        .padding(.bottom, 10)
+                        Spacer()
                     }
                 }
-                .padding(.bottom, 5)
+                Spacer()
                 if !settings.hideRecentlyViewed && !settings.recentlyViewedItems.isEmpty {
                     recentlyViewed
                 }
@@ -530,9 +543,9 @@ struct ExploreView: View {
                 } else if item.type == .news {
                     NewsListView()
                 } else if item.type == .exploreAnime {
-                    AnimeGenresListView()
+                    ExploreAnimeView()
                 } else if item.type == .exploreManga {
-                    MangaGenresListView()
+                    ExploreMangaView()
                 }
             }
         }

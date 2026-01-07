@@ -37,6 +37,7 @@ struct Constants {
         9: "Ecchi",
         49: "Erotica",
     ]
+    static let animeGenreKeys = [1, 2, 5, 46, 28, 4, 8, 10, 26, 47, 14, 7, 22, 24, 36, 30, 37, 41, 9, 49]
     static let animeThemes = [
         50: "Adult Cast",
         51: "Anthropomorphic",
@@ -91,6 +92,7 @@ struct Constants {
         82: "Urban Fantasy",
         83: "Villainess",
     ]
+    static let animeThemeKeys = [50, 51, 52, 53, 54, 81, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 65, 66, 17, 18, 67, 38, 19, 6, 68, 69, 20, 70, 71, 40, 3, 72, 73, 74, 21, 23, 75, 29, 11, 31, 76, 77, 78, 32, 79, 80, 48, 82, 83]
     static let animeDemographics = [
         43: "Josei",
         15: "Kids",
@@ -98,6 +100,7 @@ struct Constants {
         25: "Shoujo",
         27: "Shounen",
     ]
+    static let animeDemographicKeys = [43, 15, 42, 25, 27]
     
     static let mangaGenres = [
         1: "Action",
@@ -121,6 +124,7 @@ struct Constants {
         9: "Ecchi",
         49: "Erotica",
     ]
+    static let mangaGenreKeys = [1, 2, 5, 46, 28, 4, 8, 10, 26, 47, 14, 7, 22, 24, 36, 30, 37, 45, 9, 49]
     static let mangaThemes = [
         50: "Adult Cast",
         51: "Anthropomorphic",
@@ -175,6 +179,7 @@ struct Constants {
         48: "Workplace",
         83: "Urban Fantasy",
     ]
+    static let mangaThemeKeys = [50, 51, 52, 53, 54, 44, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 65, 66, 17, 18, 67, 38, 19, 6, 69, 70, 20, 71, 72, 40, 3, 73, 74, 75, 21, 23, 76, 29, 11, 31, 77, 78, 79, 32, 80, 81, 82, 48, 83]
     static let mangaDemographics = [
         42: "Josei",
         15: "Kids",
@@ -182,6 +187,7 @@ struct Constants {
         25: "Shoujo",
         27: "Shounen",
     ]
+    static let mangaDemographicKeys = [42, 15, 41, 25, 27]
     
     static let scoreLabels = [
         "0 - Not yet scored",

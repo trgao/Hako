@@ -387,6 +387,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data.malId
     }
     
+    func getCharacters(page: Int) async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanPeopleResponse.self)
+        return response.data
+    }
+    
+    func getPeople(page: Int) async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanPeopleResponse.self)
+        return response.data
+    }
+    
     func getNews() async throws -> [RSSFeedItem]? {
         let rssfeed = try await RSSFeed(urlString: "https://myanimelist.net/rss/news.xml")
         return rssfeed.channel?.items

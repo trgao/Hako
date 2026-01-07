@@ -1,5 +1,5 @@
 //
-//  AnimeGenresListView.swift
+//  ExploreAnimeView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 20/7/25.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct AnimeGenresListView: View {
+struct ExploreAnimeView: View {
     var body: some View {
         List {
             Section("Genres") {
-                ForEach(Array(Constants.animeGenres.keys), id: \.self) { id in
+                ForEach(Constants.animeGenreKeys, id: \.self) { id in
                     NavigationLink {
                         GroupDetailsView(title: Constants.animeGenres[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {
@@ -21,7 +21,7 @@ struct AnimeGenresListView: View {
                 }
             }
             Section("Themes") {
-                ForEach(Array(Constants.animeThemes.keys), id: \.self) { id in
+                ForEach(Constants.animeThemeKeys, id: \.self) { id in
                     NavigationLink {
                         GroupDetailsView(title: Constants.animeThemes[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {
@@ -31,7 +31,7 @@ struct AnimeGenresListView: View {
                 }
             }
             Section("Demographics") {
-                ForEach(Array(Constants.animeDemographics.keys), id: \.self) { id in
+                ForEach(Constants.animeDemographicKeys, id: \.self) { id in
                     NavigationLink {
                         GroupDetailsView(title: Constants.animeDemographics[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
                     } label: {

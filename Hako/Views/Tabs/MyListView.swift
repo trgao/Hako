@@ -167,7 +167,6 @@ struct MyListView: View {
                         }
                         if controller.isAnimeLoading {
                             LoadingList(length: 5)
-                                .id(controller.animeLoadId)
                         }
                     }
                 }
@@ -262,7 +261,6 @@ struct MyListView: View {
                         }
                         if controller.isMangaLoading {
                             LoadingList(length: 5)
-                                .id(controller.mangaLoadId)
                         }
                     }
                 }

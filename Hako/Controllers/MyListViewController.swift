@@ -16,7 +16,7 @@ class MyListViewController: ObservableObject {
     @Published var animeSort = "anime_title"
     @Published var animeLoadId = UUID()
     private var currentAnimePage = 1
-    var canLoadMoreAnimePages = true
+    private var canLoadMoreAnimePages = true
     
     // Manga list variables
     @Published var mangaItems = [MALListManga]()
@@ -25,14 +25,14 @@ class MyListViewController: ObservableObject {
     @Published var mangaSort = "manga_title"
     @Published var mangaLoadId = UUID()
     private var currentMangaPage = 1
-    var canLoadMoreMangaPages = true
+    private var canLoadMoreMangaPages = true
     
     // Common variables
     @Published var isLoading = false
     @Published var isLoadingError = false
     @Published var isEditError = false
     @Published var type: TypeEnum = .anime
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     // Check if the current anime/manga list is empty
     func isItemsEmpty() -> Bool {
@@ -219,7 +219,7 @@ class MyListViewController: ObservableObject {
         }
     }
     
-    // Load more anime when reaching the 4th last anime/manga in list
+    // Load more anime/manga when reaching the 4th last anime/manga in list
     func loadMoreIfNeeded(index: Int) async {
         var thresholdIndex: Int?
         if type == .anime {

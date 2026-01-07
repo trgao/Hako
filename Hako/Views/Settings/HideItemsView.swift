@@ -26,6 +26,9 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideExploreAnimeManga) {
                     Text("Hide explore anime and manga")
                 }
+                Toggle(isOn: $settings.hideExploreCharactersPeople) {
+                    Text("Hide explore characters and people")
+                }
                 Toggle(isOn: $settings.hideNews) {
                     Text("Hide news")
                 }

@@ -10,23 +10,28 @@ import Shimmer
 
 struct MangaProgress: View {
     @EnvironmentObject private var settings: SettingsManager
+    private let manga: Manga
     private let numChapters: String
     private let numChaptersRead: String
     private let chaptersReadProgress: Float
     private let numVolumes: String
     private let numVolumesRead: String
     private let volumesReadProgress: Float
-    private let status: StatusEnum?
+    private let isLoading: Bool
     
-    init(numChapters: Int?, numVolumes: Int?, numChaptersRead: Int, numVolumesRead: Int, status: StatusEnum?) {
-        if let numChapters = numChapters, numChapters > 0 {
+    init(manga: Manga, isLoading: Bool) {
+        self.manga = manga
+        self.isLoading = isLoading
+        let numChaptersRead = manga.myListStatus?.numChaptersRead ?? 0
+        let numVolumesRead = manga.myListStatus?.numVolumesRead ?? 0
+        if let numChapters = manga.numChapters, numChapters > 0 {
             self.numChapters = String(numChapters)
             self.chaptersReadProgress = Float(numChaptersRead) / Float(numChapters)
         } else {
             self.numChapters = "?"
             self.chaptersReadProgress = numChaptersRead == 0 ? 0 : 0.5
         }
-        if let numVolumes = numVolumes, numVolumes > 0 {
+        if let numVolumes = manga.numVolumes, numVolumes > 0 {
             self.numVolumes = String(numVolumes)
             self.volumesReadProgress = Float(numVolumesRead) / Float(numVolumes)
         } else {
@@ -35,51 +40,6 @@ struct MangaProgress: View {
         }
         self.numChaptersRead = String(numChaptersRead)
         self.numVolumesRead = String(numVolumesRead)
-        self.status = status
-    }
-    
-    var body: some View {
-        ScrollViewSection(title: "Progress") {
-            VStack {
-                if settings.mangaReadProgress == 0 {
-                    ProgressView(value: chaptersReadProgress)
-                        .tint(status?.toColour())
-                } else {
-                    ProgressView(value: volumesReadProgress)
-                        .tint(status?.toColour())
-                }
-                HStack {
-                    Text(status?.toString() ?? "")
-                        .bold()
-                    Spacer()
-                    Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
-                        .labelStyle(CustomLabel(spacing: 2))
-                    Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
-                        .labelStyle(CustomLabel(spacing: 2))
-                }
-            }
-            .padding(20)
-        }
-    }
-}
-
-struct MangaProgressNotAdded: View {
-    private let numChapters: String
-    private let numVolumes: String
-    private let isLoading: Bool
-    
-    init(numChapters: Int?, numVolumes: Int?, isLoading: Bool) {
-        if let numChapters = numChapters, numChapters > 0 {
-            self.numChapters = String(numChapters)
-        } else {
-            self.numChapters = "?"
-        }
-        if let numVolumes = numVolumes, numVolumes > 0 {
-            self.numVolumes = String(numVolumes)
-        } else {
-            self.numVolumes = "?"
-        }
-        self.isLoading = isLoading
     }
     
     var body: some View {
@@ -97,6 +57,23 @@ struct MangaProgressNotAdded: View {
                     }
                     .redacted(reason: .placeholder)
                     .shimmering()
+                } else if let status = manga.myListStatus?.status {
+                    if settings.mangaReadProgress == 0 {
+                        ProgressView(value: chaptersReadProgress)
+                            .tint(status.toColour())
+                    } else {
+                        ProgressView(value: volumesReadProgress)
+                            .tint(status.toColour())
+                    }
+                    HStack {
+                        Text(status.toString())
+                            .bold()
+                        Spacer()
+                        Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
+                            .labelStyle(CustomLabel(spacing: 2))
+                        Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
+                            .labelStyle(CustomLabel(spacing: 2))
+                    }
                 } else {
                     ProgressView(value: 0)
                     HStack {

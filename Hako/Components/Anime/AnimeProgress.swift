@@ -9,13 +9,17 @@ import SwiftUI
 import Shimmer
 
 struct AnimeProgress: View {
+    private let anime: Anime
     private let numEpisodes: String
     private let numEpisodesWatched: String
     private let watchProgress: Float
-    private let status: StatusEnum?
+    private let isLoading: Bool
     
-    init(numEpisodes: Int?, numEpisodesWatched: Int, status: StatusEnum?) {
-        if let numEpisodes = numEpisodes, numEpisodes > 0 {
+    init(anime: Anime, isLoading: Bool) {
+        self.anime = anime
+        self.isLoading = isLoading
+        let numEpisodesWatched = anime.myListStatus?.numEpisodesWatched ?? 0
+        if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
             self.numEpisodes = String(numEpisodes)
             self.watchProgress = Float(numEpisodesWatched) / Float(numEpisodes)
         } else {
@@ -23,38 +27,6 @@ struct AnimeProgress: View {
             self.watchProgress = numEpisodesWatched == 0 ? 0 : 0.5
         }
         self.numEpisodesWatched = String(numEpisodesWatched)
-        self.status = status
-    }
-    
-    var body: some View {
-        ScrollViewSection(title: "Progress") {
-            VStack {
-                ProgressView(value: watchProgress)
-                    .tint(status?.toColour())
-                HStack {
-                    Text(status?.toString() ?? "")
-                        .bold()
-                    Spacer()
-                    Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
-                        .labelStyle(CustomLabel(spacing: 2))
-                }
-            }
-            .padding(20)
-        }
-    }
-}
-
-struct AnimeProgressNotAdded: View {
-    private let numEpisodes: String
-    private let isLoading: Bool
-    
-    init(numEpisodes: Int?, isLoading: Bool) {
-        if let numEpisodes = numEpisodes, numEpisodes > 0 {
-            self.numEpisodes = String(numEpisodes)
-        } else {
-            self.numEpisodes = "?"
-        }
-        self.isLoading = isLoading
     }
     
     var body: some View {
@@ -72,6 +44,16 @@ struct AnimeProgressNotAdded: View {
                     }
                     .redacted(reason: .placeholder)
                     .shimmering()
+                } else if let status = anime.myListStatus?.status {
+                    ProgressView(value: watchProgress)
+                        .tint(status.toColour())
+                    HStack {
+                        Text(status.toString())
+                            .bold()
+                        Spacer()
+                        Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
+                            .labelStyle(CustomLabel(spacing: 2))
+                    }
                 } else {
                     ProgressView(value: 0)
                     HStack {
@@ -82,6 +64,7 @@ struct AnimeProgressNotAdded: View {
                             .labelStyle(CustomLabel(spacing: 2))
                     }
                 }
+                
             }
             .padding(20)
         }

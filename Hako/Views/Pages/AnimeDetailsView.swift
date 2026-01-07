@@ -83,11 +83,7 @@ struct AnimeDetailsView: View {
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: anime.synopsis)
                         if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
-                            if let listStatus = anime.myListStatus, !controller.isLoading {
-                                AnimeProgress(numEpisodes: anime.numEpisodes, numEpisodesWatched: listStatus.numEpisodesWatched, status: listStatus.status)
-                            } else {
-                                AnimeProgressNotAdded(numEpisodes: anime.numEpisodes, isLoading: controller.isLoading)
-                            }
+                            AnimeProgress(anime: anime, isLoading: controller.isLoading)
                         }
                         if !settings.hideAnimeInformation {
                             AnimeInformation(anime: anime)

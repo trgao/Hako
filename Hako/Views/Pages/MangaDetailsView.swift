@@ -80,11 +80,7 @@ struct MangaDetailsView: View {
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: manga.synopsis)
                         if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
-                            if let listStatus = manga.myListStatus, !controller.isLoading {
-                                MangaProgress(numChapters: manga.numChapters, numVolumes: manga.numVolumes, numChaptersRead: listStatus.numChaptersRead, numVolumesRead: listStatus.numVolumesRead, status: listStatus.status)
-                            } else {
-                                MangaProgressNotAdded(numChapters: manga.numChapters, numVolumes: manga.numVolumes, isLoading: controller.isLoading)
-                            }
+                            MangaProgress(manga: manga, isLoading: controller.isLoading)
                         }
                         if !settings.hideMangaInformation {
                             MangaInformation(manga: manga)

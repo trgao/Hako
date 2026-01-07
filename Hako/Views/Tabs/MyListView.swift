@@ -107,7 +107,7 @@ struct MyListView: View {
             if controller.isAnimeLoading && controller.animeItems.isEmpty {
                 List {
                     Section(controller.animeStatus.toString()) {
-                        LoadingList(length: 10)
+                        LoadingList(length: 20)
                             .id(controller.animeLoadId)
                     }
                 }
@@ -180,7 +180,7 @@ struct MyListView: View {
             if controller.isMangaLoading && controller.mangaItems.isEmpty {
                 List {
                     Section(controller.mangaStatus.toString()) {
-                        LoadingList(length: 10)
+                        LoadingList(length: 20)
                             .id(controller.mangaLoadId)
                     }
                 }

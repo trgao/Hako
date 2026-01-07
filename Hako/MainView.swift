@@ -33,6 +33,17 @@ struct MainView: View {
     @State private var isSearchRoot = true
     @State private var urlSearchText: String?
     
+    // My list tab
+    @State private var listId = UUID()
+    @State private var listType: TypeEnum?
+    @State private var animeStatus: StatusEnum?
+    @State private var animeSort: String?
+    @State private var mangaStatus: StatusEnum?
+    @State private var mangaSort: String?
+    
+    // Settings tab
+    @State private var settingsId = UUID()
+    
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
@@ -95,11 +106,11 @@ struct MainView: View {
                         }
                         if !settings.useWithoutAccount {
                             Tab("My list", systemImage: "list.bullet", value: 3) {
-                                MyListView()
+                                MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
                             }
                         }
                         Tab("Settings", systemImage: "gear", value: 4) {
-                            SettingsView()
+                            SettingsView(id: $settingsId)
                         }
                     }
                     .onAppear {
@@ -125,13 +136,13 @@ struct MainView: View {
                             }
                             .tag(2)
                         if !settings.useWithoutAccount {
-                            MyListView()
+                            MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
                                 .tabItem {
                                     Label("My list", systemImage: "list.bullet")
                                 }
                                 .tag(3)
                         }
-                        SettingsView()
+                        SettingsView(id: $settingsId)
                             .tabItem {
                                 Label("Settings", systemImage: "gear")
                             }
@@ -209,21 +220,53 @@ struct MainView: View {
                 }
             } else if host == "mylist" {
                 tab = 3
+                listId = UUID()
+                if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
+                    if type == "anime" {
+                        listType = .anime
+                        animeStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
+                        if animeStatus == .reading || animeStatus == .planToRead {
+                            animeStatus = StatusEnum.none
+                        }
+                        if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.animeSorts.contains(sort) {
+                            animeSort = sort
+                        }
+                    } else if type == "manga" {
+                        listType = .manga
+                        mangaStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
+                        if mangaStatus == .watching || mangaStatus == .planToWatch {
+                            mangaStatus = StatusEnum.none
+                        }
+                        if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.mangaSorts.contains(sort) {
+                            mangaSort = sort
+                        }
+                    }
+                }
             } else if host == "settings" {
                 tab = 4
+                settingsId = UUID()
             } else if host == "news" {
                 tab = 2
+                exploreId = UUID()
                 isSearchPresented = false
                 explorePath.append(ViewItem(type: .news, id: 1))
             } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
                 if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
                     tab = 2
+                    exploreId = UUID()
                     isSearchPresented = false
                     explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
-                } else if host == "anime" || host == "manga" || host == "character" || host == "person" || host == "producer" || host == "magazine" {
+                } else if host == "anime" || host == "manga" || host == "character" || host == "person" {
                     tab = 2
+                    exploreId = UUID()
                     isSearchPresented = false
                     explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id))
+                } else if host == "producer" || host == "magazine" {
+                    tab = 2
+                    exploreId = UUID()
+                    isSearchPresented = false
+                    let name = components.queryItems?.first(where: { $0.name == "name" })?.value
+                    explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id, name: name))
                 }
             }
         }

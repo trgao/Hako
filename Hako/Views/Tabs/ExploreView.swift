@@ -541,9 +541,9 @@ struct ExploreView: View {
                 } else if item.type == .mangaGenre {
                     GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
                 } else if item.type == .producer {
-                    GroupDetailsView(title: "", urlExtend: "producers=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                    GroupDetailsView(title: item.name, urlExtend: "producers=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
                 } else if item.type == .magazine {
-                    GroupDetailsView(title: "", urlExtend: "magazines=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                    GroupDetailsView(title: item.name, urlExtend: "magazines=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
                 } else if item.type == .news {
                     NewsListView()
                 }

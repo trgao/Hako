@@ -10,7 +10,12 @@ import AuthenticationServices
 
 struct SettingsView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject var networker = NetworkManager.shared
+    @StateObject private var networker = NetworkManager.shared
+    @Binding private var id: UUID
+    
+    init(id: Binding<UUID>) {
+        self._id = id
+    }
     
     var body: some View {
         NavigationStack {
@@ -45,5 +50,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+        .id(id)
     }
 }

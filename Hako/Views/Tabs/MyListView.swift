@@ -14,6 +14,12 @@ struct MyListView: View {
     @StateObject private var networker = NetworkManager.shared
     @State private var isInit = false
     @State private var isRefresh = false
+    @Binding private var id: UUID
+    @Binding private var type: TypeEnum?
+    @Binding private var animeStatus: StatusEnum?
+    @Binding private var animeSort: String?
+    @Binding private var mangaStatus: StatusEnum?
+    @Binding private var mangaSort: String?
     
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
@@ -24,6 +30,15 @@ struct MyListView: View {
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
     @State private var mangaListStatus: MyListStatus?
+    
+    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<String?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<String?>) {
+        self._id = id
+        self._type = type
+        self._animeStatus = animeStatus
+        self._animeSort = animeSort
+        self._mangaStatus = mangaStatus
+        self._mangaSort = mangaSort
+    }
     
     var filter: some View {
         Menu {
@@ -357,6 +372,32 @@ struct MyListView: View {
                 controller.mangaStatus = settings.getMangaStatus()
                 controller.mangaSort = settings.getMangaSort()
                 isInit = true
+            }
+        }
+        .id(id)
+        .task(id: id) {
+            if let type = type {
+                controller.type = type
+            }
+            type = nil
+            if controller.type == .anime {
+                if let animeStatus = animeStatus {
+                    controller.animeStatus = animeStatus
+                }
+                animeStatus = nil
+                if let animeSort = animeSort {
+                    controller.animeSort = animeSort
+                }
+                animeSort = nil
+            } else if controller.type == .manga {
+                if let mangaStatus = mangaStatus {
+                    controller.mangaStatus = mangaStatus
+                }
+                mangaStatus = nil
+                if let mangaSort = mangaSort {
+                    controller.mangaSort = mangaSort
+                }
+                mangaSort = nil
             }
         }
     }

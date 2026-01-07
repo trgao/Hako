@@ -13,7 +13,11 @@ enum StatusEnum: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let status = try? container.decode(String.self)
-        switch status {
+        self = .init(text: status)
+    }
+    
+    init(text: String?) {
+        switch text {
         case "watching": self = .watching
         case "completed": self = .completed
         case "on_hold": self = .onHold

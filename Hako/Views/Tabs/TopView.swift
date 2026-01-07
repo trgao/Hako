@@ -194,12 +194,12 @@ struct TopView: View {
                 controller.type = type
             }
             type = nil
-            if type == .anime {
+            if controller.type == .anime {
                 if let animeRanking = animeRanking {
                     controller.animeRankingType = animeRanking
                 }
                 animeRanking = nil
-            } else if type == .manga {
+            } else if controller.type == .manga {
                 if let mangaRanking = mangaRanking {
                     controller.mangaRankingType = mangaRanking
                 }

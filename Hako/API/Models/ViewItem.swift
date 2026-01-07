@@ -10,4 +10,5 @@ import Foundation
 struct ViewItem: Hashable {
     let type: ViewTypeEnum
     let id: Int
+    var name: String? = nil
 }

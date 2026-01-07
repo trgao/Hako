@@ -47,8 +47,7 @@ struct StatisticsRow<T>: View {
                 Text(String(describing: content))
             } else {
                 Text("example")
-                    .redacted(reason: .placeholder)
-                    .shimmering()
+                    .skeleton()
             }
         }
         .padding(.horizontal, 20)

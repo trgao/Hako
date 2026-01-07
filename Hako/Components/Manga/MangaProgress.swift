@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 
 struct MangaProgress: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -47,16 +46,14 @@ struct MangaProgress: View {
             VStack {
                 if isLoading {
                     ProgressView(value: 0)
-                        .redacted(reason: .placeholder)
-                        .shimmering()
+                        .skeleton()
                     HStack {
                         Text("Placeholder")
                             .bold()
                         Spacer()
                         Text("0 / 0  0 / 0")
                     }
-                    .redacted(reason: .placeholder)
-                    .shimmering()
+                    .skeleton()
                 } else if let status = manga.myListStatus?.status {
                     if settings.mangaReadProgress == 0 {
                         ProgressView(value: chaptersReadProgress)

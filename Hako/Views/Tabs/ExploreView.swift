@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 import SystemNotification
 
 struct ExploreView: View {

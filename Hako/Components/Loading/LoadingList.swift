@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 
 struct LoadingList: View {
     private let dummyList: [Int]
@@ -26,8 +25,7 @@ struct LoadingList: View {
                 }
                 .padding(5)
             }
-            .redacted(reason: .placeholder)
-            .shimmering()
+            .skeleton()
             .padding(5)
         }
     }

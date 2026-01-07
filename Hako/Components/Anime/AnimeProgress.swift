@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 
 struct AnimeProgress: View {
     private let anime: Anime
@@ -34,16 +33,14 @@ struct AnimeProgress: View {
             VStack {
                 if isLoading {
                     ProgressView(value: 0)
-                        .redacted(reason: .placeholder)
-                        .shimmering()
+                        .skeleton()
                     HStack {
                         Text("Placeholder")
                             .bold()
                         Spacer()
                         Text("0 / 0")
                     }
-                    .redacted(reason: .placeholder)
-                    .shimmering()
+                    .skeleton()
                 } else if let status = anime.myListStatus?.status {
                     ProgressView(value: watchProgress)
                         .tint(status.toColour())
@@ -64,7 +61,6 @@ struct AnimeProgress: View {
                             .labelStyle(CustomLabel(spacing: 2))
                     }
                 }
-                
             }
             .padding(20)
         }

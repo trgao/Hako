@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shimmer
 
 struct LoadingCarousel: View {
     private let title: String
@@ -27,8 +26,7 @@ struct LoadingCarousel: View {
                 HStack(alignment: .top) {
                     ForEach(dummyList, id: \.self) { id in
                         AnimeGridItem(id: id, title: "placeholder", enTitle: "placeholder", imageUrl: nil)
-                            .redacted(reason: .placeholder)
-                            .shimmering()
+                            .skeleton()
                     }
                 }
                 .padding(.horizontal, 17)

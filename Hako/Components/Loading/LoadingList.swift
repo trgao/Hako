@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct LoadingList: View {
+    @State private var id = UUID()
     private let dummyList: [Int]
     
     init(length: Int) {
-        self.dummyList = Array(0...length)
+        self.dummyList = Array(0..<length)
     }
     
     var body: some View {
@@ -27,6 +28,10 @@ struct LoadingList: View {
             }
             .skeleton()
             .padding(5)
+        }
+        .id(id)
+        .onDisappear {
+            id = UUID()
         }
     }
 }

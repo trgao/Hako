@@ -17,7 +17,6 @@ struct NewsListView: View {
             if controller.isLoading && controller.news.isEmpty {
                 List {
                     LoadingList(length: 20)
-                        .id(controller.loadId)
                 }
                 .disabled(true)
             } else {

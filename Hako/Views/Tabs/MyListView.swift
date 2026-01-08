@@ -108,7 +108,6 @@ struct MyListView: View {
                 List {
                     Section(controller.animeStatus.toString()) {
                         LoadingList(length: 20)
-                            .id(controller.animeLoadId)
                     }
                 }
                 .disabled(true)
@@ -180,7 +179,6 @@ struct MyListView: View {
                 List {
                     Section(controller.mangaStatus.toString()) {
                         LoadingList(length: 20)
-                            .id(controller.mangaLoadId)
                     }
                 }
                 .disabled(true)

@@ -16,7 +16,6 @@ struct ExplorePeopleView: View {
             if controller.isLoading && controller.people.isEmpty {
                 List {
                     LoadingList(length: 20)
-                        .id(controller.loadId)
                 }
                 .disabled(true)
             } else {

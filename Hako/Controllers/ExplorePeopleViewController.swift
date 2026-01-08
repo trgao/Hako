@@ -12,7 +12,6 @@ class ExplorePeopleViewController: ObservableObject {
     @Published var people: [JikanListItem] = []
     @Published var isLoading = true
     @Published var isLoadingError = false
-    @Published var loadId = UUID()
     private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
@@ -20,7 +19,6 @@ class ExplorePeopleViewController: ObservableObject {
     
     // Refresh the people list page
     func refresh() async {
-        loadId = UUID()
         isLoading = true
         isLoadingError = false
         currentPage = 1

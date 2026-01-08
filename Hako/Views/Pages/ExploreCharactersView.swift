@@ -16,7 +16,6 @@ struct ExploreCharactersView: View {
             if controller.isLoading && controller.characters.isEmpty {
                 List {
                     LoadingList(length: 20)
-                        .id(controller.loadId)
                 }
                 .disabled(true)
             } else {

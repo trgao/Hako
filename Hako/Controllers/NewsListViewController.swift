@@ -13,12 +13,10 @@ class NewsListViewController: ObservableObject {
     @Published var news: [RSSFeedItem] = []
     @Published var isLoading = true
     @Published var isLoadingError = false
-    @Published var loadId = UUID()
     private let networker = NetworkManager.shared
     
     // Refresh the news list page
     func refresh() async {
-        loadId = UUID()
         isLoading = true
         isLoadingError = false
         do {

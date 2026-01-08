@@ -13,6 +13,7 @@ class ExploreCharactersViewController: ObservableObject {
     @Published var isLoading = true
     @Published var isLoadingError = false
     @Published var loadId = UUID()
+    private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
@@ -25,10 +26,15 @@ class ExploreCharactersViewController: ObservableObject {
         currentPage = 1
         canLoadMorePages = true
         do {
-            let characters = try await networker.getCharacters(page: currentPage)
+            let characterList = try await networker.getCharacters(page: currentPage)
             currentPage = 2
-            canLoadMorePages = characters.count > 0
-            self.characters = characters
+            canLoadMorePages = characterList.count > 0
+            for item in characterList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    characters.append(item)
+                }
+            }
         } catch {
             isLoadingError = true
         }
@@ -40,10 +46,15 @@ class ExploreCharactersViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
-            let characters = try await networker.getCharacters(page: currentPage)
+            let characterList = try await networker.getCharacters(page: currentPage)
             currentPage += 1
-            canLoadMorePages = characters.count > 0
-            self.characters.append(contentsOf: characters)
+            canLoadMorePages = characterList.count > 0
+            for item in characterList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    characters.append(item)
+                }
+            }
         } catch {
             isLoadingError = true
         }

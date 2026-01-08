@@ -44,7 +44,6 @@ class PersonDetailsViewController: ObservableObject {
             self.person = person
             networker.personCache[id] = person
         } catch {
-            print(error)
             if case NetworkError.notFound = error {} else {
                 isLoadingError = true
             }

@@ -13,6 +13,7 @@ class ExplorePeopleViewController: ObservableObject {
     @Published var isLoading = true
     @Published var isLoadingError = false
     @Published var loadId = UUID()
+    private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
@@ -22,8 +23,18 @@ class ExplorePeopleViewController: ObservableObject {
         loadId = UUID()
         isLoading = true
         isLoadingError = false
+        currentPage = 1
+        canLoadMorePages = true
         do {
-            self.people = try await networker.getPeople(page: currentPage)
+            let peopleList = try await networker.getPeople(page: currentPage)
+            currentPage = 2
+            canLoadMorePages = peopleList.count > 0
+            for item in peopleList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    people.append(item)
+                }
+            }
         } catch {
             isLoadingError = true
         }
@@ -35,10 +46,15 @@ class ExplorePeopleViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
-            let people = try await networker.getPeople(page: currentPage)
+            let peopleList = try await networker.getPeople(page: currentPage)
             currentPage += 1
-            canLoadMorePages = people.count > 0
-            self.people.append(contentsOf: people)
+            canLoadMorePages = peopleList.count > 0
+            for item in peopleList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    people.append(item)
+                }
+            }
         } catch {
             isLoadingError = true
         }

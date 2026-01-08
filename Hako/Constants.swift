@@ -204,7 +204,7 @@ struct Constants {
     ]
     
     static let animeRankings: [RankingEnum] = [.all, .tv, .ova, .movie, .special, .bypopularity, .favorite]
-    static let mangaRankings: [RankingEnum] = [.all, .manga, .novels, .oneshots, .manhwa, .manhua, .bypopularity, .favorite]
+    static let mangaRankings: [RankingEnum] = [.all, .manga, .lightnovels, .novels, .oneshots, .manhwa, .manhua, .bypopularity, .favorite]
     
     static let animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
     static let animeSorts: [SortEnum] = [.listScore, .listUpdatedAt, .animeTitle, .animeStartDate]

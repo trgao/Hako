@@ -14,19 +14,19 @@ struct SeasonsView: View {
     @State private var isLink = false
     @Binding private var id: UUID
     @Binding private var year: Int?
-    @Binding private var season: String?
+    @Binding private var season: SeasonEnum?
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
     let networker = NetworkManager.shared
     
-    init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<String?>) {
+    init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
         self._id = id
         self._year = year
         self._season = season
     }
     
-    @ViewBuilder private func SeasonView(_ season: String, _ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
+    @ViewBuilder private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
             VStack {
                 LazyVGrid(columns: columns) {
@@ -61,16 +61,16 @@ struct SeasonsView: View {
             ZStack {
                 if controller.isLoadingError && controller.isSeasonEmpty() {
                     ErrorView(refresh: { await controller.refresh() })
-                } else if controller.season == "winter" {
-                    SeasonView("winter", controller.winterItems, controller.winterContinuingItems)
-                } else if controller.season == "spring" {
-                    SeasonView("spring", controller.springItems, controller.springContinuingItems)
-                } else if controller.season == "summer" {
-                    SeasonView("summer", controller.summerItems, controller.summerContinuingItems)
-                } else if controller.season == "fall" {
-                    SeasonView("fall", controller.fallItems, controller.fallContinuingItems)
+                } else if controller.season == .winter {
+                    SeasonView(controller.winterItems, controller.winterContinuingItems)
+                } else if controller.season == .spring {
+                    SeasonView(controller.springItems, controller.springContinuingItems)
+                } else if controller.season == .summer {
+                    SeasonView(controller.summerItems, controller.summerContinuingItems)
+                } else if controller.season == .fall {
+                    SeasonView(controller.fallItems, controller.fallContinuingItems)
                 }
-                TabPicker(selection: $controller.season, options: [("Winter", "winter"), ("Spring", "spring"), ("Summer", "summer"), ("Fall", "fall")])
+                TabPicker(selection: $controller.season, options: [("Winter", SeasonEnum.winter), ("Spring", SeasonEnum.spring), ("Summer", SeasonEnum.summer), ("Fall", SeasonEnum.fall)])
                     .onChange(of: controller.season) {
                         Task {
                             if controller.shouldRefresh() && !isLink {
@@ -92,7 +92,7 @@ struct SeasonsView: View {
                     }
                 }
             }
-            .navigationTitle(controller.season.capitalized)
+            .navigationTitle(controller.season.rawValue.capitalized)
             .task(id: isRefresh) {
                 if !isLink && (controller.shouldRefresh() || isRefresh) {
                     await controller.refresh()

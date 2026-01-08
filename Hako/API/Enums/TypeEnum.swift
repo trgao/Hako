@@ -9,6 +9,7 @@ import Foundation
 
 enum TypeEnum: String, Codable {
     case anime, manga, none
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let type = try container.decode(String.self)

@@ -70,7 +70,7 @@ struct AnimeDetailsView: View {
                             .font(.system(size: 25))
                             VStack {
                                 if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
-                                    Text("\(season.capitalized), \(String(year))")
+                                    Text("\(season.rawValue.capitalized), \(String(year))")
                                 }
                                 if let mediaType = anime.mediaType, let status = anime.status {
                                     Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")

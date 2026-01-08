@@ -26,10 +26,9 @@ struct SignInSections: View {
                 isAuthenticating = true
                 try await networker.signIn()
                 isAuthenticating = false
-            } catch let error {
+            } catch {
                 isAuthenticatingError = true
                 isAuthenticating = false
-                print(error.localizedDescription)
             }
         }
     }

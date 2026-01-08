@@ -183,7 +183,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
-            print(responseObject)
             self.keychain["accessToken"] = responseObject.accessToken
             self.keychain["refreshToken"] = responseObject.refreshToken
             return responseObject.accessToken
@@ -345,26 +344,22 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
-        print("edited anime successfully")
     }
     
     func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
-        print("edited manga successfully")
     }
     
     func deleteUserAnime(id: Int) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
-        print("deleted anime successfully")
     }
     
     func deleteUserManga(id: Int) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
-        print("deleted manga successfully")
     }
     
     func getRandomAnime() async throws -> Int {
@@ -437,8 +432,8 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getSeasonAnimeList(season: String, year: Int, page: Int) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season)?nsfw=true&fields=\(animeFields)&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
+    func getSeasonAnimeList(season: SeasonEnum, year: Int, page: Int) async throws -> [MALListAnime] {
+        let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season.rawValue)?nsfw=true&fields=\(animeFields)&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
     }
     

@@ -477,7 +477,6 @@ struct ExploreView: View {
                     return
                 }
                 
-                print("reseting!!")
                 searchText = ""
                 previousSearch = ""
                 controller.resetSearch()

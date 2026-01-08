@@ -25,7 +25,7 @@ struct JikanListItem: Codable, Identifiable {
     let chapters: Int?
     let duration: String?
     let synopsis: String?
-    let season: String?
+    let season: SeasonEnum?
     let year: Int?
     let source: String?
     let members: Int?

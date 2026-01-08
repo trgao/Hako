@@ -12,7 +12,7 @@ struct Constants {
     static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
-    static let seasons = ["winter", "spring", "summer", "fall"]
+    static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
     
     // Since genres should not change much, I have decided to hard code this instead of relying on Jikan API genres endpoint
     static let animeGenres = [

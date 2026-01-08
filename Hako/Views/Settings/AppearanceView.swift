@@ -52,7 +52,6 @@ struct AppearanceView: View {
                                 }
                             }
                         } else {
-                            print("Not supported")
                             isChangeIconError = true
                         }
                     } label: {
@@ -80,7 +79,6 @@ struct AppearanceView: View {
                                 }
                             }
                         } else {
-                            print("Not supported")
                             isChangeIconError = true
                         }
                     } label: {

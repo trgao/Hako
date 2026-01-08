@@ -54,7 +54,7 @@ struct AnimeGridItem: View {
                             Label("\(String(mean))", systemImage: "star.fill")
                         }
                         if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
-                            Label("\(season.capitalized), \(String(year))", systemImage: "calendar")
+                            Label("\(season.rawValue.capitalized), \(String(year))", systemImage: "calendar")
                         }
                         if let mediaType = anime.mediaType {
                             Label(mediaType.formatMediaType(), systemImage: "tv")

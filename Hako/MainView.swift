@@ -24,7 +24,7 @@ struct MainView: View {
     // Seasons tab
     @State private var seasonsId = UUID()
     @State private var year: Int?
-    @State private var season: String?
+    @State private var season: SeasonEnum?
     
     // Explore tab
     @State private var exploreId = UUID()
@@ -120,9 +120,9 @@ struct MainView: View {
         } else if host == "seasons" {
             tab = 1
             seasonsId = UUID()
-            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, yearInt >= 1917 && yearInt <= Constants.currentYear + 1, Constants.seasons.contains(seasonText) {
+            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, let seasonEnum = SeasonEnum(rawValue: seasonText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
                 year = yearInt
-                season = seasonText
+                season = seasonEnum
             }
         } else if host == "explore" {
             tab = 2

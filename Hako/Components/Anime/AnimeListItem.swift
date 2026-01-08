@@ -73,7 +73,7 @@ struct AnimeListItem: View {
                     HStack(alignment: .top) {
                         VStack(alignment: .leading) {
                             if let startSeason = anime.node.startSeason, let season = startSeason.season, let year = startSeason.year {
-                                Text("\(season.capitalized), \(String(year))")
+                                Text("\(season.rawValue.capitalized), \(String(year))")
                             }
                             if let status = anime.node.status {
                                 Text(status.formatStatus())

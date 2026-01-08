@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RankingEnum: String, Codable {
+enum RankingEnum: String {
     case all, tv, ova, movie, special, manga, novels, oneshots, manhwa, manhua, bypopularity, favorite
     
     func toString() -> String {

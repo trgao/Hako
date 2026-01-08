@@ -45,135 +45,96 @@ class SeasonsViewController: ObservableObject {
     
     // Check if the anime list for the current season is empty
     func isSeasonEmpty() -> Bool {
-        return (season == "winter" && winterItems.isEmpty) || (season == "spring" && springItems.isEmpty) || (season == "summer" && summerItems.isEmpty) || (season == "fall" && fallItems.isEmpty)
+        return (season == .winter && winterItems.isEmpty) || (season == .spring && springItems.isEmpty) || (season == .summer && summerItems.isEmpty) || (season == .fall && fallItems.isEmpty)
     }
     
     // Check if the continuing series list for the current season is empty
     func isSeasonContinuingEmpty() -> Bool {
-        return (season == "winter" && winterContinuingItems.isEmpty) || (season == "spring" && springContinuingItems.isEmpty) || (season == "summer" && summerContinuingItems.isEmpty) || (season == "fall" && fallContinuingItems.isEmpty)
+        return (season == .winter && winterContinuingItems.isEmpty) || (season == .spring && springContinuingItems.isEmpty) || (season == .summer && summerContinuingItems.isEmpty) || (season == .fall && fallContinuingItems.isEmpty)
     }
     
     // Check if the anime list for the current season should be refreshed
     func shouldRefresh() -> Bool {
-        return (season == "winter" && winterItems.isEmpty && canLoadMoreWinterPages) || (season == "spring" && springItems.isEmpty && canLoadMoreSpringPages) || (season == "summer" && summerItems.isEmpty && canLoadMoreSummerPages) || (season == "fall" && fallItems.isEmpty && canLoadMoreFallPages)
+        return (season == .winter && winterItems.isEmpty && canLoadMoreWinterPages) || (season == .spring && springItems.isEmpty && canLoadMoreSpringPages) || (season == .summer && summerItems.isEmpty && canLoadMoreSummerPages) || (season == .fall && fallItems.isEmpty && canLoadMoreFallPages)
     }
     
     // Get (season)Items variable for the current season
     func getCurrentSeasonItems() -> [MALListAnime] {
-        if season == "winter" {
-            return winterItems
-        } else if season == "spring" {
-            return springItems
-        } else if season == "summer" {
-            return summerItems
-        } else if season == "fall" {
-            return fallItems
-        } else {
-            // Should not reach here
-            return []
+        switch season {
+        case .winter: return winterItems
+        case .spring: return springItems
+        case .summer: return summerItems
+        case .fall: return fallItems
         }
     }
     
     // Get (season)ContinuingItems variable for the current season
     func getCurrentSeasonContinuingItems() -> [MALListAnime] {
-        if season == "winter" {
-            return winterContinuingItems
-        } else if season == "spring" {
-            return springContinuingItems
-        } else if season == "summer" {
-            return summerContinuingItems
-        } else if season == "fall" {
-            return fallContinuingItems
-        } else {
-            // Should not reach here
-            return []
+        switch season {
+        case .winter: return winterContinuingItems
+        case .spring: return springContinuingItems
+        case .summer: return summerContinuingItems
+        case .fall: return fallContinuingItems
         }
     }
     
     // Get is(Season)Loading variable for the current season
     func getCurrentSeasonLoading() -> Bool {
-        if season == "winter" {
-            return isWinterLoading
-        } else if season == "spring" {
-            return isSpringLoading
-        } else if season == "summer" {
-            return isSummerLoading
-        } else if season == "fall" {
-            return isFallLoading
-        } else {
-            // Should not reach here
-            return false
+        switch season {
+        case .winter: return isWinterLoading
+        case .spring: return isSpringLoading
+        case .summer: return isSummerLoading
+        case .fall: return isFallLoading
         }
     }
     
     // Get canLoadMore(Season)Pages variable for the current season
     func getCurrentSeasonCanLoadMore() -> Bool {
-        if season == "winter" {
-            return canLoadMoreWinterPages
-        } else if season == "spring" {
-            return canLoadMoreSpringPages
-        } else if season == "summer" {
-            return canLoadMoreSummerPages
-        } else if season == "fall" {
-            return canLoadMoreFallPages
-        } else {
-            // Should not reach here
-            return false
+        switch season {
+        case .winter: return canLoadMoreWinterPages
+        case .spring: return canLoadMoreSpringPages
+        case .summer: return canLoadMoreSummerPages
+        case .fall: return canLoadMoreFallPages
         }
     }
     
     // Get current(Season)Page variable for the current season
     private func getCurrentSeasonPage() -> Int {
-        if season == "winter" {
-            return currentWinterPage
-        } else if season == "spring" {
-            return currentSpringPage
-        } else if season == "summer" {
-            return currentSummerPage
-        } else if season == "fall" {
-            return currentFallPage
-        } else {
-            // Should not reach here
-            return 1
+        switch season {
+        case .winter: return currentWinterPage
+        case .spring: return currentSpringPage
+        case .summer: return currentSummerPage
+        case .fall: return currentFallPage
         }
     }
     
     // Update current(Season)Page variable for the current season
     private func updateCurrentSeasonPage(_ currentPage: Int) {
-        if season == "winter" {
-            currentWinterPage = currentPage
-        } else if season == "spring" {
-            currentSpringPage = currentPage
-        } else if season == "summer" {
-            currentSummerPage = currentPage
-        } else if season == "fall" {
-            currentFallPage = currentPage
+        switch season {
+        case .winter: currentWinterPage = currentPage
+        case .spring: currentSpringPage = currentPage
+        case .summer: currentSummerPage = currentPage
+        case .fall: currentFallPage = currentPage
         }
     }
     
     // Update is(Season)Loading variable for the current season
     private func updateCurrentSeasonLoading(_ isLoading: Bool) {
-        if season == "winter" {
-            isWinterLoading = isLoading
-        } else if season == "spring" {
-            isSpringLoading = isLoading
-        } else if season == "summer" {
-            isSummerLoading = isLoading
-        } else if season == "fall" {
-            isFallLoading = isLoading
+        switch season {
+        case .winter: isWinterLoading = isLoading
+        case .spring: isSpringLoading = isLoading
+        case .summer: isSummerLoading = isLoading
+        case .fall: isFallLoading = isLoading
         }
     }
     
     // Update canLoadMore(Season)Pages variable for the current season
     private func updateCurrentSeasonCanLoadMore(_ canLoadMorePages: Bool) {
-        if season == "winter" {
-            canLoadMoreWinterPages = canLoadMorePages
-        } else if season == "spring" {
-            canLoadMoreSpringPages = canLoadMorePages
-        } else if season == "summer" {
-            canLoadMoreSummerPages = canLoadMorePages
-        } else if season == "fall" {
-            canLoadMoreFallPages = canLoadMorePages
+        switch season {
+        case .winter: canLoadMoreWinterPages = canLoadMorePages
+        case .spring: canLoadMoreSpringPages = canLoadMorePages
+        case .summer: canLoadMoreSummerPages = canLoadMorePages
+        case .fall: canLoadMoreFallPages = canLoadMorePages
         }
     }
     
@@ -210,16 +171,16 @@ class SeasonsViewController: ObservableObject {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
             updateCurrentSeasonPage(2)
             updateCurrentSeasonCanLoadMore(animeList.count > 450)
-            if season == "winter" {
+            if season == .winter {
                 winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
-            } else if season == "spring" {
+            } else if season == .spring {
                 springItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 springContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
-            } else if season == "summer" {
+            } else if season == .summer {
                 summerItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 summerContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
-            } else if season == "fall" {
+            } else if season == .fall {
                 fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             }
@@ -252,16 +213,16 @@ class SeasonsViewController: ObservableObject {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter{ $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
             updateCurrentSeasonCanLoadMore(animeList.count > 450)
-            if season == "winter" {
+            if season == .winter {
                 winterItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 winterContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
-            } else if season == "spring" {
+            } else if season == .spring {
                 springItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 springContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
-            } else if season == "summer" {
+            } else if season == .summer {
                 summerItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 summerContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
-            } else if season == "fall" {
+            } else if season == .fall {
                 fallItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 fallContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             }
@@ -279,13 +240,13 @@ class SeasonsViewController: ObservableObject {
     // Load more items from current season when reaching the 4th last anime in list
     func loadMoreIfNeeded(index: Int) async {
         var thresholdIndex: Int?
-        if season == "winter" {
+        if season == .winter {
             thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)
-        } else if season == "spring" {
+        } else if season == .spring {
             thresholdIndex = springItems.index(springItems.endIndex, offsetBy: -4)
-        } else if season == "summer" {
+        } else if season == .summer {
             thresholdIndex = summerItems.index(summerItems.endIndex, offsetBy: -4)
-        } else if season == "fall" {
+        } else if season == .fall {
             thresholdIndex = fallItems.index(fallItems.endIndex, offsetBy: -4)
         }
         if index == thresholdIndex {

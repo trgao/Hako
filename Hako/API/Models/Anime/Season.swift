@@ -9,5 +9,5 @@ import Foundation
 
 struct Season: Codable {
     let year: Int?
-    let season: String?
+    let season: SeasonEnum?
 }

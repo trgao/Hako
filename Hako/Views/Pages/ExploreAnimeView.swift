@@ -42,6 +42,6 @@ struct ExploreAnimeView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Explore anime")
+        .navigationTitle("Anime")
     }
 }

@@ -26,11 +26,9 @@ struct ScrollViewBox<Content: View>: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Image(systemName: image)
+            Label(title, systemImage: image)
                 .foregroundStyle(settings.getAccentColor())
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Spacer()
-            Text(title)
                 .bold()
         }
         .contentShape(Rectangle())
@@ -41,7 +39,7 @@ struct ScrollViewBox<Content: View>: View {
             isLongPress = pressing
         }) {}
         .padding(20)
-        .frame(height: 80)
+        .frame(height: 50)
         .frame(maxWidth: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))

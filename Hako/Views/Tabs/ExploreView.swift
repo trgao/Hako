@@ -206,11 +206,11 @@ struct ExploreView: View {
                 VStack {
                     if !settings.hideExploreAnimeManga {
                         HStack {
-                            ScrollViewBox(title: "Explore anime", image: "tv.fill") {
+                            ScrollViewBox(title: "Anime", image: "tv.fill") {
                                 ExploreAnimeView()
                             }
                             Spacer()
-                            ScrollViewBox(title: "Explore manga", image: "book.fill") {
+                            ScrollViewBox(title: "Manga", image: "book.fill") {
                                 ExploreMangaView()
                             }
                         }

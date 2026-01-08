@@ -42,6 +42,6 @@ struct ExploreMangaView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Explore manga")
+        .navigationTitle("Manga")
     }
 }

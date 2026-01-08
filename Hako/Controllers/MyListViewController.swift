@@ -13,7 +13,7 @@ class MyListViewController: ObservableObject {
     @Published var animeItems = [MALListAnime]()
     @Published var isAnimeLoading = true
     @Published var animeStatus: StatusEnum = .watching
-    @Published var animeSort = "anime_title"
+    @Published var animeSort: SortEnum = .animeTitle
     private var currentAnimePage = 1
     private var canLoadMoreAnimePages = true
     
@@ -21,7 +21,7 @@ class MyListViewController: ObservableObject {
     @Published var mangaItems = [MALListManga]()
     @Published var isMangaLoading = true
     @Published var mangaStatus: StatusEnum = .reading
-    @Published var mangaSort = "manga_title"
+    @Published var mangaSort: SortEnum = .mangaTitle
     private var currentMangaPage = 1
     private var canLoadMoreMangaPages = true
     

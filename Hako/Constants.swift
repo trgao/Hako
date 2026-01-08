@@ -203,11 +203,11 @@ struct Constants {
         "10 - Masterpiece"
     ]
     
-    static let animeRankings = ["all", "tv", "ova", "movie", "special", "bypopularity", "favorite"]
-    static let mangaRankings = ["all", "manga", "novels", "oneshots", "manhwa", "manhua", "bypopularity", "favorite"]
+    static let animeRankings: [RankingEnum] = [.all, .tv, .ova, .movie, .special, .bypopularity, .favorite]
+    static let mangaRankings: [RankingEnum] = [.all, .manga, .novels, .oneshots, .manhwa, .manhua, .bypopularity, .favorite]
     
     static let animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
-    static let animeSorts = ["list_score", "list_updated_at", "anime_title", "anime_start_date"]
+    static let animeSorts: [SortEnum] = [.listScore, .listUpdatedAt, .animeTitle, .animeStartDate]
     static let mangaStatuses: [StatusEnum] = [.none, .reading, .completed, .onHold, .dropped, .planToRead]
-    static let mangaSorts = ["list_score", "list_updated_at", "manga_title", "manga_start_date"]
+    static let mangaSorts: [SortEnum] = [.listScore, .listUpdatedAt, .mangaTitle, .mangaStartDate]
 }

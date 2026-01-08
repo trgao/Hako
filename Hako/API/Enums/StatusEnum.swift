@@ -25,71 +25,44 @@ enum StatusEnum: Codable {
         case "plan_to_watch": self = .planToWatch
         case "reading": self = .reading
         case "plan_to_read": self = .planToRead
-        default:
-            self = .none
+        default: self = .none
         }
     }
     
     func toParameter() -> String {
         switch self {
-        case .watching:
-            return "watching"
-        case .completed:
-            return "completed"
-        case .onHold:
-            return "on_hold"
-        case .dropped:
-            return "dropped"
-        case .planToWatch:
-            return "plan_to_watch"
-        case .reading:
-            return "reading"
-        case .planToRead:
-            return "plan_to_read"
-        default:
-            return ""
+        case .watching: return "watching"
+        case .completed: return "completed"
+        case .onHold: return "on_hold"
+        case .dropped: return "dropped"
+        case .planToWatch: return "plan_to_watch"
+        case .reading: return "reading"
+        case .planToRead: return "plan_to_read"
+        default: return ""
         }
     }
     
     func toString() -> String {
         switch self {
-        case .none:
-            return "All"
-        case .watching:
-            return "Watching"
-        case .completed:
-            return "Completed"
-        case .onHold:
-            return "On hold"
-        case .dropped:
-            return "Dropped"
-        case .planToWatch:
-            return "Plan to watch"
-        case .reading:
-            return "Reading"
-        case .planToRead:
-            return "Plan to read"
+        case .none: return "All"
+        case .watching: return "Watching"
+        case .completed: return "Completed"
+        case .onHold: return "On hold"
+        case .dropped: return "Dropped"
+        case .planToWatch: return "Plan to watch"
+        case .reading: return "Reading"
+        case .planToRead: return "Plan to read"
         }
     }
     
     func toColour() -> Color {
         switch self {
-        case .watching:
-            return Color(.systemGreen)
-        case .completed:
-            return Color(.systemBlue)
-        case .onHold:
-            return Color(.systemYellow)
-        case .dropped:
-            return Color(.systemRed)
-        case .planToWatch:
-            return .primary
-        case .reading:
-            return Color(.systemGreen)
-        case .planToRead:
-            return .primary
-        default:
-            return .primary
+        case .watching: return Color(.systemGreen)
+        case .completed: return Color(.systemBlue)
+        case .onHold: return Color(.systemYellow)
+        case .dropped: return Color(.systemRed)
+        case .reading: return Color(.systemGreen)
+        default: return .primary
         }
     }
 }

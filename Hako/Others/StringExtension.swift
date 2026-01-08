@@ -10,16 +10,6 @@ extension String {
         return range(of: string, options: .literal)?.lowerBound
     }
     
-    func formatRankingType() -> String {
-        if self == "bypopularity" {
-            return "Popularity"
-        } else if self == "favorite" {
-            return "Favourites"
-        } else {
-            return self.formatMediaType()
-        }
-    }
-    
     func formatMediaType() -> String {
         let cur = self.lowercased()
         if cur == "tv" || cur == "ova" || cur == "ona" || cur == "pv" {
@@ -35,20 +25,6 @@ extension String {
         let text = self.replacingOccurrences(of: "_", with: " ")
         let first = text.prefix(1).capitalized
         return first + text.dropFirst()
-    }
-    
-    func formatSort() -> String {
-        if self == "list_score" {
-            return "By score"
-        } else if self == "list_updated_at" {
-            return "By last update"
-        } else if self == "anime_title" || self == "manga_title" {
-            return "By title"
-        } else if self == "anime_start_date" || self == "manga_start_date" {
-            return "By start date"
-        } else {
-            return ""
-        }
     }
     
     func formatThemeSong() -> String {

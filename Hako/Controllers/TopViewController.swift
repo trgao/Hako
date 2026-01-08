@@ -11,7 +11,7 @@ import Foundation
 class TopViewController: ObservableObject {
     // Anime list variables
     @Published var animeItems = [MALListAnime]()
-    @Published var animeRankingType = "all"
+    @Published var animeRankingType: RankingEnum = .all
     @Published var isAnimeLoading = true
     @Published var isAnimeLoadingError = false
     private var currentAnimePage = 1
@@ -19,7 +19,7 @@ class TopViewController: ObservableObject {
     
     // Manga list variables
     @Published var mangaItems = [MALListManga]()
-    @Published var mangaRankingType = "all"
+    @Published var mangaRankingType: RankingEnum = .all
     @Published var isMangaLoading = true
     @Published var isMangaLoadingError = false
     private var currentMangaPage = 1

@@ -312,13 +312,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    func getUserAnimeList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
+    func getUserAnimeList(page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
+        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
         return response.data
     }
     
-    func getUserMangaList(page: Int, status: StatusEnum, sort: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort)&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
+    func getUserMangaList(page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListManga] {
+        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
         return response.data
     }
     
@@ -427,13 +427,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getTopAnimeList(page: Int, rankingType: String) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType)&limit=500&offset=\((page - 1) * 500)&fields=\(animeFields)&nsfw=true", type: MALAnimeListResponse.self)
+    func getTopAnimeList(page: Int, rankingType: RankingEnum) async throws -> [MALListAnime] {
+        let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(animeFields)&nsfw=true", type: MALAnimeListResponse.self)
         return response.data
     }
     
-    func getTopMangaList(page: Int, rankingType: String) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType)&limit=500&offset=\((page - 1) * 500)&fields=\(mangaFields)&nsfw=true", type: MALMangaListResponse.self)
+    func getTopMangaList(page: Int, rankingType: RankingEnum) async throws -> [MALListManga] {
+        let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(mangaFields)&nsfw=true", type: MALMangaListResponse.self)
         return response.data
     }
     

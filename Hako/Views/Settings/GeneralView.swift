@@ -70,19 +70,19 @@ struct GeneralView: View {
                 }
             }
             Section("Top") {
-                let animeRankings = Constants.animeRankings.map{ $0.formatRankingType() }
-                let mangaRankings = Constants.mangaRankings.map{ $0.formatRankingType() }
+                let animeRankings = Constants.animeRankings.map{ $0.toString() }
+                let mangaRankings = Constants.mangaRankings.map{ $0.toString() }
                 PickerRow(title: "Default anime ranking", selection: $settings.defaultAnimeRanking, labels: animeRankings)
                 PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
             Section("My list") {
                 let animeStatuses = Constants.animeStatuses.map{ $0.toString() }
-                let animeSorts = Constants.animeSorts.map{ $0.formatSort() }
+                let animeSorts = Constants.animeSorts.map{ $0.toString() }
                 PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
                 PickerRow(title: "Default anime sort", selection: $settings.defaultAnimeSort, labels: animeSorts)
                 
                 let mangaStatuses = Constants.mangaStatuses.map{ $0.toString() }
-                let mangaSorts = Constants.mangaSorts.map{ $0.formatSort() }
+                let mangaSorts = Constants.mangaSorts.map{ $0.toString() }
                 PickerRow(title: "Default manga status", selection: $settings.defaultMangaStatus, labels: mangaStatuses)
                 PickerRow(title: "Default manga sort", selection: $settings.defaultMangaSort, labels: mangaSorts)
             }

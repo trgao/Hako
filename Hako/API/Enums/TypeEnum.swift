@@ -11,22 +11,7 @@ enum TypeEnum: String, Codable {
     case anime, manga, none
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let status = try? container.decode(String.self)
-        switch status {
-            case "anime": self = .anime
-            case "manga": self = .manga
-            default: self = .none
-        }
-    }
-    
-    func toString() -> String {
-        switch self {
-        case .anime:
-            return "anime"
-        case .manga:
-            return "manga"
-        default:
-            return ""
-        }
+        let type = try container.decode(String.self)
+        self = .init(rawValue: type) ?? .none
     }
 }

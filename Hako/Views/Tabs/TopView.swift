@@ -15,14 +15,14 @@ struct TopView: View {
     @State private var isRefresh = false
     @Binding private var id: UUID
     @Binding private var type: TypeEnum?
-    @Binding private var animeRanking: String?
-    @Binding private var mangaRanking: String?
+    @Binding private var animeRanking: RankingEnum?
+    @Binding private var mangaRanking: RankingEnum?
     private let columns: [GridItem] = [
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
     let networker = NetworkManager.shared
     
-    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<String?>, mangaRanking: Binding<String?>) {
+    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<RankingEnum?>, mangaRanking: Binding<RankingEnum?>) {
         self._id = id
         self._type = type
         self._animeRanking = animeRanking
@@ -46,24 +46,24 @@ struct TopView: View {
         Menu {
             if controller.type == .anime {
                 Picker(selection: $controller.animeRankingType, label: Text("Rank type")) {
-                    Label("All", systemImage: "star").tag("all")
-                    Label("TV", systemImage: "tv").tag("tv")
-                    Label("OVA", systemImage: "tv").tag("ova")
-                    Label("Movie", systemImage: "movieclapper").tag("movie")
-                    Label("Special", systemImage: "sparkles.tv").tag("special")
-                    Label("Popularity", systemImage: "popcorn").tag("bypopularity")
-                    Label("Favourites", systemImage: "heart").tag("favorite")
+                    Label("All", systemImage: "star").tag(RankingEnum.all)
+                    Label("TV", systemImage: "tv").tag(RankingEnum.tv)
+                    Label("OVA", systemImage: "tv").tag(RankingEnum.ova)
+                    Label("Movie", systemImage: "movieclapper").tag(RankingEnum.movie)
+                    Label("Special", systemImage: "sparkles.tv").tag(RankingEnum.special)
+                    Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
+                    Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
                 }
             } else if controller.type == .manga {
                 Picker(selection: $controller.mangaRankingType, label: Text("Rank type")) {
-                    Label("All", systemImage: "star").tag("all")
-                    Label("Manga", systemImage: "book").tag("manga")
-                    Label("Novels", systemImage: "book.closed").tag("novels")
-                    Label("Oneshots", systemImage: "book.pages").tag("oneshots")
-                    Label("Manhwa", systemImage: "book").tag("manhwa")
-                    Label("Manhua", systemImage: "book").tag("manhua")
-                    Label("Popularity", systemImage: "popcorn").tag("bypopularity")
-                    Label("Favourites", systemImage: "heart").tag("favorite")
+                    Label("All", systemImage: "star").tag(RankingEnum.all)
+                    Label("Manga", systemImage: "book").tag(RankingEnum.manga)
+                    Label("Novels", systemImage: "book.closed").tag(RankingEnum.novels)
+                    Label("Oneshots", systemImage: "book.pages").tag(RankingEnum.oneshots)
+                    Label("Manhwa", systemImage: "book").tag(RankingEnum.manhwa)
+                    Label("Manhua", systemImage: "book").tag(RankingEnum.manhua)
+                    Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
+                    Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
                 }
             }
         } label: {
@@ -93,8 +93,8 @@ struct TopView: View {
                                 ErrorView(refresh: { await controller.refreshAnime() })
                             } else {
                                 VStack {
-                                    if controller.animeRankingType != "all" {
-                                        Text(controller.animeRankingType.formatRankingType())
+                                    if controller.animeRankingType != .all {
+                                        Text(controller.animeRankingType.toString())
                                             .padding(.vertical, 10)
                                             .padding(.horizontal, 20)
                                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -133,8 +133,8 @@ struct TopView: View {
                                 ErrorView(refresh: { await controller.refreshManga() })
                             } else {
                                 VStack {
-                                    if controller.mangaRankingType != "all" {
-                                        Text(controller.mangaRankingType.formatRankingType())
+                                    if controller.mangaRankingType != .all {
+                                        Text(controller.mangaRankingType.toString())
                                             .padding(.vertical, 10)
                                             .padding(.horizontal, 20)
                                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -168,7 +168,7 @@ struct TopView: View {
                     }
                 }
             }
-            .navigationTitle("Top \(controller.type.toString())")
+            .navigationTitle("Top \(controller.type.rawValue)")
             .task(id: isRefresh) {
                 if controller.shouldRefresh() || isRefresh {
                     await controller.refresh(true)

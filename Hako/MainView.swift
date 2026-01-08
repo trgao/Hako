@@ -18,8 +18,8 @@ struct MainView: View {
     // Top tab
     @State private var topId = UUID()
     @State private var topType: TypeEnum?
-    @State private var animeRanking: String?
-    @State private var mangaRanking: String?
+    @State private var animeRanking: RankingEnum?
+    @State private var mangaRanking: RankingEnum?
     
     // Seasons tab
     @State private var seasonsId = UUID()
@@ -37,9 +37,9 @@ struct MainView: View {
     @State private var listId = UUID()
     @State private var listType: TypeEnum?
     @State private var animeStatus: StatusEnum?
-    @State private var animeSort: String?
+    @State private var animeSort: SortEnum?
     @State private var mangaStatus: StatusEnum?
-    @State private var mangaSort: String?
+    @State private var mangaSort: SortEnum?
     
     // Settings tab
     @State private var settingsId = UUID()
@@ -107,12 +107,12 @@ struct MainView: View {
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 if type == "anime" {
                     topType = .anime
-                    if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.animeRankings.contains(ranking) {
+                    if let rankingText = components.queryItems?.first(where: { $0.name == "ranking" })?.value, let ranking = RankingEnum(rawValue: rankingText) {
                         animeRanking = ranking
                     }
                 } else if type == "manga" {
                     topType = .manga
-                    if let ranking = components.queryItems?.first(where: { $0.name == "ranking" })?.value, Constants.mangaRankings.contains(ranking) {
+                    if let rankingText = components.queryItems?.first(where: { $0.name == "ranking" })?.value, let ranking = RankingEnum(rawValue: rankingText) {
                         mangaRanking = ranking
                     }
                 }
@@ -120,10 +120,8 @@ struct MainView: View {
         } else if host == "seasons" {
             tab = 1
             seasonsId = UUID()
-            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
+            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, yearInt >= 1917 && yearInt <= Constants.currentYear + 1, Constants.seasons.contains(seasonText) {
                 year = yearInt
-            }
-            if let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, Constants.seasons.contains(seasonText) {
                 season = seasonText
             }
         } else if host == "explore" {
@@ -154,7 +152,7 @@ struct MainView: View {
                     if animeStatus == .reading || animeStatus == .planToRead {
                         animeStatus = StatusEnum.none
                     }
-                    if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.animeSorts.contains(sort) {
+                    if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
                         animeSort = sort
                     }
                 } else if type == "manga" {
@@ -163,7 +161,7 @@ struct MainView: View {
                     if mangaStatus == .watching || mangaStatus == .planToWatch {
                         mangaStatus = StatusEnum.none
                     }
-                    if let sort = components.queryItems?.first(where: { $0.name == "sort" })?.value, Constants.mangaSorts.contains(sort) {
+                    if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
                         mangaSort = sort
                     }
                 }
@@ -186,13 +184,13 @@ struct MainView: View {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id))
+                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: host)!, id: id))
             } else if host == "producer" || host == "magazine" {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
                 let name = components.queryItems?.first(where: { $0.name == "name" })?.value
-                explorePath.append(ViewItem(type: ViewTypeEnum(value: host), id: id, name: name))
+                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: host)!, id: id, name: name))
             }
         }
     }

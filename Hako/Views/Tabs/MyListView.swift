@@ -17,9 +17,9 @@ struct MyListView: View {
     @Binding private var id: UUID
     @Binding private var type: TypeEnum?
     @Binding private var animeStatus: StatusEnum?
-    @Binding private var animeSort: String?
+    @Binding private var animeSort: SortEnum?
     @Binding private var mangaStatus: StatusEnum?
-    @Binding private var mangaSort: String?
+    @Binding private var mangaSort: SortEnum?
     
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
@@ -31,7 +31,7 @@ struct MyListView: View {
     @State private var isMangaDeleted = false
     @State private var mangaListStatus: MyListStatus?
     
-    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<String?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<String?>) {
+    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<SortEnum?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<SortEnum?>) {
         self._id = id
         self._type = type
         self._animeStatus = animeStatus
@@ -58,10 +58,10 @@ struct MyListView: View {
                 }
                 Divider()
                 Picker(selection: $controller.animeSort, label: Text("Sort")) {
-                    Label("By score", systemImage: "star").tag("list_score")
-                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
-                    Label("By title", systemImage: "character").tag("anime_title")
-                    Label("By start date", systemImage: "calendar").tag("anime_start_date")
+                    Label("By score", systemImage: "star").tag(SortEnum.listScore)
+                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag(SortEnum.listUpdatedAt)
+                    Label("By title", systemImage: "character").tag(SortEnum.animeTitle)
+                    Label("By start date", systemImage: "calendar").tag(SortEnum.animeStartDate)
                 }
                 .onChange(of: controller.animeSort) {
                     Task {
@@ -84,10 +84,10 @@ struct MyListView: View {
                 }
                 Divider()
                 Picker(selection: $controller.mangaSort, label: Text("Sort")) {
-                    Label("By score", systemImage: "star").tag("list_score")
-                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag("list_updated_at")
-                    Label("By title", systemImage: "character").tag("manga_title")
-                    Label("By start date", systemImage: "calendar").tag("manga_start_date")
+                    Label("By score", systemImage: "star").tag(SortEnum.listScore)
+                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag(SortEnum.listUpdatedAt)
+                    Label("By title", systemImage: "character").tag(SortEnum.mangaTitle)
+                    Label("By start date", systemImage: "calendar").tag(SortEnum.mangaStartDate)
                 }
                 .onChange(of: controller.mangaSort) {
                     Task {
@@ -348,7 +348,7 @@ struct MyListView: View {
                         AnimeMangaToggle(type: $controller.type)
                     }
                 }
-                .navigationTitle(controller.type == .anime ? "My anime list" : "My manga list")
+                .navigationTitle("My \(controller.type.rawValue) list")
             } else {
                 List {
                     SignInSections()

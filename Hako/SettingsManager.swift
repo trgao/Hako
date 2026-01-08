@@ -83,11 +83,11 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
     
-    func getAnimeRanking() -> String {
+    func getAnimeRanking() -> RankingEnum {
         return Constants.animeRankings[defaultAnimeRanking]
     }
     
-    func getMangaRanking() -> String {
+    func getMangaRanking() -> RankingEnum {
         return Constants.mangaRankings[defaultMangaRanking]
     }
     
@@ -95,7 +95,7 @@ class SettingsManager: ObservableObject {
         return Constants.animeStatuses[defaultAnimeStatus]
     }
     
-    func getAnimeSort() -> String {
+    func getAnimeSort() -> SortEnum {
         return Constants.animeSorts[defaultAnimeSort]
     }
     
@@ -103,7 +103,7 @@ class SettingsManager: ObservableObject {
         return Constants.mangaStatuses[defaultMangaStatus]
     }
     
-    func getMangaSort() -> String {
+    func getMangaSort() -> SortEnum {
         return Constants.mangaSorts[defaultMangaSort]
     }
     

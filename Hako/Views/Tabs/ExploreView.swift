@@ -473,11 +473,14 @@ struct ExploreView: View {
             .ignoresSafeArea(.keyboard)
             .searchable(text: $searchText, isPresented: $isPresented, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search")
             .onChange(of: isPresented) {
-                if !isPresented {
-                    searchText = ""
-                    previousSearch = ""
-                    controller.resetSearch()
+                guard urlSearchText == nil else {
+                    return
                 }
+                
+                print("reseting!!")
+                searchText = ""
+                previousSearch = ""
+                controller.resetSearch()
             }
             .navigationTitle("Explore")
             .toolbar {

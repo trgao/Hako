@@ -546,6 +546,10 @@ struct ExploreView: View {
                     ExploreAnimeView()
                 } else if item.type == .exploreManga {
                     ExploreMangaView()
+                } else if item.type == .exploreCharacters {
+                    ExploreCharactersView()
+                } else if item.type == .explorePeople {
+                    ExplorePeopleView()
                 }
             }
         }

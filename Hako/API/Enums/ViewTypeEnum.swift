@@ -6,7 +6,7 @@
 //
 
 enum ViewTypeEnum {
-    case anime, manga, character, person, animeGenre, mangaGenre, producer, magazine, news, exploreAnime, exploreManga, none
+    case anime, manga, character, person, animeGenre, mangaGenre, producer, magazine, news, exploreAnime, exploreManga, exploreCharacters, explorePeople, none
     
     init(value: String) {
         switch value {
@@ -21,6 +21,8 @@ enum ViewTypeEnum {
         case "news": self = .news
         case "exploreAnime": self = .exploreAnime
         case "exploreManga": self = .exploreManga
+        case "exploreCharacters": self = .exploreCharacters
+        case "explorePeople": self = .explorePeople
         default:
             self = .none
         }

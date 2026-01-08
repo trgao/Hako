@@ -132,6 +132,17 @@ struct MainView: View {
             if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
                 isSearchPresented = true
                 urlSearchText = text
+            } else if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
+                isSearchPresented = false
+                if type == "anime" {
+                    explorePath.append(ViewItem(type: .exploreAnime, id: 1))
+                } else if type == "manga" {
+                    explorePath.append(ViewItem(type: .exploreManga, id: 1))
+                } else if type == "characters" {
+                    explorePath.append(ViewItem(type: .exploreCharacters, id: 1))
+                } else if type == "people" {
+                    explorePath.append(ViewItem(type: .explorePeople, id: 1))
+                }
             }
         } else if host == "mylist" {
             tab = 3
@@ -165,16 +176,6 @@ struct MainView: View {
             exploreId = UUID()
             isSearchPresented = false
             explorePath.append(ViewItem(type: .news, id: 1))
-        } else if host == "exploreAnime" {
-            tab = 2
-            exploreId = UUID()
-            isSearchPresented = false
-            explorePath.append(ViewItem(type: .exploreAnime, id: 1))
-        } else if host == "exploreManga" {
-            tab = 2
-            exploreId = UUID()
-            isSearchPresented = false
-            explorePath.append(ViewItem(type: .exploreManga, id: 1))
         } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
                 tab = 2

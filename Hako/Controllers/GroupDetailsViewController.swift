@@ -19,8 +19,8 @@ class GroupDetailsViewController: ObservableObject {
     private let type: TypeEnum
     let networker = NetworkManager.shared
     
-    init(urlExtend: String, type: TypeEnum) {
-        self.urlExtend = urlExtend
+    init(group: String, id: Int, type: TypeEnum) {
+        self.urlExtend = "\(group)=\(id)&order_by=popularity"
         self.type = type
         Task {
             await refresh()
@@ -31,30 +31,26 @@ class GroupDetailsViewController: ObservableObject {
     func refresh() async {
         currentPage = 1
         canLoadMorePages = true
+        ids = []
         isLoading = true
         isLoadingError = false
         do {
+            var itemsList: [JikanListItem] = []
+            var results: [JikanListItem] = []
             if type == .anime {
-                let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
-                currentPage = 2
-                canLoadMorePages = !(animeList.isEmpty)
-                for item in animeList {
-                    if !ids.contains(item.id) {
-                        ids.insert(item.id)
-                        items.append(item)
-                    }
-                }
+                itemsList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
             } else if type == .manga {
-                let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                currentPage = 2
-                canLoadMorePages = !(mangaList.isEmpty)
-                for item in mangaList {
-                    if !ids.contains(item.id) {
-                        ids.insert(item.id)
-                        items.append(item)
-                    }
+                itemsList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
+            }
+            currentPage = 2
+            canLoadMorePages = !itemsList.isEmpty
+            for item in itemsList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    results.append(item)
                 }
             }
+            items = results
         } catch {
             isLoadingError = true
         }
@@ -76,27 +72,22 @@ class GroupDetailsViewController: ObservableObject {
         isLoading = true
         isLoadingError = false
         do {
+            var itemsList: [JikanListItem] = []
+            var results: [JikanListItem] = []
             if type == .anime {
-                let animeList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
-                currentPage += 1
-                canLoadMorePages = !(animeList.isEmpty)
-                for item in animeList {
-                    if !ids.contains(item.id) {
-                        ids.insert(item.id)
-                        items.append(item)
-                    }
-                }
+                itemsList = try await networker.getAnimeList(urlExtend: urlExtend, page: currentPage)
             } else if type == .manga {
-                let mangaList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
-                currentPage += 1
-                canLoadMorePages = !(mangaList.isEmpty)
-                for item in mangaList {
-                    if !ids.contains(item.id) {
-                        ids.insert(item.id)
-                        items.append(item)
-                    }
+                itemsList = try await networker.getMangaList(urlExtend: urlExtend, page: currentPage)
+            }
+            currentPage += 1
+            canLoadMorePages = !itemsList.isEmpty
+            for item in itemsList {
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    results.append(item)
                 }
             }
+            items.append(contentsOf: results)
         } catch {
             isLoadingError = true
         }

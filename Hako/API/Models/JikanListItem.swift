@@ -13,6 +13,7 @@ struct JikanListItem: Codable, Identifiable {
     let title: String?
     let titleJapanese: String?
     let titleEnglish: String?
+    let titles: [Title]?
     let name: String?
     let images: Images?
     let score: Double?
@@ -29,4 +30,9 @@ struct JikanListItem: Codable, Identifiable {
     let year: Int?
     let source: String?
     let members: Int?
+}
+
+struct Title: Codable {
+    let type: String?
+    let title: String?
 }

@@ -1,5 +1,5 @@
 //
-//  ExploreCharactersViewController.swift
+//  MagazinesListViewController.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 7/1/26.
@@ -8,8 +8,8 @@
 import Foundation
 
 @MainActor
-class ExploreCharactersViewController: ObservableObject {
-    @Published var characters: [JikanListItem] = []
+class MagazinesListViewController: ObservableObject {
+    @Published var magazines: [JikanListItem] = []
     @Published var isLoading = true
     @Published var isLoadingError = false
     private var ids: Set<Int> = []
@@ -17,7 +17,7 @@ class ExploreCharactersViewController: ObservableObject {
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
     
-    // Refresh the characters list page
+    // Refresh the magazines list page
     func refresh() async {
         isLoading = true
         isLoadingError = false
@@ -25,48 +25,48 @@ class ExploreCharactersViewController: ObservableObject {
         currentPage = 1
         canLoadMorePages = true
         do {
-            let characterList = try await networker.getCharacters(page: currentPage)
+            let magazineList = try await networker.getMagazines(page: currentPage)
             var results: [JikanListItem] = []
             currentPage = 2
-            canLoadMorePages = !characterList.isEmpty
-            for item in characterList {
+            canLoadMorePages = !magazineList.isEmpty
+            for item in magazineList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
                     results.append(item)
                 }
             }
-            characters = results
+            magazines = results
         } catch {
             isLoadingError = true
         }
         isLoading = false
     }
     
-    // Load more of the current characters list
+    // Load more of the current magazines list
     func loadMore() async {
         isLoading = true
         isLoadingError = false
         do {
-            let characterList = try await networker.getCharacters(page: currentPage)
+            let magazineList = try await networker.getMagazines(page: currentPage)
             var results: [JikanListItem] = []
             currentPage += 1
-            canLoadMorePages = !characterList.isEmpty
-            for item in characterList {
+            canLoadMorePages = !magazineList.isEmpty
+            for item in magazineList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
                     results.append(item)
                 }
             }
-            characters.append(contentsOf: results)
+            magazines.append(contentsOf: results)
         } catch {
             isLoadingError = true
         }
         isLoading = false
     }
     
-    // Load more characters when reaching the 4th last character in list
+    // Load more magazines when reaching the 4th last magazine in list
     func loadMoreIfNeeded(index: Int) async {
-        if index == characters.index(characters.endIndex, offsetBy: -4) {
+        if index == magazines.index(magazines.endIndex, offsetBy: -4) {
             return await loadMore()
         }
     }

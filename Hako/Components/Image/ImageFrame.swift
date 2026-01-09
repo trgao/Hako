@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-enum ImageSize {
-    case reviewUser, small, medium, large, background
-}
-
 struct ImageFrame: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var settings: SettingsManager
@@ -78,4 +74,8 @@ struct ImageFrame: View {
             await controller.refresh()
         }
     }
+}
+
+enum ImageSize {
+    case reviewUser, small, medium, large, background
 }

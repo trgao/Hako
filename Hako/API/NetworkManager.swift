@@ -382,13 +382,23 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data.malId
     }
     
+    func getStudios(page: Int) async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/producers?order_by=count&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        return response.data
+    }
+    
+    func getMagazines(page: Int) async throws -> [JikanListItem] {
+        let response = try await getJikanResponse(urlExtend: "/magazines?order_by=count&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        return response.data
+    }
+    
     func getCharacters(page: Int) async throws -> [JikanListItem] {
-        let response = try await getJikanResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanPeopleResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getPeople(page: Int) async throws -> [JikanListItem] {
-        let response = try await getJikanResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanPeopleResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     

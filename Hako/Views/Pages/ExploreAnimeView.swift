@@ -13,7 +13,7 @@ struct ExploreAnimeView: View {
             Section("Genres") {
                 ForEach(Constants.animeGenreKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.animeGenres[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeGenres[id], group: "genres", id: id, type: .anime)
                     } label: {
                         Text(Constants.animeGenres[id] ?? "")
                     }
@@ -23,7 +23,7 @@ struct ExploreAnimeView: View {
             Section("Themes") {
                 ForEach(Constants.animeThemeKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.animeThemes[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeThemes[id], group: "genres", id: id, type: .anime)
                     } label: {
                         Text(Constants.animeThemes[id] ?? "")
                     }
@@ -33,13 +33,19 @@ struct ExploreAnimeView: View {
             Section("Demographics") {
                 ForEach(Constants.animeDemographicKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.animeDemographics[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .anime)
+                        GroupDetailsView(title: Constants.animeDemographics[id], group: "genres", id: id, type: .anime)
                     } label: {
                         Text(Constants.animeDemographics[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
+            NavigationLink {
+                StudiosListView()
+            } label: {
+                Text("Studios")
+            }
+            .buttonStyle(.plain)
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Anime")

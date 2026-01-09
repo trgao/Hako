@@ -13,7 +13,7 @@ struct ExploreMangaView: View {
             Section("Genres") {
                 ForEach(Constants.mangaGenreKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.mangaGenres[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaGenres[id], group: "genres", id: id, type: .manga)
                     } label: {
                         Text(Constants.mangaGenres[id] ?? "")
                     }
@@ -23,7 +23,7 @@ struct ExploreMangaView: View {
             Section("Themes") {
                 ForEach(Constants.mangaThemeKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.mangaThemes[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaThemes[id], group: "genres", id: id, type: .manga)
                     } label: {
                         Text(Constants.mangaThemes[id] ?? "")
                     }
@@ -33,13 +33,19 @@ struct ExploreMangaView: View {
             Section("Demographics") {
                 ForEach(Constants.mangaDemographicKeys, id: \.self) { id in
                     NavigationLink {
-                        GroupDetailsView(title: Constants.mangaDemographics[id], urlExtend: "genres=\(String(id))&order_by=popularity&sort=asc", type: .manga)
+                        GroupDetailsView(title: Constants.mangaDemographics[id], group: "genres", id: id, type: .manga)
                     } label: {
                         Text(Constants.mangaDemographics[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
+            NavigationLink {
+                MagazinesListView()
+            } label: {
+                Text("Magazines")
+            }
+            .buttonStyle(.plain)
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Manga")

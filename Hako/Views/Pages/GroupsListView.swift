@@ -24,7 +24,7 @@ struct GroupsListView: View {
         List {
             ForEach(items) { item in
                 NavigationLink {
-                    GroupDetailsView(title: item.name, urlExtend: "\(group)=\(String(item.id))&order_by=popularity&sort=asc", type: type)
+                    GroupDetailsView(title: item.name, group: group, id: item.id, type: type)
                 } label: {
                     Text(item.name)
                 }

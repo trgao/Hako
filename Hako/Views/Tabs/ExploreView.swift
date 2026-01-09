@@ -535,13 +535,13 @@ struct ExploreView: View {
                 } else if item.type == .person {
                     PersonDetailsView(id: item.id)
                 } else if item.type == .animeGenre {
-                    GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                    GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], group: "genres", id: item.id, type: .anime)
                 } else if item.type == .mangaGenre {
-                    GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], urlExtend: "genres=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                    GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], group: "genres", id: item.id, type: .manga)
                 } else if item.type == .producer {
-                    GroupDetailsView(title: item.name, urlExtend: "producers=\(String(item.id))&order_by=popularity&sort=asc", type: .anime)
+                    GroupDetailsView(title: item.name, group: "producers", id: item.id, type: .anime)
                 } else if item.type == .magazine {
-                    GroupDetailsView(title: item.name, urlExtend: "magazines=\(String(item.id))&order_by=popularity&sort=asc", type: .manga)
+                    GroupDetailsView(title: item.name, group: "magazines", id: item.id, type: .manga)
                 } else if item.type == .news {
                     NewsListView()
                 } else if item.type == .exploreAnime {

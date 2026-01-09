@@ -21,18 +21,21 @@ class ExplorePeopleViewController: ObservableObject {
     func refresh() async {
         isLoading = true
         isLoadingError = false
+        ids = []
         currentPage = 1
         canLoadMorePages = true
         do {
             let peopleList = try await networker.getPeople(page: currentPage)
+            var results: [JikanListItem] = []
             currentPage = 2
-            canLoadMorePages = peopleList.count > 0
+            canLoadMorePages = !peopleList.isEmpty
             for item in peopleList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
-                    people.append(item)
+                    results.append(item)
                 }
             }
+            people = results
         } catch {
             isLoadingError = true
         }
@@ -45,14 +48,16 @@ class ExplorePeopleViewController: ObservableObject {
         isLoadingError = false
         do {
             let peopleList = try await networker.getPeople(page: currentPage)
+            var results: [JikanListItem] = []
             currentPage += 1
-            canLoadMorePages = peopleList.count > 0
+            canLoadMorePages = !peopleList.isEmpty
             for item in peopleList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
-                    people.append(item)
+                    results.append(item)
                 }
             }
+            people.append(contentsOf: results)
         } catch {
             isLoadingError = true
         }

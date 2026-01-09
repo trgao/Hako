@@ -33,23 +33,26 @@ class ReviewsListViewController: ObservableObject {
     func refresh() async {
         isLoadingError = false
         currentPage = 1
+        ids = []
         canLoadMore = false
         isLoading = true
         do {
             var reviewsList: [Review] = []
+            var results: [Review] = []
             if type == .anime {
                 reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
             } else if type == .manga {
                 reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
             currentPage = 2
-            canLoadMore = !(reviewsList.isEmpty)
+            canLoadMore = !reviewsList.isEmpty
             for item in reviewsList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
-                    reviews.append(item)
+                    results.append(item)
                 }
             }
+            reviews = results
         } catch {
             isLoadingError = true
         }
@@ -72,19 +75,21 @@ class ReviewsListViewController: ObservableObject {
         isLoadingError = false
         do {
             var reviewsList: [Review] = []
+            var results: [Review] = []
             if type == .anime {
                 reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
             } else if type == .manga {
                 reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
             currentPage += 1
-            canLoadMore = !(reviewsList.isEmpty)
+            canLoadMore = !reviewsList.isEmpty
             for item in reviewsList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
-                    reviews.append(item)
+                    results.append(item)
                 }
             }
+            reviews.append(contentsOf: results)
         } catch {
             isLoadingError = true
         }

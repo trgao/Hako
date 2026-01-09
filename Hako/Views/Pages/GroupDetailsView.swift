@@ -16,10 +16,10 @@ struct GroupDetailsView: View {
     private let title: String?
     private let type: TypeEnum
     
-    init(title: String?, urlExtend: String, type: TypeEnum) {
+    init(title: String?, group: String, id: Int, type: TypeEnum) {
         self.title = title
         self.type = type
-        self._controller = StateObject(wrappedValue: GroupDetailsViewController(urlExtend: urlExtend, type: type))
+        self._controller = StateObject(wrappedValue: GroupDetailsViewController(group: group, id: id, type: type))
     }
     
     var body: some View {
@@ -44,15 +44,15 @@ struct GroupDetailsView: View {
                         }
                     }
                     .padding(10)
-                    .task(id: isRefresh) {
-                        if isRefresh {
-                            await controller.refresh()
-                            isRefresh = false
-                        }
+                }
+                .task(id: isRefresh) {
+                    if isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
                     }
-                    .refreshable {
-                        isRefresh = true
-                    }
+                }
+                .refreshable {
+                    isRefresh = true
                 }
             } else if !controller.isLoading {
                 VStack {

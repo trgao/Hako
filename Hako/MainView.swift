@@ -140,6 +140,10 @@ struct MainView: View {
                     explorePath.append(ViewItem(type: .exploreCharacters, id: 1))
                 } else if type == "people" {
                     explorePath.append(ViewItem(type: .explorePeople, id: 1))
+                } else if type == "studios" {
+                    explorePath.append(ViewItem(type: .exploreStudios, id: 1))
+                } else if type == "magazines" {
+                    explorePath.append(ViewItem(type: .exploreMagazines, id: 1))
                 }
             }
         } else if host == "mylist" {

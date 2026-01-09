@@ -552,6 +552,10 @@ struct ExploreView: View {
                     ExploreCharactersView()
                 } else if item.type == .explorePeople {
                     ExplorePeopleView()
+                } else if item.type == .exploreStudios {
+                    StudiosListView()
+                } else if item.type == .exploreMagazines {
+                    MagazinesListView()
                 }
             }
         }

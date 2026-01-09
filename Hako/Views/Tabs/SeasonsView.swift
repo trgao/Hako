@@ -15,9 +15,6 @@ struct SeasonsView: View {
     @Binding private var id: UUID
     @Binding private var year: Int?
     @Binding private var season: SeasonEnum?
-    private let columns: [GridItem] = [
-        GridItem(.adaptive(minimum: 150), alignment: .top),
-    ]
     let networker = NetworkManager.shared
     
     init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
@@ -29,7 +26,7 @@ struct SeasonsView: View {
     @ViewBuilder private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
             VStack {
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: Constants.columns) {
                     ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                             .task {
@@ -44,7 +41,7 @@ struct SeasonsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .bold()
                         .font(.title2)
-                    LazyVGrid(columns: columns) {
+                    LazyVGrid(columns: Constants.columns) {
                         ForEach(seasonContinuingItems) { item in
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }

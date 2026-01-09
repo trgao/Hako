@@ -10,6 +10,9 @@ import SwiftUI
 struct Constants {
     static let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
+    static let columns: [GridItem] = [
+        GridItem(.adaptive(minimum: 150), alignment: .top),
+    ]
     
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
@@ -58,6 +61,7 @@ struct Constants {
         62: "Isekai",
         63: "Iyashikei",
         64: "Love Polygon",
+        74: "Love Status Quo",
         65: "Magical Sex Shift",
         66: "Mahou Shoujo",
         17: "Martial Arts",
@@ -75,7 +79,6 @@ struct Constants {
         3: "Racing",
         72: "Reincarnation",
         73: "Reverse Harem",
-        74: "Love Status Quo",
         21: "Samurai",
         23: "School",
         75: "Showbiz",
@@ -85,14 +88,14 @@ struct Constants {
         76: "Survival",
         77: "Team Sports",
         78: "Time Travel",
+        82: "Urban Fantasy",
         32: "Vampire",
         79: "Video Game",
+        83: "Villainess",
         80: "Visual Arts",
         48: "Workplace",
-        82: "Urban Fantasy",
-        83: "Villainess",
     ]
-    static let animeThemeKeys = [50, 51, 52, 53, 54, 81, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 65, 66, 17, 18, 67, 38, 19, 6, 68, 69, 20, 70, 71, 40, 3, 72, 73, 74, 21, 23, 75, 29, 11, 31, 76, 77, 78, 32, 79, 80, 48, 82, 83]
+    static let animeThemeKeys = [50, 51, 52, 53, 54, 81, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 74, 65, 66, 17, 18, 67, 38, 19, 6, 68, 69, 20, 70, 71, 40, 3, 72, 73, 21, 23, 75, 29, 11, 31, 76, 77, 78, 82, 32, 79, 83, 80, 48]
     static let animeDemographics = [
         43: "Josei",
         15: "Kids",
@@ -145,11 +148,13 @@ struct Constants {
         62: "Isekai",
         63: "Iyashikei",
         64: "Love Polygon",
+        75: "Love Status Quo",
         65: "Magical Sex Shift",
         66: "Mahou Shoujo",
         17: "Martial Arts",
         18: "Mecha",
         67: "Medical",
+        68: "Memoir",
         38: "Military",
         19: "Music",
         6: "Mythology",
@@ -162,7 +167,6 @@ struct Constants {
         3: "Racing",
         73: "Reincarnation",
         74: "Reverse Harem",
-        75: "Love Status Quo",
         21: "Samurai",
         23: "School",
         76: "Showbiz",
@@ -172,14 +176,14 @@ struct Constants {
         77: "Survival",
         78: "Team Sports",
         79: "Time Travel",
+        83: "Urban Fantasy",
         32: "Vampire",
         80: "Video Game",
         81: "Villainess",
         82: "Visual Arts",
         48: "Workplace",
-        83: "Urban Fantasy",
     ]
-    static let mangaThemeKeys = [50, 51, 52, 53, 54, 44, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 65, 66, 17, 18, 67, 38, 19, 6, 69, 70, 20, 71, 72, 40, 3, 73, 74, 75, 21, 23, 76, 29, 11, 31, 77, 78, 79, 32, 80, 81, 82, 48, 83]
+    static let mangaThemeKeys = [50, 51, 52, 53, 54, 44, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 75, 65, 66, 17, 18, 67, 68, 38, 19, 6, 69, 70, 20, 71, 72, 40, 3, 73, 74, 21, 23, 76, 29, 11, 31, 77, 78, 79, 83, 32, 80, 81, 82, 48]
     static let mangaDemographics = [
         42: "Josei",
         15: "Kids",

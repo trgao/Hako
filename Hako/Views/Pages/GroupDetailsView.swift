@@ -10,9 +10,6 @@ import SwiftUI
 struct GroupDetailsView: View {
     @StateObject private var controller: GroupDetailsViewController
     @State private var isRefresh = false
-    private let columns: [GridItem] = [
-        GridItem(.adaptive(minimum: 150), alignment: .top),
-    ]
     private let title: String?
     private let type: TypeEnum
     
@@ -28,7 +25,7 @@ struct GroupDetailsView: View {
                 ErrorView(refresh: controller.refresh)
             } else if !controller.items.isEmpty {
                 ScrollView {
-                    LazyVGrid(columns: columns) {
+                    LazyVGrid(columns: Constants.columns) {
                         ForEach(Array(controller.items.enumerated()), id: \.1.id) { index, item in
                             if type == .anime {
                                 AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))

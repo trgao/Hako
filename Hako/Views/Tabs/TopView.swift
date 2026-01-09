@@ -17,9 +17,6 @@ struct TopView: View {
     @Binding private var type: TypeEnum?
     @Binding private var animeRanking: RankingEnum?
     @Binding private var mangaRanking: RankingEnum?
-    private let columns: [GridItem] = [
-        GridItem(.adaptive(minimum: 150), alignment: .top),
-    ]
     let networker = NetworkManager.shared
     
     init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<RankingEnum?>, mangaRanking: Binding<RankingEnum?>) {
@@ -102,7 +99,7 @@ struct TopView: View {
                                             .foregroundStyle(Color(.systemGray))
                                             .bold()
                                     }
-                                    LazyVGrid(columns: columns) {
+                                    LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
                                             AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
                                                 .task {
@@ -142,7 +139,7 @@ struct TopView: View {
                                             .foregroundStyle(Color(.systemGray))
                                             .bold()
                                     }
-                                    LazyVGrid(columns: columns) {
+                                    LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
                                             MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
                                                 .task {

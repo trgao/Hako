@@ -11,10 +11,14 @@ struct GroupDetailsView: View {
     @StateObject private var controller: GroupDetailsViewController
     @State private var isRefresh = false
     private let title: String?
+    private let group: String
+    private let id: Int
     private let type: TypeEnum
     
     init(title: String?, group: String, id: Int, type: TypeEnum) {
         self.title = title
+        self.group = String(group.dropLast())
+        self.id = id
         self.type = type
         self._controller = StateObject(wrappedValue: GroupDetailsViewController(group: group, id: id, type: type))
     }
@@ -67,5 +71,10 @@ struct GroupDetailsView: View {
             }
         }
         .navigationTitle(title ?? "")
+        .toolbar {
+            ShareLink(item: URL(string: "https://myanimelist.net/\(type.rawValue)/\(group)/\(id)")!) {
+                Image(systemName: "square.and.arrow.up")
+            }
+        }
     }
 }

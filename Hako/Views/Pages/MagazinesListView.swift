@@ -26,7 +26,7 @@ struct MagazinesListView: View {
                         ForEach(Array(controller.magazines.enumerated()), id: \.1.id) { index, magazine in
                             if let name = magazine.name {
                                 NavigationLink {
-                                    GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .anime)
+                                    GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
                                 } label: {
                                     Text(name)
                                 }

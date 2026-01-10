@@ -8,16 +8,12 @@
 import SwiftUI
 
 private func statusToIndex(_ status: StatusEnum?) -> Int {
-    if status == .watching || status == .reading {
-        return 0
-    } else if status == .completed {
-        return 1
-    } else if status == .onHold {
-        return 2
-    } else if status == .dropped {
-        return 3
-    } else {
-        return 4
+    switch status {
+    case .watching, .reading: return 0
+    case .completed: return 1
+    case .onHold: return 2
+    case .dropped: return 3
+    default: return 4
     }
 }
 
@@ -39,41 +35,14 @@ struct StatusPickerRow: View {
         }
     }
     
-    private var menu: some View {
-        Menu {
+    var body: some View {
+        Picker("Status", selection: $selection) {
             ForEach(labels.indices, id: \.self) { index in
-                Button {
-                    selected = index
-                    selection = mappings[index]
-                } label: {
-                    if selected == index {
-                        HStack {
-                            Image(systemName: "checkmark")
-                            Text(labels[index])
-                        }
-                    } else {
-                        Text(labels[index])
-                    }
-                }
-            }
-        } label: {
-            HStack {
-                Text(labels[selected])
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 13))
+                Text(labels[index]).tag(mappings[index])
             }
         }
         .onChange(of: selection) { _, cur in
             selected = statusToIndex(cur)
-        }
-    }
-    
-    var body: some View {
-        HStack {
-            Text("Status")
-                .foregroundStyle(Color.primary)
-            Spacer()
-            menu
         }
     }
 }

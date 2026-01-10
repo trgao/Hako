@@ -18,39 +18,13 @@ struct PickerRow: View {
         self.labels = labels
     }
     
-    private var menu: some View {
-        Menu {
+    var body: some View {
+        Picker(title, selection: $selection) {
             ForEach(labels.indices, id: \.self) { index in
                 if !labels[index].isEmpty {
-                    Button {
-                        selection = index
-                    } label: {
-                        if selection == index {
-                            HStack {
-                                Image(systemName: "checkmark")
-                                Text(labels[index])
-                            }
-                        } else {
-                            Text(labels[index])
-                        }
-                    }
+                    Text(labels[index]).tag(index)
                 }
             }
-        } label: {
-            HStack {
-                Text(labels[selection])
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 13))
-            }
-        }
-    }
-    
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundStyle(Color.primary)
-            Spacer()
-            menu
         }
     }
 }

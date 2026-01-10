@@ -49,6 +49,7 @@ struct GroupDetailsView: View {
                 .task(id: isRefresh) {
                     if isRefresh {
                         await controller.refresh()
+                        await controller.loadMore()
                         isRefresh = false
                     }
                 }

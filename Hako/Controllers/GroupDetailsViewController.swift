@@ -58,7 +58,7 @@ class GroupDetailsViewController: ObservableObject {
     }
     
     // Load more of the current anime/manga list
-    private func loadMore() async {
+    func loadMore() async {
         // only load more when it is not loading and there are more pages to be loaded
         guard !isLoading && canLoadMorePages else {
             return

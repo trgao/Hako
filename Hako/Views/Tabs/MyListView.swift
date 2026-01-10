@@ -298,7 +298,7 @@ struct MyListView: View {
                 .sheet(item: $selectedAnime) {
                     Task {
                         if let index = selectedAnimeIndex, let animeListStatus = animeListStatus {
-                            if isAnimeDeleted || animeListStatus.status != controller.animeStatus {
+                            if isAnimeDeleted || (controller.animeStatus != .none && animeListStatus.status != controller.animeStatus) {
                                 controller.animeItems.remove(at: index)
                             } else {
                                 controller.animeItems[index].listStatus = animeListStatus
@@ -320,7 +320,7 @@ struct MyListView: View {
                 .sheet(item: $selectedManga) {
                     Task {
                         if let index = selectedMangaIndex, let mangaListStatus = mangaListStatus {
-                            if isMangaDeleted || mangaListStatus.status != controller.mangaStatus {
+                            if isMangaDeleted || (controller.mangaStatus != .none && mangaListStatus.status != controller.mangaStatus) {
                                 controller.mangaItems.remove(at: index)
                             } else {
                                 controller.mangaItems[index].listStatus = mangaListStatus

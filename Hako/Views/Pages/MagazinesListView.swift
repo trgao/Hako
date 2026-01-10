@@ -19,7 +19,7 @@ struct MagazinesListView: View {
                 }
                 .disabled(true)
             } else {
-                if controller.isLoadingError {
+                if controller.isLoadingError && controller.magazines.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
                     List {
@@ -30,9 +30,9 @@ struct MagazinesListView: View {
                                 } label: {
                                     Text(name)
                                 }
-                                .onAppear {
-                                    Task {
-                                        await controller.loadMoreIfNeeded(index: index)
+                                .task {
+                                    if magazine.id == controller.magazines.last?.id {
+                                        await controller.loadMore()
                                     }
                                 }
                             }
@@ -53,6 +53,7 @@ struct MagazinesListView: View {
         .task(id: isRefresh) {
             if controller.magazines.isEmpty || isRefresh {
                 await controller.refresh()
+                await controller.loadMore()
                 isRefresh = false
             }
         }

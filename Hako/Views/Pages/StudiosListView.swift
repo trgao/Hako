@@ -19,7 +19,7 @@ struct StudiosListView: View {
                 }
                 .disabled(true)
             } else {
-                if controller.isLoadingError {
+                if controller.isLoadingError && controller.studios.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
                     List {
@@ -30,9 +30,9 @@ struct StudiosListView: View {
                                 } label: {
                                     Text(title)
                                 }
-                                .onAppear {
-                                    Task {
-                                        await controller.loadMoreIfNeeded(index: index)
+                                .task {
+                                    if studio.id == controller.studios.last?.id {
+                                        await controller.loadMore()
                                     }
                                 }
                             }
@@ -53,6 +53,7 @@ struct StudiosListView: View {
         .task(id: isRefresh) {
             if controller.studios.isEmpty || isRefresh {
                 await controller.refresh()
+                await controller.loadMore()
                 isRefresh = false
             }
         }

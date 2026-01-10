@@ -63,11 +63,4 @@ class MagazinesListViewController: ObservableObject {
         }
         isLoading = false
     }
-    
-    // Load more magazines when reaching the 4th last magazine in list
-    func loadMoreIfNeeded(index: Int) async {
-        if index == magazines.index(magazines.endIndex, offsetBy: -4) {
-            return await loadMore()
-        }
-    }
 }

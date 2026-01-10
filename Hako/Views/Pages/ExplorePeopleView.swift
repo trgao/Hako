@@ -19,16 +19,14 @@ struct ExplorePeopleView: View {
                 }
                 .disabled(true)
             } else {
-                if controller.isLoadingError {
+                if controller.isLoadingError && controller.people.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
                     List {
                         ForEach(Array(controller.people.enumerated()), id: \.1.id) { index, person in
                             PersonListItem(person: person)
-                                .onAppear {
-                                    Task {
-                                        await controller.loadMoreIfNeeded(index: index)
-                                    }
+                                .task {
+                                    await controller.loadMoreIfNeeded(index: index)
                                 }
                         }
                         if controller.isLoading {

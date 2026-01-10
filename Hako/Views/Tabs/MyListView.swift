@@ -129,10 +129,8 @@ struct MyListView: View {
                         } else {
                             ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
                                 AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
-                                    .onAppear {
-                                        Task {
-                                            await controller.loadMoreIfNeeded(index: index)
-                                        }
+                                    .task {
+                                        await controller.loadMoreIfNeeded(index: index)
                                     }
                                     .swipeActions(edge: .leading) {
                                         if settings.useSwipeActions && !controller.isLoading {
@@ -200,10 +198,8 @@ struct MyListView: View {
                         } else {
                             ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
                                 MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
-                                    .onAppear {
-                                        Task {
-                                            await controller.loadMoreIfNeeded(index: index)
-                                        }
+                                    .task {
+                                        await controller.loadMoreIfNeeded(index: index)
                                     }
                                     .swipeActions(edge: .leading) {
                                         if settings.useSwipeActions && !controller.isLoading {

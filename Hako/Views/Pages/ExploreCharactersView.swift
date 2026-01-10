@@ -19,16 +19,14 @@ struct ExploreCharactersView: View {
                 }
                 .disabled(true)
             } else {
-                if controller.isLoadingError {
+                if controller.isLoadingError && controller.characters.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
                     List {
                         ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
                             CharacterListItem(character: character)
-                                .onAppear {
-                                    Task {
-                                        await controller.loadMoreIfNeeded(index: index)
-                                    }
+                                .task {
+                                    await controller.loadMoreIfNeeded(index: index)
                                 }
                         }
                         if controller.isLoading {

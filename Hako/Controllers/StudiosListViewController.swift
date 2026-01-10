@@ -63,11 +63,4 @@ class StudiosListViewController: ObservableObject {
         }
         isLoading = false
     }
-    
-    // Load more studios when reaching the 4th last studio in list
-    func loadMoreIfNeeded(index: Int) async {
-        if index == studios.index(studios.endIndex, offsetBy: -4) {
-            return await loadMore()
-        }
-    }
 }

@@ -30,9 +30,11 @@ struct StudiosListView: View {
                                 } label: {
                                     Text(title)
                                 }
-                                .task {
-                                    if studio.id == controller.studios.last?.id {
-                                        await controller.loadMore()
+                                .onAppear {
+                                    Task {
+                                        if studio.id == controller.studios.last?.id {
+                                            await controller.loadMore()
+                                        }
                                     }
                                 }
                             }

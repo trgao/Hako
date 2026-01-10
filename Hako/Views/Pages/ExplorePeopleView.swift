@@ -25,8 +25,10 @@ struct ExplorePeopleView: View {
                     List {
                         ForEach(Array(controller.people.enumerated()), id: \.1.id) { index, person in
                             PersonListItem(person: person)
-                                .task {
-                                    await controller.loadMoreIfNeeded(index: index)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
+                                    }
                                 }
                         }
                         if controller.isLoading {

@@ -33,13 +33,17 @@ struct GroupDetailsView: View {
                         ForEach(Array(controller.items.enumerated()), id: \.1.id) { index, item in
                             if type == .anime {
                                 AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
-                                    .task {
-                                        await controller.loadMoreIfNeeded(index: index)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
+                                        }
                                     }
                             } else if type == .manga {
                                 MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
-                                    .task {
-                                        await controller.loadMoreIfNeeded(index: index)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
+                                        }
                                     }
                             }
                         }

@@ -29,8 +29,10 @@ struct SeasonsView: View {
                 LazyVGrid(columns: Constants.columns) {
                     ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                            .task {
-                                await controller.loadMoreIfNeeded(index: index)
+                            .onAppear {
+                                Task {
+                                    await controller.loadMoreIfNeeded(index: index)
+                                }
                             }
                     }
                 }

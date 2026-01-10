@@ -174,16 +174,10 @@ class TopViewController: ObservableObject {
     
     // Load more anime when reaching the 4th last anime/manga in list
     func loadMoreIfNeeded(index: Int) async {
-        if type == .anime {
-            let thresholdIndex = animeItems.index(animeItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
-        } else if type == .manga {
-            let thresholdIndex = mangaItems.index(mangaItems.endIndex, offsetBy: -4)
-            if index == thresholdIndex {
-                return await loadMore()
-            }
+        if type == .anime && index == animeItems.endIndex - 5 {
+            await loadMore()
+        } else if type == .manga && index == mangaItems.endIndex - 5 {
+            await loadMore()
         }
     }
 }

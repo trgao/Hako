@@ -43,7 +43,7 @@ class ExplorePeopleViewController: ObservableObject {
     }
     
     // Load more of the current people list
-    func loadMore() async {
+    private func loadMore() async {
         isLoading = true
         isLoadingError = false
         do {
@@ -66,7 +66,7 @@ class ExplorePeopleViewController: ObservableObject {
     
     // Load more people when reaching the 4th last character in list
     func loadMoreIfNeeded(index: Int) async {
-        if index == people.index(people.endIndex, offsetBy: -4) {
+        if index == people.endIndex - 5 {
             return await loadMore()
         }
     }

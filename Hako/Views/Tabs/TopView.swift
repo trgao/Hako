@@ -102,8 +102,10 @@ struct TopView: View {
                                     LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
                                             AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
-                                                .task {
-                                                    await controller.loadMoreIfNeeded(index: index)
+                                                .onAppear {
+                                                    Task {
+                                                        await controller.loadMoreIfNeeded(index: index)
+                                                    }
                                                 }
                                         }
                                     }
@@ -142,8 +144,10 @@ struct TopView: View {
                                     LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
                                             MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
-                                                .task {
-                                                    await controller.loadMoreIfNeeded(index: index)
+                                                .onAppear {
+                                                    Task {
+                                                        await controller.loadMoreIfNeeded(index: index)
+                                                    }
                                                 }
                                         }
                                     }

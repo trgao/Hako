@@ -26,8 +26,10 @@ struct ReviewsListView: View {
                         ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
                             ReviewItem(item: item)
                                 .id(item.id)
-                                .task {
-                                    await controller.loadMoreIfNeeded(index: index)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
+                                    }
                                 }
                         }
                         if controller.isLoading {

@@ -43,7 +43,7 @@ class ExploreCharactersViewController: ObservableObject {
     }
     
     // Load more of the current characters list
-    func loadMore() async {
+    private func loadMore() async {
         isLoading = true
         isLoadingError = false
         do {
@@ -66,7 +66,7 @@ class ExploreCharactersViewController: ObservableObject {
     
     // Load more characters when reaching the 4th last character in list
     func loadMoreIfNeeded(index: Int) async {
-        if index == characters.index(characters.endIndex, offsetBy: -4) {
+        if index == characters.endIndex - 5 {
             return await loadMore()
         }
     }

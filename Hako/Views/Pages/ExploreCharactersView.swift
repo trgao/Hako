@@ -25,8 +25,10 @@ struct ExploreCharactersView: View {
                     List {
                         ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
                             CharacterListItem(character: character)
-                                .task {
-                                    await controller.loadMoreIfNeeded(index: index)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
+                                    }
                                 }
                         }
                         if controller.isLoading {

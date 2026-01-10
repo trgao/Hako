@@ -241,16 +241,16 @@ class SeasonsViewController: ObservableObject {
     func loadMoreIfNeeded(index: Int) async {
         var thresholdIndex: Int?
         if season == .winter {
-            thresholdIndex = winterItems.index(winterItems.endIndex, offsetBy: -4)
+            thresholdIndex = winterItems.endIndex - 5
         } else if season == .spring {
-            thresholdIndex = springItems.index(springItems.endIndex, offsetBy: -4)
+            thresholdIndex = springItems.endIndex - 5
         } else if season == .summer {
-            thresholdIndex = summerItems.index(summerItems.endIndex, offsetBy: -4)
+            thresholdIndex = summerItems.endIndex - 5
         } else if season == .fall {
-            thresholdIndex = fallItems.index(fallItems.endIndex, offsetBy: -4)
+            thresholdIndex = fallItems.endIndex - 5
         }
         if index == thresholdIndex {
-            return await loadMore()
+            await loadMore()
         }
     }
 }

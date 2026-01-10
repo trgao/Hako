@@ -30,9 +30,11 @@ struct MagazinesListView: View {
                                 } label: {
                                     Text(name)
                                 }
-                                .task {
-                                    if magazine.id == controller.magazines.last?.id {
-                                        await controller.loadMore()
+                                .onAppear {
+                                    Task {
+                                        if magazine.id == controller.magazines.last?.id {
+                                            await controller.loadMore()
+                                        }
                                     }
                                 }
                             }

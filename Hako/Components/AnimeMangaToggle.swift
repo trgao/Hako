@@ -62,7 +62,7 @@ struct AnimeMangaToggle: View {
                 type = .anime
             }
         }
-        .onChange(of: type) {
+        .task(id: type) {
             withAnimation {
                 if type == .anime {
                     offset = -17

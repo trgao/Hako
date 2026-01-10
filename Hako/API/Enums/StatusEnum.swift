@@ -7,17 +7,13 @@
 
 import SwiftUI
 
-enum StatusEnum: Codable {
+enum StatusEnum: String, Codable {
     case watching, completed, onHold, dropped, planToWatch, reading, planToRead, none
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let status = try? container.decode(String.self)
-        self = .init(text: status)
-    }
-    
-    init(text: String?) {
-        switch text {
+        switch status {
         case "watching": self = .watching
         case "completed": self = .completed
         case "on_hold": self = .onHold

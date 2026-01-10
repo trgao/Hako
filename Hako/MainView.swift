@@ -152,18 +152,16 @@ struct MainView: View {
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 if type == "anime" {
                     listType = .anime
-                    animeStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
-                    if animeStatus == .reading || animeStatus == .planToRead {
-                        animeStatus = StatusEnum.none
+                    if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .reading && status != .planToRead {
+                        animeStatus = status
                     }
                     if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
                         animeSort = sort
                     }
                 } else if type == "manga" {
                     listType = .manga
-                    mangaStatus = StatusEnum(text: components.queryItems?.first(where: { $0.name == "status" })?.value)
-                    if mangaStatus == .watching || mangaStatus == .planToWatch {
-                        mangaStatus = StatusEnum.none
+                    if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .watching && status != .planToWatch {
+                        mangaStatus = status
                     }
                     if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
                         mangaSort = sort

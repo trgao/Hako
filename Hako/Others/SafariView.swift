@@ -1,6 +1,6 @@
 //
 //  SafariView.swift
-//  Code taken from https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/
+//  Code adapted from https://www.avanderlee.com/swiftui/sfsafariviewcontroller-open-webpages-in-app/
 //
 
 import SwiftUI
@@ -32,10 +32,19 @@ private struct SafariViewControllerViewModifier: ViewModifier {
         if settings.safariInApp {
             content
                 .environment(\.openURL, OpenURLAction { url in
-                    // Catch any URLs that are about to be opened in an external browser.
-                    // Instead, handle them here and store the URL to reopen in our sheet.
-                    urlToOpen = url
-                    return .handled
+                    guard let scheme = url.scheme?.lowercased() else {
+                        return .systemAction
+                    }
+
+                    if scheme == "http" || scheme == "https" {
+                        // Catch any URLs that are about to be opened in an external browser.
+                        // Instead, handle them here and store the URL to reopen in our sheet.
+                        urlToOpen = url
+                        return .handled
+                    } else {
+                        // Let the system open app links
+                        return .systemAction
+                    }
                 })
                 .sheet(isPresented: $urlToOpen.mappedToBool(), onDismiss: {
                     urlToOpen = nil

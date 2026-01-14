@@ -1,7 +1,7 @@
 //
 //  SafariWebExtensionHandler.swift
 //  HakoExtension
-//  Code adapted from https://github.com/christianselig/OpenInApolloExtension
+//  Extension code (including JS scripts) adapted from https://github.com/christianselig/OpenInApolloExtension
 //
 
 import SafariServices

@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Open in Hako",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Open MyAnimeList links in Hako, either automatically or with a prompt. ",
+        "description": "Description of what the extension does."
+    }
+}

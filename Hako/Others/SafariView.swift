@@ -22,7 +22,11 @@ struct SafariView: UIViewControllerRepresentable {
 
 private struct SafariViewControllerViewModifier: ViewModifier {
     @EnvironmentObject private var settings: SettingsManager
-    @State private var urlToOpen: URL?
+    @Binding private var urlToOpen: URL?
+    
+    init(url: Binding<URL?>) {
+        self._urlToOpen = url
+    }
 
     func body(content: Content) -> some View {
         if settings.safariInApp {
@@ -74,7 +78,7 @@ extension View {
     // Monitor the `openURL` environment variable and handle them in-app instead of via
     // the external web browser.
     // Uses the `SafariViewWrapper` which will present the URL in a `SFSafariViewController`.
-    func handleOpenURLInApp() -> some View {
-        modifier(SafariViewControllerViewModifier())
+    func handleOpenURLInApp(url: Binding<URL?>) -> some View {
+        modifier(SafariViewControllerViewModifier(url: url))
     }
 }

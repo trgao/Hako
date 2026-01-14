@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE0696C92EDD97F500F965B2 /* FeedKit */; };
 		EE0696CC2EDD97F500F965B2 /* XMLKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE0696CB2EDD97F500F965B2 /* XMLKit */; };
 		EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */; };
+		EE0A684F2F14EF37003D15D3 /* HakoExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = EE0A68372F14EF36003D15D3 /* HakoExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */; };
 		EE0C539C2BDF773B00DEB6F1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */; };
 		EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10719A2E042D4700666452 /* AnimeProgress.swift */; };
@@ -222,6 +223,30 @@
 		EEFEFD552BF3967D00200AF1 /* MALAuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EE0A684D2F14EF37003D15D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE3A59962BD21479009E9F79 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE0A68362F14EF36003D15D3;
+			remoteInfo = HakoExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE0A68502F14EF37003D15D3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EE0A684F2F14EF37003D15D3 /* HakoExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		EE00FE052E2292C8001A3836 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		EE02C1292DD44BA400CB041C /* ZoomTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomTransition.swift; sourceTree = "<group>"; };
@@ -230,6 +255,7 @@
 		EE0696C22EDD8DC500F965B2 /* NewsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListView.swift; sourceTree = "<group>"; };
 		EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewController.swift; sourceTree = "<group>"; };
 		EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrameController.swift; sourceTree = "<group>"; };
+		EE0A68372F14EF36003D15D3 /* HakoExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HakoExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0C53962BDF5CE800DEB6F1 /* ImageFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFrame.swift; sourceTree = "<group>"; };
 		EE0C539B2BDF773B00DEB6F1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		EE10719A2E042D4700666452 /* AnimeProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeProgress.swift; sourceTree = "<group>"; };
@@ -336,6 +362,7 @@
 		EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceExtension.swift; sourceTree = "<group>"; };
 		EE960E862DD38ECB00E4EDC9 /* ThemeSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSongs.swift; sourceTree = "<group>"; };
 		EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffsListView.swift; sourceTree = "<group>"; };
+		EE98523F2F167C1A00725D6D /* Hako.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hako.entitlements; sourceTree = "<group>"; };
 		EE9A89152BEF35A10048DD73 /* MainPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPicture.swift; sourceTree = "<group>"; };
 		EE9A89192BEF37A50048DD73 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		EE9A891B2BEF38990048DD73 /* MALItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALItem.swift; sourceTree = "<group>"; };
@@ -434,7 +461,28 @@
 		EEFEFD562BF3A23F00200AF1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EE0A68532F14EF37003D15D3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = EE0A68362F14EF36003D15D3 /* HakoExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EE0A68382F14EF36003D15D3 /* HakoExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (EE0A68532F14EF37003D15D3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (Resources/_locales, Resources/images, ); path = HakoExtension; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		EE0A68342F14EF36003D15D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE3A599B2BD21479009E9F79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -580,6 +628,7 @@
 			isa = PBXGroup;
 			children = (
 				EE3A59A02BD21479009E9F79 /* Hako */,
+				EE0A68382F14EF36003D15D3 /* HakoExtension */,
 				EE3A599F2BD21479009E9F79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -588,6 +637,7 @@
 			isa = PBXGroup;
 			children = (
 				EE3A599E2BD21479009E9F79 /* Hako.app */,
+				EE0A68372F14EF36003D15D3 /* HakoExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -595,6 +645,7 @@
 		EE3A59A02BD21479009E9F79 /* Hako */ = {
 			isa = PBXGroup;
 			children = (
+				EE98523F2F167C1A00725D6D /* Hako.entitlements */,
 				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EEFEFD4F2BF375C500200AF1 /* Info.plist */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
@@ -934,6 +985,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		EE0A68362F14EF36003D15D3 /* HakoExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE0A68542F14EF37003D15D3 /* Build configuration list for PBXNativeTarget "HakoExtension" */;
+			buildPhases = (
+				EE0A68332F14EF36003D15D3 /* Sources */,
+				EE0A68342F14EF36003D15D3 /* Frameworks */,
+				EE0A68352F14EF36003D15D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				EE0A68382F14EF36003D15D3 /* HakoExtension */,
+			);
+			name = HakoExtension;
+			packageProductDependencies = (
+			);
+			productName = HakoExtension;
+			productReference = EE0A68372F14EF36003D15D3 /* HakoExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		EE3A599D2BD21479009E9F79 /* Hako */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE3A59AC2BD2147A009E9F79 /* Build configuration list for PBXNativeTarget "Hako" */;
@@ -941,10 +1014,12 @@
 				EE3A599A2BD21479009E9F79 /* Sources */,
 				EE3A599B2BD21479009E9F79 /* Frameworks */,
 				EE3A599C2BD21479009E9F79 /* Resources */,
+				EE0A68502F14EF37003D15D3 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EE0A684E2F14EF37003D15D3 /* PBXTargetDependency */,
 			);
 			name = Hako;
 			packageProductDependencies = (
@@ -967,9 +1042,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					EE0A68362F14EF36003D15D3 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					EE3A599D2BD21479009E9F79 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -997,11 +1075,19 @@
 			projectRoot = "";
 			targets = (
 				EE3A599D2BD21479009E9F79 /* Hako */,
+				EE0A68362F14EF36003D15D3 /* HakoExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EE0A68352F14EF36003D15D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE3A599C2BD21479009E9F79 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1024,6 +1110,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EE0A68332F14EF36003D15D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE3A599A2BD21479009E9F79 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1227,7 +1320,88 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EE0A684E2F14EF37003D15D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE0A68362F14EF36003D15D3 /* HakoExtension */;
+			targetProxy = EE0A684D2F14EF37003D15D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		EE0A68512F14EF37003D15D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 75BV2F4QPS;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HakoExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Open in Hako";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako.HakoExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE0A68522F14EF37003D15D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 75BV2F4QPS;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HakoExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Open in Hako";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako.HakoExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		EE3A59AA2BD2147A009E9F79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EEFEFD562BF3A23F00200AF1 /* Config.xcconfig */;
@@ -1355,6 +1529,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hako/Hako.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Hako/Preview Content\"";
@@ -1374,7 +1549,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1388,6 +1563,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hako/Hako.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Hako/Preview Content\"";
@@ -1407,7 +1583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.2;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1419,6 +1595,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EE0A68542F14EF37003D15D3 /* Build configuration list for PBXNativeTarget "HakoExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE0A68512F14EF37003D15D3 /* Debug */,
+				EE0A68522F14EF37003D15D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EE3A59992BD21479009E9F79 /* Build configuration list for PBXProject "Hako" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

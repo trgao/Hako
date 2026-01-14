@@ -41,6 +41,5 @@ struct AboutView: View {
                 .font(.system(size: 25))
                 .multilineTextAlignment(.center)
         }
-        .handleOpenURLInApp()
     }
 }

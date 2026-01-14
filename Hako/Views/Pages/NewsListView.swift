@@ -68,6 +68,5 @@ struct NewsListView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("News")
-        .handleOpenURLInApp()
     }
 }

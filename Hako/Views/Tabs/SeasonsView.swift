@@ -128,16 +128,18 @@ struct SeasonsView: View {
             }
         }
         .id(id)
-        .task(id: id) {
-            if let year = year, let season = season {
-                isLink = true
-                controller.year = year
-                controller.season = season
-                await controller.refresh(true)
-                isLink = false
+        .onChange(of: id) {
+            Task {
+                if let year = year, let season = season {
+                    isLink = true
+                    controller.year = year
+                    controller.season = season
+                    await controller.refresh(true)
+                    isLink = false
+                }
+                year = nil
+                season = nil
             }
-            year = nil
-            season = nil
         }
     }
 }

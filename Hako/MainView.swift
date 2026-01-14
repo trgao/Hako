@@ -11,9 +11,11 @@ import LocalAuthentication
 struct MainView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var settings: SettingsManager
+    @StateObject private var networker = NetworkManager.shared
     @State private var tab: Int = 0
     @State private var isUnlocked = false
     @State private var isAuthenticationError = false
+    @State private var url: URL?
     
     // Top tab
     @State private var topId = UUID()
@@ -91,17 +93,24 @@ struct MainView: View {
     
     // Handle deep links
     private func handleUrl(url: URL) {
-        // Check for correct url scheme
-        guard url.scheme == "hako" else {
+        print(url)
+        let FIREBASE_LINK = Bundle.main.infoDictionary?["FIREBASE_LINK"] as! String
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
             return
         }
         
-        // Check for url components and host
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host else {
+        var page: String
+        // Check for correct urls
+        if url.scheme == "hako", let host = components.host {
+            page = host
+        } else if url.host == FIREBASE_LINK {
+            page = String(components.path.dropFirst())
+        } else {
             return
         }
         
-        if host == "top" {
+        self.url = nil
+        if page == "top" {
             tab = 0
             topId = UUID()
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
@@ -117,17 +126,18 @@ struct MainView: View {
                     }
                 }
             }
-        } else if host == "seasons" {
+        } else if page == "seasons" {
             tab = 1
             seasonsId = UUID()
             if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, let seasonEnum = SeasonEnum(rawValue: seasonText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
                 year = yearInt
                 season = seasonEnum
             }
-        } else if host == "explore" {
+        } else if page == "explore" {
             tab = 2
             exploreId = UUID()
             if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
+                explorePath = []
                 isSearchPresented = true
                 urlSearchText = text
             } else if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
@@ -146,7 +156,10 @@ struct MainView: View {
                     explorePath.append(ViewItem(type: .exploreMagazines, id: 1))
                 }
             }
-        } else if host == "mylist" {
+        } else if page == "mylist" {
+            guard let user = components.queryItems?.first(where: { $0.name == "user" })?.value, user.lowercased() == networker.user?.name?.lowercased() else {
+                return
+            }
             tab = 3
             listId = UUID()
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
@@ -168,31 +181,31 @@ struct MainView: View {
                     }
                 }
             }
-        } else if host == "settings" {
+        } else if page == "settings" {
             tab = 4
             settingsId = UUID()
-        } else if host == "news" {
+        } else if page == "news" {
             tab = 2
             exploreId = UUID()
             isSearchPresented = false
             explorePath.append(ViewItem(type: .news, id: 1))
         } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
-            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && host == "genre" {
+            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && page == "genre" {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
                 explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
-            } else if host == "anime" || host == "manga" || host == "character" || host == "person" {
+            } else if page == "anime" || page == "manga" || page == "character" || page == "person" {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: host)!, id: id))
-            } else if host == "producer" || host == "magazine" {
+                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id))
+            } else if page == "producer" || page == "magazine" {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
                 let name = components.queryItems?.first(where: { $0.name == "name" })?.value
-                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: host)!, id: id, name: name))
+                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id, name: name))
             }
         }
     }
@@ -285,5 +298,6 @@ struct MainView: View {
             }
         }
         .onOpenURL(perform: handleUrl)
+        .handleOpenURLInApp(url: $url)
     }
 }

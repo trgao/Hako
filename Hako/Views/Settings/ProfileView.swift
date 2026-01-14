@@ -128,7 +128,6 @@ struct ProfileView: View {
                     ScrollViewSection {
                         ScrollViewLink(text: "Edit account", url: "https://myanimelist.net/editprofile.php?go=myoptions")
                             .foregroundStyle(settings.getAccentColor())
-                            .handleOpenURLInApp()
                         ScrollViewLink(text: "Delete account", url: "https://myanimelist.net/account_deletion")
                             .foregroundStyle(.red)
                     }

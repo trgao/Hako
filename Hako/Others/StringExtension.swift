@@ -35,6 +35,9 @@ extension String {
         if let eps = cur.index(of: " (ep") {
             cur = String(cur[...eps])
         }
+        if let eps = cur.index(of: " (TV") {
+            cur = String(cur[...eps])
+        }
         if let eps = cur.index(of: " (Single episodes version") {
             cur = String(cur[...eps])
         }

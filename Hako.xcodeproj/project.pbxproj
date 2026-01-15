@@ -455,7 +455,7 @@
 		EEFEFD472BF3429200200AF1 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		EEFEFD492BF34BB500200AF1 /* Staffs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staffs.swift; sourceTree = "<group>"; };
 		EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendations.swift; sourceTree = "<group>"; };
-		EEFEFD4F2BF375C500200AF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EEFEFD4F2BF375C500200AF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEFEFD522BF3880D00200AF1 /* pkce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pkce.swift; sourceTree = "<group>"; };
 		EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALAuthenticationResponse.swift; sourceTree = "<group>"; };
 		EEFEFD562BF3A23F00200AF1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -646,8 +646,8 @@
 			isa = PBXGroup;
 			children = (
 				EE98523F2F167C1A00725D6D /* Hako.entitlements */,
-				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EEFEFD4F2BF375C500200AF1 /* Info.plist */,
+				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
 				EE3A59D82BD24544009E9F79 /* Controllers */,
 				EE3A59B92BD21DB2009E9F79 /* API */,

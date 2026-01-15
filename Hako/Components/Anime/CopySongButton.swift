@@ -48,7 +48,7 @@ struct CopySongButton: View {
                         Label("Search in Spotify", systemImage: "magnifyingglass")
                     }
                 }
-                if let urlString = "https://music.apple.com/search?term=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: urlString) {
+                if let url = URL(string: "https://music.apple.com/search?term=\(text)") {
                     Button {
                         openURL(url)
                     } label: {

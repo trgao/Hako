@@ -36,7 +36,7 @@ private struct SafariViewControllerViewModifier: ViewModifier {
                         return .systemAction
                     }
 
-                    if scheme == "http" || scheme == "https" {
+                    if (scheme == "http" || scheme == "https") && url.host != "music.apple.com" {
                         // Catch any URLs that are about to be opened in an external browser.
                         // Instead, handle them here and store the URL to reopen in our sheet.
                         urlToOpen = url

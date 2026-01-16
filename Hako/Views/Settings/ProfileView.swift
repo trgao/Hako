@@ -11,14 +11,9 @@ struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ProfileViewController()
+    @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
     @State private var isSigningOut = false
-    private var user: User
-    let networker = NetworkManager.shared
-    
-    init(user: User) {
-        self.user = user
-    }
     
     var body: some View {
         ZStack {
@@ -26,9 +21,9 @@ struct ProfileView: View {
                 VStack {
                     ScrollViewSection {
                         HStack {
-                            ProfileImage(imageUrl: user.picture, username: user.name, allowExpand: true)
+                            ProfileImage(imageUrl: networker.user?.picture, username: networker.user?.name, allowExpand: true)
                             VStack {
-                                Text("Hello, \(user.name ?? "")")
+                                Text("Hello, \(networker.user?.name ?? "")")
                                     .frame(maxWidth: .infinity)
                                     .font(.system(size: 20))
                                     .bold()
@@ -140,7 +135,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 30)
                     .padding(.top, 5)
                     .padding(.bottom, 10)
-                    if let dateString = user.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
+                    if let dateString = networker.user?.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
                         HStack {
                             Text("Joined MyAnimeList on \(date.toString())")
                                 .font(.system(size: 13))
@@ -177,7 +172,7 @@ struct ProfileView: View {
             }
             .scrollContentBackground(.hidden)
             .background {
-                ImageFrame(id: "userImage", imageUrl: user.picture, imageSize: .background)
+                ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
             }
         }
     }

@@ -53,7 +53,7 @@ struct SignInSections: View {
                 } else if isSettings {
                     if let user = networker.user {
                         NavigationLink {
-                            ProfileView(user: user)
+                            ProfileView()
                         } label: {
                             HStack {
                                 ProfileImage(imageUrl: user.picture)

@@ -197,6 +197,9 @@ struct UserListView: View {
         .navigationTitle("\(controller.type.rawValue.capitalized) list")
         .onAppear {
             if !isInit {
+                if let type = type {
+                    controller.type = type
+                }
                 controller.animeStatus = animeStatus ?? settings.getAnimeStatus()
                 controller.animeSort = animeSort ?? settings.getAnimeSort()
                 controller.mangaStatus = mangaStatus ?? settings.getMangaStatus()

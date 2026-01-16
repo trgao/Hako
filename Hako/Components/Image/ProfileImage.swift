@@ -63,41 +63,44 @@ struct ProfileImage: View {
     }
     
     private var cover: some View {
-        VStack(alignment: .trailing) {
-            Button {
-                isPresented = false
-            } label: {
-                Image(systemName: "xmark")
-            }
-            .padding([.horizontal, .top], 20)
-            TabView {
-                VStack(spacing: 10) {
-                    if let username = username {
-                        Image(uiImage: generateQRCode(from: "https://myanimelist.net/profile/\(username)"))
-                            .interpolation(.none)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 180, height: 180)
-                            .padding(.bottom, 50)
-                    }
-                    label
-                        .contextMenu {
-                            if let inputImage = controller.image {
-                                Button {
-                                    let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
-                                    imageSaver.writeToPhotoAlbum(image: inputImage)
-                                } label: {
-                                    Label("Save image", systemImage: "square.and.arrow.down")
+        NavigationStack {
+            ZStack {
+                TabView {
+                    VStack(spacing: 10) {
+                        if let username = username {
+                            Image(uiImage: generateQRCode(from: "https://myanimelist.net/profile/\(username)"))
+                                .interpolation(.none)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 180, height: 180)
+                                .padding(.bottom, 50)
+                        }
+                        label
+                            .contextMenu {
+                                if let inputImage = controller.image {
+                                    Button {
+                                        let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
+                                        imageSaver.writeToPhotoAlbum(image: inputImage)
+                                    } label: {
+                                        Label("Save image", systemImage: "square.and.arrow.down")
+                                    }
                                 }
                             }
-                        }
-                    Text(username ?? "")
-                        .bold()
-                        .font(.system(size: 25))
+                        Text(username ?? "")
+                            .bold()
+                            .font(.system(size: 25))
+                    }
+                }
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .never))
+            }
+            .toolbar {
+                Button {
+                    isPresented = false
+                } label: {
+                    Image(systemName: "xmark")
                 }
             }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .never))
         }
         .systemNotification(isActive: $isSuccessPresented) {
             Label("Successfully saved photo", systemImage: "checkmark.circle.fill")

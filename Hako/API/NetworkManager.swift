@@ -311,13 +311,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    func getUserAnimeList(page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
+    func getUserAnimeList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
+        let response = try await getMALResponse(urlExtend: "/users/\(user)/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
         return response.data
     }
     
-    func getUserMangaList(page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListManga] {
-        let response = try await getMALResponse(urlExtend: "/users/@me/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
+    func getUserMangaList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListManga] {
+        let response = try await getMALResponse(urlExtend: "/users/\(user)/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
         return response.data
     }
     

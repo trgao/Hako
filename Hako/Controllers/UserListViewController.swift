@@ -1,5 +1,5 @@
 //
-//  MyListViewController.swift
+//  UserListViewController.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 19/4/24.
@@ -8,12 +8,13 @@
 import Foundation
 
 @MainActor
-class MyListViewController: ObservableObject {
+class UserListViewController: ObservableObject {
     // Anime list variables
     @Published var animeItems = [MALListAnime]()
     @Published var isAnimeLoading = true
     @Published var animeStatus: StatusEnum = .watching
     @Published var animeSort: SortEnum = .animeTitle
+    @Published var isAnimePrivate = false
     private var currentAnimePage = 1
     private var canLoadMoreAnimePages = true
     
@@ -22,6 +23,7 @@ class MyListViewController: ObservableObject {
     @Published var isMangaLoading = true
     @Published var mangaStatus: StatusEnum = .reading
     @Published var mangaSort: SortEnum = .mangaTitle
+    @Published var isMangaPrivate = false
     private var currentMangaPage = 1
     private var canLoadMoreMangaPages = true
     
@@ -30,7 +32,12 @@ class MyListViewController: ObservableObject {
     @Published var isLoadingError = false
     @Published var isEditError = false
     @Published var type: TypeEnum = .anime
+    private let user: String
     private let networker = NetworkManager.shared
+    
+    init(user: String) {
+        self.user = user
+    }
     
     // Check if the current anime/manga list is empty
     func isItemsEmpty() -> Bool {
@@ -71,8 +78,7 @@ class MyListViewController: ObservableObject {
             isAnimeLoading = true
         }
         do {
-            let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
-            
+            let animeList = try await networker.getUserAnimeList(user: user, page: currentAnimePage, status: animeStatus, sort: animeSort)
             currentAnimePage = 2
             canLoadMoreAnimePages = animeList.count > 20
             animeItems = animeList
@@ -98,8 +104,7 @@ class MyListViewController: ObservableObject {
             isMangaLoading = true
         }
         do {
-            let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
-            
+            let mangaList = try await networker.getUserMangaList(user: user, page: currentMangaPage, status: mangaStatus, sort: mangaSort)
             currentMangaPage = 2
             canLoadMoreMangaPages = mangaList.count > 20
             mangaItems = mangaList
@@ -132,13 +137,17 @@ class MyListViewController: ObservableObject {
         }
         
         do {
-            let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
-            
+            let animeList = try await networker.getUserAnimeList(user: user, page: currentAnimePage, status: animeStatus, sort: animeSort)
             currentAnimePage = 2
             canLoadMoreAnimePages = animeList.count > 20
             animeItems = animeList
         } catch {
-            isLoadingError = true
+            // If 403 unauthorized and not current user, it means they have privated their list
+            if case NetworkError.badStatusCode(403) = error, user != "@me" {
+                isAnimePrivate = true
+            } else {
+                isLoadingError = true
+            }
         }
         
         if !refresh {
@@ -146,13 +155,17 @@ class MyListViewController: ObservableObject {
         }
         
         do {
-            let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
-            
+            let mangaList = try await networker.getUserMangaList(user: user, page: currentMangaPage, status: mangaStatus, sort: mangaSort)
             currentMangaPage = 2
             canLoadMoreMangaPages = mangaList.count > 20
             mangaItems = mangaList
         } catch {
-            isLoadingError = true
+            // If 403 unauthorized and not current user, it means they have privated their list
+            if case NetworkError.badStatusCode(403) = error, user != "@me" {
+                isMangaPrivate = true
+            } else {
+                isLoadingError = true
+            }
         }
         
         if refresh {
@@ -178,7 +191,7 @@ class MyListViewController: ObservableObject {
             isAnimeLoading = true
             isLoadingError = false
             do {
-                let animeList = try await networker.getUserAnimeList(page: currentAnimePage, status: animeStatus, sort: animeSort)
+                let animeList = try await networker.getUserAnimeList(user: user, page: currentAnimePage, status: animeStatus, sort: animeSort)
                 
                 currentAnimePage += 1
                 canLoadMoreAnimePages = animeList.count > 20
@@ -201,7 +214,7 @@ class MyListViewController: ObservableObject {
             isMangaLoading = true
             isLoadingError = false
             do {
-                let mangaList = try await networker.getUserMangaList(page: currentMangaPage, status: mangaStatus, sort: mangaSort)
+                let mangaList = try await networker.getUserMangaList(user: user, page: currentMangaPage, status: mangaStatus, sort: mangaSort)
                 
                 currentMangaPage += 1
                 canLoadMoreMangaPages = mangaList.count > 20

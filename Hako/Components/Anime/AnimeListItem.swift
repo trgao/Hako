@@ -19,7 +19,7 @@ struct AnimeListItem: View {
     private let watchProgress: Float
     
     
-    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?>, selectedAnimeIndex: Binding<Int?>, index: Int) {
+    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1) {
         self.anime = anime
         self._selectedAnime = selectedAnime
         self._selectedAnimeIndex = selectedAnimeIndex
@@ -83,7 +83,7 @@ struct AnimeListItem: View {
                         .font(.system(size: 13))
                         .padding(.top, 1)
                         Spacer()
-                        if networker.isSignedIn {
+                        if networker.isSignedIn && index != -1 {
                             Button {
                                 selectedAnime = anime
                                 selectedAnimeIndex = index

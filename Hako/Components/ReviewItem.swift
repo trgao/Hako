@@ -21,13 +21,18 @@ struct ReviewItem: View {
         } label: {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    HStack {
-                        ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
-                        Text("\(username) ・ \(date.toString())")
-                            .font(.system(size: 12))
-                            .bold()
-                            .padding(5)
+                    NavigationLink {
+                        UserListView(user: username)
+                    } label: {
+                        HStack {
+                            ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
+                            Text("\(username) ・ \(date.toString())")
+                                .font(.system(size: 12))
+                                .bold()
+                                .padding(5)
+                        }
                     }
+                    .buttonStyle(.plain)
                 }
                 if let tags = item.tags?.prefix(1) {
                     TagCloudView(tags: Array(tags))

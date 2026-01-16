@@ -21,7 +21,7 @@ struct MangaListItem: View {
     private let numVolumesRead: String
     private let volumesReadProgress: Float
     
-    init(manga: MALListManga, selectedManga: Binding<MALListManga?>, selectedMangaIndex: Binding<Int?>, index: Int) {
+    init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1) {
         self.manga = manga
         self._selectedManga = selectedManga
         self._selectedMangaIndex = selectedMangaIndex
@@ -97,7 +97,7 @@ struct MangaListItem: View {
                                 .padding(.top, 1)
                         }
                         Spacer()
-                        if networker.isSignedIn {
+                        if networker.isSignedIn && index != -1 {
                             Button {
                                 selectedManga = manga
                                 selectedMangaIndex = index

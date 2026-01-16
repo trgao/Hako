@@ -197,10 +197,10 @@ struct UserListView: View {
         .navigationTitle("\(controller.type.rawValue.capitalized) list")
         .onAppear {
             if !isInit {
-                controller.animeStatus = settings.getAnimeStatus()
-                controller.animeSort = settings.getAnimeSort()
-                controller.mangaStatus = settings.getMangaStatus()
-                controller.mangaSort = settings.getMangaSort()
+                controller.animeStatus = animeStatus ?? settings.getAnimeStatus()
+                controller.animeSort = animeSort ?? settings.getAnimeSort()
+                controller.mangaStatus = mangaStatus ?? settings.getMangaStatus()
+                controller.mangaSort = mangaSort ?? settings.getMangaSort()
                 isInit = true
             }
             if controller.isItemsEmpty() {

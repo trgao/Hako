@@ -157,11 +157,11 @@ struct MainView: View {
                 }
             }
         } else if page == "mylist" {
-            guard let user = components.queryItems?.first(where: { $0.name == "user" })?.value, user.lowercased() == networker.user?.name?.lowercased() else {
-                return
-            }
-            tab = 3
-            listId = UUID()
+            var listType: TypeEnum?
+            var animeStatus: StatusEnum?
+            var animeSort: SortEnum?
+            var mangaStatus: StatusEnum?
+            var mangaSort: SortEnum?
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 if type == "anime" {
                     listType = .anime
@@ -180,6 +180,20 @@ struct MainView: View {
                         mangaSort = sort
                     }
                 }
+            }
+            if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, user.lowercased() != networker.user?.name?.lowercased() {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: .userlist, id: 1, name: user, listType: listType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
+            } else {
+                tab = 3
+                listId = UUID()
+                self.listType = listType
+                self.animeStatus = animeStatus
+                self.animeSort = animeSort
+                self.mangaStatus = mangaStatus
+                self.mangaSort = mangaSort
             }
         } else if page == "settings" {
             tab = 4

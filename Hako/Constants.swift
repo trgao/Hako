@@ -14,6 +14,7 @@ struct Constants {
         GridItem(.adaptive(minimum: 150), alignment: .top),
     ]
     
+    static let ranks = ["🥇", "🥈", "🥉"]
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
     

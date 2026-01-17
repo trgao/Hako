@@ -28,14 +28,13 @@ struct TopView: View {
     
     // Display medals instead of numbers for the first 3 ranks
     private func rankToString(_ rank: Int?) -> String {
-        if rank == nil {
+        guard let rank = rank else {
             return ""
         }
-        let ranks = ["🥇", "🥈", "🥉"]
-        if rank! <= 3 {
-            return ranks[rank! - 1]
+        if rank <= 3 {
+            return Constants.ranks[rank - 1]
         } else {
-            return String(rank!)
+            return String(rank)
         }
     }
     
@@ -71,12 +70,12 @@ struct TopView: View {
         }
         .onChange(of: controller.animeRankingType) {
             Task {
-                await controller.refreshAnime()
+                await controller.refresh()
             }
         }
         .onChange(of: controller.mangaRankingType) {
             Task {
-                await controller.refreshManga()
+                await controller.refresh()
             }
         }
     }
@@ -88,7 +87,7 @@ struct TopView: View {
                     ZStack {
                         ScrollView {
                             if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
-                                ErrorView(refresh: { await controller.refreshAnime() })
+                                ErrorView(refresh: { await controller.refresh() })
                             } else {
                                 VStack {
                                     if controller.animeRankingType != .all {
@@ -130,7 +129,7 @@ struct TopView: View {
                     ZStack {
                         ScrollView {
                             if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
-                                ErrorView(refresh: { await controller.refreshManga() })
+                                ErrorView(refresh: { await controller.refresh() })
                             } else {
                                 VStack {
                                     if controller.mangaRankingType != .all {
@@ -172,7 +171,7 @@ struct TopView: View {
             }
             .navigationTitle("Top \(controller.type.rawValue)")
             .task(id: isRefresh) {
-                if controller.shouldRefresh() || isRefresh {
+                if controller.isItemsEmpty() || isRefresh {
                     await controller.refresh(true)
                     isRefresh = false
                 }
@@ -187,6 +186,12 @@ struct TopView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type)
+                        .disabled(controller.isLoading())
+                        .onChange(of: controller.type) {
+                            Task {
+                                await controller.refresh()
+                            }
+                        }
                 }
             }
         }

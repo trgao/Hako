@@ -45,7 +45,7 @@ struct ReviewsListView: View {
             }
         }
         .task(id: isRefresh) {
-            if controller.shouldRefresh() || isRefresh {
+            if controller.reviews.isEmpty || isRefresh {
                 await controller.refresh()
                 isRefresh = false
             }

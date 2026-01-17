@@ -24,11 +24,6 @@ class ReviewsListViewController: ObservableObject {
         self.type = type
     }
     
-    // Check if the current reviews list should be refreshed
-    func shouldRefresh() -> Bool {
-        return reviews.isEmpty && canLoadMore
-    }
-    
     // Refresh the current reviews list
     func refresh() async {
         isLoadingError = false

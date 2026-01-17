@@ -13,6 +13,7 @@ class UserProfileViewController: ObservableObject {
     @Published var userFavourites: UserFavourites?
     @Published var anime = [MALListAnime]()
     @Published var manga = [MALListManga]()
+    @Published var isLoading = true
     @Published var isUserNotFound = false
     private let user: String?
     private let networker = NetworkManager.shared
@@ -33,21 +34,26 @@ class UserProfileViewController: ObservableObject {
         
         do {
             let userFavourites = try await networker.getUserFavourites(user: user)
+            withAnimation {
+                self.userFavourites = userFavourites
+            }
             let anime = try await userFavourites.anime.concurrentMap { anime in
                 let anime = try await NetworkManager.shared.getAnimeDetails(id: anime.id)
                 return MALListAnime(anime: anime)
+            }
+            withAnimation {
+                self.anime = anime
             }
             let manga = try await userFavourites.manga.concurrentMap { manga in
                 let manga = try await NetworkManager.shared.getMangaDetails(id: manga.id)
                 return MALListManga(manga: manga)
             }
             withAnimation {
-                self.userFavourites = userFavourites
-                self.anime = anime
                 self.manga = manga
             }
         } catch {
             print("Some unknown error occurred loading user favourites")
         }
+        isLoading = false
     }
 }

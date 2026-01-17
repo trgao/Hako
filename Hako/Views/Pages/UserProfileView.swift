@@ -148,6 +148,9 @@ struct UserProfileView: View {
             }
         }
         .toolbar {
+            if controller.isLoading {
+                ProgressView()
+            }
             ShareLink(item: URL(string: "https://myanimelist.net/profile/\(user)")!) {
                 Image(systemName: "square.and.arrow.up")
             }

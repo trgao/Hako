@@ -170,6 +170,9 @@ struct ProfileView: View {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
             }
             .toolbar {
+                if controller.isLoading {
+                    ProgressView()
+                }
                 ShareLink(item: URL(string: "https://myanimelist.net/profile/\(networker.user?.name ?? "")")!) {
                     Image(systemName: "square.and.arrow.up")
                 }

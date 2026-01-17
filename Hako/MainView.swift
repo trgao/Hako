@@ -223,7 +223,7 @@ struct MainView: View {
                 explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id, name: name))
             }
         } else if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, page == "profile" {
-            if user.lowercased() != networker.user?.name?.lowercased() {
+            if user.lowercased() == networker.user?.name?.lowercased() {
                 tab = 4
                 settingsId = UUID()
                 isProfileActive = true

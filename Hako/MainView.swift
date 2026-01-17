@@ -18,25 +18,25 @@ struct MainView: View {
     @State private var url: URL?
     
     // Top tab
-    @State private var topId = UUID()
+    @State private var topId = UUID() // To reset NavigationStack to root
     @State private var topType: TypeEnum?
     @State private var animeRanking: RankingEnum?
     @State private var mangaRanking: RankingEnum?
     
     // Seasons tab
-    @State private var seasonsId = UUID()
+    @State private var seasonsId = UUID() // To reset NavigationStack to root
     @State private var year: Int?
     @State private var season: SeasonEnum?
     
     // Explore tab
-    @State private var exploreId = UUID()
+    @State private var exploreId = UUID() // To reset NavigationStack to root
     @State private var explorePath = [ViewItem]()
     @State private var isSearchPresented = false
     @State private var isSearchRoot = true
     @State private var urlSearchText: String?
     
     // My list tab
-    @State private var listId = UUID()
+    @State private var listId = UUID() // To reset NavigationStack to root
     @State private var listType: TypeEnum?
     @State private var animeStatus: StatusEnum?
     @State private var animeSort: SortEnum?
@@ -44,7 +44,7 @@ struct MainView: View {
     @State private var mangaSort: SortEnum?
     
     // Settings tab
-    @State private var settingsId = UUID()
+    @State private var settingsId = UUID() // To reset NavigationStack to root
     
     private var tabBinding: Binding<Int> { Binding(
         get: {

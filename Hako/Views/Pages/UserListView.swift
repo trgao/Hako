@@ -48,8 +48,8 @@ struct UserListView: View {
                 } else if controller.animeItems.isEmpty {
                     if controller.isAnimeLoading {
                         LoadingList(length: 20)
-                    } else if controller.isLoadingError {
-                        ListErrorView(refresh: { await controller.refreshAnime() })
+                    } else if controller.isAnimeLoadingError {
+                        ListErrorView(refresh: { await controller.refresh() })
                     } else {
                         VStack {
                             Image(systemName: "tv.fill")
@@ -77,12 +77,12 @@ struct UserListView: View {
             } header: {
                 HStack {
                     Text(controller.animeStatus.toString())
-                    UserListFilter(controller: controller)
                     Spacer()
                     Text(user)
                 }
             }
         }
+        .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
         .disabled(controller.isAnimeLoading && controller.animeItems.isEmpty)
     }
     
@@ -104,8 +104,8 @@ struct UserListView: View {
                 } else if controller.mangaItems.isEmpty {
                     if controller.isMangaLoading {
                         LoadingList(length: 20)
-                    } else if controller.isLoadingError {
-                        ListErrorView(refresh: { await controller.refreshManga() })
+                    } else if controller.isMangaLoadingError {
+                        ListErrorView(refresh: { await controller.refresh() })
                     } else {
                         VStack {
                             Image(systemName: "book.fill")
@@ -133,12 +133,12 @@ struct UserListView: View {
             } header: {
                 HStack {
                     Text(controller.mangaStatus.toString())
-                    UserListFilter(controller: controller)
                     Spacer()
                     Text(user)
                 }
             }
         }
+        .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
         .disabled(controller.isMangaLoading && controller.mangaItems.isEmpty)
     }
     
@@ -149,7 +149,7 @@ struct UserListView: View {
             } else if controller.type == .manga {
                 mangaList
             }
-            if controller.isLoading {
+            if controller.isRefreshLoading {
                 LoadingView()
             }
         }
@@ -157,19 +157,22 @@ struct UserListView: View {
             isRefresh = true
         }
         .task(id: isRefresh) {
-            if isRefresh {
-                if controller.type == .anime {
-                    await controller.refreshAnime(!controller.isItemsEmpty())
-                } else if controller.type == .manga {
-                    await controller.refreshManga(!controller.isItemsEmpty())
-                }
+            if controller.isItemsEmpty() || isRefresh {
+                await controller.refresh()
                 isRefresh = false
             }
         }
         .toolbar {
-            AnimeMangaToggle(type: $controller.type)
+            UserListFilter(controller: controller)
+            AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                .onChange(of: controller.type) {
+                    if controller.isItemsEmpty() {
+                        Task {
+                            await controller.refresh()
+                        }
+                    }
+                }
         }
-        .navigationTitle("\(controller.type.rawValue.capitalized) list")
         .onAppear {
             if !isInit {
                 if let type = type {
@@ -180,11 +183,6 @@ struct UserListView: View {
                 controller.mangaStatus = mangaStatus ?? settings.getMangaStatus()
                 controller.mangaSort = mangaSort ?? settings.getMangaSort()
                 isInit = true
-            }
-            if controller.isItemsEmpty() {
-                Task {
-                    await controller.refresh()
-                }
             }
         }
     }

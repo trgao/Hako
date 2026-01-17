@@ -39,13 +39,13 @@ class TopViewController: ObservableObject {
     }
     
     // Refresh anime list
-    private func refreshAnime(_ refresh: Bool = false) async {
+    private func refreshAnime(_ clear: Bool = false) async {
         isAnimeLoading = true
         isAnimeLoadingError = false
         currentAnimePage = 1
         canLoadMoreAnimePages = true
         
-        if !refresh {
+        if clear {
             animeItems = []
         }
         
@@ -62,13 +62,13 @@ class TopViewController: ObservableObject {
     }
     
     // Refresh manga list
-    private func refreshManga(_ refresh: Bool = false) async {
+    private func refreshManga(_ clear: Bool = false) async {
         isMangaLoading = true
         isMangaLoadingError = false
         currentMangaPage = 1
         canLoadMoreMangaPages = true
         
-        if !refresh {
+        if clear {
             mangaItems = []
         }
         
@@ -85,11 +85,11 @@ class TopViewController: ObservableObject {
     }
     
     // Refresh current list
-    func refresh(_ refresh: Bool = false) async {
+    func refresh(_ clear: Bool = false) async {
         if type == .anime {
-            await refreshAnime(refresh)
+            await refreshAnime(clear)
         } else if type == .manga {
-            await refreshManga(refresh)
+            await refreshManga(clear)
         }
     }
     

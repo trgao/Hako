@@ -64,18 +64,16 @@ struct TopView: View {
                 }
             }
         } label: {
-            Button{} label: {
-                Image(systemName: "line.3.horizontal.decrease.circle")
-            }
+            Image(systemName: "line.3.horizontal.decrease.circle")
         }
         .onChange(of: controller.animeRankingType) {
             Task {
-                await controller.refresh()
+                await controller.refresh(true)
             }
         }
         .onChange(of: controller.mangaRankingType) {
             Task {
-                await controller.refresh()
+                await controller.refresh(true)
             }
         }
     }
@@ -86,18 +84,18 @@ struct TopView: View {
                 if controller.type == .anime {
                     ZStack {
                         ScrollView {
-                            if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
-                                ErrorView(refresh: { await controller.refresh() })
-                            } else {
-                                VStack {
-                                    if controller.animeRankingType != .all {
-                                        Text(controller.animeRankingType.toString())
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal, 20)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(Color(.systemGray))
-                                            .bold()
-                                    }
+                            VStack {
+                                if controller.animeRankingType != .all {
+                                    Text(controller.animeRankingType.toString())
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal, 20)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundStyle(Color(.systemGray))
+                                        .bold()
+                                }
+                                if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
+                                    ErrorView(refresh: { await controller.refresh() })
+                                } else {
                                     LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
                                             AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
@@ -109,8 +107,8 @@ struct TopView: View {
                                         }
                                     }
                                 }
-                                .padding(10)
                             }
+                            .padding(10)
                         }
                         if controller.isAnimeLoading {
                             LoadingView()
@@ -128,18 +126,18 @@ struct TopView: View {
                 } else if controller.type == .manga {
                     ZStack {
                         ScrollView {
-                            if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
-                                ErrorView(refresh: { await controller.refresh() })
-                            } else {
-                                VStack {
-                                    if controller.mangaRankingType != .all {
-                                        Text(controller.mangaRankingType.toString())
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal, 20)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(Color(.systemGray))
-                                            .bold()
-                                    }
+                            VStack {
+                                if controller.mangaRankingType != .all {
+                                    Text(controller.mangaRankingType.toString())
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal, 20)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundStyle(Color(.systemGray))
+                                        .bold()
+                                }
+                                if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
+                                    ErrorView(refresh: { await controller.refresh() })
+                                } else {
                                     LazyVGrid(columns: Constants.columns) {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
                                             MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
@@ -151,8 +149,8 @@ struct TopView: View {
                                         }
                                     }
                                 }
-                                .padding(10)
                             }
+                            .padding(10)
                         }
                         if controller.isMangaLoading {
                             LoadingView()
@@ -172,7 +170,7 @@ struct TopView: View {
             .navigationTitle("Top \(controller.type.rawValue)")
             .task(id: isRefresh) {
                 if controller.isItemsEmpty() || isRefresh {
-                    await controller.refresh(true)
+                    await controller.refresh()
                     isRefresh = false
                 }
             }
@@ -185,11 +183,12 @@ struct TopView: View {
                         .disabled(controller.isLoading())
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    AnimeMangaToggle(type: $controller.type)
-                        .disabled(controller.isLoading())
+                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                         .onChange(of: controller.type) {
-                            Task {
-                                await controller.refresh()
+                            if controller.isItemsEmpty() {
+                                Task {
+                                    await controller.refresh()
+                                }
                             }
                         }
                 }

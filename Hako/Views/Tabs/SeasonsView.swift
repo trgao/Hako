@@ -71,8 +71,8 @@ struct SeasonsView: View {
                 }
                 TabPicker(selection: $controller.season, options: [("Winter", SeasonEnum.winter), ("Spring", SeasonEnum.spring), ("Summer", SeasonEnum.summer), ("Fall", SeasonEnum.fall)])
                     .onChange(of: controller.season) {
-                        Task {
-                            if controller.shouldRefresh() && !isLink {
+                        if controller.shouldRefresh() && !isLink {
+                            Task {
                                 await controller.refresh()
                             }
                         }
@@ -109,8 +109,8 @@ struct SeasonsView: View {
                         }
                     }
                     .onChange(of: controller.year) {
-                        Task {
-                            if !isLink {
+                        if !isLink {
+                            Task {
                                 await controller.refresh(true)
                             }
                         }

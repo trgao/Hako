@@ -27,7 +27,7 @@ struct UserListFilter: View {
                 }
                 .onChange(of: controller.animeStatus) {
                     Task {
-                        await controller.refreshAnime()
+                        await controller.refresh(true)
                     }
                 }
                 Divider()
@@ -39,7 +39,7 @@ struct UserListFilter: View {
                 }
                 .onChange(of: controller.animeSort) {
                     Task {
-                        await controller.refreshAnime()
+                        await controller.refresh(true)
                     }
                 }
             } else if controller.type == .manga {
@@ -53,7 +53,7 @@ struct UserListFilter: View {
                 }
                 .onChange(of: controller.mangaStatus) {
                     Task {
-                        await controller.refreshManga()
+                        await controller.refresh(true)
                     }
                 }
                 Divider()
@@ -65,15 +65,13 @@ struct UserListFilter: View {
                 }
                 .onChange(of: controller.mangaSort) {
                     Task {
-                        await controller.refreshManga()
+                        await controller.refresh(true)
                     }
                 }
             }
         } label: {
-            Button{} label: {
-                Image(systemName: "line.3.horizontal.decrease.circle")
-            }
+            Image(systemName: "line.3.horizontal.decrease.circle")
         }
-        .disabled(controller.isAnimeLoading || controller.isMangaLoading)
+        .disabled(controller.isLoading())
     }
 }

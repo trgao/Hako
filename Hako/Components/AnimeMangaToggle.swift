@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct AnimeMangaToggle: View {
-    @Environment(\.isEnabled) private var isEnabled
     @EnvironmentObject private var settings: SettingsManager
-    @Binding var type: TypeEnum
     @State private var offset: CGFloat = -17
+    @Binding var type: TypeEnum
+    private let isLoading: Bool
     
-    init(type: Binding<TypeEnum>) {
+    init(type: Binding<TypeEnum>, isLoading: Bool) {
         self._type = type
+        self.isLoading = isLoading
     }
     
     var body: some View {
@@ -41,14 +42,14 @@ struct AnimeMangaToggle: View {
                 Image(systemName: "tv.fill")
                     .resizable()
                     .frame(width: 18, height: 15)
-                    .foregroundStyle(type == .anime && isEnabled ? settings.getAccentColor() : Color(.systemGray))
+                    .foregroundStyle(type == .anime && !isLoading ? settings.getAccentColor() : Color(.systemGray))
                     .drawingGroup()
                     .padding(3)
                     .offset(x: -1)
                 Image(systemName: "book.fill")
                     .resizable()
                     .frame(width: 18, height: 15)
-                    .foregroundStyle(type == .manga && isEnabled ? settings.getAccentColor() : Color(.systemGray))
+                    .foregroundStyle(type == .manga && !isLoading ? settings.getAccentColor() : Color(.systemGray))
                     .drawingGroup()
                     .padding(3)
                     .offset(x: 1)
@@ -71,5 +72,6 @@ struct AnimeMangaToggle: View {
                 }
             }
         }
+        .disabled(isLoading)
     }
 }

@@ -121,7 +121,7 @@ struct AnimeDetailsView: View {
                     }
                 }
                 .task(id: isRefresh) {
-                    if isRefresh || controller.isLoadingError {
+                    if controller.isLoadingError || isRefresh {
                         await controller.refresh()
                         isRefresh = false
                     }

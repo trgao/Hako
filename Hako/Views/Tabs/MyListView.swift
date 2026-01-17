@@ -46,8 +46,8 @@ struct MyListView: View {
                 if controller.animeItems.isEmpty {
                     if controller.isAnimeLoading {
                         LoadingList(length: 20)
-                    } else if controller.isLoadingError {
-                        ListErrorView(refresh: { await controller.refreshAnime() })
+                    } else if controller.isAnimeLoadingError {
+                        ListErrorView(refresh: { await controller.refresh() })
                     } else {
                         VStack {
                             Image(systemName: "tv.fill")
@@ -68,7 +68,7 @@ struct MyListView: View {
                                 }
                             }
                             .swipeActions(edge: .leading) {
-                                if settings.useSwipeActions && !controller.isLoading {
+                                if settings.useSwipeActions && !controller.isRefreshLoading {
                                     if var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
                                         Button {
                                             Task {
@@ -82,7 +82,7 @@ struct MyListView: View {
                                 }
                             }
                             .swipeActions(edge: .trailing) {
-                                if settings.useSwipeActions && !controller.isLoading {
+                                if settings.useSwipeActions && !controller.isRefreshLoading {
                                     if var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
                                         Button {
                                             Task {
@@ -112,8 +112,8 @@ struct MyListView: View {
                 if controller.mangaItems.isEmpty {
                     if controller.isMangaLoading {
                         LoadingList(length: 20)
-                    } else if controller.isLoadingError {
-                        ListErrorView(refresh: { await controller.refreshManga() })
+                    } else if controller.isMangaLoadingError {
+                        ListErrorView(refresh: { await controller.refresh() })
                     } else {
                         VStack {
                             Image(systemName: "book.fill")
@@ -134,7 +134,7 @@ struct MyListView: View {
                                 }
                             }
                             .swipeActions(edge: .leading) {
-                                if settings.useSwipeActions && !controller.isLoading {
+                                if settings.useSwipeActions && !controller.isRefreshLoading {
                                     if settings.mangaReadProgress == 0 {
                                         if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
                                             Button {
@@ -159,7 +159,7 @@ struct MyListView: View {
                                 }
                             }
                             .swipeActions(edge: .trailing) {
-                                if settings.useSwipeActions && !controller.isLoading {
+                                if settings.useSwipeActions && !controller.isRefreshLoading {
                                     if settings.mangaReadProgress == 0 {
                                         if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
                                             Button {
@@ -203,7 +203,7 @@ struct MyListView: View {
                     } else if controller.type == .manga {
                         mangaList
                     }
-                    if controller.isLoading {
+                    if controller.isRefreshLoading {
                         LoadingView()
                     }
                 }
@@ -211,15 +211,8 @@ struct MyListView: View {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
-                    await controller.refresh(!controller.isItemsEmpty())
-                    if isRefresh {
-                        if controller.type == .anime {
-                            await controller.refreshAnime(!controller.isItemsEmpty())
-                        } else if controller.type == .manga {
-                            await controller.refreshManga(!controller.isItemsEmpty())
-                        }
-                        isRefresh = false
-                    }
+                    await controller.refresh()
+                    isRefresh = false
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
@@ -270,7 +263,14 @@ struct MyListView: View {
                         UserListFilter(controller: controller)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        AnimeMangaToggle(type: $controller.type)
+                        AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                            .onChange(of: controller.type) {
+                                if controller.isItemsEmpty() {
+                                    Task {
+                                        await controller.refresh()
+                                    }
+                                }
+                            }
                     }
                 }
                 .navigationTitle("My \(controller.type.rawValue) list")

@@ -169,6 +169,11 @@ function convertUrl() {
         if (pathArray.length >= 2) {
             window.location.replace(`${base}person?id=${pathArray[1]}`)
         }
+    } else if (path.startsWith("/profile")) {
+        const pathArray = path.slice(1).split("/")
+        if (pathArray.length >= 2) {
+            window.location.replace(`${base}profile?user=${pathArray[1]}`)
+        }
     }
 }
 

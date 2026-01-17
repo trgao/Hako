@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var controller = ProfileViewController()
+    @StateObject private var controller = UserProfileViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isRefresh = false
     @State private var isSigningOut = false
@@ -148,17 +148,12 @@ struct ProfileView: View {
                     }
                 }
             }
-            .task {
-                await controller.refresh()
-            }
-            .task(id: isRefresh) {
-                if isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
-                }
-            }
             .refreshable {
                 isRefresh = true
+            }
+            .task(id: isRefresh) {
+                await controller.refresh()
+                isRefresh = false
             }
             .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
                 Button("Confirm", role: .destructive) {
@@ -173,6 +168,11 @@ struct ProfileView: View {
             .scrollContentBackground(.hidden)
             .background {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
+            }
+            .toolbar {
+                ShareLink(item: URL(string: "https://myanimelist.net/profile/\(networker.user?.name ?? "")")!) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
         }
     }

@@ -25,10 +25,8 @@ struct MagazinesListView: View {
                     List {
                         ForEach(Array(controller.magazines.enumerated()), id: \.1.id) { index, magazine in
                             if let name = magazine.name {
-                                NavigationLink {
+                                NavigationLink(name) {
                                     GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
-                                } label: {
-                                    Text(name)
                                 }
                                 .onAppear {
                                     Task {

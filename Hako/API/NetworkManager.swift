@@ -330,13 +330,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         UserDefaults.standard.set(user.picture, forKey: "picture")
     }
     
-    func getUserStatistics() async throws -> UserStatistics {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
+    func getUserStatistics(user: String?) async throws -> UserStatistics {
+        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
         return response.data
     }
     
-    func getUserFavourites() async throws -> UserFavourites {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
+    func getUserFavourites(user: String?) async throws -> UserFavourites {
+        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
         return response.data
     }
     

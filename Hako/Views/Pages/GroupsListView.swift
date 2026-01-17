@@ -23,10 +23,8 @@ struct GroupsListView: View {
     var body: some View {
         List {
             ForEach(items) { item in
-                NavigationLink {
+                NavigationLink(item.name) {
                     GroupDetailsView(title: item.name, group: group, id: item.id, type: type)
-                } label: {
-                    Text(item.name)
                 }
                 .buttonStyle(.plain)
             }

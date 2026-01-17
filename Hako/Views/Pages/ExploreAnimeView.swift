@@ -12,38 +12,30 @@ struct ExploreAnimeView: View {
         List {
             Section("Genres") {
                 ForEach(Constants.animeGenreKeys, id: \.self) { id in
-                    NavigationLink {
+                    NavigationLink(Constants.animeGenres[id] ?? "") {
                         GroupDetailsView(title: Constants.animeGenres[id], group: "genres", id: id, type: .anime)
-                    } label: {
-                        Text(Constants.animeGenres[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Themes") {
                 ForEach(Constants.animeThemeKeys, id: \.self) { id in
-                    NavigationLink {
+                    NavigationLink(Constants.animeThemes[id] ?? "") {
                         GroupDetailsView(title: Constants.animeThemes[id], group: "genres", id: id, type: .anime)
-                    } label: {
-                        Text(Constants.animeThemes[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
             Section("Demographics") {
                 ForEach(Constants.animeDemographicKeys, id: \.self) { id in
-                    NavigationLink {
+                    NavigationLink(Constants.animeDemographics[id] ?? "") {
                         GroupDetailsView(title: Constants.animeDemographics[id], group: "genres", id: id, type: .anime)
-                    } label: {
-                        Text(Constants.animeDemographics[id] ?? "")
                     }
                     .buttonStyle(.plain)
                 }
             }
-            NavigationLink {
+            NavigationLink("Studios") {
                 StudiosListView()
-            } label: {
-                Text("Studios")
             }
             .buttonStyle(.plain)
         }

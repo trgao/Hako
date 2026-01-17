@@ -25,10 +25,8 @@ struct StudiosListView: View {
                     List {
                         ForEach(Array(controller.studios.enumerated()), id: \.1.id) { index, studio in
                             if let title = studio.titles?[0].title {
-                                NavigationLink {
+                                NavigationLink(title) {
                                     GroupDetailsView(title: title, group: "producers", id: studio.id, type: .anime)
-                                } label: {
-                                    Text(title)
                                 }
                                 .onAppear {
                                     Task {

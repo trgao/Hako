@@ -22,7 +22,7 @@ struct ReviewItem: View {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
                     NavigationLink {
-                        UserListView(user: username)
+                        UserProfileView(user: username)
                     } label: {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)

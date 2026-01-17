@@ -558,6 +558,8 @@ struct ExploreView: View {
                     MagazinesListView()
                 } else if item.type == .userlist {
                     UserListView(user: item.name ?? "", type: item.listType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
+                } else if item.type == .profile {
+                    UserProfileView(user: item.name ?? "")
                 }
             }
         }

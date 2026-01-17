@@ -221,6 +221,11 @@ struct MainView: View {
                 let name = components.queryItems?.first(where: { $0.name == "name" })?.value
                 explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id, name: name))
             }
+        } else if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, page == "profile" {
+            tab = 2
+            exploreId = UUID()
+            isSearchPresented = false
+            explorePath.append(ViewItem(type: .profile, id: 1, name: user))
         }
     }
     

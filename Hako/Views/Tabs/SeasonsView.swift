@@ -103,7 +103,7 @@ struct SeasonsView: View {
             }
             .toolbar {
                 Menu {
-                    Picker(selection: $controller.year, label: EmptyView()) {
+                    Picker("Year", selection: $controller.year) {
                         ForEach((1917...Constants.currentYear + 1).reversed(), id: \.self) { year in
                             Text(String(year)).tag(String(year))
                         }

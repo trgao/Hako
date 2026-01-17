@@ -192,7 +192,7 @@
 		EECC38322BFA23330063A891 /* AnimeEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC38312BFA23330063A891 /* AnimeEditView.swift */; };
 		EECC79602CF1412600C1C773 /* UserStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC795F2CF1412200C1C773 /* UserStatistics.swift */; };
 		EECC79622CF142DC00C1C773 /* JikanUserStatisticsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79612CF142D600C1C773 /* JikanUserStatisticsResponse.swift */; };
-		EECC79642CF1443B00C1C773 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79632CF1443700C1C773 /* ProfileViewController.swift */; };
+		EECC79642CF1443B00C1C773 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79632CF1443700C1C773 /* UserProfileViewController.swift */; };
 		EECC79662CF14CB000C1C773 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79652CF14CA900C1C773 /* StringExtension.swift */; };
 		EECECC632DF4BD4300232E8C /* NameText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECECC622DF4BD4300232E8C /* NameText.swift */; };
 		EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118B2DD71AFC00F78170 /* LoadingList.swift */; };
@@ -216,6 +216,7 @@
 		EEF5932F2F0E4C5E00204973 /* SkeletonLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF5932E2F0E4C5B00204973 /* SkeletonLoading.swift */; };
 		EEF593312F0E525600204973 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF593302F0E525100204973 /* ScreenSize.swift */; };
 		EEF593332F0E568300204973 /* StatusPickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF593322F0E567F00204973 /* StatusPickerRow.swift */; };
+		EEF7C1152F1B69A900200D9B /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF7C1142F1B69A400200D9B /* UserProfileView.swift */; };
 		EEFB9CEF2F1A742E00B6DBC6 /* UserListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB9CEE2F1A742B00B6DBC6 /* UserListView.swift */; };
 		EEFB9CF12F1A74A100B6DBC6 /* UserListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB9CF02F1A749F00B6DBC6 /* UserListFilter.swift */; };
 		EEFEFD482BF3429200200AF1 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEFD472BF3429200200AF1 /* SafariView.swift */; };
@@ -430,7 +431,7 @@
 		EECC38312BFA23330063A891 /* AnimeEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeEditView.swift; sourceTree = "<group>"; };
 		EECC795F2CF1412200C1C773 /* UserStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatistics.swift; sourceTree = "<group>"; };
 		EECC79612CF142D600C1C773 /* JikanUserStatisticsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanUserStatisticsResponse.swift; sourceTree = "<group>"; };
-		EECC79632CF1443700C1C773 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		EECC79632CF1443700C1C773 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EECC79652CF14CA900C1C773 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		EECECC622DF4BD4300232E8C /* NameText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameText.swift; sourceTree = "<group>"; };
 		EED4118B2DD71AFC00F78170 /* LoadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingList.swift; sourceTree = "<group>"; };
@@ -454,6 +455,7 @@
 		EEF5932E2F0E4C5B00204973 /* SkeletonLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoading.swift; sourceTree = "<group>"; };
 		EEF593302F0E525100204973 /* ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		EEF593322F0E567F00204973 /* StatusPickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPickerRow.swift; sourceTree = "<group>"; };
+		EEF7C1142F1B69A400200D9B /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		EEFB9CEE2F1A742B00B6DBC6 /* UserListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListView.swift; sourceTree = "<group>"; };
 		EEFB9CF02F1A749F00B6DBC6 /* UserListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListFilter.swift; sourceTree = "<group>"; };
 		EEFEFD472BF3429200200AF1 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
@@ -607,6 +609,7 @@
 				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
 				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
 				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
+				EEF7C1142F1B69A400200D9B /* UserProfileView.swift */,
 				EEFB9CEE2F1A742B00B6DBC6 /* UserListView.swift */,
 			);
 			path = Pages;
@@ -772,7 +775,7 @@
 				EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */,
 				EE712FEC2DFDA6C800DC7202 /* ReviewsListViewController.swift */,
 				EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */,
-				EECC79632CF1443700C1C773 /* ProfileViewController.swift */,
+				EECC79632CF1443700C1C773 /* UserProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1147,6 +1150,7 @@
 				EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */,
 				EEAA57582E2CD18000377906 /* ExploreMangaView.swift in Sources */,
 				EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */,
+				EEF7C1152F1B69A900200D9B /* UserProfileView.swift in Sources */,
 				EE3A59BE2BD21EE5009E9F79 /* Anime.swift in Sources */,
 				EE8E53002EDC193700B7A316 /* Constants.swift in Sources */,
 				EE960E892DD3923B00E4EDC9 /* StaffsListView.swift in Sources */,
@@ -1230,7 +1234,7 @@
 				EEB7DE5E2E0D259500A2C8CC /* RandomAnimeView.swift in Sources */,
 				EE0696C52EDD8F1200F965B2 /* NewsListViewController.swift in Sources */,
 				EEB7DE662E0D2AD500A2C8CC /* RandomPersonView.swift in Sources */,
-				EECC79642CF1443B00C1C773 /* ProfileViewController.swift in Sources */,
+				EECC79642CF1443B00C1C773 /* UserProfileViewController.swift in Sources */,
 				EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */,
 				EE9A89162BEF35A10048DD73 /* MainPicture.swift in Sources */,
 				EE884C5A2BFDF29400E8B8CD /* BindingExtension.swift in Sources */,

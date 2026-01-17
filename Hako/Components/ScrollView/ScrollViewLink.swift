@@ -11,6 +11,7 @@ struct ScrollViewLink: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.openURL) private var openURL
     @State private var isPressed = false
+    @State private var isLongPress = false
     private let text: String
     private let url: String
     
@@ -32,9 +33,12 @@ struct ScrollViewLink: View {
                 isPressed = false
             }
         }
+        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
+            isLongPress = pressing
+        }) {}
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(isPressed ? Color(.systemGray4) : (colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)))
+        .background(isPressed || isLongPress ? Color(.systemGray4) : (colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
     }

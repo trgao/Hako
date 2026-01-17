@@ -121,9 +121,10 @@ class UserListViewController: ObservableObject {
     // Refresh both anime and manga list
     func refresh(_ refresh: Bool = false) async {
         isLoadingError = false
+        isAnimePrivate = false
         currentAnimePage = 1
         canLoadMoreAnimePages = false
-        isLoadingError = false
+        isMangaPrivate = false
         currentMangaPage = 1
         canLoadMoreMangaPages = false
         

@@ -45,6 +45,7 @@ struct MainView: View {
     
     // Settings tab
     @State private var settingsId = UUID() // To reset NavigationStack to root
+    @State private var isProfileActive = false
     
     private var tabBinding: Binding<Int> { Binding(
         get: {
@@ -222,10 +223,16 @@ struct MainView: View {
                 explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id, name: name))
             }
         } else if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, page == "profile" {
-            tab = 2
-            exploreId = UUID()
-            isSearchPresented = false
-            explorePath.append(ViewItem(type: .profile, id: 1, name: user))
+            if user.lowercased() != networker.user?.name?.lowercased() {
+                tab = 4
+                settingsId = UUID()
+                isProfileActive = true
+            } else {
+                tab = 2
+                exploreId = UUID()
+                isSearchPresented = false
+                explorePath.append(ViewItem(type: .profile, id: 1, name: user))
+            }
         }
     }
     
@@ -251,7 +258,7 @@ struct MainView: View {
                             }
                         }
                         Tab("Settings", systemImage: "gear", value: 4) {
-                            SettingsView(id: $settingsId)
+                            SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
                         }
                     }
                     .onAppear {
@@ -283,7 +290,7 @@ struct MainView: View {
                                 }
                                 .tag(3)
                         }
-                        SettingsView(id: $settingsId)
+                        SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
                             .tabItem {
                                 Label("Settings", systemImage: "gear")
                             }

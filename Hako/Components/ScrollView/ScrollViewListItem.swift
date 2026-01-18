@@ -30,7 +30,7 @@ struct ScrollViewListItem: View {
     
     var body: some View {
         HStack(spacing: 10) {
-            ImageFrame(id: id, imageUrl: imageUrl, imageSize: .small)
+            ImageFrame(id: id, imageUrl: imageUrl, imageSize: Constants.listImageSize)
                 .padding(.trailing, 10)
             HStack {
                 VStack(alignment: .leading) {

@@ -7,9 +7,9 @@
 
 import SwiftUI
 import YouTubePlayerKit
-import Combine
 
 struct Trailers: View {
+    @Environment(\.screenRatio) private var screenRatio
     @Environment(\.scenePhase) private var scenePhase
     @State private var players: [YouTubePlayer] = []
     private let videos: [Video]
@@ -51,7 +51,7 @@ struct Trailers: View {
                                         }
                                     }
                                 })
-                                .frame(width: 300, height: 170)
+                                .frame(width: 300 * screenRatio, height: 170 * screenRatio)
                                 .cornerRadius(10)
                                 .padding(5)
                             }

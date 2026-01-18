@@ -28,7 +28,7 @@ struct NewsListView: View {
                             if let link = item.link {
                                 Link(destination: URL(string: link)!) {
                                     HStack {
-                                        ImageFrame(id: "news\(item.hashValue)", imageUrl: item.media?.thumbnails?.first?.text, imageSize: .small)
+                                        ImageFrame(id: "news\(item.hashValue)", imageUrl: item.media?.thumbnails?.first?.text, imageSize: Constants.listImageSize)
                                         VStack(alignment: .leading) {
                                             Text(item.title ?? "")
                                                 .lineLimit(settings.getLineLimit())

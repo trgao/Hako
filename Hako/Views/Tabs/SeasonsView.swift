@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SeasonsView: View {
+    @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
@@ -26,7 +27,7 @@ struct SeasonsView: View {
     @ViewBuilder private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
             VStack {
-                LazyVGrid(columns: Constants.columns) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                     ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                             .onAppear {
@@ -43,7 +44,7 @@ struct SeasonsView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .bold()
                         .font(.title2)
-                    LazyVGrid(columns: Constants.columns) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                         ForEach(seasonContinuingItems) { item in
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }

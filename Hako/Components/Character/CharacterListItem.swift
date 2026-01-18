@@ -27,7 +27,7 @@ struct CharacterListItem: View {
             CharacterDetailsView(id: character.id, name: character.name)
         } label: {
             HStack {
-                ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .small)
+                ImageFrame(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(character.name ?? "")
                         .lineLimit(settings.getLineLimit())

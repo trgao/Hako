@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct UserListStatusPicker: View {
-    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.screenSize) private var screenSize
+    @Environment(\.colorScheme) private var colorScheme
     @Namespace private var animationNamespace
     @Binding private var selection: StatusEnum
     private let options: [StatusEnum]

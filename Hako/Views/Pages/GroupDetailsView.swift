@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GroupDetailsView: View {
+    @Environment(\.screenRatio) private var screenRatio
     @StateObject private var controller: GroupDetailsViewController
     @State private var isRefresh = false
     private let title: String?
@@ -29,7 +30,7 @@ struct GroupDetailsView: View {
                 ErrorView(refresh: controller.refresh)
             } else if !controller.items.isEmpty {
                 ScrollView {
-                    LazyVGrid(columns: Constants.columns) {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                         ForEach(Array(controller.items.enumerated()), id: \.1.id) { index, item in
                             if type == .anime {
                                 AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))

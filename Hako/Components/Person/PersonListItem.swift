@@ -27,7 +27,7 @@ struct PersonListItem: View {
             PersonDetailsView(id: person.id, name: person.name)
         } label: {
             HStack {
-                ImageFrame(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: .small)
+                ImageFrame(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading, spacing: 5) {
                     Text(person.name ?? "")
                         .lineLimit(settings.getLineLimit())

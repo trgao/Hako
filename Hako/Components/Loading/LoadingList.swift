@@ -21,7 +21,7 @@ struct LoadingList: View {
         ForEach(dummyList, id: \.self) { id in
             HStack {
                 if showImage {
-                    ImageFrame(id: "", imageUrl: nil, imageSize: .small)
+                    ImageFrame(id: "", imageUrl: nil, imageSize: Constants.listImageSize)
                     VStack(alignment: .leading) {
                         Text("placeholder")
                             .bold()

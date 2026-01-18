@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CharacterGridItem: View {
+    @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let name: String?
@@ -36,7 +37,7 @@ struct CharacterGridItem: View {
                     .font(.system(size: 14))
                     .tint(.primary)
             }
-            .frame(width: 110)
+            .frame(width: 110 * screenRatio)
         }
     }
 }

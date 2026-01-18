@@ -40,7 +40,7 @@ struct AnimeListItem: View {
             AnimeDetailsView(anime: anime.node)
         } label: {
             HStack {
-                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .small)
+                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
                     if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                         Text(title)

@@ -51,7 +51,7 @@ struct MangaListItem: View {
             MangaDetailsView(manga: manga.node)
         } label: {
             HStack {
-                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .small)
+                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
                     if let title = manga.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                         Text(title)

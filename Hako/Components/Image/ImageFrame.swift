@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ImageFrame: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.screenSize) private var screenSize
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
-    private var fullscreen = false
     private let width: CGFloat
     private let height: CGFloat
-    let networker = NetworkManager.shared
+    private var fullscreen = false
+    private let networker = NetworkManager.shared
     
     init(id: String, imageUrl: String?, imageSize: ImageSize) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
@@ -56,6 +57,9 @@ struct ImageFrame: View {
                         .frame(width: width, height: height)
                 }
             } else {
+                let ratio: CGFloat = min(screenSize.width / 400, 1.2)
+                let height = self.height * ratio
+                let width = self.width * ratio
                 VStack {
                     if let image = controller.image {
                         Image(uiImage: image)

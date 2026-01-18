@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TopView: View {
+    @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = TopViewController()
     @State private var isInit = false
@@ -96,7 +97,7 @@ struct TopView: View {
                                 if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
                                     ErrorView(refresh: { await controller.refresh() })
                                 } else {
-                                    LazyVGrid(columns: Constants.columns) {
+                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                                         ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
                                             AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
                                                 .onAppear {
@@ -138,7 +139,7 @@ struct TopView: View {
                                 if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
                                     ErrorView(refresh: { await controller.refresh() })
                                 } else {
-                                    LazyVGrid(columns: Constants.columns) {
+                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                                         ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
                                             MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
                                                 .onAppear {

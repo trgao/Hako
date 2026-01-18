@@ -8,19 +8,17 @@
 import SwiftUI
 
 struct LoadingView: View {
-    @ScaledMetric private var width = 130
-    @ScaledMetric private var height = 100
-    
     var body: some View {
         ZStack {
             ProgressView {
                 Text("Loading")
+                    .font(.system(size: 17))
                     .foregroundColor(.white)
             }
             .tint(.white)
             .background {
                 RoundedRectangle(cornerRadius: 10)
-                    .frame(width: width, height: height)
+                    .frame(width: 130, height: 100)
                     .foregroundStyle(.thickMaterial)
                     .environment(\.colorScheme, .dark)
             }

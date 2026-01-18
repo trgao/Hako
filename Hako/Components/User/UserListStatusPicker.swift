@@ -77,7 +77,7 @@ struct UserListStatusPicker: View {
                         }
                     }
                     .padding(.horizontal, 2)
-                    .frame(minWidth: screenSize.width - getPadding() * 2)
+                    .frame(minWidth: screenSize.width - getPadding() * 2 - 10)
                 }
                 .frame(height: 32)
                 .background(Color(.systemGray5).opacity(0.6))

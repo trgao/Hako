@@ -121,7 +121,9 @@ struct ProfileView: View {
                         }
                     }
                     ScrollViewSection {
-                        ScrollViewLink(text: "Edit account", url: "https://myanimelist.net/editprofile.php?go=myoptions")
+                        ScrollViewLink(text: "Import list", url: "https://myanimelist.net/import.php")
+                            .foregroundStyle(settings.getAccentColor())
+                        ScrollViewLink(text: "Account settings", url: "https://myanimelist.net/editprofile.php?go=myoptions")
                             .foregroundStyle(settings.getAccentColor())
                         ScrollViewLink(text: "Delete account", url: "https://myanimelist.net/account_deletion")
                             .foregroundStyle(.red)
@@ -133,7 +135,6 @@ struct ProfileView: View {
                         Spacer()
                     }
                     .padding(.horizontal, 30)
-                    .padding(.top, 5)
                     .padding(.bottom, 10)
                     if let dateString = networker.user?.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
                         HStack {

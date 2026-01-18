@@ -21,7 +21,8 @@ struct LoadingView: View {
             .background {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: width, height: height)
-                    .foregroundColor(Color(hex: 0x2e2e2e))
+                    .foregroundStyle(.thickMaterial)
+                    .environment(\.colorScheme, .dark)
             }
         }
     }

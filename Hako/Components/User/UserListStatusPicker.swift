@@ -83,7 +83,7 @@ struct UserListStatusPicker: View {
                 .background(Color(.systemGray4).opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
                 .padding(.horizontal, getPadding())
-                .sensoryFeedback(.selection, trigger: selection)
+                .sensoryFeedback(.impact(weight: .light), trigger: selection)
                 .onAppear {
                     proxy.scrollTo(selection, anchor: .center)
                 }

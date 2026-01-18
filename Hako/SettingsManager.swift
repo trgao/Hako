@@ -35,7 +35,9 @@ class SettingsManager: ObservableObject {
     // Appearance
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
+    
     @AppStorage("translucentBackground") var translucentBackground = true
+    @AppStorage("dynamicType") var dynamicType = true
     
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1

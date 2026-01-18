@@ -59,7 +59,7 @@ struct UserListStatusPicker: View {
                                 HStack {
                                     Spacer()
                                     Text(option.toString())
-                                        .font(.footnote.weight(selection == option ? .semibold : .regular))
+                                        .font(.system(size: 13, weight: selection == option ? .semibold : .regular))
                                         .foregroundStyle(Color.primary)
                                     Spacer()
                                 }

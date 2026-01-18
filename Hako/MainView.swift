@@ -236,7 +236,7 @@ struct MainView: View {
         }
     }
     
-    var body: some View {
+    var mainView: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
                 if #available(iOS 18.0, *) {
@@ -325,5 +325,14 @@ struct MainView: View {
         }
         .onOpenURL(perform: handleUrl)
         .handleOpenURLInApp(url: $url)
+    }
+    
+    var body: some View {
+        if settings.dynamicType {
+            mainView
+        } else {
+            mainView
+                .dynamicTypeSize(.medium)
+        }
     }
 }

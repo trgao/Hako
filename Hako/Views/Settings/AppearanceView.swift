@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SystemNotification
 
 struct AppearanceView: View {
     @EnvironmentObject private var settings: SettingsManager
@@ -25,6 +24,7 @@ struct AppearanceView: View {
                             settings.accentColor = index
                         } label: {
                             Image(systemName: "circle.fill")
+                                .font(.system(size: 13))
                                 .foregroundStyle(color)
                                 .tag(index)
                         }
@@ -102,6 +102,10 @@ struct AppearanceView: View {
                 Toggle(isOn: $settings.translucentBackground) {
                     Text("Allow translucent backgrounds")
                 }
+                Toggle(isOn: $settings.dynamicType) {
+                    Text("Allow dynamic type")
+                    Text("Allow changes in Settings app under Accessibility > Display & Text Size > Larger Text to apply in this app")
+                }
             }
             Section("Text") {
                 Toggle(isOn: $settings.truncate) {
@@ -112,10 +116,8 @@ struct AppearanceView: View {
                     .disabled(!settings.truncate)
             }
         }
-        .systemNotification(isActive: $isChangeIconError) {
-            Label("Unable to change icon", systemImage: "exclamationmark.triangle.fill")
-                .labelStyle(.iconTint(.red))
-                .padding()
+        .alert("Unable to change app icon", isPresented: $isChangeIconError) {
+            Button("Ok") {}
         }
     }
 }

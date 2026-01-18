@@ -12,9 +12,9 @@ struct LoadingView: View {
         ZStack {
             ProgressView {
                 Text("Loading")
-                    .font(.system(size: 17))
                     .foregroundColor(.white)
             }
+            .dynamicTypeSize(.medium)
             .tint(.white)
             .background {
                 RoundedRectangle(cornerRadius: 10)

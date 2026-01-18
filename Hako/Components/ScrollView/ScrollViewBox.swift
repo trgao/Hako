@@ -10,6 +10,7 @@ import SwiftUI
 struct ScrollViewBox<Content: View>: View {
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
+    @ScaledMetric private var height = 55
     @State private var isPressed = false
     @State private var isLongPress = false
     private let title: String
@@ -39,7 +40,7 @@ struct ScrollViewBox<Content: View>: View {
             isLongPress = pressing
         }) {}
         .padding(20)
-        .frame(height: 55)
+        .frame(height: height)
         .frame(maxWidth: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))

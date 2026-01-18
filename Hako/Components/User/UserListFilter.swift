@@ -18,7 +18,7 @@ struct UserListFilter: View {
     var body: some View {
         Menu {
             if controller.type == .anime {
-                if settings.hideStatusPicker {
+                if !settings.useStatusTabBar {
                     Picker(selection: $controller.animeStatus, label: Text("Status")) {
                         Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
                         Label("Watching", systemImage: "play.circle").tag(StatusEnum.watching)
@@ -36,7 +36,7 @@ struct UserListFilter: View {
                     Label("By start date", systemImage: "calendar").tag(SortEnum.animeStartDate)
                 }
             } else if controller.type == .manga {
-                if settings.hideStatusPicker {
+                if !settings.useStatusTabBar {
                     Picker(selection: $controller.mangaStatus, label: Text("Status")) {
                         Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
                         Label("Reading", systemImage: "book.circle").tag(StatusEnum.reading)
@@ -55,7 +55,7 @@ struct UserListFilter: View {
                 }
             }
         } label: {
-            Image(systemName: settings.hideStatusPicker ? "line.3.horizontal.decrease.circle" : "arrow.up.arrow.down.circle")
+            Image(systemName: settings.useStatusTabBar ? "arrow.up.arrow.down.circle" : "line.3.horizontal.decrease.circle")
         }
         .disabled(controller.isLoading())
     }

@@ -21,7 +21,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
     @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
     
-    @AppStorage("hideStatusPicker") var hideStatusPicker = false
+    @AppStorage("useStatusTabBar") var useStatusTabBar = true
     @AppStorage("defaultAnimeStatus") var defaultAnimeStatus = 1
     @AppStorage("defaultAnimeSort") var defaultAnimeSort = 2
     @AppStorage("defaultMangaStatus") var defaultMangaStatus = 1

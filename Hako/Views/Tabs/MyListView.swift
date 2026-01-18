@@ -101,7 +101,7 @@ struct MyListView: View {
                     }
                 }
             }
-            if !settings.hideStatusPicker {
+            if settings.useStatusTabBar {
                 Section {} footer: {
                     Rectangle()
                         .frame(height: 0)
@@ -214,7 +214,7 @@ struct MyListView: View {
                     }
                 }
             }
-            if !settings.hideStatusPicker {
+            if settings.useStatusTabBar {
                 Section {} footer: {
                     Rectangle()
                         .frame(height: 0)
@@ -250,13 +250,13 @@ struct MyListView: View {
                 ZStack {
                     if controller.type == .anime {
                         animeList
-                        if !settings.hideStatusPicker {
+                        if settings.useStatusTabBar {
                             UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses)
                                 .disabled(controller.isAnimeLoading)
                         }
                     } else if controller.type == .manga {
                         mangaList
-                        if !settings.hideStatusPicker {
+                        if settings.useStatusTabBar {
                             UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses)
                                 .disabled(controller.isMangaLoading)
                         }

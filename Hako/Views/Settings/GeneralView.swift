@@ -76,9 +76,9 @@ struct GeneralView: View {
                 PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
             Section("User list") {
-                Toggle(isOn: $settings.hideStatusPicker) {
-                    Text("Hide status picker")
-                    Text(settings.hideStatusPicker ? "You can change user list status from the menu icon in the navigation bar" : "You can change user list status from the tab bar at the bottom of the page")
+                Toggle(isOn: $settings.useStatusTabBar) {
+                    Text("Use list status tab bar")
+                    Text(settings.useStatusTabBar ?  "You can change user list status from the tab bar at the bottom of the page" : "You can change user list status from the menu icon in the navigation bar")
                 }
                 
                 let animeStatuses = Constants.animeStatuses.map{ $0.toString() }

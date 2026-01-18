@@ -67,7 +67,8 @@ struct AnimeDetailsView: View {
                                 }
                             }
                             .bold()
-                            .font(.title)
+                            .font(.title2)
+                            .padding(.bottom, 5)
                             VStack {
                                 if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
                                     Text("\(season.rawValue.capitalized), \(String(year))")

@@ -67,7 +67,8 @@ struct MangaDetailsView: View {
                                 }
                             }
                             .bold()
-                            .font(.title)
+                            .font(.title2)
+                            .padding(.bottom, 5)
                             VStack {
                                 if let mediaType = manga.mediaType, let status = manga.status {
                                     Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")

@@ -22,6 +22,7 @@ struct TitleText: View {
     
     var text: some View {
         VStack {
+            Spacer()
             if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                 Text(title)
                     .bold()
@@ -35,7 +36,6 @@ struct TitleText: View {
             }
             if let japanese = japanese {
                 Text(japanese)
-                    .padding(.bottom, 5)
                     .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)

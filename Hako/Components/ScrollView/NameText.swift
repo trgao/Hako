@@ -29,7 +29,6 @@ struct NameText: View {
             }
             if let japanese = japanese {
                 Text(japanese)
-                    .padding(.bottom, 5)
                     .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)

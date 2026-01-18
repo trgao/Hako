@@ -64,14 +64,14 @@ struct MangaListItem: View {
                             .bold()
                             .font(.callout)
                     }
-                    if networker.isSignedIn {
+                    if let listStatus = manga.listStatus {
                         VStack(alignment: .leading) {
                             if settings.mangaReadProgress == 0 {
                                 ProgressView(value: chaptersReadProgress)
-                                    .tint(manga.listStatus?.status?.toColour())
+                                    .tint(listStatus.status?.toColour())
                             } else {
                                 ProgressView(value: volumesReadProgress)
-                                    .tint(manga.listStatus?.status?.toColour())
+                                    .tint(listStatus.status?.toColour())
                             }
                             HStack {
                                 Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
@@ -81,8 +81,8 @@ struct MangaListItem: View {
                                     .foregroundStyle(Color(.systemGray))
                                     .labelStyle(CustomLabel(spacing: 2))
                                 Spacer()
-                                if let score = manga.listStatus?.score, score > 0 {
-                                    Text("\(score) ⭐")
+                                if listStatus.score > 0 {
+                                    Text("\(listStatus.score) ⭐")
                                         .bold()
                                 }
                             }

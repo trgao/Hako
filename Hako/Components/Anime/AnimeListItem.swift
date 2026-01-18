@@ -53,17 +53,17 @@ struct AnimeListItem: View {
                             .bold()
                             .font(.callout)
                     }
-                    if networker.isSignedIn {
+                    if let listStatus = anime.listStatus {
                         VStack(alignment: .leading) {
                             ProgressView(value: watchProgress)
-                                .tint(anime.listStatus?.status?.toColour())
+                                .tint(listStatus.status?.toColour())
                             HStack {
                                 Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
                                     .foregroundStyle(Color(.systemGray))
                                     .labelStyle(CustomLabel(spacing: 2))
                                 Spacer()
-                                if let score = anime.listStatus?.score, score > 0 {
-                                    Text("\(score) ⭐")
+                                if listStatus.score > 0 {
+                                    Text("\(listStatus.score) ⭐")
                                         .bold()
                                 }
                             }

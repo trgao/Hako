@@ -69,7 +69,7 @@ struct TagCloudView: View {
         }
         return
             Text(text)
-                .font(.system(size: 13))
+                .font(.footnote)
                 .padding(8)
                 .background(color)
                 .opacity(0.9)

@@ -38,7 +38,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, T>: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 10)
                     .padding(.horizontal, 35)
-                    .font(.system(size: 17))
+                    .font(.callout)
                 }
                 .buttonStyle(.plain)
             } else {
@@ -47,7 +47,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, T>: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 10)
                     .padding(.horizontal, 35)
-                    .font(.system(size: 17))
+                    .font(.callout)
             }
             content()
         }

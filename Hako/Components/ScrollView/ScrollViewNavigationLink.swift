@@ -29,7 +29,7 @@ struct ScrollViewNavigationLink<Destination: View>: View {
             Text(content)
             Image(systemName: "chevron.right")
                 .bold()
-                .font(.system(size: 12))
+                .font(.caption)
                 .foregroundStyle(Color(.systemGray2))
         }
         .contentShape(Rectangle())

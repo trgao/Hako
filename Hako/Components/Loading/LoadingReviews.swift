@@ -20,13 +20,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor neque et nu
                 HStack {
                     ImageFrame(id: "", imageUrl: nil, imageSize: .reviewUser)
                     Text("placeholder ・ placeholder")
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .bold()
                         .padding(5)
                 }
                 .skeleton()
                 Text("placeholder")
-                    .font(.system(size: 13))
+                    .font(.footnote)
                     .padding(8)
                     .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
                     .opacity(0.9)
@@ -37,7 +37,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor neque et nu
                     .multilineTextAlignment(.leading)
                     .lineLimit(6)
                     .fixedSize(horizontal: false, vertical: true)
-                    .font(.system(size: 17))
+                    .font(.callout)
                     .skeleton()
             }
             .padding(20)

@@ -39,12 +39,12 @@ struct ScrollViewListItem: View {
                         .multilineTextAlignment(.leading)
                     Text(subtitle ?? "")
                         .foregroundStyle(Color(.systemGray))
-                        .font(.system(size: 13))
+                        .font(.footnote)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .bold()
-                    .font(.system(size: 12))
+                    .font(.caption)
                     .foregroundStyle(Color(.systemGray2))
             }
         }

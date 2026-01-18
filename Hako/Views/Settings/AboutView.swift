@@ -38,7 +38,7 @@ struct AboutView: View {
         } title: {
             Text("Hako")
                 .bold()
-                .font(.system(size: 25))
+                .font(.title)
                 .multilineTextAlignment(.center)
         }
     }

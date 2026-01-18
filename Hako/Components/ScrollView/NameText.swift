@@ -23,20 +23,20 @@ struct NameText: View {
             if let english = english {
                 Text(english)
                     .bold()
-                    .font(.system(size: 25))
+                    .font(.title)
                     .multilineTextAlignment(.center)
                     .contentShape(Rectangle())
             }
             if let japanese = japanese {
                 Text(japanese)
                     .padding(.bottom, 5)
-                    .font(.system(size: 18))
+                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }
             if let birthday = birthday {
                 Text("Birthday: \(birthday)")
-                    .font(.system(size: 18))
+                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }

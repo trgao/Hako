@@ -46,12 +46,12 @@ struct AnimeListItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.system(size: 16))
+                            .font(.callout)
                     } else {
                         Text(anime.node.title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.system(size: 16))
+                            .font(.callout)
                     }
                     if networker.isSignedIn {
                         VStack(alignment: .leading) {
@@ -67,7 +67,7 @@ struct AnimeListItem: View {
                                         .bold()
                                 }
                             }
-                            .font(.system(size: 13))
+                            .font(.footnote)
                         }
                     }
                     HStack(alignment: .top) {
@@ -80,7 +80,7 @@ struct AnimeListItem: View {
                             }
                         }
                         .opacity(0.7)
-                        .font(.system(size: 13))
+                        .font(.footnote)
                         .padding(.top, 1)
                         Spacer()
                         if networker.isSignedIn && index != -1 {

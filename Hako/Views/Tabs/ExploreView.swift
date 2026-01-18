@@ -47,7 +47,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top) {
                     ForEach(settings.recentlyViewedItems.reversed()) { item in
@@ -71,7 +71,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             if controller.animeSuggestions.isEmpty {
                 LoadingCarousel()
             } else {
@@ -98,7 +98,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             if controller.topAiringAnime.isEmpty {
                 LoadingCarousel()
             } else {
@@ -125,7 +125,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             if controller.topUpcomingAnime.isEmpty {
                 LoadingCarousel()
             } else {
@@ -152,7 +152,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             if controller.newlyAddedAnime.isEmpty {
                 LoadingCarousel()
             } else {
@@ -179,7 +179,7 @@ struct ExploreView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
-                .font(.system(size: 17))
+                .font(.headline)
             if controller.newlyAddedManga.isEmpty {
                 LoadingCarousel()
             } else {

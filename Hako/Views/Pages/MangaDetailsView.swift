@@ -53,21 +53,21 @@ struct MangaDetailsView: View {
                                 VStack {
                                     if let myScore = manga.myListStatus?.score, myScore > 0 {
                                         Text("MAL score:")
-                                            .font(.system(size: 13))
+                                            .font(.footnote)
                                     }
                                     Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
                                 }
                                 if let myScore = manga.myListStatus?.score, myScore > 0 {
                                     VStack {
                                         Text("Your score:")
-                                            .font(.system(size: 13))
+                                            .font(.footnote)
                                         Text("\(myScore) ⭐")
                                     }
                                     .padding(.leading, 20)
                                 }
                             }
                             .bold()
-                            .font(.system(size: 25))
+                            .font(.title)
                             VStack {
                                 if let mediaType = manga.mediaType, let status = manga.status {
                                     Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")
@@ -75,7 +75,7 @@ struct MangaDetailsView: View {
                                 Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volume\(manga.numVolumes == 1 ? "" : "s"), \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapter\(manga.numChapters == 1 ? "" : "s")")
                             }
                             .opacity(0.7)
-                            .font(.system(size: 13))
+                            .font(.footnote)
                         }
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: manga.synopsis)

@@ -24,7 +24,7 @@ struct ScrollViewSection<Content: View>: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
-                .font(.system(size: 17))
+                .font(.headline)
             VStack(spacing: 0) {
                 content()
             }

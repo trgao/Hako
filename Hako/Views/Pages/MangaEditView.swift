@@ -186,26 +186,26 @@ struct MangaEditView: View {
                             if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                                 Text(title)
                                     .bold()
-                                    .font(.system(size: 20))
+                                    .font(.title3)
                                     .multilineTextAlignment(.center)
                             } else {
                                 Text(title ?? "")
                                     .bold()
-                                    .font(.system(size: 20))
+                                    .font(.title)
                                     .multilineTextAlignment(.center)
                             }
                             if let updatedAt = listStatus.updatedAt?.toFullString() {
                                 Text("Last updated at: \(updatedAt)")
-                                    .font(.system(size: 12))
+                                    .font(.caption)
                                     .opacity(0.7)
                             } else {
                                 Text("Not added to list")
-                                    .font(.system(size: 12))
+                                    .font(.caption)
                                     .opacity(0.7)
                             }
                             if listStatus != initialData {
                                 Text("Unsaved changes")
-                                    .font(.system(size: 12))
+                                    .font(.caption)
                                     .opacity(0.7)
                             }
                         }

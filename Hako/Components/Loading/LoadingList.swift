@@ -25,7 +25,7 @@ struct LoadingList: View {
                     VStack(alignment: .leading) {
                         Text("placeholder")
                             .bold()
-                            .font(.system(size: 16))
+                            .font(.callout)
                     }
                     .padding(5)
                 } else {

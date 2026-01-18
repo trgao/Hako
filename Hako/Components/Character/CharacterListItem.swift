@@ -32,11 +32,11 @@ struct CharacterListItem: View {
                     Text(character.name ?? "")
                         .lineLimit(settings.getLineLimit())
                         .bold()
-                        .font(.system(size: 16))
+                        .font(.callout)
                     if let subtitle = subtitle {
                         Text(subtitle)
                             .foregroundStyle(Color(.systemGray))
-                            .font(.system(size: 13))
+                            .font(.footnote)
                     }
                 }
                 .padding(5)

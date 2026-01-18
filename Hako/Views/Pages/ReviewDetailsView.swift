@@ -28,7 +28,7 @@ struct ReviewDetailsView: View {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
                             Text("\(username) ・ \(date.toString())")
-                                .font(.system(size: 12))
+                                .font(.caption)
                                 .bold()
                                 .padding(5)
                         }
@@ -42,7 +42,7 @@ struct ReviewDetailsView: View {
                     Text("\(text)\(item.score != nil ? "\n\nScore: \(item.score, default: "?") / 10" : "")")
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.system(size: 17))
+                        .font(.callout)
                         .padding(20)
                         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                         .shadow(radius: 0.5)

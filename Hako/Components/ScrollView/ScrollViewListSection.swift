@@ -25,7 +25,6 @@ struct ScrollViewListSection<Content: View>: View {
             HStack {
                 Text(title)
                     .bold()
-                Spacer()
                 if isExpandable {
                     Button{
                         withAnimation {
@@ -38,10 +37,11 @@ struct ScrollViewListSection<Content: View>: View {
                     }
                     .frame(width: 10, height: 10)
                 }
+                Spacer()
             }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
-                .font(.system(size: 17))
+                .font(.headline)
             if !isExpandable || isExpanded {
                 LazyVStack(spacing: 5) {
                     content()

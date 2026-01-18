@@ -33,11 +33,11 @@ struct NewsListView: View {
                                             Text(item.title ?? "")
                                                 .lineLimit(settings.getLineLimit())
                                                 .bold()
-                                                .font(.system(size: 16))
+                                                .font(.callout)
                                                 .foregroundStyle(Color.primary)
                                             Text(item.pubDate?.toString() ?? "")
                                                 .opacity(0.7)
-                                                .font(.system(size: 13))
+                                                .font(.footnote)
                                                 .padding(.top, 1)
                                                 .foregroundStyle(Color.primary)
                                         }

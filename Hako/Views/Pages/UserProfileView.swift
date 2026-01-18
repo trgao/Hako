@@ -38,7 +38,7 @@ struct UserProfileView: View {
                             VStack {
                                 Text(user)
                                     .frame(maxWidth: .infinity)
-                                    .font(.system(size: 20))
+                                    .font(.title3)
                                     .bold()
                                 NavigationLink("Go to user lists") {
                                     UserListView(user: user)

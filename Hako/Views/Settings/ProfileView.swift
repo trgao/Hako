@@ -25,7 +25,7 @@ struct ProfileView: View {
                             VStack {
                                 Text("Hello, \(networker.user?.name ?? "")")
                                     .frame(maxWidth: .infinity)
-                                    .font(.system(size: 20))
+                                    .font(.title3)
                                     .bold()
                                 Button("Sign Out") {
                                     isSigningOut = true
@@ -130,7 +130,7 @@ struct ProfileView: View {
                     }
                     HStack {
                         Text("This will bring you to the MyAnimeList website")
-                            .font(.system(size: 13))
+                            .font(.footnote)
                             .opacity(0.7)
                         Spacer()
                     }
@@ -139,7 +139,7 @@ struct ProfileView: View {
                     if let dateString = networker.user?.joinedAt, let date = ISO8601DateFormatter().date(from: dateString) {
                         HStack {
                             Text("Joined MyAnimeList on \(date.toString())")
-                                .font(.system(size: 13))
+                                .font(.footnote)
                                 .opacity(0.7)
                             Spacer()
                         }

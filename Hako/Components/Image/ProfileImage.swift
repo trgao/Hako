@@ -88,7 +88,7 @@ struct ProfileImage: View {
                             }
                         Text(username ?? "")
                             .bold()
-                            .font(.system(size: 25))
+                            .font(.title)
                     }
                 }
                 .tabViewStyle(.page)

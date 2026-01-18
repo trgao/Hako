@@ -11,6 +11,7 @@ import SwiftUI
 struct ThemeSongs: View {
     @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
+    @ScaledMetric private var height = 100
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
@@ -34,10 +35,10 @@ struct ThemeSongs: View {
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
                                     .fixedSize(horizontal: false, vertical: true)
-                                    .font(.system(size: 17))
+                                    .font(.callout)
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 10)
-                                    .frame(width: min(450, screenSize.width - 34), height: 100, alignment: .center)
+                                    .frame(width: min(450, screenSize.width - 34), height: height, alignment: .center)
                                     .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                     .shadow(radius: 0.5)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -66,10 +67,10 @@ struct ThemeSongs: View {
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
                                     .fixedSize(horizontal: false, vertical: true)
-                                    .font(.system(size: 17))
+                                    .font(.callout)
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 10)
-                                    .frame(width: min(450, screenSize.width - 34), height: 100, alignment: .center)
+                                    .frame(width: min(450, screenSize.width - 34), height: height, alignment: .center)
                                     .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                                     .shadow(radius: 0.5)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))

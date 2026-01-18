@@ -53,21 +53,21 @@ struct AnimeDetailsView: View {
                                 VStack {
                                     if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
                                         Text("MAL score:")
-                                            .font(.system(size: 13))
+                                            .font(.footnote)
                                     }
                                     Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
                                 }
                                 if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
                                     VStack {
                                         Text("Your score:")
-                                            .font(.system(size: 13))
+                                            .font(.footnote)
                                         Text("\(myScore) ⭐")
                                     }
                                     .padding(.leading, 20)
                                 }
                             }
                             .bold()
-                            .font(.system(size: 25))
+                            .font(.title)
                             VStack {
                                 if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
                                     Text("\(season.rawValue.capitalized), \(String(year))")
@@ -78,7 +78,7 @@ struct AnimeDetailsView: View {
                                 Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episode\(anime.numEpisodes == 1 ? "" : "s"), \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
                             }
                             .opacity(0.7)
-                            .font(.system(size: 13))
+                            .font(.footnote)
                         }
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: anime.synopsis)

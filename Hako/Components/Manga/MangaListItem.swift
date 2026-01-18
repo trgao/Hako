@@ -57,12 +57,12 @@ struct MangaListItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.system(size: 16))
+                            .font(.callout)
                     } else {
                         Text(manga.node.title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.system(size: 16))
+                            .font(.callout)
                     }
                     if networker.isSignedIn {
                         VStack(alignment: .leading) {
@@ -86,14 +86,14 @@ struct MangaListItem: View {
                                         .bold()
                                 }
                             }
-                            .font(.system(size: 13))
+                            .font(.footnote)
                         }
                     }
                     HStack(alignment: .top) {
                         if let status = manga.node.status {
                             Text(status.formatStatus())
                                 .opacity(0.7)
-                                .font(.system(size: 13))
+                                .font(.footnote)
                                 .padding(.top, 1)
                         }
                         Spacer()

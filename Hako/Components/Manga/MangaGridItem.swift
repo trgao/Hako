@@ -37,7 +37,7 @@ struct MangaGridItem: View {
                         if let subtitle = subtitle {
                             Text(subtitle)
                                 .bold()
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .foregroundStyle(.white)
                                 .padding(10)
                                 .background {
@@ -75,14 +75,14 @@ struct MangaGridItem: View {
                         .lineLimit(settings.getLineLimit())
                         .frame(width: 150, alignment: .leading)
                         .padding(5)
-                        .font(.system(size: 16))
+                        .font(.callout)
                         .tint(.primary)
                 } else {
                     Text(title ?? "")
                         .lineLimit(settings.getLineLimit())
                         .frame(width: 150, alignment: .leading)
                         .padding(5)
-                        .font(.system(size: 16))
+                        .font(.callout)
                         .tint(.primary)
                 }
             }

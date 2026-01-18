@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReviewItem: View {
     @Environment(\.colorScheme) private var colorScheme
+    @ScaledMetric private var height = 200
     private let item: Review
     
     init(item: Review) {
@@ -27,7 +28,7 @@ struct ReviewItem: View {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
                             Text("\(username) ・ \(date.toString())")
-                                .font(.system(size: 12))
+                                .font(.caption)
                                 .bold()
                                 .padding(5)
                         }
@@ -41,9 +42,9 @@ struct ReviewItem: View {
                     .multilineTextAlignment(.leading)
                     .lineLimit(6)
                     .fixedSize(horizontal: false, vertical: true)
-                    .font(.system(size: 17))
+                    .font(.callout)
             }
-            .frame(height: 200)
+            .frame(height: height)
             .padding(20)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)

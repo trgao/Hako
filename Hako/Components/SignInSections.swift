@@ -60,7 +60,7 @@ struct SignInSections: View {
                                 VStack {
                                     Text(user.name ?? "")
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .font(.system(size: 20))
+                                        .font(.title3)
                                         .bold()
                                     Text("User profile")
                                         .frame(maxWidth: .infinity, alignment: .leading)

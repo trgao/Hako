@@ -25,18 +25,18 @@ struct TitleText: View {
             if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                 Text(title)
                     .bold()
-                    .font(.system(size: 25))
+                    .font(.title)
                     .multilineTextAlignment(.center)
             } else {
                 Text(romaji)
                     .bold()
-                    .font(.system(size: 25))
+                    .font(.title)
                     .multilineTextAlignment(.center)
             }
             if let japanese = japanese {
                 Text(japanese)
                     .padding(.bottom, 5)
-                    .font(.system(size: 18))
+                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }

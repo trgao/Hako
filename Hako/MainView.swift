@@ -332,7 +332,7 @@ struct MainView: View {
             mainView
         } else {
             mainView
-                .dynamicTypeSize(.medium)
+                .dynamicTypeSize(.large)
         }
     }
 }

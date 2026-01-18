@@ -14,7 +14,7 @@ struct LoadingView: View {
                 Text("Loading")
                     .foregroundColor(.white)
             }
-            .dynamicTypeSize(.medium)
+            .dynamicTypeSize(.xLarge)
             .tint(.white)
             .background {
                 RoundedRectangle(cornerRadius: 10)

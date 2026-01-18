@@ -24,7 +24,7 @@ struct AppearanceView: View {
                             settings.accentColor = index
                         } label: {
                             Image(systemName: "circle.fill")
-                                .font(.system(size: 13))
+                                .font(.system(size: 16))
                                 .foregroundStyle(color)
                                 .tag(index)
                         }

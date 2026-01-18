@@ -59,7 +59,7 @@ struct UserListStatusPicker: View {
                                 HStack {
                                     Spacer()
                                     Text(option.toString())
-                                        .font(.system(size: 13, weight: selection == option ? .bold : .regular))
+                                        .font(.system(size: 13, weight: selection == option ? .semibold : .regular))
                                         .foregroundStyle(Color.primary)
                                     Spacer()
                                 }
@@ -80,7 +80,7 @@ struct UserListStatusPicker: View {
                     .frame(minWidth: screenSize.width - getPadding() * 2 - 10)
                 }
                 .frame(height: 32)
-                .background(Color(.systemGray5).opacity(0.6))
+                .background(Color(.systemGray4).opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
                 .padding(.horizontal, getPadding())
                 .sensoryFeedback(.selection, trigger: selection)

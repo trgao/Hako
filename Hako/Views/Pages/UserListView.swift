@@ -81,9 +81,34 @@ struct UserListView: View {
                     Text(user)
                 }
             }
+            if !settings.hideStatusPicker {
+                Section {} footer: {
+                    Rectangle()
+                        .frame(height: 0)
+                }
+            }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
         .disabled(controller.isAnimeLoading && controller.animeItems.isEmpty)
+        .onChange(of: controller.animeStatus) {
+            Task {
+                await controller.refresh(true)
+            }
+        }
+        .onChange(of: controller.animeSort) {
+            Task {
+                await controller.refresh(true)
+            }
+        }
+        .refreshable {
+            isRefresh = true
+        }
+        .task(id: isRefresh) {
+            if controller.isItemsEmpty() || isRefresh {
+                await controller.refresh()
+                isRefresh = false
+            }
+        }
     }
     
     private var mangaList: some View {
@@ -137,20 +162,23 @@ struct UserListView: View {
                     Text(user)
                 }
             }
+            if !settings.hideStatusPicker {
+                Section {} footer: {
+                    Rectangle()
+                        .frame(height: 0)
+                }
+            }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
         .disabled(controller.isMangaLoading && controller.mangaItems.isEmpty)
-    }
-    
-    var body: some View {
-        ZStack {
-            if controller.type == .anime {
-                animeList
-            } else if controller.type == .manga {
-                mangaList
+        .onChange(of: controller.mangaStatus) {
+            Task {
+                await controller.refresh(true)
             }
-            if controller.isRefreshLoading {
-                LoadingView()
+        }
+        .onChange(of: controller.mangaSort) {
+            Task {
+                await controller.refresh(true)
             }
         }
         .refreshable {
@@ -160,6 +188,27 @@ struct UserListView: View {
             if controller.isItemsEmpty() || isRefresh {
                 await controller.refresh()
                 isRefresh = false
+            }
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            if controller.type == .anime {
+                animeList
+                if !settings.hideStatusPicker {
+                    UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses)
+                        .disabled(controller.isAnimeLoading)
+                }
+            } else if controller.type == .manga {
+                mangaList
+                if !settings.hideStatusPicker {
+                    UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses)
+                        .disabled(controller.isMangaLoading)
+                }
+            }
+            if controller.isRefreshLoading {
+                LoadingView()
             }
         }
         .toolbar {

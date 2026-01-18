@@ -88,6 +88,7 @@
 		EE4729E62BF4D503005D17EF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E52BF4D503005D17EF /* User.swift */; };
 		EE4729E82BF4FD3D005D17EF /* AnimeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */; };
 		EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */; };
+		EE52C1892F1BA7E6007586F8 /* UserListStatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE52C1882F1BA7E6007586F8 /* UserListStatusPicker.swift */; };
 		EE58F88F2E78367A002CC1ED /* ListErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE58F88E2E78367A002CC1ED /* ListErrorView.swift */; };
 		EE5CEE072E00119F0000FC90 /* Favourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5CEE062E00119B0000FC90 /* Favourites.swift */; };
 		EE68FB722E49972800E9EE36 /* TokenBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE68FB712E49972800E9EE36 /* TokenBucket.swift */; };
@@ -328,6 +329,7 @@
 		EE4729E52BF4D503005D17EF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EE4729E72BF4FD3D005D17EF /* AnimeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeListItem.swift; sourceTree = "<group>"; };
 		EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusEnum.swift; sourceTree = "<group>"; };
+		EE52C1882F1BA7E6007586F8 /* UserListStatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListStatusPicker.swift; sourceTree = "<group>"; };
 		EE58F88E2E78367A002CC1ED /* ListErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListErrorView.swift; sourceTree = "<group>"; };
 		EE5CEE062E00119B0000FC90 /* Favourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favourites.swift; sourceTree = "<group>"; };
 		EE68FB712E49972800E9EE36 /* TokenBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenBucket.swift; sourceTree = "<group>"; };
@@ -698,6 +700,7 @@
 				EE3B40172DD4B475000846A1 /* Manga */,
 				EE33360B2EAB346E005F2613 /* Character */,
 				EE33360A2EAB3468005F2613 /* Person */,
+				EE52C18A2F1BBF0C007586F8 /* User */,
 				EE6F33DC2DDC80B5009DED2B /* Image */,
 				EE6F33DB2DDC8094009DED2B /* Loading */,
 				EE6F33DE2DDC80F4009DED2B /* List */,
@@ -708,7 +711,6 @@
 				EEFEFD4B2BF3527D00200AF1 /* Recommendations.swift */,
 				EE712FE82DFDA2A900DC7202 /* ReviewItem.swift */,
 				EE5CEE062E00119B0000FC90 /* Favourites.swift */,
-				EEFB9CF02F1A749F00B6DBC6 /* UserListFilter.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -849,6 +851,15 @@
 				EEDB839D2E76C6CD00B208B2 /* MyListStatus.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		EE52C18A2F1BBF0C007586F8 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				EEFB9CF02F1A749F00B6DBC6 /* UserListFilter.swift */,
+				EE52C1882F1BA7E6007586F8 /* UserListStatusPicker.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		EE6F33DB2DDC8094009DED2B /* Loading */ = {
@@ -1169,6 +1180,7 @@
 				EEF593332F0E568300204973 /* StatusPickerRow.swift in Sources */,
 				EE3F1D1A2BDE9249009992AC /* MALAnimeListResponse.swift in Sources */,
 				EEFEFD482BF3429200200AF1 /* SafariView.swift in Sources */,
+				EE52C1892F1BA7E6007586F8 /* UserListStatusPicker.swift in Sources */,
 				EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */,
 				EEC3578E2BE3889900DAAB0B /* CharacterDetailsViewController.swift in Sources */,
 				EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */,

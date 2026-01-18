@@ -10,10 +10,10 @@ import LocalAuthentication
 
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
+    @StateObject private var networker = NetworkManager.shared
     @State private var isAuthenticationError = false
     @State private var cacheSizeString = ""
-    let networker = NetworkManager.shared
-    let cacheManager = CacheManager.shared
+    private let cacheManager = CacheManager.shared
     
     var body: some View {
         List {
@@ -75,7 +75,12 @@ struct GeneralView: View {
                 PickerRow(title: "Default anime ranking", selection: $settings.defaultAnimeRanking, labels: animeRankings)
                 PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
-            Section("My list") {
+            Section("User list") {
+                Toggle(isOn: $settings.hideStatusPicker) {
+                    Text("Hide status picker")
+                    Text(settings.hideStatusPicker ? "You can change user list status from the menu icon in the navigation bar" : "You can change user list status from the tab bar at the bottom of the page")
+                }
+                
                 let animeStatuses = Constants.animeStatuses.map{ $0.toString() }
                 let animeSorts = Constants.animeSorts.map{ $0.toString() }
                 PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
@@ -85,15 +90,16 @@ struct GeneralView: View {
                 let mangaSorts = Constants.mangaSorts.map{ $0.toString() }
                 PickerRow(title: "Default manga status", selection: $settings.defaultMangaStatus, labels: mangaStatuses)
                 PickerRow(title: "Default manga sort", selection: $settings.defaultMangaSort, labels: mangaSorts)
-            }
-            if networker.isSignedIn {
-                Section("List") {
+                
+                if networker.isSignedIn {
                     Toggle(isOn: $settings.useSwipeActions) {
                         Text("Allow swipe actions")
                         Text("Swipe left or right on items in My list tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
+            }
+            if networker.isSignedIn {
                 Section("Edit") {
                     Toggle(isOn: $settings.autofillStartDate) {
                         Text("Autofill start date")

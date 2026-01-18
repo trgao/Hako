@@ -21,11 +21,11 @@ class SettingsManager: ObservableObject {
     @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
     @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
     
+    @AppStorage("hideStatusPicker") var hideStatusPicker = false
     @AppStorage("defaultAnimeStatus") var defaultAnimeStatus = 1
     @AppStorage("defaultAnimeSort") var defaultAnimeSort = 2
     @AppStorage("defaultMangaStatus") var defaultMangaStatus = 1
     @AppStorage("defaultMangaSort") var defaultMangaSort = 2
-    
     @AppStorage("useSwipeActions") var useSwipeActions = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     

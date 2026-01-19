@@ -67,9 +67,9 @@ struct MangaProgress: View {
                             .bold()
                         Spacer()
                         Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                         Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                     }
                 } else {
                     ProgressView(value: 0)
@@ -78,9 +78,9 @@ struct MangaProgress: View {
                             .bold()
                         Spacer()
                         Label("0 / \(numVolumes)", systemImage: "book.closed.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                         Label("0 / \(numChapters)", systemImage: "book.pages.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                     }
                 }
             }

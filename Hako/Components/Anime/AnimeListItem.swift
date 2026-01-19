@@ -60,7 +60,7 @@ struct AnimeListItem: View {
                             HStack {
                                 Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 2))
+                                    .labelStyle(CustomLabelStyle())
                                 Spacer()
                                 if listStatus.score > 0 {
                                     Text("\(listStatus.score) ⭐")

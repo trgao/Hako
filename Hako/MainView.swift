@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 
 struct MainView: View {
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
@@ -236,7 +237,7 @@ struct MainView: View {
         }
     }
     
-    var mainView: some View {
+    var body: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
                 if #available(iOS 18.0, *) {
@@ -313,6 +314,7 @@ struct MainView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
         }
+        .dynamicTypeSize(settings.dynamicType ? dynamicTypeSize : .large)
         .onAppear {
             authenticate()
         }
@@ -325,14 +327,5 @@ struct MainView: View {
         }
         .onOpenURL(perform: handleUrl)
         .handleOpenURLInApp(url: $url)
-    }
-    
-    var body: some View {
-        if settings.dynamicType {
-            mainView
-        } else {
-            mainView
-                .dynamicTypeSize(.large)
-        }
     }
 }

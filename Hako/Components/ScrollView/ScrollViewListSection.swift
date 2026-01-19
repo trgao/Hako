@@ -24,7 +24,6 @@ struct ScrollViewListSection<Content: View>: View {
         VStack(alignment: .leading) {
             HStack {
                 Text(title)
-                    .bold()
                 if isExpandable {
                     Button{
                         withAnimation {
@@ -32,16 +31,16 @@ struct ScrollViewListSection<Content: View>: View {
                         }
                     } label: {
                         Image(systemName: "chevron.right")
-                            .rotationEffect(!isExpanded ? Angle(degrees: 0) : Angle(degrees: 90))
+                            .rotationEffect(Angle(degrees: isExpanded ? 90 : 0))
                             .foregroundStyle(Color(.systemGray2))
                     }
-                    .frame(width: 10, height: 10)
                 }
-                Spacer()
             }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                .font(.headline)
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .font(.headline)
             if !isExpandable || isExpanded {
                 LazyVStack(spacing: 5) {
                     content()

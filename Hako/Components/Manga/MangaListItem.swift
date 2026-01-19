@@ -76,10 +76,10 @@ struct MangaListItem: View {
                             HStack {
                                 Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 2))
+                                    .labelStyle(CustomLabelStyle())
                                 Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabel(spacing: 2))
+                                    .labelStyle(CustomLabelStyle())
                                 Spacer()
                                 if listStatus.score > 0 {
                                     Text("\(listStatus.score) ⭐")

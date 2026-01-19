@@ -49,7 +49,7 @@ struct AnimeProgress: View {
                             .bold()
                         Spacer()
                         Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                     }
                 } else {
                     ProgressView(value: 0)
@@ -58,7 +58,7 @@ struct AnimeProgress: View {
                             .bold()
                         Spacer()
                         Label("0 / \(numEpisodes)", systemImage: "video.fill")
-                            .labelStyle(CustomLabel(spacing: 2))
+                            .labelStyle(CustomLabelStyle())
                     }
                 }
             }

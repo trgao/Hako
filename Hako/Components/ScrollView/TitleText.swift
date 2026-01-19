@@ -22,7 +22,6 @@ struct TitleText: View {
     
     var text: some View {
         VStack {
-            Spacer()
             if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                 Text(title)
                     .bold()

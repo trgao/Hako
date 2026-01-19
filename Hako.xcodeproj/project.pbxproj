@@ -201,7 +201,7 @@
 		EEDB839E2E76C6CD00B208B2 /* MyListStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB839D2E76C6CD00B208B2 /* MyListStatus.swift */; };
 		EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB8FE22BEBCD2B00EAA985 /* Related.swift */; };
 		EEDBDB632C073F9B00F2E821 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */; };
-		EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabel.swift */; };
+		EEDBDB652C07547300F2E821 /* CustomLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* CustomLabelStyle.swift */; };
 		EEE1FA042EE32DCE0045B7B5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */; };
 		EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */; };
 		EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */; };
@@ -440,7 +440,7 @@
 		EEDB839D2E76C6CD00B208B2 /* MyListStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListStatus.swift; sourceTree = "<group>"; };
 		EEDB8FE22BEBCD2B00EAA985 /* Related.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Related.swift; sourceTree = "<group>"; };
 		EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
-		EEDBDB642C07547300F2E821 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		EEDBDB642C07547300F2E821 /* CustomLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelStyle.swift; sourceTree = "<group>"; };
 		EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -521,7 +521,7 @@
 				EEA5E93E2CEE825800B2513B /* ImageCache.swift */,
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
-				EEDBDB642C07547300F2E821 /* CustomLabel.swift */,
+				EEDBDB642C07547300F2E821 /* CustomLabelStyle.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
 				EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */,
@@ -1182,7 +1182,7 @@
 				EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */,
 				EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */,
 				EEC4359B2DFEB23000F36789 /* AnimeAiringSchedule.swift in Sources */,
-				EEDBDB652C07547300F2E821 /* CustomLabel.swift in Sources */,
+				EEDBDB652C07547300F2E821 /* CustomLabelStyle.swift in Sources */,
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
 				EECA2DFA2E7EADFA00D6C28B /* ScrollViewListItem.swift in Sources */,
 				EEE1FA042EE32DCE0045B7B5 /* ArrayExtension.swift in Sources */,

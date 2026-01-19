@@ -279,18 +279,18 @@ struct ExploreView: View {
     private var searchView: some View {
         ZStack {
             VStack {
-                if controller.isLoading {
-                    List {
-                        LoadingList(length: 20)
-                    }
-                    .id(controller.isLoading)
-                    .disabled(true)
-                } else if controller.type == .anime {
-                    List {
-                        Section {
+                List {
+                    Section {
+                        if controller.isLoading {
+                            LoadingList(length: 20)
+                        } else if controller.type == .anime {
                             if controller.animeItems.isEmpty {
                                 if controller.isAnimeLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                    ListErrorView(refresh: {
+                                        controller.isLoading = true
+                                        await controller.searchAnime(query: searchText)
+                                        controller.isLoading = false
+                                    })
                                 } else {
                                     nothingFoundView
                                 }
@@ -299,19 +299,14 @@ struct ExploreView: View {
                                     AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
                                 }
                             }
-                        } footer: {
-                            Rectangle()
-                                .frame(height: 35)
-                                .foregroundStyle(.clear)
-                        }
-                        .padding(.bottom, 10)
-                    }
-                } else if controller.type == .manga {
-                    List {
-                        Section {
+                        } else if controller.type == .manga {
                             if controller.mangaItems.isEmpty {
                                 if controller.isMangaLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                    ListErrorView(refresh: {
+                                        controller.isLoading = true
+                                        await controller.searchManga(query: searchText)
+                                        controller.isLoading = false
+                                    })
                                 } else {
                                     nothingFoundView
                                 }
@@ -320,19 +315,14 @@ struct ExploreView: View {
                                     MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
                                 }
                             }
-                        } footer: {
-                            Rectangle()
-                                .frame(height: 35)
-                                .foregroundStyle(.clear)
-                        }
-                        .padding(.bottom, 10)
-                    }
-                } else if controller.type == .character {
-                    List {
-                        Section {
+                        } else if controller.type == .character {
                             if controller.characterItems.isEmpty {
                                 if controller.isCharacterLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                    ListErrorView(refresh: {
+                                        controller.isLoading = true
+                                        await controller.searchCharacter(query: searchText)
+                                        controller.isLoading = false
+                                    })
                                 } else {
                                     nothingFoundView
                                 }
@@ -341,19 +331,14 @@ struct ExploreView: View {
                                     CharacterListItem(character: item)
                                 }
                             }
-                        } footer: {
-                            Rectangle()
-                                .frame(height: 35)
-                                .foregroundStyle(.clear)
-                        }
-                        .padding(.bottom, 10)
-                    }
-                } else if controller.type == .person {
-                    List {
-                        Section {
+                        } else if controller.type == .person {
                             if controller.personItems.isEmpty {
                                 if controller.isPersonLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: { await controller.search(query: searchText) })
+                                    ListErrorView(refresh: {
+                                        controller.isLoading = true
+                                        await controller.searchPerson(query: searchText)
+                                        controller.isLoading = false
+                                    })
                                 } else {
                                     nothingFoundView
                                 }
@@ -362,14 +347,15 @@ struct ExploreView: View {
                                     PersonListItem(person: item)
                                 }
                             }
-                        } footer: {
-                            Rectangle()
-                                .frame(height: 35)
-                                .foregroundStyle(.clear)
                         }
-                        .padding(.bottom, 10)
+                    } footer: {
+                        Rectangle()
+                            .frame(height: 35)
+                            .foregroundStyle(.clear)
                     }
+                    .padding(.bottom, 10)
                 }
+                .disabled(controller.isLoading)
             }
             if controller.isRefreshLoading && !controller.isLoading {
                 LoadingView()

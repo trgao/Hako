@@ -14,56 +14,52 @@ struct NewsListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoading && controller.news.isEmpty {
-                List {
+            List {
+                if controller.isLoading && controller.news.isEmpty {
                     LoadingList(length: 20)
-                }
-                .disabled(true)
-            } else {
-                if controller.isLoadingError {
+                } else if controller.isLoadingError {
                     ErrorView(refresh: controller.refresh)
                 } else {
-                    List {
-                        ForEach(controller.news.filter{ URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
-                            if let link = item.link {
-                                Link(destination: URL(string: link)!) {
-                                    HStack {
-                                        ImageFrame(id: "news\(item.hashValue)", imageUrl: item.media?.thumbnails?.first?.text, imageSize: Constants.listImageSize)
-                                        VStack(alignment: .leading) {
-                                            Text(item.title ?? "")
-                                                .lineLimit(settings.getLineLimit())
-                                                .bold()
-                                                .font(.callout)
-                                                .foregroundStyle(Color.primary)
-                                            Text(item.pubDate?.toString() ?? "")
-                                                .opacity(0.7)
-                                                .font(.footnote)
-                                                .padding(.top, 1)
-                                                .foregroundStyle(Color.primary)
-                                        }
-                                        .padding(5)
+                    ForEach(controller.news.filter{ URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
+                        if let link = item.link {
+                            Link(destination: URL(string: link)!) {
+                                HStack {
+                                    ImageFrame(id: "news\(item.hashValue)", imageUrl: item.media?.thumbnails?.first?.text, imageSize: Constants.listImageSize)
+                                    VStack(alignment: .leading) {
+                                        Text(item.title ?? "")
+                                            .lineLimit(settings.getLineLimit())
+                                            .bold()
+                                            .font(.callout)
+                                            .foregroundStyle(Color.primary)
+                                        Text(item.pubDate?.toString() ?? "")
+                                            .opacity(0.7)
+                                            .font(.footnote)
+                                            .padding(.top, 1)
+                                            .foregroundStyle(Color.primary)
                                     }
-                                    .contextMenu {
-                                        ShareLink(item: URL(string: link)!) {
-                                            Label("Share", systemImage: "square.and.arrow.up")
-                                        }
+                                    .padding(5)
+                                }
+                                .contextMenu {
+                                    ShareLink(item: URL(string: link)!) {
+                                        Label("Share", systemImage: "square.and.arrow.up")
                                     }
                                 }
                             }
                         }
                     }
-                    .refreshable {
-                        isRefresh = true
-                    }
-                }
-                if controller.isLoading {
-                    LoadingView()
                 }
             }
-        }
-        .task(id: isRefresh) {
-            if controller.news.isEmpty || isRefresh {
-                await controller.refresh()
+            .disabled(controller.isLoading && controller.news.isEmpty)
+            .refreshable {
+                isRefresh = true
+            }
+            .task(id: isRefresh) {
+                if controller.news.isEmpty || isRefresh {
+                    await controller.refresh()
+                }
+            }
+            if controller.isLoading && isRefresh {
+                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

@@ -13,48 +13,44 @@ struct StudiosListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoading && controller.studios.isEmpty {
-                List {
+            List {
+                if controller.isLoading && controller.studios.isEmpty {
                     LoadingList(length: 20, showImage: false)
-                }
-                .disabled(true)
-            } else {
-                if controller.isLoadingError && controller.studios.isEmpty {
+                } else if controller.isLoadingError && controller.studios.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
-                    List {
-                        ForEach(Array(controller.studios.enumerated()), id: \.1.id) { index, studio in
-                            if let title = studio.titles?[0].title {
-                                NavigationLink(title) {
-                                    GroupDetailsView(title: title, group: "producers", id: studio.id, type: .anime)
-                                }
-                                .onAppear {
-                                    Task {
-                                        if studio.id == controller.studios.last?.id {
-                                            await controller.loadMore()
-                                        }
+                    ForEach(Array(controller.studios.enumerated()), id: \.1.id) { index, studio in
+                        if let title = studio.titles?[0].title {
+                            NavigationLink(title) {
+                                GroupDetailsView(title: title, group: "producers", id: studio.id, type: .anime)
+                            }
+                            .onAppear {
+                                Task {
+                                    if studio.id == controller.studios.last?.id {
+                                        await controller.loadMore()
                                     }
                                 }
                             }
                         }
-                        if controller.isLoading {
-                            LoadingList(length: 5, showImage: false)
-                        }
                     }
-                    .refreshable {
-                        isRefresh = true
+                    if controller.isLoading {
+                        LoadingList(length: 5, showImage: false)
                     }
-                }
-                if controller.isLoading && isRefresh {
-                    LoadingView()
                 }
             }
-        }
-        .task(id: isRefresh) {
-            if controller.studios.isEmpty || isRefresh {
-                await controller.refresh()
-                await controller.loadMore()
-                isRefresh = false
+            .disabled(controller.isLoading && controller.studios.isEmpty)
+            .refreshable {
+                isRefresh = true
+            }
+            .task(id: isRefresh) {
+                if controller.studios.isEmpty || isRefresh {
+                    await controller.refresh()
+                    await controller.loadMore()
+                    isRefresh = false
+                }
+            }
+            if controller.isLoading && isRefresh {
+                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

@@ -127,11 +127,11 @@ class ExploreViewController: ObservableObject {
     // Search for the anime/manga/character/person with query
     func search(query: String) async {
         guard query.count > 2 else {
-            self.animeItems = []
-            self.mangaItems = []
-            self.characterItems = []
-            self.personItems = []
-            self.isLoading = false
+            animeItems = []
+            mangaItems = []
+            characterItems = []
+            personItems = []
+            isLoading = false
             return
         }
 
@@ -158,7 +158,7 @@ class ExploreViewController: ObservableObject {
         if Task.isCancelled {
             return
         }
-        self.isLoading = false
+        isLoading = false
     }
     
     func refreshSearch(query: String) async {

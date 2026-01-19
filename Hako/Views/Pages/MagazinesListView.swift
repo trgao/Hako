@@ -13,48 +13,44 @@ struct MagazinesListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoading && controller.magazines.isEmpty {
-                List {
+            List {
+                if controller.isLoading && controller.magazines.isEmpty {
                     LoadingList(length: 20, showImage: false)
-                }
-                .disabled(true)
-            } else {
-                if controller.isLoadingError && controller.magazines.isEmpty {
+                } else if controller.isLoadingError && controller.magazines.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
-                    List {
-                        ForEach(Array(controller.magazines.enumerated()), id: \.1.id) { index, magazine in
-                            if let name = magazine.name {
-                                NavigationLink(name) {
-                                    GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
-                                }
-                                .onAppear {
-                                    Task {
-                                        if magazine.id == controller.magazines.last?.id {
-                                            await controller.loadMore()
-                                        }
+                    ForEach(Array(controller.magazines.enumerated()), id: \.1.id) { index, magazine in
+                        if let name = magazine.name {
+                            NavigationLink(name) {
+                                GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
+                            }
+                            .onAppear {
+                                Task {
+                                    if magazine.id == controller.magazines.last?.id {
+                                        await controller.loadMore()
                                     }
                                 }
                             }
                         }
-                        if controller.isLoading {
-                            LoadingList(length: 5, showImage: false)
-                        }
                     }
-                    .refreshable {
-                        isRefresh = true
+                    if controller.isLoading {
+                        LoadingList(length: 5, showImage: false)
                     }
-                }
-                if controller.isLoading && isRefresh {
-                    LoadingView()
                 }
             }
-        }
-        .task(id: isRefresh) {
-            if controller.magazines.isEmpty || isRefresh {
-                await controller.refresh()
-                await controller.loadMore()
-                isRefresh = false
+            .disabled(controller.isLoading && controller.magazines.isEmpty)
+            .refreshable {
+                isRefresh = true
+            }
+            .task(id: isRefresh) {
+                if controller.magazines.isEmpty || isRefresh {
+                    await controller.refresh()
+                    await controller.loadMore()
+                    isRefresh = false
+                }
+            }
+            if controller.isLoading && isRefresh {
+                LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)

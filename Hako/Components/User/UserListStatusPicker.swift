@@ -38,6 +38,39 @@ struct UserListStatusPicker: View {
         }
     }
     
+    private var picker: some View {
+        HStack(spacing: 5) {
+            ForEach(options, id: \.self) { option in
+                Button {
+                    withAnimation(.snappy(duration: 0.1)) {
+                        selection = option
+                    }
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text(option.toString())
+                            .font(.system(size: 13, weight: selection == option ? .semibold : .regular))
+                            .foregroundStyle(Color.primary)
+                        Spacer()
+                    }
+                    .contentShape(RoundedRectangle(cornerRadius: getCornerRadius()))
+                }
+                .buttonStyle(.plain)
+                .frame(height: 28)
+                .background {
+                    if selection == option {
+                        RoundedRectangle(cornerRadius: getCornerRadius())
+                            .foregroundStyle(colorScheme == .light ? Color.white : Color(.systemGray2))
+                            .matchedGeometryEffect(id: "GlassLens", in: animationNamespace)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 2)
+        .frame(minWidth: screenSize.width - getPadding() * 2 - 10)
+        .frame(height: 32)
+    }
+    
     var body: some View {
         ZStack {
             if #available(iOS 26.0, *) {
@@ -47,84 +80,61 @@ struct UserListStatusPicker: View {
                     .padding(.horizontal, 15)
             } else {
                 RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(colorScheme == .light ? Color.white : Color.black)
+                    .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.9))
                     .padding(.horizontal, 7)
             }
-            ScrollViewReader { proxy in
-                GeometryReader { outer in
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 5) {
-                            ForEach(options, id: \.self) { option in
-                                Button {
-                                    withAnimation(.snappy(duration: 0.1)) {
-                                        selection = option
-                                    }
-                                } label: {
-                                    HStack {
-                                        Spacer()
-                                        Text(option.toString())
-                                            .font(.system(size: 13, weight: selection == option ? .semibold : .regular))
-                                            .foregroundStyle(Color.primary)
-                                        Spacer()
-                                    }
-                                    .contentShape(RoundedRectangle(cornerRadius: getCornerRadius()))
-                                }
-                                .buttonStyle(.plain)
-                                .frame(height: 28)
-                                .background {
-                                    if selection == option {
-                                        RoundedRectangle(cornerRadius: getCornerRadius())
-                                            .foregroundStyle(colorScheme == .light ? Color.white : Color(.systemGray2))
-                                            .matchedGeometryEffect(id: "GlassLens", in: animationNamespace)
-                                    }
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 2)
-                        .frame(minWidth: screenSize.width - getPadding() * 2 - 10)
-                        .onGeometryChange(for: CGRect.self) { proxy in
-                            proxy.frame(in: .scrollView)
-                        } action: { frame in
-                            let outerSize = outer.size
-                            let leadingZoneWidth = min(-frame.minX, 50)
-                            let trailingZoneWidth = min(frame.maxX - outerSize.width, 50)
-                            if firstZoneSize != leadingZoneWidth {
-                                firstZoneSize = leadingZoneWidth
-                            }
-                            if lastZoneSize != trailingZoneWidth {
-                                lastZoneSize = trailingZoneWidth
-                            }
-                        }
-                    }
-                    .scrollIndicators(.never)
-                    .mask {
-                        HStack(spacing: 0) {
-                            LinearGradient(colors: [.clear, .black], startPoint: .leading, endPoint: .trailing)
-                                .frame(width: max(1, firstZoneSize))
-                            Color.black
-                            LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
-                                .frame(width: max(1, lastZoneSize))
-                        }
-                    }
-                    .frame(height: 32)
+            ViewThatFits {
+                picker
                     .background(Color(.systemGray4).opacity(0.3))
                     .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
                     .padding(.horizontal, getPadding())
-                    .sensoryFeedback(.impact(weight: .light), trigger: selection)
-                    .onAppear {
-                        proxy.scrollTo(selection, anchor: .center)
-                    }
-                    .onChange(of: selection) {
-                        withAnimation {
+                ScrollViewReader { proxy in
+                    GeometryReader { outer in
+                        ScrollView(.horizontal) {
+                            picker
+                            .onGeometryChange(for: CGRect.self) { proxy in
+                                proxy.frame(in: .scrollView)
+                            } action: { frame in
+                                let outerSize = outer.size
+                                let leadingZoneWidth = min(-frame.minX, 50)
+                                let trailingZoneWidth = min(frame.maxX - outerSize.width, 50)
+                                if firstZoneSize != leadingZoneWidth {
+                                    firstZoneSize = leadingZoneWidth
+                                }
+                                if lastZoneSize != trailingZoneWidth {
+                                    lastZoneSize = trailingZoneWidth
+                                }
+                            }
+                        }
+                        .scrollIndicators(.never)
+                        .mask {
+                            HStack(spacing: 0) {
+                                LinearGradient(colors: [.clear, .black], startPoint: .leading, endPoint: .trailing)
+                                    .frame(width: max(1, firstZoneSize))
+                                Color.black
+                                LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
+                                    .frame(width: max(1, lastZoneSize))
+                            }
+                        }
+                        .background(Color(.systemGray4).opacity(0.3))
+                        .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
+                        .padding(.horizontal, getPadding())
+                        .onAppear {
                             proxy.scrollTo(selection, anchor: .center)
                         }
+                        .onChange(of: selection) {
+                            withAnimation {
+                                proxy.scrollTo(selection, anchor: .center)
+                            }
+                        }
+                        .frame(maxHeight: .infinity, alignment: .center)
                     }
-                    .frame(maxHeight: .infinity, alignment: .center)
                 }
             }
         }
         .frame(height: 42)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         .padding(5)
+        .sensoryFeedback(.impact(weight: .light), trigger: selection)
     }
 }

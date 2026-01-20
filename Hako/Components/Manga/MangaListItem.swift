@@ -84,7 +84,7 @@ struct MangaListItem: View {
                             .font(.footnote)
                         }
                     }
-                    HStack(alignment: .top) {
+                    HStack(alignment: .center) {
                         if let status = manga.node.status {
                             Text(status.formatStatus())
                                 .opacity(0.7)

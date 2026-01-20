@@ -52,7 +52,7 @@ class UserListViewController: ObservableObject {
     
     // Check if the current anime/manga list should be refreshed
     func shouldRefresh() -> Bool {
-        return (type == .anime && animeItems.isEmpty && canLoadMoreAnimePages) || (type == .manga && mangaItems.isEmpty && canLoadMoreMangaPages)
+        return (type == .anime && (!animeItems.isEmpty || canLoadMoreAnimePages)) || (type == .manga && (!mangaItems.isEmpty || canLoadMoreMangaPages))
     }
     
     func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {

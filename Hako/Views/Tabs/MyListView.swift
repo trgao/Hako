@@ -268,7 +268,9 @@ struct MyListView: View {
                     }
                 }
                 .task {
-                    await controller.refresh()
+                    if controller.shouldRefresh() {
+                        await controller.refresh()
+                    }
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
@@ -321,7 +323,7 @@ struct MyListView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                             .onChange(of: controller.type) {
-                                if controller.shouldRefresh() {
+                                if controller.isItemsEmpty() {
                                     Task {
                                         await controller.refresh()
                                     }

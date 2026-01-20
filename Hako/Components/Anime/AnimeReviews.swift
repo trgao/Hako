@@ -22,7 +22,7 @@ struct AnimeReviews: View {
         VStack {
             if !controller.reviews.isEmpty {
                 ScrollViewCarousel(title: "Reviews", items: controller.reviews) {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(controller.reviews.prefix(10)) { item in
                                 ReviewItem(item: item)
@@ -33,6 +33,7 @@ struct AnimeReviews: View {
                         .padding(.horizontal, 17)
                         .scrollTargetLayout()
                     }
+                    .scrollIndicators(.never)
                     .scrollTargetBehavior(.viewAligned)
                 } destination: {
                     ReviewsListView(id: id, type: .anime)

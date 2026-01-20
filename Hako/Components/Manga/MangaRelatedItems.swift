@@ -18,7 +18,7 @@ struct MangaRelatedItems: View {
         VStack {
             if !controller.relatedItems.isEmpty {
                 ScrollViewCarousel(title: "Related") {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack(alignment: .top) {
                             ForEach(controller.relatedItems) { item in
                                 if item.type == .anime {
@@ -31,6 +31,7 @@ struct MangaRelatedItems: View {
                         .padding(.horizontal, 15)
                         .padding(.top, 50)
                     }
+                    .scrollIndicators(.never)
                     .padding(.top, -50)
                 }
             }

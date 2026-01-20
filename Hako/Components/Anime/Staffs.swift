@@ -20,7 +20,7 @@ struct Staffs: View {
         VStack {
             if !controller.staffs.isEmpty {
                 ScrollViewCarousel(title: "Staffs", items: controller.staffs) {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.staffs.prefix(10)) { staff in
                                 PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
@@ -29,6 +29,7 @@ struct Staffs: View {
                         .padding(.horizontal, 17)
                         .padding(.top, 17)
                     }
+                    .scrollIndicators(.never)
                     .padding(.top, -15)
                 } destination: {
                     StaffsListView(staffs: controller.staffs)

@@ -24,7 +24,7 @@ struct Authors: View {
         VStack {
             if !controller.authors.isEmpty {
                 ScrollViewCarousel(title: "Authors") {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.authors.prefix(10)) { author in
                                 PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
@@ -33,6 +33,7 @@ struct Authors: View {
                         .padding(.horizontal, 17)
                         .padding(.top, 50)
                     }
+                    .scrollIndicators(.never)
                     .padding(.top, -50)
                 }
             }

@@ -48,7 +48,7 @@ struct ExploreView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 35)
                 .font(.headline)
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.horizontal) {
                 HStack(alignment: .top) {
                     ForEach(settings.recentlyViewedItems.reversed()) { item in
                         if let anime = item.anime {
@@ -61,6 +61,7 @@ struct ExploreView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 50)
             }
+            .scrollIndicators(.never)
             .padding(.top, -50)
         }
     }
@@ -75,7 +76,7 @@ struct ExploreView: View {
             if controller.animeSuggestions.isEmpty {
                 LoadingCarousel()
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(controller.animeSuggestions) { item in
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
@@ -84,6 +85,7 @@ struct ExploreView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 50)
                 }
+                .scrollIndicators(.never)
                 .padding(.top, -50)
             }
         }
@@ -102,7 +104,7 @@ struct ExploreView: View {
             if controller.topAiringAnime.isEmpty {
                 LoadingCarousel()
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(controller.topAiringAnime) { item in
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
@@ -111,6 +113,7 @@ struct ExploreView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 50)
                 }
+                .scrollIndicators(.never)
                 .padding(.top, -50)
             }
         }
@@ -129,7 +132,7 @@ struct ExploreView: View {
             if controller.topUpcomingAnime.isEmpty {
                 LoadingCarousel()
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(controller.topUpcomingAnime) { item in
                             AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
@@ -138,6 +141,7 @@ struct ExploreView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 50)
                 }
+                .scrollIndicators(.never)
                 .padding(.top, -50)
             }
         }
@@ -156,7 +160,7 @@ struct ExploreView: View {
             if controller.newlyAddedAnime.isEmpty {
                 LoadingCarousel()
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(controller.newlyAddedAnime) { item in
                             AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
@@ -165,6 +169,7 @@ struct ExploreView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 50)
                 }
+                .scrollIndicators(.never)
                 .padding(.top, -50)
             }
         }
@@ -183,7 +188,7 @@ struct ExploreView: View {
             if controller.newlyAddedManga.isEmpty {
                 LoadingCarousel()
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(controller.newlyAddedManga) { item in
                             MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
@@ -192,6 +197,7 @@ struct ExploreView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 50)
                 }
+                .scrollIndicators(.never)
                 .padding(.top, -50)
             }
         }

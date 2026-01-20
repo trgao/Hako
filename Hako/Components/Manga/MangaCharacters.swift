@@ -20,7 +20,7 @@ struct MangaCharacters: View {
         VStack {
             if !controller.characters.isEmpty {
                 ScrollViewCarousel(title: "Characters", items: controller.characters) {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack(alignment: .top, spacing: 15) {
                             ForEach(controller.characters.prefix(10)) { character in
                                 CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
@@ -29,6 +29,7 @@ struct MangaCharacters: View {
                         .padding(.horizontal, 17)
                         .padding(.top, 17)
                     }
+                    .scrollIndicators(.never)
                     .padding(.top, -15)
                 } destination: {
                     CharactersListView(characters: controller.characters)

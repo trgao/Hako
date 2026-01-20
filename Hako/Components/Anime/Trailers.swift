@@ -22,7 +22,7 @@ struct Trailers: View {
         VStack {
             if !players.isEmpty {
                 ScrollViewCarousel(title: "Trailers") {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.horizontal) {
                         HStack {
                             ForEach(players) { player in
                                 YouTubePlayerView(player, overlay: { state in
@@ -58,6 +58,7 @@ struct Trailers: View {
                         }
                         .padding(.horizontal, 17)
                     }
+                    .scrollIndicators(.never)
                 }
             }
         }

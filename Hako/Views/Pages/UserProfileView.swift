@@ -76,7 +76,7 @@ struct UserProfileView: View {
                         if let userFavourites = controller.userFavourites {
                             if !controller.anime.isEmpty && !settings.hideUserFavouriteAnime {
                                 ScrollViewCarousel(title: "Favourite anime", items: controller.anime) {
-                                    ScrollView(.horizontal, showsIndicators: false) {
+                                    ScrollView(.horizontal) {
                                         HStack(alignment: .top, spacing: 15) {
                                             ForEach(controller.anime) { anime in
                                                 AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, imageUrl: anime.node.mainPicture?.large, anime: anime.node)
@@ -85,12 +85,13 @@ struct UserProfileView: View {
                                         .padding(.horizontal, 17)
                                         .padding(.top, 50)
                                     }
+                                    .scrollIndicators(.never)
                                     .padding(.top, -50)
                                 }
                             }
                             if !controller.manga.isEmpty && !settings.hideUserFavouriteManga {
                                 ScrollViewCarousel(title: "Favourite manga", items: controller.manga) {
-                                    ScrollView(.horizontal, showsIndicators: false) {
+                                    ScrollView(.horizontal) {
                                         HStack(alignment: .top, spacing: 15) {
                                             ForEach(controller.manga) { manga in
                                                 MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, imageUrl: manga.node.mainPicture?.large, manga: manga.node)
@@ -99,12 +100,13 @@ struct UserProfileView: View {
                                         .padding(.horizontal, 17)
                                         .padding(.top, 50)
                                     }
+                                    .scrollIndicators(.never)
                                     .padding(.top, -50)
                                 }
                             }
                             if !userFavourites.characters.isEmpty && !settings.hideUserFavouriteCharacters {
                                 ScrollViewCarousel(title: "Favourite characters", items: userFavourites.characters) {
-                                    ScrollView(.horizontal, showsIndicators: false) {
+                                    ScrollView(.horizontal) {
                                         HStack(alignment: .top, spacing: 15) {
                                             ForEach(userFavourites.characters) { character in
                                                 CharacterGridItem(id: character.id, name: character.name, imageUrl: character.images?.jpg?.imageUrl)
@@ -113,12 +115,13 @@ struct UserProfileView: View {
                                         .padding(.horizontal, 17)
                                         .padding(.top, 50)
                                     }
+                                    .scrollIndicators(.never)
                                     .padding(.top, -50)
                                 }
                             }
                             if !userFavourites.people.isEmpty && !settings.hideUserFavouritePeople {
                                 ScrollViewCarousel(title: "Favourite people", items: userFavourites.people) {
-                                    ScrollView(.horizontal, showsIndicators: false) {
+                                    ScrollView(.horizontal) {
                                         HStack(alignment: .top, spacing: 15) {
                                             ForEach(userFavourites.people) { person in
                                                 PersonGridItem(id: person.id, name: person.name, imageUrl: person.images?.jpg?.imageUrl)
@@ -127,6 +130,7 @@ struct UserProfileView: View {
                                         .padding(.horizontal, 17)
                                         .padding(.top, 50)
                                     }
+                                    .scrollIndicators(.never)
                                     .padding(.top, -50)
                                 }
                             }

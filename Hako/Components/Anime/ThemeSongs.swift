@@ -23,7 +23,7 @@ struct ThemeSongs: View {
     var body: some View {
         if let openingThemes = openingThemes {
             ScrollViewCarousel(title: "Openings", items: openingThemes) {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(openingThemes.prefix(10)) { theme in
                             if let text = theme.text?.formatThemeSong() {
@@ -48,6 +48,7 @@ struct ThemeSongs: View {
                     .padding(.horizontal, 17)
                     .scrollTargetLayout()
                 }
+                .scrollIndicators(.never)
                 .scrollTargetBehavior(.viewAligned)
             } destination: {
                 ThemesListView(themes: openingThemes)
@@ -55,7 +56,7 @@ struct ThemeSongs: View {
         }
         if let endingThemes = endingThemes {
             ScrollViewCarousel(title: "Endings", items: endingThemes) {
-                ScrollView(.horizontal, showsIndicators: false) {
+                ScrollView(.horizontal) {
                     HStack(alignment: .top) {
                         ForEach(endingThemes.prefix(10)) { theme in
                             if let text = theme.text?.formatThemeSong() {
@@ -80,6 +81,7 @@ struct ThemeSongs: View {
                     .padding(.horizontal, 17)
                     .scrollTargetLayout()
                 }
+                .scrollIndicators(.never)
                 .scrollTargetBehavior(.viewAligned)
             } destination: {
                 ThemesListView(themes: endingThemes)

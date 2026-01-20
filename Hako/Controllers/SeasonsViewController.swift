@@ -12,34 +12,31 @@ class SeasonsViewController: ObservableObject {
     // Winter season variables
     @Published var winterItems = [MALListAnime]()
     @Published var winterContinuingItems = [MALListAnime]()
-    @Published var isWinterLoading = true
     @Published var canLoadMoreWinterPages = true
     private var currentWinterPage = 1
     
     // Spring season variables
     @Published var springItems = [MALListAnime]()
     @Published var springContinuingItems = [MALListAnime]()
-    @Published var isSpringLoading = true
     @Published var canLoadMoreSpringPages = true
     private var currentSpringPage = 1
     
     // Summer season variables
     @Published var summerItems = [MALListAnime]()
     @Published var summerContinuingItems = [MALListAnime]()
-    @Published var isSummerLoading = true
     @Published var canLoadMoreSummerPages = true
     private var currentSummerPage = 1
     
     // Fall season variables
     @Published var fallItems = [MALListAnime]()
     @Published var fallContinuingItems = [MALListAnime]()
-    @Published var isFallLoading = true
     @Published var canLoadMoreFallPages = true
     private var currentFallPage = 1
     
     // Common variables
     @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     @Published var year = Constants.currentYear
+    @Published var isLoading = true
     @Published var isLoadingError = false
     let networker = NetworkManager.shared
     
@@ -78,16 +75,6 @@ class SeasonsViewController: ObservableObject {
         }
     }
     
-    // Get is(Season)Loading variable for the current season
-    func getCurrentSeasonLoading() -> Bool {
-        switch season {
-        case .winter: return isWinterLoading
-        case .spring: return isSpringLoading
-        case .summer: return isSummerLoading
-        case .fall: return isFallLoading
-        }
-    }
-    
     // Get canLoadMore(Season)Pages variable for the current season
     func getCurrentSeasonCanLoadMore() -> Bool {
         switch season {
@@ -115,16 +102,6 @@ class SeasonsViewController: ObservableObject {
         case .spring: currentSpringPage = currentPage
         case .summer: currentSummerPage = currentPage
         case .fall: currentFallPage = currentPage
-        }
-    }
-    
-    // Update is(Season)Loading variable for the current season
-    private func updateCurrentSeasonLoading(_ isLoading: Bool) {
-        switch season {
-        case .winter: isWinterLoading = isLoading
-        case .spring: isSpringLoading = isLoading
-        case .summer: isSummerLoading = isLoading
-        case .fall: isFallLoading = isLoading
         }
     }
     
@@ -164,8 +141,8 @@ class SeasonsViewController: ObservableObject {
         }
         
         updateCurrentSeasonPage(1)
-        updateCurrentSeasonLoading(true)
         updateCurrentSeasonCanLoadMore(true)
+        isLoading = true
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
@@ -192,13 +169,13 @@ class SeasonsViewController: ObservableObject {
                 isLoadingError = true
             }
         }
-        updateCurrentSeasonLoading(false)
+        isLoading = false
     }
     
     // Load more of the current season
     private func loadMore() async {
         // only load more when it is not loading and there are more pages to be loaded
-        guard !getCurrentSeasonLoading() && getCurrentSeasonCanLoadMore() else {
+        guard !isLoading && getCurrentSeasonCanLoadMore() else {
             return
         }
         
@@ -207,7 +184,7 @@ class SeasonsViewController: ObservableObject {
             return
         }
         
-        updateCurrentSeasonLoading(true)
+        isLoading = true
         isLoadingError = false
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter{ $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
@@ -234,7 +211,7 @@ class SeasonsViewController: ObservableObject {
                 isLoadingError = true
             }
         }
-        updateCurrentSeasonLoading(false)
+        isLoading = false
     }
     
     // Load more items from current season when reaching the 4th last anime in list

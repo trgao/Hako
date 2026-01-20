@@ -61,6 +61,14 @@ struct SeasonsView: View {
             ZStack {
                 if controller.isLoadingError && controller.isSeasonEmpty() {
                     ErrorView(refresh: { await controller.refresh() })
+                } else if !controller.isLoadingError && !controller.isLoading && controller.isSeasonEmpty() {
+                    VStack {
+                        Image(systemName: "calendar")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                        Text("Nothing found")
+                            .bold()
+                    }
                 } else if controller.season == .winter {
                     SeasonView(controller.winterItems, controller.winterContinuingItems)
                 } else if controller.season == .spring {
@@ -78,18 +86,9 @@ struct SeasonsView: View {
                             }
                         }
                     }
-                    .disabled(controller.getCurrentSeasonLoading())
-                if controller.getCurrentSeasonLoading() {
+                    .disabled(controller.isLoading)
+                if controller.isLoading {
                     LoadingView()
-                }
-                if controller.isSeasonEmpty() && !controller.getCurrentSeasonLoading() && !controller.isLoadingError {
-                    VStack {
-                        Image(systemName: "calendar")
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                        Text("Nothing found")
-                            .bold()
-                    }
                 }
             }
             .navigationTitle(controller.season.rawValue.capitalized)
@@ -125,7 +124,7 @@ struct SeasonsView: View {
                             .buttonStyle(.borderedProminent)
                     }
                 }
-                .disabled(controller.getCurrentSeasonLoading())
+                .disabled(controller.isLoading)
             }
         }
         .id(id)

@@ -321,7 +321,7 @@ struct MyListView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                             .onChange(of: controller.type) {
-                                if controller.isItemsEmpty() {
+                                if controller.shouldRefresh() {
                                     Task {
                                         await controller.refresh()
                                     }

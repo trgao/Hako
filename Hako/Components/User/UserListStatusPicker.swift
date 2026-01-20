@@ -86,8 +86,8 @@ struct UserListStatusPicker: View {
                             proxy.frame(in: .scrollView)
                         } action: { frame in
                             let outerSize = outer.size
-                            let leadingZoneWidth = min(-frame.minX, 40)
-                            let trailingZoneWidth = min(frame.maxX - outerSize.width, 40)
+                            let leadingZoneWidth = min(-frame.minX, 50)
+                            let trailingZoneWidth = min(frame.maxX - outerSize.width, 50)
                             if firstZoneSize != leadingZoneWidth {
                                 firstZoneSize = leadingZoneWidth
                             }

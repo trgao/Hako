@@ -108,6 +108,9 @@ struct AppearanceView: View {
                         Text("Allow changes in Settings app under Accessibility > Display & Text Size > Larger Text to apply")
                     }
                 }
+                Toggle(isOn: $settings.swipeActionText) {
+                    Text("Show description text for list swipe actions")
+                }
             }
             Section("Text") {
                 Toggle(isOn: $settings.truncate) {

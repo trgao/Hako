@@ -38,6 +38,7 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("translucentBackground") var translucentBackground = true
     @AppStorage("dynamicType") var dynamicType = true
+    @AppStorage("swipeActionText") var swipeActionText = false
     
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1

@@ -68,30 +68,28 @@ struct MyListView: View {
                                 }
                             }
                             .swipeActions(edge: .leading) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading {
-                                    if var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
-                                        Button {
-                                            Task {
-                                                listStatus.numEpisodesWatched -= 1
-                                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                            }
-                                        } label: {
-                                            Label("-1 episode watched", systemImage: "minus.circle")
+                                if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
+                                    Button {
+                                        Task {
+                                            listStatus.numEpisodesWatched -= 1
+                                            await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
                                         }
+                                    } label: {
+                                        Label("-1 episode watched", systemImage: "minus.circle")
+                                            .labelStyle(HideTextLabelStyle())
                                     }
                                 }
                             }
                             .swipeActions(edge: .trailing) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading {
-                                    if var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
-                                        Button {
-                                            Task {
-                                                listStatus.numEpisodesWatched += 1
-                                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                            }
-                                        } label: {
-                                            Label("+1 episode watched", systemImage: "plus.circle")
+                                if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
+                                    Button {
+                                        Task {
+                                            listStatus.numEpisodesWatched += 1
+                                            await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
                                         }
+                                    } label: {
+                                        Label("+1 episode watched", systemImage: "plus.circle")
+                                            .labelStyle(HideTextLabelStyle())
                                     }
                                 }
                             }
@@ -169,6 +167,7 @@ struct MyListView: View {
                                                 }
                                             } label: {
                                                 Label("-1 chapter read", systemImage: "minus.circle")
+                                                    .labelStyle(HideTextLabelStyle())
                                             }
                                         }
                                     } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
@@ -179,6 +178,7 @@ struct MyListView: View {
                                             }
                                         } label: {
                                             Label("-1 volume read", systemImage: "minus.circle")
+                                                .labelStyle(HideTextLabelStyle())
                                         }
                                     }
                                 }
@@ -194,6 +194,7 @@ struct MyListView: View {
                                                 }
                                             } label: {
                                                 Label("+1 chapter read", systemImage: "plus.circle")
+                                                    .labelStyle(HideTextLabelStyle())
                                             }
                                         }
                                     } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
@@ -204,6 +205,7 @@ struct MyListView: View {
                                             }
                                         } label: {
                                             Label("+1 volume read", systemImage: "plus.circle")
+                                                .labelStyle(HideTextLabelStyle())
                                         }
                                     }
                                 }

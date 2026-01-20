@@ -355,6 +355,7 @@ struct ExploreView: View {
                     }
                     .padding(.bottom, 10)
                 }
+                .id(controller.type) // To reset list to top position whenever search type is changed
                 .disabled(controller.isLoading)
             }
             if controller.isRefreshLoading && !controller.isLoading {
@@ -512,40 +513,24 @@ struct ExploreView: View {
                 isRoot = false
             }
             .navigationDestination(for: ViewItem.self) { item in
-                if item.type == .anime {
-                    AnimeDetailsView(id: item.id)
-                } else if item.type == .manga {
-                    MangaDetailsView(id: item.id)
-                } else if item.type == .character {
-                    CharacterDetailsView(id: item.id)
-                } else if item.type == .person {
-                    PersonDetailsView(id: item.id)
-                } else if item.type == .animeGenre {
-                    GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], group: "genres", id: item.id, type: .anime)
-                } else if item.type == .mangaGenre {
-                    GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], group: "genres", id: item.id, type: .manga)
-                } else if item.type == .producer {
-                    GroupDetailsView(title: item.name, group: "producers", id: item.id, type: .anime)
-                } else if item.type == .magazine {
-                    GroupDetailsView(title: item.name, group: "magazines", id: item.id, type: .manga)
-                } else if item.type == .news {
-                    NewsListView()
-                } else if item.type == .exploreAnime {
-                    ExploreAnimeView()
-                } else if item.type == .exploreManga {
-                    ExploreMangaView()
-                } else if item.type == .exploreCharacters {
-                    ExploreCharactersView()
-                } else if item.type == .explorePeople {
-                    ExplorePeopleView()
-                } else if item.type == .exploreStudios {
-                    StudiosListView()
-                } else if item.type == .exploreMagazines {
-                    MagazinesListView()
-                } else if item.type == .userlist {
-                    UserListView(user: item.name ?? "", type: item.listType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
-                } else if item.type == .profile {
-                    UserProfileView(user: item.name ?? "")
+                switch item.type {
+                case .anime: AnimeDetailsView(id: item.id)
+                case .manga: MangaDetailsView(id: item.id)
+                case .character: CharacterDetailsView(id: item.id)
+                case .person: PersonDetailsView(id: item.id)
+                case .animeGenre: GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], group: "genres", id: item.id, type: .anime)
+                case .mangaGenre: GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], group: "genres", id: item.id, type: .manga)
+                case .producer: GroupDetailsView(title: item.name, group: "producers", id: item.id, type: .anime)
+                case .magazine: GroupDetailsView(title: item.name, group: "magazines", id: item.id, type: .manga)
+                case .news: NewsListView()
+                case .exploreAnime: ExploreAnimeView()
+                case .exploreManga: ExploreMangaView()
+                case .exploreCharacters: ExploreCharactersView()
+                case .explorePeople: ExplorePeopleView()
+                case .exploreStudios: StudiosListView()
+                case .exploreMagazines: MagazinesListView()
+                case .userlist: UserListView(user: item.name ?? "", type: item.listType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
+                case .profile: UserProfileView(user: item.name ?? "")
                 }
             }
         }

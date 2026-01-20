@@ -6,5 +6,5 @@
 //
 
 enum ViewTypeEnum: String {
-    case anime, manga, character, person, animeGenre, mangaGenre, producer, magazine, news, exploreAnime, exploreManga, exploreCharacters, explorePeople, exploreStudios, exploreMagazines, userlist, profile, none
+    case anime, manga, character, person, animeGenre, mangaGenre, producer, magazine, news, exploreAnime, exploreManga, exploreCharacters, explorePeople, exploreStudios, exploreMagazines, userlist, profile
 }

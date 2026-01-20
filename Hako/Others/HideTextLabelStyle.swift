@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct HideTextLabelStyle: LabelStyle {
-    @EnvironmentObject private var settings: SettingsManager
+    private let showText: Bool
+    
+    init(_ showText: Bool) {
+        self.showText = showText
+    }
+    
     func makeBody(configuration: Configuration) -> some View {
-        if settings.swipeActionText {
+        if showText {
             DefaultLabelStyle().makeBody(configuration: configuration)
         } else {
             configuration.icon

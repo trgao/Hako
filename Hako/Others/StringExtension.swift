@@ -14,7 +14,7 @@ extension String {
         let cur = self.lowercased()
         if cur == "tv" || cur == "ova" || cur == "ona" || cur == "pv" {
             return cur.uppercased()
-        } else if cur == "tv_special" {
+        } else if cur == "tv_special" || cur == "tv special" {
             return "Special"
         } else {
             return cur.replacingOccurrences(of: "_", with: " ").capitalized

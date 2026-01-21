@@ -104,7 +104,7 @@ struct UserListView: View {
             isRefresh = true
         }
         .task(id: isRefresh) {
-            if controller.isItemsEmpty() || isRefresh {
+            if controller.shouldRefresh() || isRefresh {
                 await controller.refresh()
                 isRefresh = false
             }

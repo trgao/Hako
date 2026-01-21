@@ -76,7 +76,6 @@ struct MyListView: View {
                                         }
                                     } label: {
                                         Label("-1 episode watched", systemImage: "minus.circle")
-                                            .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                     }
                                 }
                             }
@@ -89,7 +88,6 @@ struct MyListView: View {
                                         }
                                     } label: {
                                         Label("+1 episode watched", systemImage: "plus.circle")
-                                            .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                     }
                                 }
                             }
@@ -167,7 +165,6 @@ struct MyListView: View {
                                                 }
                                             } label: {
                                                 Label("-1 chapter read", systemImage: "minus.circle")
-                                                    .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                             }
                                         }
                                     } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
@@ -178,7 +175,6 @@ struct MyListView: View {
                                             }
                                         } label: {
                                             Label("-1 volume read", systemImage: "minus.circle")
-                                                .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                         }
                                     }
                                 }
@@ -194,7 +190,6 @@ struct MyListView: View {
                                                 }
                                             } label: {
                                                 Label("+1 chapter read", systemImage: "plus.circle")
-                                                    .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                             }
                                         }
                                     } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
@@ -205,7 +200,6 @@ struct MyListView: View {
                                             }
                                         } label: {
                                             Label("+1 volume read", systemImage: "plus.circle")
-                                                .labelStyle(HideTextLabelStyle(settings.swipeActionText))
                                         }
                                     }
                                 }

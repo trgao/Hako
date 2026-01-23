@@ -40,10 +40,112 @@ struct MyListView: View {
         self._mangaSort = mangaSort
     }
     
+    @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
+        ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
+            AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                .onAppear {
+                    Task {
+                        await controller.loadMoreIfNeeded(index: index)
+                    }
+                }
+                .swipeActions(edge: .leading) {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
+                        Button {
+                            Task {
+                                listStatus.numEpisodesWatched -= 1
+                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                            }
+                        } label: {
+                            Label("-1 episode watched", systemImage: "minus.circle")
+                        }
+                    }
+                }
+                .swipeActions(edge: .trailing) {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
+                        Button {
+                            Task {
+                                listStatus.numEpisodesWatched += 1
+                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                            }
+                        } label: {
+                            Label("+1 episode watched", systemImage: "plus.circle")
+                        }
+                    }
+                }
+        }
+        if controller.isAnimeLoading {
+            LoadingList(length: 5)
+        }
+    }
+    
+    @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
+        ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
+            MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                .onAppear {
+                    Task {
+                        await controller.loadMoreIfNeeded(index: index)
+                    }
+                }
+                .swipeActions(edge: .leading) {
+                    if settings.useSwipeActions && !controller.isRefreshLoading {
+                        if settings.mangaReadProgress == 0 {
+                            if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
+                                Button {
+                                    Task {
+                                        listStatus.numChaptersRead -= 1
+                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                    }
+                                } label: {
+                                    Label("-1 chapter read", systemImage: "minus.circle")
+                                }
+                            }
+                        } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
+                            Button {
+                                Task {
+                                    listStatus.numVolumesRead -= 1
+                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                }
+                            } label: {
+                                Label("-1 volume read", systemImage: "minus.circle")
+                            }
+                        }
+                    }
+                }
+                .swipeActions(edge: .trailing) {
+                    if settings.useSwipeActions && !controller.isRefreshLoading {
+                        if settings.mangaReadProgress == 0 {
+                            if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
+                                Button {
+                                    Task {
+                                        listStatus.numChaptersRead += 1
+                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                    }
+                                } label: {
+                                    Label("+1 chapter read", systemImage: "plus.circle")
+                                }
+                            }
+                        } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
+                            Button {
+                                Task {
+                                    listStatus.numVolumesRead += 1
+                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                }
+                            } label: {
+                                Label("+1 volume read", systemImage: "plus.circle")
+                            }
+                        }
+                    }
+                }
+        }
+        if controller.isMangaLoading {
+            LoadingList(length: 5)
+        }
+    }
+    
     private var animeList: some View {
         List {
             Section(controller.animeStatus.toString()) {
-                if controller.animeItems.isEmpty {
+                if controller.isAnimeItemsEmpty() {
                     if controller.isAnimeLoading {
                         LoadingList(length: 20)
                     } else if controller.isAnimeLoadingError {
@@ -59,42 +161,18 @@ struct MyListView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 50)
                     }
-                } else {
-                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                        AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                            }
-                            .swipeActions(edge: .leading) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
-                                    Button {
-                                        Task {
-                                            listStatus.numEpisodesWatched -= 1
-                                            await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                        }
-                                    } label: {
-                                        Label("-1 episode watched", systemImage: "minus.circle")
-                                    }
-                                }
-                            }
-                            .swipeActions(edge: .trailing) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
-                                    Button {
-                                        Task {
-                                            listStatus.numEpisodesWatched += 1
-                                            await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
-                                        }
-                                    } label: {
-                                        Label("+1 episode watched", systemImage: "plus.circle")
-                                    }
-                                }
-                            }
-                    }
-                    if controller.isAnimeLoading {
-                        LoadingList(length: 5)
-                    }
+                } else if controller.animeStatus == .none {
+                    AnimeStatusView(controller.allAnimeItems)
+                } else if controller.animeStatus == .watching {
+                    AnimeStatusView(controller.watchingAnimeItems)
+                } else if controller.animeStatus == .completed {
+                    AnimeStatusView(controller.completedAnimeItems)
+                } else if controller.animeStatus == .onHold {
+                    AnimeStatusView(controller.onHoldAnimeItems)
+                } else if controller.animeStatus == .dropped {
+                    AnimeStatusView(controller.droppedAnimeItems)
+                } else if controller.animeStatus == .planToWatch {
+                    AnimeStatusView(controller.planToWatchAnimeItems)
                 }
             }
             if settings.useStatusTabBar {
@@ -105,10 +183,10 @@ struct MyListView: View {
             }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isAnimeLoading && controller.animeItems.isEmpty)
+        .disabled(controller.isAnimeLoading && controller.isAnimeItemsEmpty())
         .onChange(of: controller.animeStatus) {
             Task {
-                await controller.refresh(true)
+                await controller.refresh()
             }
         }
         .onChange(of: controller.animeSort) {
@@ -130,7 +208,7 @@ struct MyListView: View {
     private var mangaList: some View {
         List {
             Section(controller.mangaStatus.toString()) {
-                if controller.mangaItems.isEmpty {
+                if controller.isMangaItemsEmpty() {
                     if controller.isMangaLoading {
                         LoadingList(length: 20)
                     } else if controller.isMangaLoadingError {
@@ -146,68 +224,18 @@ struct MyListView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 50)
                     }
-                } else {
-                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                        MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                            }
-                            .swipeActions(edge: .leading) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading {
-                                    if settings.mangaReadProgress == 0 {
-                                        if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
-                                            Button {
-                                                Task {
-                                                    listStatus.numChaptersRead -= 1
-                                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                }
-                                            } label: {
-                                                Label("-1 chapter read", systemImage: "minus.circle")
-                                            }
-                                        }
-                                    } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
-                                        Button {
-                                            Task {
-                                                listStatus.numVolumesRead -= 1
-                                                await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                            }
-                                        } label: {
-                                            Label("-1 volume read", systemImage: "minus.circle")
-                                        }
-                                    }
-                                }
-                            }
-                            .swipeActions(edge: .trailing) {
-                                if settings.useSwipeActions && !controller.isRefreshLoading {
-                                    if settings.mangaReadProgress == 0 {
-                                        if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
-                                            Button {
-                                                Task {
-                                                    listStatus.numChaptersRead += 1
-                                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                                }
-                                            } label: {
-                                                Label("+1 chapter read", systemImage: "plus.circle")
-                                            }
-                                        }
-                                    } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
-                                        Button {
-                                            Task {
-                                                listStatus.numVolumesRead += 1
-                                                await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
-                                            }
-                                        } label: {
-                                            Label("+1 volume read", systemImage: "plus.circle")
-                                        }
-                                    }
-                                }
-                            }
-                    }
-                    if controller.isMangaLoading {
-                        LoadingList(length: 5)
-                    }
+                } else if controller.mangaStatus == .none {
+                    MangaStatusView(controller.allMangaItems)
+                } else if controller.mangaStatus == .reading {
+                    MangaStatusView(controller.readingMangaItems)
+                } else if controller.mangaStatus == .completed {
+                    MangaStatusView(controller.completedMangaItems)
+                } else if controller.mangaStatus == .onHold {
+                    MangaStatusView(controller.onHoldMangaItems)
+                } else if controller.mangaStatus == .dropped {
+                    MangaStatusView(controller.droppedMangaItems)
+                } else if controller.mangaStatus == .planToRead {
+                    MangaStatusView(controller.planToReadMangaItems)
                 }
             }
             if settings.useStatusTabBar {
@@ -218,10 +246,10 @@ struct MyListView: View {
             }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isMangaLoading && controller.mangaItems.isEmpty)
+        .disabled(controller.isMangaLoading && controller.isMangaItemsEmpty())
         .onChange(of: controller.mangaStatus) {
             Task {
-                await controller.refresh(true)
+                await controller.refresh()
             }
         }
         .onChange(of: controller.mangaSort) {
@@ -248,13 +276,13 @@ struct MyListView: View {
                         animeList
                         if settings.useStatusTabBar {
                             UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses)
-                                .disabled(controller.isAnimeLoading)
+                                .disabled(controller.isLoading())
                         }
                     } else if controller.type == .manga {
                         mangaList
                         if settings.useStatusTabBar {
                             UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses)
-                                .disabled(controller.isMangaLoading)
+                                .disabled(controller.isLoading())
                         }
                     }
                     if controller.isRefreshLoading {
@@ -270,9 +298,9 @@ struct MyListView: View {
                     Task {
                         if let index = selectedAnimeIndex, let animeListStatus = animeListStatus {
                             if isAnimeDeleted || (controller.animeStatus != .none && animeListStatus.status != controller.animeStatus) {
-                                controller.animeItems.remove(at: index)
+                                controller.removeAnimeItem(index)
                             } else {
-                                controller.animeItems[index].listStatus = animeListStatus
+                                controller.updateAnimeItemListStatus(index, animeListStatus)
                             }
                             isAnimeDeleted = false
                             selectedAnimeIndex = nil
@@ -292,9 +320,9 @@ struct MyListView: View {
                     Task {
                         if let index = selectedMangaIndex, let mangaListStatus = mangaListStatus {
                             if isMangaDeleted || (controller.mangaStatus != .none && mangaListStatus.status != controller.mangaStatus) {
-                                controller.mangaItems.remove(at: index)
+                                controller.removeMangaItem(index)
                             } else {
-                                controller.mangaItems[index].listStatus = mangaListStatus
+                                controller.updateMangaItemListStatus(index, mangaListStatus)
                             }
                             isMangaDeleted = false
                             selectedMangaIndex = nil

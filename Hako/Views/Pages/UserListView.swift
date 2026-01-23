@@ -30,6 +30,34 @@ struct UserListView: View {
         self.mangaSort = mangaSort
     }
     
+    @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
+        ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
+            AnimeListItem(anime: item)
+                .onAppear {
+                    Task {
+                        await controller.loadMoreIfNeeded(index: index)
+                    }
+                }
+        }
+        if controller.isAnimeLoading {
+            LoadingList(length: 5)
+        }
+    }
+    
+    @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
+        ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
+            MangaListItem(manga: item)
+                .onAppear {
+                    Task {
+                        await controller.loadMoreIfNeeded(index: index)
+                    }
+                }
+        }
+        if controller.isMangaLoading {
+            LoadingList(length: 5)
+        }
+    }
+    
     private var animeList: some View {
         List {
             Section {
@@ -45,7 +73,7 @@ struct UserListView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 50)
-                } else if controller.animeItems.isEmpty {
+                } else if controller.isAnimeItemsEmpty() {
                     if controller.isAnimeLoading {
                         LoadingList(length: 20)
                     } else if controller.isAnimeLoadingError {
@@ -61,18 +89,18 @@ struct UserListView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 50)
                     }
-                } else {
-                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                        AnimeListItem(anime: item)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                            }
-                    }
-                    if controller.isAnimeLoading {
-                        LoadingList(length: 5)
-                    }
+                } else if controller.animeStatus == .none {
+                    AnimeStatusView(controller.allAnimeItems)
+                } else if controller.animeStatus == .watching {
+                    AnimeStatusView(controller.watchingAnimeItems)
+                } else if controller.animeStatus == .completed {
+                    AnimeStatusView(controller.completedAnimeItems)
+                } else if controller.animeStatus == .onHold {
+                    AnimeStatusView(controller.onHoldAnimeItems)
+                } else if controller.animeStatus == .dropped {
+                    AnimeStatusView(controller.droppedAnimeItems)
+                } else if controller.animeStatus == .planToWatch {
+                    AnimeStatusView(controller.planToWatchAnimeItems)
                 }
             } header: {
                 HStack {
@@ -89,7 +117,7 @@ struct UserListView: View {
             }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isAnimeLoading && controller.animeItems.isEmpty)
+        .disabled(controller.isAnimeLoading && controller.isAnimeItemsEmpty())
         .onChange(of: controller.animeStatus) {
             Task {
                 await controller.refresh(true)
@@ -126,7 +154,7 @@ struct UserListView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 50)
-                } else if controller.mangaItems.isEmpty {
+                } else if controller.isMangaItemsEmpty() {
                     if controller.isMangaLoading {
                         LoadingList(length: 20)
                     } else if controller.isMangaLoadingError {
@@ -142,18 +170,18 @@ struct UserListView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 50)
                     }
-                } else {
-                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                        MangaListItem(manga: item)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                            }
-                    }
-                    if controller.isMangaLoading {
-                        LoadingList(length: 5)
-                    }
+                } else if controller.mangaStatus == .none {
+                    MangaStatusView(controller.allMangaItems)
+                } else if controller.mangaStatus == .reading {
+                    MangaStatusView(controller.readingMangaItems)
+                } else if controller.mangaStatus == .completed {
+                    MangaStatusView(controller.completedMangaItems)
+                } else if controller.mangaStatus == .onHold {
+                    MangaStatusView(controller.onHoldMangaItems)
+                } else if controller.mangaStatus == .dropped {
+                    MangaStatusView(controller.droppedMangaItems)
+                } else if controller.mangaStatus == .planToRead {
+                    MangaStatusView(controller.planToReadMangaItems)
                 }
             } header: {
                 HStack {
@@ -170,7 +198,7 @@ struct UserListView: View {
             }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isMangaLoading && controller.mangaItems.isEmpty)
+        .disabled(controller.isMangaLoading && controller.isMangaItemsEmpty())
         .onChange(of: controller.mangaStatus) {
             Task {
                 await controller.refresh(true)
@@ -198,13 +226,13 @@ struct UserListView: View {
                 animeList
                 if settings.useStatusTabBar {
                     UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses)
-                        .disabled(controller.isAnimeLoading)
+                        .disabled(controller.isLoading())
                 }
             } else if controller.type == .manga {
                 mangaList
                 if settings.useStatusTabBar {
                     UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses)
-                        .disabled(controller.isMangaLoading)
+                        .disabled(controller.isLoading())
                 }
             }
             if controller.isRefreshLoading {

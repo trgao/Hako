@@ -430,7 +430,7 @@ class UserListViewController: ObservableObject {
     
     // Load more of the current anime list
     private func loadMoreAnime() async {
-        // only load more when it is not loading and there are more pages to be loaded
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard !isAnimeLoading && !isAnimeItemsEmpty() && getCurrentAnimeCanLoadMore() else {
             return
         }
@@ -450,7 +450,7 @@ class UserListViewController: ObservableObject {
     
     // Load more of the current manga list
     private func loadMoreManga() async {
-        // only load more when it is not loading and there are more pages to be loaded
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard !isMangaLoading && !isMangaItemsEmpty() && getCurrentMangaCanLoadMore() else {
             return
         }

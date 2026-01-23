@@ -44,6 +44,11 @@ class MagazinesListViewController: ObservableObject {
     
     // Load more of the current magazines list
     func loadMore() async {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isLoading && !magazines.isEmpty && canLoadMorePages else {
+            return
+        }
+        
         isLoading = true
         isLoadingError = false
         do {

@@ -19,7 +19,7 @@ struct MagazinesListView: View {
                 } else if controller.isLoadingError && controller.magazines.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
-                    ForEach(Array(controller.magazines.enumerated()), id: \.1.id) { index, magazine in
+                    ForEach(controller.magazines) { magazine in
                         if let name = magazine.name {
                             NavigationLink(name) {
                                 GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)

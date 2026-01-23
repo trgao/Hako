@@ -44,6 +44,11 @@ class StudiosListViewController: ObservableObject {
     
     // Load more of the current studios list
     func loadMore() async {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isLoading && !studios.isEmpty && canLoadMorePages else {
+            return
+        }
+        
         isLoading = true
         isLoadingError = false
         do {

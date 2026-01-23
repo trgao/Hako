@@ -44,6 +44,11 @@ class ExplorePeopleViewController: ObservableObject {
     
     // Load more of the current people list
     private func loadMore() async {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isLoading && !people.isEmpty && canLoadMorePages else {
+            return
+        }
+        
         isLoading = true
         isLoadingError = false
         do {
@@ -64,7 +69,7 @@ class ExplorePeopleViewController: ObservableObject {
         isLoading = false
     }
     
-    // Load more people when reaching the 4th last character in list
+    // Load more people when reaching the 4th last person in list
     func loadMoreIfNeeded(index: Int) async {
         if index == people.endIndex - 5 {
             return await loadMore()

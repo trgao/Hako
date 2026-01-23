@@ -55,26 +55,6 @@ class SeasonsViewController: ObservableObject {
         return (season == .winter && winterItems.isEmpty && canLoadMoreWinterPages) || (season == .spring && springItems.isEmpty && canLoadMoreSpringPages) || (season == .summer && summerItems.isEmpty && canLoadMoreSummerPages) || (season == .fall && fallItems.isEmpty && canLoadMoreFallPages)
     }
     
-    // Get (season)Items variable for the current season
-    func getCurrentSeasonItems() -> [MALListAnime] {
-        switch season {
-        case .winter: return winterItems
-        case .spring: return springItems
-        case .summer: return summerItems
-        case .fall: return fallItems
-        }
-    }
-    
-    // Get (season)ContinuingItems variable for the current season
-    func getCurrentSeasonContinuingItems() -> [MALListAnime] {
-        switch season {
-        case .winter: return winterContinuingItems
-        case .spring: return springContinuingItems
-        case .summer: return summerContinuingItems
-        case .fall: return fallContinuingItems
-        }
-    }
-    
     // Get canLoadMore(Season)Pages variable for the current season
     func getCurrentSeasonCanLoadMore() -> Bool {
         switch season {

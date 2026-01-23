@@ -93,61 +93,52 @@ class TopViewController: ObservableObject {
         }
     }
     
-    // Load more of the current anime/manga list
-    private func loadMore() async {
-        if type == .anime {
-            // only load more when it is not loading and there are more pages to be loaded
-            guard !isAnimeLoading && canLoadMoreAnimePages else {
-                return
-            }
-            
-            // only load more when there are already items on the page
-            guard animeItems.count > 0 else {
-                return
-            }
-            
-            isAnimeLoading = true
-            isAnimeLoadingError = false
-            do {
-                let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
-                currentAnimePage += 1
-                canLoadMoreAnimePages = !(animeList.isEmpty)
-                animeItems.append(contentsOf: animeList)
-            } catch {
-                isAnimeLoadingError = true
-            }
-            isAnimeLoading = false
-        } else if type == .manga {
-            // only load more when it is not loading and there are more pages to be loaded
-            guard !isMangaLoading && canLoadMoreMangaPages else {
-                return
-            }
-            
-            // only load more when there are already items on the page
-            guard mangaItems.count > 0 else {
-                return
-            }
-            
-            isMangaLoading = true
-            isMangaLoadingError = false
-            do {
-                let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
-                currentMangaPage += 1
-                canLoadMoreMangaPages = !(mangaList.isEmpty)
-                mangaItems.append(contentsOf: mangaList)
-            } catch {
-                isMangaLoadingError = true
-            }
-            isMangaLoading = false
+    // Load more of the current anime list
+    private func loadMoreAnime() async {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isAnimeLoading && !animeItems.isEmpty && canLoadMoreAnimePages else {
+            return
         }
+        
+        isAnimeLoading = true
+        isAnimeLoadingError = false
+        do {
+            let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
+            currentAnimePage += 1
+            canLoadMoreAnimePages = !(animeList.isEmpty)
+            animeItems.append(contentsOf: animeList)
+        } catch {
+            isAnimeLoadingError = true
+        }
+        isAnimeLoading = false
+    }
+    
+    // Load more of the current manga list
+    private func loadMoreManga() async {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isMangaLoading && !mangaItems.isEmpty && canLoadMoreMangaPages else {
+            return
+        }
+        
+        isMangaLoading = true
+        isMangaLoadingError = false
+        do {
+            let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
+            currentMangaPage += 1
+            canLoadMoreMangaPages = !(mangaList.isEmpty)
+            mangaItems.append(contentsOf: mangaList)
+        } catch {
+            isMangaLoadingError = true
+        }
+        isMangaLoading = false
     }
     
     // Load more anime when reaching the 4th last anime/manga in list
     func loadMoreIfNeeded(index: Int) async {
         if type == .anime && index == animeItems.endIndex - 5 {
-            await loadMore()
+            await loadMoreAnime()
         } else if type == .manga && index == mangaItems.endIndex - 5 {
-            await loadMore()
+            await loadMoreManga()
         }
     }
 }

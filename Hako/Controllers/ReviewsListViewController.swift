@@ -12,7 +12,7 @@ class ReviewsListViewController: ObservableObject {
     @Published var reviews = [Review]()
     @Published var isLoading = false
     @Published var currentPage = 1
-    @Published var canLoadMore = true
+    @Published var canLoadMorePages = true
     @Published var isLoadingError = false
     private let id: Int
     private let type: TypeEnum
@@ -29,7 +29,7 @@ class ReviewsListViewController: ObservableObject {
         isLoadingError = false
         currentPage = 1
         ids = []
-        canLoadMore = false
+        canLoadMorePages = false
         isLoading = true
         do {
             var reviewsList: [Review] = []
@@ -40,7 +40,7 @@ class ReviewsListViewController: ObservableObject {
                 reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
             currentPage = 2
-            canLoadMore = !reviewsList.isEmpty
+            canLoadMorePages = !reviewsList.isEmpty
             for item in reviewsList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)
@@ -56,13 +56,8 @@ class ReviewsListViewController: ObservableObject {
     
     // Load more of the current reviews list
     private func loadMore() async {
-        // only load more when it is not loading and there are more pages to be loaded
-        guard !isLoading && canLoadMore else {
-            return
-        }
-        
-        // only load more when there are already items on the page
-        guard reviews.count > 0 else {
+        // only load more when it is not loading, page is not empty and there are more pages to be loaded
+        guard !isLoading && !reviews.isEmpty && canLoadMorePages else {
             return
         }
         
@@ -77,7 +72,7 @@ class ReviewsListViewController: ObservableObject {
                 reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
             }
             currentPage += 1
-            canLoadMore = !reviewsList.isEmpty
+            canLoadMorePages = !reviewsList.isEmpty
             for item in reviewsList {
                 if !ids.contains(item.id) {
                     ids.insert(item.id)

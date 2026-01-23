@@ -19,7 +19,7 @@ struct StudiosListView: View {
                 } else if controller.isLoadingError && controller.studios.isEmpty {
                     ErrorView(refresh: controller.refresh)
                 } else {
-                    ForEach(Array(controller.studios.enumerated()), id: \.1.id) { index, studio in
+                    ForEach(controller.studios) { studio in
                         if let title = studio.titles?[0].title {
                             NavigationLink(title) {
                                 GroupDetailsView(title: title, group: "producers", id: studio.id, type: .anime)

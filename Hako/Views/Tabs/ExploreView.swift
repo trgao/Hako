@@ -459,7 +459,7 @@ struct ExploreView: View {
                     exploreView
                 }
                 if isPresented {
-                    TabPicker(selection: $controller.type, options: [("Anime", SearchEnum.anime), ("Manga", SearchEnum.manga), ("Character", SearchEnum.character), ("Person", SearchEnum.person)])
+                    TabPicker(selection: $controller.type, options: Constants.searchTypes.map{ ($0.rawValue.capitalized, $0) })
                 }
             }
             .scrollDismissesKeyboard(.immediately)

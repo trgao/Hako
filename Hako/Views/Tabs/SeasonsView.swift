@@ -78,7 +78,7 @@ struct SeasonsView: View {
                 } else if controller.season == .fall {
                     SeasonView(controller.fallItems, controller.fallContinuingItems)
                 }
-                TabPicker(selection: $controller.season, options: [("Winter", SeasonEnum.winter), ("Spring", SeasonEnum.spring), ("Summer", SeasonEnum.summer), ("Fall", SeasonEnum.fall)])
+                TabPicker(selection: $controller.season, options: Constants.seasons.map{ ($0.rawValue.capitalized, $0) })
                     .onChange(of: controller.season) {
                         if controller.shouldRefresh() && !isLink {
                             Task {

@@ -15,6 +15,7 @@ struct Constants {
     static let ranks = ["🥇", "🥈", "🥉"]
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
+    static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
     
     // Since genres should not change much, I have decided to hard code this instead of relying on Jikan API genres endpoint
     static let animeGenres = [

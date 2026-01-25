@@ -15,10 +15,12 @@ struct UserListStatusPicker: View {
     @State private var firstZoneSize: CGFloat = 0
     @State private var lastZoneSize: CGFloat = 0
     private let options: [StatusEnum]
+    private let isLoading: Bool
     
-    init(selection: Binding<StatusEnum>, options: [StatusEnum]) {
+    init(selection: Binding<StatusEnum>, options: [StatusEnum], isLoading: Bool) {
         self._selection = selection
         self.options = options
+        self.isLoading = isLoading
     }
     
     private func getCornerRadius() -> CGFloat {
@@ -38,8 +40,9 @@ struct UserListStatusPicker: View {
     }
     
     var body: some View {
-        if screenSize.width > 612 {
+        if screenSize.width > 650 { // width of ScrollableSegmentedControl
             TabPicker(selection: $selection, options: options.map{ ($0.toString(), $0) })
+                .disabled(isLoading)
         } else {
             ZStack {
                 if #available(iOS 26.0, *) {
@@ -64,6 +67,7 @@ struct UserListStatusPicker: View {
                                 }
                                 .hidden()
                                 ScrollableSegmentedControl(selection: $selection, options: options)
+                                    .disabled(isLoading)
                                     .onGeometryChange(for: CGRect.self) { proxy in
                                         proxy.frame(in: .scrollView)
                                     } action: { frame in

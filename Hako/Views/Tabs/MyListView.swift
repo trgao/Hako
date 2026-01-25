@@ -275,14 +275,12 @@ struct MyListView: View {
                     if controller.type == .anime {
                         animeList
                         if settings.useStatusTabBar {
-                            UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses)
-                                .disabled(controller.isLoading())
+                            UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
                         }
                     } else if controller.type == .manga {
                         mangaList
                         if settings.useStatusTabBar {
-                            UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses)
-                                .disabled(controller.isLoading())
+                            UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
                         }
                     }
                     if controller.isRefreshLoading {

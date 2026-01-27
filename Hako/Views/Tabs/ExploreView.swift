@@ -292,11 +292,12 @@ struct ExploreView: View {
                         } else if controller.type == .anime {
                             if controller.animeItems.isEmpty {
                                 if controller.isAnimeLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: {
+                                    ErrorView(refresh: {
                                         controller.isLoading = true
                                         await controller.searchAnime(query: searchText)
                                         controller.isLoading = false
                                     })
+                                    .padding(.vertical, 50)
                                 } else {
                                     nothingFoundView
                                 }
@@ -308,11 +309,12 @@ struct ExploreView: View {
                         } else if controller.type == .manga {
                             if controller.mangaItems.isEmpty {
                                 if controller.isMangaLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: {
+                                    ErrorView(refresh: {
                                         controller.isLoading = true
                                         await controller.searchManga(query: searchText)
                                         controller.isLoading = false
                                     })
+                                    .padding(.vertical, 50)
                                 } else {
                                     nothingFoundView
                                 }
@@ -324,11 +326,12 @@ struct ExploreView: View {
                         } else if controller.type == .character {
                             if controller.characterItems.isEmpty {
                                 if controller.isCharacterLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: {
+                                    ErrorView(refresh: {
                                         controller.isLoading = true
                                         await controller.searchCharacter(query: searchText)
                                         controller.isLoading = false
                                     })
+                                    .padding(.vertical, 50)
                                 } else {
                                     nothingFoundView
                                 }
@@ -340,11 +343,12 @@ struct ExploreView: View {
                         } else if controller.type == .person {
                             if controller.personItems.isEmpty {
                                 if controller.isPersonLoadingError && searchText.count > 2 {
-                                    ListErrorView(refresh: {
+                                    ErrorView(refresh: {
                                         controller.isLoading = true
                                         await controller.searchPerson(query: searchText)
                                         controller.isLoading = false
                                     })
+                                    .padding(.vertical, 50)
                                 } else {
                                     nothingFoundView
                                 }

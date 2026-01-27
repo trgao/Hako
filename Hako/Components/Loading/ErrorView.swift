@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ErrorView: View {
+    @Environment(\.screenSize) private var screenSize
     private let refresh: () async -> Void
 
     init(refresh: @escaping () async -> Void) {
@@ -15,23 +16,21 @@ struct ErrorView: View {
     }
     
     var body: some View {
-        ZStack {
-            Spacer().containerRelativeFrame([.horizontal, .vertical])
-            VStack {
-                Image(systemName: "exclamationmark.triangle")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .padding(.bottom, 5)
-                Text("Unable to load")
-                    .bold()
-                    .padding(.bottom, 5)
-                Button("Try again") {
-                    Task {
-                        await refresh()
-                    }
+        VStack {
+            Image(systemName: "exclamationmark.triangle")
+                .resizable()
+                .frame(width: 40, height: 40)
+                .padding(.bottom, 5)
+            Text("Unable to load")
+                .bold()
+                .padding(.bottom, 5)
+            Button("Try again") {
+                Task {
+                    await refresh()
                 }
-                .buttonStyle(.borderedProminent)
             }
+            .buttonStyle(.borderedProminent)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }

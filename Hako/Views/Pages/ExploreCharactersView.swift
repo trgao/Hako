@@ -13,37 +13,39 @@ struct ExploreCharactersView: View {
     
     var body: some View {
         ZStack {
-            List {
-                if controller.isLoading && controller.characters.isEmpty {
-                    LoadingList(length: 20)
-                } else if controller.isLoadingError && controller.characters.isEmpty {
-                    ErrorView(refresh: controller.refresh)
-                } else {
-                    ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
-                        CharacterListItem(character: character)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
+            if controller.isLoadingError && controller.characters.isEmpty {
+                ErrorView(refresh: controller.refresh)
+            } else {
+                List {
+                    if controller.isLoading && controller.characters.isEmpty {
+                        LoadingList(length: 20)
+                    } else {
+                        ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
+                            CharacterListItem(character: character)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
+                                    }
                                 }
-                            }
-                    }
-                    if controller.isLoading {
-                        LoadingList(length: 5)
+                        }
+                        if controller.isLoading {
+                            LoadingList(length: 5)
+                        }
                     }
                 }
-            }
-            .disabled(controller.isLoading && controller.characters.isEmpty)
-            .refreshable {
-                isRefresh = true
-            }
-            .task(id: isRefresh) {
-                if controller.characters.isEmpty || isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
+                .disabled(controller.isLoading && controller.characters.isEmpty)
+                .refreshable {
+                    isRefresh = true
                 }
-            }
-            if controller.isLoading && isRefresh {
-                LoadingView()
+                .task(id: isRefresh) {
+                    if controller.characters.isEmpty || isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
+                }
+                if controller.isLoading && isRefresh {
+                    LoadingView()
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)

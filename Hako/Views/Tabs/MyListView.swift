@@ -149,7 +149,8 @@ struct MyListView: View {
                     if controller.isAnimeLoading {
                         LoadingList(length: 20)
                     } else if controller.isAnimeLoadingError {
-                        ListErrorView(refresh: { await controller.refresh() })
+                        ErrorView(refresh: { await controller.refresh() })
+                            .padding(.vertical, 50)
                     } else {
                         VStack {
                             Image(systemName: "tv.fill")
@@ -212,7 +213,8 @@ struct MyListView: View {
                     if controller.isMangaLoading {
                         LoadingList(length: 20)
                     } else if controller.isMangaLoadingError {
-                        ListErrorView(refresh: { await controller.refresh() })
+                        ErrorView(refresh: { await controller.refresh() })
+                            .padding(.vertical, 50)
                     } else {
                         VStack {
                             Image(systemName: "book.fill")

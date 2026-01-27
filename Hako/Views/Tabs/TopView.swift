@@ -68,112 +68,134 @@ struct TopView: View {
             Image(systemName: "line.3.horizontal.decrease.circle")
         }
         .onChange(of: controller.animeRankingType) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
         .onChange(of: controller.mangaRankingType) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
     }
     
+    private var animeRankingText: some View {
+        Text(controller.animeRankingType.toString())
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundStyle(Color(.systemGray))
+            .bold()
+    }
+    
+    private var mangaRankingText: some View {
+        Text(controller.mangaRankingType.toString())
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundStyle(Color(.systemGray))
+            .bold()
+    }
+    
+    private var nothingFoundView: some View {
+        VStack {
+            Image(systemName: "medal")
+                .resizable()
+                .frame(width: 40, height: 50)
+            Text("Nothing found")
+                .bold()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+    }
+    
     var body: some View {
         NavigationStack {
-            VStack {
+            ZStack {
                 if controller.type == .anime {
-                    ZStack {
+                    if controller.animeItems.isEmpty {
+                        VStack {
+                            if controller.animeRankingType != .all {
+                                animeRankingText
+                            }
+                            if controller.isAnimeLoadingError {
+                                ErrorView(refresh: { await controller.refresh() })
+                            } else if !controller.isAnimeLoading {
+                                nothingFoundView
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    } else {
                         ScrollView {
-                            VStack {
-                                if controller.animeRankingType != .all {
-                                    Text(controller.animeRankingType.toString())
-                                        .padding(.vertical, 10)
-                                        .padding(.horizontal, 20)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .foregroundStyle(Color(.systemGray))
-                                        .bold()
-                                }
-                                if controller.isAnimeLoadingError && controller.animeItems.isEmpty {
-                                    ErrorView(refresh: { await controller.refresh() })
-                                } else {
-                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                                        ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
-                                            AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
-                                                .onAppear {
-                                                    Task {
-                                                        await controller.loadMoreIfNeeded(index: index)
-                                                    }
-                                                }
+                            if controller.animeRankingType != .all {
+                                animeRankingText
+                            }
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
+                                ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
+                                    AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
+                                        .onAppear {
+                                            Task {
+                                                await controller.loadMoreIfNeeded(index: index)
+                                            }
                                         }
-                                    }
                                 }
                             }
                             .padding(10)
-                        }
-                        if controller.isAnimeLoading {
-                            LoadingView()
-                        }
-                        if controller.animeItems.isEmpty && !controller.isAnimeLoading && !controller.isAnimeLoadingError {
-                            VStack {
-                                Image(systemName: "medal")
-                                    .resizable()
-                                    .frame(width: 40, height: 50)
-                                Text("Nothing found")
-                                    .bold()
-                            }
                         }
                     }
+                    if controller.isAnimeLoading {
+                        LoadingView()
+                    }
                 } else if controller.type == .manga {
-                    ZStack {
+                    if controller.mangaItems.isEmpty {
+                        VStack {
+                            if controller.mangaRankingType != .all {
+                                mangaRankingText
+                            }
+                            if controller.isMangaLoadingError {
+                                ErrorView(refresh: { await controller.refresh() })
+                            } else if !controller.isMangaLoading {
+                                nothingFoundView
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    } else {
                         ScrollView {
-                            VStack {
-                                if controller.mangaRankingType != .all {
-                                    Text(controller.mangaRankingType.toString())
-                                        .padding(.vertical, 10)
-                                        .padding(.horizontal, 20)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .foregroundStyle(Color(.systemGray))
-                                        .bold()
-                                }
-                                if controller.isMangaLoadingError && controller.mangaItems.isEmpty {
-                                    ErrorView(refresh: { await controller.refresh() })
-                                } else {
-                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                                        ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
-                                            MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
-                                                .onAppear {
-                                                    Task {
-                                                        await controller.loadMoreIfNeeded(index: index)
-                                                    }
-                                                }
+                            if controller.mangaRankingType != .all {
+                                mangaRankingText
+                            }
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
+                                ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
+                                    MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
+                                        .onAppear {
+                                            Task {
+                                                await controller.loadMoreIfNeeded(index: index)
+                                            }
                                         }
-                                    }
                                 }
                             }
                             .padding(10)
                         }
-                        if controller.isMangaLoading {
-                            LoadingView()
-                        }
-                        if controller.mangaItems.isEmpty && !controller.isMangaLoading && !controller.isMangaLoadingError {
-                            VStack {
-                                Image(systemName: "medal")
-                                    .resizable()
-                                    .frame(width: 40, height: 50)
-                                Text("Nothing found")
-                                    .bold()
-                            }
-                        }
+                    }
+                    if controller.isMangaLoading {
+                        LoadingView()
                     }
                 }
             }
             .navigationTitle("Top \(controller.type.rawValue)")
             .task(id: isRefresh) {
+                if !isInit {
+                    controller.animeRankingType = settings.getAnimeRanking()
+                    controller.mangaRankingType = settings.getMangaRanking()
+                }
                 if controller.isItemsEmpty() || isRefresh {
                     await controller.refresh()
                     isRefresh = false
                 }
+                isInit = true
             }
             .refreshable {
                 isRefresh = true
@@ -211,13 +233,6 @@ struct TopView: View {
                     controller.mangaRankingType = mangaRanking
                 }
                 mangaRanking = nil
-            }
-        }
-        .onAppear {
-            if !isInit {
-                controller.animeRankingType = settings.getAnimeRanking()
-                controller.mangaRankingType = settings.getMangaRanking()
-                isInit = true
             }
         }
     }

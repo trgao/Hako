@@ -123,7 +123,7 @@ struct TopView: View {
                             }
                             if controller.isAnimeLoadingError {
                                 ErrorView(refresh: { await controller.refresh() })
-                            } else if !controller.isAnimeLoading {
+                            } else if !controller.isLoading {
                                 nothingFoundView
                             }
                         }
@@ -146,9 +146,6 @@ struct TopView: View {
                             .padding(10)
                         }
                     }
-                    if controller.isAnimeLoading {
-                        LoadingView()
-                    }
                 } else if controller.type == .manga {
                     if controller.mangaItems.isEmpty {
                         VStack {
@@ -157,7 +154,7 @@ struct TopView: View {
                             }
                             if controller.isMangaLoadingError {
                                 ErrorView(refresh: { await controller.refresh() })
-                            } else if !controller.isMangaLoading {
+                            } else if !controller.isLoading {
                                 nothingFoundView
                             }
                         }
@@ -180,9 +177,9 @@ struct TopView: View {
                             .padding(10)
                         }
                     }
-                    if controller.isMangaLoading {
-                        LoadingView()
-                    }
+                }
+                if controller.isLoading {
+                    LoadingView()
                 }
             }
             .navigationTitle("Top \(controller.type.rawValue)")
@@ -203,10 +200,10 @@ struct TopView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     filter
-                        .disabled(controller.isLoading())
+                        .disabled(controller.isLoading)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading)
                         .onChange(of: controller.type) {
                             if controller.isItemsEmpty() {
                                 Task {

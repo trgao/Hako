@@ -10,8 +10,7 @@ import Foundation
 @MainActor
 class ExplorePeopleViewController: ObservableObject {
     @Published var people: [JikanListItem] = []
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
@@ -19,8 +18,7 @@ class ExplorePeopleViewController: ObservableObject {
     
     // Refresh the people list page
     func refresh() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         ids = []
         currentPage = 1
         canLoadMorePages = true
@@ -36,23 +34,21 @@ class ExplorePeopleViewController: ObservableObject {
                 }
             }
             people = results
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     // Load more of the current people list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !people.isEmpty && canLoadMorePages else {
+        guard loadingState == .idle && !people.isEmpty && canLoadMorePages else {
             return
         }
         
-        isLoading = true
-        isLoadingError = false
-        do {
-            let peopleList = try await networker.getPeople(page: currentPage)
+        loadingState = .paginating
+        if let peopleList = try? await networker.getPeople(page: currentPage) {
             var results: [JikanListItem] = []
             currentPage += 1
             canLoadMorePages = !peopleList.isEmpty
@@ -63,10 +59,8 @@ class ExplorePeopleViewController: ObservableObject {
                 }
             }
             people.append(contentsOf: results)
-        } catch {
-            isLoadingError = true
         }
-        isLoading = false
+        loadingState = .idle
     }
     
     // Load more people when reaching the 4th last person in list

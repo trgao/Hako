@@ -287,15 +287,15 @@ struct ExploreView: View {
             VStack {
                 List {
                     Section {
-                        if controller.isLoading {
+                        if controller.isSearchLoading {
                             LoadingList(length: 20)
                         } else if controller.type == .anime {
                             if controller.animeItems.isEmpty {
                                 if controller.isAnimeLoadingError && searchText.count > 2 {
                                     ErrorView(refresh: {
-                                        controller.isLoading = true
+                                        controller.isSearchLoading = true
                                         await controller.searchAnime(query: searchText)
-                                        controller.isLoading = false
+                                        controller.isSearchLoading = false
                                     })
                                     .padding(.vertical, 50)
                                 } else {
@@ -310,9 +310,9 @@ struct ExploreView: View {
                             if controller.mangaItems.isEmpty {
                                 if controller.isMangaLoadingError && searchText.count > 2 {
                                     ErrorView(refresh: {
-                                        controller.isLoading = true
+                                        controller.isSearchLoading = true
                                         await controller.searchManga(query: searchText)
-                                        controller.isLoading = false
+                                        controller.isSearchLoading = false
                                     })
                                     .padding(.vertical, 50)
                                 } else {
@@ -327,9 +327,9 @@ struct ExploreView: View {
                             if controller.characterItems.isEmpty {
                                 if controller.isCharacterLoadingError && searchText.count > 2 {
                                     ErrorView(refresh: {
-                                        controller.isLoading = true
+                                        controller.isSearchLoading = true
                                         await controller.searchCharacter(query: searchText)
-                                        controller.isLoading = false
+                                        controller.isSearchLoading = false
                                     })
                                     .padding(.vertical, 50)
                                 } else {
@@ -344,9 +344,9 @@ struct ExploreView: View {
                             if controller.personItems.isEmpty {
                                 if controller.isPersonLoadingError && searchText.count > 2 {
                                     ErrorView(refresh: {
-                                        controller.isLoading = true
+                                        controller.isSearchLoading = true
                                         await controller.searchPerson(query: searchText)
-                                        controller.isLoading = false
+                                        controller.isSearchLoading = false
                                     })
                                     .padding(.vertical, 50)
                                 } else {
@@ -366,9 +366,9 @@ struct ExploreView: View {
                     .padding(.bottom, 10)
                 }
                 .id(controller.type) // To reset list to top position whenever search type is changed
-                .disabled(controller.isLoading)
+                .disabled(controller.isSearchLoading)
             }
-            if controller.isRefreshLoading && !controller.isLoading {
+            if controller.isRefreshLoading && !controller.isSearchLoading {
                 LoadingView()
             }
         }
@@ -382,7 +382,7 @@ struct ExploreView: View {
         }
         .task(id: searchText) {
             if searchText != previousSearch {
-                controller.isLoading = true
+                controller.isSearchLoading = true
                 await controller.queryChannel.send(searchText)
                 previousSearch = searchText
             }
@@ -391,6 +391,7 @@ struct ExploreView: View {
             for await query in controller.queryChannel.debounce(for: .seconds(0.35)) {
                 searchTask?.cancel()
                 searchTask = Task {
+                    await controller.search(query: query)
                     await controller.search(query: query)
                 }
             }

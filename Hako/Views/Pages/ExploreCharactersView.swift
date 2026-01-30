@@ -13,11 +13,11 @@ struct ExploreCharactersView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.characters.isEmpty {
+            if controller.loadingState == .error && controller.characters.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else {
                 List {
-                    if controller.isLoading && controller.characters.isEmpty {
+                    if controller.loadingState == .loading && controller.characters.isEmpty {
                         LoadingList(length: 20)
                     } else {
                         ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
@@ -28,12 +28,12 @@ struct ExploreCharactersView: View {
                                     }
                                 }
                         }
-                        if controller.isLoading {
+                        if controller.loadingState == .paginating {
                             LoadingList(length: 5)
                         }
                     }
                 }
-                .disabled(controller.isLoading && controller.characters.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.characters.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
@@ -43,7 +43,7 @@ struct ExploreCharactersView: View {
                         isRefresh = false
                     }
                 }
-                if controller.isLoading && isRefresh {
+                if isRefresh {
                     LoadingView()
                 }
             }

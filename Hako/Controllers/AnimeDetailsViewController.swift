@@ -11,12 +11,11 @@ import SwiftUI
 class AnimeDetailsViewController: ObservableObject {
     @Published var anime: Anime?
     @Published var nextEpisode: NextAiringEpisode?
-    @Published var characters = [ListCharacter]()
-    @Published var staffs = [Staff]()
-    @Published var relatedItems = [RelatedItem]()
-    @Published var reviews = [Review]()
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var characters: [ListCharacter] = []
+    @Published var staffs: [Staff] = []
+    @Published var relatedItems: [RelatedItem] = []
+    @Published var reviews: [Review] = []
+    @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     let networker = NetworkManager.shared
     
@@ -75,31 +74,31 @@ class AnimeDetailsViewController: ObservableObject {
             self.anime = anime
         }
         
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let anime = try await networker.getAnimeDetails(id: id)
             self.anime = anime
             networker.animeCache[id] = anime
+            loadingState = .idle
         } catch {
-            if case NetworkError.notFound = error {} else {
-                isLoadingError = true
+            if case NetworkError.notFound = error {
+                loadingState = .idle
+            } else {
+                loadingState = .error
             }
         }
-        isLoading = false
     }
     
     func loadDetails() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let anime = try await networker.getAnimeDetails(id: id)
             self.anime = anime
             networker.animeCache[id] = anime
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     func loadAiringSchedule() async {

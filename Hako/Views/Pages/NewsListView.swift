@@ -14,11 +14,11 @@ struct NewsListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError {
+            if controller.loadingState == .error && controller.news.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else {
                 List {
-                    if controller.isLoading && controller.news.isEmpty {
+                    if controller.loadingState == .loading && controller.news.isEmpty {
                         LoadingList(length: 20)
                     } else {
                         ForEach(controller.news.filter{ URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
@@ -50,16 +50,17 @@ struct NewsListView: View {
                         }
                     }
                 }
-                .disabled(controller.isLoading && controller.news.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.news.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
                     if controller.news.isEmpty || isRefresh {
                         await controller.refresh()
+                        isRefresh = false
                     }
                 }
-                if controller.isLoading && isRefresh {
+                if isRefresh {
                     LoadingView()
                 }
             }

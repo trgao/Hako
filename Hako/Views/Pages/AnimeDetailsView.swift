@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeDetailsView: View {
+    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: AnimeDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -41,7 +42,7 @@ struct AnimeDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.anime == nil {
+            if controller.loadingState == .error && controller.anime == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let anime = controller.anime {
                 ScrollView {
@@ -84,7 +85,7 @@ struct AnimeDetailsView: View {
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: anime.synopsis)
                         if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
-                            AnimeProgress(anime: anime, isLoading: controller.isLoading)
+                            AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
                         }
                         if !settings.hideAnimeInformation {
                             AnimeInformation(anime: anime)
@@ -114,6 +115,7 @@ struct AnimeDetailsView: View {
                             AnimeReviews(id: id, controller: controller)
                         }
                     }
+                    .frame(width: screenSize.width)
                     .padding(.vertical, 20)
                 }
                 .onChange(of: networker.isSignedIn) {
@@ -121,19 +123,19 @@ struct AnimeDetailsView: View {
                         await controller.refresh()
                     }
                 }
+                .refreshable {
+                    isRefresh = true
+                }
                 .task(id: isRefresh) {
-                    if controller.isLoadingError || isRefresh {
+                    if controller.loadingState == .error || isRefresh {
                         await controller.refresh()
                         isRefresh = false
                     }
                 }
-                .refreshable {
-                    isRefresh = true
-                }
                 .background {
                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                 }
-            } else if !controller.isLoading {
+            } else if controller.loadingState == .idle {
                 VStack {
                     Image(systemName: "tv.fill")
                         .resizable()
@@ -144,14 +146,14 @@ struct AnimeDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.isLoading && (controller.anime == nil || controller.anime!.isEmpty()) {
+            if controller.loadingState == .loading && (controller.anime == nil || controller.anime!.isEmpty()) {
                 LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if let anime = controller.anime, !anime.isEmpty() {
-                if controller.isLoading {
+                if controller.loadingState == .loading {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
@@ -169,9 +171,9 @@ struct AnimeDetailsView: View {
                                 ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                             }
                     }
-                    .disabled(controller.isLoading)
+                    .disabled(controller.loadingState == .loading)
                 }
-            } else if controller.isLoadingError {
+            } else if controller.loadingState == .error {
                 Button {
                     Task {
                         await controller.refresh()
@@ -184,8 +186,8 @@ struct AnimeDetailsView: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
-        .onChange(of: controller.isLoading) { prev, cur in
-            if prev && !cur {
+        .onChange(of: controller.loadingState) { prev, cur in
+            if prev == .loading && cur == .idle {
                 addToRecentlyViewed()
             }
         }

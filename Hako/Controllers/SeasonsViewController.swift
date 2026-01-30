@@ -10,35 +10,39 @@ import Foundation
 @MainActor
 class SeasonsViewController: ObservableObject {
     // Winter season variables
-    @Published var winterItems = [MALListAnime]()
-    @Published var winterContinuingItems = [MALListAnime]()
+    @Published var winterItems: [MALListAnime] = []
+    @Published var winterContinuingItems: [MALListAnime] = []
     @Published var canLoadMoreWinterPages = true
     private var currentWinterPage = 1
     
     // Spring season variables
-    @Published var springItems = [MALListAnime]()
-    @Published var springContinuingItems = [MALListAnime]()
+    @Published var springItems: [MALListAnime] = []
+    @Published var springContinuingItems: [MALListAnime] = []
     @Published var canLoadMoreSpringPages = true
     private var currentSpringPage = 1
     
     // Summer season variables
-    @Published var summerItems = [MALListAnime]()
-    @Published var summerContinuingItems = [MALListAnime]()
+    @Published var summerItems: [MALListAnime] = []
+    @Published var summerContinuingItems: [MALListAnime] = []
     @Published var canLoadMoreSummerPages = true
     private var currentSummerPage = 1
     
     // Fall season variables
-    @Published var fallItems = [MALListAnime]()
-    @Published var fallContinuingItems = [MALListAnime]()
+    @Published var fallItems: [MALListAnime] = []
+    @Published var fallContinuingItems: [MALListAnime] = []
     @Published var canLoadMoreFallPages = true
     private var currentFallPage = 1
     
     // Common variables
     @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     @Published var year = Constants.currentYear
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     let networker = NetworkManager.shared
+    
+    // Check if the anime list is loading
+    func isLoading() -> Bool {
+        return loadingState == .loading || loadingState == .paginating
+    }
     
     // Check if the anime list for the current season is empty
     func isSeasonEmpty() -> Bool {
@@ -122,8 +126,7 @@ class SeasonsViewController: ObservableObject {
         
         updateCurrentSeasonPage(1)
         updateCurrentSeasonCanLoadMore(true)
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter { $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
             updateCurrentSeasonPage(2)
@@ -141,33 +144,27 @@ class SeasonsViewController: ObservableObject {
                 fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
                 fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
             }
+            loadingState = .idle
         } catch {
             // If 404 not found, usually means the season still has not been released yet
             if case NetworkError.notFound = error {
                 updateCurrentSeasonCanLoadMore(false)
+                loadingState = .idle
             } else {
-                isLoadingError = true
+                loadingState = .error
             }
         }
-        isLoading = false
     }
     
     // Load more of the current season
     private func loadMore() async {
-        // only load more when it is not loading and there are more pages to be loaded
-        guard !isLoading && getCurrentSeasonCanLoadMore() else {
+        // only load more when it is not loading, page is empty and there are more pages to be loaded
+        guard loadingState == .idle && !isSeasonEmpty() && getCurrentSeasonCanLoadMore() else {
             return
         }
         
-        // only load more when there are already items on the page
-        guard !isSeasonEmpty() else {
-            return
-        }
-        
-        isLoading = true
-        isLoadingError = false
-        do {
-            let animeList = try await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter{ $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
+        loadingState = .paginating
+        if let animeList = try? await networker.getSeasonAnimeList(season: season, year: year, page: getCurrentSeasonPage()).filter({ $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }) {
             updateCurrentSeasonPage(getCurrentSeasonPage() + 1)
             updateCurrentSeasonCanLoadMore(animeList.count > 450)
             if season == .winter {
@@ -183,15 +180,8 @@ class SeasonsViewController: ObservableObject {
                 fallItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year })
                 fallContinuingItems.append(contentsOf: animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year })
             }
-        } catch {
-            // If 404 not found, usually means the season still has not been released yet
-            if case NetworkError.notFound = error {
-                updateCurrentSeasonCanLoadMore(false)
-            } else {
-                isLoadingError = true
-            }
         }
-        isLoading = false
+        loadingState = .idle
     }
     
     // Load more items from current season when reaching the 4th last anime in list

@@ -9,9 +9,8 @@ import Foundation
 
 @MainActor
 class GroupDetailsViewController: ObservableObject {
-    @Published var items = [JikanListItem]()
-    @Published var isLoading = false
-    @Published var isLoadingError = false
+    @Published var items: [JikanListItem] = []
+    @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true
     private var ids: Set<Int> = []
@@ -27,13 +26,16 @@ class GroupDetailsViewController: ObservableObject {
         }
     }
     
+    func isLoading() -> Bool {
+        return loadingState == .loading || loadingState == .paginating
+    }
+    
     // Refresh the current anime/manga list
     func refresh() async {
+        loadingState = .loading
         currentPage = 1
         canLoadMorePages = true
         ids = []
-        isLoading = true
-        isLoadingError = false
         do {
             var itemsList: [JikanListItem] = []
             var results: [JikanListItem] = []
@@ -51,21 +53,20 @@ class GroupDetailsViewController: ObservableObject {
                 }
             }
             items = results
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     // Load more of the current anime/manga list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !items.isEmpty && canLoadMorePages else {
+        guard loadingState == .idle && !items.isEmpty && canLoadMorePages else {
             return
         }
         
-        isLoading = true
-        isLoadingError = false
+        loadingState = .paginating
         do {
             var itemsList: [JikanListItem] = []
             var results: [JikanListItem] = []
@@ -83,10 +84,8 @@ class GroupDetailsViewController: ObservableObject {
                 }
             }
             items.append(contentsOf: results)
-        } catch {
-            isLoadingError = true
-        }
-        isLoading = false
+        } catch {}
+        loadingState = .idle
     }
     
     // Load more items when reaching the 4th last items in list

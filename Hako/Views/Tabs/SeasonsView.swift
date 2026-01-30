@@ -59,9 +59,9 @@ struct SeasonsView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if controller.isLoadingError && controller.isSeasonEmpty() {
+                if controller.loadingState == .error && controller.isSeasonEmpty() {
                     ErrorView(refresh: { await controller.refresh() })
-                } else if !controller.isLoadingError && !controller.isLoading && controller.isSeasonEmpty() {
+                } else if controller.loadingState == .idle && controller.isSeasonEmpty() {
                     VStack {
                         Image(systemName: "calendar")
                             .resizable()
@@ -78,16 +78,18 @@ struct SeasonsView: View {
                 } else if controller.season == .fall {
                     SeasonView(controller.fallItems, controller.fallContinuingItems)
                 }
-                TabPicker(selection: $controller.season, options: Constants.seasons.map{ ($0.rawValue.capitalized, $0) })
+                TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
                     .onChange(of: controller.season) {
                         if controller.shouldRefresh() && !isLink {
+                            // Loading state is changed here to prevent brief flickering of nothing found view
+                            controller.loadingState = .loading
                             Task {
                                 await controller.refresh()
                             }
                         }
                     }
-                    .disabled(controller.isLoading)
-                if controller.isLoading {
+                    .disabled(controller.isLoading())
+                if controller.isLoading() {
                     LoadingView()
                 }
             }
@@ -124,7 +126,7 @@ struct SeasonsView: View {
                             .buttonStyle(.borderedProminent)
                     }
                 }
-                .disabled(controller.isLoading)
+                .disabled(controller.isLoading())
             }
         }
         .id(id)

@@ -10,8 +10,7 @@ import Foundation
 @MainActor
 class StudiosListViewController: ObservableObject {
     @Published var studios: [JikanListItem] = []
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
@@ -19,8 +18,7 @@ class StudiosListViewController: ObservableObject {
     
     // Refresh the studios list page
     func refresh() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         ids = []
         currentPage = 1
         canLoadMorePages = true
@@ -36,23 +34,21 @@ class StudiosListViewController: ObservableObject {
                 }
             }
             studios = results
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     // Load more of the current studios list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !studios.isEmpty && canLoadMorePages else {
+        guard loadingState == .idle && !studios.isEmpty && canLoadMorePages else {
             return
         }
         
-        isLoading = true
-        isLoadingError = false
-        do {
-            let studioList = try await networker.getStudios(page: currentPage)
+        loadingState = .paginating
+        if let studioList = try? await networker.getStudios(page: currentPage) {
             var results: [JikanListItem] = []
             currentPage += 1
             canLoadMorePages = !studioList.isEmpty
@@ -63,9 +59,7 @@ class StudiosListViewController: ObservableObject {
                 }
             }
             studios.append(contentsOf: results)
-        } catch {
-            isLoadingError = true
         }
-        isLoading = false
+        loadingState = .idle
     }
 }

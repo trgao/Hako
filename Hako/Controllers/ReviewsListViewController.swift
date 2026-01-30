@@ -9,15 +9,14 @@ import Foundation
 
 @MainActor
 class ReviewsListViewController: ObservableObject {
-    @Published var reviews = [Review]()
-    @Published var isLoading = false
-    @Published var currentPage = 1
-    @Published var canLoadMorePages = true
-    @Published var isLoadingError = false
+    @Published var reviews: [Review] = []
+    @Published var loadingState: LoadingEnum = .loading
+    private var currentPage = 1
+    private var canLoadMorePages = true
+    private var ids: Set<Int> = []
     private let id: Int
     private let type: TypeEnum
-    private var ids: Set<Int> = []
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: Int, type: TypeEnum) {
         self.id = id
@@ -26,11 +25,10 @@ class ReviewsListViewController: ObservableObject {
     
     // Refresh the current reviews list
     func refresh() async {
-        isLoadingError = false
+        loadingState = .loading
         currentPage = 1
         ids = []
         canLoadMorePages = false
-        isLoading = true
         do {
             var reviewsList: [Review] = []
             var results: [Review] = []
@@ -48,21 +46,20 @@ class ReviewsListViewController: ObservableObject {
                 }
             }
             reviews = results
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     // Load more of the current reviews list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !reviews.isEmpty && canLoadMorePages else {
+        guard loadingState == .idle && !reviews.isEmpty && canLoadMorePages else {
             return
         }
         
-        isLoading = true
-        isLoadingError = false
+        loadingState = .paginating
         do {
             var reviewsList: [Review] = []
             var results: [Review] = []
@@ -80,10 +77,8 @@ class ReviewsListViewController: ObservableObject {
                 }
             }
             reviews.append(contentsOf: results)
-        } catch {
-            isLoadingError = true
-        }
-        isLoading = false
+        } catch {}
+        loadingState = .idle
     }
     
     // Load more review when reaching the 3rd last review in list

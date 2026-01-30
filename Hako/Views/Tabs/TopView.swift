@@ -12,7 +12,6 @@ struct TopView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = TopViewController()
     @State private var isInit = false
-    @State private var offset: CGFloat = -18
     @State private var isRefresh = false
     @Binding private var id: UUID
     @Binding private var type: TypeEnum?
@@ -121,9 +120,9 @@ struct TopView: View {
                             if controller.animeRankingType != .all {
                                 animeRankingText
                             }
-                            if controller.isAnimeLoadingError {
+                            if controller.loadingState == .error {
                                 ErrorView(refresh: { await controller.refresh() })
-                            } else if !controller.isLoading {
+                            } else if controller.loadingState == .idle {
                                 nothingFoundView
                             }
                         }
@@ -152,9 +151,9 @@ struct TopView: View {
                             if controller.mangaRankingType != .all {
                                 mangaRankingText
                             }
-                            if controller.isMangaLoadingError {
+                            if controller.loadingState == .error {
                                 ErrorView(refresh: { await controller.refresh() })
-                            } else if !controller.isLoading {
+                            } else if controller.loadingState == .idle {
                                 nothingFoundView
                             }
                         }
@@ -178,7 +177,7 @@ struct TopView: View {
                         }
                     }
                 }
-                if controller.isLoading {
+                if controller.isLoading() {
                     LoadingView()
                 }
             }
@@ -200,10 +199,10 @@ struct TopView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     filter
-                        .disabled(controller.isLoading)
+                        .disabled(controller.isLoading())
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading)
+                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                         .onChange(of: controller.type) {
                             if controller.isItemsEmpty() {
                                 Task {

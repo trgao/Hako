@@ -10,8 +10,7 @@ import Foundation
 @MainActor
 class PersonDetailsViewController: ObservableObject {
     @Published var person: Person?
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     let networker = NetworkManager.shared
     
@@ -38,16 +37,18 @@ class PersonDetailsViewController: ObservableObject {
     
     // Refresh the current person details page
     func refresh() async {
-        isLoading = true
+        loadingState = .loading
         do {
             let person = try await networker.getPersonDetails(id: id)
             self.person = person
             networker.personCache[id] = person
+            loadingState = .idle
         } catch {
-            if case NetworkError.notFound = error {} else {
-                isLoadingError = true
+            if case NetworkError.notFound = error {
+                loadingState = .idle
+            } else {
+                loadingState = .error
             }
         }
-        isLoading = false
     }
 }

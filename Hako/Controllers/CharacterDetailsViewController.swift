@@ -10,8 +10,7 @@ import Foundation
 @MainActor
 class CharacterDetailsViewController: ObservableObject {
     @Published var character: Character?
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     let networker = NetworkManager.shared
     
@@ -38,17 +37,18 @@ class CharacterDetailsViewController: ObservableObject {
     
     // Refresh the current character details page
     func refresh() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let character = try await networker.getCharacterDetails(id: id)
             self.character = character
             networker.characterCache[id] = character
+            loadingState = .idle
         } catch {
-            if case NetworkError.notFound = error {} else {
-                isLoadingError = true
+            if case NetworkError.notFound = error {
+                loadingState = .idle
+            } else {
+                loadingState = .error
             }
         }
-        isLoading = false
     }
 }

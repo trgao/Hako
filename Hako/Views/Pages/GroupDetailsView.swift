@@ -26,7 +26,7 @@ struct GroupDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.items.isEmpty {
+            if controller.loadingState == .error && controller.items.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else if !controller.items.isEmpty {
                 ScrollView {
@@ -54,14 +54,14 @@ struct GroupDetailsView: View {
                 .task(id: isRefresh) {
                     if isRefresh {
                         await controller.refresh()
-                        await controller.loadMore()
+                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }
                 .refreshable {
                     isRefresh = true
                 }
-            } else if !controller.isLoading {
+            } else if controller.loadingState == .idle {
                 VStack {
                     Image(systemName: "text.page.fill")
                         .resizable()
@@ -72,10 +72,11 @@ struct GroupDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.isLoading {
+            if controller.isLoading() {
                 LoadingView()
             }
         }
+        .navigationBarTitleDisplayMode(.large)
         .navigationTitle(title ?? "")
         .toolbar {
             ShareLink(item: URL(string: "https://myanimelist.net/\(type.rawValue)/\(group)/\(id)")!) {

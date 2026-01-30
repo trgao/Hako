@@ -13,12 +13,12 @@ struct StudiosListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.studios.isEmpty {
+            if controller.loadingState == .error && controller.studios.isEmpty {
                 ErrorView(refresh: controller.refresh)
                     .padding(.vertical, 50)
             } else {
                 List {
-                    if controller.isLoading && controller.studios.isEmpty {
+                    if controller.loadingState == .loading && controller.studios.isEmpty {
                         LoadingList(length: 20, showImage: false)
                     } else {
                         ForEach(controller.studios) { studio in
@@ -35,23 +35,23 @@ struct StudiosListView: View {
                                 }
                             }
                         }
-                        if controller.isLoading {
+                        if controller.loadingState == .paginating {
                             LoadingList(length: 5, showImage: false)
                         }
                     }
                 }
-                .disabled(controller.isLoading && controller.studios.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.studios.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
                     if controller.studios.isEmpty || isRefresh {
                         await controller.refresh()
-                        await controller.loadMore()
+                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }
-                if controller.isLoading && isRefresh {
+                if isRefresh {
                     LoadingView()
                 }
             }

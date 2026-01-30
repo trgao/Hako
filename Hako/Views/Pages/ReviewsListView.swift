@@ -18,40 +18,45 @@ struct ReviewsListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.reviews.isEmpty {
+            if controller.loadingState == .error && controller.reviews.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else {
                 ScrollView {
                     LazyVStack {
-                        ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
-                            ReviewItem(item: item)
-                                .id(item.id)
-                                .onAppear {
-                                    Task {
-                                        await controller.loadMoreIfNeeded(index: index)
+                        if controller.loadingState == .loading && controller.reviews.isEmpty {
+                            LoadingReviews(length: 10)
+                        } else {
+                            ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
+                                ReviewItem(item: item)
+                                    .id(item.id)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
+                                        }
                                     }
-                                }
-                        }
-                        if controller.isLoading {
-                            LoadingReviews()
+                            }
+                            if controller.loadingState == .paginating {
+                                LoadingReviews(length: 3)
+                            }
                         }
                     }
                     .padding(17)
                 }
+                .disabled(controller.loadingState == .loading && controller.reviews.isEmpty)
                 .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
-                if isRefresh && controller.isLoading {
+                if isRefresh {
                     LoadingView()
                 }
             }
+        }
+        .refreshable {
+            isRefresh = true
         }
         .task(id: isRefresh) {
             if controller.reviews.isEmpty || isRefresh {
                 await controller.refresh()
                 isRefresh = false
             }
-        }
-        .refreshable {
-            isRefresh = true
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Reviews")

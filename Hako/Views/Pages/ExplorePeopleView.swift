@@ -13,11 +13,11 @@ struct ExplorePeopleView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.people.isEmpty {
+            if controller.loadingState == .error && controller.people.isEmpty {
                 ErrorView(refresh: controller.refresh)
             } else {
                 List {
-                    if controller.isLoading && controller.people.isEmpty {
+                    if controller.loadingState == .loading && controller.people.isEmpty {
                         LoadingList(length: 20)
                     } else {
                         ForEach(Array(controller.people.enumerated()), id: \.1.id) { index, person in
@@ -28,12 +28,12 @@ struct ExplorePeopleView: View {
                                     }
                                 }
                         }
-                        if controller.isLoading {
+                        if controller.loadingState == .paginating {
                             LoadingList(length: 5)
                         }
                     }
                 }
-                .disabled(controller.isLoading && controller.people.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.people.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
@@ -43,7 +43,7 @@ struct ExplorePeopleView: View {
                         isRefresh = false
                     }
                 }
-                if controller.isLoading && isRefresh {
+                if isRefresh {
                     LoadingView()
                 }
             }

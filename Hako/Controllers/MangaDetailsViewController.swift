@@ -10,12 +10,11 @@ import SwiftUI
 @MainActor
 class MangaDetailsViewController: ObservableObject {
     @Published var manga: Manga?
-    @Published var characters = [ListCharacter]()
-    @Published var authors = [Author]()
-    @Published var relatedItems = [RelatedItem]()
-    @Published var reviews = [Review]()
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var characters: [ListCharacter] = []
+    @Published var authors: [Author] = []
+    @Published var relatedItems: [RelatedItem] = []
+    @Published var reviews: [Review] = []
+    @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     let networker = NetworkManager.shared
     
@@ -69,31 +68,31 @@ class MangaDetailsViewController: ObservableObject {
             self.manga = manga
         }
         
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let manga = try await networker.getMangaDetails(id: id)
             self.manga = manga
             networker.mangaCache[id] = manga
+            loadingState = .idle
         } catch {
-            if case NetworkError.notFound = error {} else {
-                isLoadingError = true
+            if case NetworkError.notFound = error {
+                loadingState = .idle
+            } else {
+                loadingState = .error
             }
         }
-        isLoading = false
     }
     
     func loadDetails() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let manga = try await networker.getMangaDetails(id: id)
             self.manga = manga
             networker.mangaCache[id] = manga
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     func loadCharacters() async {

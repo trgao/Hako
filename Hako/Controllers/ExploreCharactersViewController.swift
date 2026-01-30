@@ -10,8 +10,7 @@ import Foundation
 @MainActor
 class ExploreCharactersViewController: ObservableObject {
     @Published var characters: [JikanListItem] = []
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
@@ -19,8 +18,7 @@ class ExploreCharactersViewController: ObservableObject {
     
     // Refresh the characters list page
     func refresh() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         ids = []
         currentPage = 1
         canLoadMorePages = true
@@ -36,23 +34,21 @@ class ExploreCharactersViewController: ObservableObject {
                 }
             }
             characters = results
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
     
     // Load more of the current characters list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !characters.isEmpty && canLoadMorePages else {
+        guard loadingState == .idle && !characters.isEmpty && canLoadMorePages else {
             return
         }
         
-        isLoading = true
-        isLoadingError = false
-        do {
-            let characterList = try await networker.getCharacters(page: currentPage)
+        loadingState = .paginating
+        if let characterList = try? await networker.getCharacters(page: currentPage) {
             var results: [JikanListItem] = []
             currentPage += 1
             canLoadMorePages = !characterList.isEmpty
@@ -63,10 +59,8 @@ class ExploreCharactersViewController: ObservableObject {
                 }
             }
             characters.append(contentsOf: results)
-        } catch {
-            isLoadingError = true
         }
-        isLoading = false
+        loadingState = .idle
     }
     
     // Load more characters when reaching the 4th last character in list

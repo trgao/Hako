@@ -56,7 +56,7 @@ struct MyListView: View {
                                 await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
                             }
                         } label: {
-                            Label("-1 episode watched", systemImage: "minus.circle")
+                            Label("-1 episode", systemImage: "minus.circle")
                         }
                     }
                 }
@@ -68,12 +68,12 @@ struct MyListView: View {
                                 await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
                             }
                         } label: {
-                            Label("+1 episode watched", systemImage: "plus.circle")
+                            Label("+1 episode", systemImage: "plus.circle")
                         }
                     }
                 }
         }
-        if controller.isAnimeLoading {
+        if controller.loadingState == .paginating {
             LoadingList(length: 5)
         }
     }
@@ -96,7 +96,7 @@ struct MyListView: View {
                                         await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
                                     }
                                 } label: {
-                                    Label("-1 chapter read", systemImage: "minus.circle")
+                                    Label("-1 chapter", systemImage: "minus.circle")
                                 }
                             }
                         } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
@@ -106,7 +106,7 @@ struct MyListView: View {
                                     await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
                                 }
                             } label: {
-                                Label("-1 volume read", systemImage: "minus.circle")
+                                Label("-1 volume", systemImage: "minus.circle")
                             }
                         }
                     }
@@ -121,7 +121,7 @@ struct MyListView: View {
                                         await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
                                     }
                                 } label: {
-                                    Label("+1 chapter read", systemImage: "plus.circle")
+                                    Label("+1 chapter", systemImage: "plus.circle")
                                 }
                             }
                         } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
@@ -131,13 +131,13 @@ struct MyListView: View {
                                     await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
                                 }
                             } label: {
-                                Label("+1 volume read", systemImage: "plus.circle")
+                                Label("+1 volume", systemImage: "plus.circle")
                             }
                         }
                     }
                 }
         }
-        if controller.isMangaLoading {
+        if controller.loadingState == .paginating {
             LoadingList(length: 5)
         }
     }
@@ -146,9 +146,9 @@ struct MyListView: View {
         List {
             Section(controller.animeStatus.toString()) {
                 if controller.isAnimeItemsEmpty() {
-                    if controller.isAnimeLoading {
+                    if controller.loadingState == .loading {
                         LoadingList(length: 20)
-                    } else if controller.isAnimeLoadingError {
+                    } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
@@ -184,25 +184,25 @@ struct MyListView: View {
             }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isAnimeLoading && controller.isAnimeItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.isAnimeItemsEmpty())
         .onChange(of: controller.animeStatus) {
-            Task {
-                await controller.refresh()
+            if isInit {
+                // Loading state is changed here to prevent brief flickering of nothing found view
+                controller.loadingState = .loading
+                Task {
+                    await controller.refresh()
+                }
             }
         }
         .onChange(of: controller.animeSort) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
         .refreshable {
             isRefresh = true
-        }
-        .task(id: isRefresh) {
-            if isRefresh {
-                await controller.refresh()
-                isRefresh = false
-            }
         }
     }
     
@@ -210,9 +210,9 @@ struct MyListView: View {
         List {
             Section(controller.mangaStatus.toString()) {
                 if controller.isMangaItemsEmpty() {
-                    if controller.isMangaLoading {
+                    if controller.loadingState == .loading {
                         LoadingList(length: 20)
-                    } else if controller.isMangaLoadingError {
+                    } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
@@ -248,25 +248,25 @@ struct MyListView: View {
             }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isMangaLoading && controller.isMangaItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.isMangaItemsEmpty())
         .onChange(of: controller.mangaStatus) {
-            Task {
-                await controller.refresh()
+            if isInit {
+                // Loading state is changed here to prevent brief flickering of nothing found view
+                controller.loadingState = .loading
+                Task {
+                    await controller.refresh()
+                }
             }
         }
         .onChange(of: controller.mangaSort) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
         .refreshable {
             isRefresh = true
-        }
-        .task(id: isRefresh) {
-            if isRefresh {
-                await controller.refresh()
-                isRefresh = false
-            }
         }
     }
     
@@ -289,10 +289,18 @@ struct MyListView: View {
                         LoadingView()
                     }
                 }
-                .task {
-                    if controller.shouldRefresh() {
-                        await controller.refresh()
+                .task(id: isRefresh) {
+                    if !isInit {
+                        controller.animeStatus = settings.getAnimeStatus()
+                        controller.animeSort = settings.getAnimeSort()
+                        controller.mangaStatus = settings.getMangaStatus()
+                        controller.mangaSort = settings.getMangaSort()
                     }
+                    if controller.shouldRefresh() || isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
+                    isInit = true
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
@@ -345,7 +353,9 @@ struct MyListView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                             .onChange(of: controller.type) {
-                                if controller.isItemsEmpty() {
+                                if controller.isItemsEmpty() && controller.getCanLoadMorePages() {
+                                    // Loading state is changed here to prevent brief flickering of nothing found view
+                                    controller.loadingState = .loading
                                     Task {
                                         await controller.refresh()
                                     }
@@ -365,15 +375,6 @@ struct MyListView: View {
             Label("Unable to save", systemImage: "exclamationmark.triangle.fill")
                 .labelStyle(.iconTint(.red))
                 .padding()
-        }
-        .onAppear {
-            if !isInit {
-                controller.animeStatus = settings.getAnimeStatus()
-                controller.animeSort = settings.getAnimeSort()
-                controller.mangaStatus = settings.getMangaStatus()
-                controller.mangaSort = settings.getMangaSort()
-                isInit = true
-            }
         }
         .id(id)
         .task(id: id) {

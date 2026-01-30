@@ -11,34 +11,34 @@ import AsyncAlgorithms
 @MainActor
 class ExploreViewController: ObservableObject {
     // Anime search list variables
-    @Published var animeItems = [MALListAnime]()
+    @Published var animeItems: [MALListAnime] = []
     @Published var isAnimeLoadingError = false
     
     // Manga search list variables
-    @Published var mangaItems = [MALListManga]()
+    @Published var mangaItems: [MALListManga] = []
     @Published var isMangaLoadingError = false
     
     // Character search list variables
-    @Published var characterItems = [JikanListItem]()
+    @Published var characterItems: [JikanListItem] = []
     @Published var isCharacterLoadingError = false
     
     // Person search list variables
-    @Published var personItems = [JikanListItem]()
+    @Published var personItems: [JikanListItem] = []
     @Published var isPersonLoadingError = false
     
-    // Non-search page list variables
-    @Published var animeSuggestions = [MALListAnime]()
-    @Published var topAiringAnime = [MALListAnime]()
-    @Published var topUpcomingAnime = [MALListAnime]()
-    @Published var newlyAddedAnime = [JikanListItem]()
-    @Published var newlyAddedManga = [JikanListItem]()
+    // Explore page carousel variables
+    @Published var animeSuggestions: [MALListAnime] = []
+    @Published var topAiringAnime: [MALListAnime] = []
+    @Published var topUpcomingAnime: [MALListAnime] = []
+    @Published var newlyAddedAnime: [JikanListItem] = []
+    @Published var newlyAddedManga: [JikanListItem] = []
     
     // Common variables
     @Published var type: SearchEnum = .anime
-    @Published var isLoading = false
+    @Published var isSearchLoading = false
     @Published var isRefreshLoading = false
+    private let networker = NetworkManager.shared
     let queryChannel = AsyncChannel<String>()
-    let networker = NetworkManager.shared
     
     func resetSearch() {
         animeItems = []
@@ -50,7 +50,7 @@ class ExploreViewController: ObservableObject {
         isCharacterLoadingError = false
         isPersonLoadingError = false
         
-        isLoading = false
+        isSearchLoading = false
         isRefreshLoading = false
     }
     
@@ -131,7 +131,7 @@ class ExploreViewController: ObservableObject {
             mangaItems = []
             characterItems = []
             personItems = []
-            isLoading = false
+            isSearchLoading = false
             return
         }
 
@@ -158,7 +158,7 @@ class ExploreViewController: ObservableObject {
         if Task.isCancelled {
             return
         }
-        isLoading = false
+        isSearchLoading = false
     }
     
     func refreshSearch(query: String) async {

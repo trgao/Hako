@@ -96,6 +96,7 @@
 		EE712FE92DFDA2A900DC7202 /* ReviewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE712FE82DFDA2A900DC7202 /* ReviewItem.swift */; };
 		EE712FEB2DFDA66100DC7202 /* ReviewsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */; };
 		EE712FED2DFDA6CF00DC7202 /* ReviewsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE712FEC2DFDA6C800DC7202 /* ReviewsListViewController.swift */; };
+		EE7807852F28F64C001522BD /* LoadingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7807842F28F64A001522BD /* LoadingEnum.swift */; };
 		EE884C5A2BFDF29400E8B8CD /* BindingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE884C592BFDF29400E8B8CD /* BindingExtension.swift */; };
 		EE8B96D12DD097460070DD4E /* MangaGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D02DD097410070DD4E /* MangaGridItem.swift */; };
 		EE8B96D32DD099AC0070DD4E /* MangaListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D22DD099A80070DD4E /* MangaListItem.swift */; };
@@ -335,6 +336,7 @@
 		EE712FE82DFDA2A900DC7202 /* ReviewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewItem.swift; sourceTree = "<group>"; };
 		EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListView.swift; sourceTree = "<group>"; };
 		EE712FEC2DFDA6C800DC7202 /* ReviewsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsListViewController.swift; sourceTree = "<group>"; };
+		EE7807842F28F64A001522BD /* LoadingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingEnum.swift; sourceTree = "<group>"; };
 		EE884C592BFDF29400E8B8CD /* BindingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingExtension.swift; sourceTree = "<group>"; };
 		EE8B96D02DD097410070DD4E /* MangaGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGridItem.swift; sourceTree = "<group>"; };
 		EE8B96D22DD099A80070DD4E /* MangaListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListItem.swift; sourceTree = "<group>"; };
@@ -742,6 +744,7 @@
 		EE3A59CB2BD23F16009E9F79 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				EE7807842F28F64A001522BD /* LoadingEnum.swift */,
 				EEC86C322F0FDDD4002F760F /* SeasonEnum.swift */,
 				EEA693D62E126E1100FDAAD7 /* SearchEnum.swift */,
 				EEC1B9052BF12928001E08C4 /* TypeEnum.swift */,
@@ -760,16 +763,16 @@
 				EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */,
 				EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */,
 				EE3A59D92BD24550009E9F79 /* UserListViewController.swift */,
-				EEC150D92F0E5DB4000BAE9F /* ExploreCharactersViewController.swift */,
-				EEC150DF2F0E5EF7000BAE9F /* ExplorePeopleViewController.swift */,
-				EE4107642F10EE410086D4AC /* StudiosListViewController.swift */,
-				EE4107682F10F9E10086D4AC /* MagazinesListViewController.swift */,
-				EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */,
 				EE3F1D232BDF5523009992AC /* AnimeDetailsViewController.swift */,
 				EEC1B8F72BF117DA001E08C4 /* MangaDetailsViewController.swift */,
 				EEC3578D2BE3889900DAAB0B /* CharacterDetailsViewController.swift */,
 				EE91BE582BFCAA4D002AC6C4 /* PersonDetailsViewController.swift */,
 				EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */,
+				EEC150D92F0E5DB4000BAE9F /* ExploreCharactersViewController.swift */,
+				EEC150DF2F0E5EF7000BAE9F /* ExplorePeopleViewController.swift */,
+				EE4107642F10EE410086D4AC /* StudiosListViewController.swift */,
+				EE4107682F10F9E10086D4AC /* MagazinesListViewController.swift */,
+				EE0696C42EDD8F1200F965B2 /* NewsListViewController.swift */,
 				EE712FEC2DFDA6C800DC7202 /* ReviewsListViewController.swift */,
 				EE09287B2CE1751F008FCB2A /* ImageFrameController.swift */,
 				EECC79632CF1443700C1C773 /* UserProfileViewController.swift */,
@@ -1290,6 +1293,7 @@
 				EEEEA3152DD22CC400302A81 /* ErrorView.swift in Sources */,
 				EE960E812DD389BC00E4EDC9 /* SequenceExtension.swift in Sources */,
 				EE9A891E2BEF39790048DD73 /* JikanListItem.swift in Sources */,
+				EE7807852F28F64C001522BD /* LoadingEnum.swift in Sources */,
 				EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */,
 				EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */,
 				EEAA57562E2CCC4600377906 /* ExploreAnimeView.swift in Sources */,

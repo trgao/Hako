@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaDetailsView: View {
+    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: MangaDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -41,7 +42,7 @@ struct MangaDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.manga == nil {
+            if controller.loadingState == .error && controller.manga == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let manga = controller.manga {
                 ScrollView {
@@ -81,7 +82,7 @@ struct MangaDetailsView: View {
                         .padding(.horizontal, 20)
                         TextBox(title: "Synopsis", text: manga.synopsis)
                         if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
-                            MangaProgress(manga: manga, isLoading: controller.isLoading)
+                            MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
                         }
                         if !settings.hideMangaInformation {
                             MangaInformation(manga: manga)
@@ -102,6 +103,7 @@ struct MangaDetailsView: View {
                             MangaReviews(id: id, controller: controller)
                         }
                     }
+                    .frame(width: screenSize.width)
                     .padding(.vertical, 20)
                 }
                 .onChange(of: networker.isSignedIn) {
@@ -109,19 +111,19 @@ struct MangaDetailsView: View {
                         await controller.refresh()
                     }
                 }
+                .refreshable {
+                    isRefresh = true
+                }
                 .task(id: isRefresh) {
-                    if controller.isLoadingError || isRefresh {
+                    if controller.loadingState == .error || isRefresh {
                         await controller.refresh()
                         isRefresh = false
                     }
                 }
-                .refreshable {
-                    isRefresh = true
-                }
                 .background {
                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                 }
-            } else if !controller.isLoading {
+            } else if controller.loadingState == .idle {
                 VStack {
                     Image(systemName: "book.fill")
                         .resizable()
@@ -132,14 +134,14 @@ struct MangaDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.isLoading && (controller.manga == nil || controller.manga!.isEmpty()) {
+            if controller.loadingState == .loading && (controller.manga == nil || controller.manga!.isEmpty()) {
                 LoadingView()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if let manga = controller.manga, !manga.isEmpty() {
-                if controller.isLoading {
+                if controller.loadingState == .loading {
                     ProgressView()
                 } else if networker.isSignedIn && !settings.useWithoutAccount {
                     Button {
@@ -157,9 +159,9 @@ struct MangaDetailsView: View {
                                 ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                             }
                     }
-                    .disabled(controller.isLoading)
+                    .disabled(controller.loadingState == .loading)
                 }
-            } else if controller.isLoadingError {
+            } else if controller.loadingState == .error {
                 Button {
                     Task {
                         await controller.refresh()
@@ -172,8 +174,8 @@ struct MangaDetailsView: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
-        .onChange(of: controller.isLoading) { prev, cur in
-            if prev && !cur {
+        .onChange(of: controller.loadingState) { prev, cur in
+            if prev == .loading && cur == .idle {
                 addToRecentlyViewed()
             }
         }

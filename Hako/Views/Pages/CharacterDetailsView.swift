@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CharacterDetailsView: View {
+    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: CharacterDetailsViewController
     @State private var isRefresh = false
@@ -28,7 +29,7 @@ struct CharacterDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.character == nil {
+            if controller.loadingState == .error && controller.character == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let character = controller.character {
                 ScrollView {
@@ -62,6 +63,7 @@ struct CharacterDetailsView: View {
                             }
                         }
                     }
+                    .frame(width: screenSize.width)
                     .padding(.vertical, 20)
                 }
                 .navigationDestination(item: $animeIndex) { index in
@@ -79,20 +81,20 @@ struct CharacterDetailsView: View {
                         PersonDetailsView(id: voices[index].id, name: voices[index].person.name)
                     }
                 }
+                .refreshable {
+                    isRefresh = true
+                }
                 .task(id: isRefresh) {
-                    if controller.isLoadingError || isRefresh {
+                    if controller.loadingState == .error || isRefresh {
                         await controller.refresh()
                         isRefresh = false
                     }
-                }
-                .refreshable {
-                    isRefresh = true
                 }
                 .scrollContentBackground(settings.translucentBackground ? .hidden : .visible)
                 .background {
                     ImageFrame(id: "character\(id)", imageUrl: character.images?.jpg?.imageUrl, imageSize: .background)
                 }
-            } else if !controller.isLoading {
+            } else if controller.loadingState == .idle {
                 VStack {
                     Image(systemName: "person.fill")
                         .resizable()
@@ -103,12 +105,12 @@ struct CharacterDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.isLoading && (controller.character == nil || controller.character!.isEmpty()) {
+            if controller.loadingState == .loading && (controller.character == nil || controller.character!.isEmpty()) {
                 LoadingView()
             }
         }
         .toolbar {
-            if controller.isLoadingError && controller.character != nil && controller.character!.isEmpty() {
+            if controller.loadingState == .error && controller.character != nil && controller.character!.isEmpty() {
                 Button {
                     Task {
                         await controller.refresh()

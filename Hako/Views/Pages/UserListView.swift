@@ -39,7 +39,7 @@ struct UserListView: View {
                     }
                 }
         }
-        if controller.isAnimeLoading {
+        if controller.loadingState == .paginating {
             LoadingList(length: 5)
         }
     }
@@ -53,7 +53,7 @@ struct UserListView: View {
                     }
                 }
         }
-        if controller.isMangaLoading {
+        if controller.loadingState == .paginating {
             LoadingList(length: 5)
         }
     }
@@ -74,9 +74,9 @@ struct UserListView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 50)
                 } else if controller.isAnimeItemsEmpty() {
-                    if controller.isAnimeLoading {
+                    if controller.loadingState == .loading {
                         LoadingList(length: 20)
-                    } else if controller.isAnimeLoadingError {
+                    } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
@@ -118,25 +118,25 @@ struct UserListView: View {
             }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isAnimeLoading && controller.isAnimeItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.isAnimeItemsEmpty())
         .onChange(of: controller.animeStatus) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                // Loading state is changed here to prevent brief flickering of nothing found view
+                controller.loadingState = .loading
+                Task {
+                    await controller.refresh()
+                }
             }
         }
         .onChange(of: controller.animeSort) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
         .refreshable {
             isRefresh = true
-        }
-        .task(id: isRefresh) {
-            if controller.shouldRefresh() || isRefresh {
-                await controller.refresh()
-                isRefresh = false
-            }
         }
     }
     
@@ -156,9 +156,9 @@ struct UserListView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 50)
                 } else if controller.isMangaItemsEmpty() {
-                    if controller.isMangaLoading {
+                    if controller.loadingState == .loading {
                         LoadingList(length: 20)
-                    } else if controller.isMangaLoadingError {
+                    } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
@@ -200,25 +200,25 @@ struct UserListView: View {
             }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.isMangaLoading && controller.isMangaItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.isMangaItemsEmpty())
         .onChange(of: controller.mangaStatus) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                // Loading state is changed here to prevent brief flickering of nothing found view
+                controller.loadingState = .loading
+                Task {
+                    await controller.refresh()
+                }
             }
         }
         .onChange(of: controller.mangaSort) {
-            Task {
-                await controller.refresh(true)
+            if isInit {
+                Task {
+                    await controller.refresh(true)
+                }
             }
         }
         .refreshable {
             isRefresh = true
-        }
-        .task(id: isRefresh) {
-            if controller.shouldRefresh() || isRefresh {
-                await controller.refresh()
-                isRefresh = false
-            }
         }
     }
     
@@ -239,18 +239,7 @@ struct UserListView: View {
                 LoadingView()
             }
         }
-        .toolbar {
-            UserListFilter(controller: controller)
-            AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
-                .onChange(of: controller.type) {
-                    if controller.isItemsEmpty() {
-                        Task {
-                            await controller.refresh()
-                        }
-                    }
-                }
-        }
-        .onAppear {
+        .task(id: isRefresh) {
             if !isInit {
                 if let type = type {
                     controller.type = type
@@ -259,8 +248,25 @@ struct UserListView: View {
                 controller.animeSort = animeSort ?? settings.getAnimeSort()
                 controller.mangaStatus = mangaStatus ?? settings.getMangaStatus()
                 controller.mangaSort = mangaSort ?? settings.getMangaSort()
-                isInit = true
             }
+            if (controller.isItemsEmpty() && controller.getCanLoadMorePages()) || isRefresh {
+                await controller.refresh()
+                isRefresh = false
+            }
+            isInit = true
+        }
+        .toolbar {
+            UserListFilter(controller: controller)
+            AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                .onChange(of: controller.type) {
+                    if controller.isItemsEmpty() && controller.getCanLoadMorePages() {
+                        // Loading state is changed here to prevent brief flickering of nothing found view
+                        controller.loadingState = .loading
+                        Task {
+                            await controller.refresh()
+                        }
+                    }
+                }
         }
     }
 }

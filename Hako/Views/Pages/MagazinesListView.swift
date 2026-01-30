@@ -13,12 +13,12 @@ struct MagazinesListView: View {
     
     var body: some View {
         ZStack {
-            if controller.isLoadingError && controller.magazines.isEmpty {
+            if controller.loadingState == .error && controller.magazines.isEmpty {
                 ErrorView(refresh: controller.refresh)
                     .padding(.vertical, 50)
             } else {
                 List {
-                    if controller.isLoading && controller.magazines.isEmpty {
+                    if controller.loadingState == .loading && controller.magazines.isEmpty {
                         LoadingList(length: 20, showImage: false)
                     } else {
                         ForEach(controller.magazines) { magazine in
@@ -35,23 +35,23 @@ struct MagazinesListView: View {
                                 }
                             }
                         }
-                        if controller.isLoading {
+                        if controller.loadingState == .paginating {
                             LoadingList(length: 5, showImage: false)
                         }
                     }
                 }
-                .disabled(controller.isLoading && controller.magazines.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.magazines.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
                     if controller.magazines.isEmpty || isRefresh {
                         await controller.refresh()
-                        await controller.loadMore()
+                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }
-                if controller.isLoading && isRefresh {
+                if isRefresh {
                     LoadingView()
                 }
             }

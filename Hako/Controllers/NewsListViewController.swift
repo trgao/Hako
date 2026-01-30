@@ -11,20 +11,18 @@ import FeedKit
 @MainActor
 class NewsListViewController: ObservableObject {
     @Published var news: [RSSFeedItem] = []
-    @Published var isLoading = true
-    @Published var isLoadingError = false
+    @Published var loadingState: LoadingEnum = .loading
     private let networker = NetworkManager.shared
     
     // Refresh the news list page
     func refresh() async {
-        isLoading = true
-        isLoadingError = false
+        loadingState = .loading
         do {
             let news = try await networker.getNews() ?? []
             self.news = news
+            loadingState = .idle
         } catch {
-            isLoadingError = true
+            loadingState = .error
         }
-        isLoading = false
     }
 }

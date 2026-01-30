@@ -13,7 +13,7 @@ class ImageFrameController: ObservableObject {
     private let id: String
     private let imageUrl: String?
     private let isProfile: Bool
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: String, imageUrl: String?, isProfile: Bool = false) {
         self.id = id

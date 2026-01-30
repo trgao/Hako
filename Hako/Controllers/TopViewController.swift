@@ -10,22 +10,25 @@ import Foundation
 @MainActor
 class TopViewController: ObservableObject {
     // Anime list variables
-    @Published var animeItems = [MALListAnime]()
+    @Published var animeItems: [MALListAnime] = []
     @Published var animeRankingType: RankingEnum = .all
-    @Published var isAnimeLoadingError = false
     private var currentAnimePage = 1
     private var canLoadMoreAnimePages = true
     
     // Manga list variables
-    @Published var mangaItems = [MALListManga]()
+    @Published var mangaItems: [MALListManga] = []
     @Published var mangaRankingType: RankingEnum = .all
-    @Published var isMangaLoadingError = false
     private var currentMangaPage = 1
     private var canLoadMoreMangaPages = true
     
     @Published var type: TypeEnum = .anime
-    @Published var isLoading = true
+    @Published var loadingState: LoadingEnum = .loading
     private let networker = NetworkManager.shared
+    
+    // Check if the current anime/manga list is loading
+    func isLoading() -> Bool {
+        return loadingState == .loading || loadingState == .paginating
+    }
     
     // Check if the current anime/manga list is empty
     func isItemsEmpty() -> Bool {
@@ -34,11 +37,9 @@ class TopViewController: ObservableObject {
     
     // Refresh anime list
     private func refreshAnime(_ clear: Bool = false) async {
-        isLoading = true
-        isAnimeLoadingError = false
+        loadingState = .loading
         currentAnimePage = 1
         canLoadMoreAnimePages = true
-        
         if clear {
             animeItems = []
         }
@@ -48,20 +49,17 @@ class TopViewController: ObservableObject {
             currentAnimePage = 2
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeItems = animeList
+            loadingState = .idle
         } catch {
-            isAnimeLoadingError = true
+            loadingState = .error
         }
-        
-        isLoading = false
     }
     
     // Refresh manga list
     private func refreshManga(_ clear: Bool = false) async {
-        isLoading = true
-        isMangaLoadingError = false
+        loadingState = .loading
         currentMangaPage = 1
         canLoadMoreMangaPages = true
-        
         if clear {
             mangaItems = []
         }
@@ -71,11 +69,10 @@ class TopViewController: ObservableObject {
             currentMangaPage = 2
             canLoadMoreMangaPages = !(mangaList.isEmpty)
             mangaItems = mangaList
+            loadingState = .idle
         } catch {
-            isMangaLoadingError = true
+            loadingState = .error
         }
-        
-        isLoading = false
     }
     
     // Refresh current list
@@ -90,41 +87,33 @@ class TopViewController: ObservableObject {
     // Load more of the current anime list
     private func loadMoreAnime() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !animeItems.isEmpty && canLoadMoreAnimePages else {
+        guard loadingState == .idle && !animeItems.isEmpty && canLoadMoreAnimePages else {
             return
         }
         
-        isLoading = true
-        isAnimeLoadingError = false
-        do {
-            let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
+        loadingState = .paginating
+        if let animeList = try? await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter({ $0.node.rating != "rx" }) {
             currentAnimePage += 1
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeItems.append(contentsOf: animeList)
-        } catch {
-            isAnimeLoadingError = true
         }
-        isLoading = false
+        loadingState = .idle
     }
     
     // Load more of the current manga list
     private func loadMoreManga() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard !isLoading && !mangaItems.isEmpty && canLoadMoreMangaPages else {
+        guard loadingState == .idle && !mangaItems.isEmpty && canLoadMoreMangaPages else {
             return
         }
         
-        isLoading = true
-        isMangaLoadingError = false
-        do {
-            let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
+        loadingState = .paginating
+        if let mangaList = try? await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType) {
             currentMangaPage += 1
             canLoadMoreMangaPages = !(mangaList.isEmpty)
             mangaItems.append(contentsOf: mangaList)
-        } catch {
-            isMangaLoadingError = true
         }
-        isLoading = false
+        loadingState = .idle
     }
     
     // Load more anime when reaching the 4th last anime/manga in list

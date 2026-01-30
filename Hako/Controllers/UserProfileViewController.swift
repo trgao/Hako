@@ -11,8 +11,8 @@ import SwiftUI
 class UserProfileViewController: ObservableObject {
     @Published var userStatistics: UserStatistics?
     @Published var userFavourites: UserFavourites?
-    @Published var anime = [MALListAnime]()
-    @Published var manga = [MALListManga]()
+    @Published var anime: [MALListAnime] = []
+    @Published var manga: [MALListManga] = []
     @Published var isLoading = true
     @Published var isUserNotFound = false
     private let user: String?

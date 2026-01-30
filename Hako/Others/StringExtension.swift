@@ -16,6 +16,8 @@ extension String {
             return cur.uppercased()
         } else if cur == "tv_special" || cur == "tv special" {
             return "Special"
+        } else if cur == "one-shot" || cur == "one_shot" {
+            return "Oneshot"
         } else {
             return cur.replacingOccurrences(of: "_", with: " ").capitalized
         }

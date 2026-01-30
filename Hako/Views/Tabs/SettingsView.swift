@@ -41,12 +41,17 @@ struct SettingsView: View {
                     } label: {
                         Label("Hide items", systemImage: "eye.slash.fill")
                     }
+                    NavigationLink {
+                        SafariExtensionView()
+                    } label: {
+                        Label("Safari extension", systemImage: "puzzlepiece.extension.fill")
+                    }
                 }
                 Section {
                     NavigationLink {
                         AboutView()
                     } label: {
-                        Label("About", systemImage: "info.circle")
+                        Label("About", systemImage: "info.circle.fill")
                     }
                 }
             }

@@ -80,7 +80,7 @@ struct SeasonsView: View {
                 }
                 TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
                     .onChange(of: controller.season) {
-                        if controller.shouldRefresh() && !isLink {
+                        if !isLink && controller.shouldRefresh() {
                             // Loading state is changed here to prevent brief flickering of nothing found view
                             controller.loadingState = .loading
                             Task {
@@ -130,18 +130,16 @@ struct SeasonsView: View {
             }
         }
         .id(id)
-        .onChange(of: id) {
-            Task {
-                if let year = year, let season = season {
-                    isLink = true
-                    controller.year = year
-                    controller.season = season
-                    await controller.refresh(true)
-                    isLink = false
-                }
-                year = nil
-                season = nil
+        .task(id: id) {
+            if let year = year, let season = season {
+                isLink = true
+                controller.year = year
+                controller.season = season
+                await controller.refresh(true)
+                isLink = false
             }
+            year = nil
+            season = nil
         }
     }
 }

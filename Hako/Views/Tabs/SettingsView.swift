@@ -41,6 +41,8 @@ struct SettingsView: View {
                     } label: {
                         Label("Hide items", systemImage: "eye.slash.fill")
                     }
+                }
+                Section {
                     NavigationLink {
                         SafariExtensionView()
                     } label: {

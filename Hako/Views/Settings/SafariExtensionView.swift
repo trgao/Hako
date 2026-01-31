@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct SafariExtensionView: View {
+    @Environment(\.openURL) private var openURL
+    @EnvironmentObject private var settings: SettingsManager
+    
     var body: some View {
-        Text("You can turn on Hako's Safari extension in Settings. The extension will allow you to open MyAnimeList links in this app instead.")
-        .padding(20)
+        VStack {
+            Label("Open in Hako", systemImage: "puzzlepiece.extension.fill")
+                .bold()
+                .font(.title)
+                .tint(settings.getAccentColor())
+            Text("You can turn on Hako's Safari extension in Settings, under Apps > Safari > Extensions > Open in Hako. The extension will allow you to open MyAnimeList links in this app instead.")
+                .padding(.vertical, 20)
+            Button("Go to settings") {
+                if let url = URL(string: "App-Prefs:com.apple.mobilesafari") {
+                    openURL(url)
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding(40)
     }
 }

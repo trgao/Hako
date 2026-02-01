@@ -30,14 +30,9 @@ struct SeasonsView: View {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                     ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                            .onAppear {
-                                Task {
-                                    await controller.loadMoreIfNeeded(index: index)
-                                }
-                            }
                     }
                 }
-                if !controller.getCurrentSeasonCanLoadMore() && !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
+                if !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
                     Text("Continuing")
                         .padding(.bottom, 10)
                         .padding([.top, .horizontal], 20)
@@ -80,7 +75,7 @@ struct SeasonsView: View {
                 }
                 TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
                     .onChange(of: controller.season) {
-                        if !isLink && controller.shouldRefresh() {
+                        if !isLink && controller.isSeasonEmpty() {
                             // Loading state is changed here to prevent brief flickering of nothing found view
                             controller.loadingState = .loading
                             Task {
@@ -88,14 +83,14 @@ struct SeasonsView: View {
                             }
                         }
                     }
-                    .disabled(controller.isLoading())
-                if controller.isLoading() {
+                    .disabled(controller.loadingState == .loading)
+                if controller.loadingState == .loading {
                     LoadingView()
                 }
             }
             .navigationTitle(controller.season.rawValue.capitalized)
             .task(id: isRefresh) {
-                if !isLink && (controller.shouldRefresh() || isRefresh) {
+                if !isLink && (controller.isSeasonEmpty() || isRefresh) {
                     await controller.refresh()
                     isRefresh = false
                 }
@@ -126,7 +121,7 @@ struct SeasonsView: View {
                             .buttonStyle(.borderedProminent)
                     }
                 }
-                .disabled(controller.isLoading())
+                .disabled(controller.loadingState == .loading)
             }
         }
         .id(id)

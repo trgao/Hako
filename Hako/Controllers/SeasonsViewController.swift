@@ -50,11 +50,6 @@ class SeasonsViewController: ObservableObject {
         return isSeasonEmpty() && !isSeasonUnreleased()
     }
     
-    // Check if the continuing series list for the current season is empty
-    func isSeasonContinuingEmpty() -> Bool {
-        return (season == .winter && winterContinuingItems.isEmpty) || (season == .spring && springContinuingItems.isEmpty) || (season == .summer && summerContinuingItems.isEmpty) || (season == .fall && fallContinuingItems.isEmpty)
-    }
-    
     // Refresh the current season list
     func refresh(_ clear: Bool = false) async {
         // Reset all lists if need to clear (to change year)

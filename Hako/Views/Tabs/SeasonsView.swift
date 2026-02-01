@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SeasonsView: View {
+    @Environment(\.screenSize) private var screenSize
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
@@ -15,7 +16,10 @@ struct SeasonsView: View {
     @Binding private var id: UUID
     @Binding private var year: Int?
     @Binding private var season: SeasonEnum?
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
+    private var numberOfColumns: Int {
+        Int((screenSize.width - 5) / (150 * screenRatio + 5))
+    }
     
     init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
         self._id = id
@@ -25,23 +29,28 @@ struct SeasonsView: View {
     
     @ViewBuilder private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime]) -> some View {
         ScrollView {
-            VStack {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                    ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
-                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                    }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
+                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
+                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                 }
-                if !controller.isSeasonContinuingEmpty() && !settings.hideContinuingSeries {
-                    Text("Continuing")
-                        .padding(.bottom, 10)
-                        .padding([.top, .horizontal], 20)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .bold()
-                        .font(.title2)
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                        ForEach(seasonContinuingItems) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
+                    // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid
+                    Group {
+                        ForEach(0..<((numberOfColumns - seasonItems.count % numberOfColumns) % numberOfColumns), id: \.self) { id in
+                            Color.clear.id("frontbuffer\(id)")
                         }
+                        Text("Continuing")
+                            .padding(.bottom, 10)
+                            .padding([.top, .horizontal], 20)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .bold()
+                            .font(.title2)
+                        ForEach(0..<(numberOfColumns - 1), id: \.self) { id in
+                            Color.clear.id("endbuffer\(id)")
+                        }
+                    }
+                    ForEach(seasonContinuingItems) { item in
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                     }
                 }
             }
@@ -86,7 +95,6 @@ struct SeasonsView: View {
                 if controller.loadingState == .loading {
                     LoadingView()
                 }
-
             }
             .navigationTitle(controller.season.rawValue.capitalized)
             .refreshable {

@@ -12,28 +12,42 @@ class SeasonsViewController: ObservableObject {
     // Winter season variables
     @Published var winterItems: [MALListAnime] = []
     @Published var winterContinuingItems: [MALListAnime] = []
+    @Published var isWinterUnreleased = false
     
     // Spring season variables
     @Published var springItems: [MALListAnime] = []
     @Published var springContinuingItems: [MALListAnime] = []
+    @Published var isSpringUnreleased = false
     
     // Summer season variables
     @Published var summerItems: [MALListAnime] = []
     @Published var summerContinuingItems: [MALListAnime] = []
+    @Published var isSummerUnreleased = false
     
     // Fall season variables
     @Published var fallItems: [MALListAnime] = []
     @Published var fallContinuingItems: [MALListAnime] = []
+    @Published var isFallUnreleased = false
     
     // Common variables
     @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     @Published var year = Constants.currentYear
     @Published var loadingState: LoadingEnum = .loading
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     // Check if the anime list for the current season is empty
     func isSeasonEmpty() -> Bool {
         return (season == .winter && winterItems.isEmpty) || (season == .spring && springItems.isEmpty) || (season == .summer && summerItems.isEmpty) || (season == .fall && fallItems.isEmpty)
+    }
+    
+    // Check if the current season is unreleased
+    func isSeasonUnreleased() -> Bool {
+        return (season == .winter && isWinterUnreleased) || (season == .spring && isSpringUnreleased) || (season == .summer && isSummerUnreleased) || (season == .fall && isFallUnreleased)
+    }
+    
+    // Check if the current anime list should be refreshed
+    func shouldRefresh() -> Bool {
+        return isSeasonEmpty() && !isSeasonUnreleased()
     }
     
     // Check if the continuing series list for the current season is empty
@@ -85,9 +99,19 @@ class SeasonsViewController: ObservableObject {
             loadingState = .idle
         } catch {
             // If 404 not found, usually means the season still has not been released yet
+            // Ignore cancellation error, from deeplinking to another year and season
             if case NetworkError.notFound = error {
+                if season == .winter {
+                    isWinterUnreleased = true
+                } else if season == .spring {
+                    isSpringUnreleased = true
+                } else if season == .summer {
+                    isSummerUnreleased = true
+                } else if season == .fall {
+                    isFallUnreleased = true
+                }
                 loadingState = .idle
-            } else {
+            } else if !(error is CancellationError) {
                 loadingState = .error
             }
         }

@@ -12,7 +12,6 @@ struct SeasonsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
-    @State private var isLink = false
     @Binding private var id: UUID
     @Binding private var year: Int?
     @Binding private var season: SeasonEnum?
@@ -75,7 +74,7 @@ struct SeasonsView: View {
                 }
                 TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
                     .onChange(of: controller.season) {
-                        if !isLink && controller.isSeasonEmpty() {
+                        if year == nil && season == nil && controller.shouldRefresh() {
                             // Loading state is changed here to prevent brief flickering of nothing found view
                             controller.loadingState = .loading
                             Task {
@@ -87,13 +86,14 @@ struct SeasonsView: View {
                 if controller.loadingState == .loading {
                     LoadingView()
                 }
+
             }
             .navigationTitle(controller.season.rawValue.capitalized)
             .refreshable {
                 isRefresh = true
             }
             .task(id: isRefresh) {
-                if !isLink && (controller.isSeasonEmpty() || isRefresh) {
+                if year == nil && season == nil && (controller.shouldRefresh() || isRefresh) {
                     await controller.refresh()
                     isRefresh = false
                 }
@@ -106,7 +106,7 @@ struct SeasonsView: View {
                         }
                     }
                     .onChange(of: controller.year) {
-                        if !isLink {
+                        if year == nil && season == nil {
                             Task {
                                 await controller.refresh(true)
                             }
@@ -127,11 +127,9 @@ struct SeasonsView: View {
         .id(id)
         .task(id: id) {
             if let year = year, let season = season {
-                isLink = true
                 controller.year = year
                 controller.season = season
                 await controller.refresh(true)
-                isLink = false
             }
             year = nil
             season = nil

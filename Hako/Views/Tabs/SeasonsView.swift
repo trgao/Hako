@@ -89,14 +89,14 @@ struct SeasonsView: View {
                 }
             }
             .navigationTitle(controller.season.rawValue.capitalized)
+            .refreshable {
+                isRefresh = true
+            }
             .task(id: isRefresh) {
                 if !isLink && (controller.isSeasonEmpty() || isRefresh) {
                     await controller.refresh()
                     isRefresh = false
                 }
-            }
-            .refreshable {
-                isRefresh = true
             }
             .toolbar {
                 Menu {

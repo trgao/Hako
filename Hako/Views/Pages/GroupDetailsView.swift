@@ -51,15 +51,15 @@ struct GroupDetailsView: View {
                     }
                     .padding(10)
                 }
+                .refreshable {
+                    isRefresh = true
+                }
                 .task(id: isRefresh) {
                     if isRefresh {
                         await controller.refresh()
                         await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
-                }
-                .refreshable {
-                    isRefresh = true
                 }
             } else if controller.loadingState == .idle {
                 VStack {

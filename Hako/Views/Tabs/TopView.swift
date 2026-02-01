@@ -182,6 +182,9 @@ struct TopView: View {
                 }
             }
             .navigationTitle("Top \(controller.type.rawValue)")
+            .refreshable {
+                isRefresh = true
+            }
             .task(id: isRefresh) {
                 if !isInit {
                     controller.animeRankingType = settings.getAnimeRanking()
@@ -192,9 +195,6 @@ struct TopView: View {
                     isRefresh = false
                 }
                 isInit = true
-            }
-            .refreshable {
-                isRefresh = true
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

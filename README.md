@@ -16,6 +16,7 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 * View, edit, add and remove animes/mangas on user's list by logging in to MyAnimeList account
 * Customise how the app looks
 * Look at the information, next episode airing schedule, trailers, characters, staffs, authors, related items, recommendations, opening and ending themes and reviews of anime and manga
+* Open in Hako safari extension for opening MyAnimeList links in the app
 * Adapted to iOS 26 Liquid Glass interfaces
 
 ## Things to be done
@@ -23,4 +24,3 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 * Add iPad support for NavigationSplitView
 * Try playing with live activities/widgets
 * Try adding notifications for upcoming episode
-* Add ability to view other people profiles (?)

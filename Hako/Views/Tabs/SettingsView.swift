@@ -55,6 +55,9 @@ struct SettingsView: View {
                     } label: {
                         Label("About", systemImage: "info.circle.fill")
                     }
+                    Link(destination: URL(string: "https://forms.gle/v2ewpgxHLDL16kK8A")!) {
+                        Label("Feedback", systemImage: "exclamationmark.bubble.fill")
+                    }
                 }
             }
             .navigationTitle("Settings")

@@ -34,7 +34,7 @@ struct ExploreAnimeView: View {
                     .buttonStyle(.plain)
                 }
             }
-            NavigationLink("Studios") {
+            NavigationLink("Studios/Producers") {
                 StudiosListView()
             }
             .buttonStyle(.plain)

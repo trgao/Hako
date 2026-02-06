@@ -9,6 +9,7 @@ import SwiftUI
 import SystemNotification
 
 struct ExploreView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ExploreViewController()
@@ -39,6 +40,64 @@ struct ExploreView: View {
         self._isPresented = isPresented
         self._isRoot = isRoot
         self._urlSearchText = urlSearchText
+    }
+    
+    private var exploreAnimeManga: some View {
+        Group {
+            if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+                HStack {
+                    ScrollViewBox(title: "Anime", image: "tv.fill") {
+                        ExploreAnimeView()
+                    }
+                    Spacer()
+                    ScrollViewBox(title: "Manga", image: "book.fill") {
+                        ExploreMangaView()
+                    }
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            } else {
+                ScrollViewBox(title: "Anime", image: "tv.fill") {
+                    ExploreAnimeView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+                ScrollViewBox(title: "Manga", image: "book.fill") {
+                    ExploreMangaView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            }
+        }
+    }
+    
+    private var exploreCharactersPeople: some View {
+        Group {
+            if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+                HStack {
+                    ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+                        ExploreCharactersView()
+                    }
+                    Spacer()
+                    ScrollViewBox(title: "People", image: "person.fill") {
+                        ExplorePeopleView()
+                    }
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            } else {
+                ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+                    ExploreCharactersView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+                ScrollViewBox(title: "People", image: "person.fill") {
+                    ExplorePeopleView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            }
+        }
     }
     
     private var recentlyViewed: some View {
@@ -211,30 +270,10 @@ struct ExploreView: View {
             VStack {
                 VStack {
                     if !settings.hideExploreAnimeManga {
-                        HStack {
-                            ScrollViewBox(title: "Anime", image: "tv.fill") {
-                                ExploreAnimeView()
-                            }
-                            Spacer()
-                            ScrollViewBox(title: "Manga", image: "book.fill") {
-                                ExploreMangaView()
-                            }
-                        }
-                        .padding(.horizontal, 17)
-                        Spacer()
+                        exploreAnimeManga
                     }
                     if !settings.hideExploreCharactersPeople {
-                        HStack {
-                            ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
-                                ExploreCharactersView()
-                            }
-                            Spacer()
-                            ScrollViewBox(title: "People", image: "person.fill") {
-                                ExplorePeopleView()
-                            }
-                        }
-                        .padding(.horizontal, 17)
-                        Spacer()
+                        exploreCharactersPeople
                     }
                     if !settings.hideNews {
                         ScrollViewBox(title: "News", image: "newspaper.fill") {

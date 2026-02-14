@@ -51,7 +51,9 @@ class TopViewController: ObservableObject {
             animeItems = animeList
             loadingState = .idle
         } catch {
-            loadingState = .error
+            if !Task.isCancelled && !(error is CancellationError) {
+               loadingState = .error
+            }
         }
     }
     
@@ -71,7 +73,9 @@ class TopViewController: ObservableObject {
             mangaItems = mangaList
             loadingState = .idle
         } catch {
-            loadingState = .error
+            if !Task.isCancelled && !(error is CancellationError) {
+               loadingState = .error
+            }
         }
     }
     

@@ -24,7 +24,7 @@ extension String {
     }
     
     func formatStatus() -> String {
-        let text = self.replacingOccurrences(of: "_", with: " ")
+        let text = self.replacingOccurrences(of: "_", with: " ").lowercased()
         let first = text.prefix(1).capitalized
         return first + text.dropFirst()
     }

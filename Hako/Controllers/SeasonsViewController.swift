@@ -106,7 +106,7 @@ class SeasonsViewController: ObservableObject {
                     isFallUnreleased = true
                 }
                 loadingState = .idle
-            } else if !(error is CancellationError) {
+            } else if !Task.isCancelled && !(error is CancellationError) {
                 loadingState = .error
             }
         }

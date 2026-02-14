@@ -186,15 +186,10 @@ struct TopView: View {
                 isRefresh = true
             }
             .task(id: isRefresh) {
-                if !isInit {
-                    controller.animeRankingType = settings.getAnimeRanking()
-                    controller.mangaRankingType = settings.getMangaRanking()
-                }
                 if controller.isItemsEmpty() || isRefresh {
                     await controller.refresh()
                     isRefresh = false
                 }
-                isInit = true
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -218,18 +213,18 @@ struct TopView: View {
             if let type = type {
                 controller.type = type
             }
-            type = nil
-            if controller.type == .anime {
-                if let animeRanking = animeRanking {
-                    controller.animeRankingType = animeRanking
-                }
-                animeRanking = nil
-            } else if controller.type == .manga {
-                if let mangaRanking = mangaRanking {
-                    controller.mangaRankingType = mangaRanking
-                }
-                mangaRanking = nil
+            if controller.type == .anime, let animeRanking = animeRanking {
+                controller.animeRankingType = animeRanking
+            } else if controller.type == .manga, let mangaRanking = mangaRanking {
+                controller.mangaRankingType = mangaRanking
+            } else if !isInit {
+                controller.animeRankingType = settings.getAnimeRanking()
+                controller.mangaRankingType = settings.getMangaRanking()
             }
+            type = nil
+            animeRanking = nil
+            mangaRanking = nil
+            isInit = true
         }
     }
 }

@@ -290,17 +290,10 @@ struct MyListView: View {
                     }
                 }
                 .task(id: isRefresh) {
-                    if !isInit {
-                        controller.animeStatus = settings.getAnimeStatus()
-                        controller.animeSort = settings.getAnimeSort()
-                        controller.mangaStatus = settings.getMangaStatus()
-                        controller.mangaSort = settings.getMangaSort()
-                    }
-                    if controller.shouldRefresh() || isRefresh {
+                    if animeStatus == nil && animeSort == nil && mangaStatus == nil && mangaSort == nil && (controller.shouldRefresh() || isRefresh) {
                         await controller.refresh()
                         isRefresh = false
                     }
-                    isInit = true
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
@@ -381,26 +374,32 @@ struct MyListView: View {
             if let type = type {
                 controller.type = type
             }
-            type = nil
             if controller.type == .anime {
                 if let animeStatus = animeStatus {
                     controller.animeStatus = animeStatus
                 }
-                animeStatus = nil
                 if let animeSort = animeSort {
                     controller.animeSort = animeSort
                 }
-                animeSort = nil
             } else if controller.type == .manga {
                 if let mangaStatus = mangaStatus {
                     controller.mangaStatus = mangaStatus
                 }
-                mangaStatus = nil
                 if let mangaSort = mangaSort {
                     controller.mangaSort = mangaSort
                 }
-                mangaSort = nil
+            } else if !isInit {
+                controller.animeStatus = settings.getAnimeStatus()
+                controller.animeSort = settings.getAnimeSort()
+                controller.mangaStatus = settings.getMangaStatus()
+                controller.mangaSort = settings.getMangaSort()
             }
+            type = nil
+            animeStatus = nil
+            animeSort = nil
+            mangaStatus = nil
+            mangaSort = nil
+            isInit = true
         }
     }
 }

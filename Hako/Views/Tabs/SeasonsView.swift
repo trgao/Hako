@@ -137,7 +137,6 @@ struct SeasonsView: View {
             if let year = year, let season = season {
                 controller.year = year
                 controller.season = season
-                await controller.refresh(true)
             }
             year = nil
             season = nil

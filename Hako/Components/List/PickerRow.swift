@@ -27,7 +27,7 @@ struct PickerRow: View {
                 }
             }
         }
-        .id(settings.getAccentColor())
+        .id(settings.getAccentColor()) // to change tint when settings change
         .tint(settings.getAccentColor())
     }
 }

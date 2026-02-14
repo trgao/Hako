@@ -41,7 +41,7 @@ struct TopView: View {
     private var filter: some View {
         Menu {
             if controller.type == .anime {
-                Picker(selection: $controller.animeRankingType, label: Text("Rank type")) {
+                Picker("Rank type", selection: $controller.animeRankingType) {
                     Label("All", systemImage: "star").tag(RankingEnum.all)
                     Label("TV", systemImage: "tv").tag(RankingEnum.tv)
                     Label("OVA", systemImage: "tv").tag(RankingEnum.ova)
@@ -50,8 +50,9 @@ struct TopView: View {
                     Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
                     Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
                 }
+                .pickerStyle(.inline)
             } else if controller.type == .manga {
-                Picker(selection: $controller.mangaRankingType, label: Text("Rank type")) {
+                Picker("Rank type", selection: $controller.mangaRankingType) {
                     Label("All", systemImage: "star").tag(RankingEnum.all)
                     Label("Manga", systemImage: "book").tag(RankingEnum.manga)
                     Label("Light Novels", systemImage: "book.closed").tag(RankingEnum.lightnovels)
@@ -62,6 +63,7 @@ struct TopView: View {
                     Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
                     Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
                 }
+                .pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "line.3.horizontal.decrease.circle")

@@ -42,11 +42,13 @@ struct SettingsView: View {
                         Label("Hide items", systemImage: "eye.slash.fill")
                     }
                 }
-                Section {
-                    NavigationLink {
-                        SafariExtensionView()
-                    } label: {
-                        Label("Safari extension", systemImage: "puzzlepiece.extension.fill")
+                if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
+                    Section {
+                        NavigationLink {
+                            SafariExtensionView()
+                        } label: {
+                            Label("Safari extension", systemImage: "puzzlepiece.extension.fill")
+                        }
                     }
                 }
                 Section {

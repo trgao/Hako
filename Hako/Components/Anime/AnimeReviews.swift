@@ -27,7 +27,6 @@ struct AnimeReviews: View {
                             ForEach(controller.reviews.prefix(10)) { item in
                                 ReviewItem(item: item)
                                     .frame(width: screenSize.width - 34, alignment: .center)
-                                
                             }
                         }
                         .padding(.horizontal, 17)

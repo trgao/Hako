@@ -103,7 +103,7 @@ struct MangaDetailsView: View {
                             MangaReviews(id: id, controller: controller)
                         }
                     }
-                    .frame(width: screenSize.width)
+                    .frame(maxWidth: screenSize.width)
                     .padding(.vertical, 20)
                 }
                 .onChange(of: networker.isSignedIn) {

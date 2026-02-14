@@ -116,19 +116,23 @@ struct ProfileImage: View {
 
     var body: some View {
         VStack {
-            if #available(iOS 18.0, *) {
-                Button {
-                    isPresented = true && allowExpand
-                } label: {
-                    label
+            if allowExpand {
+                if #available(iOS 18.0, *) {
+                    Button {
+                        isPresented = true
+                    } label: {
+                        label
+                    }
+                    .matchedTransitionSource(id: "profile", in: transitionNamespace)
+                } else {
+                    Button {
+                        isPresented = true
+                    } label: {
+                        label
+                    }
                 }
-                .matchedTransitionSource(id: "profile", in: transitionNamespace)
             } else {
-                Button {
-                    isPresented = true && allowExpand
-                } label: {
-                    label
-                }
+                label
             }
         }
         .fullScreenCover(isPresented: $isPresented) {

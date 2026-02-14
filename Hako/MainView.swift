@@ -265,6 +265,28 @@ struct MainView: View {
                     .onAppear {
                         tab = settings.defaultView
                     }
+                    .tabViewStyle(.sidebarAdaptable)
+                    .tabViewSidebarBottomBar {
+                        if networker.isSignedIn, let user = networker.user {
+                            Button {
+                                tab = 4
+                                settingsId = UUID()
+                                isProfileActive = true
+                            } label: {
+                                HStack {
+                                    ProfileImage(imageUrl: user.picture)
+                                        .scaleEffect(0.7)
+                                    Text(user.name ?? "")
+                                        .font(.title3)
+                                        .bold()
+                                }
+                                .padding(.horizontal, 10)
+                                .id(networker.user?.picture)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
                 } else {
                     TabView(selection: tabBinding) {
                         if !settings.hideTop {

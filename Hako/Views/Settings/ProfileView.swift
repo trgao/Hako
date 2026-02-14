@@ -32,6 +32,16 @@ struct ProfileView: View {
                                 }
                                 .buttonStyle(.borderedProminent)
                                 .tint(.red)
+                                .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
+                                    Button("Confirm", role: .destructive) {
+                                        Task {
+                                            networker.signOut()
+                                            dismiss()
+                                        }
+                                    }
+                                } message: {
+                                    Text("This will sign you out of your account")
+                                }
                             }
                         }
                         .padding(.horizontal, 20)
@@ -159,16 +169,6 @@ struct ProfileView: View {
             .task(id: isRefresh) {
                 await controller.refresh()
                 isRefresh = false
-            }
-            .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
-                Button("Confirm", role: .destructive) {
-                    Task {
-                        networker.signOut()
-                        dismiss()
-                    }
-                }
-            } message: {
-                Text("This will sign you out of your account")
             }
             .scrollContentBackground(.hidden)
             .background {

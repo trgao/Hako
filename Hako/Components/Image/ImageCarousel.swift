@@ -55,7 +55,7 @@ struct ImageCarousel: View {
                                 } placeholder: {
                                     ProgressView()
                                 }
-                                .frame(maxWidth: screenSize.width * 4 / 5)
+                                .frame(maxWidth: min(screenSize.width * 4 / 5, 600))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                                 .contextMenu {

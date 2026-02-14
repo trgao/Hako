@@ -71,7 +71,7 @@ struct PersonDetailsView: View {
                                 }
                             }
                         }
-                        .frame(width: screenSize.width)
+                        .frame(maxWidth: screenSize.width)
                         .padding(.vertical, 20)
                     }
                     .navigationDestination(item: $voiceIndex) { index in

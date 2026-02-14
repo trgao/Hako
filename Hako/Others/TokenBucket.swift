@@ -12,9 +12,6 @@ import Foundation
  * by ensuring they do not exceed a configured limit.
  */
 public class TokenBucket {
-
-    // MARK: - Properties
-
     /// The maximum number of tokens the bucket can hold. This is the "burst" capacity.
     private let capacity: Int
 
@@ -30,8 +27,6 @@ public class TokenBucket {
     /// A dispatch queue to ensure thread-safe access to the `tokens` property.
     private let queue = DispatchQueue(label: "com.tokenbucket.threadsafe")
 
-    // MARK: - Initialization
-
     /**
      * Initializes a new TokenBucket instance.
      *
@@ -40,9 +35,6 @@ public class TokenBucket {
      * - refillRate: The number of tokens to add to the bucket per second. Must be greater than 0.
      */
     public init(capacity: Int, refillRate: Double) {
-        precondition(capacity > 0, "Capacity must be a positive integer.")
-        precondition(refillRate > 0, "Refill rate must be a positive number.")
-
         self.capacity = capacity
         self.refillRate = refillRate
 
@@ -50,8 +42,6 @@ public class TokenBucket {
         self.tokens = Double(capacity)
         self.lastRefillTimestamp = Date()
     }
-
-    // MARK: - Core Logic
 
     /**
      * Refills the bucket with new tokens based on the time that has passed
@@ -68,8 +58,8 @@ public class TokenBucket {
 
         if tokensToAdd > 0 {
             // Add the new tokens, ensuring we don't exceed the bucket's capacity.
-            self.tokens = min(Double(self.capacity), self.tokens + tokensToAdd)
-            self.lastRefillTimestamp = now
+            tokens = min(Double(capacity), tokens + tokensToAdd)
+            lastRefillTimestamp = now
         }
     }
     
@@ -88,12 +78,12 @@ public class TokenBucket {
 
             let consumedInThisIteration = queue.sync {
                 refill()
-                if self.tokens >= 1 {
-                    self.tokens -= 1
+                if tokens >= 1 {
+                    tokens -= 1
                     return true
                 } else {
-                    let tokensNeeded = 1 - self.tokens
-                    waitTime = Double(tokensNeeded) / self.refillRate
+                    let tokensNeeded = 1 - tokens
+                    waitTime = Double(tokensNeeded) / refillRate
                     return false
                 }
             }

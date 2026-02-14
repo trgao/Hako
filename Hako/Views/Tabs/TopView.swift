@@ -66,7 +66,8 @@ struct TopView: View {
                 .pickerStyle(.inline)
             }
         } label: {
-            Image(systemName: "line.3.horizontal.decrease.circle")
+            Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
+                .labelStyle(.iconOnly)
         }
         .onChange(of: controller.animeRankingType) {
             if isInit {

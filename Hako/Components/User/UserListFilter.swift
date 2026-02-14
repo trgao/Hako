@@ -59,7 +59,8 @@ struct UserListFilter: View {
                 .pickerStyle(.inline)
             }
         } label: {
-            Image(systemName: settings.useStatusTabBar ? "arrow.up.arrow.down.circle" : "line.3.horizontal.decrease.circle")
+            Label("Menu", systemImage: settings.useStatusTabBar ? "arrow.up.arrow.down.circle" : "line.3.horizontal.decrease.circle")
+                .labelStyle(.iconOnly)
         }
         .disabled(controller.isLoading())
     }

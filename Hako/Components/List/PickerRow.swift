@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PickerRow: View {
+    @EnvironmentObject private var settings: SettingsManager
     @Binding var selection: Int
     var title: String
     var labels: [String]
@@ -26,5 +27,7 @@ struct PickerRow: View {
                 }
             }
         }
+        .id(settings.getAccentColor())
+        .tint(settings.getAccentColor())
     }
 }

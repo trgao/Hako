@@ -55,7 +55,7 @@ struct TopView: View {
                 Picker("Rank type", selection: $controller.mangaRankingType) {
                     Label("All", systemImage: "star").tag(RankingEnum.all)
                     Label("Manga", systemImage: "book").tag(RankingEnum.manga)
-                    Label("Light Novels", systemImage: "book.closed").tag(RankingEnum.lightnovels)
+                    Label("Light novels", systemImage: "book.closed").tag(RankingEnum.lightnovels)
                     Label("Novels", systemImage: "book.closed").tag(RankingEnum.novels)
                     Label("Oneshots", systemImage: "book.pages").tag(RankingEnum.oneshots)
                     Label("Manhwa", systemImage: "book").tag(RankingEnum.manhwa)

@@ -19,14 +19,14 @@ extension String {
         } else if cur == "one-shot" || cur == "one_shot" {
             return "Oneshot"
         } else {
-            return cur.replacingOccurrences(of: "_", with: " ").capitalized
+            let text = cur.replacingOccurrences(of: "_", with: " ")
+            return text.prefix(1).capitalized + text.dropFirst()
         }
     }
     
     func formatStatus() -> String {
         let text = self.replacingOccurrences(of: "_", with: " ").lowercased()
-        let first = text.prefix(1).capitalized
-        return first + text.dropFirst()
+        return text.prefix(1).capitalized + text.dropFirst()
     }
     
     func formatThemeSong() -> String {

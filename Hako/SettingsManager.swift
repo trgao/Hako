@@ -11,6 +11,8 @@ import SwiftUI
 class SettingsManager: ObservableObject {
     // General
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
+    @AppStorage("openLastClosedTab") var openLastClosedTab = false
+    @AppStorage("savedTab") var savedTab = 0
     @AppStorage("defaultView") var defaultView = 0
     @AppStorage("hideTop") var hideTop = false
     @AppStorage("useWithoutAccount") var useWithoutAccount = false

@@ -13,7 +13,7 @@ struct MainView: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
-    @State private var tab: Int = 0
+    @State private var tab = 0
     @State private var isUnlocked = false
     @State private var isAuthenticationError = false
     @State private var url: URL?
@@ -263,7 +263,10 @@ struct MainView: View {
                         }
                     }
                     .onAppear {
-                        tab = settings.defaultView
+                        tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
+                    }
+                    .onChange(of: tab) {
+                        settings.savedTab = tab
                     }
                     .tabViewStyle(.sidebarAdaptable)
                     .tabViewSidebarBottomBar {

@@ -23,7 +23,7 @@ struct GeneralView: View {
                     Text("Open app with last closed tab")
                 }
                 if !settings.openLastClosedTab {
-                    PickerRow(title: "Default tab view", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Explore", settings.useWithoutAccount ? "" : "My list"])
+                    PickerRow(title: "Default tab", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Explore", settings.useWithoutAccount ? "" : "My list"])
                 }
                 Toggle(isOn: $settings.hideTop) {
                     Text("Hide top tab")

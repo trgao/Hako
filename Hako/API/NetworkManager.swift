@@ -90,19 +90,19 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         
         super.init()
         
-        // Check if user is currently signed in and retrieve user profile
+        // Check if user is currently signed in and load username and profile picture
         if keychain["accessToken"] != nil, let name = UserDefaults.standard.string(forKey: "name") {
             self.isSignedIn = true
-            print("Currently logged in")
-            
             self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
+            
+            if let data = UserDefaults.standard.data(forKey: "userImage") {
+                let cache = ImageCache()
+                cache.image = data as NSData
+                self.imageCache.setObject(cache, forKey: "userImage" as NSString)
+                return
+            }
+            
             Task {
-                if let data = UserDefaults.standard.data(forKey: "userImage") {
-                    let cache = ImageCache()
-                    cache.image = data as NSData
-                    self.imageCache.setObject(cache, forKey: "userImage" as NSString)
-                    return
-                }
                 if let userImage = await downloadImage(id: "userImage", imageUrl: UserDefaults.standard.string(forKey: "picture")) {
                     UserDefaults.standard.set(userImage, forKey: "userImage")
                 }

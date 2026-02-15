@@ -29,4 +29,13 @@ enum SortEnum: String {
         case .animeStartDate, .mangaStartDate: return "By start date"
         }
     }
+    
+    func toIcon() -> String {
+        switch self {
+        case .listScore: return "star"
+        case .listUpdatedAt: return "arrow.trianglehead.clockwise.rotate.90"
+        case .animeTitle, .mangaTitle: return "character"
+        case .animeStartDate, .mangaStartDate: return "calendar"
+        }
+    }
 }

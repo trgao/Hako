@@ -40,31 +40,12 @@ struct TopView: View {
     
     private var filter: some View {
         Menu {
-            if controller.type == .anime {
-                Picker("Rank type", selection: $controller.animeRankingType) {
-                    Label("All", systemImage: "star").tag(RankingEnum.all)
-                    Label("TV", systemImage: "tv").tag(RankingEnum.tv)
-                    Label("OVA", systemImage: "tv").tag(RankingEnum.ova)
-                    Label("Movie", systemImage: "movieclapper").tag(RankingEnum.movie)
-                    Label("Special", systemImage: "sparkles.tv").tag(RankingEnum.special)
-                    Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
-                    Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
+            Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
+                ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
+                    Label(type.toString(), systemImage: type.toIcon()).tag(type)
                 }
-                .pickerStyle(.inline)
-            } else if controller.type == .manga {
-                Picker("Rank type", selection: $controller.mangaRankingType) {
-                    Label("All", systemImage: "star").tag(RankingEnum.all)
-                    Label("Manga", systemImage: "book").tag(RankingEnum.manga)
-                    Label("Light novels", systemImage: "book.closed").tag(RankingEnum.lightnovels)
-                    Label("Novels", systemImage: "book.closed").tag(RankingEnum.novels)
-                    Label("Oneshots", systemImage: "book.pages").tag(RankingEnum.oneshots)
-                    Label("Manhwa", systemImage: "book").tag(RankingEnum.manhwa)
-                    Label("Manhua", systemImage: "book").tag(RankingEnum.manhua)
-                    Label("Popularity", systemImage: "popcorn").tag(RankingEnum.bypopularity)
-                    Label("Favourites", systemImage: "heart").tag(RankingEnum.favorite)
-                }
-                .pickerStyle(.inline)
             }
+            .pickerStyle(.inline)
         } label: {
             Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
                 .labelStyle(.iconOnly)

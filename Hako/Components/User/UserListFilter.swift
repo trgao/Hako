@@ -17,47 +17,21 @@ struct UserListFilter: View {
     
     var body: some View {
         Menu {
-            if controller.type == .anime {
-                if !settings.useStatusTabBar {
-                    Picker("Status", selection: $controller.animeStatus) {
-                        Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
-                        Label("Watching", systemImage: "play.circle").tag(StatusEnum.watching)
-                        Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
-                        Label("On hold", systemImage: "pause.circle").tag(StatusEnum.onHold)
-                        Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
-                        Label("Plan to watch", systemImage: "plus.circle.dashed").tag(StatusEnum.planToWatch)
+            if !settings.useStatusTabBar {
+                Picker("Status", selection: controller.type == .anime ? $controller.animeStatus : $controller.mangaStatus) {
+                    ForEach(controller.type == .anime ? Constants.animeStatuses : Constants.mangaStatuses, id: \.self) { status in
+                        Label(status.toString(), systemImage: status.toIcon()).tag(status)
                     }
-                    .pickerStyle(.inline)
-                    Divider()
-                }
-                Picker("Sort", selection: $controller.animeSort) {
-                    Label("By score", systemImage: "star").tag(SortEnum.listScore)
-                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag(SortEnum.listUpdatedAt)
-                    Label("By title", systemImage: "character").tag(SortEnum.animeTitle)
-                    Label("By start date", systemImage: "calendar").tag(SortEnum.animeStartDate)
                 }
                 .pickerStyle(.inline)
-            } else if controller.type == .manga {
-                if !settings.useStatusTabBar {
-                    Picker("Status", selection: $controller.mangaStatus) {
-                        Label("All", systemImage: "circle.circle").tag(StatusEnum.none)
-                        Label("Reading", systemImage: "book.circle").tag(StatusEnum.reading)
-                        Label("Completed", systemImage: "checkmark.circle").tag(StatusEnum.completed)
-                        Label("On hold", systemImage: "pause.circle").tag(StatusEnum.onHold)
-                        Label("Dropped", systemImage: "minus.circle").tag(StatusEnum.dropped)
-                        Label("Plan to read", systemImage: "plus.circle.dashed").tag(StatusEnum.planToRead)
-                    }
-                    .pickerStyle(.inline)
-                    Divider()
-                }
-                Picker("Sort", selection: $controller.mangaSort) {
-                    Label("By score", systemImage: "star").tag(SortEnum.listScore)
-                    Label("By last update", systemImage: "arrow.trianglehead.clockwise.rotate.90").tag(SortEnum.listUpdatedAt)
-                    Label("By title", systemImage: "character").tag(SortEnum.mangaTitle)
-                    Label("By start date", systemImage: "calendar").tag(SortEnum.mangaStartDate)
-                }
-                .pickerStyle(.inline)
+                Divider()
             }
+            Picker("Sort", selection: controller.type == .anime ? $controller.animeSort : $controller.mangaSort) {
+                ForEach(controller.type == .anime ? Constants.animeSorts : Constants.mangaSorts, id: \.self) { sort in
+                    Label(sort.toString(), systemImage: sort.toIcon()).tag(sort)
+                }
+            }
+            .pickerStyle(.inline)
         } label: {
             Label("Menu", systemImage: settings.useStatusTabBar ? "arrow.up.arrow.down.circle" : "line.3.horizontal.decrease.circle")
                 .labelStyle(.iconOnly)

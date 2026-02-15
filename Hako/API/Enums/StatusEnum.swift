@@ -61,4 +61,16 @@ enum StatusEnum: String, Codable {
         default: return .primary
         }
     }
+    
+    func toIcon() -> String {
+        switch self {
+        case .none: return "circle.circle"
+        case .watching: return "play.circle"
+        case .completed: return "checkmark.circle"
+        case .onHold: return "pause.circle"
+        case .dropped: return "minus.circle"
+        case .planToWatch, .planToRead: return "plus.circle.dashed"
+        case .reading: return "book.circle"
+        }
+    }
 }

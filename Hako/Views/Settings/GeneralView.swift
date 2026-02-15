@@ -111,7 +111,7 @@ struct GeneralView: View {
                     }
                 }
             }
-            if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
+            if !ProcessInfo.processInfo.isMacCatalystApp {
                 Section {
                     Button("Clear cache", role: .destructive) {
                         Task {

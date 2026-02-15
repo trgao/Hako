@@ -42,7 +42,7 @@ struct SettingsView: View {
                         Label("Hide items", systemImage: "eye.slash.fill")
                     }
                 }
-                if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
+                if !ProcessInfo.processInfo.isMacCatalystApp {
                     Section {
                         NavigationLink {
                             SafariExtensionView()

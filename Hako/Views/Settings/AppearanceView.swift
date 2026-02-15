@@ -102,7 +102,7 @@ struct AppearanceView: View {
                 Toggle(isOn: $settings.translucentBackground) {
                     Text("Allow translucent backgrounds")
                 }
-                if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
+                if !ProcessInfo.processInfo.isMacCatalystApp {
                     Toggle(isOn: $settings.dynamicType) {
                         Text("Allow dynamic type")
                         Text("Allow changes in Settings app under Accessibility > Display & Text Size > Larger Text to apply")

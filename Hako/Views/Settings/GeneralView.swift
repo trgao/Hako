@@ -111,16 +111,18 @@ struct GeneralView: View {
                     }
                 }
             }
-            Section {
-                Button("Clear cache", role: .destructive) {
-                    Task {
-                        await cacheManager.clearCache()
-                        cacheSizeString = await cacheManager.calculateCacheSize()
+            if !ProcessInfo.processInfo.isMacCatalystApp && !ProcessInfo.processInfo.isiOSAppOnMac {
+                Section {
+                    Button("Clear cache", role: .destructive) {
+                        Task {
+                            await cacheManager.clearCache()
+                            cacheSizeString = await cacheManager.calculateCacheSize()
+                        }
                     }
+                } footer: {
+                    Text("Cache size: \(cacheSizeString)")
+                        .padding(.bottom, 10)
                 }
-            } footer: {
-                Text("Cache size: \(cacheSizeString)")
-                    .padding(.bottom, 10)
             }
         }
         .task {

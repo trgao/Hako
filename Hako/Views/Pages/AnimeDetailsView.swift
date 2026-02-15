@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AnimeDetailsView: View {
-    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: AnimeDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -45,95 +44,97 @@ struct AnimeDetailsView: View {
             if controller.loadingState == .error && controller.anime == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let anime = controller.anime {
-                ScrollView {
-                    VStack {
+                GeometryReader { geometry in
+                    ScrollView {
                         VStack {
-                            ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures?.reversed())
-                            TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
-                            HStack {
-                                VStack {
-                                    if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
-                                        Text("MAL score:")
-                                            .font(.footnote)
-                                    }
-                                    Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
-                                }
-                                if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
-                                    VStack {
-                                        Text("Your score:")
-                                            .font(.footnote)
-                                        Text("\(myScore) ⭐")
-                                    }
-                                    .padding(.leading, 20)
-                                }
-                            }
-                            .bold()
-                            .font(.title2)
-                            .padding(.bottom, 5)
                             VStack {
-                                if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
-                                    Text("\(season.rawValue.capitalized), \(String(year))")
+                                ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures?.reversed())
+                                TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
+                                HStack {
+                                    VStack {
+                                        if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
+                                            Text("MAL score:")
+                                                .font(.footnote)
+                                        }
+                                        Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
+                                    }
+                                    if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
+                                        VStack {
+                                            Text("Your score:")
+                                                .font(.footnote)
+                                            Text("\(myScore) ⭐")
+                                        }
+                                        .padding(.leading, 20)
+                                    }
                                 }
-                                if let mediaType = anime.mediaType, let status = anime.status {
-                                    Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")
+                                .bold()
+                                .font(.title2)
+                                .padding(.bottom, 5)
+                                VStack {
+                                    if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
+                                        Text("\(season.rawValue.capitalized), \(String(year))")
+                                    }
+                                    if let mediaType = anime.mediaType, let status = anime.status {
+                                        Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")
+                                    }
+                                    Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episode\(anime.numEpisodes == 1 ? "" : "s"), \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
                                 }
-                                Text("\(anime.numEpisodes == 0 || anime.numEpisodes == nil ? "?" : String(anime.numEpisodes!)) episode\(anime.numEpisodes == 1 ? "" : "s"), \((anime.averageEpisodeDuration == 0 || anime.averageEpisodeDuration == nil) ? "?" : String(anime.averageEpisodeDuration! / 60)) minutes")
+                                .opacity(0.7)
+                                .font(.footnote)
                             }
-                            .opacity(0.7)
-                            .font(.footnote)
+                            .padding(.horizontal, 20)
+                            TextBox(title: "Synopsis", text: anime.synopsis)
+                            if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
+                                AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
+                            }
+                            if !settings.hideAnimeInformation {
+                                AnimeInformation(anime: anime)
+                            }
+                            if !settings.hideAiringSchedule {
+                                AnimeAiringSchedule(controller: controller)
+                            }
+                            if !settings.hideTrailers {
+                                Trailers(videos: anime.videos)
+                            }
+                            if !settings.hideAnimeCharacters {
+                                AnimeCharacters(controller: controller)
+                            }
+                            if !settings.hideStaffs {
+                                Staffs(controller: controller)
+                            }
+                            if !settings.hideAnimeRelated {
+                                AnimeRelatedItems(controller: controller)
+                            }
+                            if !settings.hideAnimeRecommendations {
+                                Recommendations(animeRecommendations: anime.recommendations)
+                            }
+                            if !settings.hideThemeSongs {
+                                ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
+                            }
+                            if !settings.hideAnimeReviews {
+                                AnimeReviews(id: id, controller: controller, width: geometry.size.width - 34)
+                            }
                         }
-                        .padding(.horizontal, 20)
-                        TextBox(title: "Synopsis", text: anime.synopsis)
-                        if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
-                            AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
-                        }
-                        if !settings.hideAnimeInformation {
-                            AnimeInformation(anime: anime)
-                        }
-                        if !settings.hideAiringSchedule {
-                            AnimeAiringSchedule(controller: controller)
-                        }
-                        if !settings.hideTrailers {
-                            Trailers(videos: anime.videos)
-                        }
-                        if !settings.hideAnimeCharacters {
-                            AnimeCharacters(controller: controller)
-                        }
-                        if !settings.hideStaffs {
-                            Staffs(controller: controller)
-                        }
-                        if !settings.hideAnimeRelated {
-                            AnimeRelatedItems(controller: controller)
-                        }
-                        if !settings.hideAnimeRecommendations {
-                            Recommendations(animeRecommendations: anime.recommendations)
-                        }
-                        if !settings.hideThemeSongs {
-                            ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                        }
-                        if !settings.hideAnimeReviews {
-                            AnimeReviews(id: id, controller: controller)
+                        .frame(width: geometry.size.width)
+                        .padding(.vertical, 20)
+                    }
+                    .onChange(of: networker.isSignedIn) {
+                        Task {
+                            await controller.refresh()
                         }
                     }
-                    .frame(maxWidth: screenSize.width)
-                    .padding(.vertical, 20)
-                }
-                .onChange(of: networker.isSignedIn) {
-                    Task {
-                        await controller.refresh()
+                    .refreshable {
+                        isRefresh = true
                     }
-                }
-                .refreshable {
-                    isRefresh = true
-                }
-                .task(id: isRefresh) {
-                    if controller.loadingState == .error || isRefresh {
-                        await controller.refresh()
-                        isRefresh = false
+                    .task(id: isRefresh) {
+                        if controller.loadingState == .error || isRefresh {
+                            await controller.refresh()
+                            isRefresh = false
+                        }
                     }
-                }
-                .background {
-                    ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
+                    .background {
+                        ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
+                    }
                 }
             } else if controller.loadingState == .idle {
                 VStack {

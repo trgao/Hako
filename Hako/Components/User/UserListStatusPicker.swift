@@ -68,8 +68,8 @@ struct UserListStatusPicker: View {
                                 .hidden()
                                 ScrollableSegmentedControl(selection: $selection, options: options)
                                     .disabled(isLoading)
-                                    .onGeometryChange(for: CGRect.self) { proxy in
-                                        proxy.frame(in: .scrollView)
+                                    .onGeometryChange(for: CGRect.self) { geometry in
+                                        geometry.frame(in: .scrollView)
                                     } action: { frame in
                                         let outerSize = outer.size
                                         let leadingZoneWidth = min(-frame.minX, 50)

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CharacterDetailsView: View {
-    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: CharacterDetailsViewController
     @State private var isRefresh = false
@@ -63,7 +62,6 @@ struct CharacterDetailsView: View {
                             }
                         }
                     }
-                    .frame(maxWidth: screenSize.width)
                     .padding(.vertical, 20)
                 }
                 .navigationDestination(item: $animeIndex) { index in

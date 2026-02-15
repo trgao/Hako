@@ -22,9 +22,9 @@ struct HakoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            GeometryReader { proxy in
+            GeometryReader { geometry in
                 MainView()
-                    .environment(\.screenSize, proxy.size)
+                    .environment(\.screenSize, geometry.size)
                     .environmentObject(settings)
                     .preferredColorScheme(settings.getColorScheme())
                     .tint(settings.getAccentColor())

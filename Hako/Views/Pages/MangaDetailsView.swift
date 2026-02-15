@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MangaDetailsView: View {
-    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: MangaDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -45,83 +44,85 @@ struct MangaDetailsView: View {
             if controller.loadingState == .error && controller.manga == nil {
                 ErrorView(refresh: controller.refresh)
             } else if let manga = controller.manga {
-                ScrollView {
-                    VStack {
+                GeometryReader { geometry in
+                    ScrollView {
                         VStack {
-                            ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures?.reversed())
-                            TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
-                            HStack {
-                                VStack {
-                                    if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                        Text("MAL score:")
-                                            .font(.footnote)
-                                    }
-                                    Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
-                                }
-                                if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                    VStack {
-                                        Text("Your score:")
-                                            .font(.footnote)
-                                        Text("\(myScore) ⭐")
-                                    }
-                                    .padding(.leading, 20)
-                                }
-                            }
-                            .bold()
-                            .font(.title2)
-                            .padding(.bottom, 5)
                             VStack {
-                                if let mediaType = manga.mediaType, let status = manga.status {
-                                    Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")
+                                ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures?.reversed())
+                                TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
+                                HStack {
+                                    VStack {
+                                        if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                            Text("MAL score:")
+                                                .font(.footnote)
+                                        }
+                                        Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
+                                    }
+                                    if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                        VStack {
+                                            Text("Your score:")
+                                                .font(.footnote)
+                                            Text("\(myScore) ⭐")
+                                        }
+                                        .padding(.leading, 20)
+                                    }
                                 }
-                                Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volume\(manga.numVolumes == 1 ? "" : "s"), \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapter\(manga.numChapters == 1 ? "" : "s")")
+                                .bold()
+                                .font(.title2)
+                                .padding(.bottom, 5)
+                                VStack {
+                                    if let mediaType = manga.mediaType, let status = manga.status {
+                                        Text("\(mediaType.formatMediaType()) ・ \(status.formatStatus())")
+                                    }
+                                    Text("\(manga.numVolumes == 0 || manga.numVolumes == nil ? "?" : String(manga.numVolumes!)) volume\(manga.numVolumes == 1 ? "" : "s"), \(manga.numChapters == 0 || manga.numChapters == nil ? "?" : String(manga.numChapters!)) chapter\(manga.numChapters == 1 ? "" : "s")")
+                                }
+                                .opacity(0.7)
+                                .font(.footnote)
                             }
-                            .opacity(0.7)
-                            .font(.footnote)
+                            .padding(.horizontal, 20)
+                            TextBox(title: "Synopsis", text: manga.synopsis)
+                            if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
+                                MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
+                            }
+                            if !settings.hideMangaInformation {
+                                MangaInformation(manga: manga)
+                            }
+                            if !settings.hideMangaCharacters {
+                                MangaCharacters(controller: controller)
+                            }
+                            if !settings.hideAuthors {
+                                Authors(controller: controller)
+                            }
+                            if !settings.hideMangaRelated {
+                                MangaRelatedItems(controller: controller)
+                            }
+                            if !settings.hideMangaRecommendations {
+                                Recommendations(mangaRecommendations: manga.recommendations)
+                            }
+                            if !settings.hideMangaReviews {
+                                MangaReviews(id: id, controller: controller, width: geometry.size.width - 34)
+                            }
                         }
-                        .padding(.horizontal, 20)
-                        TextBox(title: "Synopsis", text: manga.synopsis)
-                        if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
-                            MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
-                        }
-                        if !settings.hideMangaInformation {
-                            MangaInformation(manga: manga)
-                        }
-                        if !settings.hideMangaCharacters {
-                            MangaCharacters(controller: controller)
-                        }
-                        if !settings.hideAuthors {
-                            Authors(controller: controller)
-                        }
-                        if !settings.hideMangaRelated {
-                            MangaRelatedItems(controller: controller)
-                        }
-                        if !settings.hideMangaRecommendations {
-                            Recommendations(mangaRecommendations: manga.recommendations)
-                        }
-                        if !settings.hideMangaReviews {
-                            MangaReviews(id: id, controller: controller)
+                        .frame(width: geometry.size.width)
+                        .padding(.vertical, 20)
+                    }
+                    .onChange(of: networker.isSignedIn) {
+                        Task {
+                            await controller.refresh()
                         }
                     }
-                    .frame(maxWidth: screenSize.width)
-                    .padding(.vertical, 20)
-                }
-                .onChange(of: networker.isSignedIn) {
-                    Task {
-                        await controller.refresh()
+                    .refreshable {
+                        isRefresh = true
                     }
-                }
-                .refreshable {
-                    isRefresh = true
-                }
-                .task(id: isRefresh) {
-                    if controller.loadingState == .error || isRefresh {
-                        await controller.refresh()
-                        isRefresh = false
+                    .task(id: isRefresh) {
+                        if controller.loadingState == .error || isRefresh {
+                            await controller.refresh()
+                            isRefresh = false
+                        }
                     }
-                }
-                .background {
-                    ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
+                    .background {
+                        ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
+                    }
                 }
             } else if controller.loadingState == .idle {
                 VStack {

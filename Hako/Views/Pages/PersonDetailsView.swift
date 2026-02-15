@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PersonDetailsView: View {
-    @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: PersonDetailsViewController
     @State private var isRefresh = false
@@ -71,7 +70,6 @@ struct PersonDetailsView: View {
                                 }
                             }
                         }
-                        .frame(maxWidth: screenSize.width)
                         .padding(.vertical, 20)
                     }
                     .navigationDestination(item: $voiceIndex) { index in

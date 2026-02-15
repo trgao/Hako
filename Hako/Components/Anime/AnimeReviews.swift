@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct AnimeReviews: View {
-    @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var controller: AnimeDetailsViewController
-    private var id: Int
+    private let id: Int
+    private let width: CGFloat
     
-    init(id: Int, controller: AnimeDetailsViewController) {
+    init(id: Int, controller: AnimeDetailsViewController, width: CGFloat) {
         self.id = id
         self._controller = StateObject(wrappedValue: controller)
+        self.width = width
     }
     
     var body: some View {
@@ -26,7 +27,7 @@ struct AnimeReviews: View {
                         HStack(alignment: .top) {
                             ForEach(controller.reviews.prefix(10)) { item in
                                 ReviewItem(item: item)
-                                    .frame(width: screenSize.width - 34, alignment: .center)
+                                    .frame(width: width, alignment: .center)
                             }
                         }
                         .padding(.horizontal, 17)

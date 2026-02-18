@@ -83,6 +83,9 @@ struct AnimeDetailsView: View {
                                 .font(.footnote)
                             }
                             .padding(.horizontal, 20)
+                            if controller.loadingState == .loading && anime.isEmpty() {
+                                ProgressView()
+                            }
                             TextBox(title: "Synopsis", text: anime.synopsis)
                             if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
                                 AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
@@ -147,7 +150,7 @@ struct AnimeDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.loadingState == .loading && (controller.anime == nil || controller.anime!.isEmpty()) {
+            if controller.loadingState == .loading && controller.anime == nil {
                 LoadingView()
             }
         }

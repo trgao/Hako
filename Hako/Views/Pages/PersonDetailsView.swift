@@ -47,6 +47,9 @@ struct PersonDetailsView: View {
                                 Favourites(favorites: controller.person?.favorites)
                             }
                             .padding(.horizontal, 20)
+                            if controller.loadingState == .loading && person.isEmpty() {
+                                ProgressView()
+                            }
                             TextBox(title: "About", text: person.about)
                             if let voices = person.voices, !voices.isEmpty {
                                 ScrollViewListSection(title: "Voice acting roles", isExpandable: true) {
@@ -111,19 +114,23 @@ struct PersonDetailsView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                if controller.loadingState == .loading && (controller.person == nil || controller.person!.isEmpty()) {
+                if controller.loadingState == .loading && controller.person == nil {
                     LoadingView()
                 }
             }
         }
         .toolbar {
-            if controller.loadingState == .error && controller.person != nil && controller.person!.isEmpty() {
-                Button {
-                    Task {
-                        await controller.refresh()
+            if let person = controller.person, !person.isEmpty() {
+                if controller.loadingState == .loading {
+                    ProgressView()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
                     }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {

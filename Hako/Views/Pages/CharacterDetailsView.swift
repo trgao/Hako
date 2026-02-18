@@ -39,6 +39,9 @@ struct CharacterDetailsView: View {
                             Favourites(favorites: controller.character?.favorites)
                         }
                         .padding(.horizontal, 20)
+                        if controller.loadingState == .loading && character.isEmpty() {
+                            ProgressView()
+                        }
                         TextBox(title: "About", text: character.about)
                         if let animes = character.anime, !animes.isEmpty {
                             ScrollViewListSection(title: "Animes", isExpandable: true) {
@@ -103,18 +106,22 @@ struct CharacterDetailsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.loadingState == .loading && (controller.character == nil || controller.character!.isEmpty()) {
+            if controller.loadingState == .loading && controller.character == nil {
                 LoadingView()
             }
         }
         .toolbar {
-            if controller.loadingState == .error && controller.character != nil && controller.character!.isEmpty() {
-                Button {
-                    Task {
-                        await controller.refresh()
+            if let character = controller.character, !character.isEmpty() {
+                if controller.loadingState == .loading {
+                    ProgressView()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
                     }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {

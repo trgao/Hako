@@ -184,6 +184,8 @@ struct TopView: View {
                     AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
                         .onChange(of: controller.type) {
                             if controller.isItemsEmpty() {
+                                // Loading state is changed here to prevent brief flickering of nothing found view
+                                controller.loadingState = .loading
                                 Task {
                                     await controller.refresh()
                                 }

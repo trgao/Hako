@@ -163,7 +163,7 @@ struct AnimeDetailsView: View {
                     Button {
                         isEditViewPresented = true
                     } label: {
-                        Image(systemName: "square.and.pencil")
+                        Image(systemName: anime.myListStatus?.status == nil ? "plus" : "square.and.pencil")
                     }
                     .sheet(isPresented: $isEditViewPresented) {
                         Task {

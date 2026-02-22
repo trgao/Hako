@@ -52,154 +52,131 @@ struct AnimeEditView: View {
         }
     }
     
+    private var confirmButton: some View {
+        Button {
+            Task {
+                isLoading = true
+                do {
+                    try await networker.editUserAnime(id: id, listStatus: listStatus)
+                    animeListStatus = listStatus
+                    dismiss()
+                } catch {
+                    isEditError = true
+                }
+                isLoading = false
+            }
+        } label: {
+            if isLoading {
+                ProgressView()
+                    .tint(.white)
+            } else {
+                Image(systemName: "checkmark")
+                    .foregroundStyle(.white)
+            }
+        }
+        .disabled(isLoading || isDeleting)
+    }
+    
     var body: some View {
         NavigationStack {
-            ZStack {
-                VStack {
-                    PageList {
-                        Section {
-                            StatusPickerRow(selection: $listStatus.status, type: .anime)
-                                .onChange(of: listStatus.status) { _, status in
-                                    if status == .watching && listStatus.startDate == nil && settings.autofillStartDate {
-                                        listStatus.startDate = Date()
-                                    }
-                                    if status == .completed {
-                                        if listStatus.finishDate == nil && settings.autofillEndDate {
-                                            listStatus.finishDate = Date()
-                                        }
-                                        if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
-                                            listStatus.numEpisodesWatched = numEpisodes
-                                        }
-                                    }
-                                }
-                            PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
-                            NumberSelector(num: $listStatus.numEpisodesWatched, title: "Episodes watched", max: numEpisodes)
-                                .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
-                                    if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
-                                        listStatus.status = .watching
-                                    }
-                                    if let numEpisodes = numEpisodes, cur == numEpisodes && numEpisodes > 0 {
-                                        listStatus.status = .completed
-                                    }
-                                }
-                        }
-                        Section {
-                            if listStatus.startDate != nil {
-                                HStack {
-                                    DatePicker(
-                                        "Start date",
-                                        selection: $listStatus.startDate ?? Date(),
-                                        displayedComponents: [.date]
-                                    )
-                                    Button {
-                                        listStatus.startDate = nil
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                    }
-                                }
-                            } else {
-                                HStack {
-                                    Text("Start date")
-                                    Spacer()
-                                    Button {
-                                        listStatus.startDate = Date()
-                                    } label: {
-                                        Text("Add start date")
-                                    }
-                                }
+            PageList {
+                Section {
+                    StatusPickerRow(selection: $listStatus.status, type: .anime)
+                        .onChange(of: listStatus.status) { _, status in
+                            if status == .watching && listStatus.startDate == nil && settings.autofillStartDate {
+                                listStatus.startDate = Date()
                             }
-                            if listStatus.finishDate != nil {
-                                HStack {
-                                    DatePicker(
-                                        "Finish date",
-                                        selection: $listStatus.finishDate ?? Date(),
-                                        displayedComponents: [.date]
-                                    )
-                                    Button {
-                                        listStatus.finishDate = nil
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                    }
+                            if status == .completed {
+                                if listStatus.finishDate == nil && settings.autofillEndDate {
+                                    listStatus.finishDate = Date()
                                 }
-                            } else {
-                                HStack {
-                                    Text("Finish date")
-                                    Spacer()
-                                    Button {
-                                        listStatus.finishDate = Date()
-                                    } label: {
-                                        Text("Add finish date")
-                                    }
+                                if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
+                                    listStatus.numEpisodesWatched = numEpisodes
                                 }
                             }
                         }
-                        if let _ = listStatus.updatedAt {
-                            Button {
-                                isConfirmDeleting = true
-                            } label: {
-                                if isDeleting {
-                                    ProgressView()
-                                        .frame(maxWidth: .infinity, alignment: .center)
-                                } else {
-                                    Label("Remove from list", systemImage: "trash")
-                                }
+                    PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
+                    NumberSelector(title: "Episodes watched", num: $listStatus.numEpisodesWatched, max: numEpisodes)
+                        .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
+                            if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
+                                listStatus.status = .watching
                             }
-                            .disabled(isLoading || isDeleting)
-                            .foregroundStyle(Color(.systemRed))
-                            .confirmationDialog("Are you sure?", isPresented: $isConfirmDeleting) {
-                                Button("Confirm", role: .destructive) {
-                                    Task {
-                                        isDeleting = true
-                                        do {
-                                            try await networker.deleteUserAnime(id: id)
-                                            isDeleted = true
-                                            dismiss()
-                                        } catch {
-                                            isDeleteError = true
-                                        }
-                                        isDeleting = false
-                                    }
-                                }
-                                .disabled(isLoading || isDeleting)
-                            } message: {
-                                Text("This will remove the anime from your list")
+                            if let numEpisodes = numEpisodes, cur == numEpisodes && numEpisodes > 0 {
+                                listStatus.status = .completed
                             }
                         }
-                    } photo: {
-                        ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    } subtitle: {
-                        VStack {
-                            if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                                Text(title)
-                                    .bold()
-                                    .font(.title3)
-                                    .multilineTextAlignment(.center)
+                }
+                Section {
+                    DatePickerRow(title: "Start date", date: $listStatus.startDate)
+                    DatePickerRow(title: "Finish date", date: $listStatus.finishDate)
+                }
+                if let _ = listStatus.updatedAt {
+                    Button {
+                        isConfirmDeleting = true
+                    } label: {
+                        Group {
+                            if isDeleting {
+                                ProgressView().tint(.red)
                             } else {
-                                Text(title ?? "")
-                                    .bold()
-                                    .font(.title3)
-                                    .multilineTextAlignment(.center)
-                            }
-                            if let updatedAt = listStatus.updatedAt?.toFullString() {
-                                Text("Last updated at: \(updatedAt)")
-                                    .font(.caption)
-                                    .opacity(0.7)
-                            } else {
-                                Text("Not added to list")
-                                    .font(.caption)
-                                    .opacity(0.7)
-                            }
-                            if listStatus != initialData {
-                                Text("Unsaved changes")
-                                    .font(.caption)
-                                    .opacity(0.7)
+                                Label("Remove from list", systemImage: "trash")
                             }
                         }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .scrollContentBackground(.hidden)
-                    .scrollBounceBehavior(.basedOnSize)
+                    .disabled(isLoading || isDeleting)
+                    .foregroundStyle(.red)
+                    .confirmationDialog("Are you sure?", isPresented: $isConfirmDeleting) {
+                        Button("Confirm", role: .destructive) {
+                            Task {
+                                isDeleting = true
+                                do {
+                                    try await networker.deleteUserAnime(id: id)
+                                    isDeleted = true
+                                    dismiss()
+                                } catch {
+                                    isDeleteError = true
+                                }
+                                isDeleting = false
+                            }
+                        }
+                        .disabled(isLoading || isDeleting)
+                    } message: {
+                        Text("This will remove the anime from your list")
+                    }
+                }
+            } photo: {
+                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
+            } subtitle: {
+                VStack {
+                    if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+                        Text(title)
+                            .bold()
+                            .font(.title3)
+                            .multilineTextAlignment(.center)
+                    } else {
+                        Text(title ?? "")
+                            .bold()
+                            .font(.title3)
+                            .multilineTextAlignment(.center)
+                    }
+                    if let updatedAt = listStatus.updatedAt?.toFullString() {
+                        Text("Last updated at: \(updatedAt)")
+                            .font(.caption)
+                            .opacity(0.7)
+                    } else {
+                        Text("Not added to list")
+                            .font(.caption)
+                            .opacity(0.7)
+                    }
+                    if listStatus != initialData {
+                        Text("Unsaved changes")
+                            .font(.caption)
+                            .opacity(0.7)
+                    }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .scrollBounceBehavior(.basedOnSize)
             .onAppear {
                 animeListStatus = listStatus
             }
@@ -225,32 +202,10 @@ struct AnimeEditView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    let button = Button {
-                        Task {
-                            isLoading = true
-                            do {
-                                try await networker.editUserAnime(id: id, listStatus: listStatus)
-                                animeListStatus = listStatus
-                                dismiss()
-                            } catch {
-                                isEditError = true
-                            }
-                            isLoading = false
-                        }
-                    } label: {
-                        if isLoading {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(.white)
-                        }
-                    }
-                    .disabled(isLoading || isDeleting)
                     if #available (iOS 26.0, *) {
-                        button.buttonStyle(.glassProminent)
+                        confirmButton.buttonStyle(.glassProminent)
                     } else {
-                        button.buttonStyle(.borderedProminent)
+                        confirmButton.buttonStyle(.borderedProminent)
                     }
                 }
             }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PageList<Content: View, Photo: View, Title: View, Subtitle: View>: View {
-    let content: () -> Content
-    let photo: () -> Photo
-    let title: () -> Title
-    let subtitle: () -> Subtitle
+    private let content: () -> Content
+    private let photo: () -> Photo
+    private let title: () -> Title
+    private let subtitle: () -> Subtitle
 
     init(@ViewBuilder content: @escaping () -> Content, @ViewBuilder photo: @escaping () -> Photo = { EmptyView() }, @ViewBuilder title: @escaping () -> Title = { EmptyView() }, @ViewBuilder subtitle: @escaping () -> Subtitle = { EmptyView() }) {
         self.content = content

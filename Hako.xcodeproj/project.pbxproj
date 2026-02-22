@@ -32,6 +32,7 @@
 		EE222D7B2BE8D6AB00A14A45 /* MangaDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */; };
 		EE222D7D2BE8E2A200A14A45 /* Manga.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE222D7C2BE8E2A200A14A45 /* Manga.swift */; };
 		EE222D7F2BE90E3900A14A45 /* AnimeRelatedItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE222D7E2BE90E3900A14A45 /* AnimeRelatedItems.swift */; };
+		EE31A1FD2F4AEB660004296A /* DatePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE31A1FC2F4AEB660004296A /* DatePickerRow.swift */; };
 		EE33360D2EAB3487005F2613 /* CharacterGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33360C2EAB3487005F2613 /* CharacterGridItem.swift */; };
 		EE33360F2EAB4D41005F2613 /* CharacterListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33360E2EAB4D3F005F2613 /* CharacterListItem.swift */; };
 		EE3336122EAB4DEC005F2613 /* PersonGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3336102EAB4DEC005F2613 /* PersonGridItem.swift */; };
@@ -274,6 +275,7 @@
 		EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailsView.swift; sourceTree = "<group>"; };
 		EE222D7C2BE8E2A200A14A45 /* Manga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manga.swift; sourceTree = "<group>"; };
 		EE222D7E2BE90E3900A14A45 /* AnimeRelatedItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeRelatedItems.swift; sourceTree = "<group>"; };
+		EE31A1FC2F4AEB660004296A /* DatePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerRow.swift; sourceTree = "<group>"; };
 		EE33360C2EAB3487005F2613 /* CharacterGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterGridItem.swift; sourceTree = "<group>"; };
 		EE33360E2EAB4D3F005F2613 /* CharacterListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListItem.swift; sourceTree = "<group>"; };
 		EE3336102EAB4DEC005F2613 /* PersonGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonGridItem.swift; sourceTree = "<group>"; };
@@ -891,6 +893,7 @@
 				EEEEA3162DD32F6400302A81 /* PageList.swift */,
 				EED4118D2DD729AF00F78170 /* PickerRow.swift */,
 				EEF593322F0E567F00204973 /* StatusPickerRow.swift */,
+				EE31A1FC2F4AEB660004296A /* DatePickerRow.swift */,
 				EEF283EC2CB478CB00567B94 /* NumberSelector.swift */,
 			);
 			path = List;
@@ -1245,6 +1248,7 @@
 				EE3A59B12BD21707009E9F79 /* TopView.swift in Sources */,
 				EEB7DE5E2E0D259500A2C8CC /* RandomAnimeView.swift in Sources */,
 				EE0696C52EDD8F1200F965B2 /* NewsListViewController.swift in Sources */,
+				EE31A1FD2F4AEB660004296A /* DatePickerRow.swift in Sources */,
 				EEB7DE662E0D2AD500A2C8CC /* RandomPersonView.swift in Sources */,
 				EECC79642CF1443B00C1C773 /* UserProfileViewController.swift in Sources */,
 				EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */,
@@ -1372,7 +1376,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1409,7 +1413,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1573,7 +1577,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1607,7 +1611,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.7.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

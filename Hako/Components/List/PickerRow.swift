@@ -9,9 +9,9 @@ import SwiftUI
 
 struct PickerRow: View {
     @EnvironmentObject private var settings: SettingsManager
-    @Binding var selection: Int
-    var title: String
-    var labels: [String]
+    @Binding private var selection: Int
+    private let title: String
+    private let labels: [String]
     
     init(title: String, selection: Binding<Int>, labels: [String]) {
         self._selection = selection

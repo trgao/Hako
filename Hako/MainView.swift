@@ -9,8 +9,8 @@ import SwiftUI
 import LocalAuthentication
 
 struct MainView: View {
-    @Environment(\.dynamicTypeSize) var dynamicTypeSize
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
     @State private var tab = 0
@@ -48,7 +48,7 @@ struct MainView: View {
     @State private var settingsId = UUID() // To reset NavigationStack to root
     @State private var isProfileActive = false
     
-    private var tabBinding: Binding<Int> { Binding(
+    private var tabBinding: Binding<Int> {Binding(
         get: {
             self.tab
         },

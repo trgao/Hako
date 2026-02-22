@@ -28,13 +28,10 @@ struct HakoApp: App {
                     .environmentObject(settings)
                     .preferredColorScheme(settings.getColorScheme())
                     .tint(settings.getAccentColor())
-                    .onChange(of: networkMonitor.isConnected) { _, cur in
-                        showNetworkAlert = !cur
+                    .onChange(of: networkMonitor.isConnected) {
+                        showNetworkAlert = !networkMonitor.isConnected
                     }
-                    .alert(
-                        "Network connection seems to be offline. Please reconnect to Wifi. ",
-                        isPresented: $showNetworkAlert
-                    ) {}
+                    .alert("Network connection seems to be offline. Please reconnect to Wifi.", isPresented: $showNetworkAlert) {}
             }
         }
     }

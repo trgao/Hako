@@ -15,6 +15,23 @@ struct ProfileView: View {
     @State private var isRefresh = false
     @State private var isSigningOut = false
     
+    private var signOutButton: some View {
+        Button("Sign Out") {
+            isSigningOut = true
+        }
+        .tint(.red)
+        .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
+            Button("Confirm", role: .destructive) {
+                Task {
+                    networker.signOut()
+                    dismiss()
+                }
+            }
+        } message: {
+            Text("This will sign you out of your account")
+        }
+    }
+    
     var body: some View {
         ZStack {
             ScrollView {
@@ -27,20 +44,10 @@ struct ProfileView: View {
                                     .frame(maxWidth: .infinity)
                                     .font(.title3)
                                     .bold()
-                                Button("Sign Out") {
-                                    isSigningOut = true
-                                }
-                                .buttonStyle(.borderedProminent)
-                                .tint(.red)
-                                .confirmationDialog("Are you sure?", isPresented: $isSigningOut) {
-                                    Button("Confirm", role: .destructive) {
-                                        Task {
-                                            networker.signOut()
-                                            dismiss()
-                                        }
-                                    }
-                                } message: {
-                                    Text("This will sign you out of your account")
+                                if #available(iOS 26.0, *) {
+                                    signOutButton.buttonStyle(.glassProminent)
+                                } else {
+                                    signOutButton.buttonStyle(.borderedProminent)
                                 }
                             }
                         }

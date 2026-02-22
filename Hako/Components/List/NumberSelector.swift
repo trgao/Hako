@@ -11,10 +11,10 @@ import Combine
 struct NumberSelector: View {
     @Binding var num: Int
     @State var numString: String
-    private var title: String
-    private var max: Int?
+    private let title: String
+    private let max: Int?
     
-    init(num: Binding<Int>, title: String, max: Int?) {
+    init(title: String, num: Binding<Int>, max: Int?) {
         self._num = num
         self.title = title
         self.max = max

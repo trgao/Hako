@@ -10,7 +10,7 @@ import SystemNotification
 
 struct ImageCarousel: View {
     @Environment(\.screenSize) private var screenSize
-    @Environment(\.displayScale) var displayScale
+    @Environment(\.displayScale) private var displayScale
     @Namespace private var transitionNamespace
     @State private var selection = 0
     @State private var images: [String:UIImage?] = [:]

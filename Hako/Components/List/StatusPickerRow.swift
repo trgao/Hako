@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatusPickerRow: View {
-    @Binding var selection: StatusEnum?
+    @Binding private var selection: StatusEnum?
     private let type: TypeEnum
     
     init(selection: Binding<StatusEnum?>, type: TypeEnum) {

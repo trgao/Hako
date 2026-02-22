@@ -111,6 +111,7 @@ struct SeasonsView: View {
                                 Text(String(year)).tag(String(year))
                             }
                         }
+                        .pickerStyle(.inline)
                         .onChange(of: controller.year) {
                             if year == nil && season == nil {
                                 Task {

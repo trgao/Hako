@@ -19,18 +19,10 @@ struct AnimeCharacters: View {
     var body: some View {
         VStack {
             if !controller.characters.isEmpty {
-                ScrollViewCarousel(title: "Characters", items: controller.characters) {
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top, spacing: 15) {
-                            ForEach(controller.characters.prefix(10)) { character in
-                                CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
-                            }
-                        }
-                        .padding(.horizontal, 17)
-                        .padding(.top, 17)
+                ScrollViewCarousel(title: "Characters", count: controller.characters.count, spacing: 15) {
+                    ForEach(controller.characters.prefix(10)) { character in
+                        CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
                     }
-                    .scrollIndicators(.never)
-                    .padding(.top, -15)
                 } destination: {
                     CharactersListView(characters: controller.characters)
                 }

@@ -19,18 +19,10 @@ struct Staffs: View {
     var body: some View {
         VStack {
             if !controller.staffs.isEmpty {
-                ScrollViewCarousel(title: "Staffs", items: controller.staffs) {
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top, spacing: 15) {
-                            ForEach(controller.staffs.prefix(10)) { staff in
-                                PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
-                            }
-                        }
-                        .padding(.horizontal, 17)
-                        .padding(.top, 17)
+                ScrollViewCarousel(title: "Staffs", count: controller.staffs.count, spacing: 15) {
+                    ForEach(controller.staffs.prefix(10)) { staff in
+                        PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
                     }
-                    .scrollIndicators(.never)
-                    .padding(.top, -15)
                 } destination: {
                     StaffsListView(staffs: controller.staffs)
                 }

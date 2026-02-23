@@ -22,16 +22,6 @@ struct StatisticsRow<T>: View {
     }
     
     var body: some View {
-        let contextMenu = ContextMenu {
-            if let content = content {
-                Button {
-                    UIPasteboard.general.string = String(describing: content)
-                } label: {
-                    Label("Copy", systemImage: "document.on.document")
-                    Text(String(describing: content))
-                }
-            }
-        }
         HStack {
             Label {
                 Text(title)
@@ -55,6 +45,15 @@ struct StatisticsRow<T>: View {
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-        .contextMenu(content == nil ? nil : contextMenu)
+        .contextMenu {
+            if let content = content {
+                Button {
+                    UIPasteboard.general.string = String(describing: content)
+                } label: {
+                    Label("Copy", systemImage: "document.on.document")
+                    Text(String(describing: content))
+                }
+            }
+        }
     }
 }

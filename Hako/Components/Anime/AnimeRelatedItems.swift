@@ -17,22 +17,14 @@ struct AnimeRelatedItems: View {
     var body: some View {
         VStack {
             if !controller.relatedItems.isEmpty {
-                ScrollViewCarousel(title: "Related", items: controller.relatedItems, showLink: false) {
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.relatedItems) { item in
-                                if item.type == .anime {
-                                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
-                                } else if item.type == .manga {
-                                    MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
-                                }
-                            }
+                ScrollViewCarousel(title: "Related") {
+                    ForEach(controller.relatedItems) { item in
+                        if item.type == .anime {
+                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+                        } else if item.type == .manga {
+                            MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
                         }
-                        .padding(.horizontal, 15)
-                        .padding(.top, 50)
                     }
-                    .scrollIndicators(.never)
-                    .padding(.top, -50)
                 }
             }
         }

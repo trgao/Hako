@@ -25,31 +25,15 @@ struct Recommendations: View {
     var body: some View {
         if type == .anime && !animeRecommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations") {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(animeRecommendations) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        }
+                    ForEach(animeRecommendations) { item in
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                     }
-                    .padding(.horizontal, 15)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
             }
         } else if type == .manga && !mangaRecommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations") {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(mangaRecommendations) { item in
-                            MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, manga: item.node)
-                        }
-                    }
-                    .padding(.horizontal, 15)
-                    .padding(.top, 50)
+                ForEach(mangaRecommendations) { item in
+                    MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, manga: item.node)
                 }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
             }
         }
     }

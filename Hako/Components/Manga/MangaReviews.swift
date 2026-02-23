@@ -22,19 +22,11 @@ struct MangaReviews: View {
     var body: some View {
         VStack {
             if !controller.reviews.isEmpty {
-                ScrollViewCarousel(title: "Reviews", items: controller.reviews) {
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top) {
-                            ForEach(controller.reviews.prefix(10)) { item in
-                                ReviewItem(item: item)
-                                    .frame(width: width, alignment: .center)
-                            }
-                        }
-                        .padding(.horizontal, 17)
-                        .scrollTargetLayout()
+                ScrollViewCarousel(title: "Reviews", count: controller.reviews.count, viewAlignedScroll: true) {
+                    ForEach(controller.reviews.prefix(10)) { item in
+                        ReviewItem(item: item)
+                            .frame(width: width, alignment: .center)
                     }
-                    .scrollIndicators(.never)
-                    .scrollTargetBehavior(.viewAligned)
                 } destination: {
                     ReviewsListView(id: id, type: .manga)
                 }

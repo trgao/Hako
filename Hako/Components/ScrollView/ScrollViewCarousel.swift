@@ -7,25 +7,27 @@
 
 import SwiftUI
 
-struct ScrollViewCarousel<Content: View, Destination: View, T>: View {
+struct ScrollViewCarousel<Content: View, Destination: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
-    private let items: [T]
-    private let showLink: Bool
+    private let count: Int
+    private let spacing: CGFloat?
+    private let viewAlignedScroll: Bool
     private let content: () -> Content
     private let destination: () -> Destination
     
-    init(title: String, items: [T] = [""], showLink: Bool = true, @ViewBuilder content: @escaping () -> Content, destination: @escaping () -> Destination = { EmptyView() }) {
+    init(title: String, count: Int = 0, spacing: CGFloat? = nil, viewAlignedScroll: Bool = false, @ViewBuilder content: @escaping () -> Content, destination: @escaping () -> Destination = { EmptyView() }) {
         self.title = title
-        self.items = items
-        self.showLink = showLink
+        self.count = count
+        self.spacing = spacing
+        self.viewAlignedScroll = viewAlignedScroll
         self.content = content
         self.destination = destination
     }
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            if items.count > 10 && showLink {
+    private var sectionHeader: some View {
+        Group {
+            if count > 10 {
                 NavigationLink {
                     destination()
                 } label: {
@@ -49,7 +51,30 @@ struct ScrollViewCarousel<Content: View, Destination: View, T>: View {
                     .padding(.horizontal, 35)
                     .font(.callout)
             }
-            content()
+        }
+    }
+    
+    private var scrollView: some View {
+        ScrollView(.horizontal) {
+            HStack(alignment: .top, spacing: spacing) {
+                content()
+            }
+            .padding(.horizontal, 17)
+            .padding(.top, 17)
+            .scrollTargetLayout()
+        }
+        .scrollIndicators(.never)
+        .padding(.top, -15)
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            sectionHeader
+            if viewAlignedScroll {
+                scrollView.scrollTargetBehavior(.viewAligned)
+            } else {
+                scrollView
+            }
         }
     }
 }

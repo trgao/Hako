@@ -13,14 +13,14 @@ struct ImageCarousel: View {
     @Environment(\.displayScale) private var displayScale
     @Namespace private var transitionNamespace
     @State private var selection = 0
-    @State private var images: [String:UIImage?] = [:]
+    @State private var images: [String: UIImage?] = [:]
     @State private var isPicturesPresented = false
     @State private var isSuccessPresented = false
     @State private var isErrorPresented = false
     @State private var isZoomReset = false
-    let id: String
-    let imageUrl: String?
-    let pictures: [Picture]
+    private let id: String
+    private let imageUrl: String?
+    private let pictures: [Picture]
     
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id

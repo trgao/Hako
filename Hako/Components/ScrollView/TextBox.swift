@@ -10,6 +10,7 @@ import Translation
 
 struct TextBox: View {
     @Environment(\.colorScheme) private var colorScheme
+    @ScaledMetric private var chevronSize = 30
     @State private var isExpanded = false
     @State private var canBeExpanded = false
     @State private var showTranslation = false
@@ -41,21 +42,16 @@ struct TextBox: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(5)
                         .lineSpacing(2)
-                        .translationPresentation(isPresented: $showTranslation,
-                                                 text: text)
+                        .translationPresentation(isPresented: $showTranslation, text: text)
                     if canBeExpanded {
                         Button {
                             isExpanded.toggle()
                         } label: {
-                            if isExpanded {
-                                Image(systemName: "chevron.up")
-                            } else {
-                                Image(systemName: "chevron.down")
-                            }
+                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         }
                         .bold()
                         .buttonStyle(.plain)
-                        .frame(width: 30, height: 30)
+                        .frame(width: chevronSize, height: chevronSize)
                         .foregroundStyle(Color(.systemGray2))
                     }
                 }

@@ -14,6 +14,7 @@ struct Constants {
     
     static let ranks = ["🥇", "🥈", "🥉"]
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
+    static let currentSeason = seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
     static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
     

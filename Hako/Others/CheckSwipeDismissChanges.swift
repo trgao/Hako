@@ -1,5 +1,5 @@
 //
-//  MbModalHackView.swift
+//  CheckSwipeDismissChanges.swift
 //  Code modified from https://fatbobman.com/en/posts/newinteractivedismissdiabled/
 //
 

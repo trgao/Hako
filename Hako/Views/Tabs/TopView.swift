@@ -31,7 +31,7 @@ struct TopView: View {
         guard let rank = rank else {
             return ""
         }
-        if rank <= 3 {
+        if rank >= 1 && rank <= 3 {
             return Constants.ranks[rank - 1]
         } else {
             return String(rank)

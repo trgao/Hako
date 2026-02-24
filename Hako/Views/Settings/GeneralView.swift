@@ -48,12 +48,12 @@ struct GeneralView: View {
             }
             let context = LAContext()
             var error: NSError?
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) && !ProcessInfo.processInfo.isMacCatalystApp {
                 Section("Privacy") {
                     Toggle(isOn: Binding(
                         get: { settings.useFaceID },
                         set: { value in
-                            let reason = "Face ID is required to change settings"
+                            let reason = "change settings"
                             
                             if !value {
                                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in

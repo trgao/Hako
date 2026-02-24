@@ -30,7 +30,7 @@ class SeasonsViewController: ObservableObject {
     @Published var isFallUnreleased = false
     
     // Common variables
-    @Published var season = Constants.seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
+    @Published var season = Constants.currentSeason
     @Published var year = Constants.currentYear
     @Published var loadingState: LoadingEnum = .loading
     private let networker = NetworkManager.shared

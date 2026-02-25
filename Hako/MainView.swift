@@ -286,6 +286,7 @@ struct MainView: View {
                                 .padding(.horizontal, 10)
                                 .id(networker.user?.picture)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                         }

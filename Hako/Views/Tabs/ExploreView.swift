@@ -404,7 +404,7 @@ struct ExploreView: View {
                     }
                     .padding(.bottom, 10)
                 }
-                .id(controller.type) // To reset list to top position whenever search type is changed
+                .id("search:\(controller.type)\(searchText)") // To reset list to top position whenever search type or search text is changed
                 .disabled(controller.isSearchLoading)
             }
             if controller.isRefreshLoading && !controller.isSearchLoading {

@@ -89,15 +89,17 @@ class ExploreViewController: ObservableObject {
             do {
                 var ids: Set<Int> = []
                 let newlyAddedAnime = try await networker.getAnimeNewlyAddedList()
+                var toAdd: [JikanListItem] = []
                 for item in newlyAddedAnime {
-                    if self.newlyAddedAnime.count == 10 {
+                    if toAdd.count == 10 {
                         break
                     }
-                    if !ids.contains(item.id) && item.type != "Music" && item.type != "Pv" {
+                    if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" {
                         ids.insert(item.id)
-                        self.newlyAddedAnime.append(item)
+                        toAdd.append(item)
                     }
                 }
+                self.newlyAddedAnime = toAdd
             } catch {
                 print("Some unknown error occurred loading newly added anime")
             }
@@ -109,15 +111,17 @@ class ExploreViewController: ObservableObject {
             do {
                 var ids: Set<Int> = []
                 let newlyAddedManga = try await networker.getMangaNewlyAddedList()
+                var toAdd: [JikanListItem] = []
                 for item in newlyAddedManga {
-                    if self.newlyAddedManga.count == 10 {
+                    if toAdd.count == 10 {
                         break
                     }
                     if !ids.contains(item.id) {
                         ids.insert(item.id)
-                        self.newlyAddedManga.append(item)
+                        toAdd.append(item)
                     }
                 }
+                self.newlyAddedManga = toAdd
             } catch {
                 print("Some unknown error occurred loading newly added manga")
             }

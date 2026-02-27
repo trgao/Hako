@@ -13,12 +13,16 @@ struct SeasonsView: View {
     @StateObject private var controller = SeasonsViewController()
     @State private var isRefresh = false
     @Binding private var id: UUID
+    @Binding private var isResetSeasons: Bool
+    @Binding private var isRoot: Bool
     @Binding private var year: Int?
     @Binding private var season: SeasonEnum?
     private let networker = NetworkManager.shared
     
-    init(id: Binding<UUID>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
+    init(id: Binding<UUID>, isResetSeasons: Binding<Bool>, isRoot: Binding<Bool>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
         self._id = id
+        self._isResetSeasons = isResetSeasons
+        self._isRoot = isRoot
         self._year = year
         self._season = season
     }
@@ -129,6 +133,19 @@ struct SeasonsView: View {
                         }
                     }
                     .disabled(controller.loadingState == .loading)
+                }
+                .onAppear {
+                    isRoot = true
+                }
+                .onDisappear {
+                    isRoot = false
+                }
+                .onChange(of: isResetSeasons) {
+                    if isResetSeasons {
+                        controller.year = Constants.currentYear
+                        controller.season = Constants.currentSeason
+                        isResetSeasons = false
+                    }
                 }
             }
         }

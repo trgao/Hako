@@ -26,6 +26,8 @@ struct MainView: View {
     
     // Seasons tab
     @State private var seasonsId = UUID() // To reset NavigationStack to root
+    @State private var isResetSeasons = false
+    @State private var isSeasonsRoot = true
     @State private var year: Int?
     @State private var season: SeasonEnum?
     
@@ -53,8 +55,12 @@ struct MainView: View {
             self.tab
         },
         set: {
-            if $0 == self.tab && self.tab == 2 && isSearchRoot {
-                isSearchPresented = true
+            if $0 == self.tab {
+                if self.tab == 1 && isSeasonsRoot {
+                    isResetSeasons = true
+                } else if self.tab == 2 && isSearchRoot {
+                    isSearchPresented = true
+                }
             }
             self.tab = $0
         }
@@ -248,7 +254,7 @@ struct MainView: View {
                             }
                         }
                         Tab("Seasons", systemImage: "calendar", value: 1) {
-                            SeasonsView(id: $seasonsId, year: $year, season: $season)
+                            SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
                         }
                         Tab("Explore", systemImage: "magnifyingglass", value: 2, role: .search) {
                             ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
@@ -300,7 +306,7 @@ struct MainView: View {
                                 }
                                 .tag(0)
                         }
-                        SeasonsView(id: $seasonsId, year: $year, season: $season)
+                        SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
                             .tabItem {
                                 Label("Seasons", systemImage: "calendar")
                             }

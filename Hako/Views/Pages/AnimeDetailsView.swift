@@ -106,7 +106,7 @@ struct AnimeDetailsView: View {
                                 Staffs(controller: controller)
                             }
                             if !settings.hideAnimeRelated {
-                                AnimeRelatedItems(controller: controller)
+                                RelatedItems(relatedItems: controller.relatedItems, loadRelated: controller.loadRelated)
                             }
                             if !settings.hideAnimeRecommendations {
                                 Recommendations(animeRecommendations: anime.recommendations)

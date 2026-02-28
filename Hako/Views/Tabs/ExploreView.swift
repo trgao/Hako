@@ -585,5 +585,10 @@ struct ExploreView: View {
             }
         }
         .id(id)
+        .task(id: id) {
+            if path.isEmpty {
+                isRoot = true
+            }
+        }
     }
 }

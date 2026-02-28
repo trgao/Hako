@@ -24,16 +24,18 @@ struct Recommendations: View {
     
     var body: some View {
         if type == .anime && !animeRecommendations.isEmpty {
-            ScrollViewCarousel(title: "Recommendations") {
-                    ForEach(animeRecommendations) { item in
-                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                    }
+            ScrollViewCarousel(title: "Recommendations", spacing: 15) {
+                ForEach(animeRecommendations) { item in
+                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                }
+                .padding(-5)
             }
         } else if type == .manga && !mangaRecommendations.isEmpty {
-            ScrollViewCarousel(title: "Recommendations") {
+            ScrollViewCarousel(title: "Recommendations", spacing: 15) {
                 ForEach(mangaRecommendations) { item in
                     MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, manga: item.node)
                 }
+                .padding(-5)
             }
         }
     }

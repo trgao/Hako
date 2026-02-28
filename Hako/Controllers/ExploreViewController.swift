@@ -178,7 +178,7 @@ class ExploreViewController: ObservableObject {
     func searchAnime(query: String) async {
         isAnimeLoadingError = false
         do {
-            self.animeItems = try await networker.searchAnime(anime: query).filter{ $0.node.rating != "rx" }.map { item in
+            self.animeItems = try await networker.searchAnime(anime: query).map { item in
                 var newItem = item
                 newItem.listStatus = item.node.myListStatus
                 return newItem

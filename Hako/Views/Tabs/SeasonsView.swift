@@ -36,7 +36,7 @@ struct SeasonsView: View {
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
                     // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid
                     Group {
-                        let numberOfColumns = Int((width - 5) / (150 * screenRatio + 5))
+                        let numberOfColumns = max(2, Int((width - 5) / (150 * screenRatio + 5)))
                         ForEach(0..<((numberOfColumns - seasonItems.count % numberOfColumns) % numberOfColumns), id: \.self) { id in
                             Color.clear.id("frontbuffer\(id)")
                         }
@@ -157,6 +157,7 @@ struct SeasonsView: View {
             }
             year = nil
             season = nil
+            isRoot = true
         }
     }
 }

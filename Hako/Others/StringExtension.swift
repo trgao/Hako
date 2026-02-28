@@ -12,7 +12,7 @@ extension String {
     
     func formatMediaType() -> String {
         let cur = self.lowercased()
-        if cur == "tv" || cur == "ova" || cur == "ona" || cur == "pv" {
+        if cur.count <= 3 {
             return cur.uppercased()
         } else if cur == "tv_special" || cur == "tv special" {
             return "Special"

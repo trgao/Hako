@@ -101,7 +101,6 @@ struct MainView: View {
     
     // Handle deep links
     private func handleUrl(url: URL) {
-        print(url)
         let FIREBASE_LINK = Bundle.main.infoDictionary?["FIREBASE_LINK"] as! String
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
             return

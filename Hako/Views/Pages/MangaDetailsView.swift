@@ -94,7 +94,7 @@ struct MangaDetailsView: View {
                                 Characters(characters: controller.characters, load: controller.loadCharacters)
                             }
                             if !settings.hideAuthors {
-                                Authors(authors: controller.authors, load: controller.loadAuthors)
+                                Authors(authors: controller.authors, authorCount: controller.manga?.authors?.count, load: controller.loadAuthors)
                             }
                             if !settings.hideMangaRelated {
                                 RelatedItems(relatedItems: controller.relatedItems, load: controller.loadRelated)

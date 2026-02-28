@@ -9,10 +9,12 @@ import SwiftUI
 
 struct Authors: View {
     private let authors: [Author]
+    private let authorCount: Int?
     private let load: () async -> Void
     
-    init(authors: [Author], load: @escaping () async -> Void) {
+    init(authors: [Author], authorCount: Int?, load: @escaping () async -> Void) {
         self.authors = authors
+        self.authorCount = authorCount
         self.load = load
     }
     
@@ -30,8 +32,10 @@ struct Authors: View {
                 }
             }
         }
-        .task {
-            await load()
+        .task(id: authorCount) {
+            if let count = authorCount, count > 0 {
+                await load()
+            }
         }
     }
 }

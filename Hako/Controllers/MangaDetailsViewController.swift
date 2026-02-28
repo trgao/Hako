@@ -112,8 +112,12 @@ class MangaDetailsViewController: ObservableObject {
                 var authors: [Author] = []
                 for author in mangaAuthors {
                     var newAuthor = author
-                    let person = try await self.networker.getPersonDetails(id: author.id)
-                    newAuthor.imageUrl = person.images?.jpg?.imageUrl
+                    if let person = self.networker.personCache[author.id] {
+                        newAuthor.imageUrl = person.images?.jpg?.imageUrl
+                    } else {
+                        let person = try await self.networker.getPersonDetails(id: author.id)
+                        newAuthor.imageUrl = person.images?.jpg?.imageUrl
+                    }
                     authors.append(newAuthor)
                 }
                 withAnimation {

@@ -17,20 +17,26 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var reviews: [Review] = []
     @Published var loadingState: LoadingEnum = .loading
     private let id: Int
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: Int) {
         self.id = id
+        if let anime = networker.animeCache[id] {
+            self.anime = anime
+        }
         Task {
-            await loadCachedDetails()
+            await loadDetails()
         }
     }
     
     init(anime: Anime) {
         self.id = anime.id
         self.anime = anime
+        if let anime = networker.animeCache[id] {
+            self.anime = anime
+        }
         Task {
-            await loadCachedDetails()
+            await loadDetails()
         }
     }
     
@@ -69,11 +75,7 @@ class AnimeDetailsViewController: ObservableObject {
         await loadReviews()
     }
     
-    func loadCachedDetails() async {
-        if let anime = networker.animeCache[id] {
-            self.anime = anime
-        }
-        
+    func loadDetails() async {
         loadingState = .loading
         do {
             let anime = try await networker.getAnimeDetails(id: id)
@@ -86,18 +88,6 @@ class AnimeDetailsViewController: ObservableObject {
             } else {
                 loadingState = .error
             }
-        }
-    }
-    
-    func loadDetails() async {
-        loadingState = .loading
-        do {
-            let anime = try await networker.getAnimeDetails(id: id)
-            self.anime = anime
-            networker.animeCache[id] = anime
-            loadingState = .idle
-        } catch {
-            loadingState = .error
         }
     }
     

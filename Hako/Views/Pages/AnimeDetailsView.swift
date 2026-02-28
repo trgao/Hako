@@ -94,19 +94,19 @@ struct AnimeDetailsView: View {
                                 AnimeInformation(anime: anime)
                             }
                             if !settings.hideAiringSchedule {
-                                AnimeAiringSchedule(controller: controller)
+                                AnimeAiringSchedule(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
                             }
                             if !settings.hideTrailers {
                                 Trailers(videos: anime.videos)
                             }
                             if !settings.hideAnimeCharacters {
-                                AnimeCharacters(controller: controller)
+                                Characters(characters: controller.characters, load: controller.loadCharacters)
                             }
                             if !settings.hideStaffs {
-                                Staffs(controller: controller)
+                                Staffs(staffs: controller.staffs, load: controller.loadStaffs)
                             }
                             if !settings.hideAnimeRelated {
-                                RelatedItems(relatedItems: controller.relatedItems, loadRelated: controller.loadRelated)
+                                RelatedItems(relatedItems: controller.relatedItems, load: controller.loadRelated)
                             }
                             if !settings.hideAnimeRecommendations {
                                 Recommendations(animeRecommendations: anime.recommendations)
@@ -115,7 +115,7 @@ struct AnimeDetailsView: View {
                                 ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                             }
                             if !settings.hideAnimeReviews {
-                                AnimeReviews(id: id, controller: controller, width: geometry.size.width - 34)
+                                Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, load: controller.loadReviews)
                             }
                         }
                         .frame(width: geometry.size.width)

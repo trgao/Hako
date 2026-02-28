@@ -12,7 +12,7 @@ class PersonDetailsViewController: ObservableObject {
     @Published var person: Person?
     @Published var loadingState: LoadingEnum = .loading
     private let id: Int
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: Int) {
         self.id = id

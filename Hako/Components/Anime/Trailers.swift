@@ -31,9 +31,7 @@ struct Trailers: View {
                                         .foregroundStyle(.black)
                                     ProgressView()
                                 }
-                            case .ready:
-                                EmptyView()
-                            case .error(.embeddedVideoPlayingNotAllowed):
+                            case .ready, .error(.embeddedVideoPlayingNotAllowed):
                                 EmptyView()
                             case .error:
                                 ZStack {

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RelatedItems: View {
     private let relatedItems: [RelatedItem]
-    private let loadRelated: () async -> Void
+    private let load: () async -> Void
     
-    init(relatedItems: [RelatedItem], loadRelated: @escaping () async -> Void) {
+    init(relatedItems: [RelatedItem], load: @escaping () async -> Void) {
         self.relatedItems = relatedItems
-        self.loadRelated = loadRelated
+        self.load = load
     }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct RelatedItems: View {
             }
         }
         .task {
-            await loadRelated()
+            await load()
         }
     }
 }

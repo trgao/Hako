@@ -91,19 +91,19 @@ struct MangaDetailsView: View {
                                 MangaInformation(manga: manga)
                             }
                             if !settings.hideMangaCharacters {
-                                MangaCharacters(controller: controller)
+                                Characters(characters: controller.characters, load: controller.loadCharacters)
                             }
                             if !settings.hideAuthors {
-                                Authors(controller: controller)
+                                Authors(authors: controller.authors, load: controller.loadAuthors)
                             }
                             if !settings.hideMangaRelated {
-                                RelatedItems(relatedItems: controller.relatedItems, loadRelated: controller.loadRelated)
+                                RelatedItems(relatedItems: controller.relatedItems, load: controller.loadRelated)
                             }
                             if !settings.hideMangaRecommendations {
                                 Recommendations(mangaRecommendations: manga.recommendations)
                             }
                             if !settings.hideMangaReviews {
-                                MangaReviews(id: id, controller: controller, width: geometry.size.width - 34)
+                                Reviews(id: id, type: .manga, reviews: controller.reviews, width: geometry.size.width - 34, load: controller.loadReviews)
                             }
                         }
                         .frame(width: geometry.size.width)

@@ -9,6 +9,8 @@ import SwiftUI
 
 @MainActor
 class SettingsManager: ObservableObject {
+    @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
+    
     // General
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("openLastClosedTab") var openLastClosedTab = false
@@ -84,8 +86,6 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
-    
-    @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
     
     func getAnimeRanking() -> RankingEnum {
         return Constants.animeRankings[defaultAnimeRanking]

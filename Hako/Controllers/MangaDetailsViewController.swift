@@ -16,22 +16,26 @@ class MangaDetailsViewController: ObservableObject {
     @Published var reviews: [Review] = []
     @Published var loadingState: LoadingEnum = .loading
     private let id: Int
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: Int) {
         self.id = id
+        if let manga = networker.mangaCache[id] {
+            self.manga = manga
+        }
         Task {
-            await loadCachedDetails()
-            await loadAuthors()
+            await loadDetails()
         }
     }
     
     init(manga: Manga) {
         self.id = manga.id
         self.manga = manga
+        if let manga = networker.mangaCache[id] {
+            self.manga = manga
+        }
         Task {
-            await loadCachedDetails()
-            await loadAuthors()
+            await loadDetails()
         }
     }
     
@@ -63,11 +67,7 @@ class MangaDetailsViewController: ObservableObject {
         await loadReviews()
     }
     
-    func loadCachedDetails() async {
-        if let manga = networker.mangaCache[id] {
-            self.manga = manga
-        }
-        
+    func loadDetails() async {
         loadingState = .loading
         do {
             let manga = try await networker.getMangaDetails(id: id)
@@ -80,18 +80,6 @@ class MangaDetailsViewController: ObservableObject {
             } else {
                 loadingState = .error
             }
-        }
-    }
-    
-    func loadDetails() async {
-        loadingState = .loading
-        do {
-            let manga = try await networker.getMangaDetails(id: id)
-            self.manga = manga
-            networker.mangaCache[id] = manga
-            loadingState = .idle
-        } catch {
-            loadingState = .error
         }
     }
     

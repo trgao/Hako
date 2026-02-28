@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct Authors: View {
-    @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var controller: MangaDetailsViewController
-    let networker = NetworkManager.shared
+    private let authors: [Author]
+    private let load: () async -> Void
     
-    init(controller: MangaDetailsViewController) {
-        self._controller = StateObject(wrappedValue: controller)
+    init(authors: [Author], load: @escaping () async -> Void) {
+        self.authors = authors
+        self.load = load
     }
     
     private func haveBothNames(_ firstName: String?, _ lastName: String?) -> Bool {
@@ -22,13 +22,16 @@ struct Authors: View {
     
     var body: some View {
         VStack {
-            if !controller.authors.isEmpty {
+            if !authors.isEmpty {
                 ScrollViewCarousel(title: "Authors", spacing: 15) {
-                    ForEach(controller.authors.prefix(10)) { author in
+                    ForEach(authors.prefix(10)) { author in
                         PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
                     }
                 }
             }
+        }
+        .task {
+            await load()
         }
     }
 }

@@ -8,31 +8,28 @@
 import SwiftUI
 
 struct Recommendations: View {
-    private var animeRecommendations = [MALListAnime]()
-    private var mangaRecommendations = [MALListManga]()
-    private let type: TypeEnum
+    private var animeRecommendations: [MALListAnime]?
+    private var mangaRecommendations: [MALListManga]?
     
     init(animeRecommendations: [MALListAnime]?) {
-        self.animeRecommendations = animeRecommendations ?? []
-        type = .anime
+        self.animeRecommendations = animeRecommendations
     }
     
     init(mangaRecommendations: [MALListManga]?) {
-        self.mangaRecommendations = mangaRecommendations ?? []
-        type = .manga
+        self.mangaRecommendations = mangaRecommendations
     }
     
     var body: some View {
-        if type == .anime && !animeRecommendations.isEmpty {
+        if let recommendations = animeRecommendations, !recommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations", spacing: 15) {
-                ForEach(animeRecommendations) { item in
+                ForEach(recommendations) { item in
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                 }
                 .padding(-5)
             }
-        } else if type == .manga && !mangaRecommendations.isEmpty {
+        } else if let recommendations = mangaRecommendations, !recommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations", spacing: 15) {
-                ForEach(mangaRecommendations) { item in
+                ForEach(recommendations) { item in
                     MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, manga: item.node)
                 }
                 .padding(-5)

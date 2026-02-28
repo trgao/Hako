@@ -324,88 +324,94 @@ struct ExploreView: View {
     private var searchView: some View {
         ZStack {
             VStack {
-                List {
-                    Section {
-                        if controller.isSearchLoading {
+                if controller.isSearchLoading {
+                    List {
+                        Section {
                             LoadingList(length: 20)
-                        } else if controller.type == .anime {
-                            if controller.animeItems.isEmpty {
-                                if controller.isAnimeLoadingError && searchText.count > 2 {
-                                    ErrorView(refresh: {
-                                        controller.isSearchLoading = true
-                                        await controller.searchAnime(query: searchText)
-                                        controller.isSearchLoading = false
-                                    })
-                                    .padding(.vertical, 50)
-                                } else {
-                                    nothingFoundView
-                                }
-                            } else {
-                                ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                    AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
-                                }
-                            }
-                        } else if controller.type == .manga {
-                            if controller.mangaItems.isEmpty {
-                                if controller.isMangaLoadingError && searchText.count > 2 {
-                                    ErrorView(refresh: {
-                                        controller.isSearchLoading = true
-                                        await controller.searchManga(query: searchText)
-                                        controller.isSearchLoading = false
-                                    })
-                                    .padding(.vertical, 50)
-                                } else {
-                                    nothingFoundView
-                                }
-                            } else {
-                                ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                    MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
-                                }
-                            }
-                        } else if controller.type == .character {
-                            if controller.characterItems.isEmpty {
-                                if controller.isCharacterLoadingError && searchText.count > 2 {
-                                    ErrorView(refresh: {
-                                        controller.isSearchLoading = true
-                                        await controller.searchCharacter(query: searchText)
-                                        controller.isSearchLoading = false
-                                    })
-                                    .padding(.vertical, 50)
-                                } else {
-                                    nothingFoundView
-                                }
-                            } else {
-                                ForEach(controller.characterItems) { item in
-                                    CharacterListItem(character: item)
-                                }
-                            }
-                        } else if controller.type == .person {
-                            if controller.personItems.isEmpty {
-                                if controller.isPersonLoadingError && searchText.count > 2 {
-                                    ErrorView(refresh: {
-                                        controller.isSearchLoading = true
-                                        await controller.searchPerson(query: searchText)
-                                        controller.isSearchLoading = false
-                                    })
-                                    .padding(.vertical, 50)
-                                } else {
-                                    nothingFoundView
-                                }
-                            } else {
-                                ForEach(controller.personItems) { item in
-                                    PersonListItem(person: item)
-                                }
-                            }
                         }
-                    } footer: {
-                        Rectangle()
-                            .frame(height: 35)
-                            .foregroundStyle(.clear)
                     }
-                    .padding(.bottom, 10)
+                    .disabled(true)
+                } else {
+                    List {
+                        Section {
+                            if controller.type == .anime {
+                                if controller.animeItems.isEmpty {
+                                    if controller.isAnimeLoadingError && searchText.count > 2 {
+                                        ErrorView(refresh: {
+                                            controller.isSearchLoading = true
+                                            await controller.searchAnime(query: searchText)
+                                            controller.isSearchLoading = false
+                                        })
+                                        .padding(.vertical, 50)
+                                    } else {
+                                        nothingFoundView
+                                    }
+                                } else {
+                                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
+                                        AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                                    }
+                                }
+                            } else if controller.type == .manga {
+                                if controller.mangaItems.isEmpty {
+                                    if controller.isMangaLoadingError && searchText.count > 2 {
+                                        ErrorView(refresh: {
+                                            controller.isSearchLoading = true
+                                            await controller.searchManga(query: searchText)
+                                            controller.isSearchLoading = false
+                                        })
+                                        .padding(.vertical, 50)
+                                    } else {
+                                        nothingFoundView
+                                    }
+                                } else {
+                                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
+                                        MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                                    }
+                                }
+                            } else if controller.type == .character {
+                                if controller.characterItems.isEmpty {
+                                    if controller.isCharacterLoadingError && searchText.count > 2 {
+                                        ErrorView(refresh: {
+                                            controller.isSearchLoading = true
+                                            await controller.searchCharacter(query: searchText)
+                                            controller.isSearchLoading = false
+                                        })
+                                        .padding(.vertical, 50)
+                                    } else {
+                                        nothingFoundView
+                                    }
+                                } else {
+                                    ForEach(controller.characterItems) { item in
+                                        CharacterListItem(character: item)
+                                    }
+                                }
+                            } else if controller.type == .person {
+                                if controller.personItems.isEmpty {
+                                    if controller.isPersonLoadingError && searchText.count > 2 {
+                                        ErrorView(refresh: {
+                                            controller.isSearchLoading = true
+                                            await controller.searchPerson(query: searchText)
+                                            controller.isSearchLoading = false
+                                        })
+                                        .padding(.vertical, 50)
+                                    } else {
+                                        nothingFoundView
+                                    }
+                                } else {
+                                    ForEach(controller.personItems) { item in
+                                        PersonListItem(person: item)
+                                    }
+                                }
+                            }
+                        } footer: {
+                            Rectangle()
+                                .frame(height: 35)
+                                .foregroundStyle(.clear)
+                        }
+                        .padding(.bottom, 10)
+                    }
+                    .id("search:\(controller.type)\(searchText)") // To reset list to top position whenever search type or search text is changed
                 }
-                .id("search:\(controller.type)\(searchText)") // To reset list to top position whenever search type or search text is changed
-                .disabled(controller.isSearchLoading)
             }
             if controller.isRefreshLoading && !controller.isSearchLoading {
                 LoadingView()

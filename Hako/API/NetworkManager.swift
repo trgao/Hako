@@ -14,7 +14,7 @@ import FeedKit
 class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
     @Published var isSignedIn = false
     @Published var user: User?
-    static var shared = NetworkManager()
+    static let shared = NetworkManager()
     
     // Caches
     let imageCache = NSCache<NSString, ImageCache>()

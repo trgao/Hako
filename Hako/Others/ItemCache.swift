@@ -22,11 +22,27 @@ final class ItemCache<Key: Hashable, Value> {
         }
     }
     
-    final class Entry {
+    final class Entry: NSObject, NSDiscardableContent {
         let value: Value
 
         init(value: Value) {
             self.value = value
+        }
+        
+        func beginContentAccess() -> Bool {
+            return true
+        }
+
+        func endContentAccess() {
+
+        }
+
+        func discardContentIfPossible() {
+
+        }
+
+        func isContentDiscarded() -> Bool {
+            return false
         }
     }
     

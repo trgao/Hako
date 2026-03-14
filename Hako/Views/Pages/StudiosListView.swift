@@ -57,6 +57,6 @@ struct StudiosListView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Studios")
+        .navigationTitle("Studios & Producers")
     }
 }

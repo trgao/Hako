@@ -54,61 +54,8 @@ struct ProfileView: View {
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
                     }
-                    if !settings.hideUserAnimeStatistics {
-                        ScrollViewSection(title: "Anime statistics") {
-                            StatisticsRow(title: "Days watched", content: controller.userStatistics?.anime.daysWatched, icon: "calendar", color: .blue)
-                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.anime.meanScore, icon: "star.fill", color: .yellow)
-                            StatisticsRow(title: "Total entries", content: controller.userStatistics?.anime.totalEntries, icon: "circle.circle", color: .primary)
-                            StatisticsRow(title: "Watching", content: controller.userStatistics?.anime.watching, icon: "play.circle", color: .blue)
-                            StatisticsRow(title: "Completed", content: controller.userStatistics?.anime.completed, icon: "checkmark.circle", color: .green)
-                            StatisticsRow(title: "On hold", content: controller.userStatistics?.anime.onHold, icon: "pause.circle", color: .yellow)
-                            StatisticsRow(title: "Plan to watch", content: controller.userStatistics?.anime.planToWatch, icon: "plus.circle.dashed", color: .purple)
-                            StatisticsRow(title: "Episodes watched", content: controller.userStatistics?.anime.episodesWatched, icon: "video", color: .primary)
-                        }
-                    }
-                    if !settings.hideUserMangaStatistics {
-                        ScrollViewSection(title: "Manga statistics") {
-                            StatisticsRow(title: "Days read", content: controller.userStatistics?.manga.daysRead, icon: "calendar", color: .blue)
-                            StatisticsRow(title: "Mean score", content: controller.userStatistics?.manga.meanScore, icon: "star.fill", color: .yellow)
-                            StatisticsRow(title: "Total entries", content: controller.userStatistics?.manga.totalEntries, icon: "circle.circle", color: .primary)
-                            StatisticsRow(title: "Reading", content: controller.userStatistics?.manga.reading, icon: "book.circle", color: .blue)
-                            StatisticsRow(title: "Completed", content: controller.userStatistics?.manga.completed, icon: "checkmark.circle", color: .green)
-                            StatisticsRow(title: "On hold", content: controller.userStatistics?.manga.onHold, icon: "pause.circle", color: .yellow)
-                            StatisticsRow(title: "Plan to read", content: controller.userStatistics?.manga.planToRead, icon: "plus.circle.dashed", color: .purple)
-                            StatisticsRow(title: "Volumes read", content: controller.userStatistics?.manga.volumesRead, icon: "book.closed", color: .primary)
-                            StatisticsRow(title: "Chapters read", content: controller.userStatistics?.manga.chaptersRead, icon: "book.pages", color: .primary)
-                        }
-                    }
-                    if let userFavourites = controller.userFavourites {
-                        if !controller.anime.isEmpty && !settings.hideUserFavouriteAnime {
-                            ScrollViewCarousel(title: "Favourite anime", spacing: 15) {
-                                ForEach(controller.anime) { anime in
-                                    AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, imageUrl: anime.node.mainPicture?.large, anime: anime.node)
-                                }
-                            }
-                        }
-                        if !controller.manga.isEmpty && !settings.hideUserFavouriteManga {
-                            ScrollViewCarousel(title: "Favourite manga", spacing: 15) {
-                                ForEach(controller.manga) { manga in
-                                    MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, imageUrl: manga.node.mainPicture?.large, manga: manga.node)
-                                }
-                            }
-                        }
-                        if !userFavourites.characters.isEmpty && !settings.hideUserFavouriteCharacters {
-                            ScrollViewCarousel(title: "Favourite characters", spacing: 15) {
-                                ForEach(userFavourites.characters) { character in
-                                    CharacterGridItem(id: character.id, name: character.name, imageUrl: character.images?.jpg?.imageUrl)
-                                }
-                            }
-                        }
-                        if !userFavourites.people.isEmpty && !settings.hideUserFavouritePeople {
-                            ScrollViewCarousel(title: "Favourite people", spacing: 15) {
-                                ForEach(userFavourites.people) { person in
-                                    PersonGridItem(id: person.id, name: person.name, imageUrl: person.images?.jpg?.imageUrl)
-                                }
-                            }
-                        }
-                    }
+                    UserStatisticsInformation(userStatistics: controller.userStatistics, loadingState: controller.loadingState)
+                    UserFavouritesInformation(userFavourites: controller.userFavourites, anime: controller.anime, manga: controller.manga)
                     ScrollViewSection {
                         ScrollViewLink(text: "Import list", url: "https://myanimelist.net/import.php")
                             .foregroundStyle(settings.getAccentColor())
@@ -150,8 +97,16 @@ struct ProfileView: View {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
             }
             .toolbar {
-                if controller.isLoading {
+                if controller.loadingState == .loading {
                     ProgressView()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
+                    }
                 }
                 ShareLink(item: URL(string: "https://myanimelist.net/profile/\(networker.user?.name ?? "")")!) {
                     Image(systemName: "square.and.arrow.up")

@@ -13,7 +13,7 @@ class UserProfileViewController: ObservableObject {
     @Published var userFavourites: UserFavourites?
     @Published var anime: [MALListAnime] = []
     @Published var manga: [MALListManga] = []
-    @Published var isLoading = true
+    @Published var loadingState: LoadingEnum = .loading
     @Published var isUserNotFound = false
     private let user: String?
     private let networker = NetworkManager.shared
@@ -23,13 +23,20 @@ class UserProfileViewController: ObservableObject {
     }
     
     func refresh() async {
+        loadingState = .loading
+        var hasNoError = true
         do {
             self.userStatistics = try await networker.getUserStatistics(user: user)
         } catch {
+            print("Some unknown error occurred loading user statistics")
             if case NetworkError.notFound = error {
                 isUserNotFound = true
+                loadingState = .idle
+                return
+            } else {
+                loadingState = .error
+                hasNoError = false
             }
-            print("Some unknown error occurred loading user statistics")
         }
         
         do {
@@ -53,7 +60,11 @@ class UserProfileViewController: ObservableObject {
             }
         } catch {
             print("Some unknown error occurred loading user favourites")
+            hasNoError = false
+            loadingState = .error
         }
-        isLoading = false
+        if hasNoError {
+            loadingState = .idle
+        }
     }
 }

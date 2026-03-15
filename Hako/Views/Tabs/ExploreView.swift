@@ -549,15 +549,8 @@ struct ExploreView: View {
                             Label("Random person", systemImage: "person")
                         }
                     } label: {
-                        if #available (iOS 26.0, *) {
-                            Button {} label: {
-                                Image(systemName: "dice")
-                            }
-                        } else {
-                            Button {} label: {
-                                Image(systemName: "dice")
-                            }
-                            .buttonStyle(.borderedProminent)
+                        Button {} label: {
+                            Image(systemName: "dice")
                         }
                     }
                 }

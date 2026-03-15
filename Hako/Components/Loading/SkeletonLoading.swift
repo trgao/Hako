@@ -9,7 +9,7 @@ import SwiftUI
 import Shimmer
 
 extension View {
-    func skeleton() -> some View {
-        return self.redacted(reason: .placeholder).shimmering()
+    func skeleton(_ active: Bool = true) -> some View {
+        return self.redacted(reason: .placeholder).shimmering(active: active)
     }
 }

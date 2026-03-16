@@ -50,9 +50,10 @@ class AnimeDetailsViewController: ObservableObject {
     
     // Refresh the current anime details page
     func refresh() async {
-        if Task.isCancelled {
-            return
-        }
+        charactersLoadingState = .loading
+        staffsLoadingState = .loading
+        relatedLoadingState = .loading
+        reviewsLoadingState = .loading
         await loadDetails()
         
         if Task.isCancelled {

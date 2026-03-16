@@ -82,28 +82,29 @@ struct MangaDetailsView: View {
                             .padding(.horizontal, 20)
                             if controller.loadingState == .loading && manga.isEmpty() {
                                 ProgressView()
-                            }
-                            TextBox(title: "Synopsis", text: manga.synopsis)
-                            if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
-                                MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
-                            }
-                            if !settings.hideMangaInformation {
-                                MangaInformation(manga: manga)
-                            }
-                            if !settings.hideMangaCharacters {
-                                Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)
-                            }
-                            if !settings.hideAuthors {
-                                Authors(authors: controller.authors, mangaLoadingState: controller.loadingState, loadingState: controller.authorsLoadingState, load: controller.loadAuthors)
-                            }
-                            if !settings.hideMangaRelated {
-                                RelatedItems(relatedItems: controller.relatedItems, loadingState: controller.relatedLoadingState, load: controller.loadRelated)
-                            }
-                            if !settings.hideMangaRecommendations {
-                                Recommendations(mangaRecommendations: manga.recommendations)
-                            }
-                            if !settings.hideMangaReviews {
-                                Reviews(id: id, type: .manga, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                            } else {
+                                TextBox(title: "Synopsis", text: manga.synopsis)
+                                if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
+                                    MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
+                                }
+                                if !settings.hideMangaInformation {
+                                    MangaInformation(manga: manga)
+                                }
+                                if !settings.hideMangaCharacters {
+                                    Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)
+                                }
+                                if !settings.hideAuthors {
+                                    Authors(authors: controller.authors, mangaLoadingState: controller.loadingState, loadingState: controller.authorsLoadingState, load: controller.loadAuthors)
+                                }
+                                if !settings.hideMangaRelated {
+                                    RelatedItems(relatedItems: controller.relatedItems, loadingState: controller.relatedLoadingState, load: controller.loadRelated)
+                                }
+                                if !settings.hideMangaRecommendations {
+                                    Recommendations(mangaRecommendations: manga.recommendations)
+                                }
+                                if !settings.hideMangaReviews {
+                                    Reviews(id: id, type: .manga, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                                }
                             }
                         }
                         .frame(width: geometry.size.width)
@@ -179,7 +180,7 @@ struct MangaDetailsView: View {
             }
         }
         .onChange(of: controller.loadingState) { prev, cur in
-            if prev == .loading && cur == .idle {
+            if prev == .loading {
                 addToRecentlyViewed()
             }
         }

@@ -47,15 +47,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
                 Text(title).bold()
             }
             Spacer()
-            if count == 0 {
-                Text("No \(title.lowercased().components(separatedBy: " ").last ?? title.lowercased())")
-                    .font(.footnote)
-                    .padding(8)
-                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                    .opacity(0.9)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.horizontal, 3)
-            } else if loadingState == .error {
+            if count == nil && loadingState == .error {
                 Button {
                     Task {
                         await refresh()
@@ -63,6 +55,14 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
+            } else if count == 0 {
+                Text("No \(title.lowercased().components(separatedBy: " ").last ?? title.lowercased())")
+                    .font(.footnote)
+                    .padding(8)
+                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                    .opacity(0.9)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 3)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

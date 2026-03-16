@@ -32,8 +32,10 @@ class UserProfileViewController: ObservableObject {
     }
     
     func refresh() async {
+        favouritesLoadingState = .loading
         await loadStatistics()
         if isUserNotFound {
+            favouritesLoadingState = .idle
             return
         }
         await loadFavourites()

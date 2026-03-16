@@ -85,37 +85,38 @@ struct AnimeDetailsView: View {
                             .padding(.horizontal, 20)
                             if controller.loadingState == .loading && anime.isEmpty() {
                                 ProgressView()
-                            }
-                            TextBox(title: "Synopsis", text: anime.synopsis)
-                            if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
-                                AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
-                            }
-                            if !settings.hideAnimeInformation {
-                                AnimeInformation(anime: anime)
-                            }
-                            if !settings.hideAiringSchedule {
-                                AnimeAiringSchedule(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
-                            }
-                            if !settings.hideTrailers {
-                                Trailers(videos: anime.videos)
-                            }
-                            if !settings.hideAnimeCharacters {
-                                Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)
-                            }
-                            if !settings.hideStaffs {
-                                Staffs(staffs: controller.staffs, loadingState: controller.staffsLoadingState, load: controller.loadStaffs)
-                            }
-                            if !settings.hideAnimeRelated {
-                                RelatedItems(relatedItems: controller.relatedItems, loadingState: controller.relatedLoadingState, load: controller.loadRelated)
-                            }
-                            if !settings.hideAnimeRecommendations {
-                                Recommendations(animeRecommendations: anime.recommendations)
-                            }
-                            if !settings.hideThemeSongs {
-                                ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
-                            }
-                            if !settings.hideAnimeReviews {
-                                Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                            } else {
+                                TextBox(title: "Synopsis", text: anime.synopsis)
+                                if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
+                                    AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
+                                }
+                                if !settings.hideAnimeInformation {
+                                    AnimeInformation(anime: anime)
+                                }
+                                if !settings.hideAiringSchedule {
+                                    AnimeAiringSchedule(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                }
+                                if !settings.hideTrailers {
+                                    Trailers(videos: anime.videos)
+                                }
+                                if !settings.hideAnimeCharacters {
+                                    Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)
+                                }
+                                if !settings.hideStaffs {
+                                    Staffs(staffs: controller.staffs, loadingState: controller.staffsLoadingState, load: controller.loadStaffs)
+                                }
+                                if !settings.hideAnimeRelated {
+                                    RelatedItems(relatedItems: controller.relatedItems, loadingState: controller.relatedLoadingState, load: controller.loadRelated)
+                                }
+                                if !settings.hideAnimeRecommendations {
+                                    Recommendations(animeRecommendations: anime.recommendations)
+                                }
+                                if !settings.hideThemeSongs {
+                                    ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
+                                }
+                                if !settings.hideAnimeReviews {
+                                    Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                                }
                             }
                         }
                         .frame(width: geometry.size.width)
@@ -191,7 +192,7 @@ struct AnimeDetailsView: View {
             }
         }
         .onChange(of: controller.loadingState) { prev, cur in
-            if prev == .loading && cur == .idle {
+            if prev == .loading {
                 addToRecentlyViewed()
             }
         }

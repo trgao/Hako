@@ -49,9 +49,10 @@ class MangaDetailsViewController: ObservableObject {
     
     // Refresh the current manga details page
     func refresh() async {
-        if Task.isCancelled {
-            return
-        }
+        charactersLoadingState = .loading
+        authorsLoadingState = .loading
+        relatedLoadingState = .loading
+        reviewsLoadingState = .loading
         await loadDetails()
         
         if Task.isCancelled {
@@ -134,7 +135,7 @@ class MangaDetailsViewController: ObservableObject {
                     authors.append(newAuthor)
                 }
                 self.authors = authors
-                networker.mangaAuthorsCache[id] = self.authors
+                networker.mangaAuthorsCache[id] = authors
             }
             authorsLoadingState = .idle
         } catch {

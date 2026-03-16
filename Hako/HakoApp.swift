@@ -11,8 +11,6 @@ import Network
 @main
 struct HakoApp: App {
     @StateObject private var settings = SettingsManager()
-    @State private var networkMonitor = NetworkMonitor()
-    @State private var showNetworkAlert = false
     
     init() {
         Task {
@@ -28,10 +26,6 @@ struct HakoApp: App {
                     .environmentObject(settings)
                     .preferredColorScheme(settings.getColorScheme())
                     .tint(settings.getAccentColor())
-                    .onChange(of: networkMonitor.isConnected) {
-                        showNetworkAlert = !networkMonitor.isConnected
-                    }
-                    .alert("Network connection seems to be offline. Please reconnect to Wifi.", isPresented: $showNetworkAlert) {}
             }
         }
     }

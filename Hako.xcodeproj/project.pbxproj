@@ -196,7 +196,6 @@
 		EECECC632DF4BD4300232E8C /* NameText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECECC622DF4BD4300232E8C /* NameText.swift */; };
 		EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118B2DD71AFC00F78170 /* LoadingList.swift */; };
 		EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118D2DD729AF00F78170 /* PickerRow.swift */; };
-		EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED452602E06905C00EA8B9F /* NetworkMonitor.swift */; };
 		EED4C0812F6699E9007354C8 /* UserFavouritesInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */; };
 		EED4C0832F66E87A007354C8 /* BigPlaceholderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */; };
 		EED4C0852F66E881007354C8 /* SmallPlaceholderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */; };
@@ -438,7 +437,6 @@
 		EECECC622DF4BD4300232E8C /* NameText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameText.swift; sourceTree = "<group>"; };
 		EED4118B2DD71AFC00F78170 /* LoadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingList.swift; sourceTree = "<group>"; };
 		EED4118D2DD729AF00F78170 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
-		EED452602E06905C00EA8B9F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavouritesInformation.swift; sourceTree = "<group>"; };
 		EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPlaceholderGridItem.swift; sourceTree = "<group>"; };
 		EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlaceholderGridItem.swift; sourceTree = "<group>"; };
@@ -518,7 +516,6 @@
 				EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */,
 				EE68FB712E49972800E9EE36 /* TokenBucket.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
-				EED452602E06905C00EA8B9F /* NetworkMonitor.swift */,
 				EEF593302F0E525100204973 /* ScreenSize.swift */,
 				EEFEFD472BF3429200200AF1 /* SafariView.swift */,
 				EE02C1292DD44BA400CB041C /* ZoomTransition.swift */,
@@ -1317,7 +1314,6 @@
 				EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */,
 				EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */,
 				EEAA57562E2CCC4600377906 /* ExploreAnimeView.swift in Sources */,
-				EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */,
 				EE135E032E055A0200F02638 /* ScrollViewRow.swift in Sources */,
 				EE5CEE072E00119F0000FC90 /* Favourites.swift in Sources */,
 				EED4C0832F66E87A007354C8 /* BigPlaceholderGridItem.swift in Sources */,

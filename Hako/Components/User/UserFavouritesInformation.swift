@@ -9,46 +9,57 @@ import SwiftUI
 
 struct UserFavouritesInformation: View {
     @EnvironmentObject private var settings: SettingsManager
-    private let userFavourites: UserFavourites?
-    private let anime: [MALListAnime]
-    private let manga: [MALListManga]
+    private let anime: [MALListAnime]?
+    private let manga: [MALListManga]?
+    private let characters: [JikanListItem]?
+    private let people: [JikanListItem]?
+    private let loadingState: LoadingEnum
+    private let load: () async -> Void
     
-    init(userFavourites: UserFavourites?, anime: [MALListAnime], manga: [MALListManga]) {
-        self.userFavourites = userFavourites
+    init(anime: [MALListAnime]?, manga: [MALListManga]?, characters: [JikanListItem]?, people: [JikanListItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.anime = anime
         self.manga = manga
+        self.characters = characters
+        self.people = people
+        self.loadingState = loadingState
+        self.load = load
     }
     
     var body: some View {
-        if let userFavourites = userFavourites {
-            if !anime.isEmpty && !settings.hideUserFavouriteAnime {
-                ScrollViewCarousel(title: "Favourite anime", spacing: 15) {
-                    ForEach(anime) { anime in
+        VStack {
+            if !settings.hideUserFavouriteAnime {
+                ScrollViewCarousel(title: "Favourite anime", count: anime?.count, loadingState: loadingState, refresh: load) {
+                    ForEach(anime ?? []) { anime in
                         AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, imageUrl: anime.node.mainPicture?.large, anime: anime.node)
                     }
+                    .padding(-5)
                 }
             }
-            if !manga.isEmpty && !settings.hideUserFavouriteManga {
-                ScrollViewCarousel(title: "Favourite manga", spacing: 15) {
-                    ForEach(manga) { manga in
+            if !settings.hideUserFavouriteManga {
+                ScrollViewCarousel(title: "Favourite manga", count: manga?.count, loadingState: loadingState, refresh: load) {
+                    ForEach(manga ?? []) { manga in
                         MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, imageUrl: manga.node.mainPicture?.large, manga: manga.node)
                     }
+                    .padding(-5)
                 }
             }
-            if !userFavourites.characters.isEmpty && !settings.hideUserFavouriteCharacters {
-                ScrollViewCarousel(title: "Favourite characters", spacing: 15) {
-                    ForEach(userFavourites.characters) { character in
+            if !settings.hideUserFavouriteCharacters {
+                ScrollViewCarousel(title: "Favourite characters", count: characters?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
+                    ForEach(characters ?? []) { character in
                         CharacterGridItem(id: character.id, name: character.name, imageUrl: character.images?.jpg?.imageUrl)
                     }
                 }
             }
-            if !userFavourites.people.isEmpty && !settings.hideUserFavouritePeople {
-                ScrollViewCarousel(title: "Favourite people", spacing: 15) {
-                    ForEach(userFavourites.people) { person in
+            if !settings.hideUserFavouritePeople {
+                ScrollViewCarousel(title: "Favourite people", count: people?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
+                    ForEach(people ?? []) { person in
                         PersonGridItem(id: person.id, name: person.name, imageUrl: person.images?.jpg?.imageUrl)
                     }
                 }
             }
+        }
+        .task {
+            await load()
         }
     }
 }

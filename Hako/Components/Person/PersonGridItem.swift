@@ -36,6 +36,7 @@ struct PersonGridItem: View {
                     .lineLimit(settings.getLineLimit())
                     .font(.footnote)
                     .tint(.primary)
+                    .frame(maxHeight: .infinity, alignment: .top)
             }
             .frame(width: 110 * screenRatio)
         }

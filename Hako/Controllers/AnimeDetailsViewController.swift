@@ -9,13 +9,21 @@ import SwiftUI
 
 @MainActor
 class AnimeDetailsViewController: ObservableObject {
+    // Data
     @Published var anime: Anime?
     @Published var nextEpisode: NextAiringEpisode?
-    @Published var characters: [ListCharacter] = []
-    @Published var staffs: [Staff] = []
-    @Published var relatedItems: [RelatedItem] = []
-    @Published var reviews: [Review] = []
+    @Published var characters: [ListCharacter]?
+    @Published var staffs: [Staff]?
+    @Published var relatedItems: [RelatedItem]?
+    @Published var reviews: [Review]?
+    
+    // Loading states
     @Published var loadingState: LoadingEnum = .loading
+    @Published var charactersLoadingState: LoadingEnum = .loading
+    @Published var staffsLoadingState: LoadingEnum = .loading
+    @Published var relatedLoadingState: LoadingEnum = .loading
+    @Published var reviewsLoadingState: LoadingEnum = .loading
+    
     private let id: Int
     private let networker = NetworkManager.shared
     
@@ -110,47 +118,44 @@ class AnimeDetailsViewController: ObservableObject {
     }
     
     func loadCharacters() async {
+        charactersLoadingState = .loading
         do {
             if let characters = networker.animeCharactersCache[id] {
-                withAnimation {
-                    self.characters = characters
-                }
+                self.characters = characters
             } else {
                 let characters = try await networker.getAnimeCharacters(id: id)
-                withAnimation {
-                    self.characters = characters
-                }
+                self.characters = characters
                 networker.animeCharactersCache[id] = characters
             }
+            charactersLoadingState = .idle
         } catch {
             print("Some unknown error occurred loading anime characters")
+            charactersLoadingState = .error
         }
     }
     
     func loadStaffs() async {
+        staffsLoadingState = .loading
         do {
             if let staffs = networker.animeStaffsCache[id] {
-                withAnimation {
-                    self.staffs = staffs
-                }
+                self.staffs = staffs
             } else {
                 let staffs = try await networker.getAnimeStaff(id: id)
-                withAnimation {
-                    self.staffs = staffs
-                }
+                self.staffs = staffs
                 networker.animeStaffsCache[id] = staffs
             }
+            staffsLoadingState = .idle
         } catch {
             print("Some unknown error occurred loading anime staffs")
+            staffsLoadingState = .error
         }
     }
     
     func loadRelated() async {
+        relatedLoadingState = .loading
         do {
             if let relatedItems = networker.animeRelatedCache[id] {
-                withAnimation {
-                    self.relatedItems = relatedItems
-                }
+                self.relatedItems = relatedItems
             } else {
                 let relations = try await networker.getAnimeRelations(id: id)
                 var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
@@ -173,24 +178,25 @@ class AnimeDetailsViewController: ObservableObject {
                     }
                     return newItem
                 }
-                withAnimation {
-                    self.relatedItems = relatedItems
-                }
+                self.relatedItems = relatedItems
                 networker.animeRelatedCache[id] = relatedItems
             }
+            relatedLoadingState = .idle
         } catch {
             print("Some unknown error occurred loading anime related items")
+            relatedLoadingState = .error
         }
     }
     
     func loadReviews() async {
+        reviewsLoadingState = .loading
         do {
             let reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
-            withAnimation {
-                self.reviews = reviews
-            }
+            self.reviews = reviews
+            reviewsLoadingState = .idle
         } catch {
             print("Some unknown error occurred loading anime reviews")
+            reviewsLoadingState = .error
         }
     }
 }

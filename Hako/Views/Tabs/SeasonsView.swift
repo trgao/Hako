@@ -27,7 +27,7 @@ struct SeasonsView: View {
         self._season = season
     }
     
-    @ViewBuilder private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], width: CGFloat) -> some View {
+    private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], width: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in

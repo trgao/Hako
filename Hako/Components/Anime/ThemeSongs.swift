@@ -20,7 +20,7 @@ struct ThemeSongs: View {
         self.endingThemes = endingThemes
     }
     
-    @ViewBuilder private func ThemeSong(_ text: String) -> some View {
+    private func ThemeSong(_ text: String) -> some View {
         HStack {
             Text(text)
             Spacer()

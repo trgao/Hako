@@ -1,0 +1,28 @@
+//
+//  SmallPlaceholderGridItem.swift
+//  Hako
+//
+//  Created by Gao Tianrun on 15/3/26.
+//
+
+import SwiftUI
+
+struct SmallPlaceholderGridItem: View {
+    @Environment(\.screenRatio) private var screenRatio
+    private let isLoading: Bool
+    
+    init(isLoading: Bool = true) {
+        self.isLoading = isLoading
+    }
+    
+    var body: some View {
+        VStack {
+            ImageFrame(id: "", imageUrl: nil, imageSize: .medium)
+            Text("placeholder")
+                .font(.footnote)
+                .tint(.primary)
+        }
+        .frame(width: 110 * screenRatio)
+        .skeleton(isLoading)
+    }
+}

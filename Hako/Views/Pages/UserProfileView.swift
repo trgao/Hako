@@ -49,7 +49,7 @@ struct UserProfileView: View {
                             .padding(.vertical, 10)
                         }
                         UserStatisticsInformation(userStatistics: controller.userStatistics, loadingState: controller.loadingState)
-                        UserFavouritesInformation(userFavourites: controller.userFavourites, anime: controller.anime, manga: controller.manga)
+                        UserFavouritesInformation(anime: controller.anime, manga: controller.manga, characters: controller.characters, people: controller.people, loadingState: controller.favouritesLoadingState, load: controller.loadFavourites)
                     }
                     .padding(.bottom, 20)
                 }
@@ -67,9 +67,7 @@ struct UserProfileView: View {
             }
         }
         .toolbar {
-            if controller.loadingState == .loading {
-                ProgressView()
-            } else if controller.loadingState == .error {
+            if controller.loadingState == .error {
                 Button {
                     Task {
                         await controller.refresh()

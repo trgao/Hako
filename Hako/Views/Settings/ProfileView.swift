@@ -55,7 +55,7 @@ struct ProfileView: View {
                         .padding(.vertical, 10)
                     }
                     UserStatisticsInformation(userStatistics: controller.userStatistics, loadingState: controller.loadingState)
-                    UserFavouritesInformation(userFavourites: controller.userFavourites, anime: controller.anime, manga: controller.manga)
+                    UserFavouritesInformation(anime: controller.anime, manga: controller.manga, characters: controller.characters, people: controller.people, loadingState: controller.favouritesLoadingState, load: controller.loadFavourites)
                     ScrollViewSection {
                         ScrollViewLink(text: "Import list", url: "https://myanimelist.net/import.php")
                             .foregroundStyle(settings.getAccentColor())
@@ -97,9 +97,7 @@ struct ProfileView: View {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
             }
             .toolbar {
-                if controller.loadingState == .loading {
-                    ProgressView()
-                } else if controller.loadingState == .error {
+                if controller.loadingState == .error {
                     Button {
                         Task {
                             await controller.refresh()

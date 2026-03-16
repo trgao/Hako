@@ -100,13 +100,13 @@ struct AnimeDetailsView: View {
                                 Trailers(videos: anime.videos)
                             }
                             if !settings.hideAnimeCharacters {
-                                Characters(characters: controller.characters, load: controller.loadCharacters)
+                                Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)
                             }
                             if !settings.hideStaffs {
-                                Staffs(staffs: controller.staffs, load: controller.loadStaffs)
+                                Staffs(staffs: controller.staffs, loadingState: controller.staffsLoadingState, load: controller.loadStaffs)
                             }
                             if !settings.hideAnimeRelated {
-                                RelatedItems(relatedItems: controller.relatedItems, load: controller.loadRelated)
+                                RelatedItems(relatedItems: controller.relatedItems, loadingState: controller.relatedLoadingState, load: controller.loadRelated)
                             }
                             if !settings.hideAnimeRecommendations {
                                 Recommendations(animeRecommendations: anime.recommendations)
@@ -115,7 +115,7 @@ struct AnimeDetailsView: View {
                                 ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                             }
                             if !settings.hideAnimeReviews {
-                                Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, load: controller.loadReviews)
+                                Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
                             }
                         }
                         .frame(width: geometry.size.width)

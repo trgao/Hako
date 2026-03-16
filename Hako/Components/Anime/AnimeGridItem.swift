@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeGridItem: View {
+    @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let title: String?
@@ -76,14 +77,14 @@ struct AnimeGridItem: View {
                 if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                     Text(title)
                         .lineLimit(settings.getLineLimit())
-                        .frame(width: 150, alignment: .leading)
+                        .frame(width: 150 * screenRatio, alignment: .leading)
                         .padding(5)
                         .font(.callout)
                         .tint(.primary)
                 } else {
                     Text(title ?? "")
                         .lineLimit(settings.getLineLimit())
-                        .frame(width: 150, alignment: .leading)
+                        .frame(width: 150 * screenRatio, alignment: .leading)
                         .padding(5)
                         .font(.callout)
                         .tint(.primary)

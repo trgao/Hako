@@ -198,6 +198,9 @@
 		EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118D2DD729AF00F78170 /* PickerRow.swift */; };
 		EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED452602E06905C00EA8B9F /* NetworkMonitor.swift */; };
 		EED4C0812F6699E9007354C8 /* UserFavouritesInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */; };
+		EED4C0832F66E87A007354C8 /* BigPlaceholderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */; };
+		EED4C0852F66E881007354C8 /* SmallPlaceholderGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */; };
+		EED4C0872F66E890007354C8 /* PlaceholderReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0862F66E890007354C8 /* PlaceholderReview.swift */; };
 		EEDB839E2E76C6CD00B208B2 /* MyListStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB839D2E76C6CD00B208B2 /* MyListStatus.swift */; };
 		EEDB8FE32BEBCD2B00EAA985 /* Related.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDB8FE22BEBCD2B00EAA985 /* Related.swift */; };
 		EEDBDB632C073F9B00F2E821 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */; };
@@ -437,6 +440,9 @@
 		EED4118D2DD729AF00F78170 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
 		EED452602E06905C00EA8B9F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavouritesInformation.swift; sourceTree = "<group>"; };
+		EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPlaceholderGridItem.swift; sourceTree = "<group>"; };
+		EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallPlaceholderGridItem.swift; sourceTree = "<group>"; };
+		EED4C0862F66E890007354C8 /* PlaceholderReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderReview.swift; sourceTree = "<group>"; };
 		EEDB839D2E76C6CD00B208B2 /* MyListStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListStatus.swift; sourceTree = "<group>"; };
 		EEDB8FE22BEBCD2B00EAA985 /* Related.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Related.swift; sourceTree = "<group>"; };
 		EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
@@ -656,6 +662,7 @@
 				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
 				EE3A59D82BD24544009E9F79 /* Controllers */,
+				EE3A59CB2BD23F16009E9F79 /* Enums */,
 				EE3A59B92BD21DB2009E9F79 /* API */,
 				EE3A59B42BD21C65009E9F79 /* Components */,
 				EE3A59AF2BD216D8009E9F79 /* Views */,
@@ -713,7 +720,6 @@
 			isa = PBXGroup;
 			children = (
 				EE3A59DB2BD24953009E9F79 /* Responses */,
-				EE3A59CB2BD23F16009E9F79 /* Enums */,
 				EE3A59BC2BD21E32009E9F79 /* Models */,
 				EE3A59B72BD21CA1009E9F79 /* NetworkManager.swift */,
 				EE3B155A2CE2A4CE00C23687 /* NetworkError.swift */,
@@ -856,6 +862,9 @@
 		EE6F33DB2DDC8094009DED2B /* Loading */ = {
 			isa = PBXGroup;
 			children = (
+				EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */,
+				EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */,
+				EED4C0862F66E890007354C8 /* PlaceholderReview.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
 				EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */,
 				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
@@ -1193,6 +1202,7 @@
 				EEDBDB652C07547300F2E821 /* CustomLabelStyle.swift in Sources */,
 				EE09287C2CE17525008FCB2A /* ImageFrameController.swift in Sources */,
 				EECA2DFA2E7EADFA00D6C28B /* ScrollViewListItem.swift in Sources */,
+				EED4C0872F66E890007354C8 /* PlaceholderReview.swift in Sources */,
 				EEE1FA042EE32DCE0045B7B5 /* ArrayExtension.swift in Sources */,
 				EEFEFD4C2BF3527D00200AF1 /* Recommendations.swift in Sources */,
 				EE3A59B82BD21CA1009E9F79 /* NetworkManager.swift in Sources */,
@@ -1243,6 +1253,7 @@
 				EE48D5A92F2CA78100D98C3C /* SafariExtensionView.swift in Sources */,
 				EEC435992DFEAB6D00F36789 /* Media.swift in Sources */,
 				EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */,
+				EED4C0852F66E881007354C8 /* SmallPlaceholderGridItem.swift in Sources */,
 				EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */,
 				EEF5932F2F0E4C5E00204973 /* SkeletonLoading.swift in Sources */,
 				EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */,
@@ -1309,6 +1320,7 @@
 				EED452612E06905C00EA8B9F /* NetworkMonitor.swift in Sources */,
 				EE135E032E055A0200F02638 /* ScrollViewRow.swift in Sources */,
 				EE5CEE072E00119F0000FC90 /* Favourites.swift in Sources */,
+				EED4C0832F66E87A007354C8 /* BigPlaceholderGridItem.swift in Sources */,
 				EE712FEB2DFDA66100DC7202 /* ReviewsListView.swift in Sources */,
 				EE712FE32DFD9F7800DC7202 /* Review.swift in Sources */,
 				EE135E012E05562A00F02638 /* TextBox.swift in Sources */,

@@ -42,61 +42,57 @@ struct ExploreView: View {
         self._urlSearchText = urlSearchText
     }
     
-    private var exploreAnimeManga: some View {
-        Group {
-            if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
-                HStack {
-                    ScrollViewBox(title: "Anime", image: "tv.fill") {
-                        ExploreAnimeView()
-                    }
-                    Spacer()
-                    ScrollViewBox(title: "Manga", image: "book.fill") {
-                        ExploreMangaView()
-                    }
-                }
-                .padding(.horizontal, 17)
-                Spacer()
-            } else {
+    @ViewBuilder private var exploreAnimeManga: some View {
+        if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+            HStack {
                 ScrollViewBox(title: "Anime", image: "tv.fill") {
                     ExploreAnimeView()
                 }
-                .padding(.horizontal, 17)
                 Spacer()
                 ScrollViewBox(title: "Manga", image: "book.fill") {
                     ExploreMangaView()
                 }
-                .padding(.horizontal, 17)
-                Spacer()
             }
+            .padding(.horizontal, 17)
+            Spacer()
+        } else {
+            ScrollViewBox(title: "Anime", image: "tv.fill") {
+                ExploreAnimeView()
+            }
+            .padding(.horizontal, 17)
+            Spacer()
+            ScrollViewBox(title: "Manga", image: "book.fill") {
+                ExploreMangaView()
+            }
+            .padding(.horizontal, 17)
+            Spacer()
         }
     }
     
-    private var exploreCharactersPeople: some View {
-        Group {
-            if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
-                HStack {
-                    ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
-                        ExploreCharactersView()
-                    }
-                    Spacer()
-                    ScrollViewBox(title: "People", image: "person.fill") {
-                        ExplorePeopleView()
-                    }
-                }
-                .padding(.horizontal, 17)
-                Spacer()
-            } else {
+    @ViewBuilder private var exploreCharactersPeople: some View {
+        if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+            HStack {
                 ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
                     ExploreCharactersView()
                 }
-                .padding(.horizontal, 17)
                 Spacer()
                 ScrollViewBox(title: "People", image: "person.fill") {
                     ExplorePeopleView()
                 }
-                .padding(.horizontal, 17)
-                Spacer()
             }
+            .padding(.horizontal, 17)
+            Spacer()
+        } else {
+            ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+                ExploreCharactersView()
+            }
+            .padding(.horizontal, 17)
+            Spacer()
+            ScrollViewBox(title: "People", image: "person.fill") {
+                ExplorePeopleView()
+            }
+            .padding(.horizontal, 17)
+            Spacer()
         }
     }
     

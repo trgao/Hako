@@ -8,25 +8,23 @@
 import SwiftUI
 
 struct Staffs: View {
-    private let staffs: [Staff]
+    private let staffs: [Staff]?
+    private let loadingState: LoadingEnum
     private let load: () async -> Void
     
-    init(staffs: [Staff], load: @escaping () async -> Void) {
+    init(staffs: [Staff]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.staffs = staffs
+        self.loadingState = loadingState
         self.load = load
     }
     
     var body: some View {
-        VStack {
-            if !staffs.isEmpty {
-                ScrollViewCarousel(title: "Staffs", count: staffs.count, spacing: 15) {
-                    ForEach(staffs.prefix(10)) { staff in
-                        PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
-                    }
-                } destination: {
-                    StaffsListView(staffs: staffs)
-                }
+        ScrollViewCarousel(title: "Staffs", count: staffs?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
+            ForEach((staffs ?? []).prefix(10)) { staff in
+                PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
             }
+        } destination: {
+            StaffsListView(staffs: staffs ?? [])
         }
         .task {
             await load()

@@ -8,8 +8,8 @@
 import Foundation
 
 struct UserFavourites: Codable {
-    let anime: [JikanListItem]
-    let manga: [JikanListItem]
-    let characters: [JikanListItem]
-    let people: [JikanListItem]
+    let anime: [JikanListItem]?
+    let manga: [JikanListItem]?
+    let characters: [JikanListItem]?
+    let people: [JikanListItem]?
 }

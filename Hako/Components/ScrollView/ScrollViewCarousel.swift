@@ -7,27 +7,31 @@
 
 import SwiftUI
 
-struct ScrollViewCarousel<Content: View, Destination: View>: View {
+struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
-    private let count: Int
-    private let spacing: CGFloat?
+    private let count: Int?
     private let viewAlignedScroll: Bool
+    private let loadingState: LoadingEnum?
+    private let refresh: () async -> Void
+    private let placeholder: (Bool) -> Placeholder
     private let content: () -> Content
     private let destination: () -> Destination
     
-    init(title: String, count: Int = 0, spacing: CGFloat? = nil, viewAlignedScroll: Bool = false, @ViewBuilder content: @escaping () -> Content, destination: @escaping () -> Destination = { EmptyView() }) {
+    init(title: String, count: Int? = nil, viewAlignedScroll: Bool = false, loadingState: LoadingEnum? = nil, refresh: @escaping () async -> Void = {}, placeholder: @escaping (Bool) -> Placeholder = BigPlaceholderGridItem.init, @ViewBuilder content: @escaping () -> Content, destination: @escaping () -> Destination = { EmptyView() }) {
         self.title = title
         self.count = count
-        self.spacing = spacing
         self.viewAlignedScroll = viewAlignedScroll
+        self.loadingState = loadingState
+        self.refresh = refresh
+        self.placeholder = placeholder
         self.content = content
         self.destination = destination
     }
     
     private var sectionHeader: some View {
-        Group {
-            if count > 10 {
+        HStack {
+            if let count = count, count > 10 {
                 NavigationLink {
                     destination()
                 } label: {
@@ -37,34 +41,54 @@ struct ScrollViewCarousel<Content: View, Destination: View>: View {
                             .foregroundStyle(Color(.systemGray2))
                     }
                     .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 10)
-                    .padding(.horizontal, 35)
-                    .font(.callout)
                 }
                 .buttonStyle(.plain)
             } else {
-                Text(title)
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 10)
-                    .padding(.horizontal, 35)
-                    .font(.callout)
+                Text(title).bold()
+            }
+            Spacer()
+            if count == 0 {
+                Text("No \(title.lowercased().components(separatedBy: " ").last ?? title.lowercased())")
+                    .font(.footnote)
+                    .padding(8)
+                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                    .opacity(0.9)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 3)
+            } else if loadingState == .error {
+                Button {
+                    Task {
+                        await refresh()
+                    }
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 10)
+        .padding(.horizontal, 35)
+        .font(.callout)
     }
     
     private var scrollView: some View {
         ScrollView(.horizontal) {
-            HStack(alignment: .top, spacing: spacing) {
-                content()
+            HStack(alignment: .top, spacing: 10) {
+                if (loadingState == .loading || loadingState == .error) && count == nil {
+                    ForEach(Array(0..<10), id: \.self) { id in
+                        placeholder(loadingState == .loading)
+                    }
+                } else {
+                    content()
+                }
             }
             .padding(.horizontal, 17)
-            .padding(.top, 17)
+            .padding(.top, (count ?? 0) > 10 ? 17 : 50)
             .scrollTargetLayout()
         }
         .scrollIndicators(.never)
-        .padding(.top, -15)
+        .padding(.top, (count ?? 0) > 10 ? -15 : -50)
+        .disabled((loadingState == .loading || loadingState == .error) && count == nil)
     }
     
     var body: some View {

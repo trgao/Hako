@@ -21,14 +21,14 @@ struct Recommendations: View {
     
     var body: some View {
         if let recommendations = animeRecommendations, !recommendations.isEmpty {
-            ScrollViewCarousel(title: "Recommendations", spacing: 15) {
+            ScrollViewCarousel(title: "Recommendations") {
                 ForEach(recommendations) { item in
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
                 }
                 .padding(-5)
             }
         } else if let recommendations = mangaRecommendations, !recommendations.isEmpty {
-            ScrollViewCarousel(title: "Recommendations", spacing: 15) {
+            ScrollViewCarousel(title: "Recommendations") {
                 ForEach(recommendations) { item in
                     MangaGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, manga: item.node)
                 }

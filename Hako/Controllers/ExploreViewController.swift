@@ -33,6 +33,12 @@ class ExploreViewController: ObservableObject {
     @Published var newlyAddedAnime: [JikanListItem] = []
     @Published var newlyAddedManga: [JikanListItem] = []
     
+    @Published var suggestionsLoadingState: LoadingEnum = .loading
+    @Published var airingLoadingState: LoadingEnum = .loading
+    @Published var upcomingLoadingState: LoadingEnum = .loading
+    @Published var newAnimeLoadingState: LoadingEnum = .loading
+    @Published var newMangaLoadingState: LoadingEnum = .loading
+    
     // Common variables
     @Published var type: SearchEnum = .anime
     @Published var isSearchLoading = false
@@ -40,91 +46,132 @@ class ExploreViewController: ObservableObject {
     private let networker = NetworkManager.shared
     let queryChannel = AsyncChannel<String>()
     
-    func resetSearch() {
-        animeItems = []
-        mangaItems = []
-        characterItems = []
-        personItems = []
-        isAnimeLoadingError = false
-        isMangaLoadingError = false
-        isCharacterLoadingError = false
-        isPersonLoadingError = false
+    func refreshExplore() async {
+        suggestionsLoadingState = .loading
+        airingLoadingState = .loading
+        upcomingLoadingState = .loading
+        newAnimeLoadingState = .loading
+        newMangaLoadingState = .loading
         
-        isSearchLoading = false
-        isRefreshLoading = false
+        await loadAnimeSuggestions()
+
+        if Task.isCancelled {
+            return
+        }
+        await loadTopAiringAnime()
+
+        if Task.isCancelled {
+            return
+        }
+        await loadTopUpcomingAnime()
+
+        if Task.isCancelled {
+            return
+        }
+        await loadNewlyAddedAnime()
+        
+        if Task.isCancelled {
+            return
+        }
+        await loadNewlyAddedManga()
     }
     
     func loadAnimeSuggestions() async {
-        if networker.isSignedIn && self.animeSuggestions.isEmpty {
-            do {
-                self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
-            } catch {
-                print("Some unknown error occurred loading anime suggestions")
-            }
+        guard networker.isSignedIn && animeSuggestions.isEmpty else {
+            suggestionsLoadingState = .idle
+            return
+        }
+        
+        suggestionsLoadingState = .loading
+        do {
+            self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
+            suggestionsLoadingState = .idle
+        } catch {
+            suggestionsLoadingState = .error
         }
     }
     
     func loadTopAiringAnime() async {
-        if self.topAiringAnime.isEmpty {
-            do {
-                self.topAiringAnime = try await networker.getAnimeTopAiringList()
-            } catch {
-                print("Some unknown error occurred loading top airing anime")
-            }
+        guard topAiringAnime.isEmpty else {
+            airingLoadingState = .idle
+            return
+        }
+        
+        airingLoadingState = .loading
+        do {
+            self.topAiringAnime = try await networker.getAnimeTopAiringList()
+            airingLoadingState = .idle
+        } catch {
+            airingLoadingState = .error
         }
     }
     
     func loadTopUpcomingAnime() async {
-        if self.topUpcomingAnime.isEmpty {
-            do {
-                self.topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
-            } catch {
-                print("Some unknown error occurred loading top upcoming anime")
-            }
+        guard topUpcomingAnime.isEmpty else {
+            upcomingLoadingState = .idle
+            return
+        }
+        
+        upcomingLoadingState = .loading
+        do {
+            self.topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
+            upcomingLoadingState = .idle
+        } catch {
+            upcomingLoadingState = .error
         }
     }
     
     func loadNewlyAddedAnime() async {
-        if self.newlyAddedAnime.isEmpty {
-            do {
-                var ids: Set<Int> = []
-                let newlyAddedAnime = try await networker.getAnimeNewlyAddedList()
-                var toAdd: [JikanListItem] = []
-                for item in newlyAddedAnime {
-                    if toAdd.count == 10 {
-                        break
-                    }
-                    if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" {
-                        ids.insert(item.id)
-                        toAdd.append(item)
-                    }
+        guard newlyAddedAnime.isEmpty else {
+            newAnimeLoadingState = .idle
+            return
+        }
+        
+        newAnimeLoadingState = .loading
+        do {
+            var ids: Set<Int> = []
+            let newlyAddedAnime = try await networker.getAnimeNewlyAddedList()
+            var toAdd: [JikanListItem] = []
+            for item in newlyAddedAnime {
+                if toAdd.count == 10 {
+                    break
                 }
-                self.newlyAddedAnime = toAdd
-            } catch {
-                print("Some unknown error occurred loading newly added anime")
+                if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" {
+                    ids.insert(item.id)
+                    toAdd.append(item)
+                }
             }
+            self.newlyAddedAnime = toAdd
+            newAnimeLoadingState = .idle
+        } catch {
+            newAnimeLoadingState = .error
         }
     }
     
     func loadNewlyAddedManga() async {
-        if self.newlyAddedManga.isEmpty {
-            do {
-                var ids: Set<Int> = []
-                let newlyAddedManga = try await networker.getMangaNewlyAddedList()
-                var toAdd: [JikanListItem] = []
-                for item in newlyAddedManga {
-                    if toAdd.count == 10 {
-                        break
-                    }
-                    if !ids.contains(item.id) {
-                        ids.insert(item.id)
-                        toAdd.append(item)
-                    }
+        guard newlyAddedManga.isEmpty else {
+            newMangaLoadingState = .idle
+            return
+        }
+        
+        newMangaLoadingState = .loading
+        do {
+            var ids: Set<Int> = []
+            let newlyAddedManga = try await networker.getMangaNewlyAddedList()
+            var toAdd: [JikanListItem] = []
+            for item in newlyAddedManga {
+                if toAdd.count == 10 {
+                    break
                 }
-                self.newlyAddedManga = toAdd
-            } catch {
-                print("Some unknown error occurred loading newly added manga")
+                if !ids.contains(item.id) {
+                    ids.insert(item.id)
+                    toAdd.append(item)
+                }
             }
+            self.newlyAddedManga = toAdd
+            newMangaLoadingState = .idle
+        } catch {
+            newMangaLoadingState = .error
         }
     }
     
@@ -139,9 +186,6 @@ class ExploreViewController: ObservableObject {
             return
         }
 
-        if Task.isCancelled {
-            return
-        }
         await searchAnime(query: query)
 
         if Task.isCancelled {
@@ -159,10 +203,21 @@ class ExploreViewController: ObservableObject {
         }
         await searchPerson(query: query)
 
-        if Task.isCancelled {
-            return
-        }
         isSearchLoading = false
+    }
+    
+    func resetSearch() {
+        animeItems = []
+        mangaItems = []
+        characterItems = []
+        personItems = []
+        isAnimeLoadingError = false
+        isMangaLoadingError = false
+        isCharacterLoadingError = false
+        isPersonLoadingError = false
+        
+        isSearchLoading = false
+        isRefreshLoading = false
     }
     
     func refreshSearch(query: String) async {

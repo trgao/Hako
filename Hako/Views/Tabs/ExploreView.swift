@@ -25,6 +25,7 @@ struct ExploreView: View {
     @State private var isMangaDeleted = false
     @State private var mangaListStatus: MyListStatus?
     
+    @State private var isRefresh = false
     @State private var searchText = ""
     @State private var previousSearch = ""
     @State private var searchTask: Task<Void, Never>?
@@ -96,171 +97,6 @@ struct ExploreView: View {
         }
     }
     
-    private var recentlyViewed: some View {
-        VStack {
-            Text("Recently viewed")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            ScrollView(.horizontal) {
-                HStack(alignment: .top) {
-                    ForEach(settings.recentlyViewedItems.reversed()) { item in
-                        if let anime = item.anime {
-                            AnimeGridItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, imageUrl: anime.mainPicture?.large, anime: anime, isRecentlyViewed: true)
-                        } else if let manga = item.manga {
-                            MangaGridItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.large, manga: manga, isRecentlyViewed: true)
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 50)
-            }
-            .scrollIndicators(.never)
-            .padding(.top, -50)
-        }
-    }
-    
-    private var animeSuggestions: some View {
-        VStack {
-            Text("Anime for you")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            if controller.animeSuggestions.isEmpty {
-                LoadingCarousel()
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.animeSuggestions) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
-            }
-        }
-        .task {
-            await controller.loadAnimeSuggestions()
-        }
-    }
-    
-    private var topAiringAnime: some View {
-        VStack {
-            Text("Top airing anime")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            if controller.topAiringAnime.isEmpty {
-                LoadingCarousel()
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.topAiringAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
-            }
-        }
-        .task {
-            await controller.loadTopAiringAnime()
-        }
-    }
-    
-    private var topUpcomingAnime: some View {
-        VStack {
-            Text("Top upcoming anime")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            if controller.topUpcomingAnime.isEmpty {
-                LoadingCarousel()
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.topUpcomingAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
-            }
-        }
-        .task {
-            await controller.loadTopUpcomingAnime()
-        }
-    }
-    
-    private var newlyAddedAnime: some View {
-        VStack {
-            Text("Newly added anime")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            if controller.newlyAddedAnime.isEmpty {
-                LoadingCarousel()
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.newlyAddedAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
-            }
-        }
-        .task {
-            await controller.loadNewlyAddedAnime()
-        }
-    }
-    
-    private var newlyAddedManga: some View {
-        VStack {
-            Text("Newly added manga")
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 35)
-                .font(.headline)
-            if controller.newlyAddedManga.isEmpty {
-                LoadingCarousel()
-            } else {
-                ScrollView(.horizontal) {
-                    HStack(alignment: .top) {
-                        ForEach(controller.newlyAddedManga) { item in
-                            MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 50)
-                }
-                .scrollIndicators(.never)
-                .padding(.top, -50)
-            }
-        }
-        .task {
-            await controller.loadNewlyAddedManga()
-        }
-    }
-    
     private var exploreView: some View {
         ScrollView {
             VStack {
@@ -281,27 +117,80 @@ struct ExploreView: View {
                 }
                 Spacer()
                 if !settings.hideRecentlyViewed && !settings.recentlyViewedItems.isEmpty {
-                    recentlyViewed
+                    ScrollViewCarousel(title: "Recently viewed") {
+                        ForEach(settings.recentlyViewedItems.reversed()) { item in
+                            if let anime = item.anime {
+                                AnimeGridItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, imageUrl: anime.mainPicture?.large, anime: anime, isRecentlyViewed: true)
+                            } else if let manga = item.manga {
+                                MangaGridItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.large, manga: manga, isRecentlyViewed: true)
+                            }
+                        }
+                    }
                 }
                 if networker.isSignedIn && !settings.hideAnimeForYou {
-                    animeSuggestions
+                    ScrollViewCarousel(title: "Anime for you", loadingState: controller.suggestionsLoadingState, refresh: controller.loadAnimeSuggestions) {
+                        ForEach(controller.animeSuggestions) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        }
+                    }
+                    .task {
+                        await controller.loadAnimeSuggestions()
+                    }
                 }
                 if !settings.hideTopAiringAnime {
-                    topAiringAnime
+                    ScrollViewCarousel(title: "Top airing anime", loadingState: controller.airingLoadingState, refresh: controller.loadTopAiringAnime) {
+                        ForEach(controller.topAiringAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        }
+                    }
+                    .task {
+                        await controller.loadTopAiringAnime()
+                    }
                 }
                 if !settings.hideTopUpcomingAnime {
-                    topUpcomingAnime
+                    ScrollViewCarousel(title: "Top upcoming anime", loadingState: controller.upcomingLoadingState, refresh: controller.loadTopUpcomingAnime) {
+                        ForEach(controller.topUpcomingAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        }
+                    }
+                    .task {
+                        await controller.loadTopUpcomingAnime()
+                    }
                 }
                 if !settings.hideNewlyAddedAnime {
-                    newlyAddedAnime
+                    ScrollViewCarousel(title: "Newly added anime", loadingState: controller.newAnimeLoadingState, refresh: controller.loadNewlyAddedAnime) {
+                        ForEach(controller.newlyAddedAnime) { item in
+                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
+                        }
+                    }
+                    .task {
+                        await controller.loadNewlyAddedAnime()
+                    }
                 }
                 if !settings.hideNewlyAddedManga {
-                    newlyAddedManga
+                    ScrollViewCarousel(title: "Newly added manga", loadingState: controller.newMangaLoadingState, refresh: controller.loadNewlyAddedManga) {
+                        ForEach(controller.newlyAddedManga) { item in
+                            MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
+
+                        }
+                    }
+                    .task {
+                        await controller.loadNewlyAddedManga()
+                    }
                 }
             }
             .padding(.vertical, 10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .refreshable {
+            isRefresh = true
+        }
+        .task(id: isRefresh) {
+            if isRefresh {
+                await controller.refreshExplore()
+                isRefresh = false
+            }
+        }
     }
     
     private var nothingFoundView: some View {

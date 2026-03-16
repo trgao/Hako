@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageFrame: View {
-    @Environment(\.screenSize) private var screenSize
+    @Environment(\.screenRatio) private var screenRatio
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
@@ -57,9 +57,6 @@ struct ImageFrame: View {
                         .frame(width: width, height: height)
                 }
             } else {
-                let ratio: CGFloat = min(screenSize.width / 400, 1.2)
-                let height = self.height * ratio
-                let width = self.width * ratio
                 VStack {
                     if let image = controller.image {
                         Image(uiImage: image)
@@ -70,7 +67,7 @@ struct ImageFrame: View {
                             .foregroundStyle(.gray)
                     }
                 }
-                .frame(width: width, height: height)
+                .frame(width: width * screenRatio, height: height * screenRatio)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }

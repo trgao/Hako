@@ -50,6 +50,7 @@ class AnimeDetailsViewController: ObservableObject {
     
     // Refresh the current anime details page
     func refresh() async {
+        loadingState = .loading
         charactersLoadingState = .loading
         staffsLoadingState = .loading
         relatedLoadingState = .loading
@@ -101,66 +102,74 @@ class AnimeDetailsViewController: ObservableObject {
     }
     
     func loadAiringSchedule() async {
-        do {
-            if let nextEpisode = networker.animeNextEpisodeCache[id] {
-                withAnimation {
-                    self.nextEpisode = nextEpisode
-                }
-            } else {
-                let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
-                withAnimation {
-                    self.nextEpisode = nextEpisode
-                }
-                networker.animeNextEpisodeCache[id] = nextEpisode
+        if let nextEpisode = networker.animeNextEpisodeCache[id] {
+            withAnimation {
+                self.nextEpisode = nextEpisode
             }
+            return
+        }
+        
+        do {
+            let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
+            withAnimation {
+                self.nextEpisode = nextEpisode
+            }
+            networker.animeNextEpisodeCache[id] = nextEpisode
         } catch {
             print("Some unknown error occurred loading anime airing schedule")
         }
     }
     
     func loadCharacters() async {
+        if let characters = networker.animeCharactersCache[id] {
+            self.characters = characters
+            charactersLoadingState = .idle
+            return
+        }
+        
         charactersLoadingState = .loading
         do {
-            if let characters = networker.animeCharactersCache[id] {
-                self.characters = characters
-            } else {
-                let characters = try await networker.getAnimeCharacters(id: id)
-                self.characters = characters
-                networker.animeCharactersCache[id] = characters
-            }
+            let characters = try await networker.getAnimeCharacters(id: id)
+            self.characters = characters
+            networker.animeCharactersCache[id] = characters
             charactersLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading anime characters")
             charactersLoadingState = .error
         }
     }
     
     func loadStaffs() async {
+        if let staffs = networker.animeStaffsCache[id] {
+            self.staffs = staffs
+            staffsLoadingState = .idle
+            return
+        }
+        
         staffsLoadingState = .loading
         do {
-            if let staffs = networker.animeStaffsCache[id] {
-                self.staffs = staffs
-            } else {
-                let staffs = try await networker.getAnimeStaff(id: id)
-                self.staffs = staffs
-                networker.animeStaffsCache[id] = staffs
-            }
+            let staffs = try await networker.getAnimeStaff(id: id)
+            self.staffs = staffs
+            networker.animeStaffsCache[id] = staffs
             staffsLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading anime staffs")
             staffsLoadingState = .error
         }
     }
     
     func loadRelated() async {
+        if let relatedItems = networker.animeRelatedCache[id] {
+            self.relatedItems = relatedItems
+            relatedLoadingState = .idle
+            return
+        }
+        
         relatedLoadingState = .loading
         do {
-            if let relatedItems = networker.animeRelatedCache[id] {
-                self.relatedItems = relatedItems
-            } else {
-                let relations = try await networker.getAnimeRelations(id: id)
-                var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
-                relatedItems = try await relatedItems.concurrentMap { item in
+            let relations = try await networker.getAnimeRelations(id: id)
+            let relatedItems = try await relations
+                .filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }
+                .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
+                .concurrentMap { item in
                     var newItem = item
                     if item.type == .anime {
                         if let anime = self.networker.animeCache[item.id] {
@@ -179,12 +188,10 @@ class AnimeDetailsViewController: ObservableObject {
                     }
                     return newItem
                 }
-                self.relatedItems = relatedItems
-                networker.animeRelatedCache[id] = relatedItems
-            }
+            self.relatedItems = relatedItems
+            networker.animeRelatedCache[id] = relatedItems
             relatedLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading anime related items")
             relatedLoadingState = .error
         }
     }
@@ -196,7 +203,6 @@ class AnimeDetailsViewController: ObservableObject {
             self.reviews = reviews
             reviewsLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading anime reviews")
             reviewsLoadingState = .error
         }
     }

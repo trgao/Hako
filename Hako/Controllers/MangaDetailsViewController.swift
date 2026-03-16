@@ -49,6 +49,7 @@ class MangaDetailsViewController: ObservableObject {
     
     // Refresh the current manga details page
     func refresh() async {
+        loadingState = .loading
         charactersLoadingState = .loading
         authorsLoadingState = .loading
         relatedLoadingState = .loading
@@ -93,66 +94,75 @@ class MangaDetailsViewController: ObservableObject {
     }
     
     func loadCharacters() async {
+        if let characters = networker.mangaCharactersCache[id] {
+            self.characters = characters
+            charactersLoadingState = .idle
+            return
+        }
+        
         charactersLoadingState = .loading
         do {
-            if let characters = networker.mangaCharactersCache[id] {
-                self.characters = characters
-            } else {
-                let characters = try await networker.getMangaCharacters(id: id)
-                self.characters = characters
-                networker.mangaCharactersCache[id] = characters
-            }
+            let characters = try await networker.getMangaCharacters(id: id)
+            self.characters = characters
+            networker.mangaCharactersCache[id] = characters
             charactersLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading manga characters")
             charactersLoadingState = .error
         }
     }
     
     func loadAuthors() async {
+        if let authors = networker.mangaAuthorsCache[id] {
+            self.authors = authors
+            authorsLoadingState = .idle
+            return
+        }
+        
         guard loadingState != .loading else {
             return
         }
+        
         guard let manga = manga, loadingState != .error else {
             authorsLoadingState = .error
             return
         }
+        
         authorsLoadingState = .loading
         do {
-            if let authors = networker.mangaAuthorsCache[id] {
-                self.authors = authors
-            } else {
-                let mangaAuthors = manga.authors ?? []
-                var authors: [Author] = []
-                for author in mangaAuthors {
-                    var newAuthor = author
-                    if let person = networker.personCache[author.id] {
-                        newAuthor.imageUrl = person.images?.jpg?.imageUrl
-                    } else {
-                        let person = try await networker.getPersonDetails(id: author.id)
-                        newAuthor.imageUrl = person.images?.jpg?.imageUrl
-                    }
-                    authors.append(newAuthor)
+            let mangaAuthors = manga.authors ?? []
+            var authors: [Author] = []
+            for author in mangaAuthors {
+                var newAuthor = author
+                if let person = networker.personCache[author.id] {
+                    newAuthor.imageUrl = person.images?.jpg?.imageUrl
+                } else {
+                    let person = try await networker.getPersonDetails(id: author.id)
+                    newAuthor.imageUrl = person.images?.jpg?.imageUrl
                 }
-                self.authors = authors
-                networker.mangaAuthorsCache[id] = authors
+                authors.append(newAuthor)
             }
+            self.authors = authors
+            networker.mangaAuthorsCache[id] = authors
             authorsLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading manga authors")
             authorsLoadingState = .error
         }
     }
     
     func loadRelated() async {
+        if let relatedItems = networker.mangaRelatedCache[id] {
+            self.relatedItems = relatedItems
+            relatedLoadingState = .idle
+            return
+        }
+        
         relatedLoadingState = .loading
         do {
-            if let relatedItems = networker.mangaRelatedCache[id] {
-                self.relatedItems = relatedItems
-            } else {
-                let relations = try await networker.getMangaRelations(id: id)
-                var relatedItems = relations.filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }.flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
-                relatedItems = try await relatedItems.concurrentMap { item in
+            let relations = try await networker.getMangaRelations(id: id)
+            let relatedItems = try await relations
+                .filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }
+                .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
+                .concurrentMap { item in
                     var newItem = item
                     if item.type == .anime {
                         if let anime = self.networker.animeCache[item.id] {
@@ -171,12 +181,10 @@ class MangaDetailsViewController: ObservableObject {
                     }
                     return newItem
                 }
-                self.relatedItems = relatedItems
-                networker.mangaRelatedCache[id] = relatedItems
-            }
+            self.relatedItems = relatedItems
+            networker.mangaRelatedCache[id] = relatedItems
             relatedLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading manga related items")
             relatedLoadingState = .error
         }
     }
@@ -188,7 +196,6 @@ class MangaDetailsViewController: ObservableObject {
             self.reviews = reviews
             reviewsLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading manga reviews")
             reviewsLoadingState = .error
         }
     }

@@ -28,7 +28,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     let mangaCache = ItemCache<Int, Manga>()
     let mangaCharactersCache = ItemCache<Int, [ListCharacter]>()
-    let mangaAuthorsCache = ItemCache<Int, [Author]>()
     let mangaRelatedCache = ItemCache<Int, [RelatedItem]>()
     
     let characterCache = ItemCache<Int, Character>()

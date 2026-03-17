@@ -590,10 +590,10 @@
 		EE33A4CA2BE1768100A98F00 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
 				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
-				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
+				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
 				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
+				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -991,8 +991,8 @@
 		EE9929BA2F6947880014558E /* Character */ = {
 			isa = PBXGroup;
 			children = (
-				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
 				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
+				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
 			);
 			path = Character;
 			sourceTree = "<group>";
@@ -1000,8 +1000,8 @@
 		EE9929BB2F6947A70014558E /* Person */ = {
 			isa = PBXGroup;
 			children = (
-				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
+				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 			);
 			path = Person;
 			sourceTree = "<group>";

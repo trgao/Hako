@@ -13,7 +13,7 @@ struct AnimeInformation: View {
     
     init(anime: Anime) {
         self.anime = anime
-        self.isEmpty = anime.source == nil && anime.rank == nil && anime.popularity == nil && anime.startDate == nil && anime.endDate == nil && anime.broadcast?.dayOfTheWeek == nil && anime.broadcast?.startTime == nil && anime.rating == nil && anime.numListUsers == nil && (anime.studios?.isEmpty ?? true) && (anime.genres?.isEmpty ?? true) && anime.alternativeTitles == nil
+        self.isEmpty = anime.source == nil && anime.rank == nil && anime.popularity == nil && anime.startDate == nil && anime.endDate == nil && anime.broadcast?.dayOfTheWeek == nil && anime.broadcast?.startTime == nil && anime.rating == nil && anime.numListUsers == nil && (anime.studios?.isEmpty ?? true) && (anime.genres?.isEmpty ?? true)
     }
     
     var body: some View {

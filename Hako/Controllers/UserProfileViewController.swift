@@ -47,7 +47,6 @@ class UserProfileViewController: ObservableObject {
             self.userStatistics = try await networker.getUserStatistics(user: user)
             loadingState = .idle
         } catch {
-            print("Some unknown error occurred loading user statistics")
             if case NetworkError.notFound = error {
                 isUserNotFound = true
                 loadingState = .idle
@@ -78,7 +77,6 @@ class UserProfileViewController: ObservableObject {
             
             favouritesLoadingState = .idle
         } catch {
-            print("Some unknown error occurred loading user favourites")
             favouritesLoadingState = .error
         }
     }

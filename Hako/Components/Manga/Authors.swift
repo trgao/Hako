@@ -9,14 +9,10 @@ import SwiftUI
 
 struct Authors: View {
     private let authors: [Author]?
-    private let mangaLoadingState: LoadingEnum
-    private let loadingState: LoadingEnum
     private let load: () async -> Void
     
-    init(authors: [Author]?, mangaLoadingState: LoadingEnum, loadingState: LoadingEnum, load: @escaping () async -> Void) {
+    init(authors: [Author]?, load: @escaping () async -> Void) {
         self.authors = authors
-        self.mangaLoadingState = mangaLoadingState
-        self.loadingState = loadingState
         self.load = load
     }
     
@@ -25,12 +21,17 @@ struct Authors: View {
     }
     
     var body: some View {
-        ScrollViewCarousel(title: "Authors", count: authors?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
-            ForEach((authors ?? []).prefix(10)) { author in
-                PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
+        VStack {
+            if let authors = authors, !authors.isEmpty {
+                ScrollViewCarousel(title: "Authors", placeholder: SmallPlaceholderGridItem.init) {
+                    ForEach(authors.prefix(10)) { author in
+                        PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
+                            .id(author.imageUrl)
+                    }
+                }
             }
         }
-        .task(id: mangaLoadingState) {
+        .task(id: authors?.count) {
             await load()
         }
     }

@@ -111,17 +111,15 @@ struct CharacterDetailsView: View {
             }
         }
         .toolbar {
-            if let character = controller.character, !character.isEmpty() {
-                if controller.loadingState == .loading {
-                    ProgressView()
-                } else if controller.loadingState == .error {
-                    Button {
-                        Task {
-                            await controller.refresh()
-                        }
-                    } label: {
-                        Image(systemName: "exclamationmark.triangle")
+            if let character = controller.character, !character.isEmpty() && controller.loadingState == .loading {
+                ProgressView()
+            } else if controller.loadingState == .error {
+                Button {
+                    Task {
+                        await controller.refresh()
                     }
+                } label: {
+                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {

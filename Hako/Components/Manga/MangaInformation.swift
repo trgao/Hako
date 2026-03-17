@@ -13,7 +13,7 @@ struct MangaInformation: View {
     
     init(manga: Manga) {
         self.manga = manga
-        self.isEmpty = manga.rank == nil && manga.popularity == nil && manga.startDate == nil && manga.endDate == nil && manga.numListUsers == nil && (manga.serialization?.isEmpty ?? true) && (manga.genres?.isEmpty ?? true) && manga.alternativeTitles == nil
+        self.isEmpty = manga.rank == nil && manga.popularity == nil && manga.startDate == nil && manga.endDate == nil && manga.numListUsers == nil && (manga.serialization?.isEmpty ?? true) && (manga.genres?.isEmpty ?? true)
     }
     
     var body: some View {

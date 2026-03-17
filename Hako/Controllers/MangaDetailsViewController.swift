@@ -19,7 +19,6 @@ class MangaDetailsViewController: ObservableObject {
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var charactersLoadingState: LoadingEnum = .loading
-    @Published var authorsLoadingState: LoadingEnum = .loading
     @Published var relatedLoadingState: LoadingEnum = .loading
     @Published var reviewsLoadingState: LoadingEnum = .loading
     
@@ -51,7 +50,6 @@ class MangaDetailsViewController: ObservableObject {
     func refresh() async {
         loadingState = .loading
         charactersLoadingState = .loading
-        authorsLoadingState = .loading
         relatedLoadingState = .loading
         reviewsLoadingState = .loading
         
@@ -68,6 +66,7 @@ class MangaDetailsViewController: ObservableObject {
             let manga = try await networker.getMangaDetails(id: id)
             self.manga = manga
             networker.mangaCache[id] = manga
+            self.authors = manga.authors
             loadingState = .idle
         } catch {
             if case NetworkError.notFound = error {
@@ -97,41 +96,23 @@ class MangaDetailsViewController: ObservableObject {
     }
     
     func loadAuthors() async {
-        if let authors = networker.mangaAuthorsCache[id] {
-            self.authors = authors
-            authorsLoadingState = .idle
+        guard let manga = manga else {
             return
         }
         
-        guard loadingState != .loading else {
-            return
-        }
-        
-        guard let manga = manga, loadingState != .error else {
-            authorsLoadingState = .error
-            return
-        }
-        
-        authorsLoadingState = .loading
-        do {
-            let mangaAuthors = manga.authors ?? []
-            var authors: [Author] = []
-            for author in mangaAuthors {
-                var newAuthor = author
-                if let person = networker.personCache[author.id] {
-                    newAuthor.imageUrl = person.images?.jpg?.imageUrl
-                } else {
-                    let person = try await networker.getPersonDetails(id: author.id)
-                    newAuthor.imageUrl = person.images?.jpg?.imageUrl
-                }
-                authors.append(newAuthor)
+        let mangaAuthors = manga.authors ?? []
+        var authors: [Author] = []
+        for author in mangaAuthors {
+            var newAuthor = author
+            if let person = networker.personCache[author.id] {
+                newAuthor.imageUrl = person.images?.jpg?.imageUrl
+            } else {
+                let person = try? await networker.getPersonDetails(id: author.id)
+                newAuthor.imageUrl = person?.images?.jpg?.imageUrl
             }
-            self.authors = authors
-            networker.mangaAuthorsCache[id] = authors
-            authorsLoadingState = .idle
-        } catch {
-            authorsLoadingState = .error
+            authors.append(newAuthor)
         }
+        self.authors = authors
     }
     
     func loadRelated() async {

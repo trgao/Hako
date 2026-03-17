@@ -55,33 +55,14 @@ class AnimeDetailsViewController: ObservableObject {
         staffsLoadingState = .loading
         relatedLoadingState = .loading
         reviewsLoadingState = .loading
-        await loadDetails()
         
-        if Task.isCancelled {
-            return
-        }
+        await loadDetails()
         Task {
             await loadAiringSchedule()
         }
-        
-        if Task.isCancelled {
-            return
-        }
         await loadCharacters()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadStaffs()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadRelated()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadReviews()
     }
     

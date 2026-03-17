@@ -54,25 +54,9 @@ class ExploreViewController: ObservableObject {
         newMangaLoadingState = .loading
         
         await loadAnimeSuggestions()
-
-        if Task.isCancelled {
-            return
-        }
         await loadTopAiringAnime()
-
-        if Task.isCancelled {
-            return
-        }
         await loadTopUpcomingAnime()
-
-        if Task.isCancelled {
-            return
-        }
         await loadNewlyAddedAnime()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadNewlyAddedManga()
     }
     
@@ -187,22 +171,9 @@ class ExploreViewController: ObservableObject {
         }
 
         await searchAnime(query: query)
-
-        if Task.isCancelled {
-            return
-        }
         await searchManga(query: query)
-
-        if Task.isCancelled {
-            return
-        }
         await searchCharacter(query: query)
-
-        if Task.isCancelled {
-            return
-        }
         await searchPerson(query: query)
-
         isSearchLoading = false
     }
     

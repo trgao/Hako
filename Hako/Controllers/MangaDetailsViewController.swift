@@ -54,26 +54,11 @@ class MangaDetailsViewController: ObservableObject {
         authorsLoadingState = .loading
         relatedLoadingState = .loading
         reviewsLoadingState = .loading
+        
         await loadDetails()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadCharacters()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadAuthors()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadRelated()
-        
-        if Task.isCancelled {
-            return
-        }
         await loadReviews()
     }
     

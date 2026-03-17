@@ -21,14 +21,18 @@ struct GroupsListView: View {
     }
     
     var body: some View {
-        List {
-            ForEach(items) { item in
-                NavigationLink(item.name) {
-                    GroupDetailsView(title: item.name, group: group, id: item.id, type: type)
+        if items.count == 1 {
+            GroupDetailsView(title: items[0].name, group: group, id: items[0].id, type: type)
+        } else {
+            List {
+                ForEach(items) { item in
+                    NavigationLink(item.name) {
+                        GroupDetailsView(title: item.name, group: group, id: item.id, type: type)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
+            .navigationTitle(title)
         }
-        .navigationTitle(title)
     }
 }

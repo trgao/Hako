@@ -13,7 +13,7 @@ struct MangaInformation: View {
     
     init(manga: Manga) {
         self.manga = manga
-        self.isEmpty = manga.rank == nil && manga.popularity == nil && manga.startDate == nil && manga.endDate == nil && manga.numListUsers == nil && (manga.serialization == nil || manga.serialization!.isEmpty) && (manga.genres == nil || manga.genres!.isEmpty)
+        self.isEmpty = manga.rank == nil && manga.popularity == nil && manga.startDate == nil && manga.endDate == nil && manga.numListUsers == nil && (manga.serialization?.isEmpty ?? true) && (manga.genres?.isEmpty ?? true) && manga.alternativeTitles == nil
     }
     
     var body: some View {
@@ -43,6 +43,10 @@ struct MangaInformation: View {
                     ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
                         GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
                     }
+                }
+                if let alternativeTitles = manga.alternativeTitles {
+                    let titles = [manga.title, alternativeTitles.en, alternativeTitles.ja].compactMap { $0 }.filter { !$0.isEmpty }
+                    ScrollViewRow(title: "Titles", content: "\(titles.joined(separator: ",\n"))")
                 }
             }
         }

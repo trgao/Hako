@@ -13,7 +13,7 @@ struct AnimeInformation: View {
     
     init(anime: Anime) {
         self.anime = anime
-        self.isEmpty = anime.source == nil && anime.rank == nil && anime.popularity == nil && anime.startDate == nil && anime.endDate == nil && (anime.broadcast == nil || (anime.broadcast?.dayOfTheWeek == nil && anime.broadcast?.startTime == nil)) && anime.rating == nil && anime.numListUsers == nil && (anime.studios == nil || anime.studios!.isEmpty) && (anime.genres == nil || anime.genres!.isEmpty)
+        self.isEmpty = anime.source == nil && anime.rank == nil && anime.popularity == nil && anime.startDate == nil && anime.endDate == nil && anime.broadcast?.dayOfTheWeek == nil && anime.broadcast?.startTime == nil && anime.rating == nil && anime.numListUsers == nil && (anime.studios?.isEmpty ?? true) && (anime.genres?.isEmpty ?? true) && anime.alternativeTitles == nil
     }
     
     var body: some View {
@@ -52,6 +52,10 @@ struct AnimeInformation: View {
                     ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
                         GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
                     }
+                }
+                if let alternativeTitles = anime.alternativeTitles {
+                    let titles = [anime.title, alternativeTitles.en, alternativeTitles.ja].compactMap { $0 }.filter { !$0.isEmpty }
+                    ScrollViewRow(title: "Titles", content: "\(titles.joined(separator: ",\n"))")
                 }
             }
         }

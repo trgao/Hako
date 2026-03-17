@@ -587,33 +587,15 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
-		EE33A4CA2BE1768100A98F00 /* Pages */ = {
+		EE33A4CA2BE1768100A98F00 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */,
-				EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */,
-				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
 				EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */,
-				EEAA57552E2CCC4100377906 /* ExploreAnimeView.swift */,
-				EEAA57572E2CD18000377906 /* ExploreMangaView.swift */,
-				EEC150D72F0E5D54000BAE9F /* ExploreCharactersView.swift */,
-				EEC150DD2F0E5EB6000BAE9F /* ExplorePeopleView.swift */,
-				EE4107622F10EE1D0086D4AC /* StudiosListView.swift */,
-				EE4107662F10F9CD0086D4AC /* MagazinesListView.swift */,
-				EE0696C22EDD8DC500F965B2 /* NewsListView.swift */,
-				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
-				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
-				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
-				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
-				EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */,
+				EE33A4C72BE1766400A98F00 /* GroupDetailsView.swift */,
 				EE712FEA2DFDA66100DC7202 /* ReviewsListView.swift */,
 				EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */,
-				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
-				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
-				EEF7C1142F1B69A400200D9B /* UserProfileView.swift */,
-				EEFB9CEE2F1A742B00B6DBC6 /* UserListView.swift */,
 			);
-			path = Pages;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		EE3582622DD887CE00E0AF33 /* AppIcons */ = {
@@ -685,9 +667,15 @@
 		EE3A59AF2BD216D8009E9F79 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EE9929B72F6946FC0014558E /* Anime */,
+				EE9929B82F6947240014558E /* Manga */,
+				EE9929BA2F6947880014558E /* Character */,
+				EE9929BB2F6947A70014558E /* Person */,
+				EE9929B92F69474F0014558E /* User */,
 				EEB7DE5C2E0D258A00A2C8CC /* Random */,
+				EE9929B62F6946E70014558E /* Explore */,
 				EEA5E94B2CEE8D1500B2513B /* Settings */,
-				EE33A4CA2BE1768100A98F00 /* Pages */,
+				EE33A4CA2BE1768100A98F00 /* Common */,
 				EE33A4C92BE1767000A98F00 /* Tabs */,
 			);
 			path = Views;
@@ -956,6 +944,66 @@
 				EE960E742DD3627B00E4EDC9 /* Author.swift */,
 			);
 			path = Manga;
+			sourceTree = "<group>";
+		};
+		EE9929B62F6946E70014558E /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				EEAA57552E2CCC4100377906 /* ExploreAnimeView.swift */,
+				EEAA57572E2CD18000377906 /* ExploreMangaView.swift */,
+				EEC150D72F0E5D54000BAE9F /* ExploreCharactersView.swift */,
+				EEC150DD2F0E5EB6000BAE9F /* ExplorePeopleView.swift */,
+				EE0696C22EDD8DC500F965B2 /* NewsListView.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		EE9929B72F6946FC0014558E /* Anime */ = {
+			isa = PBXGroup;
+			children = (
+				EE3F1D1F2BDF4FE2009992AC /* AnimeDetailsView.swift */,
+				EE4107622F10EE1D0086D4AC /* StudiosListView.swift */,
+				EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */,
+				EECC38312BFA23330063A891 /* AnimeEditView.swift */,
+			);
+			path = Anime;
+			sourceTree = "<group>";
+		};
+		EE9929B82F6947240014558E /* Manga */ = {
+			isa = PBXGroup;
+			children = (
+				EE222D7A2BE8D6AB00A14A45 /* MangaDetailsView.swift */,
+				EE4107662F10F9CD0086D4AC /* MagazinesListView.swift */,
+				EEB274782C0635F700D6F257 /* MangaEditView.swift */,
+			);
+			path = Manga;
+			sourceTree = "<group>";
+		};
+		EE9929B92F69474F0014558E /* User */ = {
+			isa = PBXGroup;
+			children = (
+				EEF7C1142F1B69A400200D9B /* UserProfileView.swift */,
+				EEFB9CEE2F1A742B00B6DBC6 /* UserListView.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		EE9929BA2F6947880014558E /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				EEC357852BE3752300DAAB0B /* CharactersListView.swift */,
+				EEC357872BE375B300DAAB0B /* CharacterDetailsView.swift */,
+			);
+			path = Character;
+			sourceTree = "<group>";
+		};
+		EE9929BB2F6947A70014558E /* Person */ = {
+			isa = PBXGroup;
+			children = (
+				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
+				EE91BE562BFCAA28002AC6C4 /* PersonDetailsView.swift */,
+			);
+			path = Person;
 			sourceTree = "<group>";
 		};
 		EEA5E94B2CEE8D1500B2513B /* Settings */ = {

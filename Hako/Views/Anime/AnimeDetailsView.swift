@@ -85,7 +85,7 @@ struct AnimeDetailsView: View {
                             .padding(.horizontal, 20)
                             if controller.loadingState == .loading && anime.isEmpty() {
                                 ProgressView()
-                            } else {
+                            } else if !anime.isEmpty() {
                                 TextBox(title: "Synopsis", text: anime.synopsis)
                                 if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
                                     AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
@@ -191,10 +191,11 @@ struct AnimeDetailsView: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
-        .onChange(of: controller.loadingState) { prev, cur in
-            if prev == .loading {
-                addToRecentlyViewed()
-            }
+        .onAppear {
+            addToRecentlyViewed()
+        }
+        .onChange(of: String(describing: controller.anime)) {
+            addToRecentlyViewed()
         }
     }
 }

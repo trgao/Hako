@@ -82,7 +82,7 @@ struct MangaDetailsView: View {
                             .padding(.horizontal, 20)
                             if controller.loadingState == .loading && manga.isEmpty() {
                                 ProgressView()
-                            } else {
+                            } else if !manga.isEmpty() {
                                 TextBox(title: "Synopsis", text: manga.synopsis)
                                 if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
                                     MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
@@ -179,10 +179,11 @@ struct MangaDetailsView: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
-        .onChange(of: controller.loadingState) { prev, cur in
-            if prev == .loading {
-                addToRecentlyViewed()
-            }
+        .onAppear {
+            addToRecentlyViewed()
+        }
+        .onChange(of: String(describing: controller.manga)) {
+            addToRecentlyViewed()
         }
     }
 }

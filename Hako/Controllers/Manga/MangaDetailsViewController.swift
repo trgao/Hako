@@ -96,11 +96,10 @@ class MangaDetailsViewController: ObservableObject {
     }
     
     func loadAuthors() async {
-        guard let manga = manga else {
+        guard let mangaAuthors = manga?.authors else {
             return
         }
         
-        let mangaAuthors = manga.authors ?? []
         var authors: [Author] = []
         for author in mangaAuthors {
             var newAuthor = author

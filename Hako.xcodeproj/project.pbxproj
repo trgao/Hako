@@ -620,6 +620,7 @@
 			children = (
 				EE3A59A02BD21479009E9F79 /* Hako */,
 				EE0A68382F14EF36003D15D3 /* HakoExtension */,
+				EEA1A7C22F6AAF34009FC32B /* Frameworks */,
 				EE3A599F2BD21479009E9F79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -995,6 +996,13 @@
 				EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */,
 			);
 			path = Person;
+			sourceTree = "<group>";
+		};
+		EEA1A7C22F6AAF34009FC32B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EEA5E94B2CEE8D1500B2513B /* Settings */ = {

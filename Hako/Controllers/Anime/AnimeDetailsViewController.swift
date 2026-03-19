@@ -147,31 +147,30 @@ class AnimeDetailsViewController: ObservableObject {
         relatedLoadingState = .loading
         do {
             let relations = try await networker.getAnimeRelations(id: id)
-            let relatedItems = try await relations
+            self.relatedItems = relations
                 .filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }
                 .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
-                .concurrentMap { item in
-                    var newItem = item
-                    if item.type == .anime {
-                        if let anime = self.networker.animeCache[item.id] {
-                            newItem.anime = anime
-                        } else {
-                            let anime = try await self.networker.getAnimeDetails(id: item.id)
-                            newItem.anime = anime
-                        }
-                    } else if item.type == .manga {
-                        if let manga = self.networker.mangaCache[item.id] {
-                            newItem.manga = manga
-                        } else {
-                            let manga = try await self.networker.getMangaDetails(id: item.id)
-                            newItem.manga = manga
-                        }
-                    }
-                    return newItem
-                }
-            self.relatedItems = relatedItems
-            networker.animeRelatedCache[id] = relatedItems
             relatedLoadingState = .idle
+            self.relatedItems = try await relatedItems?.concurrentMap { item in
+                var newItem = item
+                if item.type == .anime {
+                    if let anime = self.networker.animeCache[item.id] {
+                        newItem.anime = anime
+                    } else {
+                        let anime = try await self.networker.getAnimeDetails(id: item.id)
+                        newItem.anime = anime
+                    }
+                } else if item.type == .manga {
+                    if let manga = self.networker.mangaCache[item.id] {
+                        newItem.manga = manga
+                    } else {
+                        let manga = try await self.networker.getMangaDetails(id: item.id)
+                        newItem.manga = manga
+                    }
+                }
+                return newItem
+            }
+            networker.animeRelatedCache[id] = relatedItems
         } catch {
             relatedLoadingState = .error
         }

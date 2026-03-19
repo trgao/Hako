@@ -23,8 +23,10 @@ struct RelatedItems: View {
             ForEach(relatedItems ?? []) { item in
                 if item.type == .anime {
                     AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+                        .id(item.anime?.id)
                 } else if item.type == .manga {
                     MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
+                        .id(item.manga?.id)
                 }
             }
             .padding(-5)

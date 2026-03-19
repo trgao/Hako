@@ -31,7 +31,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
     
     private var sectionHeader: some View {
         HStack {
-            if let count = count, count > 10 {
+            if let count = count, count > 10 && Destination.self != EmptyView.self {
                 NavigationLink {
                     destination()
                 } label: {

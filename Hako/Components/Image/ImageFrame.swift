@@ -12,6 +12,7 @@ struct ImageFrame: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
+    private let imageUrl: String?
     private let width: CGFloat
     private let height: CGFloat
     private var fullscreen = false
@@ -19,6 +20,7 @@ struct ImageFrame: View {
     
     init(id: String, imageUrl: String?, imageSize: ImageSize) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
+        self.imageUrl = imageUrl
         if imageSize == .reviewUser {
             self.width = 30
             self.height = 30
@@ -71,7 +73,8 @@ struct ImageFrame: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
-        .task {
+        .task(id: imageUrl) {
+            controller.imageUrl = imageUrl
             await controller.refresh()
         }
     }

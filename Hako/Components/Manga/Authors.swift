@@ -26,7 +26,6 @@ struct Authors: View {
                 ScrollViewCarousel(title: "Authors", placeholder: SmallPlaceholderGridItem.init) {
                     ForEach(authors.prefix(10)) { author in
                         PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
-                            .id(author.imageUrl)
                     }
                 }
             }

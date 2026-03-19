@@ -11,7 +11,7 @@ import SwiftUI
 class ImageFrameController: ObservableObject {
     @Published var image: UIImage?
     private let id: String
-    private let imageUrl: String?
+    var imageUrl: String?
     private let isProfile: Bool
     private let networker = NetworkManager.shared
     
@@ -22,19 +22,17 @@ class ImageFrameController: ObservableObject {
     }
     
     func refresh() async {
-        guard image == nil else {
+        guard let imageUrl = imageUrl, image == nil else {
             return
         }
         if let data = networker.getImage(id: id) {
             self.image = UIImage(data: data)
         } else {
-            Task {
-                let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
-                if let data = data {
-                    self.image = UIImage(data: data)
-                    if isProfile {
-                        UserDefaults.standard.set(data, forKey: "userImage")
-                    }
+            let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
+            if let data = data {
+                self.image = UIImage(data: data)
+                if isProfile {
+                    UserDefaults.standard.set(data, forKey: "userImage")
                 }
             }
         }

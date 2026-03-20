@@ -60,22 +60,29 @@ class UserProfileViewController: ObservableObject {
         favouritesLoadingState = .loading
         do {
             let userFavourites = try await networker.getUserFavourites(user: user)
+            self.anime = userFavourites.anime?.map { MALListAnime(anime: Anime(item: $0)) }
+            self.manga = userFavourites.manga?.map { MALListManga(manga: Manga(item: $0)) }
             self.characters = userFavourites.characters
             self.people = userFavourites.people
-            
-            let anime = try await userFavourites.anime?.concurrentMap { anime in
-                let anime = try await NetworkManager.shared.getAnimeDetails(id: anime.id)
-                return MALListAnime(anime: anime)
-            }
-            self.anime = anime
-            
-            let manga = try await userFavourites.manga?.concurrentMap { manga in
-                let manga = try await NetworkManager.shared.getMangaDetails(id: manga.id)
-                return MALListManga(manga: manga)
-            }
-            self.manga = manga
-            
             favouritesLoadingState = .idle
+            
+            if let anime = anime {
+                await anime.indices.concurrentForEach { i in
+                    let details = try? await NetworkManager.shared.getAnimeDetails(id: anime[i].id)
+                    if let details = details {
+                        self.anime?[i] = MALListAnime(anime: details)
+                    }
+                }
+            }
+            
+            if let manga = manga {
+                await manga.indices.concurrentForEach { i in
+                    let details = try? await NetworkManager.shared.getMangaDetails(id: manga[i].id)
+                    if let details = details {
+                        self.manga?[i] = MALListManga(manga: details)
+                    }
+                }
+            }
         } catch {
             favouritesLoadingState = .error
         }

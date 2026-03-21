@@ -68,7 +68,7 @@ class MangaDetailsViewController: ObservableObject {
             self.manga = manga
             networker.mangaCache[id] = manga
             withAnimation {
-                self.authors = manga.authors
+                self.authors = manga.authors ?? []
                 self.relatedManga = manga.relatedManga?.map { RelatedItem(malId: $0.id, type: .manga, title: $0.node.title, relation: $0.relationTypeFormatted, manga: $0.node) }
             }
             loadingState = .idle

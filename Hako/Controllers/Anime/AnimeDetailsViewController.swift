@@ -14,7 +14,8 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var nextEpisode: NextAiringEpisode?
     @Published var characters: [ListCharacter]?
     @Published var staffs: [Staff]?
-    @Published var relatedItems: [RelatedItem]?
+    @Published var relatedAnime: [RelatedItem]?
+    @Published var relatedManga: [RelatedItem]?
     @Published var reviews: [Review]?
     
     // Loading states
@@ -62,7 +63,7 @@ class AnimeDetailsViewController: ObservableObject {
         }
         await loadCharacters()
         await loadStaffs()
-        await loadRelated()
+        await loadRelatedManga()
         await loadReviews()
     }
     
@@ -72,6 +73,9 @@ class AnimeDetailsViewController: ObservableObject {
             let anime = try await networker.getAnimeDetails(id: id)
             self.anime = anime
             networker.animeCache[id] = anime
+            withAnimation {
+                self.relatedAnime = anime.relatedAnime?.map { RelatedItem(malId: $0.id, type: .anime, title: $0.node.title, relation: $0.relationTypeFormatted, anime: $0.node) }
+            }
             loadingState = .idle
         } catch {
             if case NetworkError.notFound = error {
@@ -137,47 +141,35 @@ class AnimeDetailsViewController: ObservableObject {
         }
     }
     
-    func loadRelated() async {
-        if let relatedItems = networker.animeRelatedCache[id] {
-            self.relatedItems = relatedItems
+    func loadRelatedManga() async {
+        if let relatedManga = networker.animeRelatedMangaCache[id] {
+            self.relatedManga = relatedManga
             relatedLoadingState = .idle
             return
         }
         
         relatedLoadingState = .loading
         do {
-            let relations = try await networker.getAnimeRelations(id: id)
-            self.relatedItems = relations
-                .filter{ $0.relation == "Prequel" || $0.relation == "Sequel" || $0.relation == "Adaptation" || $0.relation == "Parent Story" }
-                .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation, anime: nil, manga: nil) } }
+            self.relatedManga = try await networker.getAnimeRelations(id: id)
+                .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation?.lowercased().initialCapitalise(), anime: nil, manga: nil) } }
+                .filter { $0.type == .manga }
             relatedLoadingState = .idle
-            if let items = relatedItems {
+            if let items = relatedManga {
                 var loaded = Array(repeating: true, count: items.count)
                 await items.indices.concurrentForEach { i in
-                    if items[i].type == .anime {
-                        if let anime = self.networker.animeCache[items[i].id] {
-                            self.relatedItems?[i].anime = anime
-                        } else if let anime = try? await self.networker.getAnimeDetails(id: items[i].id) {
-                            self.relatedItems?[i].anime = anime
-                            self.networker.animeCache[items[i].id] = anime
-                        } else {
-                            loaded[i] = false
-                        }
-                    } else if items[i].type == .manga {
-                        if let manga = self.networker.mangaCache[items[i].id] {
-                            self.relatedItems?[i].manga = manga
-                        } else if let manga = try? await self.networker.getMangaDetails(id: items[i].id) {
-                            self.relatedItems?[i].manga = manga
-                            self.networker.mangaCache[items[i].id] = manga
-                        } else {
-                            loaded[i] = false
-                        }
+                    if let manga = self.networker.mangaCache[items[i].id] {
+                        self.relatedManga?[i].manga = manga
+                    } else if let manga = try? await self.networker.getMangaDetails(id: items[i].id) {
+                        self.relatedManga?[i].manga = manga
+                        self.networker.mangaCache[items[i].id] = manga
+                    } else {
+                        loaded[i] = false
                     }
                 }
                 
                 // Only store to cache if all is loaded
                 if loaded.reduce(true, { $0 && $1 }) {
-                    networker.animeRelatedCache[id] = relatedItems
+                    networker.animeRelatedMangaCache[id] = relatedManga
                 }
             }
         } catch {

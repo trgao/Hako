@@ -28,3 +28,15 @@ struct RelatedItem: Codable, Identifiable {
     var anime: Anime?
     var manga: Manga?
 }
+
+struct RelatedAnime: Codable, Identifiable {
+    var id: Int { node.id }
+    let node: Anime
+    let relationTypeFormatted: String?
+}
+
+struct RelatedManga: Codable, Identifiable {
+    var id: Int { node.id }
+    let node: Manga
+    let relationTypeFormatted: String?
+}

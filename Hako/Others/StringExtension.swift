@@ -10,6 +10,10 @@ extension String {
         return range(of: string, options: .literal)?.lowerBound
     }
     
+    func initialCapitalise() -> String {
+        return self.prefix(1).capitalized + self.dropFirst()
+    }
+    
     func formatMediaType() -> String {
         let cur = self.lowercased()
         if cur.count <= 3 {
@@ -20,13 +24,13 @@ extension String {
             return "Oneshot"
         } else {
             let text = cur.replacingOccurrences(of: "_", with: " ")
-            return text.prefix(1).capitalized + text.dropFirst()
+            return text.initialCapitalise()
         }
     }
     
     func formatStatus() -> String {
         let text = self.replacingOccurrences(of: "_", with: " ").lowercased()
-        return text.prefix(1).capitalized + text.dropFirst()
+        return text.initialCapitalise()
     }
     
     func formatThemeSong() -> String {

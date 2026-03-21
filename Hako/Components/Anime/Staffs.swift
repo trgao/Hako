@@ -20,7 +20,7 @@ struct Staffs: View {
     
     var body: some View {
         ScrollViewCarousel(title: "Staffs", count: staffs?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
-            ForEach((staffs ?? []).prefix(10)) { staff in
+            ForEach(staffs?.prefix(10) ?? []) { staff in
                 PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
             }
         } destination: {

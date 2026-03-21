@@ -30,7 +30,7 @@ struct Reviews: View {
             PlaceholderReview(isLoading: isLoading)
                 .frame(width: width, alignment: .center)
         } content: {
-            ForEach((reviews ?? []).prefix(10)) { item in
+            ForEach(reviews?.prefix(10) ?? []) { item in
                 ReviewItem(item: item)
                     .frame(width: width, alignment: .center)
             }

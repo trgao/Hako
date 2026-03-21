@@ -21,7 +21,7 @@ struct Characters: View {
     
     var body: some View {
         ScrollViewCarousel(title: "Characters", count: characters?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
-            ForEach((characters ?? []).prefix(10)) { character in
+            ForEach(characters?.prefix(10) ?? []) { character in
                 CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
             }
         } destination: {

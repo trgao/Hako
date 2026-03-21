@@ -25,6 +25,8 @@ class SettingsManager: ObservableObject {
     @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
     @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
     
+    @AppStorage("defaultSeasonSort") var defaultSeasonSort = 1
+    
     @AppStorage("useStatusTabBar") var useStatusTabBar = true
     @AppStorage("defaultAnimeStatus") var defaultAnimeStatus = 1
     @AppStorage("defaultAnimeSort") var defaultAnimeSort = 2
@@ -93,6 +95,10 @@ class SettingsManager: ObservableObject {
     
     func getMangaRanking() -> RankingEnum {
         return Constants.mangaRankings[defaultMangaRanking]
+    }
+    
+    func getSeasonSort() -> SortEnum {
+        return Constants.seasonSorts[defaultSeasonSort]
     }
     
     func getAnimeStatus() -> StatusEnum {

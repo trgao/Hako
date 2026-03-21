@@ -8,7 +8,7 @@
 import Foundation
 
 enum SortEnum: String {
-    case listScore, listUpdatedAt, animeTitle, animeStartDate, mangaTitle, mangaStartDate
+    case listScore, mean, listUpdatedAt, animeTitle, animeStartDate, mangaTitle, mangaStartDate, noOfUsers
     
     func toParameter() -> String {
         switch self {
@@ -18,24 +18,27 @@ enum SortEnum: String {
         case .animeStartDate: return "anime_start_date"
         case .mangaTitle: return "manga_title"
         case .mangaStartDate: return "manga_start_date"
+        default: return ""
         }
     }
     
     func toString() -> String {
         switch self {
-        case .listScore: return "By score"
+        case .listScore, .mean: return "By score"
         case .listUpdatedAt: return "By last update"
         case .animeTitle, .mangaTitle: return "By title"
         case .animeStartDate, .mangaStartDate: return "By start date"
+        case .noOfUsers: return "By members"
         }
     }
     
     func toIcon() -> String {
         switch self {
-        case .listScore: return "star"
+        case .listScore, .mean: return "star"
         case .listUpdatedAt: return "arrow.trianglehead.clockwise.rotate.90"
         case .animeTitle, .mangaTitle: return "character"
         case .animeStartDate, .mangaStartDate: return "calendar"
+        case .noOfUsers: return "person.2"
         }
     }
 }

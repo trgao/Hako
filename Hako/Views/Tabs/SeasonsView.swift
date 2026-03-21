@@ -11,6 +11,7 @@ struct SeasonsView: View {
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
+    @State private var isInit = false
     @State private var isRefresh = false
     @Binding private var id: UUID
     @Binding private var isResetSeasons: Bool
@@ -109,30 +110,49 @@ struct SeasonsView: View {
                     }
                 }
                 .toolbar {
-                    Menu {
-                        Picker("Year", selection: $controller.year) {
-                            ForEach((1917...Constants.currentYear + 1).reversed(), id: \.self) { year in
-                                Text(String(year)).tag(String(year))
-                            }
-                        }
-                        .pickerStyle(.inline)
-                        .onChange(of: controller.year) {
-                            if year == nil && season == nil {
-                                Task {
-                                    await controller.refresh(true)
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Picker("Sort", selection: $controller.sort) {
+                                ForEach(Constants.seasonSorts, id: \.self) { sort in
+                                    Label(sort.toString(), systemImage: sort.toIcon()).tag(sort)
                                 }
                             }
+                            .pickerStyle(.inline)
+                        } label: {
+                            Label("Menu", systemImage: "arrow.up.arrow.down.circle")
+                                .labelStyle(.iconOnly)
                         }
-                    } label: {
-                        if #available (iOS 26.0, *) {
-                            Button(String(controller.year)) {}
-                                .padding()
-                        } else {
-                            Button(String(controller.year)) {}
-                                .buttonStyle(.borderedProminent)
+                        .disabled(controller.loadingState == .loading)
+                        .onChange(of: controller.sort) {
+                            controller.sortItems()
                         }
                     }
-                    .disabled(controller.loadingState == .loading)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("Year", selection: $controller.year) {
+                                ForEach((1917...Constants.currentYear + 1).reversed(), id: \.self) { year in
+                                    Text(String(year)).tag(String(year))
+                                }
+                            }
+                            .pickerStyle(.inline)
+                            .onChange(of: controller.year) {
+                                if year == nil && season == nil {
+                                    Task {
+                                        await controller.refresh(true)
+                                    }
+                                }
+                            }
+                        } label: {
+                            if #available (iOS 26.0, *) {
+                                Button(String(controller.year)) {}
+                                    .padding()
+                            } else {
+                                Button(String(controller.year)) {}
+                                    .buttonStyle(.borderedProminent)
+                            }
+                        }
+                        .disabled(controller.loadingState == .loading)
+                    }
                 }
                 .onAppear {
                     isRoot = true
@@ -155,9 +175,13 @@ struct SeasonsView: View {
                 controller.year = year
                 controller.season = season
             }
+            if !isInit {
+                controller.sort = settings.getSeasonSort()
+            }
             year = nil
             season = nil
             isRoot = true
+            isInit = true
         }
     }
 }

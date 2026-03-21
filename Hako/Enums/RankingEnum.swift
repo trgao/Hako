@@ -15,6 +15,7 @@ enum RankingEnum: String {
         case .bypopularity: return "Popularity"
         case .favorite: return "Favourites"
         case .lightnovels: return "Light novels"
+        case .all: return "All"
         default: return self.rawValue.formatMediaType()
         }
     }

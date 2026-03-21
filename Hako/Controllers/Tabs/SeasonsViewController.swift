@@ -33,7 +33,20 @@ class SeasonsViewController: ObservableObject {
     @Published var season = Constants.currentSeason
     @Published var year = Constants.currentYear
     @Published var loadingState: LoadingEnum = .loading
+    @Published var sort: SortEnum = .noOfUsers
     private let networker = NetworkManager.shared
+    
+    private func comparator(for sort: SortEnum) -> any SortComparator<MALListAnime> {
+        switch sort {
+        case .mean:
+            return KeyPathComparator(\.node.mean, order: .reverse)
+        case .animeTitle:
+            return KeyPathComparator(\.node.title)
+        case .animeStartDate:
+            return KeyPathComparator(\.node.startDate, order: .reverse)
+        default: return KeyPathComparator(\.node.numListUsers, order: .reverse)
+        }
+    }
     
     // Check if the anime list for the current season is empty
     func isSeasonEmpty() -> Bool {
@@ -56,15 +69,19 @@ class SeasonsViewController: ObservableObject {
         if clear {
             winterItems = []
             winterContinuingItems = []
+            isWinterUnreleased = false
             
             springItems = []
             springContinuingItems = []
+            isSpringUnreleased = false
             
             summerItems = []
             summerContinuingItems = []
+            isSummerUnreleased = false
             
             fallItems = []
             fallContinuingItems = []
+            isFallUnreleased = false
         }
         
         loadingState = .loading
@@ -79,18 +96,19 @@ class SeasonsViewController: ObservableObject {
             
             let animeList = initialList.filter { $0.node.rating != "rx" && $0.node.mediaType != "music" && $0.node.mediaType != "pv" }
             if season == .winter {
-                winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
-                winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
+                winterItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }.sorted(using: comparator(for: sort))
+                winterContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }.sorted(using: comparator(for: sort))
             } else if season == .spring {
-                springItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
-                springContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
+                springItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }.sorted(using: comparator(for: sort))
+                springContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }.sorted(using: comparator(for: sort))
             } else if season == .summer {
-                summerItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
-                summerContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
+                summerItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }.sorted(using: comparator(for: sort))
+                summerContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }.sorted(using: comparator(for: sort))
             } else if season == .fall {
-                fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }
-                fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }
+                fallItems = animeList.filter { $0.node.startSeason?.season == season && $0.node.startSeason?.year == year }.sorted(using: comparator(for: sort))
+                fallContinuingItems = animeList.filter { $0.node.startSeason?.season != season || $0.node.startSeason?.year != year }.sorted(using: comparator(for: sort))
             }
+            sortItems()
             loadingState = .idle
         } catch {
             // If 404 not found, usually means the season still has not been released yet
@@ -110,5 +128,19 @@ class SeasonsViewController: ObservableObject {
                 loadingState = .error
             }
         }
+    }
+    
+    func sortItems() {
+        winterItems = winterItems.sorted(using: comparator(for: sort))
+        winterContinuingItems = winterContinuingItems.sorted(using: comparator(for: sort))
+        
+        springItems = springItems.sorted(using: comparator(for: sort))
+        springContinuingItems = springContinuingItems.sorted(using: comparator(for: sort))
+        
+        summerItems = summerItems.sorted(using: comparator(for: sort))
+        summerContinuingItems = summerContinuingItems.sorted(using: comparator(for: sort))
+        
+        fallItems = fallItems.sorted(using: comparator(for: sort))
+        fallContinuingItems = fallContinuingItems.sorted(using: comparator(for: sort))
     }
 }

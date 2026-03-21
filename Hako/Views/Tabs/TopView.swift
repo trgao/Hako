@@ -38,34 +38,6 @@ struct TopView: View {
         }
     }
     
-    private var filter: some View {
-        Menu {
-            Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
-                ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
-                    Label(type.toString(), systemImage: type.toIcon()).tag(type)
-                }
-            }
-            .pickerStyle(.inline)
-        } label: {
-            Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
-                .labelStyle(.iconOnly)
-        }
-        .onChange(of: controller.animeRankingType) {
-            if isInit {
-                Task {
-                    await controller.refresh(true)
-                }
-            }
-        }
-        .onChange(of: controller.mangaRankingType) {
-            if isInit {
-                Task {
-                    await controller.refresh(true)
-                }
-            }
-        }
-    }
-    
     private var animeRankingText: some View {
         Text(controller.animeRankingType.toString())
             .padding(.vertical, 10)
@@ -177,8 +149,32 @@ struct TopView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    filter
-                        .disabled(controller.isLoading())
+                    Menu {
+                        Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
+                            ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
+                                Label(type.toString(), systemImage: type.toIcon()).tag(type)
+                            }
+                        }
+                        .pickerStyle(.inline)
+                    } label: {
+                        Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
+                            .labelStyle(.iconOnly)
+                    }
+                    .onChange(of: controller.animeRankingType) {
+                        if isInit {
+                            Task {
+                                await controller.refresh(true)
+                            }
+                        }
+                    }
+                    .onChange(of: controller.mangaRankingType) {
+                        if isInit {
+                            Task {
+                                await controller.refresh(true)
+                            }
+                        }
+                    }
+                    .disabled(controller.isLoading())
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())

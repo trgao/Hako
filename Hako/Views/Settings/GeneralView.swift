@@ -80,6 +80,10 @@ struct GeneralView: View {
                 PickerRow(title: "Default anime ranking", selection: $settings.defaultAnimeRanking, labels: animeRankings)
                 PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
+            Section("Seasons") {
+                let seasonSorts = Constants.seasonSorts.map{ $0.toString() }
+                PickerRow(title: "Default season sort", selection: $settings.defaultSeasonSort, labels: seasonSorts)
+            }
             Section("User list") {
                 Toggle(isOn: $settings.useStatusTabBar) {
                     Text("Use list status tab bar")

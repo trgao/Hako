@@ -322,7 +322,6 @@ struct ExploreView: View {
                 searchTask?.cancel()
                 searchTask = Task {
                     await controller.search(query: query)
-                    await controller.search(query: query)
                 }
             }
         }

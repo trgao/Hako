@@ -71,11 +71,11 @@ class AnimeDetailsViewController: ObservableObject {
         loadingState = .loading
         do {
             let anime = try await networker.getAnimeDetails(id: id)
-            self.anime = anime
-            networker.animeCache[id] = anime
             withAnimation {
+                self.anime = anime
                 self.relatedAnime = anime.relatedAnime?.map { RelatedItem(malId: $0.id, type: .anime, title: $0.node.title, relation: $0.relationTypeFormatted, anime: $0.node) }
             }
+            networker.animeCache[id] = anime
             loadingState = .idle
         } catch {
             if case NetworkError.notFound = error {

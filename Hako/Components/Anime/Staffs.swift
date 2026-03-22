@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Staffs: View {
+    @State private var staffsPreview: [Staff] = []
     private let staffs: [Staff]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
@@ -20,7 +21,7 @@ struct Staffs: View {
     
     var body: some View {
         ScrollViewCarousel(title: "Staffs", count: staffs?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
-            ForEach(staffs?.prefix(10) ?? []) { staff in
+            ForEach(staffsPreview) { staff in
                 PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
             }
         } destination: {
@@ -28,6 +29,9 @@ struct Staffs: View {
         }
         .task {
             await load()
+        }
+        .onChange(of: staffs?.count) {
+            staffsPreview = Array(staffs?.prefix(10) ?? [])
         }
     }
 }

@@ -10,7 +10,6 @@ import YouTubePlayerKit
 
 struct Trailers: View {
     @Environment(\.screenRatio) private var screenRatio
-    @Environment(\.scenePhase) private var scenePhase
     private let videos: [Video]
     
     init(videos: [Video]?) {
@@ -18,9 +17,9 @@ struct Trailers: View {
     }
     
     var body: some View {
-        VStack {
-            if !videos.isEmpty {
-                ScrollViewCarousel(title: "Trailers") {
+        if !videos.isEmpty {
+            ScrollView(.horizontal) {
+                LazyHStack(alignment: .top, spacing: 10) {
                     ForEach(videos) { video in
                         if let url = video.url {
                             YouTubePlayerView(YouTubePlayer(urlString: url), overlay: { state in
@@ -53,7 +52,10 @@ struct Trailers: View {
                         }
                     }
                 }
+                .padding(.horizontal, 17)
             }
+            .padding(.top, 10)
+            .scrollIndicators(.never)
         }
     }
 }

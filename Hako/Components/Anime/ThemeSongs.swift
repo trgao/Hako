@@ -12,6 +12,8 @@ struct ThemeSongs: View {
     @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
     @ScaledMetric private var height = 100
+    @State private var openingPreview: [Theme] = []
+    @State private var endingPreview: [Theme] = []
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
     
@@ -41,7 +43,7 @@ struct ThemeSongs: View {
     var body: some View {
         if let openingThemes = openingThemes {
             ScrollViewCarousel(title: "Openings", count: openingThemes.count, viewAlignedScroll: true) {
-                ForEach(openingThemes.prefix(10)) { theme in
+                ForEach(openingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)
                     }
@@ -49,16 +51,22 @@ struct ThemeSongs: View {
             } destination: {
                 ThemesListView(themes: openingThemes)
             }
+            .onAppear {
+                openingPreview = Array(openingThemes.prefix(10))
+            }
         }
         if let endingThemes = endingThemes {
             ScrollViewCarousel(title: "Endings", count: endingThemes.count, viewAlignedScroll: true) {
-                ForEach(endingThemes.prefix(10)) { theme in
+                ForEach(endingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)
                     }
                 }
             } destination: {
                 ThemesListView(themes: endingThemes)
+            }
+            .onAppear {
+                endingPreview = Array(endingThemes.prefix(10))
             }
         }
     }

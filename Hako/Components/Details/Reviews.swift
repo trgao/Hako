@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Reviews: View {
     @Environment(\.colorScheme) private var colorScheme
+    @State private var reviewsPreview: [Review] = []
     private let id: Int
     private let type: TypeEnum
     private let reviews: [Review]?
@@ -30,7 +31,7 @@ struct Reviews: View {
             PlaceholderReview(isLoading: isLoading)
                 .frame(width: width, alignment: .center)
         } content: {
-            ForEach(reviews?.prefix(10) ?? []) { item in
+            ForEach(reviewsPreview) { item in
                 ReviewItem(item: item)
                     .frame(width: width, alignment: .center)
             }
@@ -39,6 +40,9 @@ struct Reviews: View {
         }
         .task {
             await load()
+        }
+        .onChange(of: reviews?.count) {
+            reviewsPreview = Array(reviews?.prefix(10) ?? [])
         }
     }
 }

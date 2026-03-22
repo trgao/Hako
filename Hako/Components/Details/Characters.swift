@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Characters: View {
     @EnvironmentObject private var settings: SettingsManager
+    @State private var charactersPreview: [ListCharacter] = []
     private let characters: [ListCharacter]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
@@ -21,7 +22,7 @@ struct Characters: View {
     
     var body: some View {
         ScrollViewCarousel(title: "Characters", count: characters?.count, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
-            ForEach(characters?.prefix(10) ?? []) { character in
+            ForEach(charactersPreview) { character in
                 CharacterGridItem(id: character.id, name: character.character.name, imageUrl: character.character.images?.jpg?.imageUrl)
             }
         } destination: {
@@ -29,6 +30,9 @@ struct Characters: View {
         }
         .task {
             await load()
+        }
+        .onChange(of: characters?.count) {
+            charactersPreview = Array(characters?.prefix(10) ?? [])
         }
     }
 }

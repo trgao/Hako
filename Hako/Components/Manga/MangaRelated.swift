@@ -9,14 +9,29 @@ import SwiftUI
 
 struct MangaRelated: View {
     @State private var relatedPreview: [RelatedItem] = []
+    private let relatedAnime: [RelatedItem]?
     private let relatedManga: [RelatedItem]?
+    private let loadingState: LoadingEnum
+    private let load: () async -> Void
     
-    init(relatedManga: [RelatedItem]?) {
+    init(relatedAnime: [RelatedItem]?, relatedManga: [RelatedItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
+        self.relatedAnime = relatedAnime
         self.relatedManga = relatedManga
+        self.loadingState = loadingState
+        self.load = load
     }
     
     var body: some View {
-        ScrollViewCarousel(title: "Related", count: relatedManga?.count) {
+        ScrollViewCarousel(title: "Related anime", count: relatedAnime?.count, loadingState: loadingState, refresh: load) {
+            ForEach(relatedAnime ?? []) { item in
+                AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.anime?.mediaType?.formatMediaType(), anime: item.anime)
+            }
+            .padding(-5)
+        }
+        .task {
+            await load()
+        }
+        ScrollViewCarousel(title: "Related manga", count: relatedManga?.count) {
             ForEach(relatedPreview) { item in
                 MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
             }

@@ -105,11 +105,8 @@ struct AnimeDetailsView: View {
                                 if !settings.hideStaffs {
                                     Staffs(staffs: controller.staffs, loadingState: controller.staffsLoadingState, load: controller.loadStaffs)
                                 }
-                                if !settings.hideAnimeAdaptations {
-                                    AnimeAdaptations(relatedManga: controller.relatedManga,  loadingState: controller.relatedLoadingState, load: controller.loadRelatedManga)
-                                }
                                 if !settings.hideAnimeRelated {
-                                    AnimeRelated(relatedAnime: controller.relatedAnime)
+                                    AnimeRelated(relatedManga: controller.relatedManga, relatedAnime: controller.relatedAnime, loadingState: controller.relatedLoadingState, load: controller.loadRelatedManga)
                                 }
                                 if !settings.hideAnimeRecommendations {
                                     Recommendations(animeRecommendations: anime.recommendations)

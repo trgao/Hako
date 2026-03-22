@@ -94,9 +94,6 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideStaffs) {
                     Text("Hide staffs")
                 }
-                Toggle(isOn: $settings.hideAnimeAdaptations) {
-                    Text("Hide adaptations")
-                }
                 Toggle(isOn: $settings.hideAnimeRelated) {
                     Text("Hide related")
                 }
@@ -129,9 +126,6 @@ struct HideItemsView: View {
                 }
                 Toggle(isOn: $settings.hideAuthors) {
                     Text("Hide authors")
-                }
-                Toggle(isOn: $settings.hideMangaAdaptations) {
-                    Text("Hide adaptations")
                 }
                 Toggle(isOn: $settings.hideMangaRelated) {
                     Text("Hide related")

@@ -68,7 +68,18 @@ class MangaDetailsViewController: ObservableObject {
             withAnimation {
                 self.manga = manga
                 self.authors = manga.authors ?? []
-                self.relatedManga = manga.relatedManga?.map { RelatedItem(malId: $0.id, type: .manga, title: $0.node.title, relation: $0.relationTypeFormatted, manga: $0.node) }
+                var prequels: [RelatedItem] = [], sequels: [RelatedItem] = [], others: [RelatedItem] = []
+                manga.relatedManga?.forEach {
+                    let item = RelatedItem(malId: $0.id, type: .manga, title: $0.node.title, relation: $0.relationTypeFormatted, manga: $0.node)
+                    if item.relation == "Prequel" {
+                        prequels.append(item)
+                    } else if item.relation == "Sequel" {
+                        sequels.append(item)
+                    } else {
+                        others.append(item)
+                    }
+                }
+                self.relatedManga = prequels + sequels + others.sorted(by: { ($0.relation ?? "") < ($1.relation ?? "") })
             }
             networker.mangaCache[id] = manga
             loadingState = .idle

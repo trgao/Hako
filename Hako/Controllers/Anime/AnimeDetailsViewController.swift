@@ -73,7 +73,18 @@ class AnimeDetailsViewController: ObservableObject {
             let anime = try await networker.getAnimeDetails(id: id)
             withAnimation {
                 self.anime = anime
-                self.relatedAnime = anime.relatedAnime?.map { RelatedItem(malId: $0.id, type: .anime, title: $0.node.title, relation: $0.relationTypeFormatted, anime: $0.node) }
+                var prequels: [RelatedItem] = [], sequels: [RelatedItem] = [], others: [RelatedItem] = []
+                anime.relatedAnime?.forEach {
+                    let item = RelatedItem(malId: $0.id, type: .anime, title: $0.node.title, relation: $0.relationTypeFormatted, anime: $0.node)
+                    if item.relation == "Prequel" {
+                        prequels.append(item)
+                    } else if item.relation == "Sequel" {
+                        sequels.append(item)
+                    } else {
+                        others.append(item)
+                    }
+                }
+                self.relatedAnime = prequels + sequels + others.sorted(by: { ($0.relation ?? "") < ($1.relation ?? "") })
             }
             networker.animeCache[id] = anime
             loadingState = .idle

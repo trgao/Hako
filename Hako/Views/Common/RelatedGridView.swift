@@ -59,6 +59,7 @@ struct RelatedGridView: View {
             }
             .padding(10)
         }
+        .id(type)
         .navigationTitle("Related")
         .toolbar {
             Menu {

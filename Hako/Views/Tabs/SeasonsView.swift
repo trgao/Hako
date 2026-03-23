@@ -59,6 +59,7 @@ struct SeasonsView: View {
             .padding(.horizontal, 10)
             .padding(.bottom, 45)
         }
+        .id(controller.sort)
     }
     
     var body: some View {

@@ -39,6 +39,9 @@ struct AnimeRelated: View {
         } destination: {
             RelatedGridView(relatedAnime: relatedAnime)
         }
+        .onAppear {
+            relatedPreview = Array(relatedAnime?.prefix(10) ?? [])
+        }
         .onChange(of: relatedAnime?.count) {
             relatedPreview = Array(relatedAnime?.prefix(10) ?? [])
         }

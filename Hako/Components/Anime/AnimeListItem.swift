@@ -17,9 +17,9 @@ struct AnimeListItem: View {
     private let numEpisodes: String
     private let numEpisodesWatched: String
     private let watchProgress: Float
+    private let isLoading: Bool
     
-    
-    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1) {
+    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.anime = anime
         self._selectedAnime = selectedAnime
         self._selectedAnimeIndex = selectedAnimeIndex
@@ -33,6 +33,7 @@ struct AnimeListItem: View {
             self.watchProgress = watched == 0 ? 0 : 0.5
         }
         self.numEpisodesWatched = String(watched)
+        self.isLoading = isLoading
     }
     
     var body: some View {
@@ -91,6 +92,7 @@ struct AnimeListItem: View {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
+                            .disabled(isLoading)
                         }
                     }
                 }

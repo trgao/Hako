@@ -25,8 +25,12 @@ struct ImageCarousel: View {
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id
         self.imageUrl = imageUrl
-        let allPictures = pictures ?? [Picture(medium: imageUrl, large: nil)]
-        self.pictures = allPictures
+        self.pictures = [Picture(medium: imageUrl, large: nil)] + (pictures?.filter {
+            let url = (imageUrl as NSString?)?.deletingPathExtension
+            let medium = ($0.medium as NSString?)?.deletingPathExtension
+            let large = ($0.large as NSString?)?.deletingPathExtension
+            return medium != url && large != url
+        } ?? [])
     }
     
     private var image: some View {

@@ -42,7 +42,7 @@ struct MyListView: View {
     
     @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
         ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
-            AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+            AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, isLoading: controller.isRefreshLoading)
                 .onAppear {
                     Task {
                         await controller.loadMoreIfNeeded(index: index)
@@ -80,7 +80,7 @@ struct MyListView: View {
     
     @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
         ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
-            MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+            MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, isLoading: controller.isRefreshLoading)
                 .onAppear {
                     Task {
                         await controller.loadMoreIfNeeded(index: index)

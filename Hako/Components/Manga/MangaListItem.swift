@@ -20,8 +20,9 @@ struct MangaListItem: View {
     private let numVolumes: String
     private let numVolumesRead: String
     private let volumesReadProgress: Float
+    private let isLoading: Bool
     
-    init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1) {
+    init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.manga = manga
         self._selectedManga = selectedManga
         self._selectedMangaIndex = selectedMangaIndex
@@ -44,6 +45,7 @@ struct MangaListItem: View {
         }
         self.numChaptersRead = String(chaptersRead)
         self.numVolumesRead = String(volumesRead)
+        self.isLoading = isLoading
     }
     
     var body: some View {
@@ -100,6 +102,7 @@ struct MangaListItem: View {
                                 Image(systemName: "square.and.pencil")
                             }
                             .buttonStyle(.bordered)
+                            .disabled(isLoading)
                         }
                     }
                 }

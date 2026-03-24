@@ -31,19 +31,21 @@ struct AnimeRelated: View {
         .task {
             await load()
         }
-        ScrollViewCarousel(title: "Related anime", count: relatedAnime?.count) {
-            ForEach(relatedPreview) { item in
-                AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+        if let relatedAnime = relatedAnime {
+            ScrollViewCarousel(title: "Related anime", count: relatedAnime.count) {
+                ForEach(relatedPreview) { item in
+                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+                }
+                .padding(-5)
+            } destination: {
+                RelatedGridView(relatedAnime: relatedAnime)
             }
-            .padding(-5)
-        } destination: {
-            RelatedGridView(relatedAnime: relatedAnime)
-        }
-        .onAppear {
-            relatedPreview = Array(relatedAnime?.prefix(10) ?? [])
-        }
-        .onChange(of: relatedAnime?.count) {
-            relatedPreview = Array(relatedAnime?.prefix(10) ?? [])
+            .onAppear {
+                relatedPreview = Array(relatedAnime.prefix(10))
+            }
+            .onChange(of: relatedAnime.count) {
+                relatedPreview = Array(relatedAnime.prefix(10))
+            }
         }
     }
 }

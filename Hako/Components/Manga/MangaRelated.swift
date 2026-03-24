@@ -31,19 +31,21 @@ struct MangaRelated: View {
         .task {
             await load()
         }
-        ScrollViewCarousel(title: "Related manga", count: relatedManga?.count) {
-            ForEach(relatedPreview) { item in
-                MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
+        if let relatedManga = relatedManga {
+            ScrollViewCarousel(title: "Related manga", count: relatedManga.count) {
+                ForEach(relatedPreview) { item in
+                    MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
+                }
+                .padding(-5)
+            } destination: {
+                RelatedGridView(relatedManga: relatedManga)
             }
-            .padding(-5)
-        } destination: {
-            RelatedGridView(relatedManga: relatedManga)
-        }
-        .onAppear {
-            relatedPreview = Array(relatedManga?.prefix(10) ?? [])
-        }
-        .onChange(of: relatedManga?.count) {
-            relatedPreview = Array(relatedManga?.prefix(10) ?? [])
+            .onAppear {
+                relatedPreview = Array(relatedManga.prefix(10))
+            }
+            .onChange(of: relatedManga.count) {
+                relatedPreview = Array(relatedManga.prefix(10))
+            }
         }
     }
 }

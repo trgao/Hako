@@ -19,21 +19,27 @@ struct LoadingList: View {
     
     var body: some View {
         ForEach(dummyList, id: \.self) { id in
-            HStack {
-                if showImage {
-                    ImageFrame(id: "", imageUrl: nil, imageSize: Constants.listImageSize)
-                    VStack(alignment: .leading) {
-                        Text("placeholder")
-                            .bold()
-                            .font(.callout)
+            NavigationLink {
+                EmptyView()
+            } label: {
+                HStack {
+                    if showImage {
+                        ImageFrame(id: "", imageUrl: nil, imageSize: Constants.listImageSize)
+                        VStack(alignment: .leading) {
+                            Text("placeholderplaceholder")
+                                .font(.callout)
+                            Text("placeholder")
+                                .font(.footnote)
+                        }
+                        .padding(5)
+                    } else {
+                        Text("placeholder placeholder")
                     }
-                    .padding(5)
-                } else {
-                    Text("placeholder")
                 }
+                .skeleton()
             }
-            .skeleton()
             .padding(5)
+            .disabled(true)
         }
         .id(id)
         .onDisappear {

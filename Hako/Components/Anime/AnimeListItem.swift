@@ -54,23 +54,6 @@ struct AnimeListItem: View {
                             .bold()
                             .font(.callout)
                     }
-                    if networker.isSignedIn || anime.listStatus != nil {
-                        VStack(alignment: .leading) {
-                            ProgressView(value: watchProgress)
-                                .tint(anime.listStatus?.status?.toColour())
-                            HStack {
-                                Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabelStyle())
-                                Spacer()
-                                if let score = anime.listStatus?.score, score > 0 {
-                                    Text("\(score) ⭐")
-                                        .bold()
-                                }
-                            }
-                            .font(.footnote)
-                        }
-                    }
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             if let startSeason = anime.node.startSeason, let season = startSeason.season, let year = startSeason.year {
@@ -79,10 +62,17 @@ struct AnimeListItem: View {
                             if let status = anime.node.status {
                                 Text(status.formatStatus())
                             }
+                            HStack {
+                                Text("\(anime.node.mean == nil ? "N/A" : String(anime.node.mean!)) ⭐")
+                                if let score = anime.listStatus?.score, score > 0 {
+                                    Label("\(score) ⭐", systemImage: "person.fill")
+                                        .labelStyle(CustomLabelStyle())
+                                }
+                            }
+                            .bold()
                         }
                         .opacity(0.7)
                         .font(.footnote)
-                        .padding(.top, 1)
                         Spacer()
                         if networker.isSignedIn && index != -1 {
                             Button {
@@ -95,8 +85,19 @@ struct AnimeListItem: View {
                             .disabled(isLoading)
                         }
                     }
+                    if networker.isSignedIn || anime.listStatus != nil {
+                        VStack(alignment: .leading) {
+                            ProgressView(value: watchProgress)
+                                .tint(anime.listStatus?.status?.toColour())
+                            Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
+                                .foregroundStyle(Color(.systemGray))
+                                .labelStyle(CustomLabelStyle())
+                                .font(.caption)
+                        }
+                        .padding(.top, 5)
+                    }
                 }
-                .padding(5)
+                .padding(.horizontal, 5)
             }
             .contextMenu {
                 ShareLink(item: URL(string: "https://myanimelist.net/anime/\(anime.id)")!) {

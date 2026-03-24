@@ -66,33 +66,25 @@ struct MangaListItem: View {
                             .bold()
                             .font(.callout)
                     }
-                    if networker.isSignedIn || manga.listStatus != nil {
+                    HStack(alignment: .center) {
                         VStack(alignment: .leading) {
-                            ProgressView(value: settings.mangaReadProgress == 0 ? chaptersReadProgress : volumesReadProgress)
-                                .tint(manga.listStatus?.status?.toColour())
+                            if let mediaType = manga.node.mediaType {
+                                Text(mediaType.formatMediaType())
+                            }
+                            if let status = manga.node.status {
+                                Text(status.formatStatus())
+                            }
                             HStack {
-                                Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabelStyle())
-                                Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
-                                    .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabelStyle())
-                                Spacer()
+                                Text("\(manga.node.mean == nil ? "N/A" : String(manga.node.mean!)) ⭐")
                                 if let score = manga.listStatus?.score, score > 0 {
-                                    Text("\(score) ⭐")
-                                        .bold()
+                                    Label("\(score) ⭐", systemImage: "person.fill")
+                                        .labelStyle(CustomLabelStyle())
                                 }
                             }
-                            .font(.footnote)
+                            .bold()
                         }
-                    }
-                    HStack(alignment: .center) {
-                        if let status = manga.node.status {
-                            Text(status.formatStatus())
-                                .opacity(0.7)
-                                .font(.footnote)
-                                .padding(.top, 1)
-                        }
+                        .opacity(0.7)
+                        .font(.footnote)
                         Spacer()
                         if networker.isSignedIn && index != -1 {
                             Button {
@@ -105,8 +97,24 @@ struct MangaListItem: View {
                             .disabled(isLoading)
                         }
                     }
+                    if networker.isSignedIn || manga.listStatus != nil {
+                        VStack(alignment: .leading) {
+                            ProgressView(value: settings.mangaReadProgress == 0 ? chaptersReadProgress : volumesReadProgress)
+                                .tint(manga.listStatus?.status?.toColour())
+                            HStack {
+                                Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
+                                    .foregroundStyle(Color(.systemGray))
+                                    .labelStyle(CustomLabelStyle())
+                                Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
+                                    .foregroundStyle(Color(.systemGray))
+                                    .labelStyle(CustomLabelStyle())
+                            }
+                            .font(.footnote)
+                        }
+                        .padding(.top, 5)
+                    }
                 }
-                .padding(5)
+                .padding(.horizontal, 5)
             }
             .contextMenu {
                 ShareLink(item: URL(string: "https://myanimelist.net/manga/\(manga.id)")!) {

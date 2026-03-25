@@ -11,9 +11,11 @@ import YouTubePlayerKit
 struct Trailers: View {
     @Environment(\.screenRatio) private var screenRatio
     private let videos: [Video]
+    private let configuration: YouTubePlayer.Configuration
     
     init(videos: [Video]?) {
         self.videos = videos ?? []
+        self.configuration = .init(allowsInlineMediaPlayback: false, allowsPictureInPictureMediaPlayback: true)
     }
     
     var body: some View {
@@ -22,7 +24,7 @@ struct Trailers: View {
                 LazyHStack(alignment: .top, spacing: 10) {
                     ForEach(videos) { video in
                         if let url = video.url {
-                            YouTubePlayerView(YouTubePlayer(urlString: url), overlay: { state in
+                            YouTubePlayerView(YouTubePlayer(source: YouTubePlayer.Source(urlString: url), configuration: configuration), overlay: { state in
                                 switch state {
                                 case .idle:
                                     ZStack {

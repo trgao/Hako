@@ -14,7 +14,7 @@ struct CharacterListItem: View {
     
     init(character: JikanListItem) {
         self.character = character
-        self.subtitle = nil
+        self.subtitle = character.nameKanji
     }
     
     init(character: ListCharacter) {

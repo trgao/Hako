@@ -14,7 +14,7 @@ struct PersonListItem: View {
     
     init(person: JikanListItem) {
         self.person = person
-        self.subtitle = nil
+        self.subtitle = person.birthday?.toString()
     }
     
     init(person: Staff) {

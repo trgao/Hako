@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FIREBASE_LINK</key>
-	<string>$(FIREBASE_LINK)</string>
 	<key>API_CLIENT_ID</key>
 	<string>$(API_CLIENT_ID)</string>
 	<key>CFBundleIcons</key>
@@ -54,10 +52,6 @@
 			<false/>
 		</dict>
 	</dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>The app needs access to photo library to save images</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>The app needs Face ID to lock the app</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -71,10 +65,16 @@
 			</array>
 		</dict>
 	</array>
+	<key>FIREBASE_LINK</key>
+	<string>$(FIREBASE_LINK)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>spotify</string>
 		<string>music</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
 	</array>
 </dict>
 </plist>

@@ -30,9 +30,8 @@ public class TokenBucket {
     /**
      * Initializes a new TokenBucket instance.
      *
-     * - Parameters:
-     * - capacity: The maximum number of tokens the bucket can hold. Must be greater than 0.
-     * - refillRate: The number of tokens to add to the bucket per second. Must be greater than 0.
+     * - Parameter capacity: The maximum number of tokens the bucket can hold. Must be greater than 0.
+     * - Parameter refillRate: The number of tokens to add to the bucket per second. Must be greater than 0.
      */
     public init(capacity: Int, refillRate: Double) {
         self.capacity = capacity
@@ -69,8 +68,6 @@ public class TokenBucket {
      * until the required tokens have been refilled.
      *
      * This method is thread-safe and non-blocking. It requires a modern Swift concurrency context (async/await).
-     *
-     * - Parameter tokensToConsume: The number of tokens to consume. Defaults to 1.
      */
     public func consumeOrWaitAsync() async {
         while true {

@@ -71,7 +71,7 @@ class SettingsManager: ObservableObject {
     
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
     @AppStorage("hideAnimeInformation") var hideAnimeInformation = false
-    @AppStorage("hideAiring") var hideAiringSchedule = false
+    @AppStorage("hideUpcoming") var hideUpcoming = false
     @AppStorage("hideTrailers") var hideTrailers = false
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false

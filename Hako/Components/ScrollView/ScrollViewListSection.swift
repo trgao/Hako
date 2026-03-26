@@ -40,7 +40,6 @@ struct ScrollViewListSection<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
             .padding(.top, 10)
-            .font(.headline)
             if !isExpandable || isExpanded {
                 LazyVStack(spacing: 5) {
                     content()

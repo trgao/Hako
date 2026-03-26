@@ -62,7 +62,8 @@ struct AnimeProgress: View {
                     }
                 }
             }
-            .padding(20)
+            .padding(.vertical, 15)
+            .padding(.horizontal, 20)
         }
     }
 }

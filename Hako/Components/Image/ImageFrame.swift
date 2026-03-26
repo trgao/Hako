@@ -55,7 +55,7 @@ struct ImageFrame: View {
                         }
                 } else {
                     Rectangle()
-                        .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
+                        .foregroundStyle(colorScheme == .light ? Color(.systemGray6) : .black)
                         .frame(width: width, height: height)
                 }
             } else {

@@ -9,6 +9,7 @@ import SwiftUI
 import Translation
 
 struct TextBox: View {
+    @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
     @ScaledMetric private var chevronSize = 30
     @State private var isExpanded = false
@@ -28,7 +29,7 @@ struct TextBox: View {
                 VStack {
                     Text(text)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(isExpanded ? nil : 4)
+                        .lineLimit(isExpanded ? nil : (screenSize.width >= 600 ? 8 : 4))
                         .background {
                             ViewThatFits(in: .vertical) {
                                 Text(text)

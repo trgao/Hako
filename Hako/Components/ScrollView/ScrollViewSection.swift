@@ -22,16 +22,14 @@ struct ScrollViewSection<Content: View>: View {
             Text(title)
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                .font(.headline)
+                .padding(.horizontal, 10)
             VStack(spacing: 0) {
                 content()
             }
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }
+        .padding(.vertical, 5)
         .padding(.horizontal, 17)
-        .padding(.bottom, 5)
     }
 }

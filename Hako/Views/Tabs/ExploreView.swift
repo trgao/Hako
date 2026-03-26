@@ -44,25 +44,25 @@ struct ExploreView: View {
     }
     
     @ViewBuilder private var exploreAnimeManga: some View {
-        if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+        if dynamicTypeSize <= .xxLarge {
             HStack {
-                ScrollViewBox(title: "Anime", image: "tv.fill") {
+                ExploreBox(title: "Anime", image: "tv.fill") {
                     ExploreAnimeView()
                 }
                 Spacer()
-                ScrollViewBox(title: "Manga", image: "book.fill") {
+                ExploreBox(title: "Manga", image: "book.fill") {
                     ExploreMangaView()
                 }
             }
             .padding(.horizontal, 17)
             Spacer()
         } else {
-            ScrollViewBox(title: "Anime", image: "tv.fill") {
+            ExploreBox(title: "Anime", image: "tv.fill") {
                 ExploreAnimeView()
             }
             .padding(.horizontal, 17)
             Spacer()
-            ScrollViewBox(title: "Manga", image: "book.fill") {
+            ExploreBox(title: "Manga", image: "book.fill") {
                 ExploreMangaView()
             }
             .padding(.horizontal, 17)
@@ -71,25 +71,25 @@ struct ExploreView: View {
     }
     
     @ViewBuilder private var exploreCharactersPeople: some View {
-        if dynamicTypeSize == .xSmall || dynamicTypeSize == .small || dynamicTypeSize == .medium || dynamicTypeSize == .large || dynamicTypeSize == .xLarge || dynamicTypeSize == .xxLarge {
+        if dynamicTypeSize <= .xxLarge {
             HStack {
-                ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+                ExploreBox(title: "Characters", image: "person.crop.circle.fill") {
                     ExploreCharactersView()
                 }
                 Spacer()
-                ScrollViewBox(title: "People", image: "person.fill") {
+                ExploreBox(title: "People", image: "person.fill") {
                     ExplorePeopleView()
                 }
             }
             .padding(.horizontal, 17)
             Spacer()
         } else {
-            ScrollViewBox(title: "Characters", image: "person.crop.circle.fill") {
+            ExploreBox(title: "Characters", image: "person.crop.circle.fill") {
                 ExploreCharactersView()
             }
             .padding(.horizontal, 17)
             Spacer()
-            ScrollViewBox(title: "People", image: "person.fill") {
+            ExploreBox(title: "People", image: "person.fill") {
                 ExplorePeopleView()
             }
             .padding(.horizontal, 17)
@@ -108,7 +108,7 @@ struct ExploreView: View {
                         exploreCharactersPeople
                     }
                     if !settings.hideNews {
-                        ScrollViewBox(title: "News", image: "newspaper.fill") {
+                        ExploreBox(title: "News", image: "newspaper.fill") {
                             NewsListView()
                         }
                         .padding(.horizontal, 17)
@@ -473,5 +473,42 @@ struct ExploreView: View {
                 isRoot = true
             }
         }
+    }
+}
+
+struct ExploreBox<Destination: View>: View {
+    @Environment(\.screenSize) private var screenSize
+    @EnvironmentObject private var settings: SettingsManager
+    @State private var isPressed = false
+    @State private var isLongPress = false
+    private let title: String
+    private let image: String
+    private let destination: () -> Destination
+
+    init(title: String, image: String, destination: @escaping () -> Destination) {
+        self.title = title
+        self.image = image
+        self.destination = destination
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Label(title, systemImage: image)
+                .foregroundStyle(settings.getAccentColor())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .bold()
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            isPressed = true
+        }
+        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
+            isLongPress = pressing
+        }) {}
+        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }

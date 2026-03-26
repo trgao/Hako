@@ -7,43 +7,44 @@
 
 import SwiftUI
 
-struct ScrollViewBox<Content: View>: View {
+struct ScrollViewBox: View {
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
-    @ScaledMetric private var height = 55
-    @State private var isPressed = false
-    @State private var isLongPress = false
+    @ScaledMetric private var height = 20
     private let title: String
     private let image: String
-    private let isFull: Bool
-    private let destination: () -> Content
+    private let content: String
     
-    init(title: String, image: String, isFull: Bool = false, destination: @escaping () -> Content) {
+    init(title: String, image: String, content: String) {
         self.title = title
         self.image = image
-        self.isFull = isFull
-        self.destination = destination
+        self.content = content
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Label(title, systemImage: image)
-                .foregroundStyle(settings.getAccentColor())
-                .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .center) {
+            Text(title)
+                .font(.subheadline)
+            Label(content, systemImage: image)
+                .labelStyle(CustomLabelStyle())
                 .bold()
+                .frame(height: height)
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            isPressed = true
-        }
-        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
-            isLongPress = pressing
-        }) {}
-        .padding(20)
-        .frame(height: height)
+        .padding(10)
         .frame(maxWidth: .infinity)
-        .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
+        .frame(height: height + 55)
+        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .navigationDestination(isPresented: $isPressed, destination: destination)
+        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+        .contextMenu {
+            Button {
+                UIPasteboard.general.string = content
+            } label: {
+                Label("Copy", systemImage: "document.on.document")
+                Text(content)
+            }
+        }
     }
 }

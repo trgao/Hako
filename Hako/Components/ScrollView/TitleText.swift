@@ -25,17 +25,16 @@ struct TitleText: View {
             if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
                 Text(title)
                     .bold()
-                    .font(.title)
+                    .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                     .multilineTextAlignment(.center)
             } else {
                 Text(romaji)
                     .bold()
-                    .font(.title)
+                    .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                     .multilineTextAlignment(.center)
             }
             if let japanese = japanese {
                 Text(japanese)
-                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }

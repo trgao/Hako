@@ -82,8 +82,8 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideAnimeInformation) {
                     Text("Hide information")
                 }
-                Toggle(isOn: $settings.hideAiringSchedule) {
-                    Text("Hide airing schedule")
+                Toggle(isOn: $settings.hideUpcoming) {
+                    Text("Hide upcoming")
                 }
                 Toggle(isOn: $settings.hideTrailers) {
                     Text("Hide trailers")

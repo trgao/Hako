@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScrollViewRow: View {
     @Environment(\.colorScheme) private var colorScheme
-    private let title: String
+    private let title: String?
     private let content: String
     
     init(title: String, content: String) {
@@ -17,12 +17,21 @@ struct ScrollViewRow: View {
         self.content = content
     }
     
+    init(_ content: String) {
+        self.title = nil
+        self.content = content
+    }
+    
     var body: some View {
         HStack {
-            Text(title)
-                .bold()
-            Spacer()
+            if let title = title {
+                Text(title)
+                    .bold()
+                Spacer()
+            }
             Text(content)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: title == nil ? .leading : .trailing)
         }
         .contentShape(Rectangle())
         .padding(.horizontal, 20)

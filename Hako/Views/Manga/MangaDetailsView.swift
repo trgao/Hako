@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaDetailsView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: MangaDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -53,22 +54,20 @@ struct MangaDetailsView: View {
                                 HStack {
                                     VStack {
                                         if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                            Text("MAL score:")
-                                                .font(.footnote)
+                                            Text("MAL score:").font(.footnote)
                                         }
                                         Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
                                     }
                                     if let myScore = manga.myListStatus?.score, myScore > 0 {
                                         VStack {
-                                            Text("Your score:")
-                                                .font(.footnote)
+                                            Text("Your score:").font(.footnote)
                                             Text("\(myScore) ⭐")
                                         }
                                         .padding(.leading, 20)
                                     }
                                 }
                                 .bold()
-                                .font(.title2)
+                                .font(UIDevice.current.userInterfaceIdiom == .phone ? .title3 : .title2)
                                 .padding(.bottom, 5)
                                 VStack {
                                     if let mediaType = manga.mediaType, let status = manga.status {
@@ -83,12 +82,27 @@ struct MangaDetailsView: View {
                             if controller.loadingState == .loading && manga.isEmpty() {
                                 ProgressView()
                             } else if !manga.isEmpty() {
-                                TextBox(title: "Synopsis", text: manga.synopsis)
-                                if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
-                                    MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
-                                }
-                                if !settings.hideMangaInformation {
-                                    MangaInformation(manga: manga)
+                                if geometry.size.width >= 900 && dynamicTypeSize <= .xxxLarge {
+                                    HStack(alignment: .top, spacing: 0) {
+                                        VStack {
+                                            TextBox(title: "Synopsis", text: manga.synopsis)
+                                            if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
+                                                MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
+                                            }
+                                        }
+                                        .padding(.trailing, -8)
+                                        if !settings.hideMangaInformation {
+                                            MangaInformation(manga: manga).padding(.leading, -8)
+                                        }
+                                    }
+                                } else {
+                                    TextBox(title: "Synopsis", text: manga.synopsis)
+                                    if networker.isSignedIn && !settings.hideMangaProgress && !manga.isEmpty() {
+                                        MangaProgress(manga: manga, isLoading: controller.loadingState == .loading)
+                                    }
+                                    if !settings.hideMangaInformation {
+                                        MangaInformation(manga: manga)
+                                    }
                                 }
                                 if !settings.hideMangaCharacters {
                                     Characters(characters: controller.characters, loadingState: controller.charactersLoadingState, load: controller.loadCharacters)

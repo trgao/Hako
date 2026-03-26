@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeDetailsView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: AnimeDetailsViewController
     @StateObject private var networker = NetworkManager.shared
@@ -53,22 +54,20 @@ struct AnimeDetailsView: View {
                                 HStack {
                                     VStack {
                                         if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
-                                            Text("MAL score:")
-                                                .font(.footnote)
+                                            Text("MAL score:").font(.footnote)
                                         }
                                         Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
                                     }
                                     if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
                                         VStack {
-                                            Text("Your score:")
-                                                .font(.footnote)
+                                            Text("Your score:").font(.footnote)
                                             Text("\(myScore) ⭐")
                                         }
                                         .padding(.leading, 20)
                                     }
                                 }
+                                .font(UIDevice.current.userInterfaceIdiom == .phone ? .title3 : .title2)
                                 .bold()
-                                .font(.title2)
                                 .padding(.bottom, 5)
                                 VStack {
                                     if let startSeason = anime.startSeason, let season = startSeason.season, let year = startSeason.year {
@@ -86,15 +85,33 @@ struct AnimeDetailsView: View {
                             if controller.loadingState == .loading && anime.isEmpty() {
                                 ProgressView()
                             } else if !anime.isEmpty() {
-                                TextBox(title: "Synopsis", text: anime.synopsis)
-                                if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
-                                    AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
-                                }
-                                if !settings.hideAnimeInformation {
-                                    AnimeInformation(anime: anime)
-                                }
-                                if !settings.hideAiringSchedule {
-                                    AnimeAiringSchedule(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                if geometry.size.width >= 900 && dynamicTypeSize <= .xxxLarge {
+                                    HStack(alignment: .top, spacing: 0) {
+                                        VStack {
+                                            TextBox(title: "Synopsis", text: anime.synopsis)
+                                            if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
+                                                AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
+                                            }
+                                            if !settings.hideUpcoming {
+                                                AnimeUpcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                            }
+                                        }
+                                        .padding(.trailing, -8)
+                                        if !settings.hideAnimeInformation {
+                                            AnimeInformation(anime: anime).padding(.leading, -8)
+                                        }
+                                    }
+                                } else {
+                                    TextBox(title: "Synopsis", text: anime.synopsis)
+                                    if networker.isSignedIn && !settings.hideAnimeProgress && !anime.isEmpty() {
+                                        AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
+                                    }
+                                    if !settings.hideAnimeInformation {
+                                        AnimeInformation(anime: anime)
+                                    }
+                                    if !settings.hideUpcoming {
+                                        AnimeUpcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                    }
                                 }
                                 if !settings.hideTrailers {
                                     Trailers(videos: anime.videos)

@@ -170,7 +170,7 @@ struct MangaEditView: View {
                     } else {
                         Text(title ?? "")
                             .bold()
-                            .font(.title)
+                            .font(.title3)
                             .multilineTextAlignment(.center)
                     }
                     if let updatedAt = listStatus.updatedAt?.toFullString() {

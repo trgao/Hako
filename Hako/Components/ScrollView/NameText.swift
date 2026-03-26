@@ -23,19 +23,17 @@ struct NameText: View {
             if let english = english {
                 Text(english)
                     .bold()
-                    .font(.title)
+                    .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                     .multilineTextAlignment(.center)
                     .contentShape(Rectangle())
             }
             if let japanese = japanese {
                 Text(japanese)
-                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }
             if let birthday = birthday {
                 Text("Birthday: \(birthday)")
-                    .font(.headline)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }

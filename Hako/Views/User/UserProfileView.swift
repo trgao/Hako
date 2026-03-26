@@ -43,7 +43,7 @@ struct UserProfileView: View {
                                 NavigationLink("Go to user lists") {
                                     UserListView(user: user)
                                 }
-                                .buttonStyle(.borderedProminent)
+                                .prominentButtonStyle()
                             }
                             .padding(.horizontal, 20)
                             .padding(.vertical, 10)

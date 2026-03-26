@@ -196,6 +196,7 @@
 		EECC79642CF1443B00C1C773 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79632CF1443700C1C773 /* UserProfileViewController.swift */; };
 		EECC79662CF14CB000C1C773 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECC79652CF14CA900C1C773 /* StringExtension.swift */; };
 		EECECC632DF4BD4300232E8C /* NameText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECECC622DF4BD4300232E8C /* NameText.swift */; };
+		EED345EC2F752DFD0062F44A /* ProminentButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED345EB2F752DF70062F44A /* ProminentButtonStyle.swift */; };
 		EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118B2DD71AFC00F78170 /* LoadingList.swift */; };
 		EED4118E2DD729AF00F78170 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4118D2DD729AF00F78170 /* PickerRow.swift */; };
 		EED4C0812F6699E9007354C8 /* UserFavouritesInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */; };
@@ -439,6 +440,7 @@
 		EECC79632CF1443700C1C773 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EECC79652CF14CA900C1C773 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		EECECC622DF4BD4300232E8C /* NameText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameText.swift; sourceTree = "<group>"; };
+		EED345EB2F752DF70062F44A /* ProminentButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProminentButtonStyle.swift; sourceTree = "<group>"; };
 		EED4118B2DD71AFC00F78170 /* LoadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingList.swift; sourceTree = "<group>"; };
 		EED4118D2DD729AF00F78170 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
 		EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavouritesInformation.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 				EEA5E93E2CEE825800B2513B /* ImageCache.swift */,
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
+				EED345EB2F752DF70062F44A /* ProminentButtonStyle.swift */,
 				EEDBDB642C07547300F2E821 /* CustomLabelStyle.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE8BE62F2DFDD52300D09F46 /* TagCloudView.swift */,
@@ -1364,6 +1367,7 @@
 				EEB7DE602E0D266200A2C8CC /* JikanRandomItemResponse.swift in Sources */,
 				EE10719D2E042E5900666452 /* MangaProgress.swift in Sources */,
 				EEC357922BE38D7900DAAB0B /* Character.swift in Sources */,
+				EED345EC2F752DFD0062F44A /* ProminentButtonStyle.swift in Sources */,
 				EE222D7B2BE8D6AB00A14A45 /* MangaDetailsView.swift in Sources */,
 				EE960E772DD3688100E4EDC9 /* Magazine.swift in Sources */,
 				EE917FDA2EACF90900D62F8B /* ZoomableScrollView.swift in Sources */,

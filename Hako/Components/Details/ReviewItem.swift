@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ReviewItem: View {
     @Environment(\.colorScheme) private var colorScheme
-    @ScaledMetric private var height = 200
     private let item: Review
     
     init(item: Review) {
@@ -44,7 +43,7 @@ struct ReviewItem: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.callout)
             }
-            .frame(height: height)
+            .frame(maxHeight: .infinity, alignment: .top)
             .padding(20)
             .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
             .shadow(radius: 0.5)

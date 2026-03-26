@@ -29,7 +29,7 @@ struct ErrorView: View {
                     await refresh()
                 }
             }
-            .buttonStyle(.borderedProminent)
+            .prominentButtonStyle()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }

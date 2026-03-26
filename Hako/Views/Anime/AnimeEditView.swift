@@ -52,31 +52,6 @@ struct AnimeEditView: View {
         }
     }
     
-    private var confirmButton: some View {
-        Button {
-            Task {
-                isLoading = true
-                do {
-                    try await networker.editUserAnime(id: id, listStatus: listStatus)
-                    animeListStatus = listStatus
-                    dismiss()
-                } catch {
-                    isEditError = true
-                }
-                isLoading = false
-            }
-        } label: {
-            if isLoading {
-                ProgressView()
-                    .tint(.white)
-            } else {
-                Image(systemName: "checkmark")
-                    .foregroundStyle(.white)
-            }
-        }
-        .disabled(isLoading || isDeleting)
-    }
-    
     var body: some View {
         NavigationStack {
             PageList {
@@ -202,11 +177,29 @@ struct AnimeEditView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    if #available (iOS 26.0, *) {
-                        confirmButton.buttonStyle(.glassProminent)
-                    } else {
-                        confirmButton.buttonStyle(.borderedProminent)
+                    Button {
+                        Task {
+                            isLoading = true
+                            do {
+                                try await networker.editUserAnime(id: id, listStatus: listStatus)
+                                animeListStatus = listStatus
+                                dismiss()
+                            } catch {
+                                isEditError = true
+                            }
+                            isLoading = false
+                        }
+                    } label: {
+                        if isLoading {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.white)
+                        }
                     }
+                    .disabled(isLoading || isDeleting)
+                    .prominentButtonStyle()
                 }
             }
         }

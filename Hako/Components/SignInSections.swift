@@ -33,28 +33,6 @@ struct SignInSections: View {
         }
     }
     
-    private var signInButton: some View {
-        Button("Sign In") {
-            signIn()
-        }
-    }
-    
-    private var tryAgainButton: some View {
-        Button {
-            Task {
-                isLoading = true
-                do {
-                    try await networker.getUserProfile()
-                } catch {
-                    isLoadingError = true
-                }
-                isLoading = false
-            }
-        } label: {
-            Text("Try again")
-        }
-    }
-    
     var body: some View {
         Section {
             ZStack {
@@ -65,11 +43,10 @@ struct SignInSections: View {
                     VStack {
                         Text("You need to sign in to your MyAnimeList account in order to view and edit your anime or manga lists")
                             .multilineTextAlignment(.center)
-                        if #available(iOS 26.0, *) {
-                            signInButton.buttonStyle(.glassProminent)
-                        } else {
-                            signInButton.buttonStyle(.borderedProminent)
+                        Button("Sign In") {
+                            signIn()
                         }
+                        .prominentButtonStyle()
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(5)
@@ -94,11 +71,20 @@ struct SignInSections: View {
                     } else {
                         VStack {
                             Text("Something went wrong")
-                            if #available(iOS 26.0, *) {
-                                tryAgainButton.buttonStyle(.glassProminent)
-                            } else {
-                                tryAgainButton.buttonStyle(.borderedProminent)
+                            Button {
+                                Task {
+                                    isLoading = true
+                                    do {
+                                        try await networker.getUserProfile()
+                                    } catch {
+                                        isLoadingError = true
+                                    }
+                                    isLoading = false
+                                }
+                            } label: {
+                                Text("Try again")
                             }
+                            .prominentButtonStyle()
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }

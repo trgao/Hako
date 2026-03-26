@@ -24,7 +24,7 @@ struct SafariExtensionView: View {
                     openURL(url)
                 }
             }
-            .buttonStyle(.borderedProminent)
+            .prominentButtonStyle()
         }
         .padding(40)
     }

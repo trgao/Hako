@@ -68,8 +68,9 @@ class UserProfileViewController: ObservableObject {
             
             if let anime = anime {
                 await anime.indices.concurrentForEach { i in
-                    let details = try? await NetworkManager.shared.getAnimeDetails(id: anime[i].id)
-                    if let details = details {
+                    if let details = self.networker.animeCache[anime[i].id] {
+                        self.anime?[i] = MALListAnime(anime: details)
+                    } else if let details = try? await NetworkManager.shared.getAnimeDetails(id: anime[i].id) {
                         self.anime?[i] = MALListAnime(anime: details)
                     }
                 }
@@ -77,8 +78,9 @@ class UserProfileViewController: ObservableObject {
             
             if let manga = manga {
                 await manga.indices.concurrentForEach { i in
-                    let details = try? await NetworkManager.shared.getMangaDetails(id: manga[i].id)
-                    if let details = details {
+                    if let details = self.networker.mangaCache[manga[i].id] {
+                        self.manga?[i] = MALListManga(manga: details)
+                    } else if let details = try? await NetworkManager.shared.getMangaDetails(id: manga[i].id) {
                         self.manga?[i] = MALListManga(manga: details)
                     }
                 }

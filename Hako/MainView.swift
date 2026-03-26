@@ -340,7 +340,7 @@ struct MainView: View {
                     Button("Unlock") {
                         authenticate()
                     }
-                    .buttonStyle(.borderedProminent)
+                    .prominentButtonStyle()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }

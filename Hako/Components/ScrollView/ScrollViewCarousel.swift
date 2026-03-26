@@ -66,8 +66,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 10)
-        .padding(.horizontal, 35)
+        .padding(.horizontal, 27)
         .font(.callout)
     }
     
@@ -100,5 +99,6 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
                 scrollView
             }
         }
+        .padding(.vertical, 5)
     }
 }

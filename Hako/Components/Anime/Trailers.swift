@@ -56,7 +56,7 @@ struct Trailers: View {
                 }
                 .padding(.horizontal, 17)
             }
-            .padding(.top, 10)
+            .padding(.top, 5)
             .scrollIndicators(.never)
         }
     }

@@ -23,8 +23,7 @@ struct AnimeInformation: View {
             Text("Information")
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
+                .padding(.horizontal, 10)
             if dynamicTypeSize <= .xxxLarge {
                 HStack {
                     ScrollViewBox(title: "Rank", image: "medal.fill", content: "\(anime.rank == nil ? "N/A" : "\(anime.rank!)")")
@@ -67,7 +66,7 @@ struct AnimeInformation: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }
+        .padding(.vertical, 5)
         .padding(.horizontal, 17)
-        .padding(.bottom, 5)
     }
 }

@@ -41,8 +41,8 @@ struct AnimeInformation: View {
                     if let source = anime.source {
                         ScrollViewRow(title: "Source", content: "\(source.formatMediaType())")
                     }
-                    if let rating = anime.rating {
-                        ScrollViewRow(title: "Rating", content: "\(rating.filter { $0 != "_" }.uppercased())")
+                    if let rating = anime.rating, let ratingText = Constants.ratings[rating] {
+                        ScrollViewRow(title: "Rating", content: ratingText)
                     }
                     if let startDate = anime.startDate {
                         ScrollViewRow(title: "Aired", content: "\(startDate.toString()) to \(anime.endDate?.toString() ?? "?")")

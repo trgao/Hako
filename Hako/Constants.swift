@@ -194,6 +194,15 @@ struct Constants {
     ]
     static let mangaDemographicKeys = [42, 15, 41, 25, 27]
     
+    static let ratings = [
+        "g": "G - All ages",
+        "pg": "PG - Children",
+        "pg_13": "PG13 - Teens 13 & older",
+        "r": "R(17+) - Violence & profanity",
+        "r+": "R+ - Profanity & mild nudity",
+        "rx": "Rx - Hentai"
+    ]
+    
     static let scoreLabels = [
         "0 - Not yet scored",
         "1 - Appalling",

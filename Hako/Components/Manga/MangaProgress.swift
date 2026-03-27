@@ -45,8 +45,6 @@ struct MangaProgress: View {
         ScrollViewSection(title: "Progress") {
             VStack {
                 if isLoading {
-                    ProgressView(value: 0)
-                        .skeleton()
                     HStack {
                         Text("Placeholder")
                             .bold()
@@ -54,7 +52,19 @@ struct MangaProgress: View {
                         Text("0 / 0  0 / 0")
                     }
                     .skeleton()
+                    ProgressView(value: 0)
+                        .skeleton()
                 } else if let status = manga.myListStatus?.status {
+                    HStack {
+                        Text(status.toString())
+                            .foregroundStyle(status.toColour())
+                            .bold()
+                        Spacer()
+                        Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
+                            .labelStyle(.reducedSpace)
+                        Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
+                            .labelStyle(.reducedSpace)
+                    }
                     if settings.mangaReadProgress == 0 {
                         ProgressView(value: chaptersReadProgress)
                             .tint(status.toColour())
@@ -62,26 +72,17 @@ struct MangaProgress: View {
                         ProgressView(value: volumesReadProgress)
                             .tint(status.toColour())
                     }
-                    HStack {
-                        Text(status.toString())
-                            .bold()
-                        Spacer()
-                        Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
-                            .labelStyle(CustomLabelStyle())
-                        Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
-                            .labelStyle(CustomLabelStyle())
-                    }
                 } else {
-                    ProgressView(value: 0)
                     HStack {
                         Text("Not added")
                             .bold()
                         Spacer()
                         Label("0 / \(numVolumes)", systemImage: "book.closed.fill")
-                            .labelStyle(CustomLabelStyle())
+                            .labelStyle(.reducedSpace)
                         Label("0 / \(numChapters)", systemImage: "book.pages.fill")
-                            .labelStyle(CustomLabelStyle())
+                            .labelStyle(.reducedSpace)
                     }
+                    ProgressView(value: 0)
                 }
             }
             .padding(.vertical, 15)

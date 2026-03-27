@@ -40,7 +40,6 @@ struct PlaceholderReview: View {
                 .multilineTextAlignment(.leading)
                 .lineLimit(6)
                 .fixedSize(horizontal: false, vertical: true)
-                .font(.callout)
                 .skeleton(isLoading)
         }
         .padding(20)

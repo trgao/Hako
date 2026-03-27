@@ -67,7 +67,6 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 27)
-        .font(.callout)
     }
     
     private var scrollView: some View {

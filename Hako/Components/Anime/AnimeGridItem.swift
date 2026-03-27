@@ -38,7 +38,7 @@ struct AnimeGridItem: View {
                         if let subtitle = subtitle {
                             Text(subtitle)
                                 .bold()
-                                .font(.callout)
+                                .font(.subheadline)
                                 .foregroundStyle(.white)
                                 .padding(10)
                                 .background {

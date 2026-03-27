@@ -21,18 +21,24 @@ struct ReviewItem: View {
         } label: {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    NavigationLink {
-                        UserProfileView(user: username)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
-                            Text("\(username) ・ \(date.toString())")
-                                .font(.caption)
-                                .bold()
-                                .padding(5)
+                    HStack {
+                        NavigationLink {
+                            UserProfileView(user: username)
+                        } label: {
+                            HStack {
+                                ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
+                                Text("\(username) ・ \(date.toString())")
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        if let score = item.score {
+                            Spacer()
+                            Text("\(score) ⭐")
                         }
                     }
-                    .buttonStyle(.plain)
+                    .font(.caption)
+                    .bold()
+                    .padding(.bottom, 5)
                 }
                 if let tags = item.tags?.prefix(1) {
                     TagCloudView(tags: Array(tags))
@@ -41,7 +47,6 @@ struct ReviewItem: View {
                     .multilineTextAlignment(.leading)
                     .lineLimit(6)
                     .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding(20)

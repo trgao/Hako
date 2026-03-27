@@ -43,7 +43,7 @@ struct ReviewsListView: View {
                     .padding(17)
                 }
                 .disabled(controller.loadingState == .loading && controller.reviews.isEmpty)
-                .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
+                .background(colorScheme == .light ? Color(.systemGray6) : .black)
                 if isRefresh {
                     LoadingView()
                 }

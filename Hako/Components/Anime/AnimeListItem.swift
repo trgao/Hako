@@ -47,12 +47,10 @@ struct AnimeListItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.callout)
                     } else {
                         Text(anime.node.title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.callout)
                     }
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
@@ -66,7 +64,7 @@ struct AnimeListItem: View {
                                 Text("\(anime.node.mean == nil ? "N/A" : String(anime.node.mean!)) ⭐")
                                 if let score = anime.listStatus?.score, score > 0 {
                                     Label("\(score) ⭐", systemImage: "person.fill")
-                                        .labelStyle(CustomLabelStyle())
+                                        .labelStyle(.reducedSpace)
                                 }
                             }
                             .bold()
@@ -91,7 +89,7 @@ struct AnimeListItem: View {
                                 .tint(anime.listStatus?.status?.toColour())
                             Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
                                 .foregroundStyle(Color(.systemGray))
-                                .labelStyle(CustomLabelStyle())
+                                .labelStyle(.reducedSpace)
                                 .font(.caption)
                         }
                         .padding(.top, 5)

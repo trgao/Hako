@@ -23,10 +23,11 @@ struct ScrollViewRow: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             if let title = title {
                 Text(title)
-                    .bold()
+                    .font(.footnote)
+                    .opacity(0.7)
                 Spacer()
             }
             Text(content)

@@ -32,8 +32,6 @@ struct AnimeProgress: View {
         ScrollViewSection(title: "Progress") {
             VStack {
                 if isLoading {
-                    ProgressView(value: 0)
-                        .skeleton()
                     HStack {
                         Text("Placeholder")
                             .bold()
@@ -41,25 +39,28 @@ struct AnimeProgress: View {
                         Text("0 / 0")
                     }
                     .skeleton()
+                    ProgressView(value: 0)
+                        .skeleton()
                 } else if let status = anime.myListStatus?.status {
-                    ProgressView(value: watchProgress)
-                        .tint(status.toColour())
                     HStack {
                         Text(status.toString())
+                            .foregroundStyle(status.toColour())
                             .bold()
                         Spacer()
                         Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
-                            .labelStyle(CustomLabelStyle())
+                            .labelStyle(.reducedSpace)
                     }
+                    ProgressView(value: watchProgress)
+                        .tint(status.toColour())
                 } else {
-                    ProgressView(value: 0)
                     HStack {
                         Text("Not added")
                             .bold()
                         Spacer()
                         Label("0 / \(numEpisodes)", systemImage: "video.fill")
-                            .labelStyle(CustomLabelStyle())
+                            .labelStyle(.reducedSpace)
                     }
+                    ProgressView(value: 0)
                 }
             }
             .padding(.vertical, 15)

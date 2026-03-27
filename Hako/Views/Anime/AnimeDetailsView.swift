@@ -52,18 +52,11 @@ struct AnimeDetailsView: View {
                                 ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures?.reversed())
                                 TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
                                 HStack {
-                                    VStack {
-                                        if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
-                                            Text("MAL score:").font(.footnote)
-                                        }
-                                        Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
-                                    }
+                                    Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
                                     if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
-                                        VStack {
-                                            Text("Your score:").font(.footnote)
-                                            Text("\(myScore) ⭐")
-                                        }
-                                        .padding(.leading, 20)
+                                        Label("\(myScore) ⭐", systemImage: "person.fill")
+                                            .labelStyle(.reducedSpace)
+                                            .padding(.leading, 15)
                                     }
                                 }
                                 .font(UIDevice.current.userInterfaceIdiom == .phone ? .title3 : .title2)
@@ -93,7 +86,7 @@ struct AnimeDetailsView: View {
                                                 AnimeProgress(anime: anime, isLoading: controller.loadingState == .loading)
                                             }
                                             if !settings.hideUpcoming {
-                                                AnimeUpcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                                Upcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
                                             }
                                         }
                                         .padding(.trailing, -8)
@@ -110,7 +103,7 @@ struct AnimeDetailsView: View {
                                         AnimeInformation(anime: anime)
                                     }
                                     if !settings.hideUpcoming {
-                                        AnimeUpcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
+                                        Upcoming(nextEpisode: controller.nextEpisode, load: controller.loadAiringSchedule)
                                     }
                                 }
                                 if !settings.hideTrailers {

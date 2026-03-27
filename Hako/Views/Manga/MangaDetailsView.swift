@@ -52,18 +52,11 @@ struct MangaDetailsView: View {
                                 ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures?.reversed())
                                 TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
                                 HStack {
-                                    VStack {
-                                        if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                            Text("MAL score:").font(.footnote)
-                                        }
-                                        Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
-                                    }
+                                    Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
                                     if let myScore = manga.myListStatus?.score, myScore > 0 {
-                                        VStack {
-                                            Text("Your score:").font(.footnote)
-                                            Text("\(myScore) ⭐")
-                                        }
-                                        .padding(.leading, 20)
+                                        Label("\(myScore) ⭐", systemImage: "person.fill")
+                                            .labelStyle(.reducedSpace)
+                                            .padding(.leading, 15)
                                     }
                                 }
                                 .bold()

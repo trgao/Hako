@@ -24,7 +24,6 @@ struct LoadingList: View {
                     ImageFrame(id: "", imageUrl: nil, imageSize: Constants.listImageSize)
                     VStack(alignment: .leading) {
                         Text("placeholderplaceholder")
-                            .font(.callout)
                         Text("placeholder")
                             .font(.footnote)
                     }

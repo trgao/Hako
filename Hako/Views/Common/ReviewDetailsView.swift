@@ -22,27 +22,32 @@ struct ReviewDetailsView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    NavigationLink {
-                        UserProfileView(user: username)
-                    } label: {
-                        HStack {
-                            ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
-                            Text("\(username) ・ \(date.toString())")
-                                .font(.caption)
-                                .bold()
-                                .padding(5)
+                    HStack {
+                        NavigationLink {
+                            UserProfileView(user: username)
+                        } label: {
+                            HStack {
+                                ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
+                                Text("\(username) ・ \(date.toString())")
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        if let score = item.score {
+                            Spacer()
+                            Text("\(score) ⭐")
                         }
                     }
-                    .buttonStyle(.plain)
+                    .font(.caption)
+                    .bold()
+                    .padding(.bottom, 5)
                 }
                 if let tags = item.tags {
                     TagCloudView(tags: tags)
                 }
                 if let text = item.review {
-                    Text("\(text)\(item.score != nil ? "\n\nScore: \(item.score, default: "?") / 10" : "")")
+                    Text(text)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.callout)
                         .padding(20)
                         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                         .shadow(radius: 0.5)

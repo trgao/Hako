@@ -23,10 +23,13 @@ struct ScrollViewNavigationLink<Destination: View>: View {
     
     var body: some View {
         HStack {
-            Text(title)
-                .bold()
-            Spacer()
-            Text(content)
+            HStack(alignment: .top) {
+                Text(title)
+                    .font(.footnote)
+                    .opacity(0.7)
+                Spacer()
+                Text(content)
+            }
             Image(systemName: "chevron.right")
                 .bold()
                 .font(.caption)

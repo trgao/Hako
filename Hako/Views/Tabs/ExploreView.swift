@@ -10,7 +10,6 @@ import SystemNotification
 
 struct ExploreView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ExploreViewController()
     @StateObject var networker = NetworkManager.shared

@@ -59,12 +59,10 @@ struct MangaListItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.callout)
                     } else {
                         Text(manga.node.title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
-                            .font(.callout)
                     }
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
@@ -78,7 +76,7 @@ struct MangaListItem: View {
                                 Text("\(manga.node.mean == nil ? "N/A" : String(manga.node.mean!)) ⭐")
                                 if let score = manga.listStatus?.score, score > 0 {
                                     Label("\(score) ⭐", systemImage: "person.fill")
-                                        .labelStyle(CustomLabelStyle())
+                                        .labelStyle(.reducedSpace)
                                 }
                             }
                             .bold()
@@ -104,10 +102,10 @@ struct MangaListItem: View {
                             HStack {
                                 Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabelStyle())
+                                    .labelStyle(.reducedSpace)
                                 Label("\(numChaptersRead) / \(numChapters)", systemImage: "book.pages.fill")
                                     .foregroundStyle(Color(.systemGray))
-                                    .labelStyle(CustomLabelStyle())
+                                    .labelStyle(.reducedSpace)
                             }
                             .font(.footnote)
                         }

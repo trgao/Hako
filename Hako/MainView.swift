@@ -73,6 +73,7 @@ struct MainView: View {
         navBarAppearance.configureWithTransparentBackground()
         navBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
     }
     
     // Handle FaceID

@@ -25,16 +25,18 @@ struct ScrollViewBox: View {
     var body: some View {
         VStack(alignment: .center) {
             Text(title)
-                .font(.subheadline)
+                .font(.footnote)
+                .opacity(0.7)
             Label(content, systemImage: image)
-                .labelStyle(CustomLabelStyle())
+                .labelStyle(.reducedSpace)
                 .bold()
                 .frame(height: height)
+                .foregroundStyle(settings.getAccentColor())
         }
         .contentShape(Rectangle())
         .padding(10)
         .frame(maxWidth: .infinity)
-        .frame(height: height + 55)
+        .frame(height: height + 45)
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))

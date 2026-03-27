@@ -55,7 +55,7 @@ struct MangaGridItem: View {
                             Label("\(String(mean))", systemImage: "star.fill")
                         }
                         if let mediaType = manga.mediaType {
-                            Label(mediaType.formatMediaType(), systemImage: "book")
+                            Label(mediaType.formatMediaType(), systemImage: Constants.mediaTypeIcons[mediaType] ?? "book.fill")
                         }
                         if let status = manga.status {
                             Label(status.formatStatus(), systemImage: "info.circle")

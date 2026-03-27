@@ -11,15 +11,18 @@ struct ScrollViewRow: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String?
     private let content: String
+    private let icon: String?
     
-    init(title: String, content: String) {
+    init(title: String, content: String, icon: String? = nil) {
         self.title = title
         self.content = content
+        self.icon = icon
     }
     
     init(_ content: String) {
         self.title = nil
         self.content = content
+        self.icon = nil
     }
     
     var body: some View {
@@ -30,9 +33,16 @@ struct ScrollViewRow: View {
                     .opacity(0.7)
                 Spacer()
             }
-            Text(content)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: title == nil ? .leading : .trailing)
+            Group {
+                if let icon = icon {
+                    Label(content, systemImage: icon)
+                        .labelStyle(.reducedSpace)
+                } else {
+                    Text(content)
+                }
+            }
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: title == nil ? .leading : .trailing)
         }
         .contentShape(Rectangle())
         .padding(.horizontal, 20)

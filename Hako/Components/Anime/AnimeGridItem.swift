@@ -58,7 +58,7 @@ struct AnimeGridItem: View {
                             Label("\(season.rawValue.capitalized), \(String(year))", systemImage: "calendar")
                         }
                         if let mediaType = anime.mediaType {
-                            Label(mediaType.formatMediaType(), systemImage: "tv")
+                            Label(mediaType.formatMediaType(), systemImage: Constants.mediaTypeIcons[mediaType] ?? "tv.fill")
                         }
                         if let status = anime.status {
                             Label(status.formatStatus(), systemImage: "info.circle")

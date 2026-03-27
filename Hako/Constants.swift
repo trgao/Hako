@@ -194,6 +194,32 @@ struct Constants {
     ]
     static let mangaDemographicKeys = [42, 15, 41, 25, 27]
     
+    static let mediaTypeIcons = [
+        "manga": "book.fill",
+        "manhwa": "book.fill",
+        "manhua": "book.fill",
+        "4_koma_manga": "book.fill",
+        "web_manga": "book.fill",
+        "digital_manga": "book.fill",
+        "one_shot": "book.pages.fill",
+        "novel": "book.closed.fill",
+        "web_novel": "book.closed.fill",
+        "light_novel": "book.closed.fill",
+        "visual_novel": "gamecontroller.fill",
+        "game": "gamecontroller.fill",
+        "card_game": "suit.spade.fill",
+        "book": "book.fill",
+        "picture_book": "book.fill",
+        "radio": "radio.fill",
+        "music": "music.note",
+        "tv": "tv.fill",
+        "ova": "tv.fill",
+        "ona": "tv.fill",
+        "movie": "movieclapper.fill",
+        "special": "sparkles.tv.fill",
+        "tv_special": "sparkles.tv.fill"
+    ]
+    
     static let ratings = [
         "g": "G - All ages",
         "pg": "PG - Children",

@@ -36,15 +36,14 @@ struct ScrollViewListSection<Content: View>: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .padding(.horizontal, 20)
-            .padding(.top, 10)
+            .padding(.horizontal, 10)
             if isExpanded {
                 LazyVStack(spacing: 5) {
                     content()
                 }
             }
         }
+        .padding(.vertical, 5)
         .padding(.horizontal, 17)
-        .padding(.bottom, 5)
     }
 }

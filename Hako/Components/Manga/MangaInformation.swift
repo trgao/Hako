@@ -42,12 +42,12 @@ struct MangaInformation: View {
                         ScrollViewRow(title: "Serialised", content: "\(startDate.toString()) to \(manga.endDate?.toString() ?? "?")")
                     }
                     if let serialization = manga.serialization, !serialization.isEmpty {
-                        ScrollViewNavigationLink(title: "Serialization", content: serialization.map{ $0.node.name }.joined(separator: ", ")) {
+                        ScrollViewNavigationLink(title: "Serialization", items: serialization.map{ $0.node.name }) {
                             GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .manga)
                         }
                     }
                     if let genres = manga.genres, !genres.isEmpty {
-                        ScrollViewNavigationLink(title: "Genres", content: genres.map{ $0.name }.joined(separator: ", ")) {
+                        ScrollViewNavigationLink(title: "Genres", items: genres.map{ $0.name }) {
                             GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
                         }
                     }

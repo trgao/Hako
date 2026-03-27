@@ -105,7 +105,7 @@
 		EE8B96D32DD099AC0070DD4E /* MangaListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D22DD099A80070DD4E /* MangaListItem.swift */; };
 		EE8B96D52DD0A8850070DD4E /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */; };
 		EE8BE62E2DFDD37500D09F46 /* LoadingReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */; };
-		EE8BE6302DFDD52600D09F46 /* TagsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62F2DFDD52300D09F46 /* TagsList.swift */; };
+		EE8BE6302DFDD52600D09F46 /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62F2DFDD52300D09F46 /* TagItem.swift */; };
 		EE8BE6322DFDD86A00D09F46 /* ReviewDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */; };
 		EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */ = {isa = PBXBuildFile; productRef = EE8E52FB2EDC0F1800B7A316 /* SystemNotification */; };
 		EE8E52FE2EDC128300B7A316 /* IconTintLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */; };
@@ -165,6 +165,7 @@
 		EEBBB1042DF463F200BA6F8B /* TitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBBB1032DF463F200BA6F8B /* TitleText.swift */; };
 		EEBC7B182E2248BC00AF83BB /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B172E2248B900AF83BB /* Picture.swift */; };
 		EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */; };
+		EEBD55482F76B7B2008AD3E4 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = EEBD55472F76B7B2008AD3E4 /* WrappingHStack */; };
 		EEC150D82F0E5D54000BAE9F /* ExploreCharactersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC150D72F0E5D54000BAE9F /* ExploreCharactersView.swift */; };
 		EEC150DA2F0E5DB4000BAE9F /* ExploreCharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC150D92F0E5DB4000BAE9F /* ExploreCharactersViewController.swift */; };
 		EEC150DE2F0E5EB6000BAE9F /* ExplorePeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC150DD2F0E5EB6000BAE9F /* ExplorePeopleView.swift */; };
@@ -350,7 +351,7 @@
 		EE8B96D22DD099A80070DD4E /* MangaListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListItem.swift; sourceTree = "<group>"; };
 		EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReviews.swift; sourceTree = "<group>"; };
-		EE8BE62F2DFDD52300D09F46 /* TagsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsList.swift; sourceTree = "<group>"; };
+		EE8BE62F2DFDD52300D09F46 /* TagItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsView.swift; sourceTree = "<group>"; };
 		EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTintLabelStyle.swift; sourceTree = "<group>"; };
 		EE8E52FF2EDC193300B7A316 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -507,6 +508,7 @@
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
 				EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */,
+				EEBD55482F76B7B2008AD3E4 /* WrappingHStack in Frameworks */,
 				EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */,
 				EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */,
 				EE0696CC2EDD97F500F965B2 /* XMLKit in Frameworks */,
@@ -705,7 +707,7 @@
 				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
 				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
 				EE2086432E8BEC8C00F4E8C1 /* TabPicker.swift */,
-				EE8BE62F2DFDD52300D09F46 /* TagsList.swift */,
+				EE8BE62F2DFDD52300D09F46 /* TagItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1190,6 +1192,7 @@
 				EE8E52FB2EDC0F1800B7A316 /* SystemNotification */,
 				EE0696C92EDD97F500F965B2 /* FeedKit */,
 				EE0696CB2EDD97F500F965B2 /* XMLKit */,
+				EEBD55472F76B7B2008AD3E4 /* WrappingHStack */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -1229,6 +1232,7 @@
 				EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */,
 				EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */,
+				EEBD55462F76B7A0008AD3E4 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -1289,7 +1293,7 @@
 				EEA237882E2B7FD1005ED3CC /* HideItemsView.swift in Sources */,
 				EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */,
 				EECC79622CF142DC00C1C773 /* JikanUserStatisticsResponse.swift in Sources */,
-				EE8BE6302DFDD52600D09F46 /* TagsList.swift in Sources */,
+				EE8BE6302DFDD52600D09F46 /* TagItem.swift in Sources */,
 				EE20B1D12BDF9F45006F4CFF /* AnimeInformation.swift in Sources */,
 				EE0696C32EDD8DC500F965B2 /* NewsListView.swift in Sources */,
 				EE91BE6A2BFCB513002AC6C4 /* MangaPosition.swift in Sources */,
@@ -1845,6 +1849,14 @@
 				kind = branch;
 			};
 		};
+		EEBD55462F76B7A0008AD3E4 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1882,6 +1894,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		EEBD55472F76B7B2008AD3E4 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EEBD55462F76B7A0008AD3E4 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

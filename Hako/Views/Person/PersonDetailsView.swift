@@ -46,7 +46,7 @@ struct PersonDetailsView: View {
                                 NameText(english: person.name, birthday: person.birthday?.toString())
                                 Favourites(favorites: controller.person?.favorites)
                             }
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 17)
                             if controller.loadingState == .loading && person.isEmpty() {
                                 ProgressView()
                             }

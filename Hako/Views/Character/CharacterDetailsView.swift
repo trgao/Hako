@@ -38,7 +38,7 @@ struct CharacterDetailsView: View {
                             NameText(english: character.name, japanese: character.nameKanji)
                             Favourites(favorites: controller.character?.favorites)
                         }
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 17)
                         if controller.loadingState == .loading && character.isEmpty() {
                             ProgressView()
                         }

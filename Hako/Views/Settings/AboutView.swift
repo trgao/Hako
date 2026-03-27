@@ -28,6 +28,7 @@ struct AboutView: View {
                 Link("YouTubePlayerKit", destination: URL(string: "https://github.com/SvenTiigi/YouTubePlayerKit")!)
                 Link("SystemNotification", destination: URL(string: "https://github.com/danielsaidi/SystemNotification")!)
                 Link("FeedKit", destination: URL(string: "https://github.com/nmdias/FeedKit")!)
+                Link("WrappingHStack", destination: URL(string: "https://github.com/ksemianov/WrappingHStack")!)
             }
         } photo: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

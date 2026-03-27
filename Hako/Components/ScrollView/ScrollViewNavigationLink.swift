@@ -6,18 +6,21 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 struct ScrollViewNavigationLink<Destination: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var isPressed = false
     @State private var isLongPress = false
     private let title: String
+    private let items: [String]
     private let content: String
     private let destination: () -> Destination
     
-    init(title: String, content: String, destination: @escaping () -> Destination) {
+    init(title: String, items: [String], destination: @escaping () -> Destination) {
         self.title = title
-        self.content = content
+        self.items = items
+        self.content = items.joined(separator: ", ")
         self.destination = destination
     }
     
@@ -28,7 +31,11 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                     .font(.footnote)
                     .opacity(0.7)
                 Spacer()
-                Text(content)
+                WrappingHStack(alignment: .trailing, horizontalSpacing: 2) {
+                    ForEach(items, id: \.self) { item in
+                        TagItem(text: item)
+                    }
+                }
             }
             Image(systemName: "chevron.right")
                 .bold()

@@ -17,12 +17,9 @@ struct Favourites: View {
     
     var body: some View {
         if let favorites = favorites {
-            HStack {
-                Spacer()
-                Label("\(favorites) favorites", systemImage: "heart.fill")
-                Spacer()
-            }
-                .padding(.horizontal, 20)
+            Label("\(favorites) favorites", systemImage: "heart.fill")
+                .labelStyle(.iconTint(.red))
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.vertical, 10)
                 .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 10))

@@ -44,21 +44,21 @@ struct CharacterDetailsView: View {
                         }
                         TextBox(title: "About", text: character.about)
                         if let animes = character.anime, !animes.isEmpty {
-                            ScrollViewListSection(title: "Animes", isExpandable: true) {
+                            ScrollViewListSection(title: "Animes") {
                                 ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
                                     ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: anime.role, imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", index: index, selectedIndex: $animeIndex)
                                 }
                             }
                         }
                         if let mangas = character.manga, !mangas.isEmpty {
-                            ScrollViewListSection(title: "Mangas", isExpandable: true) {
+                            ScrollViewListSection(title: "Mangas") {
                                 ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
                                     ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: manga.role, imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", index: index, selectedIndex: $mangaIndex)
                                 }
                             }
                         }
                         if let voices = character.voices, !voices.isEmpty {
-                            ScrollViewListSection(title: "Voices", isExpandable: true) {
+                            ScrollViewListSection(title: "Voices") {
                                 ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
                                     ScrollViewListItem(id: "person\(voice.id)", title: voice.person.name, subtitle: voice.language, imageUrl: voice.person.images?.jpg?.imageUrl, url: "https://myanimelist.net/people/\(voice.id)", index: index, selectedIndex: $voiceIndex)
                                 }
@@ -67,6 +67,7 @@ struct CharacterDetailsView: View {
                     }
                     .padding(.vertical, 20)
                 }
+                // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
                 .navigationDestination(item: $animeIndex) { index in
                     if let animes = character.anime {
                         AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", enTitle: nil))

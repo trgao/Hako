@@ -48,15 +48,18 @@ struct TextBox: View {
                         Button {
                             isExpanded.toggle()
                         } label: {
-                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            VStack {
+                                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                                    .frame(width: chevronSize, height: chevronSize)
+                            }
+                            .bold()
+                            .foregroundStyle(Color(.systemGray2))
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .contentShape(Rectangle())
                         }
-                        .bold()
                         .buttonStyle(.plain)
-                        .frame(width: chevronSize, height: chevronSize)
-                        .foregroundStyle(Color(.systemGray2))
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
                 .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))

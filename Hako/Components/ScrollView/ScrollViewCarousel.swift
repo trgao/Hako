@@ -41,6 +41,8 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
                             .foregroundStyle(Color(.systemGray2))
                     }
                     .bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             } else {

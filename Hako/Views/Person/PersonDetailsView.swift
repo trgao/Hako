@@ -52,21 +52,21 @@ struct PersonDetailsView: View {
                             }
                             TextBox(title: "About", text: person.about)
                             if let voices = person.voices, !voices.isEmpty {
-                                ScrollViewListSection(title: "Voice acting roles", isExpandable: true) {
+                                ScrollViewListSection(title: "Voice acting roles") {
                                     ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
                                         ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", index: index, selectedIndex: $voiceIndex)
                                     }
                                 }
                             }
                             if let animes = person.anime, !animes.isEmpty {
-                                ScrollViewListSection(title: "Anime staff positions", isExpandable: true) {
+                                ScrollViewListSection(title: "Anime staff positions") {
                                     ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
                                         ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", index: index, selectedIndex: $animeIndex)
                                     }
                                 }
                             }
                             if let mangas = person.manga, !mangas.isEmpty {
-                                ScrollViewListSection(title: "Manga staff positions", isExpandable: true) {
+                                ScrollViewListSection(title: "Manga staff positions") {
                                     ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
                                         ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", index: index, selectedIndex: $mangaIndex)
                                     }
@@ -75,6 +75,7 @@ struct PersonDetailsView: View {
                         }
                         .padding(.vertical, 20)
                     }
+                    // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
                     .navigationDestination(item: $voiceIndex) { index in
                         if let voices = person.voices {
                             AnimeDetailsView(anime: Anime(id: voices[index].anime.id, title: voices[index].anime.title ?? "", enTitle: nil))

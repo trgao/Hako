@@ -21,27 +21,26 @@ struct ReviewItem: View {
         } label: {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    HStack {
-                        NavigationLink {
-                            UserProfileView(user: username)
-                        } label: {
-                            HStack {
-                                ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
-                                Text("\(username) ・ \(date.toString())")
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        if let score = item.score {
-                            Spacer()
-                            Text("\(score) ⭐")
+                    NavigationLink {
+                        UserProfileView(user: username)
+                    } label: {
+                        HStack {
+                            ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
+                            Text("\(username) ・ \(date.toString())")
                         }
                     }
+                    .buttonStyle(.plain)
                     .font(.caption)
                     .bold()
                     .padding(.bottom, 5)
                 }
-                if let tags = item.tags?.prefix(1) {
-                    TagCloudView(tags: Array(tags))
+                HStack {
+                    if let recommended = item.tags?.filter({ $0 == "Recommended" || $0 == "Not Recommended" || $0 == "Mixed Feelings" })[0] {
+                        TagItem(text: recommended)
+                    }
+                    if let score = item.score, score > 0 {
+                        TagItem(text: "\(score) ⭐").bold()
+                    }
                 }
                 Text(item.review ?? "")
                     .multilineTextAlignment(.leading)

@@ -44,6 +44,5 @@ struct TagItem: View {
             .foregroundStyle(textColor)
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.horizontal, 3)
     }
 }

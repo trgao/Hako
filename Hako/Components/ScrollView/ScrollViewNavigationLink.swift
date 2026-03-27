@@ -31,7 +31,7 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                     .font(.footnote)
                     .opacity(0.7)
                 Spacer()
-                WrappingHStack(alignment: .trailing, horizontalSpacing: 2) {
+                WrappingHStack(alignment: .trailing, horizontalSpacing: 4, verticalSpacing: 4) {
                     ForEach(items, id: \.self) { item in
                         TagItem(text: item)
                     }

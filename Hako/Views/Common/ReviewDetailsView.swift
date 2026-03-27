@@ -39,8 +39,9 @@ struct ReviewDetailsView: View {
                     if let recommended = item.tags?.filter({ $0 == "Recommended" || $0 == "Not Recommended" || $0 == "Mixed Feelings" })[0] {
                         TagItem(text: recommended)
                     }
+                    Spacer()
                     if let score = item.score, score > 0 {
-                        TagItem(text: "\(score) ⭐").bold()
+                        Text("\(score) ⭐").bold()
                     }
                 }
                 if let text = item.review {

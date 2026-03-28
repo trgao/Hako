@@ -501,7 +501,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                     }
                 }
             }
-            """
+        """
         let body = ["query": query]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

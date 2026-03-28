@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SmallPlaceholderGridItem: View {
     @Environment(\.screenRatio) private var screenRatio
+    @EnvironmentObject private var settings: SettingsManager
     private let isLoading: Bool
     
     init(isLoading: Bool = true) {
@@ -18,7 +19,8 @@ struct SmallPlaceholderGridItem: View {
     var body: some View {
         VStack {
             ImageFrame(id: "", imageUrl: nil, imageSize: .medium)
-            Text("placeholder")
+            Text("placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder")
+                .lineLimit(settings.getLineLimit() ?? 2)
                 .font(.footnote)
                 .tint(.primary)
         }

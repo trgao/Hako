@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BigPlaceholderGridItem: View {
     @Environment(\.screenRatio) private var screenRatio
+    @EnvironmentObject private var settings: SettingsManager
     private let isLoading: Bool
     
     init(isLoading: Bool = true) {
@@ -18,7 +19,8 @@ struct BigPlaceholderGridItem: View {
     var body: some View {
         VStack {
             ImageFrame(id: "", imageUrl: nil, imageSize: .large)
-            Text("placeholder")
+            Text("placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder")
+                .lineLimit(settings.getLineLimit() ?? 2)
                 .frame(width: 150 * screenRatio, alignment: .leading)
                 .padding(5)
                 .font(.callout)

@@ -45,10 +45,9 @@ struct UserStatisticsInformation: View {
         .contextMenu {
             if let content = content {
                 Button {
-                    UIPasteboard.general.string = String(describing: content)
+                    UIPasteboard.general.string = title + ": " + String(describing: content)
                 } label: {
                     Label("Copy", systemImage: "document.on.document")
-                    Text(String(describing: content))
                 }
             }
         }

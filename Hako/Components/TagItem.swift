@@ -26,7 +26,7 @@ struct TagItem: View {
             } else if redTexts.contains(text) {
                 return .red
             } else if greyTexts.contains(text) {
-                return Color(.systemGray3)
+                return .gray
             } else {
                 return settings.getAccentColor()
             }

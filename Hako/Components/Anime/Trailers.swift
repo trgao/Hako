@@ -10,48 +10,50 @@ import YouTubePlayerKit
 
 struct Trailers: View {
     @Environment(\.screenRatio) private var screenRatio
-    private let videos: [Video]
-    private let configuration: YouTubePlayer.Configuration
+    private let players: [YouTubePlayer]
     
     init(videos: [Video]?) {
-        self.videos = videos ?? []
-        self.configuration = .init(allowsInlineMediaPlayback: false, allowsPictureInPictureMediaPlayback: true)
+        let configuration = YouTubePlayer.Configuration(allowsInlineMediaPlayback: false, allowsPictureInPictureMediaPlayback: true)
+        self.players = videos?.compactMap { video in
+            guard let url = video.url else {
+                return nil
+            }
+            return YouTubePlayer(source: .init(urlString: url), configuration: configuration)
+        } ?? []
     }
     
     var body: some View {
-        if !videos.isEmpty {
+        if !players.isEmpty {
             ScrollView(.horizontal) {
                 LazyHStack(alignment: .top, spacing: 10) {
-                    ForEach(videos) { video in
-                        if let url = video.url {
-                            YouTubePlayerView(YouTubePlayer(source: YouTubePlayer.Source(urlString: url), configuration: configuration), overlay: { state in
-                                switch state {
-                                case .idle:
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundStyle(.black)
-                                        ProgressView()
-                                    }
-                                case .ready, .error(.embeddedVideoPlayingNotAllowed):
-                                    EmptyView()
-                                case .error:
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundStyle(.black)
-                                        VStack {
-                                            Image(systemName: "exclamationmark.triangle")
-                                                .padding(.bottom, 5)
-                                            Text("Unable to load")
-                                                .bold()
-                                        }
-                                        .foregroundStyle(.white)
-                                    }
+                    ForEach(players) { player in
+                        YouTubePlayerView(player, overlay: { state in
+                            switch state {
+                            case .idle:
+                                ZStack {
+                                    Rectangle()
+                                        .foregroundStyle(.black)
+                                    ProgressView()
                                 }
-                            })
-                            .frame(width: 300 * screenRatio, height: 170 * screenRatio)
-                            .cornerRadius(10)
-                            .padding(5)
-                        }
+                            case .ready, .error(.embeddedVideoPlayingNotAllowed):
+                                EmptyView()
+                            case .error:
+                                ZStack {
+                                    Rectangle()
+                                        .foregroundStyle(.black)
+                                    VStack {
+                                        Image(systemName: "exclamationmark.triangle")
+                                            .padding(.bottom, 5)
+                                        Text("Unable to load")
+                                            .bold()
+                                    }
+                                    .foregroundStyle(.white)
+                                }
+                            }
+                        })
+                        .frame(width: 300 * screenRatio, height: 170 * screenRatio)
+                        .cornerRadius(10)
+                        .padding(5)
                     }
                 }
                 .padding(.horizontal, 17)

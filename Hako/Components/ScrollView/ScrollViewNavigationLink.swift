@@ -59,7 +59,6 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                 UIPasteboard.general.string = content
             } label: {
                 Label("Copy", systemImage: "document.on.document")
-                Text(content)
             }
         }
         .navigationDestination(isPresented: $isPressed, destination: destination)

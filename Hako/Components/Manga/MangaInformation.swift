@@ -24,7 +24,7 @@ struct MangaInformation: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 10)
-            if dynamicTypeSize <= .xxxLarge {
+            if dynamicTypeSize <= .xxLarge {
                 HStack {
                     ScrollViewBox(title: "Rank", image: "medal.fill", content: "\(manga.rank == nil ? "N/A" : "\(manga.rank!)")")
                     ScrollViewBox(title: "Popularity", image: "popcorn.fill", content: "\(manga.popularity == nil ? "N/A" : "\(manga.popularity!)")")
@@ -33,7 +33,7 @@ struct MangaInformation: View {
             }
             if !isEmpty {
                 VStack(spacing: 0) {
-                    if dynamicTypeSize > .xxxLarge {
+                    if dynamicTypeSize > .xxLarge {
                         ScrollViewRow(title: "Rank", content: "#\(manga.rank == nil ? "N/A" : "\(manga.rank!)")")
                         ScrollViewRow(title: "Popularity", content: "#\(manga.popularity == nil ? "N/A" : "\(manga.popularity!)")")
                         ScrollViewRow(title: "Members", content: "\(manga.numListUsers == nil ? "N/A" :  "\(manga.numListUsers!.formatted(.number.notation(.compactName)))")")

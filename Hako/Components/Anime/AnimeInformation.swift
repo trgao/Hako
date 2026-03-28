@@ -24,7 +24,7 @@ struct AnimeInformation: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 10)
-            if dynamicTypeSize <= .xxxLarge {
+            if dynamicTypeSize <= .xxLarge {
                 HStack {
                     ScrollViewBox(title: "Rank", image: "medal.fill", content: "\(anime.rank == nil ? "N/A" : "\(anime.rank!)")")
                     ScrollViewBox(title: "Popularity", image: "popcorn.fill", content: "\(anime.popularity == nil ? "N/A" : "\(anime.popularity!)")")
@@ -33,7 +33,7 @@ struct AnimeInformation: View {
             }
             if !isEmpty {
                 VStack(spacing: 0) {
-                    if dynamicTypeSize > .xxxLarge {
+                    if dynamicTypeSize > .xxLarge {
                         ScrollViewRow(title: "Rank", content: "#\(anime.rank == nil ? "N/A" : "\(anime.rank!)")")
                         ScrollViewRow(title: "Popularity", content: "#\(anime.popularity == nil ? "N/A" : "\(anime.popularity!)")")
                         ScrollViewRow(title: "Members", content: "\(anime.numListUsers == nil ? "N/A" :  "\(anime.numListUsers!.formatted(.number.notation(.compactName)))")")

@@ -25,9 +25,12 @@ struct Upcoming: View {
                     var result = ""
                     if let day = timeToAiring.day, day > 0 {
                         result += "\(day) day\(day == 1 ? "" : "s")"
+                        if let hour = timeToAiring.hour, hour > 0 {
+                            result += " "
+                        }
                     }
                     if let hour = timeToAiring.hour, hour > 0 {
-                        result += " \(hour) hour\(hour == 1 ? "" : "s")"
+                        result += "\(hour) hour\(hour == 1 ? "" : "s")"
                     }
                     return result
                 }

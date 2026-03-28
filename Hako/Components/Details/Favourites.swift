@@ -26,9 +26,10 @@ struct Favourites: View {
                 .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                 .contextMenu {
                     Button {
-                        UIPasteboard.general.string = "\(favorites) favorites"
+                        UIPasteboard.general.string = "\(favorites)"
                     } label: {
-                        Label("Copy", systemImage: "document.on.document")
+                        Text("Copy")
+                        Text("\(favorites)")
                     }
                 }
         }

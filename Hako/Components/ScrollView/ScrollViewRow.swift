@@ -54,7 +54,8 @@ struct ScrollViewRow: View {
             Button {
                 UIPasteboard.general.string = content
             } label: {
-                Label("Copy", systemImage: "document.on.document")
+                Text("Copy")
+                Text(content)
             }
         }
     }

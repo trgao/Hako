@@ -10,7 +10,7 @@ import SwiftUI
 struct Constants {
     static let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
-    static let listImageSize: ImageSize = UIDevice.current.userInterfaceIdiom == .phone ? .small : .medium
+    static let listImageSize: ImageSizeEnum = UIDevice.current.userInterfaceIdiom == .phone ? .small : .medium
     
     static let ranks = ["🥇", "🥈", "🥉"]
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001

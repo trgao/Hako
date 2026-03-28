@@ -25,15 +25,11 @@ class ImageFrameController: ObservableObject {
         guard let imageUrl = imageUrl, image == nil else {
             return
         }
-        if let data = networker.getImage(id: id) {
+        let data = await networker.downloadImage(id: id, imageUrl: imageUrl)
+        if let data = data {
             self.image = UIImage(data: data)
-        } else {
-            let data = await self.networker.downloadImage(id: id, imageUrl: imageUrl)
-            if let data = data {
-                self.image = UIImage(data: data)
-                if isProfile {
-                    UserDefaults.standard.set(data, forKey: "userImage")
-                }
+            if isProfile {
+                UserDefaults.standard.set(data, forKey: "userImage")
             }
         }
     }

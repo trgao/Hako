@@ -50,6 +50,7 @@
 		EE35826D2DD8883900E0AF33 /* AltAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582632DD8883900E0AF33 /* AltAppIcon.png */; };
 		EE35826E2DD8883900E0AF33 /* AltAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */; };
 		EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */; };
+		EE3782252F78459C00AB7C7F /* ImageSizeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3782242F78459C00AB7C7F /* ImageSizeEnum.swift */; };
 		EE38471F2F0CEA360081A79E /* ViewTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */; };
 		EE3847232F0CFAC70081A79E /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3847222F0CFAC50081A79E /* ViewItem.swift */; };
 		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
@@ -296,6 +297,7 @@
 		EE3582662DD8883900E0AF33 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		EE3582672DD8883900E0AF33 /* AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x.png"; sourceTree = "<group>"; };
 		EE3582682DD8883900E0AF33 /* AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x.png"; sourceTree = "<group>"; };
+		EE3782242F78459C00AB7C7F /* ImageSizeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizeEnum.swift; sourceTree = "<group>"; };
 		EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypeEnum.swift; sourceTree = "<group>"; };
 		EE3847222F0CFAC50081A79E /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
 		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
@@ -743,6 +745,7 @@
 		EE3A59CB2BD23F16009E9F79 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				EE3782242F78459C00AB7C7F /* ImageSizeEnum.swift */,
 				EE7807842F28F64A001522BD /* LoadingEnum.swift */,
 				EEA693D62E126E1100FDAAD7 /* SearchEnum.swift */,
 				EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */,
@@ -1325,6 +1328,7 @@
 				EE3F1D1A2BDE9249009992AC /* MALAnimeListResponse.swift in Sources */,
 				EEFEFD482BF3429200200AF1 /* SafariView.swift in Sources */,
 				EE52C1892F1BA7E6007586F8 /* UserListStatusPicker.swift in Sources */,
+				EE3782252F78459C00AB7C7F /* ImageSizeEnum.swift in Sources */,
 				EE3F1D1C2BDE92A8009992AC /* MALListAnime.swift in Sources */,
 				EEC3578E2BE3889900DAAB0B /* CharacterDetailsViewController.swift in Sources */,
 				EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */,

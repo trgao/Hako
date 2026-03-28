@@ -18,7 +18,7 @@ struct ImageFrame: View {
     private var fullscreen = false
     private let networker = NetworkManager.shared
     
-    init(id: String, imageUrl: String?, imageSize: ImageSize) {
+    init(id: String, imageUrl: String?, imageSize: ImageSizeEnum) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
         self.imageUrl = imageUrl
         if imageSize == .reviewUser {
@@ -78,8 +78,4 @@ struct ImageFrame: View {
             await controller.refresh()
         }
     }
-}
-
-enum ImageSize {
-    case reviewUser, small, medium, large, background
 }

@@ -390,6 +390,14 @@ struct ExploreView: View {
                     searchView
                 } else {
                     exploreView
+                        .onAppear {
+                            print("hello world")
+                            isRoot = true
+                        }
+                        .onDisappear {
+                            print("hello world2")
+                            isRoot = false
+                        }
                 }
                 if isPresented {
                     TabPicker(selection: $controller.type, options: Constants.searchTypes.map{ ($0.rawValue.capitalized, $0) })
@@ -438,12 +446,6 @@ struct ExploreView: View {
                     }
                 }
             }
-            .onAppear {
-                isRoot = true
-            }
-            .onDisappear {
-                isRoot = false
-            }
             .navigationDestination(for: ViewItem.self) { item in
                 switch item.type {
                 case .anime: AnimeDetailsView(id: item.id)
@@ -465,13 +467,15 @@ struct ExploreView: View {
                 case .profile: UserProfileView(user: item.name ?? "")
                 }
             }
-        }
-        .id(id)
-        .task(id: id) {
-            if path.isEmpty {
-                isRoot = true
+            .task(id: id) {
+                print(isRoot, "hello world?")
+                if path.isEmpty {
+                    isRoot = true
+                    print(isRoot, "hello world?????")
+                }
             }
         }
+        .id(id)
     }
 }
 

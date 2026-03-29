@@ -65,7 +65,7 @@ struct CharacterDetailsView: View {
                             }
                         }
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 15)
                 }
                 // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
                 .navigationDestination(item: $animeIndex) { index in

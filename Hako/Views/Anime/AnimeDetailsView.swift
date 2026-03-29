@@ -130,7 +130,7 @@ struct AnimeDetailsView: View {
                             }
                         }
                         .frame(width: geometry.size.width)
-                        .padding(.vertical, 20)
+                        .padding(.vertical, 15)
                     }
                     .onChange(of: networker.isSignedIn) {
                         Task {

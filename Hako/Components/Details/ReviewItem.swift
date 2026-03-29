@@ -45,7 +45,7 @@ struct ReviewItem: View {
                 }
                 Text(item.review ?? "")
                     .multilineTextAlignment(.leading)
-                    .lineLimit(6)
+                    .lineLimit(5)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxHeight: .infinity, alignment: .top)

@@ -169,20 +169,20 @@ struct SeasonsView: View {
                     }
                 }
             }
+            .task(id: id) {
+                if let year = year, let season = season {
+                    controller.year = year
+                    controller.season = season
+                }
+                if !isInit {
+                    controller.sort = settings.getSeasonSort()
+                }
+                year = nil
+                season = nil
+                isRoot = true
+                isInit = true
+            }
         }
         .id(id)
-        .task(id: id) {
-            if let year = year, let season = season {
-                controller.year = year
-                controller.season = season
-            }
-            if !isInit {
-                controller.sort = settings.getSeasonSort()
-            }
-            year = nil
-            season = nil
-            isRoot = true
-            isInit = true
-        }
     }
 }

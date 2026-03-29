@@ -56,7 +56,6 @@ struct MainView: View {
         },
         set: {
             if $0 == self.tab {
-                print(isSearchRoot)
                 if self.tab == 1 && isSeasonsRoot {
                     isResetSeasons = true
                 } else if self.tab == 2 && isSearchRoot {

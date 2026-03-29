@@ -391,11 +391,9 @@ struct ExploreView: View {
                 } else {
                     exploreView
                         .onAppear {
-                            print("hello world")
                             isRoot = true
                         }
                         .onDisappear {
-                            print("hello world2")
                             isRoot = false
                         }
                 }
@@ -468,10 +466,8 @@ struct ExploreView: View {
                 }
             }
             .task(id: id) {
-                print(isRoot, "hello world?")
                 if path.isEmpty {
                     isRoot = true
-                    print(isRoot, "hello world?????")
                 }
             }
         }

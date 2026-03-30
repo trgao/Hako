@@ -44,8 +44,17 @@ struct Trailers: View {
                                     VStack {
                                         Image(systemName: "exclamationmark.triangle")
                                             .padding(.bottom, 5)
-                                        Text("Unable to load")
-                                            .bold()
+                                        HStack {
+                                            Text("Unable to load")
+                                                .bold()
+                                            Button {
+                                                Task {
+                                                    try await player.reload()
+                                                }
+                                            } label: {
+                                                Image(systemName: "arrow.clockwise")
+                                            }
+                                        }
                                     }
                                     .foregroundStyle(.white)
                                 }

@@ -597,22 +597,27 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Wrapper function for download
-    func downloadImage(id: String, imageUrl: String?) async -> Data? {
+    func downloadImage(id: String, imageUrl: String?, retry: Int = 3, delay: Int = 5) async -> Data? {
         if let cache = imageCache.object(forKey: id as NSString) {
             return cache.image as Data
         }
-        if let imageUrl = imageUrl {
+        
+        guard let imageUrl = imageUrl, retry > 0 else {
+            return nil
+        }
+        
+        do {
             imageUrlMap[id] = imageUrl
             let url = URL(string: imageUrl)!
-            let data = try? await download(imageUrl: url)
-            if let data = data {
-                let cache = ImageCache()
-                cache.image = data as NSData
-                self.imageCache.setObject(cache, forKey: id as NSString)
-            }
+            let data = try await download(imageUrl: url)
+            let cache = ImageCache()
+            cache.image = data as NSData
+            self.imageCache.setObject(cache, forKey: id as NSString)
             return data
+        } catch {
+            try? await Task.sleep(for: .seconds(delay))
+            return await downloadImage(id: id, imageUrl: imageUrl, retry: retry - 1, delay: delay * 2)
         }
-        return nil
     }
     
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {

@@ -390,12 +390,6 @@ struct ExploreView: View {
                     searchView
                 } else {
                     exploreView
-                        .onAppear {
-                            isRoot = true
-                        }
-                        .onDisappear {
-                            isRoot = false
-                        }
                 }
                 if isPresented {
                     TabPicker(selection: $controller.type, options: Constants.searchTypes.map{ ($0.rawValue.capitalized, $0) })
@@ -464,6 +458,12 @@ struct ExploreView: View {
                 case .userlist: UserListView(user: item.name ?? "", type: item.listType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
                 case .profile: UserProfileView(user: item.name ?? "")
                 }
+            }
+            .onAppear {
+                isRoot = true
+            }
+            .onDisappear {
+                isRoot = false
             }
             .task(id: id) {
                 if path.isEmpty {

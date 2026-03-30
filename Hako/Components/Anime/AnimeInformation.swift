@@ -39,7 +39,7 @@ struct AnimeInformation: View {
                         ScrollViewRow(title: "Members", content: "\(anime.numListUsers == nil ? "N/A" :  "\(anime.numListUsers!.formatted(.number.notation(.compactName)))")")
                     }
                     if let source = anime.source {
-                        ScrollViewRow(title: "Source", content: "\(source.formatMediaType())", icon: Constants.mediaTypeIcons[source])
+                        ScrollViewRow(title: "Source", content: "\(source.formatMediaType())", icon: Constants.mediaTypeIcons[source.toSnakeCase()])
                     }
                     if let rating = anime.rating, let ratingText = Constants.ratings[rating] {
                         ScrollViewRow(title: "Rating", content: ratingText)

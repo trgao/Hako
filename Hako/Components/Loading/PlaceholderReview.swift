@@ -38,7 +38,7 @@ struct PlaceholderReview: View {
                 .skeleton(isLoading)
             Text(text)
                 .multilineTextAlignment(.leading)
-                .lineLimit(6)
+                .lineLimit(5)
                 .fixedSize(horizontal: false, vertical: true)
                 .skeleton(isLoading)
         }

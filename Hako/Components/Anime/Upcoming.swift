@@ -22,7 +22,10 @@ struct Upcoming: View {
                 let airingDate = Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt))
                 let timeToAiring = Calendar(identifier: .gregorian).dateComponents([.day, .hour], from: Date(), to: airingDate)
                 var timeToAiringString: String {
-                    var result = ""
+                    var result = "in "
+                    if (timeToAiring.day == nil || timeToAiring.day == 0) && (timeToAiring.hour == nil || timeToAiring.hour == 0) {
+                        return "soon"
+                    }
                     if let day = timeToAiring.day, day > 0 {
                         result += "\(day) day\(day == 1 ? "" : "s")"
                         if let hour = timeToAiring.hour, hour > 0 {
@@ -35,7 +38,7 @@ struct Upcoming: View {
                     return result
                 }
                 ScrollViewSection(title: "Upcoming") {
-                    ScrollViewRow("Episode \(nextEpisode.episode) in \(timeToAiringString) (\(airingDate.toFullString()))")
+                    ScrollViewRow("Episode \(nextEpisode.episode) airing \(timeToAiringString) (\(airingDate.toFullString()))")
                 }
             }
         }

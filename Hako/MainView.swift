@@ -59,7 +59,7 @@ struct MainView: View {
                 if self.tab == 1 && isSeasonsRoot {
                     isResetSeasons = true
                 } else if self.tab == 2 && isSearchRoot {
-                    isSearchPresented = true
+                    isSearchPresented.toggle()
                 }
             }
             self.tab = $0

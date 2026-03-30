@@ -20,6 +20,7 @@ struct SmallPlaceholderGridItem: View {
         VStack {
             ImageFrame(id: "", imageUrl: nil, imageSize: .medium)
             Text("placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder")
+                .frame(width: 100 * screenRatio)
                 .lineLimit(settings.getLineLimit() ?? 2)
                 .font(.footnote)
                 .tint(.primary)

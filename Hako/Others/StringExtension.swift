@@ -49,4 +49,8 @@ extension String {
         }
         return cur
     }
+    
+    func toSnakeCase() -> String {
+        return self.lowercased().replacingOccurrences(of: " ", with: "_")
+    }
 }

@@ -40,63 +40,65 @@ struct AppearanceView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            Section("App icon") {
-                HStack {
-                    Button {
-                        if UIApplication.shared.supportsAlternateIcons {
-                            UIApplication.shared.setAlternateIconName(nil) { error in
-                                if let _ = error {
-                                    isChangeIconError = true
-                                } else {
-                                    altIcon = false
+            if !ProcessInfo.processInfo.isMacCatalystApp {
+                Section("App icon") {
+                    HStack {
+                        Button {
+                            if UIApplication.shared.supportsAlternateIcons {
+                                UIApplication.shared.setAlternateIconName(nil) { error in
+                                    if let _ = error {
+                                        isChangeIconError = true
+                                    } else {
+                                        altIcon = false
+                                    }
                                 }
+                            } else {
+                                isChangeIconError = true
                             }
-                        } else {
-                            isChangeIconError = true
+                        } label: {
+                            Image(uiImage: UIImage(named: "AppIcon.png")!)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay {
+                                    if !altIcon {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(settings.getAccentColor(), lineWidth: 3)
+                                    }
+                                }
                         }
-                    } label: {
-                        Image(uiImage: UIImage(named: "AppIcon.png")!)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 60, height: 60)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .overlay {
-                                if !altIcon {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(settings.getAccentColor(), lineWidth: 3)
+                        .buttonStyle(.plain)
+                        .padding(.trailing, 50)
+                        Button {
+                            if UIApplication.shared.supportsAlternateIcons {
+                                UIApplication.shared.setAlternateIconName("AltAppIcon") { error in
+                                    if let _ = error {
+                                        isChangeIconError = true
+                                    } else {
+                                        altIcon = true
+                                    }
                                 }
+                            } else {
+                                isChangeIconError = true
                             }
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.trailing, 50)
-                    Button {
-                        if UIApplication.shared.supportsAlternateIcons {
-                            UIApplication.shared.setAlternateIconName("AltAppIcon") { error in
-                                if let _ = error {
-                                    isChangeIconError = true
-                                } else {
-                                    altIcon = true
+                        } label: {
+                            Image(uiImage: UIImage(named: "AltAppIcon.png")!)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay {
+                                    if altIcon {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(settings.getAccentColor(), lineWidth: 3)
+                                    }
                                 }
-                            }
-                        } else {
-                            isChangeIconError = true
                         }
-                    } label: {
-                        Image(uiImage: UIImage(named: "AltAppIcon.png")!)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 60, height: 60)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .overlay {
-                                if altIcon {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(settings.getAccentColor(), lineWidth: 3)
-                                }
-                            }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
             }
             Section("Accessibility") {
                 Toggle(isOn: $settings.translucentBackground) {

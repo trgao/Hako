@@ -33,17 +33,21 @@ struct GeneralView: View {
                         settings.defaultView = 1
                     }
                 }
-                Toggle(isOn: $settings.useWithoutAccount) {
-                    Text("Use app without account")
-                    Text("It will hide the login button and My list tab")
-                }
-                .onChange(of: settings.useWithoutAccount) { _, cur in
-                    if cur == true && settings.defaultView == 3 {
-                        settings.defaultView = settings.hideTop ? 1 : 0
+                if !networker.isSignedIn {
+                    Toggle(isOn: $settings.useWithoutAccount) {
+                        Text("Use app without account")
+                        Text("It will hide the login button and My list tab")
+                    }
+                    .onChange(of: settings.useWithoutAccount) { _, cur in
+                        if cur == true && settings.defaultView == 3 {
+                            settings.defaultView = settings.hideTop ? 1 : 0
+                        }
                     }
                 }
-                Toggle(isOn: $settings.safariInApp) {
-                    Text("Open links in app")
+                if !ProcessInfo.processInfo.isMacCatalystApp {
+                    Toggle(isOn: $settings.safariInApp) {
+                        Text("Open links in app")
+                    }
                 }
             }
             let context = LAContext()

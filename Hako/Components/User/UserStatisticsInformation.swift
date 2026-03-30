@@ -10,6 +10,8 @@ import SwiftUI
 struct UserStatisticsInformation: View {
     @EnvironmentObject private var settings: SettingsManager
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.screenSize) private var screenSize
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private let userStatistics: UserStatistics?
     private let loadingState: LoadingEnum
     
@@ -54,30 +56,49 @@ struct UserStatisticsInformation: View {
         }
     }
     
-    var body: some View {
-        if !settings.hideUserAnimeStatistics {
-            ScrollViewSection(title: "Anime statistics") {
-                StatisticsRow("Days watched", userStatistics?.anime.daysWatched, "calendar", .blue)
-                StatisticsRow("Mean score", userStatistics?.anime.meanScore, "star.fill", .yellow)
-                StatisticsRow("Total entries", userStatistics?.anime.totalEntries, "circle.circle", .primary)
-                StatisticsRow("Watching", userStatistics?.anime.watching, "play.circle", .blue)
-                StatisticsRow("Completed", userStatistics?.anime.completed, "checkmark.circle", .green)
-                StatisticsRow("On hold", userStatistics?.anime.onHold, "pause.circle", .yellow)
-                StatisticsRow("Plan to watch", userStatistics?.anime.planToWatch, "plus.circle.dashed", .purple)
-                StatisticsRow("Episodes watched", userStatistics?.anime.episodesWatched, "video", .primary)
-            }
+    private var animeStatistics: some View {
+        ScrollViewSection(title: "Anime statistics") {
+            StatisticsRow("Days watched", userStatistics?.anime.daysWatched, "calendar", .blue)
+            StatisticsRow("Mean score", userStatistics?.anime.meanScore, "star.fill", .yellow)
+            StatisticsRow("Total entries", userStatistics?.anime.totalEntries, "circle.circle", .primary)
+            StatisticsRow("Watching", userStatistics?.anime.watching, "play.circle", .blue)
+            StatisticsRow("Completed", userStatistics?.anime.completed, "checkmark.circle", .green)
+            StatisticsRow("On hold", userStatistics?.anime.onHold, "pause.circle", .yellow)
+            StatisticsRow("Plan to watch", userStatistics?.anime.planToWatch, "plus.circle.dashed", .purple)
+            StatisticsRow("Episodes watched", userStatistics?.anime.episodesWatched, "video", .primary)
         }
-        if !settings.hideUserMangaStatistics {
-            ScrollViewSection(title: "Manga statistics") {
-                StatisticsRow("Days read", userStatistics?.manga.daysRead, "calendar", .blue)
-                StatisticsRow("Mean score", userStatistics?.manga.meanScore, "star.fill", .yellow)
-                StatisticsRow("Total entries", userStatistics?.manga.totalEntries, "circle.circle", .primary)
-                StatisticsRow("Reading", userStatistics?.manga.reading, "book.circle", .blue)
-                StatisticsRow("Completed", userStatistics?.manga.completed, "checkmark.circle", .green)
-                StatisticsRow("On hold", userStatistics?.manga.onHold, "pause.circle", .yellow)
-                StatisticsRow("Plan to read", userStatistics?.manga.planToRead, "plus.circle.dashed", .purple)
-                StatisticsRow("Volumes read", userStatistics?.manga.volumesRead, "book.closed", .primary)
-                StatisticsRow("Chapters read", userStatistics?.manga.chaptersRead, "book.pages", .primary)
+    }
+    
+    private var mangaStatistics: some View {
+        ScrollViewSection(title: "Manga statistics") {
+            StatisticsRow("Days read", userStatistics?.manga.daysRead, "calendar", .blue)
+            StatisticsRow("Mean score", userStatistics?.manga.meanScore, "star.fill", .yellow)
+            StatisticsRow("Total entries", userStatistics?.manga.totalEntries, "circle.circle", .primary)
+            StatisticsRow("Reading", userStatistics?.manga.reading, "book.circle", .blue)
+            StatisticsRow("Completed", userStatistics?.manga.completed, "checkmark.circle", .green)
+            StatisticsRow("On hold", userStatistics?.manga.onHold, "pause.circle", .yellow)
+            StatisticsRow("Plan to read", userStatistics?.manga.planToRead, "plus.circle.dashed", .purple)
+            StatisticsRow("Volumes read", userStatistics?.manga.volumesRead, "book.closed", .primary)
+            StatisticsRow("Chapters read", userStatistics?.manga.chaptersRead, "book.pages", .primary)
+        }
+    }
+    
+    var body: some View {
+        if screenSize.width >= 1000 && dynamicTypeSize <= .xxxLarge {
+            HStack(alignment: .top) {
+                if !settings.hideUserAnimeStatistics {
+                    animeStatistics
+                }
+                if !settings.hideUserMangaStatistics {
+                    mangaStatistics
+                }
+            }
+        } else {
+            if !settings.hideUserAnimeStatistics {
+                animeStatistics
+            }
+            if !settings.hideUserMangaStatistics {
+                mangaStatistics
             }
         }
     }

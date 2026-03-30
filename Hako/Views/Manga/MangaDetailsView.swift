@@ -15,6 +15,13 @@ struct MangaDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
+    private var title: String {
+        if let title = controller.manga?.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return controller.manga?.title ?? ""
+        }
+    }
     
     init(id: Int) {
         self.id = id
@@ -151,39 +158,47 @@ struct MangaDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(title)
         .toolbar {
-            if let manga = controller.manga, !manga.isEmpty() {
-                if controller.loadingState == .loading {
-                    ProgressView()
-                } else if networker.isSignedIn && !settings.useWithoutAccount {
-                    Button {
-                        isEditViewPresented = true
-                    } label: {
-                        Image(systemName: manga.myListStatus?.status == nil ? "plus" : "square.and.pencil")
-                    }
-                    .sheet(isPresented: $isEditViewPresented) {
-                        Task {
-                            await controller.loadDetails()
+            ToolbarItem(placement: .title) {
+                Text("").hidden()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                if let manga = controller.manga, !manga.isEmpty() {
+                    if controller.loadingState == .loading {
+                        ProgressView()
+                    } else if networker.isSignedIn && !settings.useWithoutAccount {
+                        Button {
+                            isEditViewPresented = true
+                        } label: {
+                            Image(systemName: manga.myListStatus?.status == nil ? "plus" : "square.and.pencil")
                         }
-                    } content: {
-                        MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, enTitle: manga.alternativeTitles?.en, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
-                            .presentationBackground {
-                                ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
+                        .sheet(isPresented: $isEditViewPresented) {
+                            Task {
+                                await controller.loadDetails()
                             }
+                        } content: {
+                            MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, enTitle: manga.alternativeTitles?.en, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
+                                .presentationBackground {
+                                    ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
+                                }
+                        }
+                        .disabled(controller.loadingState == .loading)
                     }
-                    .disabled(controller.loadingState == .loading)
-                }
-            } else if controller.loadingState == .error {
-                Button {
-                    Task {
-                        await controller.refresh()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
                     }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
                 }
             }
-            ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
-                Image(systemName: "square.and.arrow.up")
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(item: URL(string: "https://myanimelist.net/manga/\(id)")!) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
         }
         .onAppear {

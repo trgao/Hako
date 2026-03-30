@@ -21,6 +21,13 @@ struct MangaListItem: View {
     private let numVolumesRead: String
     private let volumesReadProgress: Float
     private let isLoading: Bool
+    private var title: String {
+        if let title = manga.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return manga.node.title
+        }
+    }
     
     init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.manga = manga
@@ -55,15 +62,9 @@ struct MangaListItem: View {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
-                    if let title = manga.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                        Text(title)
-                            .lineLimit(settings.getLineLimit())
-                            .bold()
-                    } else {
-                        Text(manga.node.title)
-                            .lineLimit(settings.getLineLimit())
-                            .bold()
-                    }
+                    Text(title)
+                        .lineLimit(settings.getLineLimit())
+                        .bold()
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             if let mediaType = manga.node.mediaType {

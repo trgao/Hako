@@ -26,7 +26,14 @@ struct AnimeEditView: View {
     private let enTitle: String?
     private let numEpisodes: Int?
     private let imageUrl: String?
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
+    private var viewTitle: String {
+        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return title ?? ""
+        }
+    }
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
@@ -123,17 +130,10 @@ struct AnimeEditView: View {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
             } subtitle: {
                 VStack {
-                    if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                        Text(title)
-                            .bold()
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    } else {
-                        Text(title ?? "")
-                            .bold()
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    }
+                    Text(viewTitle)
+                        .bold()
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
                     if let updatedAt = listStatus.updatedAt?.toFullString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.caption)

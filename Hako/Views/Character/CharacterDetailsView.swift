@@ -10,6 +10,7 @@ import SwiftUI
 struct CharacterDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: CharacterDetailsViewController
+    @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var animeIndex: Int?
     @State private var mangaIndex: Int?
@@ -35,7 +36,12 @@ struct CharacterDetailsView: View {
                     VStack {
                         VStack {
                             ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(medium: character.images?.jpg?.imageUrl, large: character.images?.jpg?.largeImageUrl)])
-                            NameText(english: character.name, japanese: character.nameKanji)
+                            if #available(iOS 18.0, *) {
+                                NameText(english: character.name, japanese: character.nameKanji)
+                                    .onScrollVisibilityChange({ hideTitle = $0 })
+                            } else {
+                                NameText(english: character.name, japanese: character.nameKanji)
+                            }
                             Favourites(favorites: controller.character?.favorites)
                         }
                         .padding(.horizontal, 17)
@@ -111,20 +117,31 @@ struct CharacterDetailsView: View {
                 LoadingView()
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(controller.character?.name ?? "")
         .toolbar {
-            if let character = controller.character, !character.isEmpty() && controller.loadingState == .loading {
-                ProgressView()
-            } else if controller.loadingState == .error {
-                Button {
-                    Task {
-                        await controller.refresh()
-                    }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
+            if hideTitle {
+                ToolbarItem(placement: .title) {
+                    Text("").hidden()
                 }
             }
-            ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {
-                Image(systemName: "square.and.arrow.up")
+            ToolbarItem(placement: .topBarTrailing) {
+                if let character = controller.character, !character.isEmpty() && controller.loadingState == .loading {
+                    ProgressView()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
+                    }
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)

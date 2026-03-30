@@ -15,6 +15,13 @@ struct AnimeDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
+    private var title: String {
+        if let title = controller.anime?.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return controller.anime?.title ?? ""
+        }
+    }
     
     init(id: Int) {
         self.id = id
@@ -166,39 +173,47 @@ struct AnimeDetailsView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(title)
         .toolbar {
-            if let anime = controller.anime, !anime.isEmpty() {
-                if controller.loadingState == .loading {
-                    ProgressView()
-                } else if networker.isSignedIn && !settings.useWithoutAccount {
-                    Button {
-                        isEditViewPresented = true
-                    } label: {
-                        Image(systemName: anime.myListStatus?.status == nil ? "plus" : "square.and.pencil")
-                    }
-                    .sheet(isPresented: $isEditViewPresented) {
-                        Task {
-                            await controller.loadDetails()
+            ToolbarItem(placement: .title) {
+                Text("").hidden()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                if let anime = controller.anime, !anime.isEmpty() {
+                    if controller.loadingState == .loading {
+                        ProgressView()
+                    } else if networker.isSignedIn && !settings.useWithoutAccount {
+                        Button {
+                            isEditViewPresented = true
+                        } label: {
+                            Image(systemName: anime.myListStatus?.status == nil ? "plus" : "square.and.pencil")
                         }
-                    } content: {
-                        AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, enTitle: anime.alternativeTitles?.en, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
-                            .presentationBackground {
-                                ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
+                        .sheet(isPresented: $isEditViewPresented) {
+                            Task {
+                                await controller.loadDetails()
                             }
+                        } content: {
+                            AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, enTitle: anime.alternativeTitles?.en, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
+                                .presentationBackground {
+                                    ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
+                                }
+                        }
+                        .disabled(controller.loadingState == .loading)
                     }
-                    .disabled(controller.loadingState == .loading)
-                }
-            } else if controller.loadingState == .error {
-                Button {
-                    Task {
-                        await controller.refresh()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
                     }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
                 }
             }
-            ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
-                Image(systemName: "square.and.arrow.up")
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
         }
         .onAppear {

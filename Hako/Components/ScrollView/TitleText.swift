@@ -13,6 +13,13 @@ struct TitleText: View {
     private let romaji: String
     private let english: String?
     private let japanese: String?
+    private var title: String {
+        if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return romaji
+        }
+    }
     
     init(romaji: String, english: String? = nil, japanese: String? = nil) {
         self.romaji = romaji
@@ -22,17 +29,10 @@ struct TitleText: View {
     
     var text: some View {
         VStack {
-            if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                Text(title)
-                    .bold()
-                    .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
-                    .multilineTextAlignment(.center)
-            } else {
-                Text(romaji)
-                    .bold()
-                    .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
-                    .multilineTextAlignment(.center)
-            }
+            Text(title)
+                .bold()
+                .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
+                .multilineTextAlignment(.center)
             if let japanese = japanese {
                 Text(japanese)
                     .opacity(0.7)

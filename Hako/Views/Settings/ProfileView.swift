@@ -12,6 +12,7 @@ struct ProfileView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = UserProfileViewController()
     @StateObject private var networker = NetworkManager.shared
+    @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var isSigningOut = false
     
@@ -23,10 +24,18 @@ struct ProfileView: View {
                         HStack {
                             ProfileImage(imageUrl: networker.user?.picture, username: networker.user?.name, allowExpand: true)
                             VStack {
-                                Text("Hello, \(networker.user?.name ?? "")")
-                                    .frame(maxWidth: .infinity)
-                                    .font(.title3)
-                                    .bold()
+                                if #available(iOS 18.0, *) {
+                                    Text("Hello, \(networker.user?.name ?? "")")
+                                        .frame(maxWidth: .infinity)
+                                        .font(.title3)
+                                        .bold()
+                                        .onScrollVisibilityChange({ hideTitle = $0 })
+                                } else {
+                                    Text("Hello, \(networker.user?.name ?? "")")
+                                        .frame(maxWidth: .infinity)
+                                        .font(.title3)
+                                        .bold()
+                                }
                                 Button("Sign Out") {
                                     isSigningOut = true
                                 }
@@ -89,18 +98,29 @@ struct ProfileView: View {
             .background {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(networker.user?.name ?? "")
             .toolbar {
-                if controller.loadingState == .error {
-                    Button {
-                        Task {
-                            await controller.refresh()
-                        }
-                    } label: {
-                        Image(systemName: "exclamationmark.triangle")
+                if hideTitle {
+                    ToolbarItem(placement: .title) {
+                        Text("").hidden()
                     }
                 }
-                ShareLink(item: URL(string: "https://myanimelist.net/profile/\(networker.user?.name ?? "")")!) {
-                    Image(systemName: "square.and.arrow.up")
+                if controller.loadingState == .error {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            Task {
+                                await controller.refresh()
+                            }
+                        } label: {
+                            Image(systemName: "exclamationmark.triangle")
+                        }
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    ShareLink(item: URL(string: "https://myanimelist.net/profile/\(networker.user?.name ?? "")")!) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                 }
             }
         }

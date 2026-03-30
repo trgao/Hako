@@ -18,6 +18,13 @@ struct AnimeListItem: View {
     private let numEpisodesWatched: String
     private let watchProgress: Float
     private let isLoading: Bool
+    private var title: String {
+        if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return anime.node.title
+        }
+    }
     
     init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.anime = anime
@@ -43,15 +50,9 @@ struct AnimeListItem: View {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
-                    if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                        Text(title)
-                            .lineLimit(settings.getLineLimit())
-                            .bold()
-                    } else {
-                        Text(anime.node.title)
-                            .lineLimit(settings.getLineLimit())
-                            .bold()
-                    }
+                    Text(title)
+                        .lineLimit(settings.getLineLimit())
+                        .bold()
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             if let startSeason = anime.node.startSeason, let season = startSeason.season, let year = startSeason.year {

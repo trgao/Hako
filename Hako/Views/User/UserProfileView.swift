@@ -11,6 +11,7 @@ struct UserProfileView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: UserProfileViewController
     @StateObject private var networker = NetworkManager.shared
+    @State private var hideTitle = true
     @State private var isRefresh = false
     private let user: String
     
@@ -36,10 +37,18 @@ struct UserProfileView: View {
                     VStack {
                         ScrollViewSection {
                             VStack {
-                                Text(user)
-                                    .frame(maxWidth: .infinity)
-                                    .font(.title3)
-                                    .bold()
+                                if #available(iOS 18.0, *) {
+                                    Text(user)
+                                        .frame(maxWidth: .infinity)
+                                        .font(.title3)
+                                        .bold()
+                                        .onScrollVisibilityChange({ hideTitle = $0 })
+                                } else {
+                                    Text(user)
+                                        .frame(maxWidth: .infinity)
+                                        .font(.title3)
+                                        .bold()
+                                }
                                 NavigationLink("Go to user lists") {
                                     UserListView(user: user)
                                 }
@@ -66,19 +75,30 @@ struct UserProfileView: View {
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(user)
         .toolbar {
+            if hideTitle {
+                ToolbarItem(placement: .title) {
+                    Text("").hidden()
+                }
+            }
             if controller.loadingState == .error {
-                Button {
-                    Task {
-                        await controller.refresh()
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
                     }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
                 }
             }
             if !controller.isUserNotFound {
-                ShareLink(item: URL(string: "https://myanimelist.net/profile/\(user)")!) {
-                    Image(systemName: "square.and.arrow.up")
+                ToolbarItem(placement: .topBarTrailing) {
+                    ShareLink(item: URL(string: "https://myanimelist.net/profile/\(user)")!) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                 }
             }
         }

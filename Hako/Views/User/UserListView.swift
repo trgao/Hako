@@ -255,18 +255,26 @@ struct UserListView: View {
             }
             isInit = true
         }
+        .navigationTitle("\(user)'s list")
         .toolbar {
-            UserListFilter(controller: controller)
-            AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
-                .onChange(of: controller.type) {
-                    if controller.isItemsEmpty() && controller.getCanLoadMorePages() {
-                        // Loading state is changed here to prevent brief flickering of nothing found view
-                        controller.loadingState = .loading
-                        Task {
-                            await controller.refresh()
+            ToolbarItem(placement: .title) {
+                Text("").hidden()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                UserListFilter(controller: controller)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                    .onChange(of: controller.type) {
+                        if controller.isItemsEmpty() && controller.getCanLoadMorePages() {
+                            // Loading state is changed here to prevent brief flickering of nothing found view
+                            controller.loadingState = .loading
+                            Task {
+                                await controller.refresh()
+                            }
                         }
                     }
-                }
+            }
         }
     }
 }

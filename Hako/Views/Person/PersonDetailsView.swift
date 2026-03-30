@@ -10,6 +10,7 @@ import SwiftUI
 struct PersonDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: PersonDetailsViewController
+    @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var voiceIndex: Int?
     @State private var animeIndex: Int?
@@ -43,7 +44,12 @@ struct PersonDetailsView: View {
                         VStack {
                             VStack {
                                 ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(medium: person.images?.jpg?.imageUrl, large: person.images?.jpg?.largeImageUrl)])
-                                NameText(english: person.name, birthday: person.birthday?.toString())
+                                if #available(iOS 18.0, *) {
+                                    NameText(english: person.name, birthday: person.birthday?.toString())
+                                        .onScrollVisibilityChange({ hideTitle = $0 })
+                                } else {
+                                    NameText(english: person.name, birthday: person.birthday?.toString())
+                                }
                                 Favourites(favorites: controller.person?.favorites)
                             }
                             .padding(.horizontal, 17)
@@ -120,20 +126,31 @@ struct PersonDetailsView: View {
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(controller.person?.name ?? "")
         .toolbar {
-            if let person = controller.person, !person.isEmpty() && controller.loadingState == .loading {
-                ProgressView()
-            } else if controller.loadingState == .error {
-                Button {
-                    Task {
-                        await controller.refresh()
-                    }
-                } label: {
-                    Image(systemName: "exclamationmark.triangle")
+            if hideTitle {
+                ToolbarItem(placement: .title) {
+                    Text("").hidden()
                 }
             }
-            ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
-                Image(systemName: "square.and.arrow.up")
+            ToolbarItem(placement: .topBarTrailing) {
+                if let person = controller.person, !person.isEmpty() && controller.loadingState == .loading {
+                    ProgressView()
+                } else if controller.loadingState == .error {
+                    Button {
+                        Task {
+                            await controller.refresh()
+                        }
+                    } label: {
+                        Image(systemName: "exclamationmark.triangle")
+                    }
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
+                    Image(systemName: "square.and.arrow.up")
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)

@@ -27,7 +27,14 @@ struct MangaEditView: View {
     private let numVolumes: Int?
     private let numChapters: Int?
     private let imageUrl: String?
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
+    private var viewTitle: String {
+        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return title ?? ""
+        }
+    }
     
     init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
@@ -137,17 +144,10 @@ struct MangaEditView: View {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
             } subtitle: {
                 VStack {
-                    if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                        Text(title)
-                            .bold()
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    } else {
-                        Text(title ?? "")
-                            .bold()
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    }
+                    Text(viewTitle)
+                        .bold()
+                        .font(.title3)
+                        .multilineTextAlignment(.center)
                     if let updatedAt = listStatus.updatedAt?.toFullString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.caption)

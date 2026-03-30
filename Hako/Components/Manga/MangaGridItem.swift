@@ -17,6 +17,13 @@ struct MangaGridItem: View {
     private let subtitle: String?
     private let manga: Manga
     private let isRecentlyViewed: Bool
+    private var itemTitle: String {
+        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
+            return title
+        } else {
+            return title ?? ""
+        }
+    }
     
     init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
@@ -71,21 +78,12 @@ struct MangaGridItem: View {
                             }
                         }
                     }
-                if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-                    Text(title)
-                        .lineLimit(settings.getLineLimit())
-                        .frame(width: 150 * screenRatio, alignment: .leading)
-                        .padding(5)
-                        .font(.callout)
-                        .tint(.primary)
-                } else {
-                    Text(title ?? "")
-                        .lineLimit(settings.getLineLimit())
-                        .frame(width: 150 * screenRatio, alignment: .leading)
-                        .padding(5)
-                        .font(.callout)
-                        .tint(.primary)
-                }
+                Text(itemTitle)
+                    .lineLimit(settings.getLineLimit())
+                    .frame(width: 150 * screenRatio, alignment: .leading)
+                    .padding(5)
+                    .font(.callout)
+                    .tint(.primary)
             }
         }
         .padding(5)

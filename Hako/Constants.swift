@@ -224,7 +224,7 @@ struct Constants {
         "g": "G - All ages",
         "pg": "PG - Children",
         "pg_13": "PG13 - Teens 13 & older",
-        "r": "R(17+) - Violence & profanity",
+        "r": "R (17+) - Violence & profanity",
         "r+": "R+ - Profanity & mild nudity",
         "rx": "Rx - Hentai"
     ]

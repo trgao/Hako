@@ -149,7 +149,7 @@ struct SeasonsView: View {
                                     .padding()
                             } else {
                                 Button(String(controller.year)) {}
-                                    .buttonStyle(.borderedProminent)
+                                    .buttonStyle(.bordered)
                             }
                         }
                         .disabled(controller.loadingState == .loading)

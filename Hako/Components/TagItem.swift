@@ -11,9 +11,6 @@ struct TagItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     private let text: String
-    private let greenTexts = ["Recommended", "10 ⭐", "9 ⭐", "8 ⭐", "7 ⭐"]
-    private let redTexts = ["Not Recommended", "4 ⭐", "3 ⭐", "2 ⭐", "1 ⭐"]
-    private let greyTexts = ["Mixed Feelings", "6 ⭐", "5 ⭐"]
     
     init(text: String) {
         self.text = text
@@ -21,18 +18,18 @@ struct TagItem: View {
     
     var body: some View {
         var background: Color {
-            if greenTexts.contains(text) {
+            if text == "Recommended" {
                 return .green
-            } else if redTexts.contains(text) {
+            } else if text == "Not Recommended" {
                 return .red
-            } else if greyTexts.contains(text) {
+            } else if text == "Mixed Feelings" {
                 return .gray
             } else {
                 return settings.getAccentColor()
             }
         }
         var textColor: Color {
-            if background == .green || background == .teal || background == .orange || background == .green {
+            if background == .green || background == .teal || background == .orange {
                 return .black
             } else {
                 return .white

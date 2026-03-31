@@ -6,9 +6,7 @@
 import Foundation
 
 extension Sequence {
-    func concurrentForEach(
-            _ operation: @escaping (Element) async -> Void
-    ) async {
+    func concurrentForEach(_ operation: @escaping (Element) async -> Void) async {
         // A task group automatically waits for all of its
         // sub-tasks to complete, while also performing those
         // tasks in parallel:

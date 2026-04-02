@@ -1,7 +1,5 @@
 # Hako
 
-An iOS MyAnimeList client
-
 This is a project that I used to learn Swift and iOS app development. Used the MyAnimeList and Jikan API (and AniList API for retrieving the next episode airing schedule for animes). 
 
 <img src="images/top.png?" width="180" height="390"/> <img src="images/seasons.png?" width="180" height="390"/> <img src="images/search.png?" width="180" height="390"/>
@@ -21,6 +19,7 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 
 ## Things to be done
 
-* Add iPad support for NavigationSplitView
-* Try playing with live activities/widgets
 * Try adding notifications for upcoming episode
+* Try playing with live activities/widgets
+* Add list items to spotlight search
+* Find best way to get data and display for weekly/daily schedule

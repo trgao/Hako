@@ -542,7 +542,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeReviewsList(id: Int, page: Int) async throws -> [Review] {
-        let response = try await getJikanResponse(urlExtend: "/anime/\(id)/reviews?page=\(page)&preliminary=true", type: JikanReviewsListResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/anime/\(id)/reviews?preliminary=true&page=\(page)", type: JikanReviewsListResponse.self)
         return response.data
     }
     
@@ -562,7 +562,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getMangaReviewsList(id: Int, page: Int) async throws -> [Review] {
-        let response = try await getJikanResponse(urlExtend: "/manga/\(id)/reviews?page=\(page)&preliminary=true", type: JikanReviewsListResponse.self)
+        let response = try await getJikanResponse(urlExtend: "/manga/\(id)/reviews?preliminary=true&page=\(page)", type: JikanReviewsListResponse.self)
         return response.data
     }
     

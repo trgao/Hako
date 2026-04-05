@@ -23,20 +23,16 @@ struct MangaEditView: View {
     private let id: Int
     private let initialData: MyListStatus
     private let title: String?
-    private let enTitle: String?
+    private let alternativeTitles: AlternativeTitles?
     private let numVolumes: Int?
     private let numChapters: Int?
     private let imageUrl: String?
     private let networker = NetworkManager.shared
     private var viewTitle: String {
-        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return title ?? ""
-        }
+        settings.getTitle(romaji: title, english: alternativeTitles?.en, native: alternativeTitles?.ja)
     }
     
-    init(id: Int, listStatus: MyListStatus?, title: String?, enTitle: String?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
+    init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         var initialData = MyListStatus(status: .planToRead)
         if let listStatus = listStatus {
@@ -45,7 +41,7 @@ struct MangaEditView: View {
         self.initialData = initialData
         self.listStatus = initialData
         self.title = title
-        self.enTitle = enTitle
+        self.alternativeTitles = alternativeTitles
         self.numVolumes = numVolumes
         self.numChapters = numChapters
         self.imageUrl = imageUrl

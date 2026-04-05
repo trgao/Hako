@@ -89,6 +89,16 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
     
+    func getTitle(romaji: String?, english: String?, native: String?) -> String {
+        if let title = english, !title.isEmpty && preferredTitleLanguage == 1 {
+            return title
+        } else if let title = native, !title.isEmpty && preferredTitleLanguage == 2 {
+            return title
+        } else {
+            return romaji ?? ""
+        }
+    }
+    
     func getAnimeRanking() -> RankingEnum {
         return Constants.animeRankings[defaultAnimeRanking]
     }

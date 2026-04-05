@@ -16,11 +16,7 @@ struct AnimeDetailsView: View {
     @State private var isRefresh = false
     private let id: Int
     private var title: String {
-        if let title = controller.anime?.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return controller.anime?.title ?? ""
-        }
+        settings.getTitle(romaji: controller.anime?.title, english: controller.anime?.alternativeTitles?.en, native: controller.anime?.alternativeTitles?.ja)
     }
     
     init(id: Int) {
@@ -57,7 +53,7 @@ struct AnimeDetailsView: View {
                         VStack {
                             VStack {
                                 ImageCarousel(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, pictures: anime.pictures?.reversed())
-                                TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, japanese: anime.alternativeTitles?.ja)
+                                TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, native: anime.alternativeTitles?.ja)
                                 HStack {
                                     Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
                                     if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
@@ -193,7 +189,7 @@ struct AnimeDetailsView: View {
                                 await controller.loadDetails()
                             }
                         } content: {
-                            AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, enTitle: anime.alternativeTitles?.en, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
+                            AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, alternativeTitles: anime.alternativeTitles, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
                                 .presentationBackground {
                                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                                 }

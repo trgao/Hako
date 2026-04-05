@@ -13,22 +13,20 @@ struct MangaGridItem: View {
     private let id: Int
     private let title: String?
     private let enTitle: String?
+    private let jaTitle: String?
     private let imageUrl: String?
     private let subtitle: String?
     private let manga: Manga
     private let isRecentlyViewed: Bool
     private var itemTitle: String {
-        if let title = enTitle, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return title ?? ""
-        }
+        settings.getTitle(romaji: title, english: enTitle, native: jaTitle)
     }
     
     init(id: Int, title: String?, enTitle: String?, jaTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
         self.enTitle = enTitle
+        self.jaTitle = jaTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
         self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle, jaTitle: jaTitle, imageUrl: imageUrl)

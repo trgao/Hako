@@ -19,11 +19,7 @@ struct AnimeListItem: View {
     private let watchProgress: Float
     private let isLoading: Bool
     private var title: String {
-        if let title = anime.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return anime.node.title
-        }
+        settings.getTitle(romaji: anime.node.title, english: anime.node.alternativeTitles?.en, native: anime.node.alternativeTitles?.ja)
     }
     
     init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {

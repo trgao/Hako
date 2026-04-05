@@ -18,7 +18,7 @@ struct GeneralView: View {
     var body: some View {
         List {
             Section("General") {
-                PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English"])
+                PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English", "Native"])
                 Toggle(isOn: $settings.openLastClosedTab) {
                     Text("Open app with last closed tab")
                 }

@@ -16,11 +16,7 @@ struct MangaDetailsView: View {
     @State private var isRefresh = false
     private let id: Int
     private var title: String {
-        if let title = controller.manga?.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return controller.manga?.title ?? ""
-        }
+        settings.getTitle(romaji: controller.manga?.title, english: controller.manga?.alternativeTitles?.en, native: controller.manga?.alternativeTitles?.ja)
     }
     
     init(id: Int) {
@@ -57,7 +53,7 @@ struct MangaDetailsView: View {
                         VStack {
                             VStack {
                                 ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures?.reversed())
-                                TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, japanese: manga.alternativeTitles?.ja)
+                                TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, native: manga.alternativeTitles?.ja)
                                 HStack {
                                     Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
                                     if let myScore = manga.myListStatus?.score, myScore > 0 {
@@ -178,7 +174,7 @@ struct MangaDetailsView: View {
                                 await controller.loadDetails()
                             }
                         } content: {
-                            MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, enTitle: manga.alternativeTitles?.en, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
+                            MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, alternativeTitles: manga.alternativeTitles, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
                                 .presentationBackground {
                                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                                 }

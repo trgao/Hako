@@ -22,11 +22,7 @@ struct MangaListItem: View {
     private let volumesReadProgress: Float
     private let isLoading: Bool
     private var title: String {
-        if let title = manga.node.alternativeTitles?.en, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return manga.node.title
-        }
+        settings.getTitle(romaji: manga.node.title, english: manga.node.alternativeTitles?.en, native: manga.node.alternativeTitles?.ja)
     }
     
     init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {

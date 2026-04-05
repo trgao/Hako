@@ -12,19 +12,15 @@ struct TitleText: View {
     @EnvironmentObject private var settings: SettingsManager
     private let romaji: String
     private let english: String?
-    private let japanese: String?
+    private let native: String?
     private var title: String {
-        if let title = english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return romaji
-        }
+        settings.getTitle(romaji: romaji, english: english, native: native)
     }
     
-    init(romaji: String, english: String? = nil, japanese: String? = nil) {
+    init(romaji: String, english: String? = nil, native: String? = nil) {
         self.romaji = romaji
         self.english = english
-        self.japanese = japanese
+        self.native = native
     }
     
     var text: some View {
@@ -33,11 +29,15 @@ struct TitleText: View {
                 .bold()
                 .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                 .multilineTextAlignment(.center)
-            if let japanese = japanese {
-                Text(japanese)
-                    .opacity(0.7)
-                    .multilineTextAlignment(.center)
+            Group {
+                if let english = english, settings.preferredTitleLanguage == 2 {
+                    Text(english)
+                } else if let native = native {
+                    Text(native)
+                }
             }
+            .opacity(0.7)
+            .multilineTextAlignment(.center)
         }
         .padding(.vertical, 5)
         .frame(maxWidth: .infinity, alignment: .center)
@@ -61,12 +61,12 @@ struct TitleText: View {
                         Text(english)
                     }
                 }
-                if let japanese = japanese, !japanese.isEmpty {
+                if let native = native, !native.isEmpty {
                     Button {
-                        UIPasteboard.general.string = japanese
+                        UIPasteboard.general.string = native
                     } label: {
                         Text("Copy native language title")
-                        Text(japanese)
+                        Text(native)
                     }
                 }
             }

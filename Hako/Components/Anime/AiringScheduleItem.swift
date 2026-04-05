@@ -12,11 +12,7 @@ struct AiringScheduleItem: View {
     @EnvironmentObject private var settings: SettingsManager
     private let item: AiringSchedule
     private var title: String {
-        if let title = item.media.title.english, !title.isEmpty && settings.preferredTitleLanguage == 1 {
-            return title
-        } else {
-            return item.media.title.romaji ?? ""
-        }
+        settings.getTitle(romaji: item.media.title.romaji, english: item.media.title.english, native: item.media.title.native)
     }
     
     init(item: AiringSchedule) {

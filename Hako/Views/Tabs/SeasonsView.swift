@@ -28,7 +28,7 @@ struct SeasonsView: View {
         self._season = season
     }
     
-    private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], width: CGFloat) -> some View {
+    private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], _ width: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
@@ -77,13 +77,13 @@ struct SeasonsView: View {
                                 .bold()
                         }
                     } else if controller.season == .winter {
-                        SeasonView(controller.winterItems, controller.winterContinuingItems, width: geometry.size.width)
+                        SeasonView(controller.winterItems, controller.winterContinuingItems, geometry.size.width)
                     } else if controller.season == .spring {
-                        SeasonView(controller.springItems, controller.springContinuingItems, width: geometry.size.width)
+                        SeasonView(controller.springItems, controller.springContinuingItems, geometry.size.width)
                     } else if controller.season == .summer {
-                        SeasonView(controller.summerItems, controller.summerContinuingItems, width: geometry.size.width)
+                        SeasonView(controller.summerItems, controller.summerContinuingItems, geometry.size.width)
                     } else if controller.season == .fall {
-                        SeasonView(controller.fallItems, controller.fallContinuingItems, width: geometry.size.width)
+                        SeasonView(controller.fallItems, controller.fallContinuingItems, geometry.size.width)
                     }
                     TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
                         .onChange(of: controller.season) {
@@ -126,6 +126,14 @@ struct SeasonsView: View {
                         .disabled(controller.loadingState == .loading)
                         .onChange(of: controller.sort) {
                             controller.sortItems()
+                        }
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink {
+                            ScheduleView()
+                        } label: {
+                            Label("Schedule", systemImage: "calendar.badge.clock")
+                                .labelStyle(.iconOnly)
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {

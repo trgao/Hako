@@ -17,7 +17,7 @@ struct TopView: View {
     @Binding private var type: TypeEnum?
     @Binding private var animeRanking: RankingEnum?
     @Binding private var mangaRanking: RankingEnum?
-    let networker = NetworkManager.shared
+    private let networker = NetworkManager.shared
     
     init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<RankingEnum?>, mangaRanking: Binding<RankingEnum?>) {
         self._id = id

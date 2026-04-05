@@ -16,7 +16,7 @@ extension Date {
     
     func toFullString() -> String {
         let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "HH:mm, dd MMM yyyy"
+        dateFormatterPrint.dateFormat = "hh:mm a, dd MMM yyyy"
         return dateFormatterPrint.string(from: self)
     }
     

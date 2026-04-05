@@ -45,7 +45,7 @@ class TopViewController: ObservableObject {
         }
         
         do {
-            let animeList = try await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter{ $0.node.rating != "rx" }
+            let animeList = try await networker.getTopAnimeList(rankingType: animeRankingType, page: currentAnimePage).filter{ $0.node.rating != "rx" }
             currentAnimePage = 2
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeItems = animeList
@@ -67,7 +67,7 @@ class TopViewController: ObservableObject {
         }
         
         do {
-            let mangaList = try await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType)
+            let mangaList = try await networker.getTopMangaList(rankingType: mangaRankingType, page: currentMangaPage)
             currentMangaPage = 2
             canLoadMoreMangaPages = !(mangaList.isEmpty)
             mangaItems = mangaList
@@ -96,7 +96,7 @@ class TopViewController: ObservableObject {
         }
         
         loadingState = .paginating
-        if let animeList = try? await networker.getTopAnimeList(page: currentAnimePage, rankingType: animeRankingType).filter({ $0.node.rating != "rx" }) {
+        if let animeList = try? await networker.getTopAnimeList(rankingType: animeRankingType, page: currentAnimePage).filter({ $0.node.rating != "rx" }) {
             currentAnimePage += 1
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeItems.append(contentsOf: animeList)
@@ -112,7 +112,7 @@ class TopViewController: ObservableObject {
         }
         
         loadingState = .paginating
-        if let mangaList = try? await networker.getTopMangaList(page: currentMangaPage, rankingType: mangaRankingType) {
+        if let mangaList = try? await networker.getTopMangaList(rankingType: mangaRankingType, page: currentMangaPage) {
             currentMangaPage += 1
             canLoadMoreMangaPages = !(mangaList.isEmpty)
             mangaItems.append(contentsOf: mangaList)

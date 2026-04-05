@@ -35,5 +35,6 @@ struct ZoomTransition<Content: View, Label: View>: View {
                     .multilineTextAlignment(.leading)
             }
         }
+        .buttonStyle(.plain)
     }
 }

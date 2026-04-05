@@ -8,9 +8,13 @@
 import Foundation
 
 struct AniListAiringResponse: Codable {
-    let data: AniListAiringData
-}
-
-struct AniListAiringData: Codable {
-    let Media: Media
+    struct Data: Codable {
+        struct Media: Codable {
+            let nextAiringEpisode: NextAiringEpisode?
+        }
+        
+        let Media: Media
+    }
+    
+    let data: Data
 }

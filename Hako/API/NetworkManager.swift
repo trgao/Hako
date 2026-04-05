@@ -439,12 +439,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getTopAnimeList(page: Int, rankingType: RankingEnum) async throws -> [MALListAnime] {
+    func getTopAnimeList(rankingType: RankingEnum, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(animeFields)&nsfw=true", type: MALAnimeListResponse.self)
         return response.data
     }
     
-    func getTopMangaList(page: Int, rankingType: RankingEnum) async throws -> [MALListManga] {
+    func getTopMangaList(rankingType: RankingEnum, page: Int) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(mangaFields)&nsfw=true", type: MALMangaListResponse.self)
         return response.data
     }
@@ -452,6 +452,59 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getSeasonAnimeList(season: SeasonEnum, year: Int, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season.rawValue)?nsfw=true&fields=\(animeFields)&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
+    }
+    
+    func getAnimeScheduleList(page: Int) async throws -> [AiringSchedule] {
+        let url = URL(string: anilistBaseApi)!
+        let weekStart = Int(Calendar.current.startOfDay(for: .now).timeIntervalSince1970) - 1
+        let weekEnd = weekStart + 604800
+        let query = """
+            query {
+                Page(page: \(page)) {
+                    airingSchedules(airingAt_greater: \(weekStart), airingAt_lesser: \(weekEnd), sort: TIME) {
+                        episode
+                        airingAt
+                        media {
+                            id
+                            idMal
+                            title {
+                                romaji
+                                native
+                                english
+                            }
+                            coverImage {
+                                large
+                            }
+                            season
+                            seasonYear
+                            status
+                        }
+                    }
+                }
+            }
+        """
+        let body = ["query": query]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        request.httpBody = try! JSONSerialization.data(withJSONObject: body)
+        await anilistBucket.consumeOrWaitAsync()
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.badResponse
+        }
+        
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.badStatusCode(httpResponse.statusCode)
+        }
+        
+        do {
+            let decoded = try decoder.decode(AniListScheduleResponse.self, from: data)
+            return decoded.data.Page.airingSchedules
+        } catch {
+            throw NetworkError.jsonParseFailure
+        }
     }
     
     func searchAnime(anime: String) async throws -> [MALListAnime] {
@@ -492,7 +545,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func getAnimeNextAiringDetails(id: Int) async throws -> NextAiringEpisode? {
         let url = URL(string: anilistBaseApi)!
         let query = """
-            query Media {
+            query {
                 Media(idMal: \(id), type: ANIME) {
                     nextAiringEpisode {
                         airingAt

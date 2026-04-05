@@ -15,6 +15,9 @@ struct HideItemsView: View {
     var body: some View {
         List {
             Section("Seasons") {
+                Toggle(isOn: $settings.hideSchedule) {
+                    Text("Hide schedule button")
+                }
                 Toggle(isOn: $settings.hideContinuingSeries) {
                     Text("Hide continuing series")
                 }

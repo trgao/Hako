@@ -50,6 +50,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("lineLimit") var lineLimit = 1
     
     // Hide items
+    @AppStorage("hideSchedule") var hideSchedule = false
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
     @AppStorage("hideRandom") var hideRandom = false

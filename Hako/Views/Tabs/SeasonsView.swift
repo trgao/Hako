@@ -128,7 +128,7 @@ struct SeasonsView: View {
                             controller.sortItems()
                         }
                     }
-                    if !settings.replaceTopWithSchedule {
+                    if !settings.replaceTopWithSchedule && !settings.hideSchedule {
                         ToolbarItem(placement: .topBarLeading) {
                             NavigationLink {
                                 ScheduleView()

@@ -45,11 +45,11 @@ struct AiringScheduleItem: View {
                         }
                         .opacity(0.7)
                         .font(.footnote)
-                        .padding(.vertical, 3)
-                        Label("Episode \(String(item.episode)) airing at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.hour().minute()))", systemImage: "alarm.fill")
-                            .labelStyle(.iconTint(settings.getAccentColor()))
-                            .foregroundStyle(.gray)
-                            .font(.subheadline)
+                        .padding(.vertical, 2)
+                        Label("Episode \(String(item.episode)) airing at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.hour(.defaultDigits(amPM: .abbreviated)).minute()))", systemImage: "alarm.fill")
+                            .foregroundStyle(settings.getAccentColor())
+                            .bold()
+                            .font(.footnote)
                     }
                     .padding(.horizontal, 5)
                 }

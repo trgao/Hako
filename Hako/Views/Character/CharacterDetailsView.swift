@@ -22,9 +22,9 @@ struct CharacterDetailsView: View {
         self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id))
     }
     
-    init(id: Int, name: String?) {
+    init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
-        self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id, name: name))
+        self._controller = StateObject(wrappedValue: CharacterDetailsViewController(id: id, name: name, imageUrl: imageUrl))
     }
     
     var body: some View {
@@ -76,17 +76,17 @@ struct CharacterDetailsView: View {
                 // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
                 .navigationDestination(item: $animeIndex) { index in
                     if let animes = character.anime {
-                        AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", enTitle: nil))
+                        AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", imageUrl: animes[index].anime.images?.jpg?.largeImageUrl))
                     }
                 }
                 .navigationDestination(item: $mangaIndex) { index in
                     if let mangas = character.manga {
-                        MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", enTitle: nil))
+                        MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", imageUrl: mangas[index].manga.images?.jpg?.largeImageUrl))
                     }
                 }
                 .navigationDestination(item: $voiceIndex) { index in
                     if let voices = character.voices {
-                        PersonDetailsView(id: voices[index].id, name: voices[index].person.name)
+                        PersonDetailsView(id: voices[index].id, name: voices[index].person.name, imageUrl: voices[index].person.images?.jpg?.imageUrl)
                     }
                 }
                 .refreshable {

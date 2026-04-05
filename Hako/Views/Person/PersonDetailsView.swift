@@ -22,9 +22,9 @@ struct PersonDetailsView: View {
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
     }
     
-    init (id: Int, name: String?) {
+    init (id: Int, name: String?, imageUrl: String?) {
         self.id = id
-        self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id, name: name))
+        self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id, name: name, imageUrl: imageUrl))
     }
     
     private func formatPosition(_ position: String?) -> String? {
@@ -84,17 +84,17 @@ struct PersonDetailsView: View {
                     // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
                     .navigationDestination(item: $voiceIndex) { index in
                         if let voices = person.voices {
-                            AnimeDetailsView(anime: Anime(id: voices[index].anime.id, title: voices[index].anime.title ?? "", enTitle: nil))
+                            AnimeDetailsView(anime: Anime(id: voices[index].anime.id, title: voices[index].anime.title ?? "", imageUrl: voices[index].anime.images?.jpg?.largeImageUrl))
                         }
                     }
                     .navigationDestination(item: $animeIndex) { index in
                         if let animes = person.anime {
-                            AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", enTitle: nil))
+                            AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", imageUrl: animes[index].anime.images?.jpg?.largeImageUrl))
                         }
                     }
                     .navigationDestination(item: $mangaIndex) { index in
                         if let mangas = person.manga {
-                            MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", enTitle: nil))
+                            MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", imageUrl: mangas[index].manga.images?.jpg?.largeImageUrl))
                         }
                     }
                     .refreshable {

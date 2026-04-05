@@ -22,7 +22,7 @@ struct PersonGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            PersonDetailsView(id: id, name: name)
+            PersonDetailsView(id: id, name: name, imageUrl: imageUrl)
         } label: {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
@@ -35,7 +35,6 @@ struct PersonGridItem: View {
                 Text(name ?? "")
                     .lineLimit(settings.getLineLimit())
                     .font(.footnote)
-                    .tint(.primary)
                     .frame(maxHeight: .infinity, alignment: .top)
             }
             .frame(width: 110 * screenRatio)

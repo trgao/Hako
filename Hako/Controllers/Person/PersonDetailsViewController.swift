@@ -24,9 +24,9 @@ class PersonDetailsViewController: ObservableObject {
         }
     }
     
-    init(id: Int, name: String?) {
+    init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
-        self.person = Person(id: id, name: name)
+        self.person = Person(id: id, name: name, imageUrl: imageUrl)
         if let person = networker.personCache[id] {
             self.person = person
         }

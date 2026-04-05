@@ -650,7 +650,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     // Wrapper function for download
-    func downloadImage(id: String, imageUrl: String?, retry: Int = 3, delay: Int = 5) async -> Data? {
+    func downloadImage(id: String, imageUrl: String?, retry: Int = 3, delay: Int = 4) async -> Data? {
         if let cache = imageCache.object(forKey: id as NSString) {
             return cache.image as Data
         }

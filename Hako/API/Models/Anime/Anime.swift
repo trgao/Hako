@@ -37,11 +37,11 @@ struct Anime: Codable, Identifiable {
     let relatedAnime: [RelatedAnime]?
     let numListUsers: Int?
     
-    init(id: Int, title: String, enTitle: String?) {
+    init(id: Int, title: String, enTitle: String? = nil, jaTitle: String? = nil, imageUrl: String?) {
         self.id = id
         self.title = title
-        self.alternativeTitles = AlternativeTitles(ja: nil, en: enTitle)
-        self.mainPicture = nil
+        self.alternativeTitles = AlternativeTitles(ja: jaTitle, en: enTitle)
+        self.mainPicture = MainPicture(medium: imageUrl, large: imageUrl)
         self.pictures = nil
         self.startDate = nil
         self.endDate = nil
@@ -101,6 +101,6 @@ struct Anime: Codable, Identifiable {
     }
     
     func isEmpty() -> Bool {
-        return self.mainPicture == nil && self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numEpisodes == nil && self.startSeason == nil && self.broadcast == nil && self.source == nil && self.averageEpisodeDuration == nil && self.rating == nil && self.studios == nil && self.openingThemes == nil && self.endingThemes == nil && self.videos == nil && self.recommendations == nil && self.relatedAnime == nil && self.numListUsers == nil
+        return self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numEpisodes == nil && self.startSeason == nil && self.broadcast == nil && self.source == nil && self.averageEpisodeDuration == nil && self.rating == nil && self.studios == nil && self.openingThemes == nil && self.endingThemes == nil && self.videos == nil && self.recommendations == nil && self.relatedAnime == nil && self.numListUsers == nil
     }
 }

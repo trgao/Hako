@@ -24,7 +24,7 @@ struct PersonListItem: View {
     
     var body: some View {
         NavigationLink {
-            PersonDetailsView(id: person.id, name: person.name)
+            PersonDetailsView(id: person.id, name: person.name, imageUrl: person.images?.jpg?.imageUrl)
         } label: {
             HStack {
                 ImageFrame(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: Constants.listImageSize)

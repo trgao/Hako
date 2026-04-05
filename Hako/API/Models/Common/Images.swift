@@ -13,4 +13,8 @@ struct Images: Codable {
         let largeImageUrl: String?
     }
     let jpg: Image?
+    
+    init(imageUrl: String?) {
+        self.jpg = Image(imageUrl: imageUrl, largeImageUrl: imageUrl)
+    }
 }

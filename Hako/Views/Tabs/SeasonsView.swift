@@ -32,7 +32,7 @@ struct SeasonsView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
-                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                    AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                 }
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
                     // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid
@@ -52,7 +52,7 @@ struct SeasonsView: View {
                         }
                     }
                     ForEach(seasonContinuingItems) { item in
-                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                     }
                 }
             }

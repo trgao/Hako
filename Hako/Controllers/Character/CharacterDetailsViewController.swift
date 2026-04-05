@@ -24,9 +24,9 @@ class CharacterDetailsViewController: ObservableObject {
         }
     }
     
-    init(id: Int, name: String?) {
+    init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
-        self.character = Character(id: id, name: name)
+        self.character = Character(id: id, name: name, imageUrl: imageUrl)
         if let character = networker.characterCache[id] {
             self.character = character
         }

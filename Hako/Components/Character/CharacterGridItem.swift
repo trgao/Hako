@@ -22,7 +22,7 @@ struct CharacterGridItem: View {
     
     var body: some View {
         ZoomTransition {
-            CharacterDetailsView(id: id, name: name)
+            CharacterDetailsView(id: id, name: name, imageUrl: imageUrl)
         } label: {
             VStack {
                 ImageFrame(id: "character\(id)", imageUrl: imageUrl, imageSize: .medium)
@@ -35,7 +35,6 @@ struct CharacterGridItem: View {
                 Text(name ?? "")
                     .lineLimit(settings.getLineLimit())
                     .font(.footnote)
-                    .tint(.primary)
                     .frame(maxHeight: .infinity, alignment: .top)
             }
             .frame(width: 110 * screenRatio)

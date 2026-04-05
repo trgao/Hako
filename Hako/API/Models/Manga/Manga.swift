@@ -31,11 +31,11 @@ struct Manga: Codable, Identifiable {
     let relatedManga: [RelatedManga]?
     let numListUsers: Int?
     
-    init(id: Int, title: String, enTitle: String?) {
+    init(id: Int, title: String, enTitle: String? = nil, jaTitle: String? = nil, imageUrl: String?) {
         self.id = id
         self.title = title
-        self.alternativeTitles = AlternativeTitles(ja: nil, en: enTitle)
-        self.mainPicture = nil
+        self.alternativeTitles = AlternativeTitles(ja: jaTitle, en: enTitle)
+        self.mainPicture = MainPicture(medium: imageUrl, large: imageUrl)
         self.pictures = nil
         self.startDate = nil
         self.endDate = nil
@@ -82,6 +82,6 @@ struct Manga: Codable, Identifiable {
     }
     
     func isEmpty() -> Bool {
-        return self.mainPicture == nil && self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numVolumes == nil && self.numChapters == nil && self.authors == nil && self.serialization == nil && self.recommendations == nil && self.relatedManga == nil && self.numListUsers == nil
+        return self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numVolumes == nil && self.numChapters == nil && self.authors == nil && self.serialization == nil && self.recommendations == nil && self.relatedManga == nil && self.numListUsers == nil
     }
 }

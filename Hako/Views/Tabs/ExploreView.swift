@@ -119,9 +119,9 @@ struct ExploreView: View {
                     ScrollViewCarousel(title: "Recently viewed") {
                         ForEach(settings.recentlyViewedItems.reversed()) { item in
                             if let anime = item.anime {
-                                AnimeGridItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, imageUrl: anime.mainPicture?.large, anime: anime, isRecentlyViewed: true)
+                                AnimeGridItem(id: anime.id, title: anime.title, enTitle: anime.alternativeTitles?.en, jaTitle: anime.alternativeTitles?.ja, imageUrl: anime.mainPicture?.large, anime: anime, isRecentlyViewed: true)
                             } else if let manga = item.manga {
-                                MangaGridItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, imageUrl: manga.mainPicture?.large, manga: manga, isRecentlyViewed: true)
+                                MangaGridItem(id: manga.id, title: manga.title, enTitle: manga.alternativeTitles?.en, jaTitle: manga.alternativeTitles?.ja, imageUrl: manga.mainPicture?.large, manga: manga, isRecentlyViewed: true)
                             }
                         }
                     }
@@ -129,7 +129,7 @@ struct ExploreView: View {
                 if networker.isSignedIn && !settings.hideAnimeForYou {
                     ScrollViewCarousel(title: "Anime for you", loadingState: controller.suggestionsLoadingState, refresh: controller.loadAnimeSuggestions) {
                         ForEach(controller.animeSuggestions) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
                     }
                     .task {
@@ -139,7 +139,7 @@ struct ExploreView: View {
                 if !settings.hideTopAiringAnime {
                     ScrollViewCarousel(title: "Top airing anime", loadingState: controller.airingLoadingState, refresh: controller.loadTopAiringAnime) {
                         ForEach(controller.topAiringAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
                     }
                     .task {
@@ -149,7 +149,7 @@ struct ExploreView: View {
                 if !settings.hideTopUpcomingAnime {
                     ScrollViewCarousel(title: "Top upcoming anime", loadingState: controller.upcomingLoadingState, refresh: controller.loadTopUpcomingAnime) {
                         ForEach(controller.topUpcomingAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                            AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                         }
                     }
                     .task {
@@ -159,7 +159,7 @@ struct ExploreView: View {
                 if !settings.hideNewlyAddedAnime {
                     ScrollViewCarousel(title: "Newly added anime", loadingState: controller.newAnimeLoadingState, refresh: controller.loadNewlyAddedAnime) {
                         ForEach(controller.newlyAddedAnime) { item in
-                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
+                            AnimeGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, jaTitle: item.titleJapanese, imageUrl: item.images?.jpg?.largeImageUrl, anime: Anime(item: item))
                         }
                     }
                     .task {
@@ -169,7 +169,7 @@ struct ExploreView: View {
                 if !settings.hideNewlyAddedManga {
                     ScrollViewCarousel(title: "Newly added manga", loadingState: controller.newMangaLoadingState, refresh: controller.loadNewlyAddedManga) {
                         ForEach(controller.newlyAddedManga) { item in
-                            MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
+                            MangaGridItem(id: item.id, title: item.title, enTitle: item.titleEnglish, jaTitle: item.titleJapanese, imageUrl: item.images?.jpg?.largeImageUrl, manga: Manga(item: item))
 
                         }
                     }

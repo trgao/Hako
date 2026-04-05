@@ -24,7 +24,7 @@ struct AnimeRelated: View {
     var body: some View {
         ScrollViewCarousel(title: "Related manga", count: relatedManga?.count, loadingState: loadingState, refresh: load) {
             ForEach(relatedManga ?? []) { item in
-                MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.manga?.mediaType?.formatMediaType(), manga: item.manga)
+                MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, jaTitle: item.manga?.alternativeTitles?.ja, imageUrl: item.manga?.mainPicture?.large, subtitle: item.manga?.mediaType?.formatMediaType(), manga: item.manga)
             }
             .padding(-5)
         }
@@ -34,7 +34,7 @@ struct AnimeRelated: View {
         if let relatedAnime = relatedAnime {
             ScrollViewCarousel(title: "Related anime", count: relatedAnime.count) {
                 ForEach(relatedPreview) { item in
-                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+                    AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, jaTitle: item.anime?.alternativeTitles?.ja, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
                 }
                 .padding(-5)
             } destination: {

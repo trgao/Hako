@@ -30,7 +30,7 @@ struct UserFavouritesInformation: View {
             if !settings.hideUserFavouriteAnime {
                 ScrollViewCarousel(title: "Favourite anime", count: anime?.count, loadingState: loadingState, refresh: load) {
                     ForEach(anime ?? []) { anime in
-                        AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, imageUrl: anime.node.mainPicture?.large, anime: anime.node)
+                        AnimeGridItem(id: anime.id, title: anime.node.title, enTitle: anime.node.alternativeTitles?.en, jaTitle: anime.node.alternativeTitles?.ja, imageUrl: anime.node.mainPicture?.large, anime: anime.node)
                     }
                     .padding(-5)
                 }
@@ -38,7 +38,7 @@ struct UserFavouritesInformation: View {
             if !settings.hideUserFavouriteManga {
                 ScrollViewCarousel(title: "Favourite manga", count: manga?.count, loadingState: loadingState, refresh: load) {
                     ForEach(manga ?? []) { manga in
-                        MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, imageUrl: manga.node.mainPicture?.large, manga: manga.node)
+                        MangaGridItem(id: manga.id, title: manga.node.title, enTitle: manga.node.alternativeTitles?.en, jaTitle: manga.node.alternativeTitles?.ja, imageUrl: manga.node.mainPicture?.large, manga: manga.node)
                     }
                     .padding(-5)
                 }

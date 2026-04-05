@@ -49,11 +49,11 @@ struct RelatedGridView: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 if relatedAnime != nil {
                     ForEach(filteredAnime) { item in
-                        AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
+                        AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, jaTitle: item.anime?.alternativeTitles?.ja, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
                     }
                 } else if relatedManga != nil {
                     ForEach(filteredManga) { item in
-                        MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
+                        MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, jaTitle: item.manga?.alternativeTitles?.ja, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
                     }
                 }
             }

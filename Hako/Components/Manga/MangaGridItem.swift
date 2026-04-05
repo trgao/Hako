@@ -25,13 +25,13 @@ struct MangaGridItem: View {
         }
     }
     
-    init(id: Int, title: String?, enTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
+    init(id: Int, title: String?, enTitle: String?, jaTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
         self.enTitle = enTitle
         self.imageUrl = imageUrl
         self.subtitle = subtitle
-        self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle)
+        self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle, jaTitle: jaTitle, imageUrl: imageUrl)
         self.isRecentlyViewed = isRecentlyViewed
     }
     
@@ -46,7 +46,6 @@ struct MangaGridItem: View {
                             Text(subtitle)
                                 .bold()
                                 .font(.subheadline)
-                                .foregroundStyle(.white)
                                 .padding(10)
                                 .background {
                                     Color.black.opacity(0.4)
@@ -83,7 +82,6 @@ struct MangaGridItem: View {
                     .frame(width: 150 * screenRatio, alignment: .leading)
                     .padding(5)
                     .font(.callout)
-                    .tint(.primary)
             }
         }
         .padding(5)

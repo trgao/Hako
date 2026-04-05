@@ -26,7 +26,7 @@ struct AiringScheduleItem: View {
     var body: some View {
         if let id = item.media.idMal {
             ZoomTransition {
-                AnimeDetailsView(anime: Anime(id: id, title: item.media.title.romaji ?? "", enTitle: item.media.title.english))
+                AnimeDetailsView(anime: Anime(id: id, title: item.media.title.romaji ?? "", enTitle: item.media.title.english, jaTitle: item.media.title.native, imageUrl: item.media.coverImage?.large))
             } label: {
                 HStack {
                     ImageFrame(id: "anime\(id)", imageUrl: item.media.coverImage?.large, imageSize: Constants.listImageSize)

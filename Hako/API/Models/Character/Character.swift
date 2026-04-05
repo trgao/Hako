@@ -19,12 +19,12 @@ struct Character: Codable, Identifiable {
     let manga: [Mangaography]?
     let voices: [Voice]?
     
-    init(id: Int, name: String?) {
+    init(id: Int, name: String?, imageUrl: String?) {
         self.malId = id
         self.name = name
         self.nameKanji = nil
         self.about = nil
-        self.images = nil
+        self.images = Images(imageUrl: imageUrl)
         self.favorites = nil
         self.anime = nil
         self.manga = nil
@@ -32,6 +32,6 @@ struct Character: Codable, Identifiable {
     }
     
     func isEmpty() -> Bool {
-        return self.nameKanji == nil && self.about == nil && self.images == nil && self.favorites == nil && self.anime == nil && self.manga == nil && self.voices == nil
+        return self.nameKanji == nil && self.about == nil && self.favorites == nil && self.anime == nil && self.manga == nil && self.voices == nil
     }
 }

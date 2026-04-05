@@ -317,22 +317,30 @@ class UserListViewController: ObservableObject {
         }
     }
     
-    func updateAnime(index: Int, id: Int, listStatus: MyListStatus) async {
+    func updateAnime(index: Int, id: Int, isCompleted: Bool = false, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
             try await networker.editUserAnime(id: id, listStatus: listStatus)
-            updateAnimeItemListStatus(index, listStatus)
+            if isCompleted {
+                removeAnimeItem(index)
+            } else {
+                updateAnimeItemListStatus(index, listStatus)
+            }
         } catch {
             isEditError = true
         }
         isRefreshLoading = false
     }
     
-    func updateManga(index: Int, id: Int, listStatus: MyListStatus) async {
+    func updateManga(index: Int, id: Int, isCompleted: Bool = false, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
             try await networker.editUserManga(id: id, listStatus: listStatus)
-            updateMangaItemListStatus(index, listStatus)
+            if isCompleted {
+                removeMangaItem(index)
+            } else {
+                updateMangaItemListStatus(index, listStatus)
+            }
         } catch {
             isEditError = true
         }

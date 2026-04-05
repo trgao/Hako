@@ -104,6 +104,10 @@ struct GeneralView: View {
                         Text("Allow swipe actions")
                         Text("Swipe left or right on items in My list tab to increase or decrease episodes watched and \(settings.mangaReadProgress == 0 ? "chapters" : "volumes") read")
                     }
+                    Toggle(isOn: $settings.swipeActionAutoComplete) {
+                        Text("Allow swipe actions to auto complete")
+                        Text("Swiping right on items with 1 episode or \(settings.mangaReadProgress == 0 ? "chapter" : "volume") left will automatically change its status to completed")
+                    }
                     PickerRow(title: "Manga read progress", selection: $settings.mangaReadProgress, labels: ["Chapters", "Volumes"])
                 }
             }

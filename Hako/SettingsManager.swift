@@ -33,6 +33,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("defaultMangaStatus") var defaultMangaStatus = 1
     @AppStorage("defaultMangaSort") var defaultMangaSort = 2
     @AppStorage("useSwipeActions") var useSwipeActions = true
+    @AppStorage("swipeActionAutoComplete") var swipeActionAutoComplete = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
     
     @AppStorage("autofillStartDate") var autofillStartDate = true

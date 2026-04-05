@@ -65,7 +65,12 @@ struct MyListView: View {
                         Button {
                             Task {
                                 listStatus.numEpisodesWatched += 1
-                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                var isCompleted = false
+                                if settings.swipeActionAutoComplete && listStatus.numEpisodesWatched == item.node.numEpisodes {
+                                    listStatus.status = .completed
+                                    isCompleted = true
+                                }
+                                await controller.updateAnime(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
                             }
                         } label: {
                             Label("+1 episode", systemImage: "plus.circle")
@@ -118,7 +123,12 @@ struct MyListView: View {
                                 Button {
                                     Task {
                                         listStatus.numChaptersRead += 1
-                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                        var isCompleted = false
+                                        if settings.swipeActionAutoComplete && listStatus.numChaptersRead == item.node.numChapters {
+                                            listStatus.status = .completed
+                                            isCompleted = true
+                                        }
+                                        await controller.updateManga(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
                                     }
                                 } label: {
                                     Label("+1 chapter", systemImage: "plus.circle")
@@ -128,7 +138,12 @@ struct MyListView: View {
                             Button {
                                 Task {
                                     listStatus.numVolumesRead += 1
-                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                    var isCompleted = false
+                                    if settings.swipeActionAutoComplete && listStatus.numVolumesRead == item.node.numVolumes {
+                                        listStatus.status = .completed
+                                        isCompleted = true
+                                    }
+                                    await controller.updateManga(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
                                 }
                             } label: {
                                 Label("+1 volume", systemImage: "plus.circle")

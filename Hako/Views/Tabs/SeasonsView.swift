@@ -128,12 +128,14 @@ struct SeasonsView: View {
                             controller.sortItems()
                         }
                     }
-                    ToolbarItem(placement: .topBarLeading) {
-                        NavigationLink {
-                            ScheduleView()
-                        } label: {
-                            Label("Schedule", systemImage: "calendar.badge.clock")
-                                .labelStyle(.iconOnly)
+                    if !settings.replaceTopWithSchedule {
+                        ToolbarItem(placement: .topBarLeading) {
+                            NavigationLink {
+                                ScheduleView()
+                            } label: {
+                                Label("Schedule", systemImage: "calendar.badge.clock")
+                                    .labelStyle(.iconOnly)
+                            }
                         }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
@@ -192,5 +194,10 @@ struct SeasonsView: View {
             }
         }
         .id(id)
+        .onChange(of: settings.replaceTopWithSchedule) {
+            if settings.replaceTopWithSchedule {
+                id = UUID()
+            }
+        }
     }
 }

@@ -12,8 +12,10 @@ struct ScheduleView: View {
     @StateObject private var controller = ScheduleViewController()
     @State private var isRefresh = false
     private var days: [String] = []
+    private let isTab: Bool
     
-    init() {
+    init(isTab: Bool = false) {
+        self.isTab = isTab
         for i in 0...6 {
             days.append(Date().addingTimeInterval(TimeInterval(i * 86400)).formatted(.dateTime.weekday(.wide).month(.wide).day()))
         }
@@ -67,7 +69,7 @@ struct ScheduleView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
     
-    var body: some View {
+    private var content: some View {
         ZStack {
             if controller.animeItems.isEmpty && controller.loadingState == .error {
                 ErrorView(refresh: { await controller.refresh() })
@@ -104,6 +106,16 @@ struct ScheduleView: View {
                 await controller.refresh()
                 isRefresh = false
             }
+        }
+    }
+    
+    var body: some View {
+        if isTab {
+            NavigationStack {
+                content
+            }
+        } else {
+            content
         }
     }
 }

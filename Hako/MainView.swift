@@ -248,7 +248,11 @@ struct MainView: View {
             if isUnlocked || !settings.useFaceID {
                 if #available(iOS 18.0, *) {
                     TabView(selection: tabBinding) {
-                        if !settings.hideTop {
+                        if settings.replaceTopWithSchedule {
+                            Tab("Schedule", systemImage: "calendar.badge.clock", value: 0) {
+                                ScheduleView(isTab: true)
+                            }
+                        } else {
                             Tab("Top", systemImage: "medal", value: 0) {
                                 TopView(id: $topId, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
                             }
@@ -299,7 +303,13 @@ struct MainView: View {
                     }
                 } else {
                     TabView(selection: tabBinding) {
-                        if !settings.hideTop {
+                        if settings.replaceTopWithSchedule {
+                            ScheduleView(isTab: true)
+                                .tabItem {
+                                    Label("Schedule", systemImage: "calendar.badge.clock")
+                                }
+                                .tag(0)
+                        } else {
                             TopView(id: $topId, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
                                 .tabItem {
                                     Label("Top", systemImage: "medal")

@@ -23,15 +23,10 @@ struct GeneralView: View {
                     Text("Open app with last closed tab")
                 }
                 if !settings.openLastClosedTab {
-                    PickerRow(title: "Default tab", selection: $settings.defaultView, labels: [settings.hideTop ? "" : "Top", "Seasons", "Explore", settings.useWithoutAccount ? "" : "My list"])
+                    PickerRow(title: "Default tab", selection: $settings.defaultView, labels: [settings.replaceTopWithSchedule ? "Schedule" : "Top", "Seasons", "Explore", settings.useWithoutAccount ? "" : "My list"])
                 }
-                Toggle(isOn: $settings.hideTop) {
-                    Text("Hide top tab")
-                }
-                .onChange(of: settings.hideTop) { _, cur in
-                    if cur == true && settings.defaultView == 0 {
-                        settings.defaultView = 1
-                    }
+                Toggle(isOn: $settings.replaceTopWithSchedule) {
+                    Text("Replace top tab with schedule tab")
                 }
                 if !networker.isSignedIn {
                     Toggle(isOn: $settings.useWithoutAccount) {
@@ -40,7 +35,7 @@ struct GeneralView: View {
                     }
                     .onChange(of: settings.useWithoutAccount) { _, cur in
                         if cur == true && settings.defaultView == 3 {
-                            settings.defaultView = settings.hideTop ? 1 : 0
+                            settings.defaultView = 0
                         }
                     }
                 }

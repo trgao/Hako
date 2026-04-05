@@ -22,15 +22,14 @@ class ImageFrameController: ObservableObject {
     }
     
     func refresh() async {
-        guard let imageUrl = imageUrl, image == nil else {
+        guard image == nil && (isProfile || imageUrl != nil) else {
             return
         }
-        let data = await networker.downloadImage(id: id, imageUrl: imageUrl)
-        if let data = data {
+        if isProfile, let data = await networker.downloadImage(id: id, imageUrl: imageUrl ?? "https://myanimelist.net/images/kaomoji_mal_white.png") {
             self.image = UIImage(data: data)
-            if isProfile {
-                UserDefaults.standard.set(data, forKey: "userImage")
-            }
+            UserDefaults.standard.set(data, forKey: "userImage")
+        } else if let data = await networker.downloadImage(id: id, imageUrl: imageUrl) {
+            self.image = UIImage(data: data)
         }
     }
 }

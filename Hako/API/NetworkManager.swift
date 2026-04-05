@@ -100,12 +100,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 self.imageCache.setObject(cache, forKey: "userImage" as NSString)
                 return
             }
-            
-            Task {
-                if let userImage = await downloadImage(id: "userImage", imageUrl: UserDefaults.standard.string(forKey: "picture")) {
-                    UserDefaults.standard.set(userImage, forKey: "userImage")
-                }
-            }
         }
     }
     

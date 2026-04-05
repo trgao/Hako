@@ -100,7 +100,8 @@ struct Anime: Codable, Identifiable {
         self.numListUsers = item.members
     }
     
+    // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
-        return self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numEpisodes == nil && self.startSeason == nil && self.broadcast == nil && self.source == nil && self.averageEpisodeDuration == nil && self.rating == nil && self.studios == nil && self.openingThemes == nil && self.endingThemes == nil && self.videos == nil && self.recommendations == nil && self.relatedAnime == nil && self.numListUsers == nil
+        return pictures == nil && startDate == nil && endDate == nil && synopsis == nil && mean == nil && rank == nil && popularity == nil && mediaType == nil && status == nil && genres == nil && myListStatus == nil && numEpisodes == nil && startSeason == nil && broadcast == nil && source == nil && averageEpisodeDuration == nil && rating == nil && studios == nil && openingThemes == nil && endingThemes == nil && videos == nil && recommendations == nil && relatedAnime == nil && numListUsers == nil
     }
 }

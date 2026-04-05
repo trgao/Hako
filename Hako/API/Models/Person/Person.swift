@@ -31,7 +31,8 @@ struct Person: Codable, Identifiable {
         self.voices = nil
     }
     
+    // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
-        return self.birthday == nil && self.about == nil && self.favorites == nil && self.anime == nil && self.manga == nil && self.voices == nil
+        return birthday == nil && about == nil && favorites == nil && anime == nil && manga == nil && voices == nil
     }
 }

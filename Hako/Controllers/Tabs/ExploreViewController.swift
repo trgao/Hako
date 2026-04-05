@@ -120,7 +120,7 @@ class ExploreViewController: ObservableObject {
                 if toAdd.count == 10 {
                     break
                 }
-                if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" {
+                if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" && item.type?.lowercased() != "cm" {
                     ids.insert(item.id)
                     toAdd.append(item)
                 }

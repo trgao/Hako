@@ -81,7 +81,8 @@ struct Manga: Codable, Identifiable {
         self.numListUsers = item.members
     }
     
+    // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
-        return self.pictures == nil && self.startDate == nil && self.endDate == nil && self.synopsis == nil && self.mean == nil && self.rank == nil && self.popularity == nil && self.mediaType == nil && self.status == nil && self.genres == nil && self.myListStatus == nil && self.numVolumes == nil && self.numChapters == nil && self.authors == nil && self.serialization == nil && self.recommendations == nil && self.relatedManga == nil && self.numListUsers == nil
+        return pictures == nil && startDate == nil && endDate == nil && synopsis == nil && mean == nil && rank == nil && popularity == nil && mediaType == nil && status == nil && genres == nil && myListStatus == nil && numVolumes == nil && numChapters == nil && authors == nil && serialization == nil && recommendations == nil && relatedManga == nil && numListUsers == nil
     }
 }

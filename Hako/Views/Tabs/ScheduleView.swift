@@ -13,6 +13,9 @@ struct ScheduleView: View {
     @State private var isRefresh = false
     private var days: [String] = []
     private let isTab: Bool
+    private var airingNextId: String? {
+        controller.animeItems.first(where: { $0.airingAt >= Int(Date().timeIntervalSince1970) })?.id
+    }
     
     init(isTab: Bool = false) {
         self.isTab = isTab
@@ -47,7 +50,7 @@ struct ScheduleView: View {
                 }
             }
             ForEach(items) { item in
-                AiringScheduleItem(item: item)
+                AiringScheduleItem(item: item, isAiringNext: item.id == airingNextId)
                     .frame(maxWidth: .infinity)
                     .onAppear {
                         Task {

@@ -11,12 +11,14 @@ struct AiringScheduleItem: View {
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     private let item: AiringSchedule
+    private let isAiringNext: Bool
     private var title: String {
         settings.getTitle(romaji: item.media.title.romaji, english: item.media.title.english, native: item.media.title.native)
     }
     
-    init(item: AiringSchedule) {
+    init(item: AiringSchedule, isAiringNext: Bool) {
         self.item = item
+        self.isAiringNext = isAiringNext
     }
     
     var body: some View {
@@ -30,6 +32,9 @@ struct AiringScheduleItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
+                        if isAiringNext {
+                            TagItem(text: "Airing next")
+                        }
                         VStack(alignment: .leading) {
                             if let season = item.media.season, let year = item.media.seasonYear {
                                 Text("\(season.lowercased().capitalized), \(String(year))")
@@ -43,7 +48,7 @@ struct AiringScheduleItem: View {
                         .padding(.vertical, 3)
                         Label("Episode \(String(item.episode)) airing at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.hour().minute()))", systemImage: "alarm.fill")
                             .labelStyle(.iconTint(settings.getAccentColor()))
-                            .opacity(0.7)
+                            .foregroundStyle(.gray)
                             .font(.subheadline)
                     }
                     .padding(.horizontal, 5)

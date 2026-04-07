@@ -68,7 +68,7 @@ struct Manga: Codable, Identifiable {
         self.mean = item.score
         self.rank = item.rank
         self.popularity = item.popularity
-        self.mediaType = item.type
+        self.mediaType = item.type?.toSnakeCase()
         self.status = item.status
         self.genres = nil
         self.myListStatus = nil

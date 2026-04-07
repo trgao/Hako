@@ -42,13 +42,14 @@ struct AiringScheduleItem: View {
                             Text("\(season.lowercased().capitalized), \(String(year))")
                                 .opacity(0.7)
                                 .font(.footnote)
-                                .padding(.vertical, 5)
+                                .padding(.top, 2)
                         }
                         let status = item.airingAt + (item.media.duration ?? 0) > currentTime ? "airing" : "aired"
                         Label("Episode \(String(item.episode)) \(status) at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).toTimeString())", systemImage: "alarm.fill")
                             .foregroundStyle(settings.getAccentColor())
                             .bold()
                             .font(.footnote)
+                            .padding(.top, 2)
                     }
                     .padding(.horizontal, 5)
                 }

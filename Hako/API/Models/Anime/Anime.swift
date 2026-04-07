@@ -80,14 +80,14 @@ struct Anime: Codable, Identifiable {
         self.mean = item.score
         self.rank = item.rank
         self.popularity = item.popularity
-        self.mediaType = item.type
+        self.mediaType = item.type?.toSnakeCase()
         self.status = item.status
         self.genres = nil
         self.myListStatus = nil
         self.numEpisodes = item.episodes
         self.startSeason = Season(year: item.year, season: item.season)
         self.broadcast = nil
-        self.source = item.source
+        self.source = item.source?.toSnakeCase()
         let parsedDuration = Int(item.duration?.components(separatedBy: " ").first ?? "")
         self.averageEpisodeDuration = parsedDuration == nil ? nil : parsedDuration! * 60
         self.rating = nil

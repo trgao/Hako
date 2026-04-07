@@ -32,21 +32,20 @@ struct AiringScheduleItem: View {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
                             .bold()
+                        let currentTime = Int(Date().timeIntervalSince1970)
                         if isAiringNext {
                             TagItem(text: "Airing next")
+                        } else if item.airingAt < currentTime && item.airingAt + (item.media.duration ?? 0) > currentTime {
+                            TagItem(text: "Airing now")
                         }
-                        VStack(alignment: .leading) {
-                            if let season = item.media.season, let year = item.media.seasonYear {
-                                Text("\(season.lowercased().capitalized), \(String(year))")
-                            }
-                            if let status = item.media.status {
-                                Text(status.formatStatus())
-                            }
+                        if let season = item.media.season, let year = item.media.seasonYear {
+                            Text("\(season.lowercased().capitalized), \(String(year))")
+                                .opacity(0.7)
+                                .font(.footnote)
+                                .padding(.vertical, 5)
                         }
-                        .opacity(0.7)
-                        .font(.footnote)
-                        .padding(.vertical, 2)
-                        Label("Episode \(String(item.episode)) airing at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.hour(.defaultDigits(amPM: .abbreviated)).minute()))", systemImage: "alarm.fill")
+                        let status = item.airingAt + (item.media.duration ?? 0) > currentTime ? "airing" : "aired"
+                        Label("Episode \(String(item.episode)) \(status) at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).toTimeString())", systemImage: "alarm.fill")
                             .foregroundStyle(settings.getAccentColor())
                             .bold()
                             .font(.footnote)
@@ -54,7 +53,7 @@ struct AiringScheduleItem: View {
                     .padding(.horizontal, 5)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(10)
+                .padding(15)
                 .background(Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .contextMenu {

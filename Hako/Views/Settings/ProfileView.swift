@@ -96,7 +96,7 @@ struct ProfileView: View {
             }
             .scrollContentBackground(.hidden)
             .background {
-                ImageFrame(id: "userImage", imageUrl: networker.user?.picture, imageSize: .background)
+                ImageFrame(id: "userImage", imageUrl: networker.user?.picture ?? "https://myanimelist.net/images/kaomoji_mal_white.png", imageSize: .background)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(networker.user?.name ?? "")

@@ -25,7 +25,7 @@ struct AiringSchedule: Codable, Identifiable {
         let coverImage: CoverImage?
         let season: String?
         let seasonYear: Int?
-        let status: String?
+        let duration: Int?
     }
     
     var id: String { "\(media.id), episode\(episode)" }

@@ -24,7 +24,8 @@ enum SortEnum: String {
     
     func toString() -> String {
         switch self {
-        case .listScore, .mean: return "By score"
+        case .listScore: return "By user score"
+        case .mean: return "By score"
         case .listUpdatedAt: return "By last update"
         case .animeTitle, .mangaTitle: return "By title"
         case .animeStartDate, .mangaStartDate: return "By start date"

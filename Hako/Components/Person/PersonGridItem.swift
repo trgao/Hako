@@ -13,11 +13,13 @@ struct PersonGridItem: View {
     private let id: Int
     private let name: String?
     private let imageUrl: String?
+    private let subtitle: String?
     
-    init(id: Int, name: String?, imageUrl: String?) {
+    init(id: Int, name: String?, imageUrl: String?, subtitle: String? = nil) {
         self.id = id
         self.name = name
         self.imageUrl = imageUrl
+        self.subtitle = subtitle
     }
     
     var body: some View {
@@ -26,6 +28,21 @@ struct PersonGridItem: View {
         } label: {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
+                    .overlay {
+                        if let subtitle = subtitle {
+                            Text(subtitle)
+                                .bold()
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .background {
+                                    Color.black.opacity(0.4)
+                                        .blur(radius: 8, opaque: false)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
                     .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                     .contextMenu {
                         ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {

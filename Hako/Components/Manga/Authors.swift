@@ -25,7 +25,7 @@ struct Authors: View {
             if let authors = authors {
                 ScrollViewCarousel(title: "Authors", placeholder: SmallPlaceholderGridItem.init) {
                     ForEach(authors) { author in
-                        PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl)
+                        PersonGridItem(id: author.id, name: "\(author.node.lastName ?? "")\(haveBothNames(author.node.firstName, author.node.lastName) ? ", " : "")\(author.node.firstName ?? "")", imageUrl: author.imageUrl, subtitle: author.role)
                     }
                 }
             }

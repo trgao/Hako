@@ -51,6 +51,7 @@ struct ScheduleView: View {
             }
             ForEach(items) { item in
                 AiringScheduleItem(item: item, isAiringNext: item.id == airingNextId)
+                    .id(item.id)
                     .frame(maxWidth: .infinity)
                     .onAppear {
                         Task {
@@ -81,18 +82,30 @@ struct ScheduleView: View {
                 nothingFoundView
             } else {
                 GeometryReader { geometry in
-                    ScrollView {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: min(geometry.size.width - 20, 450)), spacing: 5, alignment: .top)]) {
-                            // Manually written to prevent LazyVGrid scroll from jumping when using ForEach on dictionary
-                            DaySchedule(0, geometry.size.width)
-                            DaySchedule(1, geometry.size.width)
-                            DaySchedule(2, geometry.size.width)
-                            DaySchedule(3, geometry.size.width)
-                            DaySchedule(4, geometry.size.width)
-                            DaySchedule(5, geometry.size.width)
-                            DaySchedule(6, geometry.size.width)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: min(geometry.size.width - 20, 450)), spacing: 10, alignment: .top)]) {
+                                // Manually written to prevent LazyVGrid scroll from jumping when using ForEach on dictionary
+                                DaySchedule(0, geometry.size.width)
+                                DaySchedule(1, geometry.size.width)
+                                DaySchedule(2, geometry.size.width)
+                                DaySchedule(3, geometry.size.width)
+                                DaySchedule(4, geometry.size.width)
+                                DaySchedule(5, geometry.size.width)
+                                DaySchedule(6, geometry.size.width)
+                            }
+                            .padding(10)
                         }
-                        .padding(10)
+                        .toolbar {
+                            if let id = airingNextId {
+                                Button {
+                                    proxy.scrollTo(id, anchor: .top)
+                                } label: {
+                                    Label("Next", systemImage: "alarm.fill")
+                                        .labelStyle(.iconOnly)
+                                }
+                            }
+                        }
                     }
                 }
             }

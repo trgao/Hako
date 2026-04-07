@@ -31,12 +31,6 @@ extension String {
     }
     
     func formatStatus() -> String {
-        // Handle status from AniList to match MAL
-        if self == "NOT_YET_RELEASED" {
-            return "Not yet aired"
-        } else if self == "RELEASING" {
-            return "Currently airing"
-        }
         let text = self.replacingOccurrences(of: "_", with: " ").lowercased()
         return text.initialCapitalise()
     }

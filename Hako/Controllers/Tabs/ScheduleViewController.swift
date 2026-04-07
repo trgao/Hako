@@ -27,16 +27,14 @@ class ScheduleViewController: ObservableObject {
         canLoadMoreAnimePages = true
         
         do {
-            let animeList = try await networker.getAnimeScheduleList(page: currentAnimePage)
+            let animeList = try await networker.getAnimeScheduleList(page: currentAnimePage).filter { $0.media.idMal != nil }
             currentAnimePage = 2
             canLoadMoreAnimePages = !(animeList.isEmpty)
             var newSchedule: [String: [AiringSchedule]] = [:]
-            animeList
-                .filter { $0.media.idMal != nil }
-                .forEach { item in
-                    let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
-                    newSchedule[day, default: []].append(item)
-                }
+            animeList.forEach { item in
+                let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
+                newSchedule[day, default: []].append(item)
+            }
             schedule = newSchedule
             animeItems = animeList
             loadingState = .idle
@@ -55,15 +53,13 @@ class ScheduleViewController: ObservableObject {
         }
         
         loadingState = .paginating
-        if let animeList = try? await networker.getAnimeScheduleList(page: currentAnimePage) {
+        if let animeList = try? await networker.getAnimeScheduleList(page: currentAnimePage).filter({ $0.media.idMal != nil }) {
             currentAnimePage += 1
             canLoadMoreAnimePages = !(animeList.isEmpty)
-            animeList
-                .filter { $0.media.idMal != nil }
-                .forEach { item in
-                    let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
-                    schedule[day, default: []].append(item)
-                }
+            animeList.forEach { item in
+                let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
+                schedule[day, default: []].append(item)
+            }
             animeItems.append(contentsOf: animeList)
         }
         loadingState = .idle

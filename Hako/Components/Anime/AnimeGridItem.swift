@@ -44,6 +44,7 @@ struct AnimeGridItem: View {
                             Text(subtitle)
                                 .bold()
                                 .font(.subheadline)
+                                .foregroundStyle(.white)
                                 .padding(10)
                                 .background {
                                     Color.black.opacity(0.4)

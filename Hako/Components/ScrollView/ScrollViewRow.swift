@@ -44,12 +44,11 @@ struct ScrollViewRow: View {
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: title == nil ? .leading : .trailing)
         }
-        .contentShape(Rectangle())
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             Button {
                 UIPasteboard.general.string = content

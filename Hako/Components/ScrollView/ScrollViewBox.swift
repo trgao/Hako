@@ -33,7 +33,6 @@ struct ScrollViewBox: View {
                 .frame(height: height)
                 .foregroundStyle(settings.getAccentColor())
         }
-        .contentShape(Rectangle())
         .padding(10)
         .frame(maxWidth: .infinity)
         .frame(height: height + 45)

@@ -42,7 +42,6 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                 .font(.caption)
                 .foregroundStyle(Color(.systemGray2))
         }
-        .contentShape(Rectangle())
         .onTapGesture {
             isPressed = true
         }
@@ -53,7 +52,7 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         .padding(.vertical, 10)
         .background(isPressed || isLongPress ? Color(.systemGray4) : colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             Button {
                 UIPasteboard.general.string = content

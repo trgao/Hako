@@ -43,7 +43,7 @@ struct PersonGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
-                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                    .contentShape(RoundedRectangle(cornerRadius: 10))
                     .contextMenu {
                         ShareLink(item: URL(string: "https://myanimelist.net/people/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")

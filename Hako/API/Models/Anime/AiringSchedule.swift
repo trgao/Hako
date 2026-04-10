@@ -21,11 +21,12 @@ struct AiringSchedule: Codable, Identifiable {
         
         let id: Int
         let idMal: Int?
-        let title: Title
+        let title: Title?
         let coverImage: CoverImage?
         let season: String?
         let seasonYear: Int?
         let duration: Int?
+        let isAdult: Bool?
     }
     
     var id: String { "\(media.id), episode\(episode)" }

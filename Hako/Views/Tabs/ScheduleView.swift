@@ -101,7 +101,7 @@ struct ScheduleView: View {
                                 Button {
                                     proxy.scrollTo(id, anchor: .top)
                                 } label: {
-                                    Label("Next", systemImage: "alarm.fill")
+                                    Label("Next", systemImage: "forward.fill")
                                         .labelStyle(.iconOnly)
                                 }
                             }

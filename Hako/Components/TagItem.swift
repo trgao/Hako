@@ -11,9 +11,11 @@ struct TagItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     private let text: String
+    private let systemImage: String?
     
-    init(text: String) {
+    init(text: String, systemImage: String? = nil) {
         self.text = text
+        self.systemImage = systemImage
     }
     
     var body: some View {
@@ -35,11 +37,17 @@ struct TagItem: View {
                 return .white
             }
         }
-        Text(text)
-            .font(.footnote)
-            .padding(8)
-            .foregroundStyle(textColor)
-            .background(background)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        Group {
+            if let systemImage = systemImage {
+                Label(text, systemImage: systemImage)
+            } else {
+                Text(text)
+            }
+        }
+        .font(.footnote)
+        .padding(8)
+        .foregroundStyle(textColor)
+        .background(background)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

@@ -27,7 +27,7 @@ class ScheduleViewController: ObservableObject {
         canLoadMoreAnimePages = true
         
         do {
-            let animeList = try await networker.getAnimeScheduleList(page: currentAnimePage).filter { $0.media.idMal != nil }
+            let animeList = try await networker.getAnimeScheduleList(page: currentAnimePage).filter { $0.media.idMal != nil && $0.media.isAdult == false }
             currentAnimePage = 2
             canLoadMoreAnimePages = !(animeList.isEmpty)
             var newSchedule: [String: [AiringSchedule]] = [:]
@@ -53,7 +53,7 @@ class ScheduleViewController: ObservableObject {
         }
         
         loadingState = .paginating
-        if let animeList = try? await networker.getAnimeScheduleList(page: currentAnimePage).filter({ $0.media.idMal != nil }) {
+        if let animeList = try? await networker.getAnimeScheduleList(page: currentAnimePage).filter({ $0.media.idMal != nil && $0.media.isAdult == false }) {
             currentAnimePage += 1
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeList.forEach { item in

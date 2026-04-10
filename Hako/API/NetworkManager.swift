@@ -472,6 +472,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                             season
                             seasonYear
                             duration
+                            isAdult
                         }
                     }
                 }

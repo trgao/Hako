@@ -13,7 +13,7 @@ struct AiringScheduleItem: View {
     private let item: AiringSchedule
     private let isAiringNext: Bool
     private var title: String {
-        settings.getTitle(romaji: item.media.title.romaji, english: item.media.title.english, native: item.media.title.native)
+        settings.getTitle(romaji: item.media.title?.romaji, english: item.media.title?.english, native: item.media.title?.native)
     }
     
     init(item: AiringSchedule, isAiringNext: Bool) {
@@ -24,7 +24,7 @@ struct AiringScheduleItem: View {
     var body: some View {
         if let id = item.media.idMal {
             ZoomTransition {
-                AnimeDetailsView(anime: Anime(id: id, title: item.media.title.romaji ?? "", enTitle: item.media.title.english, jaTitle: item.media.title.native, imageUrl: item.media.coverImage?.large))
+                AnimeDetailsView(anime: Anime(id: id, title: item.media.title?.romaji ?? "", enTitle: item.media.title?.english, jaTitle: item.media.title?.native, imageUrl: item.media.coverImage?.large))
             } label: {
                 HStack {
                     ImageFrame(id: "anime\(id)", imageUrl: item.media.coverImage?.large, imageSize: Constants.listImageSize)
@@ -34,9 +34,9 @@ struct AiringScheduleItem: View {
                             .bold()
                         let currentTime = Int(Date().timeIntervalSince1970)
                         if isAiringNext {
-                            TagItem(text: "Airing next")
-                        } else if item.airingAt < currentTime && item.airingAt + (item.media.duration ?? 0) > currentTime {
-                            TagItem(text: "Airing now")
+                            TagItem(text: "Airing next", systemImage: "forward.fill")
+                        } else if item.airingAt <= currentTime && item.airingAt + (item.media.duration ?? 0) * 60 >= currentTime {
+                            TagItem(text: "Airing now", systemImage: "play.fill")
                         }
                         if let season = item.media.season, let year = item.media.seasonYear {
                             Text("\(season.lowercased().capitalized), \(String(year))")
@@ -44,8 +44,7 @@ struct AiringScheduleItem: View {
                                 .font(.footnote)
                                 .padding(.top, 2)
                         }
-                        let status = item.airingAt + (item.media.duration ?? 0) > currentTime ? "airing" : "aired"
-                        Label("Episode \(String(item.episode)) \(status) at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).toTimeString())", systemImage: "alarm.fill")
+                        Label("Episode \(String(item.episode)) \(item.airingAt > currentTime ? "airing" : "aired") at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).toTimeString())", systemImage: "alarm.fill")
                             .foregroundStyle(settings.getAccentColor())
                             .bold()
                             .font(.footnote)

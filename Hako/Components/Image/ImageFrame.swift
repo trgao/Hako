@@ -67,6 +67,7 @@ struct ImageFrame: View {
                     } else {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.gray)
+                            .opacity(0.6)
                     }
                 }
                 .frame(width: width * screenRatio, height: height * screenRatio)

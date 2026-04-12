@@ -21,7 +21,10 @@ struct PlaceholderReview: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                ImageFrame(id: "", imageUrl: nil, imageSize: .reviewUser)
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(.gray)
+                    .opacity(0.6)
+                    .frame(width: 30, height: 30)
                 Text("placeholder ・ placeholder")
                     .font(.caption)
                     .bold()

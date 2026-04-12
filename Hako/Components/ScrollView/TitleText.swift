@@ -30,9 +30,9 @@ struct TitleText: View {
                 .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                 .multilineTextAlignment(.center)
             Group {
-                if let english = english, settings.preferredTitleLanguage == 2 {
+                if let english = english, !english.isEmpty &&  settings.preferredTitleLanguage == 2 {
                     Text(english)
-                } else if let native = native {
+                } else if let native = native, !native.isEmpty && settings.preferredTitleLanguage != 2 {
                     Text(native)
                 }
             }

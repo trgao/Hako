@@ -18,12 +18,14 @@ struct SmallPlaceholderGridItem: View {
     
     var body: some View {
         VStack {
-            ImageFrame(id: "", imageUrl: nil, imageSize: .medium)
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.gray)
+                .opacity(0.6)
+                .frame(width: 100 * screenRatio, height: 142 * screenRatio)
             Text("placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder")
                 .frame(width: 100 * screenRatio)
                 .lineLimit(settings.getLineLimit() ?? 2)
                 .font(.footnote)
-                .tint(.primary)
         }
         .frame(width: 110 * screenRatio)
         .skeleton(isLoading)

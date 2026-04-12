@@ -44,7 +44,7 @@ struct AiringScheduleItem: View {
                                 .font(.footnote)
                                 .padding(.top, 2)
                         }
-                        Label("Episode \(String(item.episode)) \(item.airingAt > currentTime ? "airing" : "aired") at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).toTimeString())", systemImage: "alarm.fill")
+                        Label("Episode \(String(item.episode)) \(item.airingAt > currentTime ? "airing" : "aired") at \(Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.hour(.twoDigits(amPM: .abbreviated)).minute()))", systemImage: "alarm.fill")
                             .foregroundStyle(settings.getAccentColor())
                             .bold()
                             .font(.footnote)

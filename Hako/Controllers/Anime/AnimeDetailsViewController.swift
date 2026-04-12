@@ -98,6 +98,10 @@ class AnimeDetailsViewController: ObservableObject {
     }
     
     func loadAiringSchedule() async {
+        guard anime?.status != "finished_airing" else {
+            return
+        }
+        
         if let nextEpisode = networker.animeNextEpisodeCache[id] {
             withAnimation {
                 self.nextEpisode = nextEpisode

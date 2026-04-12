@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct LoadingList: View {
+    @Environment(\.screenRatio) private var screenRatio
     @State private var id = UUID()
     private let dummyList: [Int]
     private let showImage: Bool
+    private var width: CGFloat {
+        Constants.listImageSize == .medium ? 100 * screenRatio : 75 * screenRatio
+    }
+    private var height: CGFloat {
+        Constants.listImageSize == .medium ? 142 * screenRatio : 106 * screenRatio
+    }
     
     init(length: Int, showImage: Bool = true) {
         self.dummyList = Array(0..<length)
@@ -21,7 +28,10 @@ struct LoadingList: View {
         ForEach(dummyList, id: \.self) { id in
             HStack {
                 if showImage {
-                    ImageFrame(id: "", imageUrl: nil, imageSize: Constants.listImageSize)
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.gray)
+                        .opacity(0.7)
+                        .frame(width: width, height: height)
                     VStack(alignment: .leading) {
                         Text("placeholderplaceholder")
                         Text("placeholder")

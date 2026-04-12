@@ -69,7 +69,6 @@
 		EE3A59DA2BD24550009E9F79 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59D92BD24550009E9F79 /* UserListViewController.swift */; };
 		EE3A59DD2BD24F76009E9F79 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59DC2BD24F76009E9F79 /* Broadcast.swift */; };
 		EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3B155A2CE2A4CE00C23687 /* NetworkError.swift */; };
-		EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = EE3B40222DD4CB6E000846A1 /* Shimmer */; };
 		EE3D4F5C2EE3E11C00926357 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3D4F5B2EE3E11B00926357 /* ListItem.swift */; };
 		EE3D4F5E2EE412D400926357 /* CopySongButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3D4F5D2EE412C300926357 /* CopySongButton.swift */; };
 		EE3F1D1A2BDE9249009992AC /* MALAnimeListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */; };
@@ -149,7 +148,6 @@
 		EEA693D72E126E1100FDAAD7 /* SearchEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA693D62E126E1100FDAAD7 /* SearchEnum.swift */; };
 		EEA801322CE1791100A49492 /* ThreadSafeDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */; };
 		EEA924342DD5ED1700FB40A9 /* ThemesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */; };
-		EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */; };
 		EEA924382DD62A2600FB40A9 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924372DD62A2600FB40A9 /* AppearanceView.swift */; };
 		EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924392DD634BB00FB40A9 /* SettingsManager.swift */; };
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
@@ -400,7 +398,6 @@
 		EEA693D62E126E1100FDAAD7 /* SearchEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEnum.swift; sourceTree = "<group>"; };
 		EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeDictionary.swift; sourceTree = "<group>"; };
 		EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesListView.swift; sourceTree = "<group>"; };
-		EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCarousel.swift; sourceTree = "<group>"; };
 		EEA924372DD62A2600FB40A9 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		EEA924392DD634BB00FB40A9 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
@@ -516,7 +513,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE3B40232DD4CB6E000846A1 /* Shimmer in Frameworks */,
 				EE35CEBA2DFED17F000C32FD /* YouTubePlayerKit in Frameworks */,
 				EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */,
 				EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */,
@@ -870,7 +866,6 @@
 				EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */,
 				EED4C0862F66E890007354C8 /* PlaceholderReview.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
-				EEA924352DD626FA00FB40A9 /* LoadingCarousel.swift */,
 				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
 				EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */,
 				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
@@ -1204,7 +1199,6 @@
 			name = Hako;
 			packageProductDependencies = (
 				EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */,
-				EE3B40222DD4CB6E000846A1 /* Shimmer */,
 				EE35CEB92DFED17F000C32FD /* YouTubePlayerKit */,
 				EE11D6C52E758CFF00B24AE0 /* AsyncAlgorithms */,
 				EE8E52FB2EDC0F1800B7A316 /* SystemNotification */,
@@ -1245,7 +1239,6 @@
 			mainGroup = EE3A59952BD21479009E9F79;
 			packageReferences = (
 				EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				EE11D6C42E758CFF00B24AE0 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */,
@@ -1469,7 +1462,6 @@
 				EE960E812DD389BC00E4EDC9 /* SequenceExtension.swift in Sources */,
 				EE9A891E2BEF39790048DD73 /* JikanListItem.swift in Sources */,
 				EE7807852F28F64C001522BD /* LoadingEnum.swift in Sources */,
-				EEA924362DD626FA00FB40A9 /* LoadingCarousel.swift in Sources */,
 				EEAB73DF2DDDCDAD00D15137 /* AboutView.swift in Sources */,
 				EEAA57562E2CCC4600377906 /* ExploreAnimeView.swift in Sources */,
 				EE135E032E055A0200F02638 /* ScrollViewRow.swift in Sources */,
@@ -1849,14 +1841,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.1;
-			};
-		};
 		EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielsaidi/SystemNotification";
@@ -1903,11 +1887,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE35CEB82DFED17F000C32FD /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
 			productName = YouTubePlayerKit;
-		};
-		EE3B40222DD4CB6E000846A1 /* Shimmer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EE3B40212DD4CB6E000846A1 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
-			productName = Shimmer;
 		};
 		EE8E52FB2EDC0F1800B7A316 /* SystemNotification */ = {
 			isa = XCSwiftPackageProductDependency;

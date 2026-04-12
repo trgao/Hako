@@ -18,14 +18,17 @@ struct BigPlaceholderGridItem: View {
     
     var body: some View {
         VStack {
-            ImageFrame(id: "", imageUrl: nil, imageSize: .large)
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.gray)
+                .opacity(0.6)
+                .frame(width: 150 * screenRatio, height: 213 * screenRatio)
             Text("placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder")
                 .lineLimit(settings.getLineLimit() ?? 2)
                 .frame(width: 150 * screenRatio, alignment: .leading)
                 .padding(5)
                 .font(.callout)
-                .tint(.primary)
         }
+        .padding(5)
         .skeleton(isLoading)
     }
 }

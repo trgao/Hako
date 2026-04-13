@@ -26,9 +26,23 @@ struct GroupDetailsView: View {
     
     var body: some View {
         ZStack {
-            if controller.loadingState == .error && controller.items.isEmpty {
-                ErrorView(refresh: controller.refresh)
-            } else if !controller.items.isEmpty {
+            if controller.items.isEmpty {
+                if controller.loadingState == .loading {
+                    LoadingGrid()
+                } else if controller.loadingState == .error {
+                    ErrorView(refresh: controller.refresh)
+                } else if controller.loadingState == .idle {
+                    VStack {
+                        Image(systemName: "text.page.fill")
+                            .resizable()
+                            .frame(width: 30, height: 40)
+                            .padding(.bottom, 10)
+                        Text("Page not found")
+                            .bold()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            } else {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                         ForEach(Array(controller.items.enumerated()), id: \.1.id) { index, item in
@@ -61,18 +75,8 @@ struct GroupDetailsView: View {
                         isRefresh = false
                     }
                 }
-            } else if controller.loadingState == .idle {
-                VStack {
-                    Image(systemName: "text.page.fill")
-                        .resizable()
-                        .frame(width: 30, height: 40)
-                        .padding(.bottom, 10)
-                    Text("Page not found")
-                        .bold()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            if controller.isLoading() {
+            if isRefresh || controller.loadingState == .paginating {
                 LoadingView()
             }
         }

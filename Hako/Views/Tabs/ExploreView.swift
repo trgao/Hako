@@ -497,14 +497,14 @@ struct ExploreBox<Destination: View>: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .bold()
         }
-        .contentShape(Rectangle())
+        .padding(20)
+        .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
         }
         .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
             isLongPress = pressing
         }) {}
-        .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))

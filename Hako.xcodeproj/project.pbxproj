@@ -214,6 +214,7 @@
 		EEE1FA042EE32DCE0045B7B5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */; };
 		EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */; };
 		EEE7F75C2F8BF23B009BFA7D /* PlaceholderAiringSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */; };
+		EEE7F75E2F8CED2A009BFA7D /* LoadingGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE7F75D2F8CED26009BFA7D /* LoadingGrid.swift */; };
 		EEEB893B2F81020100CDEDD7 /* AiringScheduleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEB893A2F8101F800CDEDD7 /* AiringScheduleItem.swift */; };
 		EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */; };
 		EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84D2BD2C02F0036E779 /* MyListView.swift */; };
@@ -464,6 +465,7 @@
 		EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderAiringSchedule.swift; sourceTree = "<group>"; };
+		EEE7F75D2F8CED26009BFA7D /* LoadingGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingGrid.swift; sourceTree = "<group>"; };
 		EEEB893A2F8101F800CDEDD7 /* AiringScheduleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiringScheduleItem.swift; sourceTree = "<group>"; };
 		EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EEEBF84D2BD2C02F0036E779 /* MyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListView.swift; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 				EED4C0862F66E890007354C8 /* PlaceholderReview.swift */,
 				EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
+				EEE7F75D2F8CED26009BFA7D /* LoadingGrid.swift */,
 				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
 				EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */,
 				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
@@ -1359,6 +1362,7 @@
 				EE3336132EAB4DEC005F2613 /* PersonListItem.swift in Sources */,
 				EEB7DE622E0D29F000A2C8CC /* RandomMangaView.swift in Sources */,
 				EEC150D82F0E5D54000BAE9F /* ExploreCharactersView.swift in Sources */,
+				EEE7F75E2F8CED2A009BFA7D /* LoadingGrid.swift in Sources */,
 				EE135DFD2E054A2C00F02638 /* ScrollViewSection.swift in Sources */,
 				EE712FE92DFDA2A900DC7202 /* ReviewItem.swift in Sources */,
 				EE3A59DA2BD24550009E9F79 /* UserListViewController.swift in Sources */,

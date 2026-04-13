@@ -12,8 +12,8 @@ class ScheduleViewController: ObservableObject {
     @Published var animeItems: [AiringSchedule] = []
     @Published var schedule: [String: [AiringSchedule]] = [:]
     @Published var loadingState: LoadingEnum = .loading
-    private var currentAnimePage = 1
-    private var canLoadMoreAnimePages = true
+    private var currentPage = 1
+    private var canLoadMorePages = true
     private let networker = NetworkManager.shared
     
     // Check if the current anime list is loading
@@ -23,13 +23,13 @@ class ScheduleViewController: ObservableObject {
     
     func refresh() async {
         loadingState = .loading
-        currentAnimePage = 1
-        canLoadMoreAnimePages = true
+        currentPage = 1
+        canLoadMorePages = true
         
         do {
-            let animeList = try await networker.getAnimeScheduleList(page: currentAnimePage).filter { $0.media.idMal != nil && $0.media.isAdult == false }
-            currentAnimePage = 2
-            canLoadMoreAnimePages = !(animeList.isEmpty)
+            let animeList = try await networker.getAnimeScheduleList(page: currentPage).filter { $0.media.idMal != nil && $0.media.isAdult == false }
+            currentPage = 2
+            canLoadMorePages = !(animeList.isEmpty)
             var newSchedule: [String: [AiringSchedule]] = [:]
             animeList.forEach { item in
                 let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
@@ -48,14 +48,14 @@ class ScheduleViewController: ObservableObject {
     // Load more of the current anime list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
-        guard loadingState == .idle && !schedule.isEmpty && canLoadMoreAnimePages else {
+        guard loadingState == .idle && !schedule.isEmpty && canLoadMorePages else {
             return
         }
         
         loadingState = .paginating
-        if let animeList = try? await networker.getAnimeScheduleList(page: currentAnimePage).filter({ $0.media.idMal != nil && $0.media.isAdult == false }) {
-            currentAnimePage += 1
-            canLoadMoreAnimePages = !(animeList.isEmpty)
+        if let animeList = try? await networker.getAnimeScheduleList(page: currentPage).filter({ $0.media.idMal != nil && $0.media.isAdult == false }) {
+            currentPage += 1
+            canLoadMorePages = !(animeList.isEmpty)
             animeList.forEach { item in
                 let day = Date(timeIntervalSince1970: TimeInterval(item.airingAt)).formatted(.dateTime.weekday(.wide).month(.wide).day())
                 schedule[day, default: []].append(item)

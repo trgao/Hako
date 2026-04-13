@@ -79,7 +79,7 @@ struct ScheduleView: View {
                 if controller.animeItems.isEmpty {
                     if controller.loadingState == .loading {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: min(geometry.size.width - 20, 450)), spacing: 10, alignment: .top)]) {
-                            ForEach(0..<30) { i in
+                            ForEach(0..<30) { _ in
                                 PlaceholderAiringSchedule()
                             }
                         }
@@ -102,13 +102,6 @@ struct ScheduleView: View {
                                 DaySchedule(4, geometry.size.width)
                                 DaySchedule(5, geometry.size.width)
                                 DaySchedule(6, geometry.size.width)
-                                if controller.loadingState == .paginating {
-                                    let numberOfColumns = max(1, Int((geometry.size.width - 5) / 455))
-                                    let placeholderCount = min(3, numberOfColumns * 2 + (numberOfColumns - controller.animeItems.count % numberOfColumns) % numberOfColumns)
-                                    ForEach(0..<placeholderCount, id: \.self) { i in
-                                        PlaceholderAiringSchedule()
-                                    }
-                                }
                             }
                             .padding(10)
                         }
@@ -125,7 +118,7 @@ struct ScheduleView: View {
                     }
                 }
             }
-            if isRefresh {
+            if isRefresh || controller.loadingState == .paginating {
                 LoadingView()
             }
         }

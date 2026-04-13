@@ -62,19 +62,27 @@ struct SeasonsView: View {
         .id(controller.sort)
     }
     
+    private var nothingFoundView: some View {
+        VStack {
+            Image(systemName: "calendar")
+                .resizable()
+                .frame(width: 40, height: 40)
+            Text("Nothing found")
+                .bold()
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 ZStack {
-                    if controller.loadingState == .error && controller.isSeasonEmpty() {
-                        ErrorView(refresh: { await controller.refresh() })
-                    } else if controller.loadingState == .idle && controller.isSeasonEmpty() {
-                        VStack {
-                            Image(systemName: "calendar")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                            Text("Nothing found")
-                                .bold()
+                    if controller.isSeasonEmpty() {
+                        if controller.loadingState == .loading {
+                            LoadingGrid()
+                        } else if controller.loadingState == .error {
+                            ErrorView(refresh: { await controller.refresh() })
+                        } else if controller.loadingState == .idle {
+                            nothingFoundView
                         }
                     } else if controller.season == .winter {
                         SeasonView(controller.winterItems, controller.winterContinuingItems, geometry.size.width)
@@ -96,7 +104,7 @@ struct SeasonsView: View {
                             }
                         }
                         .disabled(controller.loadingState == .loading)
-                    if controller.loadingState == .loading {
+                    if isRefresh {
                         LoadingView()
                     }
                 }

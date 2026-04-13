@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoadingList: View {
     @Environment(\.screenRatio) private var screenRatio
-    @State private var id = UUID()
     private let dummyList: [Int]
     private let showImage: Bool
     private var width: CGFloat {
@@ -44,10 +43,6 @@ struct LoadingList: View {
             }
             .skeleton()
             .padding(5)
-        }
-        .id(id)
-        .onDisappear {
-            id = UUID()
         }
     }
 }

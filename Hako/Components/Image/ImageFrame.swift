@@ -68,7 +68,6 @@ struct ImageFrame: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.gray)
                             .opacity(0.6)
-                            .skeleton(controller.isLoading)
                     }
                 }
                 .frame(width: width * screenRatio, height: height * screenRatio)

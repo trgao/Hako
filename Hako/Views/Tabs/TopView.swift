@@ -76,7 +76,9 @@ struct TopView: View {
                             if controller.animeRankingType != .all {
                                 animeRankingText
                             }
-                            if controller.loadingState == .error {
+                            if controller.loadingState == .loading {
+                                LoadingGrid()
+                            } else if controller.loadingState == .error {
                                 ErrorView(refresh: { await controller.refresh() })
                             } else if controller.loadingState == .idle {
                                 nothingFoundView
@@ -107,7 +109,9 @@ struct TopView: View {
                             if controller.mangaRankingType != .all {
                                 mangaRankingText
                             }
-                            if controller.loadingState == .error {
+                            if controller.loadingState == .loading {
+                                LoadingGrid()
+                            } else if controller.loadingState == .error {
                                 ErrorView(refresh: { await controller.refresh() })
                             } else if controller.loadingState == .idle {
                                 nothingFoundView
@@ -133,7 +137,7 @@ struct TopView: View {
                         }
                     }
                 }
-                if controller.isLoading() {
+                if isRefresh || controller.loadingState == .paginating {
                     LoadingView()
                 }
             }

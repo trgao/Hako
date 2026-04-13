@@ -26,10 +26,6 @@ class GroupDetailsViewController: ObservableObject {
         }
     }
     
-    func isLoading() -> Bool {
-        return loadingState == .loading || loadingState == .paginating
-    }
-    
     // Refresh the current anime/manga list
     func refresh() async {
         loadingState = .loading

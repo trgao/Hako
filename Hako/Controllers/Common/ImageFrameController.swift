@@ -10,6 +10,7 @@ import SwiftUI
 @MainActor
 class ImageFrameController: ObservableObject {
     @Published var image: UIImage?
+    @Published var isLoading = true
     private let id: String
     var imageUrl: String?
     private let isProfile: Bool
@@ -25,11 +26,14 @@ class ImageFrameController: ObservableObject {
         guard image == nil && (isProfile || imageUrl != nil) else {
             return
         }
+        
+        isLoading = true
         if isProfile, let data = await networker.downloadImage(id: id, imageUrl: imageUrl ?? "https://myanimelist.net/images/kaomoji_mal_white.png") {
             self.image = UIImage(data: data)
             UserDefaults.standard.set(data, forKey: "userImage")
         } else if let data = await networker.downloadImage(id: id, imageUrl: imageUrl) {
             self.image = UIImage(data: data)
         }
+        isLoading = false
     }
 }

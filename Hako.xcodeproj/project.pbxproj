@@ -213,6 +213,7 @@
 		EEDBDB652C07547300F2E821 /* ReducedSpaceLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDBDB642C07547300F2E821 /* ReducedSpaceLabelStyle.swift */; };
 		EEE1FA042EE32DCE0045B7B5 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */; };
 		EEE2CCB52E9E2F1700F520BF /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */; };
+		EEE7F75C2F8BF23B009BFA7D /* PlaceholderAiringSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */; };
 		EEEB893B2F81020100CDEDD7 /* AiringScheduleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEB893A2F8101F800CDEDD7 /* AiringScheduleItem.swift */; };
 		EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */; };
 		EEEBF84E2BD2C02F0036E779 /* MyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEBF84D2BD2C02F0036E779 /* MyListView.swift */; };
@@ -462,6 +463,7 @@
 		EEDBDB642C07547300F2E821 /* ReducedSpaceLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReducedSpaceLabelStyle.swift; sourceTree = "<group>"; };
 		EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderAiringSchedule.swift; sourceTree = "<group>"; };
 		EEEB893A2F8101F800CDEDD7 /* AiringScheduleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiringScheduleItem.swift; sourceTree = "<group>"; };
 		EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EEEBF84D2BD2C02F0036E779 /* MyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListView.swift; sourceTree = "<group>"; };
@@ -865,6 +867,7 @@
 				EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */,
 				EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */,
 				EED4C0862F66E890007354C8 /* PlaceholderReview.swift */,
+				EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
 				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
 				EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */,
@@ -1364,6 +1367,7 @@
 				EEDB839E2E76C6CD00B208B2 /* MyListStatus.swift in Sources */,
 				EE33A4C82BE1766400A98F00 /* GroupDetailsView.swift in Sources */,
 				EEC1B9062BF12928001E08C4 /* TypeEnum.swift in Sources */,
+				EEE7F75C2F8BF23B009BFA7D /* PlaceholderAiringSchedule.swift in Sources */,
 				EE8BE62E2DFDD37500D09F46 /* LoadingReviews.swift in Sources */,
 				EEEBF8562BD2C46B0036E779 /* AnimeGridItem.swift in Sources */,
 				EE63B2E22F7FA0AE003B2413 /* ScheduleViewController.swift in Sources */,

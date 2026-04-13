@@ -25,7 +25,7 @@ struct ShimmerEffect: ViewModifier {
         .primary.opacity(0.9),
         .primary.opacity(0.8)
     ]
-    private let animation: Animation = .easeInOut(duration: 1.3).repeatForever(autoreverses: true)
+    private let animation: Animation = .easeInOut(duration: 1.2).repeatForever(autoreverses: true)
     private let active: Bool
     
     init(active: Bool) {

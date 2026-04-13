@@ -75,13 +75,22 @@ struct ScheduleView: View {
     
     private var content: some View {
         ZStack {
-            if controller.animeItems.isEmpty && controller.loadingState == .error {
-                ErrorView(refresh: { await controller.refresh() })
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            } else if controller.animeItems.isEmpty && controller.loadingState == .idle {
-                nothingFoundView
-            } else {
-                GeometryReader { geometry in
+            GeometryReader { geometry in
+                if controller.animeItems.isEmpty {
+                    if controller.loadingState == .loading {
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: min(geometry.size.width - 20, 450)), spacing: 10, alignment: .top)]) {
+                            ForEach(0..<30) { i in
+                                PlaceholderAiringSchedule()
+                            }
+                        }
+                        .padding(10)
+                    } else if controller.loadingState == .error {
+                        ErrorView(refresh: { await controller.refresh() })
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    } else if controller.loadingState == .idle {
+                        nothingFoundView
+                    }
+                } else {
                     ScrollViewReader { proxy in
                         ScrollView {
                             LazyVGrid(columns: [GridItem(.adaptive(minimum: min(geometry.size.width - 20, 450)), spacing: 10, alignment: .top)]) {
@@ -93,6 +102,13 @@ struct ScheduleView: View {
                                 DaySchedule(4, geometry.size.width)
                                 DaySchedule(5, geometry.size.width)
                                 DaySchedule(6, geometry.size.width)
+                                if controller.loadingState == .paginating {
+                                    let numberOfColumns = max(1, Int((geometry.size.width - 5) / 455))
+                                    let placeholderCount = min(3, numberOfColumns * 2 + (numberOfColumns - controller.animeItems.count % numberOfColumns) % numberOfColumns)
+                                    ForEach(0..<placeholderCount, id: \.self) { i in
+                                        PlaceholderAiringSchedule()
+                                    }
+                                }
                             }
                             .padding(10)
                         }
@@ -109,7 +125,7 @@ struct ScheduleView: View {
                     }
                 }
             }
-            if controller.isLoading() {
+            if isRefresh {
                 LoadingView()
             }
         }

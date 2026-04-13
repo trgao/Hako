@@ -224,7 +224,17 @@ struct UserListView: View {
     
     var body: some View {
         ZStack {
-            if controller.type == .anime {
+            if controller.isUserNotFound {
+                VStack {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .padding(.bottom, 10)
+                    Text("User not found")
+                        .bold()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if controller.type == .anime {
                 animeList
                 if settings.useStatusTabBar {
                     UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())

@@ -70,6 +70,7 @@ class UserListViewController: ObservableObject {
     // Common variables
     @Published var type: TypeEnum = .anime
     @Published var loadingState: LoadingEnum = .loading
+    @Published var isUserNotFound = false
     @Published var isRefreshLoading = false
     @Published var isEditError = false
     private let user: String
@@ -349,6 +350,7 @@ class UserListViewController: ObservableObject {
     
     // Refresh anime list
     private func refreshAnime(_ clear: Bool = false) async {
+        isUserNotFound = false
         if clear {
             loadingState = .loading
             allAnimeItems = []
@@ -377,6 +379,9 @@ class UserListViewController: ObservableObject {
                 isAnimePrivate = true
                 updateCurrentAnimeCanLoadMore(false)
                 loadingState = .idle
+            } else if case NetworkError.notFound = error {
+                isUserNotFound = true
+                loadingState = .idle
             } else {
                 loadingState = .error
             }
@@ -388,6 +393,7 @@ class UserListViewController: ObservableObject {
     
     // Refresh manga list
     private func refreshManga(_ clear: Bool = false) async {
+        isUserNotFound = false
         isMangaPrivate = false
         updateCurrentMangaPage(1)
         updateCurrentMangaCanLoadMore(true)
@@ -415,6 +421,9 @@ class UserListViewController: ObservableObject {
             if case NetworkError.badStatusCode(403) = error, user != "@me" {
                 isMangaPrivate = true
                 updateCurrentMangaCanLoadMore(false)
+                loadingState = .idle
+            } else if case NetworkError.notFound = error {
+                isUserNotFound = true
                 loadingState = .idle
             } else {
                 loadingState = .error

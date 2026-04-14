@@ -56,6 +56,7 @@ struct AiringScheduleItem: View {
                 .padding(15)
                 .background(Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                 .contextMenu {
                     ShareLink(item: URL(string: "https://myanimelist.net/anime/\(id)")!) {
                         Label("Share", systemImage: "square.and.arrow.up")

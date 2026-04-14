@@ -18,7 +18,7 @@ struct NameText: View {
         self.birthday = birthday
     }
     
-    var text: some View {
+    var body: some View {
         VStack {
             if let english = english {
                 Text(english)
@@ -41,35 +41,33 @@ struct NameText: View {
         .padding(.vertical, 5)
         .frame(maxWidth: .infinity, alignment: .center)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-    
-    var body: some View {
-        text
-            .contextMenu {
-                if let english = english, !english.isEmpty {
-                    Button {
-                        UIPasteboard.general.string = english
-                    } label: {
-                        Text("Copy english name")
-                        Text(english)
-                    }
-                }
-                if let japanese = japanese, !japanese.isEmpty {
-                    Button {
-                        UIPasteboard.general.string = japanese
-                    } label: {
-                        Text("Copy native language name")
-                        Text(japanese)
-                    }
-                }
-                if let birthday = birthday, !birthday.isEmpty {
-                    Button {
-                        UIPasteboard.general.string = birthday
-                    } label: {
-                        Text("Copy birthday")
-                        Text(birthday)
-                    }
+        .contentShape(RoundedRectangle(cornerRadius: 10))
+        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+        .contextMenu {
+            if let english = english, !english.isEmpty {
+                Button {
+                    UIPasteboard.general.string = english
+                } label: {
+                    Text("Copy english name")
+                    Text(english)
                 }
             }
+            if let japanese = japanese, !japanese.isEmpty {
+                Button {
+                    UIPasteboard.general.string = japanese
+                } label: {
+                    Text("Copy native language name")
+                    Text(japanese)
+                }
+            }
+            if let birthday = birthday, !birthday.isEmpty {
+                Button {
+                    UIPasteboard.general.string = birthday
+                } label: {
+                    Text("Copy birthday")
+                    Text(birthday)
+                }
+            }
+        }
     }
 }

@@ -25,7 +25,6 @@ struct ScrollViewLink: View {
             Text(text)
             Spacer()
         }
-        .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
             openURL(URL(string: url)!)
@@ -40,5 +39,6 @@ struct ScrollViewLink: View {
         .padding(.vertical, 10)
         .background(isPressed || isLongPress ? Color(.systemGray4) : (colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .contentShape(RoundedRectangle(cornerRadius: 10))
     }
 }

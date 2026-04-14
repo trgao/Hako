@@ -17,10 +17,14 @@ struct AboutView: View {
             Section("Developer") {
                 Link("Gao Tianrun", destination: URL(string: "https://trgao.github.io")!)
             }
-            Section("Data sources") {
+            Section {
                 Link("MyAnimeList", destination: URL(string: "https://myanimelist.net")!)
                 Link("Jikan API", destination: URL(string: "https://jikan.moe")!)
                 Link("AniList", destination: URL(string: "https://anilist.co/")!)
+            } header: {
+                Text("Data sources")
+            } footer: {
+                Text("Jikan API, which is a third-party service not affiliated with MyAnimeList, is used to fetch data missing from the official API. Occasionally, it may have missing information or its service is down temporarily. These issues are due to the API, not the app itself.")
             }
             Section("Packages") {
                 Link("KeychainAccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)

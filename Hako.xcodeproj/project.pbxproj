@@ -109,7 +109,6 @@
 		EE8B96D12DD097460070DD4E /* MangaGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D02DD097410070DD4E /* MangaGridItem.swift */; };
 		EE8B96D32DD099AC0070DD4E /* MangaListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D22DD099A80070DD4E /* MangaListItem.swift */; };
 		EE8B96D52DD0A8850070DD4E /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */; };
-		EE8BE62E2DFDD37500D09F46 /* LoadingReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */; };
 		EE8BE6302DFDD52600D09F46 /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE62F2DFDD52300D09F46 /* TagItem.swift */; };
 		EE8BE6322DFDD86A00D09F46 /* ReviewDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */; };
 		EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */ = {isa = PBXBuildFile; productRef = EE8E52FB2EDC0F1800B7A316 /* SystemNotification */; };
@@ -362,7 +361,6 @@
 		EE8B96D02DD097410070DD4E /* MangaGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGridItem.swift; sourceTree = "<group>"; };
 		EE8B96D22DD099A80070DD4E /* MangaListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListItem.swift; sourceTree = "<group>"; };
 		EE8B96D42DD0A8820070DD4E /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
-		EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReviews.swift; sourceTree = "<group>"; };
 		EE8BE62F2DFDD52300D09F46 /* TagItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		EE8BE6312DFDD86400D09F46 /* ReviewDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailsView.swift; sourceTree = "<group>"; };
 		EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTintLabelStyle.swift; sourceTree = "<group>"; };
@@ -873,7 +871,6 @@
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
 				EEE7F75D2F8CED26009BFA7D /* LoadingGrid.swift */,
 				EED4118B2DD71AFC00F78170 /* LoadingList.swift */,
-				EE8BE62D2DFDD37500D09F46 /* LoadingReviews.swift */,
 				EEEEA3142DD22CC400302A81 /* ErrorView.swift */,
 				EEF5932E2F0E4C5B00204973 /* SkeletonLoading.swift */,
 			);
@@ -1372,7 +1369,6 @@
 				EE33A4C82BE1766400A98F00 /* GroupDetailsView.swift in Sources */,
 				EEC1B9062BF12928001E08C4 /* TypeEnum.swift in Sources */,
 				EEE7F75C2F8BF23B009BFA7D /* PlaceholderAiringSchedule.swift in Sources */,
-				EE8BE62E2DFDD37500D09F46 /* LoadingReviews.swift in Sources */,
 				EEEBF8562BD2C46B0036E779 /* AnimeGridItem.swift in Sources */,
 				EE63B2E22F7FA0AE003B2413 /* ScheduleViewController.swift in Sources */,
 				EE0C53972BDF5CE800DEB6F1 /* ImageFrame.swift in Sources */,

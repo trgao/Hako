@@ -56,8 +56,8 @@ struct SeasonsView: View {
                     }
                 }
             }
-            .padding(.horizontal, 10)
-            .padding(.bottom, 45)
+            .padding(10)
+            .padding(.bottom, 35)
         }
         .id(controller.sort)
     }

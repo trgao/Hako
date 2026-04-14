@@ -44,6 +44,7 @@ struct UserStatisticsInformation: View {
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(RoundedRectangle(cornerRadius: 10))
+        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             if let content = content {
                 Button {

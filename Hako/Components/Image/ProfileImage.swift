@@ -45,18 +45,12 @@ struct ProfileImage: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 2)
-                    
             } else {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(.gray)
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .shadow(radius: 2)
+                RoundedRectangle(cornerRadius: 10).foregroundStyle(.gray)
             }
         }
+        .frame(width: 80, height: 80)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .task {
             await controller.refresh()
         }
@@ -76,13 +70,14 @@ struct ProfileImage: View {
                                 .padding(.bottom, 50)
                         }
                         label
+                            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                             .contextMenu {
                                 if let inputImage = controller.image {
                                     Button {
                                         let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
                                         imageSaver.writeToPhotoAlbum(image: inputImage)
                                     } label: {
-                                        Label("Save image", systemImage: "square.and.arrow.down")
+                                        Label("Save", systemImage: "square.and.arrow.down")
                                     }
                                 }
                             }

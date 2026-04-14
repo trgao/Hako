@@ -54,7 +54,7 @@ struct AnimeGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
-                    .contentShape(RoundedRectangle(cornerRadius: 10))
+                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                     .contextMenu {
                         if let mean = anime.mean {
                             Label("\(String(mean))", systemImage: "star.fill")

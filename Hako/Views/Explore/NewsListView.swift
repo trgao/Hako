@@ -39,6 +39,7 @@ struct NewsListView: View {
                                         }
                                         .padding(5)
                                     }
+                                    .padding(5)
                                     .contextMenu {
                                         ShareLink(item: URL(string: link)!) {
                                             Label("Share", systemImage: "square.and.arrow.up")

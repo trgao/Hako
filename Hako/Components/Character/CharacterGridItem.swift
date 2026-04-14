@@ -26,7 +26,7 @@ struct CharacterGridItem: View {
         } label: {
             VStack {
                 ImageFrame(id: "character\(id)", imageUrl: imageUrl, imageSize: .medium)
-                    .contentShape(RoundedRectangle(cornerRadius: 10))
+                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                     .contextMenu {
                         ShareLink(item: URL(string: "https://myanimelist.net/character/\(id)")!) {
                             Label("Share", systemImage: "square.and.arrow.up")

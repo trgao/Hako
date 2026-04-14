@@ -60,11 +60,11 @@ struct ImageCarousel: View {
                                     ProgressView()
                                 }
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                                 .frame(
                                     maxWidth: screenSize.width < screenSize.height ?  min(screenSize.width * 4 / 5, 500) : .infinity,
                                     maxHeight: screenSize.width < screenSize.height ? .infinity : min(screenSize.height * 4 / 5, 500)
                                 )
-                                .contentShape(RoundedRectangle(cornerRadius: 10))
                                 .contextMenu {
                                     if let image = images[url], let inputImage = image {
                                         Button {

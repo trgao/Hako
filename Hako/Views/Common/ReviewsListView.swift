@@ -24,7 +24,9 @@ struct ReviewsListView: View {
                 ScrollView {
                     LazyVStack {
                         if controller.loadingState == .loading && controller.reviews.isEmpty {
-                            LoadingReviews(length: 10)
+                            ForEach(0..<10, id: \.self) { _ in
+                                PlaceholderReview()
+                            }
                         } else {
                             ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
                                 ReviewItem(item: item)
@@ -35,16 +37,13 @@ struct ReviewsListView: View {
                                         }
                                     }
                             }
-                            if controller.loadingState == .paginating {
-                                LoadingReviews(length: 3)
-                            }
                         }
                     }
                     .padding(17)
                 }
                 .disabled(controller.loadingState == .loading && controller.reviews.isEmpty)
                 .background(colorScheme == .light ? Color(.systemGray6) : .black)
-                if isRefresh {
+                if isRefresh || controller.loadingState == .paginating {
                     LoadingView()
                 }
             }

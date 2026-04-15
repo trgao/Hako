@@ -17,7 +17,7 @@ struct GeneralView: View {
     
     var body: some View {
         List {
-            Section {
+            Section("General") {
                 PickerRow(title: "Preferred title language", selection: $settings.preferredTitleLanguage, labels: ["Romaji", "English", "Native"], description: settings.preferredTitleLanguage == 0 ? nil : "Some titles might still reflect romaji because of limitations from API and data sources, names are also not changed because of the same reasons")
                 Toggle(isOn: $settings.openLastClosedTab) {
                     Text("Open app with last closed tab")

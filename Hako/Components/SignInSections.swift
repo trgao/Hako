@@ -20,17 +20,14 @@ struct SignInSections: View {
         self.isSettings = isSettings
     }
     
-    private func signIn() {
-        Task {
-            do {
-                isAuthenticating = true
-                try await networker.signIn()
-                isAuthenticating = false
-            } catch {
-                isAuthenticatingError = true
-                isAuthenticating = false
-            }
+    private func signIn() async {
+        isAuthenticating = true
+        do {
+            try await networker.signIn()
+        } catch {
+            isAuthenticatingError = true
         }
+        isAuthenticating = false
     }
     
     var body: some View {
@@ -44,7 +41,9 @@ struct SignInSections: View {
                         Text("You need to sign in to your MyAnimeList account in order to view and edit your anime or manga lists")
                             .multilineTextAlignment(.center)
                         Button("Sign In") {
-                            signIn()
+                            Task {
+                                await signIn()
+                            }
                         }
                         .prominentButtonStyle()
                     }
@@ -62,7 +61,7 @@ struct SignInSections: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .font(.title3)
                                         .bold()
-                                    Text("User profile")
+                                    Text("Profile")
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding(20)

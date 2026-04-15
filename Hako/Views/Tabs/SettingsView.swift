@@ -98,6 +98,7 @@ struct SettingsView: View {
                     }
                 }
             }
+            .padding(.bottom, 10)
             .navigationTitle("Settings")
             .navigationDestination(isPresented: $isProfileActive) {
                 ProfileView()

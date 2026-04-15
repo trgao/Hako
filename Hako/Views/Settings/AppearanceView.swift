@@ -14,7 +14,7 @@ struct AppearanceView: View {
     
     var body: some View {
         List {
-            Section {
+            Section("General") {
                 PickerRow(title: "App theme", selection: $settings.colorScheme, labels: ["System", "Light", "Dark"])
             }
             Section("Accent color") {

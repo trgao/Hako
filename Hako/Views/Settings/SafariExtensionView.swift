@@ -27,6 +27,5 @@ struct SafariExtensionView: View {
             .prominentButtonStyle()
         }
         .padding(40)
-        .navigationTitle("Safari extension")
     }
 }

@@ -14,7 +14,7 @@ struct AppearanceView: View {
     
     var body: some View {
         List {
-            Section("General") {
+            Section {
                 PickerRow(title: "App theme", selection: $settings.colorScheme, labels: ["System", "Light", "Dark"])
             }
             Section("Accent color") {
@@ -120,6 +120,7 @@ struct AppearanceView: View {
                     .disabled(!settings.truncate)
             }
         }
+        .navigationTitle("Appearance")
         .alert("Unable to change app icon", isPresented: $isChangeIconError) {
             Button("Ok") {}
         }

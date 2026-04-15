@@ -43,6 +43,7 @@
 		EE33A4CC2BE176E500A98F00 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */; };
 		EE33A4D02BE1EC9F00A98F00 /* GroupDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */; };
 		EE33A4D22BE1FC0C00A98F00 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */; };
+		EE340AB92F8F958000A87A36 /* JikanAPIStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE340AB82F8F957B00A87A36 /* JikanAPIStatusResponse.swift */; };
 		EE3582692DD8883900E0AF33 /* AltAppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */; };
 		EE35826A2DD8883900E0AF33 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582662DD8883900E0AF33 /* AppIcon.png */; };
 		EE35826B2DD8883900E0AF33 /* AppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE3582672DD8883900E0AF33 /* AppIcon@2x.png */; };
@@ -295,6 +296,7 @@
 		EE33A4CB2BE176E500A98F00 /* GroupsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
 		EE33A4CF2BE1EC9F00A98F00 /* GroupDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsViewController.swift; sourceTree = "<group>"; };
 		EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
+		EE340AB82F8F957B00A87A36 /* JikanAPIStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanAPIStatusResponse.swift; sourceTree = "<group>"; };
 		EE3582632DD8883900E0AF33 /* AltAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AltAppIcon.png; sourceTree = "<group>"; };
 		EE3582642DD8883900E0AF33 /* AltAppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@2x.png"; sourceTree = "<group>"; };
 		EE3582652DD8883900E0AF33 /* AltAppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@3x.png"; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 		EE6F33E02DDC821C009DED2B /* Jikan */ = {
 			isa = PBXGroup;
 			children = (
+				EE340AB82F8F957B00A87A36 /* JikanAPIStatusResponse.swift */,
 				EEB7DE5F2E0D265E00A2C8CC /* JikanRandomItemResponse.swift */,
 				EECC79612CF142D600C1C773 /* JikanUserStatisticsResponse.swift */,
 				EEAA574F2E2CB7D800377906 /* JikanUserFavouritesResponse.swift */,
@@ -1434,6 +1437,7 @@
 				EE2A46712F74DF8300347967 /* Upcoming.swift in Sources */,
 				EE3847232F0CFAC70081A79E /* ViewItem.swift in Sources */,
 				EE9A891A2BEF37A50048DD73 /* Season.swift in Sources */,
+				EE340AB92F8F958000A87A36 /* JikanAPIStatusResponse.swift in Sources */,
 				EEA5E94E2CEE8D4100B2513B /* GeneralView.swift in Sources */,
 				EEFEFD532BF3880D00200AF1 /* pkce.swift in Sources */,
 				EE33A4C62BE16BBE00A98F00 /* SeasonsViewController.swift in Sources */,

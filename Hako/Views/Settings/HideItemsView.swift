@@ -143,5 +143,6 @@ struct HideItemsView: View {
                 }
             }
         }
+        .navigationTitle("Hide items")
     }
 }

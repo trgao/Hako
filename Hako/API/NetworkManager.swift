@@ -312,10 +312,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    func getJikanAPIStatus() async throws -> JikanAPIStatusResponse {
-        return try await getJikanResponse(urlExtend: "", type: JikanAPIStatusResponse.self)
-    }
-    
     func getUserAnimeList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
         return response.data

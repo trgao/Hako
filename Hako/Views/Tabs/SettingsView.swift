@@ -21,18 +21,6 @@ struct SettingsView: View {
         self._isProfileActive = isProfileActive
     }
     
-    // Checking health of Jikan API
-    private func loadJikanStatus() async {
-        isLoadingStatus = true
-        do {
-            let status = try await networker.getJikanAPIStatus()
-            isJikanDown = status.status != nil || status.myanimelistHeartbeat?.status != "HEALTHY" || status.myanimelistHeartbeat?.down == true
-        } catch {
-            isJikanDown = true
-        }
-        isLoadingStatus = false
-    }
-    
     var body: some View {
         NavigationStack {
             List {
@@ -75,36 +63,10 @@ struct SettingsView: View {
                         Label("Feedback", systemImage: "exclamationmark.bubble.fill")
                     }
                 }
-                Section {
-                    HStack {
-                        Label("Jikan API status", systemImage: "cloud.fill")
-                        Spacer()
-                        if isLoadingStatus {
-                            Text("Placeholder")
-                                .skeleton()
-                        } else if isJikanDown {
-                            Text("Degraded")
-                                .foregroundStyle(.orange)
-                                .bold()
-                        } else {
-                            Text("Healthy")
-                                .foregroundStyle(.green)
-                                .bold()
-                        }
-                    }
-                } footer: {
-                    if isJikanDown {
-                        Text("Some parts of the app may not load properly because parts of Jikan API might be down. ")
-                    }
-                }
             }
-            .padding(.bottom, 10)
             .navigationTitle("Settings")
             .navigationDestination(isPresented: $isProfileActive) {
                 ProfileView()
-            }
-            .task {
-                await loadJikanStatus()
             }
         }
         .id(id)

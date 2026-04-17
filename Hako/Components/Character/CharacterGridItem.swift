@@ -39,5 +39,6 @@ struct CharacterGridItem: View {
             }
             .frame(width: 110 * screenRatio)
         }
+        .id(id)
     }
 }

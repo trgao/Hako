@@ -63,6 +63,7 @@ struct AiringScheduleItem: View {
                     }
                 }
             }
+            .id(item.id)
         }
     }
 }

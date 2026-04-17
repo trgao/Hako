@@ -52,7 +52,7 @@ struct MangaDetailsView: View {
                     ScrollView {
                         VStack {
                             VStack {
-                                ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures?.reversed())
+                                ImageCarousel(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, pictures: manga.pictures)
                                 TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, native: manga.alternativeTitles?.ja)
                                 HStack {
                                     Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")

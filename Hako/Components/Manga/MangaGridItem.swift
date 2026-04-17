@@ -83,6 +83,7 @@ struct MangaGridItem: View {
                     .font(.callout)
             }
         }
+        .id(manga.id)
         .padding(5)
     }
 }

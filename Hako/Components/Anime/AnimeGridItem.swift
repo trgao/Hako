@@ -86,6 +86,7 @@ struct AnimeGridItem: View {
                     .font(.callout)
             }
         }
+        .id(anime.id)
         .padding(5)
     }
 }

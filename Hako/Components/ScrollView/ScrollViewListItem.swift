@@ -48,6 +48,8 @@ struct ScrollViewListItem: View {
                     .foregroundStyle(Color(.systemGray2))
             }
         }
+        .id(id)
+        .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             selectedIndex = index
             isPressed = true
@@ -59,7 +61,6 @@ struct ScrollViewListItem: View {
         .padding(.vertical, 10)
         .background(isPressed ? Color(.systemGray4) : (colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground)))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .contentShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
             ShareLink(item: URL(string: url)!) {

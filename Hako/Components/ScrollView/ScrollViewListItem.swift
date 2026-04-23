@@ -48,7 +48,7 @@ struct ScrollViewListItem: View {
                     .foregroundStyle(Color(.systemGray2))
             }
         }
-        .id(id)
+        .id(UUID())
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             selectedIndex = index

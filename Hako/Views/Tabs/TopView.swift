@@ -199,9 +199,9 @@ struct TopView: View {
             if let type = type {
                 controller.type = type
             }
-            if controller.type == .anime, let animeRanking = animeRanking {
+            if type == .anime, let animeRanking = animeRanking {
                 controller.animeRankingType = animeRanking
-            } else if controller.type == .manga, let mangaRanking = mangaRanking {
+            } else if type == .manga, let mangaRanking = mangaRanking {
                 controller.mangaRankingType = mangaRanking
             } else if !isInit {
                 controller.animeRankingType = settings.getAnimeRanking()

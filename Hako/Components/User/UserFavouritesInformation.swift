@@ -58,8 +58,5 @@ struct UserFavouritesInformation: View {
                 }
             }
         }
-        .task {
-            await load()
-        }
     }
 }

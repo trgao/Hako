@@ -66,8 +66,10 @@ struct UserProfileView: View {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
-                    await controller.refresh()
-                    isRefresh = false
+                    if controller.userStatistics == nil || isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
                 }
                 .scrollContentBackground(.hidden)
                 .background {

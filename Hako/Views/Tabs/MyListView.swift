@@ -389,14 +389,14 @@ struct MyListView: View {
             if let type = type {
                 controller.type = type
             }
-            if controller.type == .anime {
+            if type == .anime {
                 if let animeStatus = animeStatus {
                     controller.animeStatus = animeStatus
                 }
                 if let animeSort = animeSort {
                     controller.animeSort = animeSort
                 }
-            } else if controller.type == .manga {
+            } else if type == .manga {
                 if let mangaStatus = mangaStatus {
                     controller.mangaStatus = mangaStatus
                 }

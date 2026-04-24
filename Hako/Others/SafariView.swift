@@ -29,31 +29,27 @@ private struct SafariViewControllerViewModifier: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if settings.safariInApp {
-            content
-                .environment(\.openURL, OpenURLAction { url in
-                    guard let scheme = url.scheme?.lowercased() else {
-                        return .systemAction
-                    }
+        content
+            .environment(\.openURL, OpenURLAction { url in
+                guard let scheme = url.scheme?.lowercased(), settings.safariInApp && !ProcessInfo.processInfo.isMacCatalystApp else {
+                    return .systemAction
+                }
 
-                    if (scheme == "http" || scheme == "https") && url.host != "music.apple.com" {
-                        // Catch any URLs that are about to be opened in an external browser.
-                        // Instead, handle them here and store the URL to reopen in our sheet.
-                        urlToOpen = url
-                        return .handled
-                    } else {
-                        // Let the system open app links
-                        return .systemAction
-                    }
-                })
-                .sheet(isPresented: $urlToOpen.mappedToBool(), onDismiss: {
-                    urlToOpen = nil
-                }, content: {
-                    SafariView(url: urlToOpen!)
-                })
-        } else {
-            content
-        }
+                if (scheme == "http" || scheme == "https") && url.host != "music.apple.com" {
+                    // Catch any URLs that are about to be opened in an external browser.
+                    // Instead, handle them here and store the URL to reopen in our sheet.
+                    urlToOpen = url
+                    return .handled
+                } else {
+                    // Let the system open app links
+                    return .systemAction
+                }
+            })
+            .sheet(isPresented: $urlToOpen.mappedToBool(), onDismiss: {
+                urlToOpen = nil
+            }, content: {
+                SafariView(url: urlToOpen!)
+            })
     }
 }
 

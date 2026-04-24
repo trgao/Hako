@@ -32,6 +32,11 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideExploreCharactersPeople) {
                     Text("Hide explore characters and people")
                 }
+                if settings.replaceTopWithSchedule {
+                    Toggle(isOn: $settings.hideTop) {
+                        Text("Hide top")
+                    }
+                }
                 Toggle(isOn: $settings.hideNews) {
                     Text("Hide news")
                 }

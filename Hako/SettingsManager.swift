@@ -56,6 +56,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideRandom") var hideRandom = false
     @AppStorage("hideExploreAnimeManga") var hideExploreAnimeManga = false
     @AppStorage("hideExploreCharactersPeople") var hideExploreCharactersPeople = false
+    @AppStorage("hideTop") var hideTop = false
     @AppStorage("hideNews") var hideNews = false
     @AppStorage("hideRecentlyViewed") var hideRecentlyViewed = false
     @AppStorage("hideAnimeForYou") var hideAnimeForYou = false

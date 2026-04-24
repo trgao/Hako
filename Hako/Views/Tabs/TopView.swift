@@ -19,7 +19,7 @@ struct TopView: View {
     @Binding private var mangaRanking: RankingEnum?
     private let networker = NetworkManager.shared
     
-    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeRanking: Binding<RankingEnum?>, mangaRanking: Binding<RankingEnum?>) {
+    init(id: Binding<UUID> = .constant(UUID()), type: Binding<TypeEnum?> = .constant(nil), animeRanking: Binding<RankingEnum?> = .constant(nil), mangaRanking: Binding<RankingEnum?> = .constant(nil)) {
         self._id = id
         self._type = type
         self._animeRanking = animeRanking
@@ -67,150 +67,176 @@ struct TopView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
     
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                if controller.type == .anime {
-                    if controller.animeItems.isEmpty {
-                        VStack {
-                            if controller.animeRankingType != .all {
-                                animeRankingText
-                            }
-                            if controller.loadingState == .loading {
-                                LoadingGrid()
-                            } else if controller.loadingState == .error {
-                                ErrorView(refresh: { await controller.refresh() })
-                            } else if controller.loadingState == .idle {
-                                nothingFoundView
-                            }
+    private var content: some View {
+        ZStack {
+            if controller.type == .anime {
+                if controller.animeItems.isEmpty {
+                    VStack {
+                        if controller.animeRankingType != .all {
+                            animeRankingText
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    } else {
-                        ScrollView {
-                            if controller.animeRankingType != .all {
-                                animeRankingText
-                            }
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                                ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
-                                    AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
-                                        .onAppear {
-                                            Task {
-                                                await controller.loadMoreIfNeeded(index: index)
-                                            }
+                        if controller.loadingState == .loading {
+                            LoadingGrid()
+                        } else if controller.loadingState == .error {
+                            ErrorView(refresh: { await controller.refresh() })
+                        } else if controller.loadingState == .idle {
+                            nothingFoundView
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                } else {
+                    ScrollView {
+                        if controller.animeRankingType != .all {
+                            animeRankingText
+                        }
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
+                            ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
+                                AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
                                         }
-                                }
+                                    }
                             }
-                            .padding(10)
+                        }
+                        .padding(10)
+                    }
+                }
+            } else if controller.type == .manga {
+                if controller.mangaItems.isEmpty {
+                    VStack {
+                        if controller.mangaRankingType != .all {
+                            mangaRankingText
+                        }
+                        if controller.loadingState == .loading {
+                            LoadingGrid()
+                        } else if controller.loadingState == .error {
+                            ErrorView(refresh: { await controller.refresh() })
+                        } else if controller.loadingState == .idle {
+                            nothingFoundView
                         }
                     }
-                } else if controller.type == .manga {
-                    if controller.mangaItems.isEmpty {
-                        VStack {
-                            if controller.mangaRankingType != .all {
-                                mangaRankingText
-                            }
-                            if controller.loadingState == .loading {
-                                LoadingGrid()
-                            } else if controller.loadingState == .error {
-                                ErrorView(refresh: { await controller.refresh() })
-                            } else if controller.loadingState == .idle {
-                                nothingFoundView
-                            }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                } else {
+                    ScrollView {
+                        if controller.mangaRankingType != .all {
+                            mangaRankingText
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    } else {
-                        ScrollView {
-                            if controller.mangaRankingType != .all {
-                                mangaRankingText
-                            }
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                                ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
-                                    MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
-                                        .onAppear {
-                                            Task {
-                                                await controller.loadMoreIfNeeded(index: index)
-                                            }
+                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
+                            ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
+                                MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
+                                    .onAppear {
+                                        Task {
+                                            await controller.loadMoreIfNeeded(index: index)
                                         }
-                                }
+                                    }
                             }
-                            .padding(10)
                         }
+                        .padding(10)
                     }
-                }
-                if isRefresh || controller.loadingState == .paginating {
-                    LoadingView()
                 }
             }
-            .navigationTitle("Top \(controller.type.rawValue)")
-            .refreshable {
-                isRefresh = true
-            }
-            .task(id: isRefresh) {
-                if controller.isItemsEmpty() || isRefresh {
-                    await controller.refresh()
-                    isRefresh = false
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Menu {
-                        Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
-                            ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
-                                Label(type.toString(), systemImage: type.toIcon()).tag(type)
-                            }
-                        }
-                        .pickerStyle(.inline)
-                    } label: {
-                        Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
-                            .labelStyle(.iconOnly)
-                    }
-                    .onChange(of: controller.animeRankingType) {
-                        if isInit {
-                            Task {
-                                await controller.refresh(true)
-                            }
-                        }
-                    }
-                    .onChange(of: controller.mangaRankingType) {
-                        if isInit {
-                            Task {
-                                await controller.refresh(true)
-                            }
-                        }
-                    }
-                    .disabled(controller.isLoading())
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
-                        .onChange(of: controller.type) {
-                            if controller.isItemsEmpty() {
-                                // Loading state is changed here to prevent brief flickering of nothing found view
-                                controller.loadingState = .loading
-                                Task {
-                                    await controller.refresh()
-                                }
-                            }
-                        }
-                }
+            if isRefresh || controller.loadingState == .paginating {
+                LoadingView()
             }
         }
-        .id(id)
-        .task(id: id) {
-            if let type = type {
-                controller.type = type
+        .navigationTitle("Top \(controller.type.rawValue)")
+        .refreshable {
+            isRefresh = true
+        }
+        .toolbar {
+            ToolbarItem(placement: settings.replaceTopWithSchedule ? .topBarTrailing : .topBarLeading) {
+                Menu {
+                    Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
+                        ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
+                            Label(type.toString(), systemImage: type.toIcon()).tag(type)
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
+                        .labelStyle(.iconOnly)
+                }
+                .onChange(of: controller.animeRankingType) {
+                    if isInit {
+                        Task {
+                            await controller.refresh(true)
+                        }
+                    }
+                }
+                .onChange(of: controller.mangaRankingType) {
+                    if isInit {
+                        Task {
+                            await controller.refresh(true)
+                        }
+                    }
+                }
+                .disabled(controller.isLoading())
             }
-            if type == .anime, let animeRanking = animeRanking {
-                controller.animeRankingType = animeRanking
-            } else if type == .manga, let mangaRanking = mangaRanking {
-                controller.mangaRankingType = mangaRanking
-            } else if !isInit {
-                controller.animeRankingType = settings.getAnimeRanking()
-                controller.mangaRankingType = settings.getMangaRanking()
+            ToolbarItem(placement: .topBarTrailing) {
+                AnimeMangaToggle(type: $controller.type, isLoading: controller.isLoading())
+                    .onChange(of: controller.type) {
+                        if controller.isItemsEmpty() {
+                            // Loading state is changed here to prevent brief flickering of nothing found view
+                            controller.loadingState = .loading
+                            Task {
+                                await controller.refresh()
+                            }
+                        }
+                    }
             }
-            type = nil
-            animeRanking = nil
-            mangaRanking = nil
-            isInit = true
+        }
+    }
+    
+    var body: some View {
+        if settings.replaceTopWithSchedule {
+            content
+                .task(id: isRefresh) {
+                    if let type = type {
+                        controller.type = type
+                    }
+                    if type == .anime, let animeRanking = animeRanking {
+                        controller.animeRankingType = animeRanking
+                    } else if type == .manga, let mangaRanking = mangaRanking {
+                        controller.mangaRankingType = mangaRanking
+                    } else if !isInit {
+                        controller.animeRankingType = settings.getAnimeRanking()
+                        controller.mangaRankingType = settings.getMangaRanking()
+                    }
+                    isInit = true
+                    if controller.isItemsEmpty() || isRefresh {
+                        await controller.refresh()
+                        isRefresh = false
+                    }
+                }
+        } else {
+            NavigationStack {
+                content
+                    .task(id: isRefresh) {
+                        if controller.isItemsEmpty() || isRefresh {
+                            await controller.refresh()
+                            isRefresh = false
+                        }
+                    }
+            }
+            .id(id)
+            .task(id: id) {
+                if let type = type {
+                    controller.type = type
+                }
+                if type == .anime, let animeRanking = animeRanking {
+                    controller.animeRankingType = animeRanking
+                } else if type == .manga, let mangaRanking = mangaRanking {
+                    controller.mangaRankingType = mangaRanking
+                } else if !isInit {
+                    controller.animeRankingType = settings.getAnimeRanking()
+                    controller.mangaRankingType = settings.getMangaRanking()
+                }
+                type = nil
+                animeRanking = nil
+                mangaRanking = nil
+                isInit = true
+            }
         }
     }
 }

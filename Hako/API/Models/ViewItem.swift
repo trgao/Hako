@@ -9,11 +9,13 @@ import Foundation
 
 struct ViewItem: Hashable {
     let type: ViewTypeEnum
-    let id: Int
+    var id: Int = 0
     var name: String? = nil
-    var listType: TypeEnum? = nil
+    var itemType: TypeEnum? = nil
     var animeStatus: StatusEnum? = nil
     var animeSort: SortEnum? = nil
     var mangaStatus: StatusEnum? = nil
     var mangaSort: SortEnum? = nil
+    var animeRanking: RankingEnum? = nil
+    var mangaRanking: RankingEnum? = nil
 }

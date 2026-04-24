@@ -96,6 +96,43 @@ struct ExploreView: View {
         }
     }
     
+    @ViewBuilder private var exploreTopNews: some View {
+        if dynamicTypeSize <= .xxLarge {
+            HStack {
+                if settings.replaceTopWithSchedule && !settings.hideTop {
+                    ExploreBox(title: "Top", image: "medal.fill") {
+                        TopView()
+                    }
+                }
+                if settings.replaceTopWithSchedule && !settings.hideTop && !settings.hideNews {
+                    Spacer()
+                }
+                if !settings.hideNews {
+                    ExploreBox(title: "News", image: "newspaper.fill") {
+                        NewsListView()
+                    }
+                }
+            }
+            .padding(.horizontal, 17)
+            Spacer()
+        } else {
+            if settings.replaceTopWithSchedule && !settings.hideTop {
+                ExploreBox(title: "Top", image: "medal.fill") {
+                    TopView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            }
+            if !settings.hideNews {
+                ExploreBox(title: "News", image: "newspaper.fill") {
+                    NewsListView()
+                }
+                .padding(.horizontal, 17)
+                Spacer()
+            }
+        }
+    }
+    
     private var exploreView: some View {
         ScrollView {
             VStack {
@@ -106,13 +143,7 @@ struct ExploreView: View {
                     if !settings.hideExploreCharactersPeople {
                         exploreCharactersPeople
                     }
-                    if !settings.hideNews {
-                        ExploreBox(title: "News", image: "newspaper.fill") {
-                            NewsListView()
-                        }
-                        .padding(.horizontal, 17)
-                        Spacer()
-                    }
+                    exploreTopNews
                 }
                 Spacer()
                 if !settings.hideRecentlyViewed && !settings.recentlyViewedItems.isEmpty {
@@ -440,6 +471,7 @@ struct ExploreView: View {
             }
             .navigationDestination(for: ViewItem.self) { item in
                 switch item.type {
+                case .top: TopView(type: .constant(item.itemType), animeRanking: .constant(item.animeRanking), mangaRanking: .constant(item.mangaRanking))
                 case .anime: AnimeDetailsView(id: item.id)
                 case .manga: MangaDetailsView(id: item.id)
                 case .character: CharacterDetailsView(id: item.id)
@@ -455,7 +487,7 @@ struct ExploreView: View {
                 case .explorePeople: ExplorePeopleView()
                 case .exploreStudios: StudiosListView()
                 case .exploreMagazines: MagazinesListView()
-                case .userlist: UserListView(user: item.name ?? "", type: item.listType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
+                case .userlist: UserListView(user: item.name ?? "", type: item.itemType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
                 case .profile: UserProfileView(user: item.name ?? "")
                 }
             }

@@ -119,8 +119,9 @@ struct MainView: View {
         
         self.url = nil
         if page == "top" {
-            tab = 0
-            topId = UUID()
+            var topType: TypeEnum?
+            var animeRanking: RankingEnum?
+            var mangaRanking: RankingEnum?
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 if type == "anime" {
                     topType = .anime
@@ -133,6 +134,17 @@ struct MainView: View {
                         mangaRanking = ranking
                     }
                 }
+            }
+            if settings.replaceTopWithSchedule {
+                tab = 2
+                exploreId = UUID()
+                explorePath = [ViewItem(type: .top, itemType: topType, animeRanking: animeRanking, mangaRanking: mangaRanking)]
+            } else {
+                tab = 0
+                topId = UUID()
+                self.topType = topType
+                self.animeRanking = animeRanking
+                self.mangaRanking = mangaRanking
             }
         } else if page == "seasons" {
             tab = 1
@@ -151,28 +163,28 @@ struct MainView: View {
             } else if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 isSearchPresented = false
                 if type == "anime" {
-                    explorePath.append(ViewItem(type: .exploreAnime, id: 1))
+                    explorePath.append(ViewItem(type: .exploreAnime))
                 } else if type == "manga" {
-                    explorePath.append(ViewItem(type: .exploreManga, id: 1))
+                    explorePath.append(ViewItem(type: .exploreManga))
                 } else if type == "characters" {
-                    explorePath.append(ViewItem(type: .exploreCharacters, id: 1))
+                    explorePath.append(ViewItem(type: .exploreCharacters))
                 } else if type == "people" {
-                    explorePath.append(ViewItem(type: .explorePeople, id: 1))
+                    explorePath.append(ViewItem(type: .explorePeople))
                 } else if type == "studios" {
-                    explorePath.append(ViewItem(type: .exploreStudios, id: 1))
+                    explorePath.append(ViewItem(type: .exploreStudios))
                 } else if type == "magazines" {
-                    explorePath.append(ViewItem(type: .exploreMagazines, id: 1))
+                    explorePath.append(ViewItem(type: .exploreMagazines))
                 }
             }
         } else if page == "mylist" {
-            var listType: TypeEnum?
+            var itemType: TypeEnum?
             var animeStatus: StatusEnum?
             var animeSort: SortEnum?
             var mangaStatus: StatusEnum?
             var mangaSort: SortEnum?
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 if type == "anime" {
-                    listType = .anime
+                    itemType = .anime
                     if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .reading && status != .planToRead {
                         animeStatus = status
                     }
@@ -180,7 +192,7 @@ struct MainView: View {
                         animeSort = sort
                     }
                 } else if type == "manga" {
-                    listType = .manga
+                    itemType = .manga
                     if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .watching && status != .planToWatch {
                         mangaStatus = status
                     }
@@ -193,11 +205,11 @@ struct MainView: View {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: .userlist, id: 1, name: user, listType: listType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
+                explorePath.append(ViewItem(type: .userlist, name: user, itemType: itemType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
             } else {
                 tab = 3
                 listId = UUID()
-                self.listType = listType
+                self.listType = itemType
                 self.animeStatus = animeStatus
                 self.animeSort = animeSort
                 self.mangaStatus = mangaStatus
@@ -210,7 +222,7 @@ struct MainView: View {
             tab = 2
             exploreId = UUID()
             isSearchPresented = false
-            explorePath.append(ViewItem(type: .news, id: 1))
+            explorePath.append(ViewItem(type: .news))
         } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
             if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && page == "genre" {
                 tab = 2
@@ -238,7 +250,7 @@ struct MainView: View {
                 tab = 2
                 exploreId = UUID()
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: .profile, id: 1, name: user))
+                explorePath.append(ViewItem(type: .profile, name: user))
             }
         }
     }

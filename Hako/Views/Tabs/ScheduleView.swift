@@ -123,6 +123,7 @@ struct ScheduleView: View {
             }
         }
         .navigationTitle("Weekly schedule")
+        .navigationBarTitleDisplayMode(settings.replaceTopWithSchedule ? .large : .inline)
         .refreshable {
             isRefresh = true
         }

@@ -10,6 +10,7 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 
 * View current top animes/mangas
 * View animes airing in a specified season
+* View the weekly schedule for airing anime
 * Search for a particular anime/manga
 * View, edit, add and remove animes/mangas on user's list by logging in to MyAnimeList account
 * Customise how the app looks
@@ -20,6 +21,5 @@ This is a project that I used to learn Swift and iOS app development. Used the M
 ## Things to be done
 
 * Try adding notifications for upcoming episode
-* Try playing with live activities/widgets
+* Try playing with widgets/live activity
 * Add list items to spotlight search
-* Find best way to get data and display for weekly/daily schedule

@@ -54,6 +54,7 @@ struct MangaGridItem: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
+                    .contentShape(RoundedRectangle(cornerRadius: 10))
                     .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
                     .contextMenu {
                         if let mean = manga.mean {

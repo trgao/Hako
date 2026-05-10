@@ -546,13 +546,6 @@
 				EEDBDB642C07547300F2E821 /* ReducedSpaceLabelStyle.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */,
-				EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */,
-				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
-				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
-				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
-				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
-				EE45CD992EACB61700DED576 /* UIImageExtension.swift */,
-				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -661,6 +654,7 @@
 				EEFEFD4F2BF375C500200AF1 /* Info.plist */,
 				EE3582622DD887CE00E0AF33 /* AppIcons */,
 				EE0C539A2BDF773100DEB6F1 /* Others */,
+				EED406902FB04073003D50A2 /* Extensions */,
 				EE3A59D82BD24544009E9F79 /* Controllers */,
 				EE3A59CB2BD23F16009E9F79 /* Enums */,
 				EE3A59B92BD21DB2009E9F79 /* API */,
@@ -1160,6 +1154,20 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		EED406902FB04073003D50A2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EEE1FA032EE32DCB0045B7B5 /* ArrayExtension.swift */,
+				EE00FE052E2292C8001A3836 /* ViewExtension.swift */,
+				EE960E802DD389B900E4EDC9 /* SequenceExtension.swift */,
+				EECC79652CF14CA900C1C773 /* StringExtension.swift */,
+				EEEEA31E2DD336DE00302A81 /* DateExtension.swift */,
+				EE45CD992EACB61700DED576 /* UIImageExtension.swift */,
+				EE884C592BFDF29400E8B8CD /* BindingExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1540,7 +1548,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.8.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1577,7 +1585,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.8.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1743,7 +1751,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1779,7 +1787,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 1.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.trgao.hako;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

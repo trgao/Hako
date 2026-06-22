@@ -46,7 +46,7 @@ struct MangaInformation: View {
                             GroupsListView(title: "Serialization", items: serialization.map{ $0.node }, group: "magazines", type: .manga)
                         }
                     }
-                    if let genres = manga.genres, !genres.isEmpty {
+                    if let genres = manga.genres?.filter({ $0.name != "Eligible Titles for You Should Read This" }), !genres.isEmpty {
                         ScrollViewNavigationLink(title: "Genres", items: genres.map{ $0.name }) {
                             GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
                         }

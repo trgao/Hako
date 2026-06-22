@@ -100,6 +100,8 @@ struct SeasonsView: View {
                                 controller.loadingState = .loading
                                 Task {
                                     await controller.refresh()
+                                    // Reset navigation stack so that large navigation title can display if season is empty
+                                    id = UUID()
                                 }
                             }
                         }
@@ -158,6 +160,8 @@ struct SeasonsView: View {
                                 if year == nil && season == nil {
                                     Task {
                                         await controller.refresh(true)
+                                        // Reset navigation stack so that large navigation title can display if season is empty
+                                        id = UUID()
                                     }
                                 }
                             }

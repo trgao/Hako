@@ -75,7 +75,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
     @AppStorage("hideAnimeInformation") var hideAnimeInformation = false
     @AppStorage("hideUpcoming") var hideUpcoming = false
-    @AppStorage("hideTrailers") var hideTrailers = false
+    @AppStorage("hideTrailers") var hideTrailers = Locale.current.region?.identifier == "CN"
     @AppStorage("hideAnimeCharacters") var hideAnimeCharacters = false
     @AppStorage("hideStaffs") var hideStaffs = false
     @AppStorage("hideAnimeRelated") var hideAnimeRelated = false

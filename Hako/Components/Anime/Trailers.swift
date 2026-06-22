@@ -59,7 +59,6 @@ struct Trailers: View {
                         })
                         .frame(width: 300 * screenRatio, height: 170 * screenRatio)
                         .cornerRadius(10)
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 0.2))
                         .padding(5)
                     }
                 }

@@ -52,7 +52,7 @@ struct AnimeInformation: View {
                             GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)
                         }
                     }
-                    if let genres = anime.genres, !genres.isEmpty {
+                    if let genres = anime.genres?.filter({ $0.name != "Eligible Titles for You Should Read This" }), !genres.isEmpty {
                         ScrollViewNavigationLink(title: "Genres", items: genres.map{ $0.name }) {
                             GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
                         }

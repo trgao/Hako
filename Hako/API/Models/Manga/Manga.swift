@@ -10,7 +10,7 @@ import Foundation
 struct Manga: Codable, Identifiable {
     let id: Int
     let title: String
-    let mainPicture: MainPicture?
+    let mainPicture: Picture?
     let pictures: [Picture]?
     let alternativeTitles: AlternativeTitles?
     let startDate: Date?
@@ -35,7 +35,7 @@ struct Manga: Codable, Identifiable {
         self.id = id
         self.title = title
         self.alternativeTitles = AlternativeTitles(ja: jaTitle, en: enTitle)
-        self.mainPicture = MainPicture(medium: imageUrl, large: imageUrl)
+        self.mainPicture = Picture(medium: imageUrl, large: imageUrl)
         self.pictures = nil
         self.startDate = nil
         self.endDate = nil
@@ -60,7 +60,7 @@ struct Manga: Codable, Identifiable {
         self.id = item.id
         self.title = item.title ?? ""
         self.alternativeTitles = AlternativeTitles(ja: item.titleJapanese, en: item.titleEnglish)
-        self.mainPicture = MainPicture(medium: item.images?.jpg?.imageUrl, large: item.images?.jpg?.largeImageUrl)
+        self.mainPicture = Picture(images: item.images)
         self.pictures = nil
         self.startDate = nil
         self.endDate = nil

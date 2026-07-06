@@ -133,7 +133,6 @@
 		EE960E872DD38ECE00E4EDC9 /* ThemeSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE960E862DD38ECB00E4EDC9 /* ThemeSongs.swift */; };
 		EE960E892DD3923B00E4EDC9 /* StaffsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */; };
 		EE9752202BF3A9BF00C9DCF5 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = EE97521F2BF3A9BF00C9DCF5 /* KeychainAccess */; };
-		EE9A89162BEF35A10048DD73 /* MainPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A89152BEF35A10048DD73 /* MainPicture.swift */; };
 		EE9A891A2BEF37A50048DD73 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A89192BEF37A50048DD73 /* Season.swift */; };
 		EE9A891C2BEF38990048DD73 /* MALItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A891B2BEF38990048DD73 /* MALItem.swift */; };
 		EE9A891E2BEF39790048DD73 /* JikanListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9A891D2BEF39790048DD73 /* JikanListItem.swift */; };
@@ -384,7 +383,6 @@
 		EE960E862DD38ECB00E4EDC9 /* ThemeSongs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSongs.swift; sourceTree = "<group>"; };
 		EE960E882DD3923B00E4EDC9 /* StaffsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffsListView.swift; sourceTree = "<group>"; };
 		EE98523F2F167C1A00725D6D /* Hako.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hako.entitlements; sourceTree = "<group>"; };
-		EE9A89152BEF35A10048DD73 /* MainPicture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPicture.swift; sourceTree = "<group>"; };
 		EE9A89192BEF37A50048DD73 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		EE9A891B2BEF38990048DD73 /* MALItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALItem.swift; sourceTree = "<group>"; };
 		EE9A891D2BEF39790048DD73 /* JikanListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanListItem.swift; sourceTree = "<group>"; };
@@ -833,7 +831,6 @@
 			isa = PBXGroup;
 			children = (
 				EE9A891F2BEF3C6C0048DD73 /* AlternativeTitles.swift */,
-				EE9A89152BEF35A10048DD73 /* MainPicture.swift */,
 				EEBC7B172E2248B900AF83BB /* Picture.swift */,
 				EE3A59C32BD23BDC009E9F79 /* Images.swift */,
 				EEDB8FE22BEBCD2B00EAA985 /* Related.swift */,
@@ -1423,7 +1420,6 @@
 				EEB7DE662E0D2AD500A2C8CC /* RandomPersonView.swift in Sources */,
 				EECC79642CF1443B00C1C773 /* UserProfileViewController.swift in Sources */,
 				EE10719B2E042D4900666452 /* AnimeProgress.swift in Sources */,
-				EE9A89162BEF35A10048DD73 /* MainPicture.swift in Sources */,
 				EE884C5A2BFDF29400E8B8CD /* BindingExtension.swift in Sources */,
 				EE3A59B32BD217D9009E9F79 /* SettingsView.swift in Sources */,
 				EE78547A2F6EA518005D97EE /* RelatedGridView.swift in Sources */,

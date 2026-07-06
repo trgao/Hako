@@ -13,7 +13,6 @@ class ReviewsListViewController: ObservableObject {
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true
-    private var ids: Set<Int> = []
     private let id: Int
     private let type: TypeEnum
     private let networker = NetworkManager.shared
@@ -27,11 +26,9 @@ class ReviewsListViewController: ObservableObject {
     func refresh() async {
         loadingState = .loading
         currentPage = 1
-        ids = []
         canLoadMorePages = false
         do {
             var reviewsList: [Review] = []
-            var results: [Review] = []
             if type == .anime {
                 reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
             } else if type == .manga {
@@ -39,13 +36,7 @@ class ReviewsListViewController: ObservableObject {
             }
             currentPage = 2
             canLoadMorePages = !reviewsList.isEmpty
-            for item in reviewsList {
-                if !ids.contains(item.id) {
-                    ids.insert(item.id)
-                    results.append(item)
-                }
-            }
-            reviews = results
+            reviews = reviewsList
             loadingState = .idle
         } catch {
             loadingState = .error
@@ -62,7 +53,6 @@ class ReviewsListViewController: ObservableObject {
         loadingState = .paginating
         do {
             var reviewsList: [Review] = []
-            var results: [Review] = []
             if type == .anime {
                 reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
             } else if type == .manga {
@@ -70,13 +60,7 @@ class ReviewsListViewController: ObservableObject {
             }
             currentPage += 1
             canLoadMorePages = !reviewsList.isEmpty
-            for item in reviewsList {
-                if !ids.contains(item.id) {
-                    ids.insert(item.id)
-                    results.append(item)
-                }
-            }
-            reviews.append(contentsOf: results)
+            reviews.append(contentsOf: reviewsList)
         } catch {}
         loadingState = .idle
     }

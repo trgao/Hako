@@ -11,7 +11,6 @@ import Foundation
 class ExplorePeopleViewController: ObservableObject {
     @Published var people: [JikanListItem] = []
     @Published var loadingState: LoadingEnum = .loading
-    private var ids: Set<Int> = []
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
@@ -19,21 +18,13 @@ class ExplorePeopleViewController: ObservableObject {
     // Refresh the people list page
     func refresh() async {
         loadingState = .loading
-        ids = []
         currentPage = 1
         canLoadMorePages = true
         do {
             let peopleList = try await networker.getPeople(page: currentPage)
-            var results: [JikanListItem] = []
             currentPage = 2
             canLoadMorePages = !peopleList.isEmpty
-            for item in peopleList {
-                if !ids.contains(item.id) {
-                    ids.insert(item.id)
-                    results.append(item)
-                }
-            }
-            people = results
+            people = peopleList
             loadingState = .idle
         } catch {
             loadingState = .error
@@ -49,16 +40,9 @@ class ExplorePeopleViewController: ObservableObject {
         
         loadingState = .paginating
         if let peopleList = try? await networker.getPeople(page: currentPage) {
-            var results: [JikanListItem] = []
             currentPage += 1
             canLoadMorePages = !peopleList.isEmpty
-            for item in peopleList {
-                if !ids.contains(item.id) {
-                    ids.insert(item.id)
-                    results.append(item)
-                }
-            }
-            people.append(contentsOf: results)
+            people.append(contentsOf: peopleList)
         }
         loadingState = .idle
     }

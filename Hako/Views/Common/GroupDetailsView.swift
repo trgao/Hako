@@ -18,7 +18,7 @@ struct GroupDetailsView: View {
     
     init(title: String?, group: String, id: Int, type: TypeEnum) {
         self.title = title
-        self.group = String(group.dropLast())
+        self.group = String(group.dropLast()) // Remove 's' from group
         self.id = id
         self.type = type
         self._controller = StateObject(wrappedValue: GroupDetailsViewController(group: group, id: id, type: type))

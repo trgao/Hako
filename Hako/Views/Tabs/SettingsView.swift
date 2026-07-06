@@ -63,6 +63,11 @@ struct SettingsView: View {
                         Label("Feedback", systemImage: "exclamationmark.bubble.fill")
                     }
                 }
+                Section {
+                    Link(destination: URL(string: "https://tenrai.org/status")!) {
+                        Label("API status", systemImage: "exclamationmark.icloud.fill")
+                    }
+                }
             }
             .navigationTitle("Settings")
             .navigationDestination(isPresented: $isProfileActive) {

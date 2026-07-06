@@ -25,16 +25,13 @@ struct ImageCarousel: View {
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id
         self.imageUrl = imageUrl
-        if let imageUrl = imageUrl {
-            self.pictures = [Picture(medium: imageUrl, large: nil)] + (pictures?.filter {
-                let url = (imageUrl as NSString?)?.deletingPathExtension
-                let medium = ($0.medium as NSString?)?.deletingPathExtension
-                let large = ($0.large as NSString?)?.deletingPathExtension
-                return medium != url && large != url
-            } ?? [])
-        } else {
-            self.pictures = pictures ?? []
-        }
+        let finalImageUrl = imageUrl ?? "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png"
+        self.pictures = [Picture(medium: finalImageUrl, large: finalImageUrl)] + (pictures?.filter {
+            let url = (imageUrl as NSString?)?.deletingPathExtension
+            let medium = ($0.medium as NSString?)?.deletingPathExtension
+            let large = ($0.large as NSString?)?.deletingPathExtension
+            return medium != url && large != url
+        } ?? [])
     }
     
     private var image: some View {

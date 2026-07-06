@@ -68,7 +68,7 @@ class ExploreViewController: ObservableObject {
         
         suggestionsLoadingState = .loading
         do {
-            self.animeSuggestions = try await networker.getUserAnimeSuggestionList()
+            animeSuggestions = try await networker.getUserAnimeSuggestionList()
             suggestionsLoadingState = .idle
         } catch {
             suggestionsLoadingState = .error
@@ -83,7 +83,7 @@ class ExploreViewController: ObservableObject {
         
         airingLoadingState = .loading
         do {
-            self.topAiringAnime = try await networker.getAnimeTopAiringList()
+            topAiringAnime = try await networker.getAnimeTopAiringList()
             airingLoadingState = .idle
         } catch {
             airingLoadingState = .error
@@ -98,7 +98,7 @@ class ExploreViewController: ObservableObject {
         
         upcomingLoadingState = .loading
         do {
-            self.topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
+            topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
             upcomingLoadingState = .idle
         } catch {
             upcomingLoadingState = .error
@@ -113,19 +113,8 @@ class ExploreViewController: ObservableObject {
         
         newAnimeLoadingState = .loading
         do {
-            var ids: Set<Int> = []
-            let newlyAddedAnime = try await networker.getAnimeNewlyAddedList()
-            var toAdd: [JikanListItem] = []
-            for item in newlyAddedAnime {
-                if toAdd.count == 10 {
-                    break
-                }
-                if !ids.contains(item.id) && item.type?.lowercased() != "music" && item.type?.lowercased() != "pv" && item.type?.lowercased() != "cm" {
-                    ids.insert(item.id)
-                    toAdd.append(item)
-                }
-            }
-            self.newlyAddedAnime = toAdd
+            let animeList = try await networker.getAnimeNewlyAddedList()
+            newlyAddedAnime = Array(animeList.filter { $0.type?.lowercased() != "music" && $0.type?.lowercased() != "pv" && $0.type?.lowercased() != "cm" }.prefix(10))
             newAnimeLoadingState = .idle
         } catch {
             newAnimeLoadingState = .error
@@ -140,19 +129,8 @@ class ExploreViewController: ObservableObject {
         
         newMangaLoadingState = .loading
         do {
-            var ids: Set<Int> = []
-            let newlyAddedManga = try await networker.getMangaNewlyAddedList()
-            var toAdd: [JikanListItem] = []
-            for item in newlyAddedManga {
-                if toAdd.count == 10 {
-                    break
-                }
-                if !ids.contains(item.id) {
-                    ids.insert(item.id)
-                    toAdd.append(item)
-                }
-            }
-            self.newlyAddedManga = toAdd
+            let mangaList = try await networker.getMangaNewlyAddedList()
+            newlyAddedManga = Array(mangaList.prefix(10))
             newMangaLoadingState = .idle
         } catch {
             newMangaLoadingState = .error

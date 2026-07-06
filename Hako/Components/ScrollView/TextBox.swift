@@ -92,7 +92,7 @@ struct TextWithSpoilers: View {
     @State private var showing: [Bool]
     
     init(_ text: String) {
-        let regexMatches = text.matches(of: /\[spoiler[^\]]*\]([\s\S]*?)\[\/spoiler\]/)
+        let regexMatches = text.matches(of: /\[Spoiler[^\]]*\]([\s\S]*?)\[\/Spoiler\]/)
         var prev = String.Index(utf16Offset: 0, in: text)
         var texts: [TextSegment] = []
         var showing: [Bool] = []

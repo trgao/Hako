@@ -19,12 +19,13 @@ struct AboutView: View {
             }
             Section {
                 Link("MyAnimeList", destination: URL(string: "https://myanimelist.net")!)
+                Link("Tenrai API", destination: URL(string: "https://tenrai.org")!)
                 Link("Jikan API", destination: URL(string: "https://jikan.moe")!)
                 Link("AniList", destination: URL(string: "https://anilist.co/")!)
             } header: {
                 Text("Data sources")
             } footer: {
-                Text("Jikan API, which is a third-party service not affiliated with MyAnimeList, is used to fetch data missing from the official API. Occasionally, it may have missing information or its service is down temporarily. These issues are due to the API, not the app itself.")
+                Text("Tenrai and Jikan API, which are third-party services not affiliated with MyAnimeList, are used to fetch data missing from the official API. Occasionally, they may have missing information or their services are down temporarily. These issues are due to the API, not the app itself.")
             }
             Section("Packages") {
                 Link("KeychainAccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)

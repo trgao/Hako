@@ -71,7 +71,6 @@ struct GroupDetailsView: View {
                 .task(id: isRefresh) {
                     if isRefresh {
                         await controller.refresh()
-                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }

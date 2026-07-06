@@ -42,6 +42,37 @@ struct ExploreView: View {
         self._urlSearchText = urlSearchText
     }
     
+    private var randomButton: some View {
+        Menu {
+            Section("Random") {
+                NavigationLink {
+                    RandomAnimeView()
+                } label: {
+                    Label("Anime", systemImage: "tv")
+                }
+                NavigationLink {
+                    RandomMangaView()
+                } label: {
+                    Label("Manga", systemImage: "book")
+                }
+                NavigationLink {
+                    RandomCharacterView()
+                } label: {
+                    Label("Character", systemImage: "person.crop.circle")
+                }
+                NavigationLink {
+                    RandomPersonView()
+                } label: {
+                    Label("Person", systemImage: "person")
+                }
+            }
+        } label: {
+            Button {} label: {
+                Image(systemName: "dice")
+            }
+        }
+    }
+    
     @ViewBuilder private var exploreAnimeManga: some View {
         if dynamicTypeSize <= .xxLarge {
             HStack {
@@ -441,32 +472,7 @@ struct ExploreView: View {
             .navigationTitle("Explore")
             .toolbar {
                 if !settings.hideRandom {
-                    Menu {
-                        NavigationLink {
-                            RandomAnimeView()
-                        } label: {
-                            Label("Random anime", systemImage: "tv")
-                        }
-                        NavigationLink {
-                            RandomMangaView()
-                        } label: {
-                            Label("Random manga", systemImage: "book")
-                        }
-                        NavigationLink {
-                            RandomCharacterView()
-                        } label: {
-                            Label("Random character", systemImage: "person.crop.circle")
-                        }
-                        NavigationLink {
-                            RandomPersonView()
-                        } label: {
-                            Label("Random person", systemImage: "person")
-                        }
-                    } label: {
-                        Button {} label: {
-                            Image(systemName: "dice")
-                        }
-                    }
+                    randomButton
                 }
             }
             .navigationDestination(for: ViewItem.self) { item in
@@ -504,42 +510,5 @@ struct ExploreView: View {
             }
         }
         .id(id)
-    }
-}
-
-struct ExploreBox<Destination: View>: View {
-    @Environment(\.screenSize) private var screenSize
-    @EnvironmentObject private var settings: SettingsManager
-    @State private var isPressed = false
-    @State private var isLongPress = false
-    private let title: String
-    private let image: String
-    private let destination: () -> Destination
-
-    init(title: String, image: String, destination: @escaping () -> Destination) {
-        self.title = title
-        self.image = image
-        self.destination = destination
-    }
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Label(title, systemImage: image)
-                .foregroundStyle(settings.getAccentColor())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .bold()
-        }
-        .padding(20)
-        .contentShape(RoundedRectangle(cornerRadius: 10))
-        .onTapGesture {
-            isPressed = true
-        }
-        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
-            isLongPress = pressing
-        }) {}
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }

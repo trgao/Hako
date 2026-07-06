@@ -128,7 +128,7 @@ struct AnimeDetailsView: View {
                                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                                 }
                                 if !settings.hideAnimeReviews {
-                                    Reviews(id: id, type: .anime, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                                    Reviews(id: id, type: .anime, reviews: controller.reviews, width: max(0, geometry.size.width - 34), loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
                                 }
                             }
                         }

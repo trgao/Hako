@@ -47,7 +47,6 @@ struct MagazinesListView: View {
                 .task(id: isRefresh) {
                     if controller.magazines.isEmpty || isRefresh {
                         await controller.refresh()
-                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }

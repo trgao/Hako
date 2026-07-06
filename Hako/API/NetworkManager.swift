@@ -412,22 +412,22 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getStudios(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=count&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=count&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getMagazines(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=count&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=count&sort=desc&limit=100&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getCharacters(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getPeople(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=20&page=\(page)", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
@@ -551,12 +551,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeList(group: String, id: Int, page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/anime?\(group)=\(id)&page=\(page)&order_by=members&sort=desc", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/anime?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: JikanListResponse.self)
         return response.data
     }
     
     func getMangaList(group: String, id: Int, page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/manga?\(group)=\(id)&page=\(page)&order_by=members&sort=desc", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/manga?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: JikanListResponse.self)
         return response.data
     }
     

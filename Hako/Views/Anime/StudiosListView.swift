@@ -47,7 +47,6 @@ struct StudiosListView: View {
                 .task(id: isRefresh) {
                     if controller.studios.isEmpty || isRefresh {
                         await controller.refresh()
-                        await controller.loadMore() // To trigger load more on refresh, especially on bigger screens
                         isRefresh = false
                     }
                 }
@@ -57,6 +56,6 @@ struct StudiosListView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Studios & Producers")
+        .navigationTitle("Studios & producers")
     }
 }

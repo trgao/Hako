@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Reviews: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.screenSize) private var screenSize
     @State private var reviewsPreview: [Review] = []
     private let id: Int
     private let type: TypeEnum

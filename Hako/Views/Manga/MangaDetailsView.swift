@@ -113,7 +113,7 @@ struct MangaDetailsView: View {
                                     Recommendations(mangaRecommendations: manga.recommendations)
                                 }
                                 if !settings.hideMangaReviews {
-                                    Reviews(id: id, type: .manga, reviews: controller.reviews, width: geometry.size.width - 34, loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
+                                    Reviews(id: id, type: .manga, reviews: controller.reviews, width: max(0, geometry.size.width - 34), loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
                                 }
                             }
                         }

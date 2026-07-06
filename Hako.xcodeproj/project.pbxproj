@@ -164,6 +164,7 @@
 		EEB905DA2DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D52DDEF18C00EFC2F2 /* AltAppIcon@2x~ipad.png */; };
 		EEB905DB2DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */; };
 		EEB905DC2DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */; };
+		EEB985872FFBE1B7003F4238 /* ExploreBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB985862FFBE1B7003F4238 /* ExploreBox.swift */; };
 		EEBBB1042DF463F200BA6F8B /* TitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBBB1032DF463F200BA6F8B /* TitleText.swift */; };
 		EEBC7B182E2248BC00AF83BB /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B172E2248B900AF83BB /* Picture.swift */; };
 		EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */; };
@@ -414,6 +415,7 @@
 		EEB905D62DDEF18C00EFC2F2 /* AltAppIcon@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AltAppIcon@3x~ipad.png"; sourceTree = "<group>"; };
 		EEB905D72DDEF18C00EFC2F2 /* AppIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@2x~ipad.png"; sourceTree = "<group>"; };
 		EEB905D82DDEF18C00EFC2F2 /* AppIcon@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon@3x~ipad.png"; sourceTree = "<group>"; };
+		EEB985862FFBE1B7003F4238 /* ExploreBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreBox.swift; sourceTree = "<group>"; };
 		EEBBB1032DF463F200BA6F8B /* TitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleText.swift; sourceTree = "<group>"; };
 		EEBC7B172E2248B900AF83BB /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 		EEBC7B192E22579E00AF83BB /* ImageCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCarousel.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				EEBBB1032DF463F200BA6F8B /* TitleText.swift */,
 				EECECC622DF4BD4300232E8C /* NameText.swift */,
 				EE135E002E05562600F02638 /* TextBox.swift */,
+				EEB985862FFBE1B7003F4238 /* ExploreBox.swift */,
 				EE135DFC2E054A2800F02638 /* ScrollViewSection.swift */,
 				EE94C7642E7C4AC200AF722D /* ScrollViewListSection.swift */,
 				EECA2DF92E7EADF500D6C28B /* ScrollViewListItem.swift */,
@@ -1371,6 +1374,7 @@
 				EE9A89202BEF3C6C0048DD73 /* AlternativeTitles.swift in Sources */,
 				EE45CD9A2EACB61B00DED576 /* UIImageExtension.swift in Sources */,
 				EEDB839E2E76C6CD00B208B2 /* MyListStatus.swift in Sources */,
+				EEB985872FFBE1B7003F4238 /* ExploreBox.swift in Sources */,
 				EE33A4C82BE1766400A98F00 /* GroupDetailsView.swift in Sources */,
 				EEC1B9062BF12928001E08C4 /* TypeEnum.swift in Sources */,
 				EEE7F75C2F8BF23B009BFA7D /* PlaceholderAiringSchedule.swift in Sources */,

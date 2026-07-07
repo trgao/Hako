@@ -540,12 +540,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func searchCharacter(character: String) async throws -> [JikanListItem] {
+    func searchCharacters(character: String) async throws -> [JikanListItem] {
         let response = try await getTenraiResponse(urlExtend: "/characters?q=\(character)&order_by=favorites&sort=desc", type: JikanListResponse.self)
         return response.data
     }
     
-    func searchPerson(person: String) async throws -> [JikanListItem] {
+    func searchPeople(person: String) async throws -> [JikanListItem] {
         let response = try await getTenraiResponse(urlExtend: "/people?q=\(person)&order_by=favorites&sort=desc", type: JikanListResponse.self)
         return response.data
     }

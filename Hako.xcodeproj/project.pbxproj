@@ -710,10 +710,7 @@
 				EE6F33DB2DDC8094009DED2B /* Loading */,
 				EE6F33DE2DDC80F4009DED2B /* List */,
 				EE135DF92E053D0400F02638 /* ScrollView */,
-				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
-				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
-				EE2086432E8BEC8C00F4E8C1 /* TabPicker.swift */,
-				EE8BE62F2DFDD52300D09F46 /* TagItem.swift */,
+				EECA42242FFCB73A0099A19B /* Misc. */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -738,10 +735,7 @@
 				EE91BE5C2BFCAB2D002AC6C4 /* Person */,
 				EECC795E2CF1411A00C1C773 /* User */,
 				EE40F56C2BEF92BE00BB2E79 /* Common */,
-				EE9A891B2BEF38990048DD73 /* MALItem.swift */,
-				EE3D4F5B2EE3E11B00926357 /* ListItem.swift */,
-				EE9A891D2BEF39790048DD73 /* JikanListItem.swift */,
-				EE3847222F0CFAC50081A79E /* ViewItem.swift */,
+				EECA42232FFCB7150099A19B /* Items */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1142,6 +1136,28 @@
 				EEC435962DFEAAF700F36789 /* AniListAiringResponse.swift */,
 			);
 			path = AniList;
+			sourceTree = "<group>";
+		};
+		EECA42232FFCB7150099A19B /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				EE9A891B2BEF38990048DD73 /* MALItem.swift */,
+				EE3D4F5B2EE3E11B00926357 /* ListItem.swift */,
+				EE9A891D2BEF39790048DD73 /* JikanListItem.swift */,
+				EE3847222F0CFAC50081A79E /* ViewItem.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		EECA42242FFCB73A0099A19B /* Misc. */ = {
+			isa = PBXGroup;
+			children = (
+				EE429BDF2DDB2BE800D399BA /* SignInSections.swift */,
+				EE937B8E2BE8CBA100E5F0BE /* AnimeMangaToggle.swift */,
+				EE2086432E8BEC8C00F4E8C1 /* TabPicker.swift */,
+				EE8BE62F2DFDD52300D09F46 /* TagItem.swift */,
+			);
+			path = Misc.;
 			sourceTree = "<group>";
 		};
 		EECC795E2CF1411A00C1C773 /* User */ = {

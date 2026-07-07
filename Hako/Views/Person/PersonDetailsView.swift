@@ -43,7 +43,7 @@ struct PersonDetailsView: View {
                     ScrollView {
                         VStack {
                             VStack {
-                                ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(medium: person.images?.jpg?.imageUrl, large: person.images?.jpg?.largeImageUrl)])
+                                ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(images: person.images)])
                                 if #available(iOS 18.0, *) {
                                     NameText(english: person.name, birthday: person.birthday?.toString())
                                         .onScrollVisibilityChange({ hideTitle = $0 })

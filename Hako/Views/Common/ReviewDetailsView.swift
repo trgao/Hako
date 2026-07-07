@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReviewDetailsView: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.screenSize) private var screenSize
     @State private var showTranslation = false
     private var item: Review
     private let url: URL
@@ -49,6 +50,7 @@ struct ReviewDetailsView: View {
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                         .shadow(radius: 0.5)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -59,10 +61,12 @@ struct ReviewDetailsView: View {
                             } label: {
                                 Label("Copy", systemImage: "document.on.document")
                             }
-                            Button {
-                                showTranslation = true
-                            } label: {
-                                Label("Translate", systemImage: "translate")
+                            if !ProcessInfo.processInfo.isMacCatalystApp {
+                                Button {
+                                    showTranslation = true
+                                } label: {
+                                    Label("Translate", systemImage: "translate")
+                                }
                             }
                         }
                         .translationPresentation(isPresented: $showTranslation,

@@ -319,7 +319,7 @@ struct ExploreView: View {
                                     if controller.isCharacterLoadingError && searchText.count > 2 {
                                         ErrorView(refresh: {
                                             controller.isSearchLoading = true
-                                            await controller.searchCharacter(query: searchText)
+                                            await controller.searchCharacters(query: searchText)
                                             controller.isSearchLoading = false
                                         })
                                         .padding(.vertical, 50)
@@ -336,7 +336,7 @@ struct ExploreView: View {
                                     if controller.isPersonLoadingError && searchText.count > 2 {
                                         ErrorView(refresh: {
                                             controller.isSearchLoading = true
-                                            await controller.searchPerson(query: searchText)
+                                            await controller.searchPeople(query: searchText)
                                             controller.isSearchLoading = false
                                         })
                                         .padding(.vertical, 50)

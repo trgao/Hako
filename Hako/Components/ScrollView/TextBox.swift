@@ -70,10 +70,12 @@ struct TextBox: View {
                     } label: {
                         Label("Copy", systemImage: "document.on.document")
                     }
-                    Button {
-                        showTranslation = true
-                    } label: {
-                        Label("Translate", systemImage: "translate")
+                    if !ProcessInfo.processInfo.isMacCatalystApp {
+                        Button {
+                            showTranslation = true
+                        } label: {
+                            Label("Translate", systemImage: "translate")
+                        }
                     }
                 }
             }

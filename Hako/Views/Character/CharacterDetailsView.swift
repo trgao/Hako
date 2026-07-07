@@ -35,7 +35,7 @@ struct CharacterDetailsView: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(medium: character.images?.jpg?.imageUrl, large: character.images?.jpg?.largeImageUrl)])
+                            ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(images: character.images)])
                             if #available(iOS 18.0, *) {
                                 NameText(english: character.name, japanese: character.nameKanji)
                                     .onScrollVisibilityChange({ hideTitle = $0 })

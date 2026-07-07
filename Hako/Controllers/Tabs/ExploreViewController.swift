@@ -150,8 +150,8 @@ class ExploreViewController: ObservableObject {
 
         await searchAnime(query: query)
         await searchManga(query: query)
-        await searchCharacter(query: query)
-        await searchPerson(query: query)
+        await searchCharacters(query: query)
+        await searchPeople(query: query)
         
         // Only stop loading when all api calls are completely finished
         if !Task.isCancelled {
@@ -168,7 +168,6 @@ class ExploreViewController: ObservableObject {
         isMangaLoadingError = false
         isCharacterLoadingError = false
         isPersonLoadingError = false
-        
         isSearchLoading = false
         isRefreshLoading = false
     }
@@ -213,10 +212,10 @@ class ExploreViewController: ObservableObject {
         }
     }
     
-    func searchCharacter(query: String) async {
+    func searchCharacters(query: String) async {
         isCharacterLoadingError = false
         do {
-            self.characterItems = try await networker.searchCharacter(character: query)
+            self.characterItems = try await networker.searchCharacters(character: query)
         } catch {
             if !Task.isCancelled && !(error is CancellationError) {
                 isCharacterLoadingError = true
@@ -224,10 +223,10 @@ class ExploreViewController: ObservableObject {
         }
     }
     
-    func searchPerson(query: String) async {
+    func searchPeople(query: String) async {
         isPersonLoadingError = false
         do {
-            self.personItems = try await networker.searchPerson(person: query)
+            self.personItems = try await networker.searchPeople(person: query)
         } catch {
             if !Task.isCancelled && !(error is CancellationError) {
                 isPersonLoadingError = true

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ErrorView: View {
-    @Environment(\.screenSize) private var screenSize
     private let refresh: () async -> Void
 
     init(refresh: @escaping () async -> Void) {

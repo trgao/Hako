@@ -31,7 +31,6 @@ struct AiringScheduleItem: View {
                     VStack(alignment: .leading) {
                         Text(title)
                             .lineLimit(settings.getLineLimit())
-                            .bold()
                         let currentTime = Int(Date().timeIntervalSince1970)
                         if isAiringNext {
                             TagItem(text: "Airing next", systemImage: "forward.fill")

@@ -40,7 +40,9 @@ struct ReviewItem: View {
                     }
                     Spacer()
                     if let score = item.score, score > 0 {
-                        Text("\(score) ⭐").bold()
+                        Text("\(score) ⭐")
+                            .bold()
+                            .font(.subheadline)
                     }
                 }
                 Text(item.review ?? "")

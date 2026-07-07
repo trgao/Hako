@@ -65,7 +65,7 @@ class ReviewsListViewController: ObservableObject {
         loadingState = .idle
     }
     
-    // Load more review when reaching the 3rd last review in list
+    // Load more reviews when reaching the 3rd last review in list
     func loadMoreIfNeeded(index: Int) async {
         if index == reviews.endIndex - 5 {
             return await loadMore()

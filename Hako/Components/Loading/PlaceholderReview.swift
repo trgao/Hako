@@ -30,24 +30,22 @@ struct PlaceholderReview: View {
                     .bold()
                     .padding(5)
             }
-            .skeleton(isLoading)
-            Text("placeholder")
-                .font(.footnote)
-                .padding(8)
-                .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemBackground))
-                .opacity(0.9)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.horizontal, 3)
-                .skeleton(isLoading)
+            HStack {
+                TagItem(text: "placeholder")
+                Spacer()
+                Text("10 ⭐")
+                    .bold()
+                    .font(.subheadline)
+            }
             Text(text)
                 .multilineTextAlignment(.leading)
                 .lineLimit(5)
                 .fixedSize(horizontal: false, vertical: true)
-                .skeleton(isLoading)
         }
         .padding(20)
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .shadow(radius: 0.5)
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .skeleton(isLoading)
     }
 }

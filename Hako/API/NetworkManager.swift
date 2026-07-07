@@ -617,6 +617,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
+    func getAnimeEpisodesList(id: Int, page: Int) async throws -> [Episode] {
+        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/episodes?page=\(page)", type: JikanEpisodesListResponse.self)
+        return response.data
+    }
+    
     func getAnimeReviewsList(id: Int, page: Int) async throws -> [Review] {
         let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/reviews?preliminary=true&page=\(page)", type: JikanReviewsListResponse.self)
         return response.data

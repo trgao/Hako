@@ -127,6 +127,9 @@ struct AnimeDetailsView: View {
                                 if !settings.hideThemeSongs {
                                     ThemeSongs(openingThemes: anime.openingThemes, endingThemes: anime.endingThemes)
                                 }
+                                if !settings.hideEpisodes && anime.numEpisodes != 1 {
+                                    Episodes(id: id, episodes: controller.episodes, loadingState: controller.episodesLoadingState, load: controller.loadEpisodes)
+                                }
                                 if !settings.hideAnimeReviews {
                                     Reviews(id: id, type: .anime, reviews: controller.reviews, width: max(0, geometry.size.width - 34), loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
                                 }

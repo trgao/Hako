@@ -29,6 +29,7 @@ struct Staffs: View {
         }
         .task {
             await load()
+            staffsPreview = Array(staffs?.prefix(10) ?? [])
         }
         .onChange(of: staffs?.count) {
             staffsPreview = Array(staffs?.prefix(10) ?? [])

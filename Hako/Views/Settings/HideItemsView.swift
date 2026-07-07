@@ -116,6 +116,9 @@ struct HideItemsView: View {
                 Toggle(isOn: $settings.hideThemeSongsSearch) {
                     Text("Hide search in Spotify and Apple Music")
                 }
+                Toggle(isOn: $settings.hideEpisodes) {
+                    Text("Hide episodes")
+                }
                 Toggle(isOn: $settings.hideAnimeReviews) {
                     Text("Hide reviews")
                 }

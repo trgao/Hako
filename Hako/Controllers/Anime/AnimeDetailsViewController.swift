@@ -16,6 +16,7 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var staffs: [Staff]?
     @Published var relatedAnime: [RelatedItem]?
     @Published var relatedManga: [RelatedItem]?
+    @Published var episodes: [Episode]?
     @Published var reviews: [Review]?
     
     // Loading states
@@ -23,6 +24,7 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var charactersLoadingState: LoadingEnum = .loading
     @Published var staffsLoadingState: LoadingEnum = .loading
     @Published var relatedLoadingState: LoadingEnum = .loading
+    @Published var episodesLoadingState: LoadingEnum = .loading
     @Published var reviewsLoadingState: LoadingEnum = .loading
     
     private let id: Int
@@ -109,14 +111,11 @@ class AnimeDetailsViewController: ObservableObject {
             return
         }
         
-        do {
-            let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id)
+        if let nextEpisode = try? await networker.getAnimeNextAiringDetails(id: id) {
             withAnimation {
                 self.nextEpisode = nextEpisode
             }
             networker.animeNextEpisodeCache[id] = nextEpisode
-        } catch {
-            print("Some unknown error occurred loading anime airing schedule")
         }
     }
     
@@ -189,6 +188,17 @@ class AnimeDetailsViewController: ObservableObject {
             }
         } catch {
             relatedLoadingState = .error
+        }
+    }
+    
+    func loadEpisodes() async {
+        episodesLoadingState = .loading
+        do {
+            let episodes = try await networker.getAnimeEpisodesList(id: id, page: 1)
+            self.episodes = episodes
+            episodesLoadingState = .idle
+        } catch {
+            episodesLoadingState = .error
         }
     }
     

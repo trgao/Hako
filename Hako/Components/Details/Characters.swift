@@ -30,6 +30,7 @@ struct Characters: View {
         }
         .task {
             await load()
+            charactersPreview = Array(characters?.prefix(10) ?? [])
         }
         .onChange(of: characters?.count) {
             charactersPreview = Array(characters?.prefix(10) ?? [])

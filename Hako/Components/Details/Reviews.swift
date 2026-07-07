@@ -41,6 +41,7 @@ struct Reviews: View {
         }
         .task {
             await load()
+            reviewsPreview = Array(reviews?.prefix(10) ?? [])
         }
         .onChange(of: reviews?.count) {
             reviewsPreview = Array(reviews?.prefix(10) ?? [])

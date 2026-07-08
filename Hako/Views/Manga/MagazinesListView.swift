@@ -27,7 +27,7 @@ struct MagazinesListView: View {
                                     GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
                                 } label: {
                                     VStack(alignment: .leading, spacing: 3) {
-                                        Text(name)
+                                        Text(name).bold()
                                         if let count = magazine.count {
                                             Text("\(count) manga")
                                                 .opacity(0.7)

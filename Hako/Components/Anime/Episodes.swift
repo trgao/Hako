@@ -25,7 +25,7 @@ struct Episodes: View {
     }
     
     var body: some View {
-        ScrollViewCarousel(title: "Episodes", count: episodes?.count, viewAlignedScroll: true, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Episodes", count: episodes?.count, loadingState: loadingState, refresh: load) { isLoading in
             PlaceholderEpisode(isLoading: isLoading)
         } content: {
             ForEach(episodesPreview) { item in

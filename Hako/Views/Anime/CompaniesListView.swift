@@ -27,7 +27,7 @@ struct CompaniesListView: View {
                                     GroupDetailsView(title: title, group: "producers", id: company.id, type: .anime)
                                 } label: {
                                     VStack(alignment: .leading, spacing: 3) {
-                                        Text(title)
+                                        Text(title).bold()
                                         Group {
                                             if let established = company.established {
                                                 Text("Established on \(established.toString())")

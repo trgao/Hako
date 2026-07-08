@@ -22,7 +22,7 @@ class ImageFrameController: ObservableObject {
     }
     
     func refresh() async {
-        guard image == nil && (isProfile || imageUrl != nil) else {
+        guard image == nil else {
             return
         }
         

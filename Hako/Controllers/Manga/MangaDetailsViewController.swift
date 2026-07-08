@@ -67,7 +67,7 @@ class MangaDetailsViewController: ObservableObject {
             let manga = try await networker.getMangaDetails(id: id)
             withAnimation {
                 self.manga = manga
-                self.authors = manga.authors ?? []
+                authors = manga.authors ?? []
                 var prequels: [RelatedItem] = [], sequels: [RelatedItem] = [], others: [RelatedItem] = []
                 manga.relatedManga?.forEach {
                     let item = RelatedItem(malId: $0.id, type: .manga, title: $0.node.title, relation: $0.relationTypeFormatted, manga: $0.node)
@@ -79,7 +79,7 @@ class MangaDetailsViewController: ObservableObject {
                         others.append(item)
                     }
                 }
-                self.relatedManga = prequels + sequels + others.sorted(by: { ($0.relation ?? "") < ($1.relation ?? "") })
+                relatedManga = prequels + sequels + others.sorted(by: { ($0.relation ?? "") < ($1.relation ?? "") })
             }
             networker.mangaCache[id] = manga
             loadingState = .idle
@@ -135,7 +135,7 @@ class MangaDetailsViewController: ObservableObject {
         
         relatedLoadingState = .loading
         do {
-            self.relatedAnime = try await networker.getMangaRelations(id: id)
+            relatedAnime = try await networker.getMangaRelations(id: id)
                 .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation?.lowercased().initialCapitalise(), anime: nil, manga: nil) } }
                 .filter { $0.type == .anime }
             relatedLoadingState = .idle

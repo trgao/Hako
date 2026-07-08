@@ -13,36 +13,36 @@ struct ImageFrame: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: ImageFrameController
     private let imageUrl: String?
-    private let width: CGFloat
-    private let height: CGFloat
-    private var fullscreen = false
+    private let imageSize: ImageSizeEnum
     private let networker = NetworkManager.shared
+    private var width: CGFloat {
+        switch imageSize {
+        case .reviewUser: return 30
+        case .small: return 75
+        case .medium: return 100
+        case .large: return 150
+        case .background: return 100000
+        }
+    }
+    private var height: CGFloat {
+        switch imageSize {
+        case .reviewUser: return 30
+        case .small: return 106
+        case .medium: return 142
+        case .large: return 213
+        case .background: return 100000
+        }
+    }
     
     init(id: String, imageUrl: String?, imageSize: ImageSizeEnum) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
         self.imageUrl = imageUrl
-        if imageSize == .reviewUser {
-            self.width = 30
-            self.height = 30
-        } else if imageSize == .small {
-            self.width = 75
-            self.height = 106
-        } else if imageSize == .medium {
-            self.width = 100
-            self.height = 142
-        } else if imageSize == .large {
-            self.width = 150
-            self.height = 213
-        } else {
-            self.fullscreen = true
-            self.width = 10000
-            self.height = 10000
-        }
+        self.imageSize = imageSize
     }
     
     var body: some View {
         VStack {
-            if fullscreen {
+            if imageSize == .background {
                 if let image = controller.image, settings.translucentBackground {
                     Image(uiImage: image)
                         .resizable()

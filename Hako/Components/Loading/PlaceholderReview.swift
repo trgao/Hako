@@ -31,7 +31,7 @@ struct PlaceholderReview: View {
                     .padding(5)
             }
             HStack {
-                TagItem(text: "placeholder")
+                TagItem(text: "Recommended")
                 Spacer()
                 Text("10 ⭐")
                     .bold()

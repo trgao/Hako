@@ -1,5 +1,5 @@
 //
-//  StudiosListView.swift
+//  CompaniesListView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 9/1/26.
@@ -7,28 +7,45 @@
 
 import SwiftUI
 
-struct StudiosListView: View {
-    @StateObject private var controller = StudiosListViewController()
+struct CompaniesListView: View {
+    @StateObject private var controller = CompaniesListViewController()
     @State private var isRefresh = false
     
     var body: some View {
         ZStack {
-            if controller.loadingState == .error && controller.studios.isEmpty {
+            if controller.loadingState == .error && controller.companies.isEmpty {
                 ErrorView(refresh: controller.refresh)
                     .padding(.vertical, 50)
             } else {
                 List {
-                    if controller.loadingState == .loading && controller.studios.isEmpty {
+                    if controller.loadingState == .loading && controller.companies.isEmpty {
                         LoadingList(length: 20, showImage: false)
                     } else {
-                        ForEach(controller.studios) { studio in
-                            if let title = studio.titles?[0].title {
-                                NavigationLink(title) {
-                                    GroupDetailsView(title: title, group: "producers", id: studio.id, type: .anime)
+                        ForEach(controller.companies) { company in
+                            if let title = company.titles?.first(where: { $0.type == "Default" })?.title {
+                                NavigationLink {
+                                    GroupDetailsView(title: title, group: "producers", id: company.id, type: .anime)
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text(title)
+                                        Group {
+                                            if let established = company.established {
+                                                Text("Established on \(established.toString())")
+                                            }
+                                            if let favorites = company.favorites {
+                                                Text("\(favorites) favourites")
+                                            }
+                                            if let count = company.count {
+                                                Text("\(count) anime")
+                                            }
+                                        }
+                                        .opacity(0.7)
+                                        .font(.footnote)
+                                    }
                                 }
                                 .onAppear {
                                     Task {
-                                        if studio.id == controller.studios.last?.id {
+                                        if company.id == controller.companies.last?.id {
                                             await controller.loadMore()
                                         }
                                     }
@@ -40,12 +57,12 @@ struct StudiosListView: View {
                         }
                     }
                 }
-                .disabled(controller.loadingState == .loading && controller.studios.isEmpty)
+                .disabled(controller.loadingState == .loading && controller.companies.isEmpty)
                 .refreshable {
                     isRefresh = true
                 }
                 .task(id: isRefresh) {
-                    if controller.studios.isEmpty || isRefresh {
+                    if controller.companies.isEmpty || isRefresh {
                         await controller.refresh()
                         isRefresh = false
                     }
@@ -56,6 +73,6 @@ struct StudiosListView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Studios & producers")
+        .navigationTitle("Companies")
     }
 }

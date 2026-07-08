@@ -70,6 +70,7 @@ struct RelatedGridView: View {
                     }
                 }
                 .pickerStyle(.inline)
+                .pickerLabelVisible()
             } label: {
                 Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
                     .labelStyle(.iconOnly)

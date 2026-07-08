@@ -129,6 +129,7 @@ struct SeasonsView: View {
                                 }
                             }
                             .pickerStyle(.inline)
+                            .pickerLabelVisible()
                         } label: {
                             Label("Menu", systemImage: "arrow.up.arrow.down.circle")
                                 .labelStyle(.iconOnly)

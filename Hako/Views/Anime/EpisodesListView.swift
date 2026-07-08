@@ -35,7 +35,7 @@ struct EpisodesListView: View {
                                         .opacity(0.7)
                                         .font(.footnote)
                                 }
-                                Text("\(episode.score == nil ? "?" : "\(episode.score!)") / 5")
+                                Text("Polled \(episode.score == nil ? "?" : "\(episode.score!)") / 5")
                                     .opacity(0.7)
                                     .font(.footnote)
                                 HStack {

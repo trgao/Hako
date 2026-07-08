@@ -52,9 +52,9 @@ function convertUrl() {
         if (pathArray.length >= 3) {
             const name = encodeURIComponent(document.title.split(" - ")[0])
             window.location.replace(`${base}producer?id=${pathArray[2]}&name=${name}`)
-        } else {
-            window.location.replace(`${base}explore?type=studios`)
         }
+    } else if (path.startsWith("/company")) {
+        window.location.replace(`${base}explore?type=companies`)
     } else if (path.startsWith("/manga/magazine")) {
         const pathArray = path.slice(1).split("/")
         if (pathArray.length >= 3) {

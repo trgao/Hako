@@ -147,12 +147,13 @@ struct TopView: View {
         .toolbar {
             ToolbarItem(placement: settings.replaceTopWithSchedule ? .topBarTrailing : .topBarLeading) {
                 Menu {
-                    Picker("Rank type", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
+                    Picker("Ranking", selection: controller.type == .anime ? $controller.animeRankingType : $controller.mangaRankingType) {
                         ForEach(controller.type == .anime ? Constants.animeRankings : Constants.mangaRankings, id: \.self) { type in
                             Label(type.toString(), systemImage: type.toIcon()).tag(type)
                         }
                     }
                     .pickerStyle(.inline)
+                    .pickerLabelVisible()
                 } label: {
                     Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
                         .labelStyle(.iconOnly)

@@ -293,11 +293,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let url = URL(string: tenraiBaseApi + urlExtend)!
         await tenraiBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
-            
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-            
+        
         guard (200...299).contains(httpResponse.statusCode) else {
             if httpResponse.statusCode == 404 {
                 throw NetworkError.notFound
@@ -305,7 +305,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 throw NetworkError.badStatusCode(httpResponse.statusCode)
             }
         }
-            
+        
         do {
             let decoded = try decoder.decode(T.self, from: data)
             return decoded
@@ -319,11 +319,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let url = URL(string: jikanBaseApi + urlExtend)!
         await jikanBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
-            
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-            
+        
         guard (200...299).contains(httpResponse.statusCode) else {
             if httpResponse.statusCode == 404 {
                 throw NetworkError.notFound
@@ -331,7 +331,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 throw NetworkError.badStatusCode(httpResponse.statusCode)
             }
         }
-            
+        
         do {
             let decoded = try decoder.decode(T.self, from: data)
             return decoded
@@ -411,13 +411,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data.malId
     }
     
-    func getStudios(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=count&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
+    func getCompanies(page: Int) async throws -> [JikanListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     
     func getMagazines(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=count&sort=desc&limit=100&page=\(page)", type: JikanListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=name&sort=asc&limit=100&page=\(page)", type: JikanListResponse.self)
         return response.data
     }
     

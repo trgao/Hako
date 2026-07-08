@@ -38,7 +38,13 @@ struct LoadingList: View {
                     }
                     .padding(5)
                 } else {
-                    Text("placeholder placeholder")
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("placeholder placeholder")
+                        Text("placeholder")
+                            .font(.footnote)
+                        Text("placeholder")
+                            .font(.footnote)
+                    }
                 }
             }
             .skeleton()

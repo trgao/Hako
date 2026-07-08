@@ -32,6 +32,9 @@ struct JikanListItem: Codable, Identifiable {
     let year: Int?
     let source: String?
     let members: Int?
+    let favorites: Int?
+    let count: Int?
+    let established: Date?
 }
 
 struct Title: Codable {

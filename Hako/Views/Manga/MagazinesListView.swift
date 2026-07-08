@@ -23,8 +23,17 @@ struct MagazinesListView: View {
                     } else {
                         ForEach(controller.magazines) { magazine in
                             if let name = magazine.name {
-                                NavigationLink(name) {
+                                NavigationLink {
                                     GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text(name)
+                                        if let count = magazine.count {
+                                            Text("\(count) manga")
+                                                .opacity(0.7)
+                                                .font(.footnote)
+                                        }
+                                    }
                                 }
                                 .onAppear {
                                     Task {

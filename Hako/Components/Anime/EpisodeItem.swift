@@ -13,7 +13,8 @@ struct EpisodeItem: View {
     @EnvironmentObject private var settings: SettingsManager
     private let item: Episode
     private var title: String {
-        settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
+        let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
+        return title.isEmpty ? "Episode \(item.id)" : title
     }
     
     init(item: Episode) {
@@ -22,13 +23,13 @@ struct EpisodeItem: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text("\(item.id): \(title)")
+            Text("\(item.id). \(title)")
             if let aired = item.aired {
                 Text("Aired on \(aired.toString())")
                     .opacity(0.7)
                     .font(.footnote)
             }
-            Text("\(item.score == nil ? "?" : "\(item.score!)") / 5")
+            Text("Polled \(item.score == nil ? "?" : "\(item.score!)") / 5")
                 .opacity(0.7)
                 .font(.footnote)
             HStack {

@@ -170,8 +170,8 @@ struct MainView: View {
                     explorePath.append(ViewItem(type: .exploreCharacters))
                 } else if type == "people" {
                     explorePath.append(ViewItem(type: .explorePeople))
-                } else if type == "studios" {
-                    explorePath.append(ViewItem(type: .exploreStudios))
+                } else if type == "companies" {
+                    explorePath.append(ViewItem(type: .exploreCompanies))
                 } else if type == "magazines" {
                     explorePath.append(ViewItem(type: .exploreMagazines))
                 }

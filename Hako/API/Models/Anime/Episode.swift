@@ -18,4 +18,8 @@ struct Episode: Codable, Identifiable {
     let filler: Bool?
     let recap: Bool?
     let forumUrl: String?
+    let replies: Int?
+    let duration: Int?
+    let synopsis: String?
+    let url: String?
 }

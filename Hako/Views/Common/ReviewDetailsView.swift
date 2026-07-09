@@ -12,11 +12,9 @@ struct ReviewDetailsView: View {
     @Environment(\.screenSize) private var screenSize
     @State private var showTranslation = false
     private var item: Review
-    private let url: URL
     
     init(item: Review) {
         self.item = item
-        self.url = URL(string: "https://myanimelist.net/reviews.php?id=\(item.id)")!
     }
     
     var body: some View {
@@ -81,9 +79,11 @@ struct ReviewDetailsView: View {
             ImageFrame(id: "user\(item.user?.username ?? "")", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .background)
         }
         .toolbar {
-            ShareLink(item: url) {
+            ShareLink(item: URL(string: "https://myanimelist.net/reviews.php?id=\(item.id)")!) {
                 Image(systemName: "square.and.arrow.up")
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Review")
     }
 }

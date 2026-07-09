@@ -12,11 +12,13 @@ struct RelatedGridView: View {
     @State private var type: String?
     @State private var filteredAnime: [RelatedItem] = []
     @State private var filteredManga: [RelatedItem] = []
+    private let itemType: TypeEnum
     private let relatedAnime: [RelatedItem]?
     private let relatedManga: [RelatedItem]?
     private var types: Set<String> = []
     
     init(relatedAnime: [RelatedItem]?) {
+        self.itemType = .anime
         self.relatedAnime = relatedAnime
         self.relatedManga = nil
         relatedAnime?.forEach {
@@ -27,6 +29,7 @@ struct RelatedGridView: View {
     }
     
     init(relatedManga: [RelatedItem]?) {
+        self.itemType = .manga
         self.relatedAnime = nil
         self.relatedManga = relatedManga
         relatedManga?.forEach {
@@ -60,7 +63,7 @@ struct RelatedGridView: View {
             .padding(10)
         }
         .id(type)
-        .navigationTitle("Related")
+        .navigationTitle("Related \(itemType.rawValue)")
         .toolbar {
             Menu {
                 Picker("Type", selection: $type) {

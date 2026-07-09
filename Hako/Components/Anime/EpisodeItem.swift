@@ -22,38 +22,50 @@ struct EpisodeItem: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text("\(item.id). \(title)")
-            if let aired = item.aired {
-                Text("Aired on \(aired.toString())")
+        NavigationLink {
+            EpisodeDetailsView(item: item)
+        } label: {
+            VStack(alignment: .leading) {
+                Text("\(item.id). \(title)")
+                if let aired = item.aired {
+                    Text("Aired on \(aired.toString())")
+                        .opacity(0.7)
+                        .font(.footnote)
+                }
+                Text("\(item.duration == nil || item.duration == 0 ? "?" : "\(item.duration! / 60)") mins")
                     .opacity(0.7)
                     .font(.footnote)
-            }
-            Text("Polled \(item.score == nil ? "?" : "\(item.score!)") / 5")
-                .opacity(0.7)
-                .font(.footnote)
-            HStack {
-                if let recap = item.recap, recap {
-                    TagItem(text: "Recap")
-                }
-                if let filler = item.filler, filler {
-                    TagItem(text: "Filler")
-                }
-                Spacer()
-                if let url = item.forumUrl {
-                    Link(destination: URL(string: url)!) {
-                        Image(systemName: "bubble.left.and.bubble.right.fill")
-                            .foregroundStyle(settings.getAccentColor())
+                HStack {
+                    if let recap = item.recap, recap {
+                        TagItem(text: "Recap")
                     }
-                    .buttonStyle(.plain)
+                    if let filler = item.filler, filler {
+                        TagItem(text: "Filler")
+                    }
+                    Spacer()
+                    if let url = item.forumUrl {
+                        Link(destination: URL(string: url)!) {
+                            HStack {
+                                Image(systemName: "bubble.left.and.bubble.right.fill")
+                                if let replies = item.replies {
+                                    Text("\(replies)")
+                                }
+                            }
+                            .foregroundStyle(settings.getAccentColor())
+                            .font(.subheadline)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
+                .padding(.vertical, 3)
             }
+            .frame(maxHeight: .infinity, alignment: .center)
+            .padding(20)
+            .frame(width: min(450, screenSize.width - 34), alignment: .center)
+            .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+            .shadow(radius: 0.5)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .frame(maxHeight: .infinity, alignment: .center)
-        .padding(20)
-        .frame(width: min(450, screenSize.width - 34), alignment: .center)
-        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-        .shadow(radius: 0.5)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .buttonStyle(.plain)
     }
 }

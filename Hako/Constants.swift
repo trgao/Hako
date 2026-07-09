@@ -17,6 +17,7 @@ struct Constants {
     static let currentSeason = seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
     static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
+    static let sentiments: [SentimentEnum] = [.all, .recommended, .mixed_feelings, .not_recommended]
     
     // Since genres should not change much, I have decided to hard code this instead of relying on Jikan API genres endpoint
     static let animeGenres = [

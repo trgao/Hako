@@ -205,7 +205,7 @@ class AnimeDetailsViewController: ObservableObject {
     func loadReviews() async {
         reviewsLoadingState = .loading
         do {
-            let reviews = try await networker.getAnimeReviewsList(id: id, page: 1)
+            let reviews = try await networker.getAnimeReviewsList(id: id, page: 1, sentiment: .all)
             self.reviews = reviews
             reviewsLoadingState = .idle
         } catch {

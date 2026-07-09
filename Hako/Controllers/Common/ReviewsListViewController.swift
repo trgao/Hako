@@ -11,6 +11,7 @@ import Foundation
 class ReviewsListViewController: ObservableObject {
     @Published var reviews: [Review] = []
     @Published var loadingState: LoadingEnum = .loading
+    @Published var sentiment: SentimentEnum = .all
     private var currentPage = 1
     private var canLoadMorePages = true
     private let id: Int
@@ -23,16 +24,20 @@ class ReviewsListViewController: ObservableObject {
     }
     
     // Refresh the current reviews list
-    func refresh() async {
+    func refresh(_ clear: Bool = false) async {
         loadingState = .loading
         currentPage = 1
         canLoadMorePages = false
+        if clear {
+            reviews = []
+        }
+        
         do {
             var reviewsList: [Review] = []
             if type == .anime {
-                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
+                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage, sentiment: sentiment)
             } else if type == .manga {
-                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
+                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage, sentiment: sentiment)
             }
             currentPage = 2
             canLoadMorePages = !reviewsList.isEmpty
@@ -54,9 +59,9 @@ class ReviewsListViewController: ObservableObject {
         do {
             var reviewsList: [Review] = []
             if type == .anime {
-                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage)
+                reviewsList = try await networker.getAnimeReviewsList(id: id, page: currentPage, sentiment: sentiment)
             } else if type == .manga {
-                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage)
+                reviewsList = try await networker.getMangaReviewsList(id: id, page: currentPage, sentiment: sentiment)
             }
             currentPage += 1
             canLoadMorePages = !reviewsList.isEmpty

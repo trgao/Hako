@@ -10,6 +10,7 @@ import SwiftUI
 struct ReviewsListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var controller: ReviewsListViewController
+    @State private var isInit = false
     @State private var isRefresh = false
     
     init(id: Int, type: TypeEnum) {
@@ -19,7 +20,7 @@ struct ReviewsListView: View {
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.reviews.isEmpty {
-                ErrorView(refresh: controller.refresh)
+                ErrorView(refresh: { await controller.refresh() })
             } else {
                 ScrollView {
                     LazyVStack {
@@ -55,9 +56,31 @@ struct ReviewsListView: View {
             if controller.reviews.isEmpty || isRefresh {
                 await controller.refresh()
                 isRefresh = false
+                isInit = true
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Reviews")
+        .toolbar {
+            Menu {
+                Picker("Sentiment", selection: $controller.sentiment) {
+                    ForEach(Constants.sentiments, id: \.self) { sentiment in
+                        Label(sentiment.toString(), systemImage: sentiment.toIcon()).tag(sentiment)
+                    }
+                }
+                .pickerStyle(.inline)
+                .pickerLabelVisible()
+            } label: {
+                Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
+                    .labelStyle(.iconOnly)
+            }
+            .onChange(of: controller.sentiment) {
+                if isInit {
+                    Task {
+                        await controller.refresh(true)
+                    }
+                }
+            }
+        }
     }
 }

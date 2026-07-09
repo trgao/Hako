@@ -622,8 +622,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getAnimeReviewsList(id: Int, page: Int) async throws -> [Review] {
-        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/reviews?preliminary=true&page=\(page)", type: JikanReviewsListResponse.self)
+    func getAnimeReviewsList(id: Int, page: Int, sentiment: SentimentEnum) async throws -> [Review] {
+        var urlExtend = "/anime/\(id)/reviews?preliminary=true&page=\(page)"
+        if sentiment != .all {
+            urlExtend += "&sentiment=\(sentiment.rawValue)"
+        }
+        let response = try await getTenraiResponse(urlExtend: urlExtend, type: JikanReviewsListResponse.self)
         return response.data
     }
     
@@ -642,8 +646,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getMangaReviewsList(id: Int, page: Int) async throws -> [Review] {
-        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/reviews?preliminary=true&page=\(page)", type: JikanReviewsListResponse.self)
+    func getMangaReviewsList(id: Int, page: Int, sentiment: SentimentEnum) async throws -> [Review] {
+        var urlExtend = "/manga/\(id)/reviews?preliminary=true&page=\(page)"
+        if sentiment != .all {
+            urlExtend += "&sentiment=\(sentiment.rawValue)"
+        }
+        let response = try await getTenraiResponse(urlExtend: urlExtend, type: JikanReviewsListResponse.self)
         return response.data
     }
     

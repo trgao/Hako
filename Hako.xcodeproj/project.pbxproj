@@ -105,6 +105,7 @@
 		EE7854762F6EA267005D97EE /* AnimeRelated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7854752F6EA264005D97EE /* AnimeRelated.swift */; };
 		EE7854782F6EA29E005D97EE /* MangaRelated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7854772F6EA29D005D97EE /* MangaRelated.swift */; };
 		EE78547A2F6EA518005D97EE /* RelatedGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7854792F6EA511005D97EE /* RelatedGridView.swift */; };
+		EE7CA1D92FFFEC4000F538E3 /* SentimentEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CA1D82FFFEC3C00F538E3 /* SentimentEnum.swift */; };
 		EE884C5A2BFDF29400E8B8CD /* BindingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE884C592BFDF29400E8B8CD /* BindingExtension.swift */; };
 		EE8B96D12DD097460070DD4E /* MangaGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D02DD097410070DD4E /* MangaGridItem.swift */; };
 		EE8B96D32DD099AC0070DD4E /* MangaListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B96D22DD099A80070DD4E /* MangaListItem.swift */; };
@@ -365,6 +366,7 @@
 		EE7854752F6EA264005D97EE /* AnimeRelated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeRelated.swift; sourceTree = "<group>"; };
 		EE7854772F6EA29D005D97EE /* MangaRelated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaRelated.swift; sourceTree = "<group>"; };
 		EE7854792F6EA511005D97EE /* RelatedGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedGridView.swift; sourceTree = "<group>"; };
+		EE7CA1D82FFFEC3C00F538E3 /* SentimentEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentEnum.swift; sourceTree = "<group>"; };
 		EE884C592BFDF29400E8B8CD /* BindingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingExtension.swift; sourceTree = "<group>"; };
 		EE8B96D02DD097410070DD4E /* MangaGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGridItem.swift; sourceTree = "<group>"; };
 		EE8B96D22DD099A80070DD4E /* MangaListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListItem.swift; sourceTree = "<group>"; };
@@ -768,6 +770,7 @@
 				EEC86C2E2F0FCBCA002F760F /* RankingEnum.swift */,
 				EE4729E92BF4FE0F005D17EF /* StatusEnum.swift */,
 				EEC86C302F0FD58D002F760F /* SortEnum.swift */,
+				EE7CA1D82FFFEC3C00F538E3 /* SentimentEnum.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1528,6 +1531,7 @@
 				EE712FE32DFD9F7800DC7202 /* Review.swift in Sources */,
 				EE135E012E05562A00F02638 /* TextBox.swift in Sources */,
 				EECA422A2FFCCC640099A19B /* Episodes.swift in Sources */,
+				EE7CA1D92FFFEC4000F538E3 /* SentimentEnum.swift in Sources */,
 				EE8BE6322DFDD86A00D09F46 /* ReviewDetailsView.swift in Sources */,
 				EEEEA3172DD32F6A00302A81 /* PageList.swift in Sources */,
 				EECA422E2FFCCDA50099A19B /* EpisodesListViewController.swift in Sources */,

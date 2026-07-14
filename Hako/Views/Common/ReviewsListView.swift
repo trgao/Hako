@@ -17,32 +17,43 @@ struct ReviewsListView: View {
         self._controller = StateObject(wrappedValue: ReviewsListViewController(id: id, type: type))
     }
     
+    private var nothingFoundView: some View {
+        VStack {
+            Image(systemName: "text.bubble")
+                .resizable()
+                .frame(width: 40, height: 40)
+            Text("No reviews")
+                .bold()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .background(colorScheme == .light ? Color(.systemGray6) : .black)
+    }
+    
     var body: some View {
         ZStack {
-            if controller.loadingState == .error && controller.reviews.isEmpty {
-                ErrorView(refresh: { await controller.refresh() })
+            if controller.reviews.isEmpty {
+                if controller.loadingState == .loading {
+                    LoadingReviews(sentiment: controller.sentiment)
+                } else if controller.loadingState == .error {
+                    ErrorView(refresh: { await controller.refresh() })
+                } else if controller.loadingState == .idle {
+                    nothingFoundView
+                }
             } else {
                 ScrollView {
                     LazyVStack {
-                        if controller.loadingState == .loading && controller.reviews.isEmpty {
-                            ForEach(0..<10, id: \.self) { _ in
-                                PlaceholderReview()
-                            }
-                        } else {
-                            ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
-                                ReviewItem(item: item)
-                                    .id(item.id)
-                                    .onAppear {
-                                        Task {
-                                            await controller.loadMoreIfNeeded(index: index)
-                                        }
+                        ForEach(Array(controller.reviews.enumerated()), id: \.1.id) { index, item in
+                            ReviewItem(item: item)
+                                .id(item.id)
+                                .onAppear {
+                                    Task {
+                                        await controller.loadMoreIfNeeded(index: index)
                                     }
-                            }
+                                }
                         }
                     }
                     .padding(17)
                 }
-                .disabled(controller.loadingState == .loading && controller.reviews.isEmpty)
                 .background(colorScheme == .light ? Color(.systemGray6) : .black)
                 if isRefresh || controller.loadingState == .paginating {
                     LoadingView()

@@ -20,7 +20,7 @@ enum SentimentEnum: String, Codable {
     
     func toIcon() -> String {
         switch self {
-        case .all: return "bubble"
+        case .all: return "text.bubble"
         case .recommended: return "star.fill"
         case .not_recommended: return "star"
         case .mixed_feelings: return "star.leadinghalf.filled"

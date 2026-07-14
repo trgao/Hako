@@ -67,7 +67,7 @@ struct SeasonsView: View {
             Image(systemName: "calendar")
                 .resizable()
                 .frame(width: 40, height: 40)
-            Text("Nothing found")
+            Text("No anime")
                 .bold()
         }
     }

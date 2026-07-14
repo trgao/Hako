@@ -61,7 +61,7 @@ struct TopView: View {
             Image(systemName: "medal")
                 .resizable()
                 .frame(width: 40, height: 50)
-            Text("Nothing found")
+            Text("No \(controller.type.rawValue)")
                 .bold()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

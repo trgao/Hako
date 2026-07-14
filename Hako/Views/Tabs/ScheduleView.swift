@@ -67,7 +67,7 @@ struct ScheduleView: View {
             Image(systemName: "calendar.badge.clock")
                 .resizable()
                 .frame(width: 45, height: 40)
-            Text("Nothing found")
+            Text("No anime")
                 .bold()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

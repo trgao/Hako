@@ -45,7 +45,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     
     // API token bucket rate limiting
     private let malBucket = TokenBucket(capacity: 2, refillRate: 1)
-    private let tenraiBucket = TokenBucket(capacity: 3, refillRate: 1)
+    private let tenraiBucket = TokenBucket(capacity: 4, refillRate: 1)
     private let jikanBucket = TokenBucket(capacity: 2, refillRate: 1)
     private let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
     

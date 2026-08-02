@@ -3,6 +3,7 @@
 //  Hako
 //
 //  Created by Gao Tianrun on 22/11/24.
+//  Deprecated until api adds back user endpoints
 //
 
 import SwiftUI

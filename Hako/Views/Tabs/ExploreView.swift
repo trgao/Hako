@@ -494,7 +494,7 @@ struct ExploreView: View {
                 case .exploreCompanies: CompaniesListView()
                 case .exploreMagazines: MagazinesListView()
                 case .userlist: UserListView(user: item.name ?? "", type: item.itemType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
-                case .profile: UserProfileView(user: item.name ?? "")
+                case .profile: UserListView(user: item.name ?? "")
                 }
             }
             .onAppear {

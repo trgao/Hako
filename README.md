@@ -1,6 +1,6 @@
 # Hako
 
-This is a project that I used to learn Swift and iOS app development. Used the MyAnimeList and Jikan API (and AniList API for retrieving the next episode airing schedule for animes). 
+This is a project that I used to learn Swift and iOS app development. Used the MyAnimeList and [Tenrai](https://tenrai.org/) API (and AniList API for retrieving the next episode airing schedule for animes). 
 
 <img src="images/top.png?" width="180" height="390"/> <img src="images/seasons.png?" width="180" height="390"/> <img src="images/search.png?" width="180" height="390"/>
 

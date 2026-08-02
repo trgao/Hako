@@ -11,19 +11,21 @@ struct EpisodeItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
+    private let id: Int
     private let item: Episode
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title
     }
     
-    init(item: Episode) {
+    init(id: Int, item: Episode) {
+        self.id = id
         self.item = item
     }
     
     var body: some View {
         NavigationLink {
-            EpisodeDetailsView(item: item)
+            EpisodeDetailsView(animeId: id, item: item)
         } label: {
             VStack(alignment: .leading) {
                 Text("\(item.id). \(title)")
@@ -32,7 +34,7 @@ struct EpisodeItem: View {
                         .opacity(0.7)
                         .font(.footnote)
                 }
-                Text("\(item.duration == nil || item.duration == 0 ? "?" : "\(item.duration! / 60)") mins")
+                Text("\(item.score == nil ? "N/A" : "\(item.score! * 2)") ⭐, \(item.duration == nil || item.duration == 0 ? "?" : "\(item.duration! / 60)") mins")
                     .opacity(0.7)
                     .font(.footnote)
                 HStack {

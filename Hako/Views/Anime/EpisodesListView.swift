@@ -12,8 +12,10 @@ struct EpisodesListView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: EpisodesListViewController
     @State private var isRefresh = false
+    private let id: Int
     
     init(id: Int) {
+        self.id = id
         self._controller = StateObject(wrappedValue: EpisodesListViewController(id: id))
     }
     
@@ -29,7 +31,7 @@ struct EpisodesListView: View {
                     } else {
                         ForEach(controller.episodes) { episode in
                             NavigationLink {
-                                EpisodeDetailsView(item: episode)
+                                EpisodeDetailsView(animeId: id, item: episode)
                             } label: {
                                 VStack(alignment: .leading) {
                                     Text("#\(episode.id): \(settings.getTitle(romaji: episode.titleRomanji, english: episode.title, native: episode.titleJapanese))")
@@ -38,7 +40,7 @@ struct EpisodesListView: View {
                                             .opacity(0.7)
                                             .font(.footnote)
                                     }
-                                    Text("\(episode.duration == nil || episode.duration == 0 ? "?" : "\(episode.duration! / 60)") mins")
+                                    Text("\(episode.score == nil ? "N/A" : "\(episode.score! * 2)") ⭐, \(episode.duration == nil || episode.duration == 0 ? "?" : "\(episode.duration! / 60)") mins")
                                         .opacity(0.7)
                                         .font(.footnote)
                                     HStack {

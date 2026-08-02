@@ -7,5 +7,5 @@
 
 
 enum ImageSizeEnum {
-    case reviewUser, small, medium, large, background
+    case reviewUser, small, medium, large, background, episode
 }

@@ -11,13 +11,18 @@ struct EpisodeDetailsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @State private var showTranslation = false
+    private let animeId: Int
     private let item: Episode
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title
     }
+    private var synopsis: String {
+        item.synopsis ?? "This episode does not yet have a synopsis."
+    }
     
-    init(item: Episode) {
+    init(animeId: Int, item: Episode) {
+        self.animeId = animeId
         self.item = item
     }
     
@@ -25,6 +30,10 @@ struct EpisodeDetailsView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading) {
+                    if let imageUrl = item.images?.jpg?.imageUrl {
+                        ImageFrame(id: "anime\(animeId)episode\(item.id)", imageUrl: imageUrl, imageSize: .episode)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     Text(title).bold()
                     Group {
                         if settings.preferredTitleLanguage == 2 {
@@ -42,7 +51,7 @@ struct EpisodeDetailsView: View {
                         if let aired = item.aired {
                             Text("Aired on \(aired.toString())")
                         }
-                        Text("Polled \(item.score == nil ? "?" : "\(item.score!)") / 5, \(item.duration == nil || item.duration == 0 ? "?" : "\(item.duration! / 60)") mins")
+                        Text("\(item.score == nil ? "N/A" : "\(item.score! * 2)") ⭐, \(item.duration == nil || item.duration == 0 ? "?" : "\(item.duration! / 60)") mins")
                     }
                     .opacity(0.7)
                     .font(.footnote)
@@ -71,37 +80,35 @@ struct EpisodeDetailsView: View {
                     .padding(3)
                 }
                 .padding(.horizontal, 5)
-                if let synopsis = item.synopsis {
-                    Text(synopsis)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(20)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
-                        .shadow(radius: 0.5)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-                        .contextMenu {
+                Text(synopsis)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
+                    .shadow(radius: 0.5)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                    .contextMenu {
+                        Button {
+                            UIPasteboard.general.string = synopsis
+                        } label: {
+                            Label("Copy", systemImage: "document.on.document")
+                        }
+                        if !ProcessInfo.processInfo.isMacCatalystApp {
                             Button {
-                                UIPasteboard.general.string = synopsis
+                                showTranslation = true
                             } label: {
-                                Label("Copy", systemImage: "document.on.document")
-                            }
-                            if !ProcessInfo.processInfo.isMacCatalystApp {
-                                Button {
-                                    showTranslation = true
-                                } label: {
-                                    Label("Translate", systemImage: "translate")
-                                }
+                                Label("Translate", systemImage: "translate")
                             }
                         }
-                        .translationPresentation(isPresented: $showTranslation,
-                                                 text: synopsis)
-                }
+                    }
+                    .translationPresentation(isPresented: $showTranslation,
+                                             text: synopsis)
             }
             .padding(17)
         }
-        .background(colorScheme == .light ? Color(.systemGray6) : .black)
+        .background(ImageFrame(id: "anime\(animeId)episode\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .background))
         .toolbar {
             if let url = item.url {
                 ShareLink(item: URL(string: url)!) {

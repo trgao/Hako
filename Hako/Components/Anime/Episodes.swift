@@ -29,7 +29,7 @@ struct Episodes: View {
             PlaceholderEpisode(isLoading: isLoading)
         } content: {
             ForEach(episodesPreview) { item in
-                EpisodeItem(item: item)
+                EpisodeItem(id: id, item: item)
             }
         } destination: {
             EpisodesListView(id: id)

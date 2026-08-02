@@ -21,6 +21,7 @@ struct ImageFrame: View {
         case .small: return 75
         case .medium: return 100
         case .large: return 150
+        case .episode: return 142
         case .background: return 100000
         }
     }
@@ -30,6 +31,7 @@ struct ImageFrame: View {
         case .small: return 106
         case .medium: return 142
         case .large: return 213
+        case .episode: return 100
         case .background: return 100000
         }
     }

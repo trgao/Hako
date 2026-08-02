@@ -18,7 +18,10 @@ struct PlaceholderEpisode: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("placeholderplaceholder (? / 5)")
+            Text("placeholderplaceholder")
+            Text("placeholder")
+                .opacity(0.7)
+                .font(.footnote)
             Text("placeholder")
                 .opacity(0.7)
                 .font(.footnote)

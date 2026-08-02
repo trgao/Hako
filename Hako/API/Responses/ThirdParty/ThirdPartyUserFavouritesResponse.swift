@@ -1,5 +1,5 @@
 //
-//  JikanUserFavouritesResponse.swift
+//  ThirdPartyUserFavouritesResponse.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 20/7/25.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct JikanUserFavouritesResponse: Codable {
+struct ThirdPartyUserFavouritesResponse: Codable {
     let data: UserFavourites
 }

@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class ExplorePeopleViewController: ObservableObject {
-    @Published var people: [JikanListItem] = []
+    @Published var people: [ThirdPartyListItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true

@@ -9,6 +9,6 @@ import Foundation
 
 struct Mangaography: Codable, Identifiable {
     var id: Int { manga.id }
-    let manga: JikanListItem
+    let manga: ThirdPartyListItem
     let role: String?
 }

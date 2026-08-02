@@ -9,10 +9,10 @@ import SwiftUI
 
 struct PersonListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    private let person: JikanListItem
+    private let person: ThirdPartyListItem
     private let subtitle: String?
     
-    init(person: JikanListItem) {
+    init(person: ThirdPartyListItem) {
         self.person = person
         self.subtitle = person.birthday?.toString()
     }

@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class MagazinesListViewController: ObservableObject {
-    @Published var magazines: [JikanListItem] = []
+    @Published var magazines: [ThirdPartyListItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true

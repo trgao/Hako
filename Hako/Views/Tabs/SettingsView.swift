@@ -11,7 +11,6 @@ import AuthenticationServices
 struct SettingsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
-    @State private var isJikanDown = false
     @State private var isLoadingStatus = false
     @Binding private var id: UUID
     @Binding private var isProfileActive: Bool

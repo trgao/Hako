@@ -9,6 +9,6 @@ import Foundation
 
 struct Animeography: Codable, Identifiable {
     var id: Int { anime.id }
-    let anime: JikanListItem
+    let anime: ThirdPartyListItem
     let role: String?
 }

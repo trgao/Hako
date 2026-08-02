@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CharacterListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    private let character: JikanListItem
+    private let character: ThirdPartyListItem
     private let subtitle: String?
     
-    init(character: JikanListItem) {
+    init(character: ThirdPartyListItem) {
         self.character = character
         self.subtitle = character.nameKanji
     }

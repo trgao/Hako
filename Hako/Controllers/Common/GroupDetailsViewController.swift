@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class GroupDetailsViewController: ObservableObject {
-    @Published var items: [JikanListItem] = []
+    @Published var items: [ThirdPartyListItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true
@@ -33,7 +33,7 @@ class GroupDetailsViewController: ObservableObject {
         currentPage = 1
         canLoadMorePages = true
         do {
-            var itemsList: [JikanListItem] = []
+            var itemsList: [ThirdPartyListItem] = []
             if type == .anime {
                 itemsList = try await networker.getAnimeList(group: group, id: id, page: currentPage)
             } else if type == .manga {
@@ -57,7 +57,7 @@ class GroupDetailsViewController: ObservableObject {
         
         loadingState = .paginating
         do {
-            var itemsList: [JikanListItem] = []
+            var itemsList: [ThirdPartyListItem] = []
             if type == .anime {
                 itemsList = try await networker.getAnimeList(group: group, id: id, page: currentPage)
             } else if type == .manga {

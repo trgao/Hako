@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class ExploreCharactersViewController: ObservableObject {
-    @Published var characters: [JikanListItem] = []
+    @Published var characters: [ThirdPartyListItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true

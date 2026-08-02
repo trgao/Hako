@@ -1,5 +1,5 @@
 //
-//  JikanPersonDetailsResponse.swift
+//  ThirdPartyPersonDetailsResponse.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 21/5/24.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct JikanPersonDetailsResponse: Codable {
+struct ThirdPartyPersonDetailsResponse: Codable {
     let data: Person
 }

@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 class CompaniesListViewController: ObservableObject {
-    @Published var companies: [JikanListItem] = []
+    @Published var companies: [ThirdPartyListItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private var currentPage = 1
     private var canLoadMorePages = true

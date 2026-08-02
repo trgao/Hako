@@ -9,6 +9,6 @@ import Foundation
 
 struct ListCharacter: Codable, Identifiable {
     var id: Int { character.id }
-    let character: JikanListItem
+    let character: ThirdPartyListItem
     let role: String?
 }

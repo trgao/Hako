@@ -19,19 +19,19 @@ class ExploreViewController: ObservableObject {
     @Published var isMangaLoadingError = false
     
     // Character search list variables
-    @Published var characterItems: [JikanListItem] = []
+    @Published var characterItems: [ThirdPartyListItem] = []
     @Published var isCharacterLoadingError = false
     
     // Person search list variables
-    @Published var personItems: [JikanListItem] = []
+    @Published var personItems: [ThirdPartyListItem] = []
     @Published var isPersonLoadingError = false
     
     // Explore page carousel variables
     @Published var animeSuggestions: [MALListAnime] = []
     @Published var topAiringAnime: [MALListAnime] = []
     @Published var topUpcomingAnime: [MALListAnime] = []
-    @Published var newlyAddedAnime: [JikanListItem] = []
-    @Published var newlyAddedManga: [JikanListItem] = []
+    @Published var newlyAddedAnime: [ThirdPartyListItem] = []
+    @Published var newlyAddedManga: [ThirdPartyListItem] = []
     
     @Published var suggestionsLoadingState: LoadingEnum = .loading
     @Published var airingLoadingState: LoadingEnum = .loading

@@ -68,7 +68,7 @@ struct Anime: Codable, Identifiable {
         self.numListUsers = nil
     }
     
-    init(item: JikanListItem) {
+    init(item: ThirdPartyListItem) {
         self.id = item.id
         self.title = item.title ?? ""
         self.alternativeTitles = AlternativeTitles(ja: item.titleJapanese, en: item.titleEnglish)

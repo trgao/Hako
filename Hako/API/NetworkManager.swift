@@ -34,7 +34,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     let personCache = ItemCache<Int, Person>()
     
     // API base urls
-    private let jikanBaseApi = "https://api.jikan.moe/v4"
     private let tenraiBaseApi = "https://api.tenrai.org/v1"
     private let malBaseApi = "https://api.myanimelist.net/v2"
     private let anilistBaseApi = "https://graphql.anilist.co"
@@ -46,7 +45,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // API token bucket rate limiting
     private let malBucket = TokenBucket(capacity: 2, refillRate: 1)
     private let tenraiBucket = TokenBucket(capacity: 4, refillRate: 1)
-    private let jikanBucket = TokenBucket(capacity: 2, refillRate: 1)
     private let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
     
     private let decoder: JSONDecoder
@@ -314,32 +312,6 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
     
-    // Generic JikanAPI GET request
-    private func getJikanResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
-        let url = URL(string: jikanBaseApi + urlExtend)!
-        await jikanBucket.consumeOrWaitAsync()
-        let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw NetworkError.badResponse
-        }
-        
-        guard (200...299).contains(httpResponse.statusCode) else {
-            if httpResponse.statusCode == 404 {
-                throw NetworkError.notFound
-            } else {
-                throw NetworkError.badStatusCode(httpResponse.statusCode)
-            }
-        }
-        
-        do {
-            let decoded = try decoder.decode(T.self, from: data)
-            return decoded
-        } catch {
-            throw NetworkError.jsonParseFailure
-        }
-    }
-    
     func getUserAnimeList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
         return response.data
@@ -359,15 +331,16 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         UserDefaults.standard.set(user.picture, forKey: "picture")
     }
     
-    func getUserStatistics(user: String?) async throws -> UserStatistics {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
-        return response.data
-    }
-    
-    func getUserFavourites(user: String?) async throws -> UserFavourites {
-        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
-        return response.data
-    }
+    // Deprecated until third party api adds user information endpoints
+//    func getUserStatistics(user: String?) async throws -> UserStatistics {
+//        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
+//        return response.data
+//    }
+//    
+//    func getUserFavourites(user: String?) async throws -> UserFavourites {
+//        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
+//        return response.data
+//    }
     
     func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
@@ -392,42 +365,42 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getRandomAnime() async throws -> Int {
-        let response = try await getTenraiResponse(urlExtend: "/random/anime", type: JikanRandomItemResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/random/anime", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
     
     func getRandomManga() async throws -> Int {
-        let response = try await getTenraiResponse(urlExtend: "/random/manga", type: JikanRandomItemResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/random/manga", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
     
     func getRandomCharacter() async throws -> Int {
-        let response = try await getTenraiResponse(urlExtend: "/random/characters", type: JikanRandomItemResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/random/characters", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
     
     func getRandomPerson() async throws -> Int {
-        let response = try await getTenraiResponse(urlExtend: "/random/people", type: JikanRandomItemResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/random/people", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
     
-    func getCompanies(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
+    func getCompanies(page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/producers?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getMagazines(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=name&sort=asc&limit=100&page=\(page)", type: JikanListResponse.self)
+    func getMagazines(page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=name&sort=asc&limit=100&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getCharacters(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
+    func getCharacters(page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getPeople(page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=50&page=\(page)", type: JikanListResponse.self)
+    func getPeople(page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
     
@@ -451,13 +424,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func getAnimeNewlyAddedList() async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/anime?order_by=mal_id&sort=desc&limit=20&sfw=true", type: JikanListResponse.self)
+    func getAnimeNewlyAddedList() async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/anime?order_by=mal_id&sort=desc&limit=20&sfw=true", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getMangaNewlyAddedList() async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/manga?order_by=mal_id&sort=desc&limit=20&sfw=true", type: JikanListResponse.self)
+    func getMangaNewlyAddedList() async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/manga?order_by=mal_id&sort=desc&limit=20&sfw=true", type: ThirdPartyListResponse.self)
         return response.data
     }
     
@@ -540,23 +513,23 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
-    func searchCharacters(character: String) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/characters?q=\(character)&order_by=favorites&sort=desc", type: JikanListResponse.self)
+    func searchCharacters(character: String) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/characters?q=\(character)&order_by=favorites&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func searchPeople(person: String) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/people?q=\(person)&order_by=favorites&sort=desc", type: JikanListResponse.self)
+    func searchPeople(person: String) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/people?q=\(person)&order_by=favorites&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getAnimeList(group: String, id: Int, page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/anime?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: JikanListResponse.self)
+    func getAnimeList(group: String, id: Int, page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/anime?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
     
-    func getMangaList(group: String, id: Int, page: Int) async throws -> [JikanListItem] {
-        let response = try await getTenraiResponse(urlExtend: "/manga?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: JikanListResponse.self)
+    func getMangaList(group: String, id: Int, page: Int) async throws -> [ThirdPartyListItem] {
+        let response = try await getTenraiResponse(urlExtend: "/manga?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
     
@@ -603,22 +576,22 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getAnimeCharacters(id: Int) async throws -> [ListCharacter] {
-        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/characters", type: JikanCharactersListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/characters", type: ThirdPartyCharactersListResponse.self)
         return response.data
     }
     
     func getAnimeRelations(id: Int) async throws -> [Related] {
-        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/relations", type: JikanRelationsListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/relations", type: ThirdPartyRelationsListResponse.self)
         return response.data
     }
     
     func getAnimeStaff(id: Int) async throws -> [Staff] {
-        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/staff", type: JikanStaffsListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/staff", type: ThirdPartyStaffsListResponse.self)
         return response.data
     }
     
     func getAnimeEpisodesList(id: Int, page: Int) async throws -> [Episode] {
-        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/episodes?page=\(page)", type: JikanEpisodesListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/episodes?page=\(page)", type: ThirdPartyEpisodesListResponse.self)
         return response.data
     }
     
@@ -627,7 +600,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         if sentiment != .all {
             urlExtend += "&sentiment=\(sentiment.rawValue)"
         }
-        let response = try await getTenraiResponse(urlExtend: urlExtend, type: JikanReviewsListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: urlExtend, type: ThirdPartyReviewsListResponse.self)
         return response.data
     }
     
@@ -637,12 +610,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
     
     func getMangaCharacters(id: Int) async throws -> [ListCharacter] {
-        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/characters", type: JikanCharactersListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/characters", type: ThirdPartyCharactersListResponse.self)
         return response.data
     }
     
     func getMangaRelations(id: Int) async throws -> [Related] {
-        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/relations", type: JikanRelationsListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/relations", type: ThirdPartyRelationsListResponse.self)
         return response.data
     }
     
@@ -651,17 +624,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         if sentiment != .all {
             urlExtend += "&sentiment=\(sentiment.rawValue)"
         }
-        let response = try await getTenraiResponse(urlExtend: urlExtend, type: JikanReviewsListResponse.self)
+        let response = try await getTenraiResponse(urlExtend: urlExtend, type: ThirdPartyReviewsListResponse.self)
         return response.data
     }
     
     func getCharacterDetails(id: Int) async throws -> Character {
-        let response = try await getTenraiResponse(urlExtend: "/characters/\(id)/full", type: JikanCharacterDetailsResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/characters/\(id)/full", type: ThirdPartyCharacterDetailsResponse.self)
         return response.data
     }
     
     func getPersonDetails(id: Int) async throws -> Person {
-        let response = try await getTenraiResponse(urlExtend: "/people/\(id)/full", type: JikanPersonDetailsResponse.self)
+        let response = try await getTenraiResponse(urlExtend: "/people/\(id)/full", type: ThirdPartyPersonDetailsResponse.self)
         return response.data
     }
     

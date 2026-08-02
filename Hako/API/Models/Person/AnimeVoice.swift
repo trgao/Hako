@@ -9,7 +9,7 @@ import Foundation
 
 struct AnimeVoice: Codable, Identifiable {
     var id: String { "anime\(anime.id)character\(character.id)" }
-    let anime: JikanListItem
-    let character: JikanListItem
+    let anime: ThirdPartyListItem
+    let character: ThirdPartyListItem
     let role: String?
 }

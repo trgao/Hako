@@ -19,7 +19,7 @@ struct Constants {
     static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
     static let sentiments: [SentimentEnum] = [.all, .recommended, .mixed_feelings, .not_recommended]
     
-    // Since genres should not change much, I have decided to hard code this instead of relying on Jikan API genres endpoint
+    // Since genres should not change much, I have decided to hard code this instead of relying on third party API genres endpoint
     static let animeGenres = [
         1: "Action",
         2: "Adventure",

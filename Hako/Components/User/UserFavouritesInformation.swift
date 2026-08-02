@@ -11,12 +11,12 @@ struct UserFavouritesInformation: View {
     @EnvironmentObject private var settings: SettingsManager
     private let anime: [MALListAnime]?
     private let manga: [MALListManga]?
-    private let characters: [JikanListItem]?
-    private let people: [JikanListItem]?
+    private let characters: [ThirdPartyListItem]?
+    private let people: [ThirdPartyListItem]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
     
-    init(anime: [MALListAnime]?, manga: [MALListManga]?, characters: [JikanListItem]?, people: [JikanListItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
+    init(anime: [MALListAnime]?, manga: [MALListManga]?, characters: [ThirdPartyListItem]?, people: [ThirdPartyListItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.anime = anime
         self.manga = manga
         self.characters = characters

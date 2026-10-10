@@ -22,5 +22,4 @@ struct Episode: Codable, Identifiable {
     let duration: Int?
     let synopsis: String?
     let url: String?
-    let images: Images?
 }

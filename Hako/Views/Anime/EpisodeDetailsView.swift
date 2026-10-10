@@ -138,7 +138,7 @@ struct EpisodeDetailsView: View {
             }
             .padding(17)
         }
-        .background(ImageFrame(id: "anime\(animeId)episode\(item.id)", imageUrl: item.images?.jpg?.imageUrl, imageSize: .background))
+        .background(ImageFrame(id: "", imageUrl: nil, imageSize: .background))
         .toolbar {
             if let url = item.url {
                 ShareLink(item: URL(string: url)!) {

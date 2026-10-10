@@ -17,6 +17,18 @@ struct EpisodeDetailsView: View {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title
     }
+    private var subtitle: String {
+        if settings.preferredTitleLanguage == 2 {
+            if !item.title.isEmpty && item.title != title {
+                return item.title
+            } else if let title = item.titleRomanji {
+                return title
+            }
+        } else if let native = item.titleJapanese, !native.isEmpty && settings.preferredTitleLanguage != 2 {
+            return native
+        }
+        return ""
+    }
     private var synopsis: String {
         item.synopsis ?? "This episode does not yet have a synopsis."
     }
@@ -28,25 +40,43 @@ struct EpisodeDetailsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack {
                 VStack(alignment: .leading) {
-                    if let imageUrl = item.images?.jpg?.imageUrl {
-                        ImageFrame(id: "anime\(animeId)episode\(item.id)", imageUrl: imageUrl, imageSize: .episode)
-                            .frame(maxWidth: .infinity, alignment: .center)
+                    VStack(alignment: .leading) {
+                        Text(title).bold()
+                        Text(subtitle).opacity(0.7)
                     }
-                    Text(title).bold()
-                    Group {
-                        if settings.preferredTitleLanguage == 2 {
-                            if !item.title.isEmpty && item.title != title {
-                                Text(item.title)
-                            } else if let title = item.titleRomanji {
-                                Text(title)
+                    .padding(.vertical, 5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .contentShape(RoundedRectangle(cornerRadius: 10))
+                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                    .contextMenu {
+                        if let romaji = item.titleRomanji {
+                            Button {
+                                UIPasteboard.general.string = title
+                            } label: {
+                                Text("Copy romaji title")
+                                Text(romaji)
                             }
-                        } else if let native = item.titleJapanese, !native.isEmpty && settings.preferredTitleLanguage != 2 {
-                            Text(native)
+                        }
+                        if !item.title.isEmpty {
+                            Button {
+                                UIPasteboard.general.string = item.title
+                            } label: {
+                                Text("Copy english title")
+                                Text(item.title)
+                            }
+                        }
+                        if let native = item.titleJapanese, !native.isEmpty {
+                            Button {
+                                UIPasteboard.general.string = native
+                            } label: {
+                                Text("Copy native language title")
+                                Text(native)
+                            }
                         }
                     }
-                    .opacity(0.7)
                     Group {
                         if let aired = item.aired {
                             Text("Aired on \(aired.toString())")

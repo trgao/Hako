@@ -27,13 +27,14 @@ struct TextBox: View {
         if let text = text, !text.isEmpty {
             ScrollViewSection(title: title) {
                 VStack {
-                    TextWithSpoilers(text)
+                    let textWithSpoilers = TextWithSpoilers(text)
+                    textWithSpoilers
                         .multilineTextAlignment(.leading)
                         .lineLimit(isExpanded ? nil : (screenSize.width >= 600 ? 8 : 4))
                         .background {
+                            // TODO: maybe switch to geometry reader in future
                             ViewThatFits(in: .vertical) {
-                                Text(.init(text))
-                                    .hidden()
+                                textWithSpoilers.hidden()
                                 Color.clear
                                     .onAppear {
                                         canBeExpanded = true

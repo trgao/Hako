@@ -43,7 +43,7 @@ struct Trailers: View {
                                         .foregroundStyle(.black)
                                     VStack {
                                         Button {
-                                            Task {
+                                            _ = Task {
                                                 try await player.reload()
                                             }
                                         } label: {

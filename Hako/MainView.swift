@@ -272,7 +272,7 @@ struct MainView: View {
                         Tab("Seasons", systemImage: "calendar", value: 1) {
                             SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
                         }
-                        Tab("Explore", systemImage: "magnifyingglass", value: 2, role: .search) {
+                        Tab("Explore", systemImage: "magnifyingglass", value: 2) {
                             ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
                         }
                         if !settings.useWithoutAccount {

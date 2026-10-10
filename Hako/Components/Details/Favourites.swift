@@ -23,15 +23,6 @@ struct Favourites: View {
                 .padding(.vertical, 10)
                 .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-                .contextMenu {
-                    Button {
-                        UIPasteboard.general.string = "\(favorites)"
-                    } label: {
-                        Text("Copy")
-                        Text("\(favorites)")
-                    }
-                }
         }
     }
 }

@@ -112,6 +112,9 @@ struct MangaDetailsView: View {
                                 if !settings.hideMangaRecommendations {
                                     Recommendations(mangaRecommendations: manga.recommendations)
                                 }
+                                if !settings.hideChapters {
+                                    Chapters(id: id, chapters: controller.chapters, loadingState: controller.chaptersLoadingState, load: controller.loadChapters)
+                                }
                                 if !settings.hideMangaReviews {
                                     Reviews(id: id, type: .manga, reviews: controller.reviews, width: max(0, geometry.size.width - 34), loadingState: controller.reviewsLoadingState, load: controller.loadReviews)
                                 }

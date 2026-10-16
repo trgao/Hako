@@ -619,6 +619,11 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         return response.data
     }
     
+    func getMangaChaptersList(id: Int, page: Int) async throws -> [Chapter] {
+        let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/forum?page=\(page)", type: ThirdPartyChaptersListResponse.self)
+        return response.data
+    }
+    
     func getMangaReviewsList(id: Int, page: Int, sentiment: SentimentEnum) async throws -> [Review] {
         var urlExtend = "/manga/\(id)/reviews?preliminary=true&page=\(page)"
         if sentiment != .all {

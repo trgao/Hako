@@ -146,6 +146,9 @@ struct HideItemsView: View {
                         Text("Hide recommendations")
                     }
                 }
+                Toggle(isOn: $settings.hideChapters) {
+                    Text("Hide chapters")
+                }
                 Toggle(isOn: $settings.hideMangaReviews) {
                     Text("Hide reviews")
                 }

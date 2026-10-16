@@ -15,12 +15,14 @@ class MangaDetailsViewController: ObservableObject {
     @Published var authors: [Author]?
     @Published var relatedAnime: [RelatedItem]?
     @Published var relatedManga: [RelatedItem]?
+    @Published var chapters: [Chapter]?
     @Published var reviews: [Review]?
     
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var charactersLoadingState: LoadingEnum = .loading
     @Published var relatedLoadingState: LoadingEnum = .loading
+    @Published var chaptersLoadingState: LoadingEnum = .loading
     @Published var reviewsLoadingState: LoadingEnum = .loading
     
     private let id: Int
@@ -52,12 +54,14 @@ class MangaDetailsViewController: ObservableObject {
         loadingState = .loading
         charactersLoadingState = .loading
         relatedLoadingState = .loading
+        chaptersLoadingState = .loading
         reviewsLoadingState = .loading
         
         await loadDetails()
         await loadCharacters()
         await loadAuthors()
         await loadRelatedAnime()
+        await loadChapters()
         await loadReviews()
     }
     
@@ -159,6 +163,17 @@ class MangaDetailsViewController: ObservableObject {
             }
         } catch {
             relatedLoadingState = .error
+        }
+    }
+    
+    func loadChapters() async {
+        chaptersLoadingState = .loading
+        do {
+            let chapters = try await networker.getMangaChaptersList(id: id, page: 1)
+            self.chapters = chapters
+            chaptersLoadingState = .idle
+        } catch {
+            chaptersLoadingState = .error
         }
     }
     

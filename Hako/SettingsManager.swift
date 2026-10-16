@@ -91,6 +91,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideAuthors") var hideAuthors = false
     @AppStorage("hideMangaRelated") var hideMangaRelated = false
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
+    @AppStorage("hideChapters") var hideChapters = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
     
     func getTitle(romaji: String?, english: String?, native: String?) -> String {

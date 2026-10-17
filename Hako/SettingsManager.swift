@@ -49,15 +49,12 @@ class SettingsManager: ObservableObject {
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
     
-    // Hide items
+    // Customise
     @AppStorage("hideSchedule") var hideSchedule = false
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
     
+    @AppStorage("exploreItems") var exploreItems: [String] = Constants.exploreItems
     @AppStorage("hideRandom") var hideRandom = false
-    @AppStorage("hideExploreAnimeManga") var hideExploreAnimeManga = false
-    @AppStorage("hideExploreCharactersPeople") var hideExploreCharactersPeople = false
-    @AppStorage("hideTop") var hideTop = false
-    @AppStorage("hideNews") var hideNews = false
     @AppStorage("hideRecentlyViewed") var hideRecentlyViewed = false
     @AppStorage("hideAnimeForYou") var hideAnimeForYou = false
     @AppStorage("hideTopAiringAnime") var hideTopAiringAnime = false

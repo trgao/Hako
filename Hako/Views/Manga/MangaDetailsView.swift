@@ -35,7 +35,7 @@ struct MangaDetailsView: View {
         }
         let id = "manga\(manga.id)"
         var itemList = settings.recentlyViewedItems
-        itemList.removeAll(where: { $0.id == id })
+        itemList.removeAll { $0.id == id }
         if itemList.count == 10 {
             itemList.removeFirst()
         }

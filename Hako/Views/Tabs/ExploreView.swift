@@ -9,7 +9,6 @@ import SwiftUI
 import SystemNotification
 
 struct ExploreView: View {
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ExploreViewController()
     @StateObject var networker = NetworkManager.shared
@@ -73,109 +72,10 @@ struct ExploreView: View {
         }
     }
     
-    @ViewBuilder private var exploreAnimeManga: some View {
-        if dynamicTypeSize <= .xxLarge {
-            HStack {
-                ExploreBox(title: "Anime", image: "tv.fill") {
-                    ExploreAnimeView()
-                }
-                Spacer()
-                ExploreBox(title: "Manga", image: "book.fill") {
-                    ExploreMangaView()
-                }
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-        } else {
-            ExploreBox(title: "Anime", image: "tv.fill") {
-                ExploreAnimeView()
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-            ExploreBox(title: "Manga", image: "book.fill") {
-                ExploreMangaView()
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-        }
-    }
-    
-    @ViewBuilder private var exploreCharactersPeople: some View {
-        if dynamicTypeSize <= .xxLarge {
-            HStack {
-                ExploreBox(title: "Characters", image: "person.crop.circle.fill") {
-                    ExploreCharactersView()
-                }
-                Spacer()
-                ExploreBox(title: "People", image: "person.fill") {
-                    ExplorePeopleView()
-                }
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-        } else {
-            ExploreBox(title: "Characters", image: "person.crop.circle.fill") {
-                ExploreCharactersView()
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-            ExploreBox(title: "People", image: "person.fill") {
-                ExplorePeopleView()
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-        }
-    }
-    
-    @ViewBuilder private var exploreTopNews: some View {
-        if dynamicTypeSize <= .xxLarge {
-            HStack {
-                if settings.replaceTopWithSchedule && !settings.hideTop {
-                    ExploreBox(title: "Top", image: "medal.fill") {
-                        TopView()
-                    }
-                }
-                if settings.replaceTopWithSchedule && !settings.hideTop && !settings.hideNews {
-                    Spacer()
-                }
-                if !settings.hideNews {
-                    ExploreBox(title: "News", image: "newspaper.fill") {
-                        NewsListView()
-                    }
-                }
-            }
-            .padding(.horizontal, 17)
-            Spacer()
-        } else {
-            if settings.replaceTopWithSchedule && !settings.hideTop {
-                ExploreBox(title: "Top", image: "medal.fill") {
-                    TopView()
-                }
-                .padding(.horizontal, 17)
-                Spacer()
-            }
-            if !settings.hideNews {
-                ExploreBox(title: "News", image: "newspaper.fill") {
-                    NewsListView()
-                }
-                .padding(.horizontal, 17)
-                Spacer()
-            }
-        }
-    }
-    
     private var exploreView: some View {
         ScrollView {
             VStack {
-                VStack {
-                    if !settings.hideExploreAnimeManga {
-                        exploreAnimeManga
-                    }
-                    if !settings.hideExploreCharactersPeople {
-                        exploreCharactersPeople
-                    }
-                    exploreTopNews
-                }
+                ExploreItems()
                 Spacer()
                 if !settings.hideRecentlyViewed && !settings.recentlyViewedItems.isEmpty {
                     ScrollViewCarousel(title: "Recently viewed") {

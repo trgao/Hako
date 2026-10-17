@@ -71,7 +71,7 @@ struct MangaGridItem: View {
                         }
                         if isRecentlyViewed {
                             Button {
-                                settings.recentlyViewedItems = settings.recentlyViewedItems.filter { $0.id != "manga\(id)" }
+                                settings.recentlyViewedItems.removeAll { $0.id == "manga\(id)" }
                             } label: {
                                 Label("Remove", systemImage: "trash")
                             }

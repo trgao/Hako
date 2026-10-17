@@ -1,5 +1,5 @@
 //
-//  HideItemsView.swift
+//  CustomiseView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 19/07/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 import LocalAuthentication
 
-struct HideItemsView: View {
+struct CustomiseView: View {
     @EnvironmentObject private var settings: SettingsManager
     let networker = NetworkManager.shared
     
@@ -23,22 +23,11 @@ struct HideItemsView: View {
                 }
             }
             Section("Explore") {
+                NavigationLink("Customise explore items") {
+                    CustomiseExplore()
+                }
                 Toggle(isOn: $settings.hideRandom) {
                     Text("Hide random button")
-                }
-                Toggle(isOn: $settings.hideExploreAnimeManga) {
-                    Text("Hide explore anime and manga")
-                }
-                Toggle(isOn: $settings.hideExploreCharactersPeople) {
-                    Text("Hide explore characters and people")
-                }
-                if settings.replaceTopWithSchedule {
-                    Toggle(isOn: $settings.hideTop) {
-                        Text("Hide top")
-                    }
-                }
-                Toggle(isOn: $settings.hideNews) {
-                    Text("Hide news")
                 }
                 Toggle(isOn: $settings.hideRecentlyViewed) {
                     Text("Hide recently viewed")
@@ -154,6 +143,6 @@ struct HideItemsView: View {
                 }
             }
         }
-        .navigationTitle("Hide items")
+        .navigationTitle("Customise")
     }
 }

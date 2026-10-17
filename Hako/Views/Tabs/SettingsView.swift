@@ -38,9 +38,9 @@ struct SettingsView: View {
                         Label("Appearance", systemImage: "paintpalette.fill")
                     }
                     NavigationLink {
-                        HideItemsView()
+                        CustomiseView()
                     } label: {
-                        Label("Hide items", systemImage: "eye.slash.fill")
+                        Label("Customise", systemImage: "slider.horizontal.3")
                     }
                 }
                 if !ProcessInfo.processInfo.isMacCatalystApp {

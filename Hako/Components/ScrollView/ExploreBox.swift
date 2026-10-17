@@ -29,7 +29,8 @@ struct ExploreBox<Destination: View>: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .bold()
         }
-        .padding(20)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 15)
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true

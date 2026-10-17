@@ -19,6 +19,17 @@ struct Constants {
     static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
     static let sentiments: [SentimentEnum] = [.all, .recommended, .mixed_feelings, .not_recommended]
     
+    static let exploreItems = ["anime", "manga", "characters", "people", "news", "top"]
+    static let exploreItemIcons = [
+        "anime": "tv.fill",
+        "manga": "book.fill",
+        "characters": "person.crop.circle.fill",
+        "people": "person.fill",
+        "stacks": "square.stack.3d.up.fill",
+        "news": "newspaper.fill",
+        "top": "medal.fill",
+    ]
+    
     // Since genres should not change much, I have decided to hard code this instead of relying on third party API genres endpoint
     static let animeGenres = [
         1: "Action",

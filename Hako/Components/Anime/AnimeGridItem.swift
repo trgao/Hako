@@ -74,7 +74,7 @@ struct AnimeGridItem: View {
                         }
                         if isRecentlyViewed {
                             Button {
-                                settings.recentlyViewedItems = settings.recentlyViewedItems.filter { $0.id != "anime\(id)" }
+                                settings.recentlyViewedItems.removeAll { $0.id == "anime\(id)" }
                             } label: {
                                 Label("Remove", systemImage: "trash")
                             }

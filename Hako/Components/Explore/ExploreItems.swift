@@ -10,6 +10,9 @@ import SwiftUI
 struct ExploreItems: View {
     @EnvironmentObject private var settings: SettingsManager
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    private var items: [String] {
+        settings.exploreItems.filter { settings.replaceTopWithSchedule || $0 != "top" }
+    }
     
     @ViewBuilder private func getExploreItemDestination(_ item: String) -> some View {
         switch item {
@@ -24,41 +27,34 @@ struct ExploreItems: View {
     }
     
     @ViewBuilder private func getExploreItemView(_ item: String) -> some View {
-        if !settings.replaceTopWithSchedule && item == "top" {
-            EmptyView()
-        } else {
-            ExploreBox(title: item.capitalized, image: Constants.exploreItemIcons[item] ?? "") {
-                getExploreItemDestination(item)
-            }
+        ExploreBox(title: item.capitalized, image: Constants.exploreItemIcons[item] ?? "") {
+            getExploreItemDestination(item)
         }
     }
     
     var body: some View {
         VStack {
             if dynamicTypeSize <= .xxxLarge {
-                ForEach(0..<(settings.exploreItems.count / 2), id: \.self) { index in
-                    let item1 = settings.exploreItems[index * 2]
-                    let item2 = settings.exploreItems[index * 2 + 1]
+                ForEach(0..<(items.count / 2), id: \.self) { index in
+                    let item1 = items[index * 2]
+                    let item2 = items[index * 2 + 1]
                     HStack {
                         getExploreItemView(item1)
                         Spacer()
                         getExploreItemView(item2)
                     }
-                    .padding(.horizontal, 17)
                 }
-                if settings.exploreItems.count % 2 != 0 {
-                    let last = settings.exploreItems[settings.exploreItems.count - 1]
+                if items.count % 2 != 0 {
+                    let last = items[items.count - 1]
                     getExploreItemView(last)
-                    .padding(.horizontal, 17)
-                    Spacer()
                 }
             } else {
-                ForEach(settings.exploreItems, id: \.self) { item in
+                ForEach(items, id: \.self) { item in
                     getExploreItemView(item)
-                    .padding(.horizontal, 17)
                     Spacer()
                 }
             }
         }
+        .padding(.horizontal, 17)
     }
 }

@@ -49,4 +49,3 @@ struct CharacterListItem: View {
         .padding(5)
     }
 }
-

@@ -354,7 +354,7 @@ struct ExploreView: View {
                     exploreView
                 }
                 if isPresented {
-                    TabPicker(selection: $controller.type, options: Constants.searchTypes.map{ ($0.rawValue.capitalized, $0) })
+                    TabPicker(selection: $controller.type, options: Constants.searchTypes.map { ($0.rawValue.capitalized, $0) })
                 }
             }
             .scrollDismissesKeyboard(.immediately)

@@ -24,7 +24,7 @@ struct LoadingList: View {
     }
     
     var body: some View {
-        ForEach(dummyList, id: \.self) { id in
+        ForEach(dummyList, id: \.self) { _ in
             HStack {
                 if showImage {
                     RoundedRectangle(cornerRadius: 10)

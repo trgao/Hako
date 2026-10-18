@@ -107,4 +107,3 @@ struct UserProfileView: View {
         }
     }
 }
-

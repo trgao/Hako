@@ -36,7 +36,7 @@ struct PKCE {
     
     private static func generateBase64RandomString(ofLength length: UInt8) -> PKCECode {
         let base64 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in base64.randomElement()! })
+        return String((0..<length).map { _ in base64.randomElement()! })
     }
     
     enum PKCEError: Error {

@@ -19,4 +19,3 @@ struct AuthorNode: Codable, Identifiable {
     let firstName: String?
     let lastName: String?
 }
-

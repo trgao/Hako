@@ -69,7 +69,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
         ScrollView(.horizontal) {
             HStack(alignment: .top, spacing: 10) {
                 if (loadingState == .loading || loadingState == .error) && count == nil {
-                    ForEach(Array(0..<10), id: \.self) { id in
+                    ForEach(Array(0..<10), id: \.self) { _ in
                         placeholder(loadingState == .loading)
                     }
                 } else {

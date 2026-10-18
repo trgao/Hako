@@ -21,7 +21,7 @@ struct NewsListView: View {
                     if controller.loadingState == .loading && controller.news.isEmpty {
                         LoadingList(length: 20)
                     } else {
-                        ForEach(controller.news.filter{ URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
+                        ForEach(controller.news.filter { URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
                             if let link = item.link {
                                 Link(destination: URL(string: link)!) {
                                     HStack {

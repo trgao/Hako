@@ -31,7 +31,7 @@ struct SeasonsView: View {
     private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], _ width: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { index, item in
+                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { _, item in
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
                 }
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {

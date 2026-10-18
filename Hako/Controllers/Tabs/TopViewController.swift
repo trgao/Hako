@@ -45,7 +45,7 @@ class TopViewController: ObservableObject {
         }
         
         do {
-            let animeList = try await networker.getTopAnimeList(rankingType: animeRankingType, page: currentAnimePage).filter{ $0.node.rating != "rx" }
+            let animeList = try await networker.getTopAnimeList(rankingType: animeRankingType, page: currentAnimePage).filter { $0.node.rating != "rx" }
             currentAnimePage = 2
             canLoadMoreAnimePages = !(animeList.isEmpty)
             animeItems = animeList

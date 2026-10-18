@@ -48,12 +48,12 @@ struct AnimeInformation: View {
                         ScrollViewRow(title: "Aired", content: "\(startDate.toString()) to \(anime.endDate?.toString() ?? "?")")
                     }
                     if let studios = anime.studios, !studios.isEmpty {
-                        ScrollViewNavigationLink(title: "Studios", items: studios.map{ $0.name }) {
+                        ScrollViewNavigationLink(title: "Studios", items: studios.map { $0.name }) {
                             GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)
                         }
                     }
                     if let genres = anime.genres?.filter({ $0.id < 84 }), !genres.isEmpty {
-                        ScrollViewNavigationLink(title: "Genres", items: genres.map{ $0.name }) {
+                        ScrollViewNavigationLink(title: "Genres", items: genres.map { $0.name }) {
                             GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
                         }
                     }

@@ -8,7 +8,7 @@ import SwiftUI
 struct SetSheetDelegate: UIViewRepresentable {
     let delegate: SheetDelegate
 
-    init(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>){
+    init(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>) {
         self.delegate = SheetDelegate(isDisabled: isDisabled, isLoading: isLoading, isDiscardingChanges: isDiscardingChanges)
     }
 
@@ -59,8 +59,8 @@ extension UIView {
     }
 }
 
-public extension View{
-    func checkSwipeDismissChanges(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>) -> some View{
+public extension View {
+    func checkSwipeDismissChanges(isDisabled: Bool, isLoading: Bool, isDiscardingChanges: Binding<Bool>) -> some View {
         background(SetSheetDelegate(isDisabled: isDisabled, isLoading: isLoading, isDiscardingChanges: isDiscardingChanges))
     }
 }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-class ThreadSafeDictionary<V: Hashable,T>: Collection {
+class ThreadSafeDictionary<V: Hashable, T>: Collection {
 
     private var dictionary: [V: T]
     private let concurrentQueue = DispatchQueue(label: "Dictionary Barrier Queue",
@@ -35,7 +35,7 @@ class ThreadSafeDictionary<V: Hashable,T>: Collection {
         }
     }
 
-    init(dict: [V: T] = [V:T]()) {
+    init(dict: [V: T] = [V: T]()) {
         self.dictionary = dict
     }
     // this is because it is an apple protocol method

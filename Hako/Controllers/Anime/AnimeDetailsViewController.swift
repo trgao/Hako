@@ -165,7 +165,7 @@ class AnimeDetailsViewController: ObservableObject {
         relatedLoadingState = .loading
         do {
             relatedManga = try await networker.getAnimeRelations(id: id)
-                .flatMap{ category in category.entry.map{ RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation?.lowercased().initialCapitalise(), anime: nil, manga: nil) } }
+                .flatMap { category in category.entry.map { RelatedItem(malId: $0.malId, type: $0.type, title: $0.name, relation: category.relation?.lowercased().initialCapitalise(), anime: nil, manga: nil) } }
                 .filter { $0.type == .manga }
             relatedLoadingState = .idle
             if let items = relatedManga {

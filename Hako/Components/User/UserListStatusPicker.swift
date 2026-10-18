@@ -41,7 +41,7 @@ struct UserListStatusPicker: View {
     
     var body: some View {
         if screenSize.width > 650 { // width of ScrollableSegmentedControl
-            TabPicker(selection: $selection, options: options.map{ ($0.toString(), $0) })
+            TabPicker(selection: $selection, options: options.map { ($0.toString(), $0) })
                 .disabled(isLoading)
         } else {
             ZStack {
@@ -143,7 +143,7 @@ struct ScrollableSegmentedControl: UIViewRepresentable {
     var options: [StatusEnum]
 
     func makeUIView(context: Context) -> NoDragGestureSegmentedControl {
-        let control = NoDragGestureSegmentedControl(items: options.map{ $0.toString() })
+        let control = NoDragGestureSegmentedControl(items: options.map { $0.toString() })
         control.selectedSegmentIndex = options.firstIndex(of: selection) ?? 0
         control.addTarget(context.coordinator, action: #selector(Coordinator.updateSelectedSegment(sender:)), for: .valueChanged)
         return control

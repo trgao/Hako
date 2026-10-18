@@ -49,4 +49,3 @@ struct PersonListItem: View {
         .padding(5)
     }
 }
-

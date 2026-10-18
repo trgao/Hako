@@ -19,7 +19,7 @@ struct ScrollViewListSection<Content: View>: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Button{
+            Button {
                 withAnimation {
                     isExpanded.toggle()
                 }

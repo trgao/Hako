@@ -88,4 +88,3 @@ struct MangaGridItem: View {
         .padding(5)
     }
 }
-

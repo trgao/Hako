@@ -49,7 +49,7 @@ struct ImageCarousel: View {
         NavigationStack {
             ZStack {
                 TabView(selection: $selection) {
-                    ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { index, item in
+                    ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { _, item in
                         let url = item.large ?? item.medium
                         if let url = url {
                             ZoomableScrollView(isZoomReset: $isZoomReset) {

@@ -30,7 +30,7 @@ struct AnimeMangaToggle: View {
                     .frame(width: 70, height: 35)
                     .foregroundStyle(Color(.systemGray5))
             }
-            ZStack{
+            ZStack {
                 Circle()
                     .frame(width: 33, height: 33)
                     .foregroundColor(.white)

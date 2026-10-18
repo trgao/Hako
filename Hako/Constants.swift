@@ -27,7 +27,7 @@ struct Constants {
         "people": "person.fill",
         "stacks": "square.stack.3d.up.fill",
         "news": "newspaper.fill",
-        "top": "medal.fill",
+        "top": "medal.fill"
     ]
     
     // Since genres should not change much, I have decided to hard code this instead of relying on third party API genres endpoint
@@ -51,7 +51,7 @@ struct Constants {
         37: "Supernatural",
         41: "Suspense",
         9: "Ecchi",
-        49: "Erotica",
+        49: "Erotica"
     ]
     static let animeGenreKeys = [1, 2, 5, 46, 28, 4, 8, 10, 26, 47, 14, 7, 22, 24, 36, 30, 37, 41, 9, 49]
     static let animeThemes = [
@@ -106,7 +106,7 @@ struct Constants {
         79: "Video Game",
         83: "Villainess",
         80: "Visual Arts",
-        48: "Workplace",
+        48: "Workplace"
     ]
     static let animeThemeKeys = [50, 51, 52, 53, 54, 81, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 74, 65, 66, 17, 18, 67, 38, 19, 6, 68, 69, 20, 70, 71, 40, 3, 72, 73, 21, 23, 75, 29, 11, 31, 76, 77, 78, 82, 32, 79, 83, 80, 48]
     static let animeDemographics = [
@@ -114,7 +114,7 @@ struct Constants {
         15: "Kids",
         42: "Seinen",
         25: "Shoujo",
-        27: "Shounen",
+        27: "Shounen"
     ]
     static let animeDemographicKeys = [43, 15, 42, 25, 27]
     
@@ -138,7 +138,7 @@ struct Constants {
         37: "Supernatural",
         45: "Suspense",
         9: "Ecchi",
-        49: "Erotica",
+        49: "Erotica"
     ]
     static let mangaGenreKeys = [1, 2, 5, 46, 28, 4, 8, 10, 26, 47, 14, 7, 22, 24, 36, 30, 37, 45, 9, 49]
     static let mangaThemes = [
@@ -194,7 +194,7 @@ struct Constants {
         80: "Video Game",
         81: "Villainess",
         82: "Visual Arts",
-        48: "Workplace",
+        48: "Workplace"
     ]
     static let mangaThemeKeys = [50, 51, 52, 53, 54, 44, 55, 39, 56, 57, 58, 35, 59, 13, 60, 61, 62, 63, 64, 75, 65, 66, 17, 18, 67, 68, 38, 19, 6, 69, 70, 20, 71, 72, 40, 3, 73, 74, 21, 23, 76, 29, 11, 31, 77, 78, 79, 83, 32, 80, 81, 82, 48]
     static let mangaDemographics = [
@@ -202,7 +202,7 @@ struct Constants {
         15: "Kids",
         41: "Seinen",
         25: "Shoujo",
-        27: "Shounen",
+        27: "Shounen"
     ]
     static let mangaDemographicKeys = [42, 15, 41, 25, 27]
     

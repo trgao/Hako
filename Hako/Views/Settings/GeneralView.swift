@@ -55,7 +55,7 @@ struct GeneralView: View {
                             let reason = "change settings"
                             
                             if !value {
-                                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
+                                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                                     if success {
                                         DispatchQueue.main.async {
                                             settings.useFaceID = false
@@ -74,13 +74,13 @@ struct GeneralView: View {
                 }
             }
             Section("Top") {
-                let animeRankings = Constants.animeRankings.map{ $0.toString() }
-                let mangaRankings = Constants.mangaRankings.map{ $0.toString() }
+                let animeRankings = Constants.animeRankings.map { $0.toString() }
+                let mangaRankings = Constants.mangaRankings.map { $0.toString() }
                 PickerRow(title: "Default anime ranking", selection: $settings.defaultAnimeRanking, labels: animeRankings)
                 PickerRow(title: "Default manga ranking", selection: $settings.defaultMangaRanking, labels: mangaRankings)
             }
             Section("Seasons") {
-                let seasonSorts = Constants.seasonSorts.map{ $0.toString() }
+                let seasonSorts = Constants.seasonSorts.map { $0.toString() }
                 PickerRow(title: "Default season sort", selection: $settings.defaultSeasonSort, labels: seasonSorts)
             }
             Section("User list") {
@@ -89,13 +89,13 @@ struct GeneralView: View {
                     Text(settings.useStatusTabBar ?  "You can change user list status from the tab bar at the bottom of the page" : "You can change user list status from the menu icon in the navigation bar")
                 }
                 
-                let animeStatuses = Constants.animeStatuses.map{ $0.toString() }
-                let animeSorts = Constants.animeSorts.map{ $0.toString() }
+                let animeStatuses = Constants.animeStatuses.map { $0.toString() }
+                let animeSorts = Constants.animeSorts.map { $0.toString() }
                 PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
                 PickerRow(title: "Default anime sort", selection: $settings.defaultAnimeSort, labels: animeSorts)
                 
-                let mangaStatuses = Constants.mangaStatuses.map{ $0.toString() }
-                let mangaSorts = Constants.mangaSorts.map{ $0.toString() }
+                let mangaStatuses = Constants.mangaStatuses.map { $0.toString() }
+                let mangaSorts = Constants.mangaSorts.map { $0.toString() }
                 PickerRow(title: "Default manga status", selection: $settings.defaultMangaStatus, labels: mangaStatuses)
                 PickerRow(title: "Default manga sort", selection: $settings.defaultMangaSort, labels: mangaSorts)
                 

@@ -60,7 +60,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             let container = try decoder.singleValueContainer()
             let dateStr = try container.decode(String.self)
             let len = dateStr.count
-            var date: Date? = nil
+            var date: Date?
             let yearOnlyFormatter = DateFormatter()
             yearOnlyFormatter.dateFormat = "yyyy"
             let monthOnlyFormatter = DateFormatter()
@@ -113,7 +113,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         var request = URLRequest(url: url)
         request.httpMethod = method
         if let contentType = contentType {
-            request.setValue(contentType, forHTTPHeaderField:"Content-Type")
+            request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
         if let body = body {
             request.httpBody = body
@@ -169,7 +169,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let parameters: Data = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -201,7 +201,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let parameters: Data = "client_id=\(clientId)&grant_type=refresh_token&refresh_token=\(token)".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -482,7 +482,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let body = ["query": query]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
         await anilistBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -554,7 +554,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let body = ["query": query]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField:"Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
         await anilistBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: request)

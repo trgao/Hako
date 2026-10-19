@@ -19,21 +19,12 @@ struct ZoomTransition<Content: View, Label: View>: View {
     
     var body: some View {
         NavigationLink {
-            if #available(iOS 18.0, *) {
-                content()
-                    .navigationTransition(.zoom(sourceID: "item", in: namespace))
-            } else {
-                content()
-            }
+            content()
+                .navigationTransition(.zoom(sourceID: "item", in: namespace))
         } label: {
-            if #available(iOS 18.0, *) {
-                label()
-                    .matchedTransitionSource(id: "item", in: namespace)
-                    .multilineTextAlignment(.leading)
-            } else {
-                label()
-                    .multilineTextAlignment(.leading)
-            }
+            label()
+                .matchedTransitionSource(id: "item", in: namespace)
+                .multilineTextAlignment(.leading)
         }
         .buttonStyle(.plain)
     }

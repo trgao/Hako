@@ -24,18 +24,11 @@ struct ProfileView: View {
                         HStack {
                             ProfileImage(imageUrl: networker.user?.picture, username: networker.user?.name, allowExpand: true)
                             VStack {
-                                if #available(iOS 18.0, *) {
-                                    Text("Hello, \(networker.user?.name ?? "")")
-                                        .frame(maxWidth: .infinity)
-                                        .font(.title3)
-                                        .bold()
-                                        .onScrollVisibilityChange({ hideTitle = $0 })
-                                } else {
-                                    Text("Hello, \(networker.user?.name ?? "")")
-                                        .frame(maxWidth: .infinity)
-                                        .font(.title3)
-                                        .bold()
-                                }
+                                Text("Hello, \(networker.user?.name ?? "")")
+                                    .frame(maxWidth: .infinity)
+                                    .font(.title3)
+                                    .bold()
+                                    .onScrollVisibilityChange({ hideTitle = $0 })
                                 Button("Sign Out") {
                                     isSigningOut = true
                                 }

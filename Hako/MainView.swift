@@ -258,101 +258,58 @@ struct MainView: View {
     var body: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
-                if #available(iOS 18.0, *) {
-                    TabView(selection: tabBinding) {
-                        if settings.replaceTopWithSchedule {
-                            Tab("Schedule", systemImage: "calendar.badge.clock", value: 0) {
-                                ScheduleView(isTab: true)
-                            }
-                        } else {
-                            Tab("Top", systemImage: "medal", value: 0) {
-                                TopView(id: $topId, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
-                            }
-                        }
-                        Tab("Seasons", systemImage: "calendar", value: 1) {
-                            SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
-                        }
-                        Tab("Explore", systemImage: "magnifyingglass", value: 2) {
-                            ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
-                        }
-                        if !settings.useWithoutAccount {
-                            Tab("My list", systemImage: "list.bullet", value: 3) {
-                                MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
-                            }
-                        }
-                        Tab("Settings", systemImage: "gear", value: 4) {
-                            SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
-                        }
-                    }
-                    .onAppear {
-                        tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
-                    }
-                    .onChange(of: tab) {
-                        settings.savedTab = tab
-                    }
-                    .tabViewStyle(.sidebarAdaptable)
-                    .tabViewSidebarBottomBar {
-                        if networker.isSignedIn, let user = networker.user {
-                            Button {
-                                tab = 4
-                                settingsId = UUID()
-                                isProfileActive = true
-                            } label: {
-                                HStack {
-                                    ProfileImage(imageUrl: user.picture)
-                                        .scaleEffect(0.7)
-                                    Text(user.name ?? "")
-                                        .font(.title3)
-                                        .bold()
-                                }
-                                .padding(.horizontal, 10)
-                                .id(networker.user?.picture)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                } else {
-                    TabView(selection: tabBinding) {
-                        if settings.replaceTopWithSchedule {
+                TabView(selection: tabBinding) {
+                    if settings.replaceTopWithSchedule {
+                        Tab("Schedule", systemImage: "calendar.badge.clock", value: 0) {
                             ScheduleView(isTab: true)
-                                .tabItem {
-                                    Label("Schedule", systemImage: "calendar.badge.clock")
-                                }
-                                .tag(0)
-                        } else {
+                        }
+                    } else {
+                        Tab("Top", systemImage: "medal", value: 0) {
                             TopView(id: $topId, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
-                                .tabItem {
-                                    Label("Top", systemImage: "medal")
-                                }
-                                .tag(0)
                         }
-                        SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
-                            .tabItem {
-                                Label("Seasons", systemImage: "calendar")
-                            }
-                            .tag(1)
-                        ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
-                            .tabItem {
-                                Label("Explore", systemImage: "magnifyingglass")
-                            }
-                            .tag(2)
-                        if !settings.useWithoutAccount {
-                            MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
-                                .tabItem {
-                                    Label("My list", systemImage: "list.bullet")
-                                }
-                                .tag(3)
-                        }
-                        SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
-                            .tabItem {
-                                Label("Settings", systemImage: "gear")
-                            }
-                            .tag(4)
                     }
-                    .onAppear {
-                        tab = settings.defaultView
+                    Tab("Seasons", systemImage: "calendar", value: 1) {
+                        SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
+                    }
+                    Tab("Explore", systemImage: "magnifyingglass", value: 2) {
+                        ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
+                    }
+                    if !settings.useWithoutAccount {
+                        Tab("My list", systemImage: "list.bullet", value: 3) {
+                            MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
+                        }
+                    }
+                    Tab("Settings", systemImage: "gear", value: 4) {
+                        SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
+                    }
+                }
+                .onAppear {
+                    tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
+                }
+                .onChange(of: tab) {
+                    settings.savedTab = tab
+                }
+                .tabViewStyle(.sidebarAdaptable)
+                .tabViewSidebarBottomBar {
+                    if networker.isSignedIn, let user = networker.user {
+                        Button {
+                            tab = 4
+                            settingsId = UUID()
+                            isProfileActive = true
+                        } label: {
+                            HStack {
+                                ProfileImage(imageUrl: user.picture)
+                                    .scaleEffect(0.7)
+                                Text(user.name ?? "")
+                                    .font(.title3)
+                                    .bold()
+                            }
+                            .padding(.horizontal, 10)
+                            .id(networker.user?.picture)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             } else {

@@ -44,12 +44,8 @@ struct PersonDetailsView: View {
                         VStack {
                             VStack {
                                 ImageCarousel(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, pictures: [Picture(images: person.images)])
-                                if #available(iOS 18.0, *) {
-                                    NameText(english: person.name, birthday: person.birthday?.toString())
-                                        .onScrollVisibilityChange({ hideTitle = $0 })
-                                } else {
-                                    NameText(english: person.name, birthday: person.birthday?.toString())
-                                }
+                                NameText(english: person.name, birthday: person.birthday?.toString())
+                                    .onScrollVisibilityChange({ hideTitle = $0 })
                                 Favourites(favorites: controller.person?.favorites)
                             }
                             .padding(.horizontal, 17)

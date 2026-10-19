@@ -80,7 +80,7 @@ struct ReviewsListView: View {
                     }
                 }
                 .pickerStyle(.inline)
-                .pickerLabelVisible()
+                .labelsVisibility(.visible)
             } label: {
                 Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
                     .labelStyle(.iconOnly)

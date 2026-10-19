@@ -38,18 +38,11 @@ struct UserProfileView: View {
                     VStack {
                         ScrollViewSection {
                             VStack {
-                                if #available(iOS 18.0, *) {
-                                    Text(user)
-                                        .frame(maxWidth: .infinity)
-                                        .font(.title3)
-                                        .bold()
-                                        .onScrollVisibilityChange({ hideTitle = $0 })
-                                } else {
-                                    Text(user)
-                                        .frame(maxWidth: .infinity)
-                                        .font(.title3)
-                                        .bold()
-                                }
+                                Text(user)
+                                    .frame(maxWidth: .infinity)
+                                    .font(.title3)
+                                    .bold()
+                                    .onScrollVisibilityChange({ hideTitle = $0 })
                                 NavigationLink("Go to user lists") {
                                     UserListView(user: user)
                                 }

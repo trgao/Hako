@@ -13,12 +13,4 @@ extension View {
         renderer.scale = displayScale
         return renderer.uiImage
     }
-    
-    func pickerLabelVisible() -> some View {
-        if #available(iOS 18.0, *) {
-            return self.labelsVisibility(.visible)
-        } else {
-            return self
-        }
-    }
 }

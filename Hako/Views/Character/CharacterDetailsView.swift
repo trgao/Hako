@@ -36,12 +36,8 @@ struct CharacterDetailsView: View {
                     VStack {
                         VStack {
                             ImageCarousel(id: "character\(character.id)", imageUrl: character.images?.jpg?.imageUrl, pictures: [Picture(images: character.images)])
-                            if #available(iOS 18.0, *) {
-                                NameText(english: character.name, japanese: character.nameKanji)
-                                    .onScrollVisibilityChange({ hideTitle = $0 })
-                            } else {
-                                NameText(english: character.name, japanese: character.nameKanji)
-                            }
+                            NameText(english: character.name, japanese: character.nameKanji)
+                                .onScrollVisibilityChange({ hideTitle = $0 })
                             Favourites(favorites: controller.character?.favorites)
                         }
                         .padding(.horizontal, 17)

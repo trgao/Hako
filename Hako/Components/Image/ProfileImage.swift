@@ -55,88 +55,72 @@ struct ProfileImage: View {
             await controller.refresh()
         }
     }
-    
-    private var cover: some View {
-        NavigationStack {
-            ZStack {
-                TabView {
-                    VStack(spacing: 10) {
-                        if let username = username {
-                            Image(uiImage: generateQRCode(from: "https://myanimelist.net/profile/\(username)"))
-                                .interpolation(.none)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 180, height: 180)
-                                .padding(.bottom, 50)
-                        }
-                        label
-                            .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
-                            .contextMenu {
-                                if let inputImage = controller.image {
-                                    Button {
-                                        let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
-                                        imageSaver.writeToPhotoAlbum(image: inputImage)
-                                    } label: {
-                                        Label("Save", systemImage: "square.and.arrow.down")
-                                    }
-                                }
-                            }
-                        Text(username ?? "")
-                            .bold()
-                            .font(.title)
-                    }
-                }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .never))
-            }
-            .toolbar {
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark")
-                }
-            }
-        }
-        .systemNotification(isActive: $isSuccessPresented) {
-            Label("Successfully saved photo", systemImage: "checkmark.circle.fill")
-                .labelStyle(.iconTint(.green))
-                .padding()
-        }
-        .alert("Could not successfully save photo", isPresented: $isErrorPresented) {
-            Button("Ok") {}
-        } message: {
-            Text("Check that you have provided permission for the app to access your photo library, in the Settings app under Apps > Hako > Photos > Add Photos Only")
-        }
-    }
 
     var body: some View {
         VStack {
             if allowExpand {
-                if #available(iOS 18.0, *) {
-                    Button {
-                        isPresented = true
-                    } label: {
-                        label
-                    }
-                    .matchedTransitionSource(id: "profile", in: transitionNamespace)
-                } else {
-                    Button {
-                        isPresented = true
-                    } label: {
-                        label
-                    }
+                Button {
+                    isPresented = true
+                } label: {
+                    label
                 }
+                .matchedTransitionSource(id: "profile", in: transitionNamespace)
             } else {
                 label
             }
         }
         .fullScreenCover(isPresented: $isPresented) {
-            if #available(iOS 18.0, *) {
-                cover
-                    .navigationTransition(.zoom(sourceID: "profile", in: transitionNamespace))
-            } else {
-                cover
+            NavigationStack {
+                ZStack {
+                    TabView {
+                        VStack(spacing: 10) {
+                            if let username = username {
+                                Image(uiImage: generateQRCode(from: "https://myanimelist.net/profile/\(username)"))
+                                    .interpolation(.none)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 180, height: 180)
+                                    .padding(.bottom, 50)
+                            }
+                            label
+                                .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
+                                .contextMenu {
+                                    if let inputImage = controller.image {
+                                        Button {
+                                            let imageSaver = ImageSaver(isSuccessPresented: $isSuccessPresented, isErrorPresented: $isErrorPresented)
+                                            imageSaver.writeToPhotoAlbum(image: inputImage)
+                                        } label: {
+                                            Label("Save", systemImage: "square.and.arrow.down")
+                                        }
+                                    }
+                                }
+                            Text(username ?? "")
+                                .bold()
+                                .font(.title)
+                        }
+                    }
+                    .tabViewStyle(.page)
+                    .indexViewStyle(.page(backgroundDisplayMode: .never))
+                }
+                .toolbar {
+                    Button {
+                        isPresented = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
             }
+            .systemNotification(isActive: $isSuccessPresented) {
+                Label("Successfully saved photo", systemImage: "checkmark.circle.fill")
+                    .labelStyle(.iconTint(.green))
+                    .padding()
+            }
+            .alert("Could not successfully save photo", isPresented: $isErrorPresented) {
+                Button("Ok") {}
+            } message: {
+                Text("Check that you have provided permission for the app to access your photo library, in the Settings app under Apps > Hako > Photos > Add Photos Only")
+            }
+            .navigationTransition(.zoom(sourceID: "profile", in: transitionNamespace))
         }
     }
 }

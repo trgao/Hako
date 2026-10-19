@@ -24,7 +24,7 @@ struct UserListFilter: View {
                     }
                 }
                 .pickerStyle(.inline)
-                .pickerLabelVisible()
+                .labelsVisibility(.visible)
                 Divider()
             }
             Picker("Sort", selection: controller.type == .anime ? $controller.animeSort : $controller.mangaSort) {
@@ -33,7 +33,7 @@ struct UserListFilter: View {
                 }
             }
             .pickerStyle(.inline)
-            .pickerLabelVisible()
+            .labelsVisibility(.visible)
         } label: {
             Label("Menu", systemImage: settings.useStatusTabBar ? "arrow.up.arrow.down.circle" : "line.3.horizontal.decrease.circle")
                 .labelStyle(.iconOnly)

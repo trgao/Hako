@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct Related: Codable {
+struct Related: Codable, Hashable {
     let relation: String?
     let entry: [RelatedEntry]
 }
 
-struct RelatedEntry: Codable, Identifiable {
+struct RelatedEntry: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let name: String?
     let type: TypeEnum?
 }
 
-struct RelatedItem: Codable, Identifiable {
+struct RelatedItem: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let type: TypeEnum?
@@ -29,14 +29,19 @@ struct RelatedItem: Codable, Identifiable {
     var manga: Manga?
 }
 
-struct RelatedAnime: Codable, Identifiable {
+struct RelatedAnime: Codable, Identifiable, Hashable {
     var id: Int { node.id }
     let node: Anime
     let relationTypeFormatted: String?
 }
 
-struct RelatedManga: Codable, Identifiable {
+struct RelatedManga: Codable, Identifiable, Hashable {
     var id: Int { node.id }
     let node: Manga
     let relationTypeFormatted: String?
+}
+
+struct RelatedList: Hashable {
+    let type: TypeEnum
+    let items: [RelatedItem]
 }

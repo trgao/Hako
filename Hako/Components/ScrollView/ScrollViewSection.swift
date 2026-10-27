@@ -11,12 +11,12 @@ struct ScrollViewSection<Content: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
     private let content: () -> Content
-    
+
     init(title: String = "", @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)

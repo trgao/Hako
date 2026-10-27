@@ -10,15 +10,15 @@ import SwiftUI
 struct Recommendations: View {
     private var animeRecommendations: [MALListAnime]?
     private var mangaRecommendations: [MALListManga]?
-    
+
     init(animeRecommendations: [MALListAnime]?) {
         self.animeRecommendations = animeRecommendations
     }
-    
+
     init(mangaRecommendations: [MALListManga]?) {
         self.mangaRecommendations = mangaRecommendations
     }
-    
+
     var body: some View {
         if let recommendations = animeRecommendations, !recommendations.isEmpty {
             ScrollViewCarousel(title: "Recommendations") {

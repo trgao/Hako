@@ -7,27 +7,27 @@
 
 import SwiftUI
 
-struct ScrollViewListItem: View {
+struct ScrollViewListItem<Item: Hashable>: View {
     @Environment(\.colorScheme) private var colorScheme
-    @Binding private var selectedIndex: Int?
+    @Environment(Router.self) private var router
     @State private var isPressed = false
     private let id: String
     private let title: String?
     private let subtitle: String?
     private let imageUrl: String?
     private let url: String
-    private let index: Int
-    
-    init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, index: Int, selectedIndex: Binding<Int?>) {
+    private let item: Item
+    private let itemId = UUID()
+
+    init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, item: Item) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
         self.imageUrl = imageUrl
         self.url = url
-        self.index = index
-        self._selectedIndex = selectedIndex
+        self.item = item
     }
-    
+
     var body: some View {
         HStack(spacing: 10) {
             ImageFrame(id: id, imageUrl: imageUrl, imageSize: Constants.listImageSize)
@@ -48,11 +48,14 @@ struct ScrollViewListItem: View {
                     .foregroundStyle(Color(.systemGray2))
             }
         }
-        .id(UUID())
+        .id(itemId)
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
-            selectedIndex = index
             isPressed = true
+            router.push(item)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isPressed = false
+            }
         }
         .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
             isPressed = pressing

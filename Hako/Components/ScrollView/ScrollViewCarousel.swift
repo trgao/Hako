@@ -7,34 +7,32 @@
 
 import SwiftUI
 
-struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: View {
+struct ScrollViewCarousel<Item: Hashable, Content: View, Placeholder: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
     private let count: Int?
+    private let item: Item?
     private let viewAlignedScroll: Bool
     private let loadingState: LoadingEnum?
     private let refresh: () async -> Void
     private let placeholder: (Bool) -> Placeholder
     private let content: () -> Content
-    private let destination: () -> Destination
-    
-    init(title: String, count: Int? = nil, viewAlignedScroll: Bool = false, loadingState: LoadingEnum? = nil, refresh: @escaping () async -> Void = {}, placeholder: @escaping (Bool) -> Placeholder = BigPlaceholderGridItem.init, @ViewBuilder content: @escaping () -> Content, destination: @escaping () -> Destination = { EmptyView() }) {
+
+    init(title: String, count: Int? = nil, item: Item? = (nil as String?), viewAlignedScroll: Bool = false, loadingState: LoadingEnum? = nil, refresh: @escaping () async -> Void = {}, placeholder: @escaping (Bool) -> Placeholder = BigPlaceholderGridItem.init, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.count = count
+        self.item = item
         self.viewAlignedScroll = viewAlignedScroll
         self.loadingState = loadingState
         self.refresh = refresh
         self.placeholder = placeholder
         self.content = content
-        self.destination = destination
     }
-    
+
     private var sectionHeader: some View {
         HStack {
-            if let count = count, count > 10 && Destination.self != EmptyView.self {
-                NavigationLink {
-                    destination()
-                } label: {
+            if let count = count, count > 10, let item = item {
+                TrackedNavigationLink(value: item) {
                     HStack {
                         Text(title)
                         Image(systemName: "chevron.right")
@@ -64,7 +62,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 27)
     }
-    
+
     private var scrollView: some View {
         ScrollView(.horizontal) {
             HStack(alignment: .top, spacing: 10) {
@@ -84,7 +82,7 @@ struct ScrollViewCarousel<Content: View, Destination: View, Placeholder: View>: 
         .padding(.top, (count ?? 0) > 10 ? -15 : -50)
         .disabled((loadingState == .loading || loadingState == .error) && count == nil)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             sectionHeader

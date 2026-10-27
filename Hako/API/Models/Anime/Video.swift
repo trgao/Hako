@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Video: Codable, Identifiable, Equatable {
+struct Video: Codable, Identifiable, Equatable, Hashable {
     let id: Int
     let title: String?
     let url: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Mangaography: Codable, Identifiable {
+struct Mangaography: Codable, Identifiable, Hashable {
     var id: Int { manga.id }
     let manga: ThirdPartyListItem
     let role: String?

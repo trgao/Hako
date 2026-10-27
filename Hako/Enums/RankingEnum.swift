@@ -9,7 +9,7 @@ import Foundation
 
 enum RankingEnum: String {
     case all, tv, ova, movie, special, manga, lightnovels, novels, oneshots, manhwa, manhua, bypopularity, favorite
-    
+
     func toString() -> String {
         switch self {
         case .bypopularity: return "Popularity"
@@ -19,7 +19,7 @@ enum RankingEnum: String {
         default: return self.rawValue.formatMediaType()
         }
     }
-    
+
     func toIcon() -> String {
         switch self {
         case .all: return "star"

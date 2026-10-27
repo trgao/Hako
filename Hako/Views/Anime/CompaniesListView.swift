@@ -10,7 +10,7 @@ import SwiftUI
 struct CompaniesListView: View {
     @StateObject private var controller = CompaniesListViewController()
     @State private var isRefresh = false
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.companies.isEmpty {
@@ -23,9 +23,7 @@ struct CompaniesListView: View {
                     } else {
                         ForEach(controller.companies) { company in
                             if let title = company.titles?.first(where: { $0.type == "Default" })?.title {
-                                NavigationLink {
-                                    GroupDetailsView(title: title, group: "producers", id: company.id, type: .anime)
-                                } label: {
+                                TrackedNavigationLink(value: GroupDetail(id: company.id, name: title, type: .anime, group: "producers")) {
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(title).bold()
                                         Group {

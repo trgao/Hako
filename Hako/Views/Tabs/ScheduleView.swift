@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ScheduleView: View {
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ScheduleViewController()
     @State private var isRefresh = false
@@ -16,14 +17,14 @@ struct ScheduleView: View {
     private var airingNextId: String? {
         controller.animeItems.first(where: { $0.airingAt >= Int(Date().timeIntervalSince1970) })?.id
     }
-    
+
     init(isTab: Bool = false) {
         self.isTab = isTab
         for i in 0...6 {
             days.append(Date().addingTimeInterval(TimeInterval(i * 86400)).formatted(.dateTime.weekday(.wide).month(.wide).day()))
         }
     }
-    
+
     @ViewBuilder private func DaySchedule(_ index: Int, _ width: CGFloat) -> some View {
         let day = days[index]
         if let items = controller.schedule[day] {
@@ -61,7 +62,7 @@ struct ScheduleView: View {
             }
         }
     }
-    
+
     private var nothingFoundView: some View {
         VStack {
             Image(systemName: "calendar.badge.clock")
@@ -72,7 +73,7 @@ struct ScheduleView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
-    
+
     private var content: some View {
         ZStack {
             GeometryReader { geometry in
@@ -134,11 +135,12 @@ struct ScheduleView: View {
             }
         }
     }
-    
+
     var body: some View {
         if isTab {
-            NavigationStack {
-                content
+            @Bindable var router = router
+            NavigationStack(path: $router.path) {
+                content.navigationDestinations()
             }
         } else {
             content

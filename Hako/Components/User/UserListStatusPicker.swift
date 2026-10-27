@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct UserListStatusPicker: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.screenSize) private var screenSize
     @Binding private var selection: StatusEnum
@@ -16,13 +17,13 @@ struct UserListStatusPicker: View {
     @State private var lastZoneSize: CGFloat = 0
     private let options: [StatusEnum]
     private let isLoading: Bool
-    
+
     init(selection: Binding<StatusEnum>, options: [StatusEnum], isLoading: Bool) {
         self._selection = selection
         self.options = options
         self.isLoading = isLoading
     }
-    
+
     private func getCornerRadius() -> CGFloat {
         if #available(iOS 26.0, *) {
             return 20
@@ -30,7 +31,7 @@ struct UserListStatusPicker: View {
             return 10
         }
     }
-    
+
     private func getPadding() -> CGFloat {
         if #available(iOS 26.0, *) {
             return 20
@@ -39,79 +40,88 @@ struct UserListStatusPicker: View {
         }
     }
     
+    private var scrollView: some View {
+        ScrollViewReader { proxy in
+            GeometryReader { outer in
+                ScrollView(.horizontal) {
+                    ZStack {
+                        // This HStack is a hack for ScrollViewReader to scroll to position correctly without going into UIKit things
+                        HStack {
+                            ForEach(options, id: \.self) { option in
+                                Text(option.rawValue)
+                            }
+                        }
+                        .hidden()
+                        ScrollableSegmentedControl(selection: $selection, options: options)
+                            .disabled(isLoading)
+                            .onGeometryChange(for: CGRect.self) { geometry in
+                                geometry.frame(in: .scrollView)
+                            } action: { frame in
+                                let outerSize = outer.size
+                                let leadingZoneWidth = min(-frame.minX, 50)
+                                let trailingZoneWidth = min(frame.maxX - outerSize.width, 50)
+                                if firstZoneSize != leadingZoneWidth {
+                                    firstZoneSize = leadingZoneWidth
+                                }
+                                if lastZoneSize != trailingZoneWidth {
+                                    lastZoneSize = trailingZoneWidth
+                                }
+                            }
+                    }
+                }
+                .scrollIndicators(.never)
+                .mask {
+                    HStack(spacing: 0) {
+                        LinearGradient(colors: [.clear, .black], startPoint: .leading, endPoint: .trailing)
+                            .frame(width: max(1, firstZoneSize))
+                        Color.black
+                        LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
+                            .frame(width: max(1, lastZoneSize))
+                    }
+                }
+                .background(Color(.systemGray4).opacity(0.7))
+                .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
+                .onAppear {
+                    proxy.scrollTo(selection, anchor: .center)
+                }
+                .onChange(of: selection) {
+                    withAnimation {
+                        proxy.scrollTo(selection, anchor: .center)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .padding(6)
+                .sensoryFeedback(.impact(weight: .light), trigger: selection)
+            }
+        }
+    }
+
     var body: some View {
         if screenSize.width > 650 { // width of ScrollableSegmentedControl
             TabPicker(selection: $selection, options: options.map { ($0.toString(), $0) })
                 .disabled(isLoading)
         } else {
-            ZStack {
-                if #available(iOS 26.0, *) {
-                    RoundedRectangle(cornerRadius: 20)
-                        .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.6))
-                        .glassEffect(.regular)
-                        .padding(.horizontal, 15)
-                } else {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.9))
-                        .padding(.horizontal, 7)
-                }
-                ScrollViewReader { proxy in
-                    GeometryReader { outer in
-                        ScrollView(.horizontal) {
-                            ZStack {
-                                // This HStack is a hack for ScrollViewReader to scroll to position correctly without going into UIKit things
-                                HStack {
-                                    ForEach(options, id: \.self) { option in
-                                        Text(option.rawValue)
-                                    }
-                                }
-                                .hidden()
-                                ScrollableSegmentedControl(selection: $selection, options: options)
-                                    .disabled(isLoading)
-                                    .onGeometryChange(for: CGRect.self) { geometry in
-                                        geometry.frame(in: .scrollView)
-                                    } action: { frame in
-                                        let outerSize = outer.size
-                                        let leadingZoneWidth = min(-frame.minX, 50)
-                                        let trailingZoneWidth = min(frame.maxX - outerSize.width, 50)
-                                        if firstZoneSize != leadingZoneWidth {
-                                            firstZoneSize = leadingZoneWidth
-                                        }
-                                        if lastZoneSize != trailingZoneWidth {
-                                            lastZoneSize = trailingZoneWidth
-                                        }
-                                    }
-                            }
-                        }
-                        .scrollIndicators(.never)
-                        .mask {
-                            HStack(spacing: 0) {
-                                LinearGradient(colors: [.clear, .black], startPoint: .leading, endPoint: .trailing)
-                                    .frame(width: max(1, firstZoneSize))
-                                Color.black
-                                LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
-                                    .frame(width: max(1, lastZoneSize))
-                            }
-                        }
-                        .background(Color(.systemGray4).opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
-                        .padding(.horizontal, getPadding())
-                        .onAppear {
-                            proxy.scrollTo(selection, anchor: .center)
-                        }
-                        .onChange(of: selection) {
-                            withAnimation {
-                                proxy.scrollTo(selection, anchor: .center)
-                            }
-                        }
-                        .frame(maxHeight: .infinity, alignment: .center)
+            if #available(iOS 26.2, *), horizontalSizeClass == .compact {
+                scrollView
+            } else {
+                ZStack {
+                    if #available(iOS 26.0, *) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.6))
+                            .glassEffect(.regular)
+                            .padding(.horizontal, 15)
+                    } else {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundStyle((colorScheme == .light ? Color.white : Color.black).opacity(0.9))
+                            .padding(.horizontal, 7)
                     }
+                    scrollView
                 }
+                .frame(height: 42)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                .padding(5)
+                .sensoryFeedback(.impact(weight: .light), trigger: selection)
             }
-            .frame(height: 42)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-            .padding(5)
-            .sensoryFeedback(.impact(weight: .light), trigger: selection)
         }
     }
 }
@@ -121,16 +131,16 @@ class NoDragGestureSegmentedControl: UISegmentedControl {
         super.init(items: items)
         backgroundColor = .clear
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         backgroundColor = .clear
     }
-    
+
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         let imageViews = subviews.compactMap { $0 as? UIImageView }.prefix(numberOfSegments)
@@ -152,7 +162,7 @@ struct ScrollableSegmentedControl: UIViewRepresentable {
     func updateUIView(_ uiView: NoDragGestureSegmentedControl, context: Context) {
         uiView.selectedSegmentIndex = options.firstIndex(of: selection) ?? 0
     }
-    
+
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIView, context: Context) -> CGSize? {
         uiView.sizeThatFits(CGSize(width: proposal.width ?? .infinity, height: proposal.height ?? .infinity))
     }

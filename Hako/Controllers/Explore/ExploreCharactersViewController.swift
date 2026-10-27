@@ -14,7 +14,7 @@ class ExploreCharactersViewController: ObservableObject {
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
-    
+
     // Refresh the characters list page
     func refresh() async {
         loadingState = .loading
@@ -30,14 +30,14 @@ class ExploreCharactersViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current characters list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !characters.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         if let characterList = try? await networker.getCharacters(page: currentPage) {
             currentPage += 1
@@ -46,7 +46,7 @@ class ExploreCharactersViewController: ObservableObject {
         }
         loadingState = .idle
     }
-    
+
     // Load more characters when reaching the 4th last character in list
     func loadMoreIfNeeded(index: Int) async {
         if index == characters.endIndex - 5 {

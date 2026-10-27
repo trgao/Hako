@@ -12,12 +12,12 @@ struct TagItem: View {
     @EnvironmentObject private var settings: SettingsManager
     private let text: String
     private let systemImage: String?
-    
+
     init(text: String, systemImage: String? = nil) {
         self.text = text
         self.systemImage = systemImage
     }
-    
+
     var body: some View {
         var background: Color {
             if text == "Recommended" {

@@ -16,7 +16,7 @@ extension EnvironmentValues {
         get { self[ScreenSizeKey.self] }
         set { self[ScreenSizeKey.self] = newValue }
     }
-    
+
     var screenRatio: CGFloat {
         get { min(self[ScreenSizeKey.self].width / 400, 1.2) }
     }

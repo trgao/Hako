@@ -10,20 +10,16 @@ import SwiftUI
 struct ReviewItem: View {
     @Environment(\.colorScheme) private var colorScheme
     private let item: Review
-    
+
     init(item: Review) {
         self.item = item
     }
-    
+
     var body: some View {
-        NavigationLink {
-            ReviewDetailsView(item: item)
-        } label: {
+        TrackedNavigationLink(value: item) {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    NavigationLink {
-                        UserListView(user: username)
-                    } label: {
+                    TrackedNavigationLink(value: UserList(username: username)) {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
                             Text("\(username) ・ \(date.toString())")

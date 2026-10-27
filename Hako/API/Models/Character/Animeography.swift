@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Animeography: Codable, Identifiable {
+struct Animeography: Codable, Identifiable, Hashable {
     var id: Int { anime.id }
     let anime: ThirdPartyListItem
     let role: String?

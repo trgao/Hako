@@ -15,13 +15,13 @@ struct TitleText: View {
     private var title: String {
         settings.getTitle(romaji: romaji, english: english, native: native)
     }
-    
+
     init(romaji: String, english: String? = nil, native: String? = nil) {
         self.romaji = romaji
         self.english = english
         self.native = native
     }
-    
+
     var body: some View {
         VStack {
             Text(title)

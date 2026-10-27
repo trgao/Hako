@@ -15,12 +15,12 @@ struct UserProfileView: View {
     @State private var hideTitle = true
     @State private var isRefresh = false
     private let user: String
-    
+
     init(user: String) {
         self.user = user
         self._controller = StateObject(wrappedValue: UserProfileViewController(user: user))
     }
-    
+
     var body: some View {
         ZStack {
             if controller.isUserNotFound {
@@ -43,9 +43,7 @@ struct UserProfileView: View {
                                     .font(.title3)
                                     .bold()
                                     .onScrollVisibilityChange({ hideTitle = $0 })
-                                NavigationLink("Go to user lists") {
-                                    UserListView(user: user)
-                                }
+                                TrackedNavigationLink(value: UserList(username: user), label: "Go to user lists")
                                 .prominentButtonStyle()
                             }
                             .padding(.horizontal, 20)

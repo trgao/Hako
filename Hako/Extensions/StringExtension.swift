@@ -16,15 +16,15 @@ extension String {
 
         return attr?.string ?? self
     }
-    
+
     func index(of string: String) -> Index? {
         return range(of: string, options: .literal)?.lowerBound
     }
-    
+
     func initialCapitalise() -> String {
         return self.prefix(1).capitalized + self.dropFirst()
     }
-    
+
     func formatMediaType() -> String {
         let cur = self.lowercased()
         if cur.count <= 3 {
@@ -38,12 +38,12 @@ extension String {
             return text.initialCapitalise()
         }
     }
-    
+
     func formatStatus() -> String {
         let text = self.replacingOccurrences(of: "_", with: " ").lowercased()
         return text.initialCapitalise()
     }
-    
+
     func formatThemeSong() -> String {
         var cur = self
         if let number = cur.firstIndex(of: "\""), cur.distance(from: cur.startIndex, to: number) < 6 {
@@ -60,7 +60,7 @@ extension String {
         }
         return cur
     }
-    
+
     func toSnakeCase() -> String {
         return self.lowercased().replacingOccurrences(of: " ", with: "_")
     }

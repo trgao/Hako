@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Voice: Codable, Identifiable {
+struct Voice: Codable, Identifiable, Hashable {
     var id: Int { person.id }
     let person: ThirdPartyListItem
     let language: String?

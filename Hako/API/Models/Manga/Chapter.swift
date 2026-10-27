@@ -7,10 +7,14 @@
 
 import Foundation
 
-struct Chapter: Codable, Identifiable {
+struct Chapter: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let title: String
     let url: String?
     let comments: Int?
+}
+
+struct ChapterList: Hashable {
+    let id: Int
 }

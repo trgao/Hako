@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AnimeGridItem: View {
+    @Namespace private var namespace
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
@@ -21,7 +22,7 @@ struct AnimeGridItem: View {
     private var itemTitle: String {
         settings.getTitle(romaji: title, english: enTitle, native: jaTitle)
     }
-    
+
     init(id: Int, title: String?, enTitle: String?, jaTitle: String?, imageUrl: String?, subtitle: String? = nil, anime: Anime? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
@@ -32,11 +33,9 @@ struct AnimeGridItem: View {
         self.anime = anime ?? Anime(id: id, title: title ?? "", enTitle: enTitle, jaTitle: jaTitle, imageUrl: imageUrl)
         self.isRecentlyViewed = isRecentlyViewed
     }
-    
+
     var body: some View {
-        ZoomTransition {
-            AnimeDetailsView(anime: anime)
-        } label: {
+        TrackedNavigationLink(value: ZoomTransitionItem(content: anime, namespaceId: namespace)) {
             VStack {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {
@@ -86,7 +85,10 @@ struct AnimeGridItem: View {
                     .padding(5)
                     .font(.callout)
             }
+            .matchedTransitionSource(id: "anime", in: namespace)
+            .multilineTextAlignment(.leading)
         }
+        .buttonStyle(.plain)
         .id(anime.id)
         .padding(5)
     }

@@ -13,12 +13,12 @@ struct EpisodesListView: View {
     @StateObject private var controller: EpisodesListViewController
     @State private var isRefresh = false
     private let id: Int
-    
+
     init(id: Int) {
         self.id = id
         self._controller = StateObject(wrappedValue: EpisodesListViewController(id: id))
     }
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.episodes.isEmpty {
@@ -30,9 +30,7 @@ struct EpisodesListView: View {
                         LoadingList(length: 20, showImage: false)
                     } else {
                         ForEach(controller.episodes) { episode in
-                            NavigationLink {
-                                EpisodeDetailsView(animeId: id, item: episode)
-                            } label: {
+                            TrackedNavigationLink(value: episode) {
                                 VStack(alignment: .leading) {
                                     Text("#\(episode.id): \(settings.getTitle(romaji: episode.titleRomanji, english: episode.title, native: episode.titleJapanese))")
                                     if let aired = episode.aired {

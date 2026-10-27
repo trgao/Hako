@@ -11,7 +11,7 @@ import YouTubePlayerKit
 struct Trailers: View {
     @Environment(\.screenRatio) private var screenRatio
     private let players: [YouTubePlayer]
-    
+
     init(videos: [Video]?) {
         let configuration = YouTubePlayer.Configuration(allowsInlineMediaPlayback: false, allowsPictureInPictureMediaPlayback: true)
         self.players = videos?.compactMap { video in
@@ -21,7 +21,7 @@ struct Trailers: View {
             return YouTubePlayer(source: .init(urlString: url), configuration: configuration)
         } ?? []
     }
-    
+
     var body: some View {
         if !players.isEmpty {
             ScrollView(.horizontal) {

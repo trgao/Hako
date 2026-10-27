@@ -13,60 +13,60 @@ class UserListViewController: ObservableObject {
     @Published var animeStatus: StatusEnum = .watching
     @Published var animeSort: SortEnum = .animeTitle
     @Published var isAnimePrivate = false
-    
+
     @Published var allAnimeItems: [MALListAnime] = []
     private var currentAllAnimePage = 1
     private var canLoadMoreAllAnimePages = true
-    
+
     @Published var watchingAnimeItems: [MALListAnime] = []
     private var currentWatchingAnimePage = 1
     private var canLoadMoreWatchingAnimePages = true
-    
+
     @Published var completedAnimeItems: [MALListAnime] = []
     private var currentCompletedAnimePage = 1
     private var canLoadMoreCompletedAnimePages = true
-    
+
     @Published var onHoldAnimeItems: [MALListAnime] = []
     private var currentOnHoldAnimePage = 1
     private var canLoadMoreOnHoldAnimePages = true
-    
+
     @Published var droppedAnimeItems: [MALListAnime] = []
     private var currentDroppedAnimePage = 1
     private var canLoadMoreDroppedAnimePages = true
-    
+
     @Published var planToWatchAnimeItems: [MALListAnime] = []
     private var currentPlanToWatchAnimePage = 1
     private var canLoadMorePlanToWatchAnimePages = true
-    
+
     // Manga list variables
     @Published var mangaStatus: StatusEnum = .reading
     @Published var mangaSort: SortEnum = .mangaTitle
     @Published var isMangaPrivate = false
-    
+
     @Published var allMangaItems: [MALListManga] = []
     private var currentAllMangaPage = 1
     private var canLoadMoreAllMangaPages = true
-    
+
     @Published var readingMangaItems: [MALListManga] = []
     private var currentReadingMangaPage = 1
     private var canLoadMoreReadingMangaPages = true
-    
+
     @Published var completedMangaItems: [MALListManga] = []
     private var currentCompletedMangaPage = 1
     private var canLoadMoreCompletedMangaPages = true
-    
+
     @Published var onHoldMangaItems: [MALListManga] = []
     private var currentOnHoldMangaPage = 1
     private var canLoadMoreOnHoldMangaPages = true
-    
+
     @Published var droppedMangaItems: [MALListManga] = []
     private var currentDroppedMangaPage = 1
     private var canLoadMoreDroppedMangaPages = true
-    
+
     @Published var planToReadMangaItems: [MALListManga] = []
     private var currentPlanToReadMangaPage = 1
     private var canLoadMorePlanToReadMangaPages = true
-    
+
     // Common variables
     @Published var type: TypeEnum = .anime
     @Published var loadingState: LoadingEnum = .loading
@@ -75,41 +75,41 @@ class UserListViewController: ObservableObject {
     @Published var isEditError = false
     private let user: String
     private let networker = NetworkManager.shared
-    
+
     init(user: String) {
         self.user = user
     }
-    
+
     // Check if the current anime/manga list is loading
     func isLoading() -> Bool {
         return loadingState == .loading || loadingState == .paginating || isRefreshLoading
     }
-    
+
     // Check if the current anime list is empty
     func isAnimeItemsEmpty() -> Bool {
         return (animeStatus == .none && allAnimeItems.isEmpty) || (animeStatus == .watching && watchingAnimeItems.isEmpty) || (animeStatus == .completed && completedAnimeItems.isEmpty) || (animeStatus == .onHold && onHoldAnimeItems.isEmpty) || (animeStatus == .dropped && droppedAnimeItems.isEmpty) || (animeStatus == .planToWatch && planToWatchAnimeItems.isEmpty)
     }
-    
+
     // Check if the current manga list is empty
     func isMangaItemsEmpty() -> Bool {
         return (mangaStatus == .none && allMangaItems.isEmpty) || (mangaStatus == .reading && readingMangaItems.isEmpty) || (mangaStatus == .completed && completedMangaItems.isEmpty) || (mangaStatus == .onHold && onHoldMangaItems.isEmpty) || (mangaStatus == .dropped && droppedMangaItems.isEmpty) || (mangaStatus == .planToRead && planToReadMangaItems.isEmpty)
     }
-    
+
     // Check if the current anime/manga list is empty
     func isItemsEmpty() -> Bool {
         return (type == .anime && isAnimeItemsEmpty()) || (type == .manga && isMangaItemsEmpty())
     }
-    
+
     // Get canLoadMorePages variable for the current anime/manga list
     func getCanLoadMorePages() -> Bool {
         return (type == .anime && getCurrentAnimeCanLoadMore()) || (type == .manga && getCurrentMangaCanLoadMore())
     }
-    
+
     // Check if the current anime/manga list should be refreshed
     func shouldRefresh() -> Bool {
         return (type == .anime && ((animeStatus == .none && (!allAnimeItems.isEmpty || canLoadMoreAllAnimePages)) || (animeStatus == .watching && (!watchingAnimeItems.isEmpty || canLoadMoreWatchingAnimePages)) || (animeStatus == .completed && (!completedAnimeItems.isEmpty || canLoadMoreCompletedAnimePages)) || (animeStatus == .onHold && (!onHoldAnimeItems.isEmpty || canLoadMoreOnHoldAnimePages)) || (animeStatus == .dropped && (!droppedAnimeItems.isEmpty || canLoadMoreDroppedAnimePages)) || (animeStatus == .planToWatch && (!planToWatchAnimeItems.isEmpty || canLoadMorePlanToWatchAnimePages)))) || (type == .manga && ((mangaStatus == .none && (!allMangaItems.isEmpty || canLoadMoreAllMangaPages)) || (mangaStatus == .reading && (!readingMangaItems.isEmpty || canLoadMoreReadingMangaPages)) || (mangaStatus == .completed && (!completedMangaItems.isEmpty || canLoadMoreCompletedMangaPages)) || (mangaStatus == .onHold && (!onHoldMangaItems.isEmpty || canLoadMoreOnHoldMangaPages)) || (mangaStatus == .dropped && (!droppedMangaItems.isEmpty || canLoadMoreDroppedMangaPages)) || (mangaStatus == .planToRead && (!planToReadMangaItems.isEmpty || canLoadMorePlanToReadMangaPages))))
     }
-    
+
     // Update anime item list status for current anime status
     func updateAnimeItemListStatus(_ index: Int, _ listStatus: MyListStatus) {
         switch animeStatus {
@@ -122,7 +122,7 @@ class UserListViewController: ObservableObject {
         default: return
         }
     }
-    
+
     // Update manga item list status for current anime status
     func updateMangaItemListStatus(_ index: Int, _ listStatus: MyListStatus) {
         switch mangaStatus {
@@ -135,7 +135,7 @@ class UserListViewController: ObservableObject {
         default: return
         }
     }
-    
+
     // Remove item from anime list
     func removeAnimeItem(_ index: Int) {
         switch animeStatus {
@@ -148,7 +148,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Remove item from manga list
     func removeMangaItem(_ index: Int) {
         switch mangaStatus {
@@ -161,7 +161,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Replace (status)AnimeItems variable for the current anime status
     func replaceCurrentAnimeItems(_ list: [MALListAnime]) {
         switch animeStatus {
@@ -174,7 +174,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Replace (status)MangaItems variable for the current manga status
     func replaceCurrentMangaItems(_ list: [MALListManga]) {
         switch mangaStatus {
@@ -187,7 +187,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Append items to (status)AnimeItems variable for the current anime status
     private func appendCurrentAnimeItems(_ list: [MALListAnime]) {
         switch animeStatus {
@@ -200,7 +200,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Append items to (status)MangaItems variable for the current manga status
     private func appendCurrentMangaItems(_ list: [MALListManga]) {
         switch mangaStatus {
@@ -213,7 +213,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Get canLoadMore(Status)AnimePages variable for the current anime status
     private func getCurrentAnimeCanLoadMore() -> Bool {
         switch animeStatus {
@@ -226,7 +226,7 @@ class UserListViewController: ObservableObject {
         default: return false // should not reach here
         }
     }
-    
+
     // Get canLoadMore(Status)MangaPages variable for the current manga status
     private func getCurrentMangaCanLoadMore() -> Bool {
         switch mangaStatus {
@@ -239,7 +239,7 @@ class UserListViewController: ObservableObject {
         default: return false // should not reach here
         }
     }
-    
+
     // Update canLoadMore(Status)AnimePages variable for the current anime status
     private func updateCurrentAnimeCanLoadMore(_ canLoadMorePages: Bool) {
         switch animeStatus {
@@ -252,7 +252,7 @@ class UserListViewController: ObservableObject {
         default: return
         }
     }
-    
+
     // Update canLoadMore(Status)MangaPages variable for the current manga status
     private func updateCurrentMangaCanLoadMore(_ canLoadMorePages: Bool) {
         switch mangaStatus {
@@ -265,7 +265,7 @@ class UserListViewController: ObservableObject {
         default: return
         }
     }
-    
+
     // Get current(Status)AnimePage variable for the current anime status
     private func getCurrentAnimePage() -> Int {
         switch animeStatus {
@@ -278,7 +278,7 @@ class UserListViewController: ObservableObject {
         default: return 1 // should not reach here
         }
     }
-    
+
     // Get current(Status)MangaPage variable for the current manga status
     private func getCurrentMangaPage() -> Int {
         switch mangaStatus {
@@ -291,7 +291,7 @@ class UserListViewController: ObservableObject {
         default: return 1 // should not reach here
         }
     }
-    
+
     // Update current(Status)AnimePage variable for the current anime status
     private func updateCurrentAnimePage(_ currentPage: Int) {
         switch animeStatus {
@@ -304,7 +304,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     // Update current(Status)MangaPage variable for the current manga status
     private func updateCurrentMangaPage(_ currentPage: Int) {
         switch mangaStatus {
@@ -317,7 +317,7 @@ class UserListViewController: ObservableObject {
         default: return // should not reach here
         }
     }
-    
+
     func updateAnime(index: Int, id: Int, isCompleted: Bool = false, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
@@ -332,7 +332,7 @@ class UserListViewController: ObservableObject {
         }
         isRefreshLoading = false
     }
-    
+
     func updateManga(index: Int, id: Int, isCompleted: Bool = false, listStatus: MyListStatus) async {
         isRefreshLoading = true
         do {
@@ -347,7 +347,7 @@ class UserListViewController: ObservableObject {
         }
         isRefreshLoading = false
     }
-    
+
     // Refresh anime list
     private func refreshAnime(_ clear: Bool = false) async {
         isUserNotFound = false
@@ -390,7 +390,7 @@ class UserListViewController: ObservableObject {
             isRefreshLoading = false
         }
     }
-    
+
     // Refresh manga list
     private func refreshManga(_ clear: Bool = false) async {
         isUserNotFound = false
@@ -433,7 +433,7 @@ class UserListViewController: ObservableObject {
             isRefreshLoading = false
         }
     }
-    
+
     // Refresh current list
     func refresh(_ clear: Bool = false) async {
         if type == .anime {
@@ -442,14 +442,14 @@ class UserListViewController: ObservableObject {
             await refreshManga(clear)
         }
     }
-    
+
     // Load more of the current anime list
     private func loadMoreAnime() async {
         // only load more when it is not loading, page is not empty, there are more pages to be loaded and page is not refreshing
         guard loadingState == .idle && !isAnimeItemsEmpty() && getCurrentAnimeCanLoadMore() && !isRefreshLoading else {
             return
         }
-        
+
         loadingState = .paginating
         if let animeList = try? await networker.getUserAnimeList(user: user, page: getCurrentAnimePage(), status: animeStatus, sort: animeSort) {
             updateCurrentAnimePage(getCurrentAnimePage() + 1)
@@ -458,14 +458,14 @@ class UserListViewController: ObservableObject {
         }
         loadingState = .idle
     }
-    
+
     // Load more of the current manga list
     private func loadMoreManga() async {
         // only load more when it is not loading, page is not empty, there are more pages to be loaded and page is not refreshing
         guard loadingState == .idle && !isMangaItemsEmpty() && getCurrentMangaCanLoadMore() && !isRefreshLoading else {
             return
         }
-        
+
         loadingState = .paginating
         if let mangaList = try? await networker.getUserMangaList(user: user, page: getCurrentMangaPage(), status: mangaStatus, sort: mangaSort) {
             updateCurrentMangaPage(getCurrentMangaPage() + 1)
@@ -474,7 +474,7 @@ class UserListViewController: ObservableObject {
         }
         loadingState = .idle
     }
-    
+
     // Load more anime/manga when reaching the 4th last anime/manga in list
     func loadMoreIfNeeded(index: Int) async {
         if type == .anime {

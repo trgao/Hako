@@ -13,7 +13,7 @@ struct ErrorView: View {
     init(refresh: @escaping () async -> Void) {
         self.refresh = refresh
     }
-    
+
     var body: some View {
         VStack {
             Image(systemName: "exclamationmark.triangle")

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Person: Codable, Identifiable {
+struct Person: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let name: String
@@ -18,7 +18,7 @@ struct Person: Codable, Identifiable {
     let anime: [AnimePosition]?
     let manga: [MangaPosition]?
     let voices: [AnimeVoice]?
-    
+
     init(id: Int, name: String?, imageUrl: String?) {
         self.malId = id
         self.name = name ?? ""
@@ -30,7 +30,7 @@ struct Person: Codable, Identifiable {
         self.manga = nil
         self.voices = nil
     }
-    
+
     // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
         return birthday == nil && about == nil && favorites == nil && anime == nil && manga == nil && voices == nil

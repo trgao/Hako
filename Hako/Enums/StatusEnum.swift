@@ -9,7 +9,7 @@ import SwiftUI
 
 enum StatusEnum: String, Codable {
     case watching, completed, onHold, dropped, planToWatch, reading, planToRead, none
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let status = try? container.decode(String.self)
@@ -24,7 +24,7 @@ enum StatusEnum: String, Codable {
         default: self = .none
         }
     }
-    
+
     func toParameter() -> String {
         switch self {
         case .watching: return "watching"
@@ -37,7 +37,7 @@ enum StatusEnum: String, Codable {
         default: return ""
         }
     }
-    
+
     func toString() -> String {
         switch self {
         case .none: return "All"
@@ -50,7 +50,7 @@ enum StatusEnum: String, Codable {
         case .planToRead: return "Plan to read"
         }
     }
-    
+
     func toColour() -> Color {
         switch self {
         case .watching: return Color(.systemGreen)
@@ -61,7 +61,7 @@ enum StatusEnum: String, Codable {
         default: return .primary
         }
     }
-    
+
     func toIcon() -> String {
         switch self {
         case .none: return "circle.circle"

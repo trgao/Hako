@@ -10,12 +10,12 @@ import SwiftUI
 struct Upcoming: View {
     private let nextEpisode: NextAiringEpisode?
     private let load: () async -> Void
-    
+
     init(nextEpisode: NextAiringEpisode?, load: @escaping () async -> Void) {
         self.nextEpisode = nextEpisode
         self.load = load
     }
-    
+
     var body: some View {
         VStack {
             if let nextEpisode = nextEpisode {

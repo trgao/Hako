@@ -9,53 +9,38 @@ import SwiftUI
 import AuthenticationServices
 
 struct SettingsView: View {
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
     @State private var isLoadingStatus = false
-    @Binding private var id: UUID
-    @Binding private var isProfileActive: Bool
-    
-    init(id: Binding<UUID>, isProfileActive: Binding<Bool>) {
-        self._id = id
-        self._isProfileActive = isProfileActive
-    }
-    
+
     var body: some View {
-        NavigationStack {
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
             List {
                 if !settings.useWithoutAccount {
                     SignInSections(isSettings: true)
                 }
                 Section {
-                    NavigationLink {
-                        GeneralView()
-                    } label: {
+                    TrackedNavigationLink(value: "general") {
                         Label("General", systemImage: "gear")
                     }
-                    NavigationLink {
-                        AppearanceView()
-                    } label: {
+                    TrackedNavigationLink(value: "appearance") {
                         Label("Appearance", systemImage: "paintpalette.fill")
                     }
-                    NavigationLink {
-                        CustomiseView()
-                    } label: {
+                    TrackedNavigationLink(value: "customise") {
                         Label("Customise", systemImage: "slider.horizontal.3")
                     }
                 }
                 if !ProcessInfo.processInfo.isMacCatalystApp {
                     Section {
-                        NavigationLink {
-                            SafariExtensionView()
-                        } label: {
+                        TrackedNavigationLink(value: "safariExtension") {
                             Label("Safari extension", systemImage: "puzzlepiece.extension.fill")
                         }
                     }
                 }
                 Section {
-                    NavigationLink {
-                        AboutView()
-                    } label: {
+                    TrackedNavigationLink(value: "about") {
                         Label("About", systemImage: "info.circle")
                     }
                     Link(destination: URL(string: "https://forms.gle/v2ewpgxHLDL16kK8A")!) {
@@ -69,10 +54,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationDestination(isPresented: $isProfileActive) {
-                ProfileView()
-            }
+            .navigationDestinations()
         }
-        .id(id)
     }
 }

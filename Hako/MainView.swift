@@ -9,63 +9,127 @@ import SwiftUI
 import LocalAuthentication
 
 struct MainView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
+    @State private var isInit = false
+    @State private var id: UUID? // To retrigger task for deep link if view was on same page
     @State private var tab = 0
     @State private var isUnlocked = false
     @State private var isAuthenticationError = false
     @State private var url: URL?
-    
+
+    // Schedule tab
+    @State private var scheduleRouter = Router()
+
     // Top tab
-    @State private var topId = UUID() // To reset NavigationStack to root
+    @State private var topRouter = Router()
     @State private var topType: TypeEnum?
     @State private var animeRanking: RankingEnum?
     @State private var mangaRanking: RankingEnum?
-    
+
     // Seasons tab
-    @State private var seasonsId = UUID() // To reset NavigationStack to root
+    @State private var seasonsRouter = Router()
     @State private var isResetSeasons = false
-    @State private var isSeasonsRoot = true
     @State private var year: Int?
     @State private var season: SeasonEnum?
-    
+    @State private var pickerSeason = Constants.currentSeason
+    @State private var seasonPickerDisabled = false
+
     // Explore tab
-    @State private var exploreId = UUID() // To reset NavigationStack to root
-    @State private var explorePath = [ViewItem]()
+    @State private var exploreRouter = Router()
     @State private var isSearchPresented = false
-    @State private var isSearchRoot = true
     @State private var urlSearchText: String?
-    
+    @State private var pickerSearchType = SearchEnum.anime
+
     // My list tab
-    @State private var listId = UUID() // To reset NavigationStack to root
+    @State private var myListRouter = Router()
     @State private var listType: TypeEnum?
     @State private var animeStatus: StatusEnum?
     @State private var animeSort: SortEnum?
     @State private var mangaStatus: StatusEnum?
     @State private var mangaSort: SortEnum?
-    
+    @State private var pickerType: TypeEnum = .anime
+    @State private var pickerAnimeStatus: StatusEnum = .watching
+    @State private var pickerMangaStatus: StatusEnum = .reading
+    @State private var myListPickerDisabled = false
+
     // Settings tab
-    @State private var settingsId = UUID() // To reset NavigationStack to root
-    @State private var isProfileActive = false
-    
-    private var tabBinding: Binding<Int> {Binding(
-        get: {
-            self.tab
-        },
-        set: {
-            if $0 == self.tab {
-                if self.tab == 1 && isSeasonsRoot {
-                    isResetSeasons = true
-                } else if self.tab == 2 && isSearchRoot {
-                    isSearchPresented.toggle()
+    @State private var settingsRouter = Router()
+
+    private var tabBinding: Binding<Int> {
+        Binding(
+            get: {
+                self.tab
+            },
+            set: {
+                if $0 == self.tab {
+                    if self.tab == 0 {
+                        if settings.replaceTopWithSchedule {
+                            scheduleRouter.popToRoot()
+                        } else {
+                            topRouter.popToRoot()
+                        }
+                    } else if self.tab == 1 {
+                        if seasonsRouter.isRoot {
+                            isResetSeasons = true
+                            pickerSeason = Constants.currentSeason
+                        } else {
+                            seasonsRouter.popToRoot()
+                        }
+                    } else if self.tab == 2 {
+                        if exploreRouter.isRoot {
+                            isSearchPresented.toggle()
+                        } else {
+                            exploreRouter.popToRoot()
+                        }
+                    } else if self.tab == 3 {
+                        if myListRouter.isRoot {
+                            if pickerType == .anime {
+                                pickerAnimeStatus = settings.getAnimeStatus()
+                            } else if pickerType == .manga {
+                                pickerMangaStatus = settings.getMangaStatus()
+                            }
+                        } else {
+                            myListRouter.popToRoot()
+                        }
+                    } else if self.tab == 4 {
+                        settingsRouter.popToRoot()
+                    }
                 }
+                self.tab = $0
             }
-            self.tab = $0
+        )
+    }
+
+    private var currentRouter: Router {
+        switch tab {
+        case 1: seasonsRouter
+        case 2: exploreRouter
+        case 3: myListRouter
+        case 4: settingsRouter
+        default: settings.replaceTopWithSchedule ? scheduleRouter : topRouter
         }
-    )}
-    
+    }
+
+    private var showSeasonsTabViewBottomAccessory: Bool {
+        tabBinding.wrappedValue == 1 && seasonsRouter.isRoot
+    }
+
+    private var showExploreTabViewBottomAccessory: Bool {
+        tabBinding.wrappedValue == 2 && exploreRouter.isRoot && isSearchPresented
+    }
+
+    private var showMyListTabViewBottomAccessory: Bool {
+        tabBinding.wrappedValue == 3 && networker.isSignedIn && myListRouter.isRoot && settings.useStatusTabBar
+    }
+
+    private var showUserListTabViewBottomAccessory: Bool {
+        (tabBinding.wrappedValue == 0 && ((settings.replaceTopWithSchedule && scheduleRouter.isUserListPresented) || topRouter.isUserListPresented)) || (tabBinding.wrappedValue == 1 && seasonsRouter.isUserListPresented) || (tabBinding.wrappedValue == 2 && exploreRouter.isUserListPresented) || (tabBinding.wrappedValue == 3 && myListRouter.isUserListPresented) || (tabBinding.wrappedValue == 4 && settingsRouter.isUserListPresented)
+    }
+
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
@@ -75,13 +139,13 @@ struct MainView: View {
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
     }
-    
+
     // Handle FaceID
     private func authenticate() {
         guard settings.useFaceID else {
             return
         }
-        
+
         let context = LAContext()
         var error: NSError?
 
@@ -99,24 +163,37 @@ struct MainView: View {
             isAuthenticationError = true
         }
     }
-    
+
+    private func genreName(id: Int, type: TypeEnum) -> String? {
+        switch type {
+        case .anime:
+            Constants.animeGenres[id] ?? Constants.animeThemes[id] ?? Constants.animeDemographics[id]
+        case .manga:
+            Constants.mangaGenres[id] ?? Constants.mangaThemes[id] ?? Constants.mangaDemographics[id]
+        default:
+            nil
+        }
+    }
+
     // Handle deep links
     private func handleUrl(url: URL) {
-        let FIREBASE_LINK = Bundle.main.infoDictionary?["FIREBASE_LINK"] as! String
+        let FIREBASE_LINK = Bundle.main.infoDictionary?["FIREBASE_LINK"] as? String
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
             return
         }
-        
+
+        self.id = UUID()
+
         var page: String
         // Check for correct urls
         if url.scheme == "hako", let host = components.host {
-            page = host
+            page = host.lowercased()
         } else if url.host == FIREBASE_LINK {
-            page = String(components.path.dropFirst())
+            page = String(components.path.dropFirst()).lowercased()
         } else {
             return
         }
-        
+
         self.url = nil
         if page == "top" {
             var topType: TypeEnum?
@@ -137,44 +214,31 @@ struct MainView: View {
             }
             if settings.replaceTopWithSchedule {
                 tab = 2
-                exploreId = UUID()
-                explorePath = [ViewItem(type: .top, itemType: topType, animeRanking: animeRanking, mangaRanking: mangaRanking)]
+                exploreRouter.restartWith(TopDetail(id: id, type: topType, animeRanking: animeRanking, mangaRanking: mangaRanking))
+                isSearchPresented = false
             } else {
                 tab = 0
-                topId = UUID()
+                topRouter.popToRoot()
                 self.topType = topType
                 self.animeRanking = animeRanking
                 self.mangaRanking = mangaRanking
             }
         } else if page == "seasons" {
             tab = 1
-            seasonsId = UUID()
+            seasonsRouter.popToRoot()
             if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, let seasonEnum = SeasonEnum(rawValue: seasonText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
                 year = yearInt
                 season = seasonEnum
             }
         } else if page == "explore" {
             tab = 2
-            exploreId = UUID()
+            exploreRouter.popToRoot()
             if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
-                explorePath = []
                 isSearchPresented = true
                 urlSearchText = text
             } else if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
                 isSearchPresented = false
-                if type == "anime" {
-                    explorePath.append(ViewItem(type: .exploreAnime))
-                } else if type == "manga" {
-                    explorePath.append(ViewItem(type: .exploreManga))
-                } else if type == "characters" {
-                    explorePath.append(ViewItem(type: .exploreCharacters))
-                } else if type == "people" {
-                    explorePath.append(ViewItem(type: .explorePeople))
-                } else if type == "companies" {
-                    explorePath.append(ViewItem(type: .exploreCompanies))
-                } else if type == "magazines" {
-                    explorePath.append(ViewItem(type: .exploreMagazines))
-                }
+                exploreRouter.push(type)
             }
         } else if page == "mylist" {
             var itemType: TypeEnum?
@@ -203,12 +267,11 @@ struct MainView: View {
             }
             if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, user.lowercased() != networker.user?.name?.lowercased() {
                 tab = 2
-                exploreId = UUID()
+                exploreRouter.restartWith(UserList(username: user, id: id, type: itemType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: .userlist, name: user, itemType: itemType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
             } else {
                 tab = 3
-                listId = UUID()
+                myListRouter.popToRoot()
                 self.listType = itemType
                 self.animeStatus = animeStatus
                 self.animeSort = animeSort
@@ -217,100 +280,141 @@ struct MainView: View {
             }
         } else if page == "settings" {
             tab = 4
-            settingsId = UUID()
+            settingsRouter.popToRoot()
         } else if page == "news" {
             tab = 2
-            exploreId = UUID()
+            exploreRouter.restartWith("news")
             isSearchPresented = false
-            explorePath.append(ViewItem(type: .news))
         } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
-            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value, (type == "anime" || type == "manga") && page == "genre" {
+            if let typeText = components.queryItems?.first(where: { $0.name == "type" })?.value, (typeText == "anime" || typeText == "manga") && page == "genre" {
+                guard let type = TypeEnum(rawValue: typeText), let name = genreName(id: id, type: type) else {
+                    return
+                }
+
                 tab = 2
-                exploreId = UUID()
+                exploreRouter.restartWith(GroupDetail(id: id, name: name, type: type, group: "genres"))
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: type == "anime" ? .animeGenre : .mangaGenre, id: id))
             } else if page == "anime" || page == "manga" || page == "character" || page == "person" {
+                guard let viewType = ViewTypeEnum(rawValue: page) else {
+                    return
+                }
+
                 tab = 2
-                exploreId = UUID()
+                exploreRouter.restartWith(ViewItem(type: viewType, id: id))
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id))
             } else if page == "producer" || page == "magazine" {
                 tab = 2
-                exploreId = UUID()
+                let name = components.queryItems?.first(where: { $0.name == "name" })?.value ?? ""
+                exploreRouter.restartWith(GroupDetail(id: id, name: name, type: page == "producer" ? .anime : .manga, group: "\(page)s"))
                 isSearchPresented = false
-                let name = components.queryItems?.first(where: { $0.name == "name" })?.value
-                explorePath.append(ViewItem(type: ViewTypeEnum(rawValue: page)!, id: id, name: name))
             }
         } else if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, page == "profile" {
             if user.lowercased() == networker.user?.name?.lowercased() {
                 tab = 4
-                settingsId = UUID()
-                isProfileActive = true
+                settingsRouter.restartWith("profile")
             } else {
                 tab = 2
-                exploreId = UUID()
+                exploreRouter.restartWith(UserList(username: user))
                 isSearchPresented = false
-                explorePath.append(ViewItem(type: .profile, name: user))
             }
         }
     }
-    
+
+    private var tabs: some View {
+        TabView(selection: tabBinding) {
+            if settings.replaceTopWithSchedule {
+                Tab("Schedule", systemImage: "calendar.badge.clock", value: 0) {
+                    ScheduleView(isTab: true)
+                        .environment(scheduleRouter)
+                }
+            } else {
+                Tab("Top", systemImage: "medal", value: 0) {
+                    TopView(id: $id, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
+                        .environment(topRouter)
+                }
+            }
+            Tab("Seasons", systemImage: "calendar", value: 1) {
+                SeasonsView(id: $id, isResetSeasons: $isResetSeasons, year: $year, season: $season, pickerSeason: $pickerSeason, pickerDisabled: $seasonPickerDisabled)
+                    .environment(seasonsRouter)
+            }
+            Tab("Explore", systemImage: "magnifyingglass", value: 2) {
+                ExploreView(isPresented: $isSearchPresented, urlSearchText: $urlSearchText, pickerType: $pickerSearchType)
+                    .environment(exploreRouter)
+            }
+            if !settings.useWithoutAccount {
+                Tab("My list", systemImage: "list.bullet", value: 3) {
+                    MyListView(id: $id, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort, pickerType: $pickerType, pickerAnimeStatus: $pickerAnimeStatus, pickerMangaStatus: $pickerMangaStatus, pickerDisabled: $myListPickerDisabled)
+                        .environment(myListRouter)
+                }
+            }
+            Tab("Settings", systemImage: "gear", value: 4) {
+                SettingsView()
+                    .environment(settingsRouter)
+            }
+        }
+        .onAppear {
+            tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
+        }
+        .onChange(of: tab) {
+            settings.savedTab = tab
+        }
+        .tabViewStyle(.sidebarAdaptable)
+        .tabViewSidebarBottomBar {
+            if networker.isSignedIn, let user = networker.user {
+                Button {
+                    tab = 4
+                    settingsRouter.restartWith("profile")
+                } label: {
+                    HStack {
+                        ProfileImage(imageUrl: user.picture)
+                            .scaleEffect(0.7)
+                        Text(user.name ?? "")
+                            .font(.title3)
+                            .bold()
+                    }
+                    .padding(.horizontal, 10)
+                    .id(networker.user?.picture)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    @ViewBuilder private var tabViewBottomAccessory: some View {
+        @Bindable var router = currentRouter
+        if showSeasonsTabViewBottomAccessory {
+            TabPicker(selection: $pickerSeason, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
+                .disabled(seasonPickerDisabled)
+        } else if showExploreTabViewBottomAccessory {
+            TabPicker(selection: $pickerSearchType, options: Constants.searchTypes.map { ($0.rawValue.capitalized, $0) })
+        } else if showMyListTabViewBottomAccessory {
+            if pickerType == .anime {
+                UserListStatusPicker(selection: $pickerAnimeStatus, options: Constants.animeStatuses, isLoading: myListPickerDisabled)
+            } else if pickerType == .manga {
+                UserListStatusPicker(selection: $pickerMangaStatus, options: Constants.mangaStatuses, isLoading: myListPickerDisabled)
+            }
+        } else if showUserListTabViewBottomAccessory {
+            if router.pickerType == .anime {
+                UserListStatusPicker(selection: $router.pickerAnimeStatus, options: Constants.animeStatuses, isLoading: router.pickerDisabled)
+            } else if router.pickerType == .manga {
+                UserListStatusPicker(selection: $router.pickerMangaStatus, options: Constants.mangaStatuses, isLoading: router.pickerDisabled)
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             if isUnlocked || !settings.useFaceID {
-                TabView(selection: tabBinding) {
-                    if settings.replaceTopWithSchedule {
-                        Tab("Schedule", systemImage: "calendar.badge.clock", value: 0) {
-                            ScheduleView(isTab: true)
+                if #available (iOS 26.2, *), horizontalSizeClass == .compact {
+                    tabs
+                        .tabBarMinimizeBehavior(.onScrollDown)
+                        .tabViewBottomAccessory(isEnabled: showSeasonsTabViewBottomAccessory || showExploreTabViewBottomAccessory || showMyListTabViewBottomAccessory || showUserListTabViewBottomAccessory) {
+                            tabViewBottomAccessory
                         }
-                    } else {
-                        Tab("Top", systemImage: "medal", value: 0) {
-                            TopView(id: $topId, type: $topType, animeRanking: $animeRanking, mangaRanking: $mangaRanking)
-                        }
-                    }
-                    Tab("Seasons", systemImage: "calendar", value: 1) {
-                        SeasonsView(id: $seasonsId, isResetSeasons: $isResetSeasons, isRoot: $isSeasonsRoot, year: $year, season: $season)
-                    }
-                    Tab("Explore", systemImage: "magnifyingglass", value: 2) {
-                        ExploreView(id: $exploreId, path: $explorePath, isPresented: $isSearchPresented, isRoot: $isSearchRoot, urlSearchText: $urlSearchText)
-                    }
-                    if !settings.useWithoutAccount {
-                        Tab("My list", systemImage: "list.bullet", value: 3) {
-                            MyListView(id: $listId, type: $listType, animeStatus: $animeStatus, animeSort: $animeSort, mangaStatus: $mangaStatus, mangaSort: $mangaSort)
-                        }
-                    }
-                    Tab("Settings", systemImage: "gear", value: 4) {
-                        SettingsView(id: $settingsId, isProfileActive: $isProfileActive)
-                    }
-                }
-                .onAppear {
-                    tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
-                }
-                .onChange(of: tab) {
-                    settings.savedTab = tab
-                }
-                .tabViewStyle(.sidebarAdaptable)
-                .tabViewSidebarBottomBar {
-                    if networker.isSignedIn, let user = networker.user {
-                        Button {
-                            tab = 4
-                            settingsId = UUID()
-                            isProfileActive = true
-                        } label: {
-                            HStack {
-                                ProfileImage(imageUrl: user.picture)
-                                    .scaleEffect(0.7)
-                                Text(user.name ?? "")
-                                    .font(.title3)
-                                    .bold()
-                            }
-                            .padding(.horizontal, 10)
-                            .id(networker.user?.picture)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(Rectangle())
-                        }
-                        .buttonStyle(.plain)
-                    }
+                } else {
+                    tabs
                 }
             } else {
                 VStack {

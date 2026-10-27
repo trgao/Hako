@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Staff: Codable, Identifiable {
+struct Staff: Codable, Identifiable, Hashable {
     var id: Int { person.id }
     let person: ThirdPartyListItem
     let positions: [String]

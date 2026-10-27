@@ -17,7 +17,7 @@ struct Reviews: View {
     private let width: CGFloat
     private let loadingState: LoadingEnum
     private let load: () async -> Void
-    
+
     init(id: Int, type: TypeEnum, reviews: [Review]?, width: CGFloat, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.id = id
         self.type = type
@@ -26,9 +26,9 @@ struct Reviews: View {
         self.loadingState = loadingState
         self.load = load
     }
-    
+
     var body: some View {
-        ScrollViewCarousel(title: "Reviews", count: reviews?.count, viewAlignedScroll: true, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Reviews", count: reviews?.count, item: ReviewList(id: id, type: type), viewAlignedScroll: true, loadingState: loadingState, refresh: load) { isLoading in
             PlaceholderReview(isLoading: isLoading)
                 .frame(width: width, alignment: .center)
         } content: {
@@ -36,8 +36,6 @@ struct Reviews: View {
                 ReviewItem(item: item)
                     .frame(width: width, alignment: .center)
             }
-        } destination: {
-            ReviewsListView(id: id, type: type)
         }
         .task {
             await load()

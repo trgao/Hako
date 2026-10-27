@@ -16,24 +16,24 @@ struct PersonDetailsView: View {
     @State private var animeIndex: Int?
     @State private var mangaIndex: Int?
     private let id: Int
-    
+
     init (id: Int) {
         self.id = id
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id))
     }
-    
+
     init (id: Int, name: String?, imageUrl: String?) {
         self.id = id
         self._controller = StateObject(wrappedValue: PersonDetailsViewController(id: id, name: name, imageUrl: imageUrl))
     }
-    
+
     private func formatPosition(_ position: String?) -> String? {
         if let position = position, position.prefix(3) == "add" {
             return String(position.suffix(from: position.index(position.startIndex, offsetBy: 4)))
         }
         return position
     }
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.person == nil {
@@ -55,43 +55,27 @@ struct PersonDetailsView: View {
                             TextBox(title: "About", text: person.about)
                             if let voices = person.voices, !voices.isEmpty {
                                 ScrollViewListSection(title: "Voice acting roles") {
-                                    ForEach(Array(voices.enumerated()), id: \.1.id) { index, voice in
-                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", index: index, selectedIndex: $voiceIndex)
+                                    ForEach(voices, id: \.id) { voice in
+                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", item: Anime(id: voice.anime.id, title: voice.anime.title ?? "", imageUrl: voice.anime.images?.jpg?.largeImageUrl))
                                     }
                                 }
                             }
                             if let animes = person.anime, !animes.isEmpty {
                                 ScrollViewListSection(title: "Anime staff positions") {
-                                    ForEach(Array(animes.enumerated()), id: \.1.id) { index, anime in
-                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", index: index, selectedIndex: $animeIndex)
+                                    ForEach(animes, id: \.id) { anime in
+                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", item: Anime(id: anime.id, title: anime.anime.title ?? "", imageUrl: anime.anime.images?.jpg?.largeImageUrl))
                                     }
                                 }
                             }
                             if let mangas = person.manga, !mangas.isEmpty {
                                 ScrollViewListSection(title: "Manga staff positions") {
-                                    ForEach(Array(mangas.enumerated()), id: \.1.id) { index, manga in
-                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", index: index, selectedIndex: $mangaIndex)
+                                    ForEach(mangas, id: \.id) { manga in
+                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", item: Manga(id: manga.id, title: manga.manga.title ?? "", imageUrl: manga.manga.images?.jpg?.largeImageUrl))
                                     }
                                 }
                             }
                         }
                         .padding(.vertical, 15)
-                    }
-                    // Navigation destination is used instead of navigation link because of LazyVStack in ScrollViewListSection
-                    .navigationDestination(item: $voiceIndex) { index in
-                        if let voices = person.voices {
-                            AnimeDetailsView(anime: Anime(id: voices[index].anime.id, title: voices[index].anime.title ?? "", imageUrl: voices[index].anime.images?.jpg?.largeImageUrl))
-                        }
-                    }
-                    .navigationDestination(item: $animeIndex) { index in
-                        if let animes = person.anime {
-                            AnimeDetailsView(anime: Anime(id: animes[index].id, title: animes[index].anime.title ?? "", imageUrl: animes[index].anime.images?.jpg?.largeImageUrl))
-                        }
-                    }
-                    .navigationDestination(item: $mangaIndex) { index in
-                        if let mangas = person.manga {
-                            MangaDetailsView(manga: Manga(id: mangas[index].id, title: mangas[index].manga.title ?? "", imageUrl: mangas[index].manga.images?.jpg?.largeImageUrl))
-                        }
                     }
                     .refreshable {
                         isRefresh = true

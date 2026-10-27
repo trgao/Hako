@@ -12,9 +12,9 @@ struct AniListAiringResponse: Codable {
         struct Media: Codable {
             let nextAiringEpisode: NextAiringEpisode?
         }
-        
+
         let Media: Media
     }
-    
+
     let data: Data
 }

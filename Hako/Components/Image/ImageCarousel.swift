@@ -21,7 +21,7 @@ struct ImageCarousel: View {
     private let id: String
     private let imageUrl: String?
     private let pictures: [Picture]
-    
+
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id
         self.imageUrl = imageUrl
@@ -33,7 +33,7 @@ struct ImageCarousel: View {
             return medium != url && large != url
         } ?? [])
     }
-    
+
     var body: some View {
         VStack {
             Button {

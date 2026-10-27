@@ -13,59 +13,59 @@ class ExploreViewController: ObservableObject {
     // Anime search list variables
     @Published var animeItems: [MALListAnime] = []
     @Published var isAnimeLoadingError = false
-    
+
     // Manga search list variables
     @Published var mangaItems: [MALListManga] = []
     @Published var isMangaLoadingError = false
-    
+
     // Character search list variables
     @Published var characterItems: [ThirdPartyListItem] = []
     @Published var isCharacterLoadingError = false
-    
+
     // Person search list variables
     @Published var personItems: [ThirdPartyListItem] = []
     @Published var isPersonLoadingError = false
-    
+
     // Explore page carousel variables
     @Published var animeSuggestions: [MALListAnime] = []
     @Published var topAiringAnime: [MALListAnime] = []
     @Published var topUpcomingAnime: [MALListAnime] = []
     @Published var newlyAddedAnime: [ThirdPartyListItem] = []
     @Published var newlyAddedManga: [ThirdPartyListItem] = []
-    
+
     @Published var suggestionsLoadingState: LoadingEnum = .loading
     @Published var airingLoadingState: LoadingEnum = .loading
     @Published var upcomingLoadingState: LoadingEnum = .loading
     @Published var newAnimeLoadingState: LoadingEnum = .loading
     @Published var newMangaLoadingState: LoadingEnum = .loading
-    
+
     // Common variables
     @Published var type: SearchEnum = .anime
     @Published var isSearchLoading = false
     @Published var isRefreshLoading = false
     private let networker = NetworkManager.shared
     let queryChannel = AsyncChannel<String>()
-    
+
     func refreshExplore() async {
         suggestionsLoadingState = .loading
         airingLoadingState = .loading
         upcomingLoadingState = .loading
         newAnimeLoadingState = .loading
         newMangaLoadingState = .loading
-        
+
         await loadAnimeSuggestions()
         await loadTopAiringAnime()
         await loadTopUpcomingAnime()
         await loadNewlyAddedAnime()
         await loadNewlyAddedManga()
     }
-    
+
     func loadAnimeSuggestions() async {
         guard networker.isSignedIn && animeSuggestions.isEmpty else {
             suggestionsLoadingState = .idle
             return
         }
-        
+
         suggestionsLoadingState = .loading
         do {
             animeSuggestions = try await networker.getUserAnimeSuggestionList()
@@ -74,13 +74,13 @@ class ExploreViewController: ObservableObject {
             suggestionsLoadingState = .error
         }
     }
-    
+
     func loadTopAiringAnime() async {
         guard topAiringAnime.isEmpty else {
             airingLoadingState = .idle
             return
         }
-        
+
         airingLoadingState = .loading
         do {
             topAiringAnime = try await networker.getAnimeTopAiringList()
@@ -89,13 +89,13 @@ class ExploreViewController: ObservableObject {
             airingLoadingState = .error
         }
     }
-    
+
     func loadTopUpcomingAnime() async {
         guard topUpcomingAnime.isEmpty else {
             upcomingLoadingState = .idle
             return
         }
-        
+
         upcomingLoadingState = .loading
         do {
             topUpcomingAnime = try await networker.getAnimeTopUpcomingList()
@@ -104,13 +104,13 @@ class ExploreViewController: ObservableObject {
             upcomingLoadingState = .error
         }
     }
-    
+
     func loadNewlyAddedAnime() async {
         guard newlyAddedAnime.isEmpty else {
             newAnimeLoadingState = .idle
             return
         }
-        
+
         newAnimeLoadingState = .loading
         do {
             let animeList = try await networker.getAnimeNewlyAddedList()
@@ -120,13 +120,13 @@ class ExploreViewController: ObservableObject {
             newAnimeLoadingState = .error
         }
     }
-    
+
     func loadNewlyAddedManga() async {
         guard newlyAddedManga.isEmpty else {
             newMangaLoadingState = .idle
             return
         }
-        
+
         newMangaLoadingState = .loading
         do {
             let mangaList = try await networker.getMangaNewlyAddedList()
@@ -136,7 +136,7 @@ class ExploreViewController: ObservableObject {
             newMangaLoadingState = .error
         }
     }
-    
+
     // Search for the anime/manga/character/person with query
     func search(query: String) async {
         guard query.count > 2 else {
@@ -152,13 +152,13 @@ class ExploreViewController: ObservableObject {
         await searchManga(query: query)
         await searchCharacters(query: query)
         await searchPeople(query: query)
-        
+
         // Only stop loading when all api calls are completely finished
         if !Task.isCancelled {
             isSearchLoading = false
         }
     }
-    
+
     func resetSearch() {
         animeItems = []
         mangaItems = []
@@ -171,7 +171,7 @@ class ExploreViewController: ObservableObject {
         isSearchLoading = false
         isRefreshLoading = false
     }
-    
+
     func refreshSearch(query: String) async {
         guard query.count > 2 && (!animeItems.isEmpty || !mangaItems.isEmpty) else {
             return
@@ -181,7 +181,7 @@ class ExploreViewController: ObservableObject {
         await searchManga(query: query)
         isRefreshLoading = false
     }
-    
+
     func searchAnime(query: String) async {
         isAnimeLoadingError = false
         do {
@@ -196,7 +196,7 @@ class ExploreViewController: ObservableObject {
             }
         }
     }
-    
+
     func searchManga(query: String) async {
         isMangaLoadingError = false
         do {
@@ -211,7 +211,7 @@ class ExploreViewController: ObservableObject {
             }
         }
     }
-    
+
     func searchCharacters(query: String) async {
         isCharacterLoadingError = false
         do {
@@ -222,7 +222,7 @@ class ExploreViewController: ObservableObject {
             }
         }
     }
-    
+
     func searchPeople(query: String) async {
         isPersonLoadingError = false
         do {

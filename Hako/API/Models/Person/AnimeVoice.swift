@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AnimeVoice: Codable, Identifiable {
+struct AnimeVoice: Codable, Identifiable, Hashable {
     var id: String { "anime\(anime.id)character\(character.id)" }
     let anime: ThirdPartyListItem
     let character: ThirdPartyListItem

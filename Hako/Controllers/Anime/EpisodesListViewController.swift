@@ -15,11 +15,11 @@ class EpisodesListViewController: ObservableObject {
     private var canLoadMorePages = true
     private let id: Int
     private let networker = NetworkManager.shared
-    
+
     init(id: Int) {
         self.id = id
     }
-    
+
     // Refresh the current episodes list
     func refresh() async {
         loadingState = .loading
@@ -35,14 +35,14 @@ class EpisodesListViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current episodes list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !episodes.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         if let episodesList = try? await networker.getAnimeEpisodesList(id: id, page: currentPage) {
             currentPage += 1
@@ -51,7 +51,7 @@ class EpisodesListViewController: ObservableObject {
         }
         loadingState = .idle
     }
-    
+
     // Load more episodes when reaching the 3rd last episode in list
     func loadMoreIfNeeded(index: Int) async {
         if index == episodes.endIndex - 5 {

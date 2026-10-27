@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Anime: Codable, Identifiable {
+struct Anime: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
     let mainPicture: Picture?
@@ -36,7 +36,7 @@ struct Anime: Codable, Identifiable {
     let recommendations: [MALListAnime]?
     let relatedAnime: [RelatedAnime]?
     let numListUsers: Int?
-    
+
     init(id: Int, title: String, enTitle: String? = nil, jaTitle: String? = nil, imageUrl: String?) {
         self.id = id
         self.title = title
@@ -67,7 +67,7 @@ struct Anime: Codable, Identifiable {
         self.relatedAnime = nil
         self.numListUsers = nil
     }
-    
+
     init(item: ThirdPartyListItem) {
         self.id = item.id
         self.title = item.title ?? ""
@@ -99,7 +99,7 @@ struct Anime: Codable, Identifiable {
         self.relatedAnime = nil
         self.numListUsers = item.members
     }
-    
+
     // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
         return pictures == nil && startDate == nil && endDate == nil && synopsis == nil && mean == nil && rank == nil && popularity == nil && mediaType == nil && status == nil && genres == nil && myListStatus == nil && numEpisodes == nil && startSeason == nil && broadcast == nil && source == nil && averageEpisodeDuration == nil && rating == nil && studios == nil && openingThemes == nil && endingThemes == nil && videos == nil && recommendations == nil && relatedAnime == nil && numListUsers == nil

@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct AiringSchedule: Codable, Identifiable {
-    struct Media: Codable, Identifiable {
-        struct Title: Codable {
+struct AiringSchedule: Codable, Identifiable, Hashable {
+    struct Media: Codable, Identifiable, Hashable {
+        struct Title: Codable, Hashable {
             let romaji: String?
             let native: String?
             let english: String?
         }
-        
-        struct CoverImage: Codable {
+
+        struct CoverImage: Codable, Hashable {
             let large: String?
         }
-        
+
         let id: Int
         let idMal: Int?
         let title: Title?
@@ -28,7 +28,7 @@ struct AiringSchedule: Codable, Identifiable {
         let duration: Int?
         let isAdult: Bool?
     }
-    
+
     var id: String { "\(media.id), episode\(episode)" }
     let episode: Int
     let airingAt: Int

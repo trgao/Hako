@@ -11,11 +11,11 @@ struct BigPlaceholderGridItem: View {
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let isLoading: Bool
-    
+
     init(isLoading: Bool = true) {
         self.isLoading = isLoading
     }
-    
+
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 10)

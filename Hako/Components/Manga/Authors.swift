@@ -10,16 +10,16 @@ import SwiftUI
 struct Authors: View {
     private let authors: [Author]?
     private let load: () async -> Void
-    
+
     init(authors: [Author]?, load: @escaping () async -> Void) {
         self.authors = authors
         self.load = load
     }
-    
+
     private func haveBothNames(_ firstName: String?, _ lastName: String?) -> Bool {
         return (firstName != nil && firstName != "") && (lastName != nil && lastName != "")
     }
-    
+
     var body: some View {
         VStack {
             if let authors = authors {

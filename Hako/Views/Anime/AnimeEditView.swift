@@ -30,7 +30,7 @@ struct AnimeEditView: View {
     private var viewTitle: String {
         settings.getTitle(romaji: title, english: alternativeTitles?.en, native: alternativeTitles?.ja)
     }
-    
+
     init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         var initialData = MyListStatus(status: .planToWatch)
@@ -54,7 +54,7 @@ struct AnimeEditView: View {
             self._animeListStatus = .constant(nil)
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             PageList {

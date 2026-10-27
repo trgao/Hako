@@ -11,22 +11,18 @@ struct EpisodeItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
-    private let id: Int
     private let item: Episode
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title
     }
-    
-    init(id: Int, item: Episode) {
-        self.id = id
+
+    init(item: Episode) {
         self.item = item
     }
-    
+
     var body: some View {
-        NavigationLink {
-            EpisodeDetailsView(animeId: id, item: item)
-        } label: {
+        TrackedNavigationLink(value: item) {
             VStack(alignment: .leading) {
                 Text("\(item.id). \(title)")
                 if let aired = item.aired {

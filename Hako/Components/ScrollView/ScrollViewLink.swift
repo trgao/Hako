@@ -14,12 +14,12 @@ struct ScrollViewLink: View {
     @State private var isLongPress = false
     private let text: String
     private let url: String
-    
+
     init(text: String, url: String) {
         self.text = text
         self.url = url
     }
-    
+
     var body: some View {
         HStack {
             Text(text)

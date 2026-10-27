@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RandomMangaView: View {
     @StateObject private var controller = RandomMangaViewController()
-    
+
     var body: some View {
         if let id = controller.id {
             MangaDetailsView(id: id)
@@ -26,13 +26,13 @@ class RandomMangaViewController: ObservableObject {
     @Published var id: Int?
     @Published var isError = false
     let networker = NetworkManager.shared
-    
+
     init() {
         Task {
             await refresh()
         }
     }
-    
+
     func refresh() async {
         isError = false
         do {

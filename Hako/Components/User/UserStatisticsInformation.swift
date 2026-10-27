@@ -14,12 +14,12 @@ struct UserStatisticsInformation: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private let userStatistics: UserStatistics?
     private let loadingState: LoadingEnum
-    
+
     init(userStatistics: UserStatistics?, loadingState: LoadingEnum) {
         self.userStatistics = userStatistics
         self.loadingState = loadingState
     }
-    
+
     @ViewBuilder private func StatisticsRow<T>(_ title: String, _ content: T?, _ icon: String, _ color: Color) -> some View {
         HStack {
             Label {
@@ -56,7 +56,7 @@ struct UserStatisticsInformation: View {
             }
         }
     }
-    
+
     private var animeStatistics: some View {
         ScrollViewSection(title: "Anime statistics") {
             StatisticsRow("Days watched", userStatistics?.anime.daysWatched, "calendar", .blue)
@@ -69,7 +69,7 @@ struct UserStatisticsInformation: View {
             StatisticsRow("Episodes watched", userStatistics?.anime.episodesWatched, "video", .primary)
         }
     }
-    
+
     private var mangaStatistics: some View {
         ScrollViewSection(title: "Manga statistics") {
             StatisticsRow("Days read", userStatistics?.manga.daysRead, "calendar", .blue)
@@ -83,7 +83,7 @@ struct UserStatisticsInformation: View {
             StatisticsRow("Chapters read", userStatistics?.manga.chaptersRead, "book.pages", .primary)
         }
     }
-    
+
     var body: some View {
         if screenSize.width >= 1000 && dynamicTypeSize <= .xxxLarge {
             HStack(alignment: .top) {

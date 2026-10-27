@@ -11,13 +11,13 @@ import Network
 @main
 struct HakoApp: App {
     @StateObject private var settings = SettingsManager()
-    
+
     init() {
         Task {
             await CacheManager.shared.clearTemp()
         }
     }
-    
+
     var body: some Scene {
         WindowGroup {
             GeometryReader { geometry in

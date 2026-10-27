@@ -11,11 +11,11 @@ struct PlaceholderEpisode: View {
     @Environment(\.screenSize) private var screenSize
     @Environment(\.colorScheme) private var colorScheme
     private let isLoading: Bool
-    
+
     init(isLoading: Bool = true) {
         self.isLoading = isLoading
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("placeholderplaceholder")

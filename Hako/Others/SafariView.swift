@@ -8,7 +8,7 @@ import SafariServices
 
 struct SafariView: UIViewControllerRepresentable {
     private let url: URL
-    
+
     init(url: URL) {
         self.url = url
     }
@@ -23,7 +23,7 @@ struct SafariView: UIViewControllerRepresentable {
 private struct SafariViewControllerViewModifier: ViewModifier {
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var urlToOpen: URL?
-    
+
     init(url: Binding<URL?>) {
         self._urlToOpen = url
     }

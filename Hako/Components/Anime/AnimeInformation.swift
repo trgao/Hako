@@ -12,12 +12,12 @@ struct AnimeInformation: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private let anime: Anime
     private let isEmpty: Bool
-    
+
     init(anime: Anime) {
         self.anime = anime
         self.isEmpty = anime.source == nil && anime.rating == nil && (anime.studios?.isEmpty ?? true) && (anime.genres?.isEmpty ?? true) && anime.startDate == nil
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Information")
@@ -48,14 +48,10 @@ struct AnimeInformation: View {
                         ScrollViewRow(title: "Aired", content: "\(startDate.toString()) to \(anime.endDate?.toString() ?? "?")")
                     }
                     if let studios = anime.studios, !studios.isEmpty {
-                        ScrollViewNavigationLink(title: "Studios", items: studios.map { $0.name }) {
-                            GroupsListView(title: "Studios", items: studios, group: "producers", type: .anime)
-                        }
+                        ScrollViewNavigationLink(title: "Studios", items: studios.map { $0.name }, item: GroupList(items: studios, name: "Studios", type: .anime, group: "producers"))
                     }
                     if let genres = anime.genres?.filter({ $0.id < 84 }), !genres.isEmpty {
-                        ScrollViewNavigationLink(title: "Genres", items: genres.map { $0.name }) {
-                            GroupsListView(title: "Genres", items: genres, group: "genres", type: .anime)
-                        }
+                        ScrollViewNavigationLink(title: "Genres", items: genres.map { $0.name }, item: GroupList(items: genres, name: "Genres", type: .anime, group: "genres"))
                     }
                     if let alternativeTitles = anime.alternativeTitles {
                         let titles = [anime.title, alternativeTitles.en, alternativeTitles.ja].compactMap { $0 }.filter { !$0.isEmpty }

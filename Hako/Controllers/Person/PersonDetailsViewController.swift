@@ -13,7 +13,7 @@ class PersonDetailsViewController: ObservableObject {
     @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     private let networker = NetworkManager.shared
-    
+
     init(id: Int) {
         self.id = id
         if let person = networker.personCache[id] {
@@ -23,7 +23,7 @@ class PersonDetailsViewController: ObservableObject {
             await refresh()
         }
     }
-    
+
     init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
         self.person = Person(id: id, name: name, imageUrl: imageUrl)
@@ -34,7 +34,7 @@ class PersonDetailsViewController: ObservableObject {
             await refresh()
         }
     }
-    
+
     // Refresh the current person details page
     func refresh() async {
         loadingState = .loading

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Review: Codable, Identifiable {
+struct Review: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let url: String?
@@ -18,7 +18,12 @@ struct Review: Codable, Identifiable {
     let score: Int?
 }
 
-struct ReviewUser: Codable {
+struct ReviewUser: Codable, Hashable {
     let username: String?
     let images: Images?
+}
+
+struct ReviewList: Hashable {
+    let id: Int
+    let type: TypeEnum
 }

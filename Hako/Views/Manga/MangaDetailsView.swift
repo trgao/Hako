@@ -18,17 +18,17 @@ struct MangaDetailsView: View {
     private var title: String {
         settings.getTitle(romaji: controller.manga?.title, english: controller.manga?.alternativeTitles?.en, native: controller.manga?.alternativeTitles?.ja)
     }
-    
+
     init(id: Int) {
         self.id = id
         self._controller = StateObject(wrappedValue: MangaDetailsViewController(id: id))
     }
-    
+
     init(manga: Manga) {
         self.id = manga.id
         self._controller = StateObject(wrappedValue: MangaDetailsViewController(manga: manga))
     }
-    
+
     private func addToRecentlyViewed() {
         guard let manga = controller.manga else {
             return
@@ -42,7 +42,7 @@ struct MangaDetailsView: View {
         itemList.append(ListItem(id: id, anime: nil, manga: manga))
         settings.recentlyViewedItems = itemList
     }
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.manga == nil {

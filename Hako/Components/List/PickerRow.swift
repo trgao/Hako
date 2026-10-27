@@ -13,14 +13,14 @@ struct PickerRow: View {
     private let title: String
     private let labels: [String]
     private let description: String?
-    
+
     init(title: String, selection: Binding<Int>, labels: [String], description: String? = nil) {
         self._selection = selection
         self.title = title
         self.labels = labels
         self.description = description
     }
-    
+
     var body: some View {
         Picker(selection: $selection) {
             ForEach(labels.indices, id: \.self) { index in

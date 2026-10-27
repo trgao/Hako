@@ -35,13 +35,13 @@ struct ImageFrame: View {
         case .background: return 100000
         }
     }
-    
+
     init(id: String, imageUrl: String?, imageSize: ImageSizeEnum) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: id, imageUrl: imageUrl))
         self.imageUrl = imageUrl
         self.imageSize = imageSize
     }
-    
+
     var body: some View {
         VStack {
             if imageSize == .background {

@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Picture: Codable {
+struct Picture: Codable, Hashable {
     let medium: String?
     let large: String?
-    
+
     init(medium: String?, large: String?) {
         self.medium = medium
         self.large = large
     }
-    
+
     init(images: Images?) {
         self.medium = images?.jpg?.imageUrl
         self.large = images?.jpg?.largeImageUrl

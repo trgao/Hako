@@ -9,7 +9,7 @@ import Foundation
 
 enum SortEnum: String {
     case listScore, mean, listUpdatedAt, animeTitle, animeStartDate, mangaTitle, mangaStartDate, noOfUsers
-    
+
     func toParameter() -> String {
         switch self {
         case .listScore: return "list_score"
@@ -21,7 +21,7 @@ enum SortEnum: String {
         default: return ""
         }
     }
-    
+
     func toString() -> String {
         switch self {
         case .listScore: return "By user score"
@@ -32,7 +32,7 @@ enum SortEnum: String {
         case .noOfUsers: return "By members"
         }
     }
-    
+
     func toIcon() -> String {
         switch self {
         case .listScore, .mean: return "star"

@@ -8,22 +8,23 @@
 import SwiftUI
 
 struct CharacterGridItem: View {
+    @Namespace private var namespace
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let name: String?
     private let imageUrl: String?
-    
+    private let content: ZoomTransitionContent
+
     init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
         self.name = name
         self.imageUrl = imageUrl
+        self.content = ZoomTransitionContent(id: id, name: name, imageUrl: imageUrl, type: .character)
     }
-    
+
     var body: some View {
-        ZoomTransition {
-            CharacterDetailsView(id: id, name: name, imageUrl: imageUrl)
-        } label: {
+        TrackedNavigationLink(value: ZoomTransitionItem(content: content, namespaceId: namespace)) {
             VStack {
                 ImageFrame(id: "character\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .contentShape(RoundedRectangle(cornerRadius: 10))
@@ -39,7 +40,10 @@ struct CharacterGridItem: View {
                     .frame(maxHeight: .infinity, alignment: .top)
             }
             .frame(width: 110 * screenRatio)
+            .matchedTransitionSource(id: "character", in: namespace)
+
         }
+        .buttonStyle(.plain)
         .id(id)
     }
 }

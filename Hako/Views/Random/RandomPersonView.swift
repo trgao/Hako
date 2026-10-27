@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RandomPersonView: View {
     @StateObject private var controller = RandomPersonViewController()
-    
+
     var body: some View {
         if let id = controller.id {
             PersonDetailsView(id: id)
@@ -26,13 +26,13 @@ class RandomPersonViewController: ObservableObject {
     @Published var id: Int?
     @Published var isError = false
     let networker = NetworkManager.shared
-    
+
     init() {
         Task {
             await refresh()
         }
     }
-    
+
     func refresh() async {
         isError = false
         do {

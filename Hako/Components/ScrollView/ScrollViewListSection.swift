@@ -11,12 +11,12 @@ struct ScrollViewListSection<Content: View>: View {
     @State private var isExpanded = true
     private let title: String
     private let content: () -> Content
-    
+
     init(title: String = "", @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Button {

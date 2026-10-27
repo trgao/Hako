@@ -11,14 +11,14 @@ struct Constants {
     static let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     static let listImageSize: ImageSizeEnum = UIDevice.current.userInterfaceIdiom == .phone ? .small : .medium
-    
+
     static let ranks = ["🥇", "🥈", "🥉"]
     static let currentYear = Calendar(identifier: .gregorian).dateComponents([.year], from: .now).year ?? 2001
     static let currentSeason = seasons[((Calendar(identifier: .gregorian).dateComponents([.month], from: .now).month ?? 9) - 1) / 3] // map the current month to the current season
     static let seasons: [SeasonEnum] = [.winter, .spring, .summer, .fall]
     static let searchTypes: [SearchEnum] = [.anime, .manga, .character, .person]
     static let sentiments: [SentimentEnum] = [.all, .recommended, .mixed_feelings, .not_recommended]
-    
+
     static let exploreItems = ["anime", "manga", "characters", "people", "news", "top"]
     static let exploreItemIcons = [
         "anime": "tv.fill",
@@ -29,7 +29,7 @@ struct Constants {
         "news": "newspaper.fill",
         "top": "medal.fill"
     ]
-    
+
     // Since genres should not change much, I have decided to hard code this instead of relying on third party API genres endpoint
     static let animeGenres = [
         1: "Action",
@@ -117,7 +117,7 @@ struct Constants {
         27: "Shounen"
     ]
     static let animeDemographicKeys = [43, 15, 42, 25, 27]
-    
+
     static let mangaGenres = [
         1: "Action",
         2: "Adventure",
@@ -205,7 +205,7 @@ struct Constants {
         27: "Shounen"
     ]
     static let mangaDemographicKeys = [42, 15, 41, 25, 27]
-    
+
     static let mediaTypeIcons = [
         "manga": "book.fill",
         "manhwa": "book.fill",
@@ -231,7 +231,7 @@ struct Constants {
         "special": "sparkles.tv.fill",
         "tv_special": "sparkles.tv.fill"
     ]
-    
+
     static let ratings = [
         "g": "G - All ages",
         "pg": "PG - Children",
@@ -240,7 +240,7 @@ struct Constants {
         "r+": "R+ - Profanity & mild nudity",
         "rx": "Rx - Hentai"
     ]
-    
+
     static let scoreLabels = [
         "0 - Not yet scored",
         "1 - Appalling",
@@ -254,12 +254,12 @@ struct Constants {
         "9 - Great",
         "10 - Masterpiece"
     ]
-    
+
     static let animeRankings: [RankingEnum] = [.all, .tv, .ova, .movie, .special, .bypopularity, .favorite]
     static let mangaRankings: [RankingEnum] = [.all, .manga, .lightnovels, .novels, .oneshots, .manhwa, .manhua, .bypopularity, .favorite]
-    
+
     static let seasonSorts: [SortEnum] = [.mean, .noOfUsers, .animeTitle, .animeStartDate]
-    
+
     static let animeStatuses: [StatusEnum] = [.none, .watching, .completed, .onHold, .dropped, .planToWatch]
     static let animeSorts: [SortEnum] = [.listScore, .listUpdatedAt, .animeTitle, .animeStartDate]
     static let mangaStatuses: [StatusEnum] = [.none, .reading, .completed, .onHold, .dropped, .planToRead]

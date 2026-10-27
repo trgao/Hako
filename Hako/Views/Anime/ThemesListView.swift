@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ThemesListView: View {
     private let themes: [Theme]
-    
+
     init(themes: [Theme]) {
         self.themes = themes
     }
-    
+
     var body: some View {
         List {
             ForEach(themes) { theme in

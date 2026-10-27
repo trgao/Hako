@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Season: Codable {
+struct Season: Codable, Hashable {
     let year: Int?
     let season: SeasonEnum?
 }

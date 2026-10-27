@@ -15,7 +15,7 @@ struct ProfileView: View {
     @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var isSigningOut = false
-    
+
     var body: some View {
         ZStack {
             ScrollView {

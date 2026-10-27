@@ -12,12 +12,12 @@ struct AnimeMangaToggle: View {
     @State private var offset: CGFloat = -17
     @Binding var type: TypeEnum
     private let isLoading: Bool
-    
+
     init(type: Binding<TypeEnum>, isLoading: Bool) {
         self._type = type
         self.isLoading = isLoading
     }
-    
+
     var body: some View {
         ZStack {
             if #available (iOS 26.0, *) {

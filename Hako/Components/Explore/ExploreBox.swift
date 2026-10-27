@@ -7,24 +7,23 @@
 
 import SwiftUI
 
-struct ExploreBox<Destination: View>: View {
+struct ExploreBox: View {
     @Environment(\.screenSize) private var screenSize
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @State private var isPressed = false
     @State private var isLongPress = false
-    private let title: String
+    private let item: String
     private let image: String
-    private let destination: () -> Destination
 
-    init(title: String, image: String, destination: @escaping () -> Destination) {
-        self.title = title
+    init(item: String, image: String) {
+        self.item = item
         self.image = image
-        self.destination = destination
     }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Label(title, systemImage: image)
+            Label(item.capitalized, systemImage: image)
                 .foregroundStyle(settings.getAccentColor())
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .bold()
@@ -34,6 +33,10 @@ struct ExploreBox<Destination: View>: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
+            router.push(item)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isPressed = false
+            }
         }
         .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
             isLongPress = pressing
@@ -41,6 +44,5 @@ struct ExploreBox<Destination: View>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(isPressed || isLongPress ? Color(.systemGray4) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }

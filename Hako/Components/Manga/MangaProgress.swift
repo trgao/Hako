@@ -17,7 +17,7 @@ struct MangaProgress: View {
     private let numVolumesRead: String
     private let volumesReadProgress: Float
     private let isLoading: Bool
-    
+
     init(manga: Manga, isLoading: Bool) {
         self.manga = manga
         self.isLoading = isLoading
@@ -40,7 +40,7 @@ struct MangaProgress: View {
         self.numChaptersRead = String(numChaptersRead)
         self.numVolumesRead = String(numVolumesRead)
     }
-    
+
     var body: some View {
         ScrollViewSection(title: "Progress") {
             VStack {

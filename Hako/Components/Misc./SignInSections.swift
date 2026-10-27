@@ -15,11 +15,11 @@ struct SignInSections: View {
     @State private var isLoading = false
     @State private var isLoadingError = false
     private let isSettings: Bool
-    
+
     init(isSettings: Bool = false) {
         self.isSettings = isSettings
     }
-    
+
     private func signIn() async {
         isAuthenticating = true
         do {
@@ -29,7 +29,7 @@ struct SignInSections: View {
         }
         isAuthenticating = false
     }
-    
+
     var body: some View {
         Section {
             ZStack {
@@ -51,9 +51,7 @@ struct SignInSections: View {
                     .padding(5)
                 } else if isSettings {
                     if let user = networker.user {
-                        NavigationLink {
-                            ProfileView()
-                        } label: {
+                        TrackedNavigationLink(value: "profile") {
                             HStack {
                                 ProfileImage(imageUrl: user.picture)
                                 VStack {

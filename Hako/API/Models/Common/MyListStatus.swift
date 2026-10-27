@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MyListStatus: Codable, Equatable {
+struct MyListStatus: Codable, Equatable, Hashable {
     var status: StatusEnum?
     var score = 0
     var numEpisodesWatched = 0
@@ -16,7 +16,7 @@ struct MyListStatus: Codable, Equatable {
     var startDate: Date?
     var finishDate: Date?
     var updatedAt: Date?
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MyListStatus.CodingKeys.self)
         self.status = try container.decodeIfPresent(StatusEnum.self, forKey: .status)
@@ -28,7 +28,7 @@ struct MyListStatus: Codable, Equatable {
         self.finishDate = try container.decodeIfPresent(Date.self, forKey: .finishDate)
         self.updatedAt = try container.decodeIfPresent(Date.self, forKey: .updatedAt)
     }
-    
+
     init(status: StatusEnum) {
         self.status = status
         self.startDate = nil

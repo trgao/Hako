@@ -17,12 +17,12 @@ struct LoadingList: View {
     private var height: CGFloat {
         Constants.listImageSize == .medium ? 142 * screenRatio : 106 * screenRatio
     }
-    
+
     init(length: Int, showImage: Bool = true) {
         self.dummyList = Array(0..<length)
         self.showImage = showImage
     }
-    
+
     var body: some View {
         ForEach(dummyList, id: \.self) { _ in
             HStack {

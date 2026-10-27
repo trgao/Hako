@@ -14,7 +14,7 @@ struct GeneralView: View {
     @State private var isAuthenticationError = false
     @State private var cacheSizeString = ""
     private let cacheManager = CacheManager.shared
-    
+
     var body: some View {
         List {
             Section("General") {
@@ -53,7 +53,7 @@ struct GeneralView: View {
                         get: { settings.useFaceID },
                         set: { value in
                             let reason = "change settings"
-                            
+
                             if !value {
                                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
                                     if success {
@@ -88,17 +88,17 @@ struct GeneralView: View {
                     Text("Use list status tab bar")
                     Text(settings.useStatusTabBar ?  "You can change user list status from the tab bar at the bottom of the page" : "You can change user list status from the menu icon in the navigation bar")
                 }
-                
+
                 let animeStatuses = Constants.animeStatuses.map { $0.toString() }
                 let animeSorts = Constants.animeSorts.map { $0.toString() }
                 PickerRow(title: "Default anime status", selection: $settings.defaultAnimeStatus, labels: animeStatuses)
                 PickerRow(title: "Default anime sort", selection: $settings.defaultAnimeSort, labels: animeSorts)
-                
+
                 let mangaStatuses = Constants.mangaStatuses.map { $0.toString() }
                 let mangaSorts = Constants.mangaSorts.map { $0.toString() }
                 PickerRow(title: "Default manga status", selection: $settings.defaultMangaStatus, labels: mangaStatuses)
                 PickerRow(title: "Default manga sort", selection: $settings.defaultMangaSort, labels: mangaSorts)
-                
+
                 if networker.isSignedIn {
                     Toggle(isOn: $settings.useSwipeActions) {
                         Text("Allow swipe actions")

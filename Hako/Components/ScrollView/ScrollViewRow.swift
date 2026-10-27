@@ -12,19 +12,19 @@ struct ScrollViewRow: View {
     private let title: String?
     private let content: String
     private let icon: String?
-    
+
     init(title: String, content: String, icon: String? = nil) {
         self.title = title
         self.content = content
         self.icon = icon
     }
-    
+
     init(_ content: String) {
         self.title = nil
         self.content = content
         self.icon = nil
     }
-    
+
     var body: some View {
         HStack(alignment: .top) {
             if let title = title {

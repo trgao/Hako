@@ -11,7 +11,7 @@ struct NewsListView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = NewsListViewController()
     @State private var isRefresh = false
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.news.isEmpty {

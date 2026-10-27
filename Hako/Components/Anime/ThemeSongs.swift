@@ -14,12 +14,12 @@ struct ThemeSongs: View {
     @State private var endingPreview: [Theme] = []
     private let openingThemes: [Theme]?
     private let endingThemes: [Theme]?
-    
+
     init(openingThemes: [Theme]?, endingThemes: [Theme]?) {
         self.openingThemes = openingThemes
         self.endingThemes = endingThemes
     }
-    
+
     private func ThemeSong(_ text: String) -> some View {
         HStack {
             Text(text)
@@ -36,31 +36,27 @@ struct ThemeSongs: View {
             .shadow(radius: 0.5)
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
-    
+
     var body: some View {
         if let openingThemes = openingThemes {
-            ScrollViewCarousel(title: "Openings", count: openingThemes.count, viewAlignedScroll: screenSize.width - 34 < 450) {
+            ScrollViewCarousel(title: "Openings", count: openingThemes.count, item: openingThemes, viewAlignedScroll: screenSize.width - 34 < 450) {
                 ForEach(openingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)
                     }
                 }
-            } destination: {
-                ThemesListView(themes: openingThemes)
             }
             .onAppear {
                 openingPreview = Array(openingThemes.prefix(10))
             }
         }
         if let endingThemes = endingThemes {
-            ScrollViewCarousel(title: "Endings", count: endingThemes.count, viewAlignedScroll: screenSize.width - 34 < 450) {
+            ScrollViewCarousel(title: "Endings", count: endingThemes.count, item: endingThemes, viewAlignedScroll: screenSize.width - 34 < 450) {
                 ForEach(endingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)
                     }
                 }
-            } destination: {
-                ThemesListView(themes: endingThemes)
             }
             .onAppear {
                 endingPreview = Array(endingThemes.prefix(10))

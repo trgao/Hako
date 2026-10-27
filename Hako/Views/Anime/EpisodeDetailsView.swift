@@ -11,7 +11,6 @@ struct EpisodeDetailsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var settings: SettingsManager
     @State private var showTranslation = false
-    private let animeId: Int
     private let item: Episode
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
@@ -32,12 +31,11 @@ struct EpisodeDetailsView: View {
     private var synopsis: String {
         item.synopsis ?? "This episode does not yet have a synopsis."
     }
-    
-    init(animeId: Int, item: Episode) {
-        self.animeId = animeId
+
+    init(item: Episode) {
         self.item = item
     }
-    
+
     var body: some View {
         ScrollView {
             VStack {

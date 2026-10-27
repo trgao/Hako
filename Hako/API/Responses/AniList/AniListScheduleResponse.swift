@@ -12,9 +12,9 @@ struct AniListScheduleResponse: Codable {
         struct Page: Codable {
             let airingSchedules: [AiringSchedule]
         }
-        
+
         let Page: Page
     }
-    
+
     let data: Data
 }

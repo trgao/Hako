@@ -11,11 +11,11 @@ actor CacheManager {
     static var shared = CacheManager()
     private let formatter = ByteCountFormatter()
     private let fileManager = FileManager.default
-    
+
     init() {
         formatter.countStyle = .file
     }
-    
+
     private func calculateDirectorySize(_ url: URL) -> Int64 {
         var size: Int64 = 0
         do {
@@ -29,7 +29,7 @@ actor CacheManager {
         }
         return size
     }
-    
+
     private func clearDirectory(_ url: URL) {
         do {
             let files = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
@@ -40,7 +40,7 @@ actor CacheManager {
             print("Error clearing \(url.lastPathComponent) directory: \(error.localizedDescription)")
         }
     }
-    
+
     func calculateCacheSize() -> String {
         var size: Int64 = 0
         size += Int64(URLCache.shared.currentDiskUsage)
@@ -50,12 +50,12 @@ actor CacheManager {
         }
         return formatter.string(fromByteCount: size)
     }
-    
+
     func clearTemp() {
         URLCache.shared.removeAllCachedResponses()
         clearDirectory(fileManager.temporaryDirectory)
     }
-    
+
     func clearCache() {
         URLCache.shared.removeAllCachedResponses()
         clearDirectory(fileManager.temporaryDirectory)

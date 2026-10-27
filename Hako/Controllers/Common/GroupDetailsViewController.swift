@@ -17,7 +17,7 @@ class GroupDetailsViewController: ObservableObject {
     private let id: Int
     private let type: TypeEnum
     let networker = NetworkManager.shared
-    
+
     init(group: String, id: Int, type: TypeEnum) {
         self.group = group
         self.id = id
@@ -26,7 +26,7 @@ class GroupDetailsViewController: ObservableObject {
             await refresh()
         }
     }
-    
+
     // Refresh the current anime/manga list
     func refresh() async {
         loadingState = .loading
@@ -47,14 +47,14 @@ class GroupDetailsViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current anime/manga list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !items.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         do {
             var itemsList: [ThirdPartyListItem] = []
@@ -69,7 +69,7 @@ class GroupDetailsViewController: ObservableObject {
         } catch {}
         loadingState = .idle
     }
-    
+
     // Load more items when reaching the 4th last items in list
     func loadMoreIfNeeded(index: Int) async {
         if index == items.endIndex - 5 {

@@ -13,7 +13,7 @@ struct NumberSelector: View {
     @State var numString: String
     private let title: String
     private let max: Int?
-    
+
     init(title: String, num: Binding<Int>, max: Int?) {
         self._num = num
         self.title = title

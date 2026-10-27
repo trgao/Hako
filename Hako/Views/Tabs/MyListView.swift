@@ -9,37 +9,47 @@ import SwiftUI
 import SystemNotification
 
 struct MyListView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = UserListViewController(user: "@me")
     @StateObject private var networker = NetworkManager.shared
     @State private var isInit = false
     @State private var isRefresh = false
-    @Binding private var id: UUID
+    @Binding private var id: UUID?
     @Binding private var type: TypeEnum?
     @Binding private var animeStatus: StatusEnum?
     @Binding private var animeSort: SortEnum?
     @Binding private var mangaStatus: StatusEnum?
     @Binding private var mangaSort: SortEnum?
-    
+    @Binding private var pickerType: TypeEnum
+    @Binding private var pickerAnimeStatus: StatusEnum
+    @Binding private var pickerMangaStatus: StatusEnum
+    @Binding private var pickerDisabled: Bool
+
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
     @State private var animeListStatus: MyListStatus?
-    
+
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
     @State private var mangaListStatus: MyListStatus?
-    
-    init(id: Binding<UUID>, type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<SortEnum?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<SortEnum?>) {
+
+    init(id: Binding<UUID?> = .constant(nil), type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<SortEnum?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<SortEnum?>, pickerType: Binding<TypeEnum>, pickerAnimeStatus: Binding<StatusEnum>, pickerMangaStatus: Binding<StatusEnum>, pickerDisabled: Binding<Bool>) {
         self._id = id
         self._type = type
         self._animeStatus = animeStatus
         self._animeSort = animeSort
         self._mangaStatus = mangaStatus
         self._mangaSort = mangaSort
+        self._pickerType = pickerType
+        self._pickerAnimeStatus = pickerAnimeStatus
+        self._pickerMangaStatus = pickerMangaStatus
+        self._pickerDisabled = pickerDisabled
     }
-    
+
     @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
         ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
             AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, isLoading: controller.isRefreshLoading)
@@ -82,7 +92,7 @@ struct MyListView: View {
             LoadingList(length: 5)
         }
     }
-    
+
     @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
         ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
             MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, isLoading: controller.isRefreshLoading)
@@ -156,7 +166,7 @@ struct MyListView: View {
             LoadingList(length: 5)
         }
     }
-    
+
     private var animeList: some View {
         List {
             Section(controller.animeStatus.toString()) {
@@ -192,9 +202,16 @@ struct MyListView: View {
                 }
             }
             if settings.useStatusTabBar {
-                Section {} footer: {
-                    Rectangle()
-                        .frame(height: 0)
+                if #unavailable (iOS 26.2) {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
+                } else if horizontalSizeClass != .compact {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
                 }
             }
         }
@@ -220,7 +237,7 @@ struct MyListView: View {
             isRefresh = true
         }
     }
-    
+
     private var mangaList: some View {
         List {
             Section(controller.mangaStatus.toString()) {
@@ -256,9 +273,16 @@ struct MyListView: View {
                 }
             }
             if settings.useStatusTabBar {
-                Section {} footer: {
-                    Rectangle()
-                        .frame(height: 0)
+                if #unavailable (iOS 26.2) {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
+                } else if horizontalSizeClass != .compact {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
                 }
             }
         }
@@ -284,20 +308,29 @@ struct MyListView: View {
             isRefresh = true
         }
     }
-    
+
     var body: some View {
-        NavigationStack {
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
             if networker.isSignedIn {
                 ZStack {
                     if controller.type == .anime {
                         animeList
                         if settings.useStatusTabBar {
-                            UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                            if #unavailable (iOS 26.2) {
+                                UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                            } else if horizontalSizeClass != .compact {
+                                UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                            }
                         }
                     } else if controller.type == .manga {
                         mangaList
                         if settings.useStatusTabBar {
-                            UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                            if #unavailable (iOS 26.2) {
+                                UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                            } else if horizontalSizeClass != .compact {
+                                UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                            }
                         }
                     }
                     if controller.isRefreshLoading {
@@ -372,6 +405,7 @@ struct MyListView: View {
                     }
                 }
                 .navigationTitle("My \(controller.type.rawValue) list")
+                .navigationDestinations()
             } else {
                 List {
                     SignInSections()
@@ -384,7 +418,6 @@ struct MyListView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .id(id)
         .task(id: id) {
             if let type = type {
                 controller.type = type
@@ -392,6 +425,7 @@ struct MyListView: View {
             if type == .anime {
                 if let animeStatus = animeStatus {
                     controller.animeStatus = animeStatus
+                    pickerAnimeStatus = animeStatus
                 }
                 if let animeSort = animeSort {
                     controller.animeSort = animeSort
@@ -399,6 +433,7 @@ struct MyListView: View {
             } else if type == .manga {
                 if let mangaStatus = mangaStatus {
                     controller.mangaStatus = mangaStatus
+                    pickerMangaStatus = mangaStatus
                 }
                 if let mangaSort = mangaSort {
                     controller.mangaSort = mangaSort
@@ -408,13 +443,29 @@ struct MyListView: View {
                 controller.animeSort = settings.getAnimeSort()
                 controller.mangaStatus = settings.getMangaStatus()
                 controller.mangaSort = settings.getMangaSort()
+
+                pickerAnimeStatus = settings.getAnimeStatus()
+                pickerMangaStatus = settings.getMangaStatus()
             }
+            pickerType = controller.type
             type = nil
             animeStatus = nil
             animeSort = nil
             mangaStatus = nil
             mangaSort = nil
             isInit = true
+        }
+        .onChange(of: controller.type) {
+            pickerType = controller.type
+        }
+        .onChange(of: pickerAnimeStatus) {
+            controller.animeStatus = pickerAnimeStatus
+        }
+        .onChange(of: pickerMangaStatus) {
+            controller.mangaStatus = pickerMangaStatus
+        }
+        .onChange(of: controller.isLoading()) {
+            pickerDisabled = controller.isLoading()
         }
     }
 }

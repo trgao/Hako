@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoadingView: View {
     @ScaledMetric private var size = 60
-    
+
     var body: some View {
         ZStack {
             ProgressView()

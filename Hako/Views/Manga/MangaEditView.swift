@@ -31,7 +31,7 @@ struct MangaEditView: View {
     private var viewTitle: String {
         settings.getTitle(romaji: title, english: alternativeTitles?.en, native: alternativeTitles?.ja)
     }
-    
+
     init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         var initialData = MyListStatus(status: .planToRead)
@@ -56,7 +56,7 @@ struct MangaEditView: View {
             self._mangaListStatus = .constant(nil)
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             PageList {

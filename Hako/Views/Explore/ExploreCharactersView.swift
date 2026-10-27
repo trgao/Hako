@@ -10,7 +10,7 @@ import SwiftUI
 struct ExploreCharactersView: View {
     @StateObject private var controller = ExploreCharactersViewController()
     @State private var isRefresh = false
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.characters.isEmpty {

@@ -8,24 +8,25 @@
 import SwiftUI
 
 struct PersonGridItem: View {
+    @Namespace private var namespace
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
     private let name: String?
     private let imageUrl: String?
     private let subtitle: String?
-    
+    private let content: ZoomTransitionContent
+
     init(id: Int, name: String?, imageUrl: String?, subtitle: String? = nil) {
         self.id = id
         self.name = name
         self.imageUrl = imageUrl
         self.subtitle = subtitle
+        self.content = ZoomTransitionContent(id: id, name: name, imageUrl: imageUrl, type: .person)
     }
-    
+
     var body: some View {
-        ZoomTransition {
-            PersonDetailsView(id: id, name: name, imageUrl: imageUrl)
-        } label: {
+        TrackedNavigationLink(value: ZoomTransitionItem(content: content, namespaceId: namespace)) {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .overlay {
@@ -56,7 +57,9 @@ struct PersonGridItem: View {
                     .frame(maxHeight: .infinity, alignment: .top)
             }
             .frame(width: 110 * screenRatio)
+            .matchedTransitionSource(id: "person", in: namespace)
         }
+        .buttonStyle(.plain)
         .id(id)
     }
 }

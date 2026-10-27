@@ -12,12 +12,12 @@ struct MangaInformation: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     private let manga: Manga
     private let isEmpty: Bool
-    
+
     init(manga: Manga) {
         self.manga = manga
         self.isEmpty = (manga.serialization?.isEmpty ?? true) && (manga.genres?.isEmpty ?? true) && manga.startDate == nil
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("Information")
@@ -42,14 +42,10 @@ struct MangaInformation: View {
                         ScrollViewRow(title: "Serialised", content: "\(startDate.toString()) to \(manga.endDate?.toString() ?? "?")")
                     }
                     if let serialization = manga.serialization, !serialization.isEmpty {
-                        ScrollViewNavigationLink(title: "Serialization", items: serialization.map { $0.node.name }) {
-                            GroupsListView(title: "Serialization", items: serialization.map { $0.node }, group: "magazines", type: .manga)
-                        }
+                        ScrollViewNavigationLink(title: "Serialization", items: serialization.map { $0.node.name }, item: serialization)
                     }
                     if let genres = manga.genres?.filter({ $0.id < 84 }), !genres.isEmpty {
-                        ScrollViewNavigationLink(title: "Genres", items: genres.map { $0.name }) {
-                            GroupsListView(title: "Genres", items: genres, group: "genres", type: .manga)
-                        }
+                        ScrollViewNavigationLink(title: "Genres", items: genres.map { $0.name }, item: GroupList(items: genres, name: "Genres", type: .manga, group: "genres"))
                     }
                     if let alternativeTitles = manga.alternativeTitles {
                         let titles = [manga.title, alternativeTitles.en, alternativeTitles.ja].compactMap { $0 }.filter { !$0.isEmpty }

@@ -13,7 +13,7 @@ class CharacterDetailsViewController: ObservableObject {
     @Published var loadingState: LoadingEnum = .loading
     private let id: Int
     private let networker = NetworkManager.shared
-    
+
     init(id: Int) {
         self.id = id
         if let character = networker.characterCache[id] {
@@ -23,7 +23,7 @@ class CharacterDetailsViewController: ObservableObject {
             await refresh()
         }
     }
-    
+
     init(id: Int, name: String?, imageUrl: String?) {
         self.id = id
         self.character = Character(id: id, name: name, imageUrl: imageUrl)
@@ -34,7 +34,7 @@ class CharacterDetailsViewController: ObservableObject {
             await refresh()
         }
     }
-    
+
     // Refresh the current character details page
     func refresh() async {
         loadingState = .loading

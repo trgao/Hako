@@ -11,7 +11,7 @@ struct AppearanceView: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var altIcon = false
     @State private var isChangeIconError = false
-    
+
     var body: some View {
         List {
             Section("General") {

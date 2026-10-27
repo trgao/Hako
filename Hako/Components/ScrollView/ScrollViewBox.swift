@@ -15,13 +15,13 @@ struct ScrollViewBox: View {
     private let title: String
     private let image: String
     private let content: String
-    
+
     init(title: String, image: String, content: String) {
         self.title = title
         self.image = image
         self.content = content
     }
-    
+
     var body: some View {
         VStack(alignment: .center) {
             Text(title)

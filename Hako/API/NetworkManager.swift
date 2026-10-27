@@ -15,43 +15,43 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     @Published var isSignedIn = false
     @Published var user: User?
     static let shared = NetworkManager()
-    
+
     // Caches
     let imageCache = NSCache<NSString, ImageCache>()
     var imageUrlMap = ThreadSafeDictionary<String, String>()
-    
+
     let animeCache = ItemCache<Int, Anime>()
     let animeNextEpisodeCache = ItemCache<Int, NextAiringEpisode?>()
     let animeCharactersCache = ItemCache<Int, [ListCharacter]>()
     let animeStaffsCache = ItemCache<Int, [Staff]>()
     let animeRelatedMangaCache = ItemCache<Int, [RelatedItem]>()
-    
+
     let mangaCache = ItemCache<Int, Manga>()
     let mangaCharactersCache = ItemCache<Int, [ListCharacter]>()
     let mangaRelatedAnimeCache = ItemCache<Int, [RelatedItem]>()
-    
+
     let characterCache = ItemCache<Int, Character>()
     let personCache = ItemCache<Int, Person>()
-    
+
     // API base urls
     private let tenraiBaseApi = "https://api.tenrai.org/v1"
     private let malBaseApi = "https://api.myanimelist.net/v2"
     private let anilistBaseApi = "https://graphql.anilist.co"
-    
+
     // Fields for MAL API
     private let animeFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,num_list_users,list_status},related_anime{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,num_list_users,list_status},num_list_users,list_status"
     private let mangaFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},related_manga{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name}serialization,pictures,num_list_users,list_status},num_list_users,list_status"
-    
+
     // API token bucket rate limiting
     private let malBucket = TokenBucket(capacity: 2, refillRate: 1)
     private let tenraiBucket = TokenBucket(capacity: 3, refillRate: 1)
     private let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
-    
+
     private let decoder: JSONDecoder
     private let clientId = Bundle.main.infoDictionary?["API_CLIENT_ID"] as! String
     private let keychain = Keychain(service: "mal-api")
     private let dateFormatter = ISO8601DateFormatter()
-    
+
     override init() {
         // JSON Decoder
         decoder = JSONDecoder()
@@ -68,7 +68,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             let normalDateFormatter = DateFormatter()
             normalDateFormatter.dateFormat = "yyyy-MM-dd"
             let iso8601DateFormatter = ISO8601DateFormatter()
-            
+
             // Only does not work for 1 Jan 1933
             if dateStr == "1933" || dateStr == "1933-01" || dateStr == "1933-01-01" {
                 date = iso8601DateFormatter.date(from: "1932-12-31T23:00:00+00:00")
@@ -86,14 +86,14 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             }
             return date_
         })
-        
+
         super.init()
-        
+
         // Check if user is currently signed in and load username and profile picture
         if keychain["accessToken"] != nil, let name = UserDefaults.standard.string(forKey: "name") {
             self.isSignedIn = true
             self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
-            
+
             if let data = UserDefaults.standard.data(forKey: "userImage") {
                 let cache = ImageCache()
                 cache.image = data as NSData
@@ -102,14 +102,14 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             }
         }
     }
-    
+
     // Generic MALApi request
     private func sendMALRequest<T: Decodable>(url: URL, method: String, body: Data? = nil, token: String? = nil, _ contentType: String? = nil, _ retries: Int = 3) async throws -> T {
         if retries == 0 {
             signOut()
             throw NetworkError.outOfRetries
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = method
         if let contentType = contentType {
@@ -118,7 +118,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         if let body = body {
             request.httpBody = body
         }
-        
+
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = [
             "X-MAL-CLIENT-ID": clientId
@@ -129,13 +129,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             hasToken = true
         }
         let session = URLSession(configuration: config)
-        
+
         let (data, response) = try await session.data(for: request)
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-        
+
         if httpResponse.statusCode == 401 && hasToken {
             try await refreshToken()
             let result: T = try await sendMALRequest(url: url, method: method, body: body, token: token, contentType, retries - 1)
@@ -149,7 +149,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 throw NetworkError.badStatusCode(httpResponse.statusCode)
             }
         }
-        
+
         do {
             var decoded: T
             if data.isEmpty {
@@ -162,7 +162,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     // Get access token when user is signing in for the first time
     private func getAccessToken(_ code: String, _ codeVerifier: String) async throws -> String {
         let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
@@ -171,17 +171,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters
-        
+
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-        
+
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-        
+
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
             self.keychain["accessToken"] = responseObject.accessToken
@@ -191,7 +191,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     // Refresh access token using stored refresh token
     private func refreshToken() async throws {
         guard let token = keychain["refreshToken"] else {
@@ -205,19 +205,19 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.httpBody = parameters
 
         let (data, response) = try await URLSession.shared.data(for: request)
-            
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-            
+
         guard httpResponse.statusCode != 403 else {
             throw NetworkError.invalidRefreshToken
         }
-            
+
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-            
+
         do {
             let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
             self.keychain["accessToken"] = responseObject.accessToken
@@ -226,7 +226,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     // Sign in function with old completion handler syntax
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { callbackURL, error in
@@ -247,7 +247,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         session.prefersEphemeralWebBrowserSession = true
         session.start()
     }
-    
+
     // Sign in user (async wrapper for signInWithCompletion)
     func signIn() async throws {
         let pkce = PKCE.generateCodeVerifier()
@@ -277,7 +277,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         UserDefaults.standard.set(nil, forKey: "userImage")
         imageCache.removeObject(forKey: "userImage")
     }
-    
+
     // Generic MALApi GET request
     private func getMALResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: malBaseApi + urlExtend)!
@@ -285,17 +285,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let decoded: T = try await sendMALRequest(url: url, method: "GET")
         return decoded
     }
-    
+
     // Generic TenraiAPI GET request
     private func getTenraiResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: tenraiBaseApi + urlExtend)!
         await tenraiBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-        
+
         guard (200...299).contains(httpResponse.statusCode) else {
             if httpResponse.statusCode == 404 {
                 throw NetworkError.notFound
@@ -303,7 +303,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 throw NetworkError.badStatusCode(httpResponse.statusCode)
             }
         }
-        
+
         do {
             let decoded = try decoder.decode(T.self, from: data)
             return decoded
@@ -311,17 +311,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     func getUserAnimeList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getUserMangaList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
         return response.data
     }
-    
+
     func getUserProfile(_ token: String? = nil) async throws {
         let url = URL(string: malBaseApi + "/users/@me")!
         let user: User = try await sendMALRequest(url: url, method: "GET", token: token)
@@ -330,7 +330,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         UserDefaults.standard.set(user.joinedAt, forKey: "joinedAt")
         UserDefaults.standard.set(user.picture, forKey: "picture")
     }
-    
+
     // Deprecated until third party api adds user information endpoints
 //    func getUserStatistics(user: String?) async throws -> UserStatistics {
 //        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/statistics", type: JikanUserStatisticsResponse.self)
@@ -341,114 +341,114 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 //        let response = try await getJikanResponse(urlExtend: "/users/\(user ?? self.user?.name ?? "")/favorites", type: JikanUserFavouritesResponse.self)
 //        return response.data
 //    }
-    
+
     func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
     }
-    
+
     func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
     }
-    
+
     func deleteUserAnime(id: Int) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
     }
-    
+
     func deleteUserManga(id: Int) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
     }
-    
+
     func getRandomAnime() async throws -> Int {
         let response = try await getTenraiResponse(urlExtend: "/random/anime", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
-    
+
     func getRandomManga() async throws -> Int {
         let response = try await getTenraiResponse(urlExtend: "/random/manga", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
-    
+
     func getRandomCharacter() async throws -> Int {
         let response = try await getTenraiResponse(urlExtend: "/random/characters", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
-    
+
     func getRandomPerson() async throws -> Int {
         let response = try await getTenraiResponse(urlExtend: "/random/people", type: ThirdPartyRandomItemResponse.self)
         return response.data.malId
     }
-    
+
     func getCompanies(page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/producers?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getMagazines(page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/magazines?order_by=name&sort=asc&limit=100&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getCharacters(page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/characters?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getPeople(page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/people?order_by=favorites&sort=desc&limit=50&page=\(page)", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getNews() async throws -> [RSSFeedItem]? {
         let rssfeed = try await RSSFeed(urlString: "https://myanimelist.net/rss/news.xml")
         return rssfeed.channel?.items
     }
-    
+
     func getUserAnimeSuggestionList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/suggestions?fields=\(animeFields)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getAnimeTopAiringList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=airing&limit=10&fields=\(animeFields)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getAnimeTopUpcomingList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=upcoming&limit=10&fields=\(animeFields)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getAnimeNewlyAddedList() async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/anime?order_by=mal_id&sort=desc&limit=20&sfw=true", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getMangaNewlyAddedList() async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/manga?order_by=mal_id&sort=desc&limit=20&sfw=true", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getTopAnimeList(rankingType: RankingEnum, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(animeFields)&nsfw=true", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getTopMangaList(rankingType: RankingEnum, page: Int) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(mangaFields)&nsfw=true", type: MALMangaListResponse.self)
         return response.data
     }
-    
+
     func getSeasonAnimeList(season: SeasonEnum, year: Int, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season.rawValue)?nsfw=true&fields=\(animeFields)&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func getAnimeScheduleList(page: Int) async throws -> [AiringSchedule] {
         let url = URL(string: anilistBaseApi)!
         let weekStart = Int(Calendar.current.startOfDay(for: .now).timeIntervalSince1970) - 1
@@ -486,15 +486,15 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
         await anilistBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-        
+
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-        
+
         do {
             let decoded = try decoder.decode(AniListScheduleResponse.self, from: data)
             return decoded.data.Page.airingSchedules
@@ -502,42 +502,42 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     func searchAnime(anime: String) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=\(animeFields)", type: MALAnimeListResponse.self)
         return response.data
     }
-    
+
     func searchManga(manga: String) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=\(mangaFields)", type: MALMangaListResponse.self)
         return response.data
     }
-    
+
     func searchCharacters(character: String) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/characters?q=\(character)&order_by=favorites&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func searchPeople(person: String) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/people?q=\(person)&order_by=favorites&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getAnimeList(group: String, id: Int, page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/anime?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getMangaList(group: String, id: Int, page: Int) async throws -> [ThirdPartyListItem] {
         let response = try await getTenraiResponse(urlExtend: "/manga?\(group)=\(id)&page=\(page)&limit=50&order_by=members&sort=desc", type: ThirdPartyListResponse.self)
         return response.data
     }
-    
+
     func getAnimeDetails(id: Int) async throws -> Anime {
         let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=\(animeFields)", type: Anime.self)
         return response
     }
-    
+
     func getAnimeNextAiringDetails(id: Int) async throws -> NextAiringEpisode? {
         let url = URL(string: anilistBaseApi)!
         let query = """
@@ -558,15 +558,15 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         request.httpBody = try! JSONSerialization.data(withJSONObject: body)
         await anilistBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-        
+
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-        
+
         do {
             let decoded = try decoder.decode(AniListAiringResponse.self, from: data)
             return decoded.data.Media.nextAiringEpisode
@@ -574,27 +574,27 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.jsonParseFailure
         }
     }
-    
+
     func getAnimeCharacters(id: Int) async throws -> [ListCharacter] {
         let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/characters", type: ThirdPartyCharactersListResponse.self)
         return response.data
     }
-    
+
     func getAnimeRelations(id: Int) async throws -> [Related] {
         let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/relations", type: ThirdPartyRelationsListResponse.self)
         return response.data
     }
-    
+
     func getAnimeStaff(id: Int) async throws -> [Staff] {
         let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/staff", type: ThirdPartyStaffsListResponse.self)
         return response.data
     }
-    
+
     func getAnimeEpisodesList(id: Int, page: Int) async throws -> [Episode] {
         let response = try await getTenraiResponse(urlExtend: "/anime/\(id)/episodes?page=\(page)", type: ThirdPartyEpisodesListResponse.self)
         return response.data
     }
-    
+
     func getAnimeReviewsList(id: Int, page: Int, sentiment: SentimentEnum) async throws -> [Review] {
         var urlExtend = "/anime/\(id)/reviews?preliminary=true&page=\(page)"
         if sentiment != .all {
@@ -603,27 +603,27 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let response = try await getTenraiResponse(urlExtend: urlExtend, type: ThirdPartyReviewsListResponse.self)
         return response.data
     }
-    
+
     func getMangaDetails(id: Int) async throws -> Manga {
         let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=\(mangaFields)", type: Manga.self)
         return response
     }
-    
+
     func getMangaCharacters(id: Int) async throws -> [ListCharacter] {
         let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/characters", type: ThirdPartyCharactersListResponse.self)
         return response.data
     }
-    
+
     func getMangaRelations(id: Int) async throws -> [Related] {
         let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/relations", type: ThirdPartyRelationsListResponse.self)
         return response.data
     }
-    
+
     func getMangaChaptersList(id: Int, page: Int) async throws -> [Chapter] {
         let response = try await getTenraiResponse(urlExtend: "/manga/\(id)/forum?page=\(page)", type: ThirdPartyChaptersListResponse.self)
         return response.data
     }
-    
+
     func getMangaReviewsList(id: Int, page: Int, sentiment: SentimentEnum) async throws -> [Review] {
         var urlExtend = "/manga/\(id)/reviews?preliminary=true&page=\(page)"
         if sentiment != .all {
@@ -632,29 +632,29 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         let response = try await getTenraiResponse(urlExtend: urlExtend, type: ThirdPartyReviewsListResponse.self)
         return response.data
     }
-    
+
     func getCharacterDetails(id: Int) async throws -> Character {
         let response = try await getTenraiResponse(urlExtend: "/characters/\(id)/full", type: ThirdPartyCharacterDetailsResponse.self)
         return response.data
     }
-    
+
     func getPersonDetails(id: Int) async throws -> Person {
         let response = try await getTenraiResponse(urlExtend: "/people/\(id)/full", type: ThirdPartyPersonDetailsResponse.self)
         return response.data
     }
-    
+
     // Download image
     private func download(imageUrl: URL) async throws -> Data {
         let (localUrl, response) = try await URLSession.shared.download(for: URLRequest(url: imageUrl))
-            
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
-            
+
         guard (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
-            
+
         do {
             let data = try Data(contentsOf: localUrl)
             return data
@@ -662,17 +662,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.unknownError(error)
         }
     }
-    
+
     // Wrapper function for download
     func downloadImage(id: String, imageUrl: String?, retry: Int = 3, delay: Int = 4) async -> Data? {
         if let cache = imageCache.object(forKey: id as NSString) {
             return cache.image as Data
         }
-        
+
         guard let imageUrl = imageUrl, retry > 0 else {
             return nil
         }
-        
+
         do {
             imageUrlMap[id] = imageUrl
             let url = URL(string: imageUrl)!
@@ -686,7 +686,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             return await downloadImage(id: id, imageUrl: imageUrl, retry: retry - 1, delay: delay * 2)
         }
     }
-    
+
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return ASPresentationAnchor()
     }

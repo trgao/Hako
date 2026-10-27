@@ -13,7 +13,7 @@ struct AnimeProgress: View {
     private let numEpisodesWatched: String
     private let watchProgress: Float
     private let isLoading: Bool
-    
+
     init(anime: Anime, isLoading: Bool) {
         self.anime = anime
         self.isLoading = isLoading
@@ -27,7 +27,7 @@ struct AnimeProgress: View {
         }
         self.numEpisodesWatched = String(numEpisodesWatched)
     }
-    
+
     var body: some View {
         ScrollViewSection(title: "Progress") {
             VStack {

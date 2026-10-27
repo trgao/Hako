@@ -21,14 +21,14 @@ final class ItemCache<Key: Hashable, Value> {
             return value.key == key
         }
     }
-    
+
     final class Entry: NSObject, NSDiscardableContent {
         let value: Value
 
         init(value: Value) {
             self.value = value
         }
-        
+
         func beginContentAccess() -> Bool {
             return true
         }
@@ -45,9 +45,9 @@ final class ItemCache<Key: Hashable, Value> {
             return false
         }
     }
-    
+
     private let wrapped = NSCache<WrappedKey, Entry>()
-    
+
     func insert(_ value: Value, _ key: Key) {
         let entry = Entry(value: value)
         wrapped.setObject(entry, forKey: WrappedKey(key))

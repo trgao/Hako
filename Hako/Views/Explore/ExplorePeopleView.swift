@@ -10,7 +10,7 @@ import SwiftUI
 struct ExplorePeopleView: View {
     @StateObject private var controller = ExplorePeopleViewController()
     @State private var isRefresh = false
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.people.isEmpty {

@@ -8,26 +8,30 @@
 import SwiftUI
 
 struct SeasonsView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.screenRatio) private var screenRatio
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = SeasonsViewController()
     @State private var isInit = false
     @State private var isRefresh = false
-    @Binding private var id: UUID
+    @Binding private var id: UUID?
     @Binding private var isResetSeasons: Bool
-    @Binding private var isRoot: Bool
     @Binding private var year: Int?
     @Binding private var season: SeasonEnum?
+    @Binding private var pickerSeason: SeasonEnum
+    @Binding private var pickerDisabled: Bool
     private let networker = NetworkManager.shared
-    
-    init(id: Binding<UUID>, isResetSeasons: Binding<Bool>, isRoot: Binding<Bool>, year: Binding<Int?>, season: Binding<SeasonEnum?>) {
+
+    init(id: Binding<UUID?> = .constant(nil), isResetSeasons: Binding<Bool>, year: Binding<Int?>, season: Binding<SeasonEnum?>, pickerSeason: Binding<SeasonEnum>, pickerDisabled: Binding<Bool>) {
         self._id = id
         self._isResetSeasons = isResetSeasons
-        self._isRoot = isRoot
         self._year = year
         self._season = season
+        self._pickerSeason = pickerSeason
+        self._pickerDisabled = pickerDisabled
     }
-    
+
     private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], _ width: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
@@ -61,7 +65,7 @@ struct SeasonsView: View {
         }
         .id(controller.sort)
     }
-    
+
     private var nothingFoundView: some View {
         VStack {
             Image(systemName: "calendar")
@@ -70,10 +74,28 @@ struct SeasonsView: View {
             Text("No anime")
                 .bold()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
-    
+
+    private var tabPicker: some View {
+        TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
+            .onChange(of: controller.season) {
+                if year == nil && season == nil && controller.shouldRefresh() {
+                    // Loading state is changed here to prevent brief flickering of nothing found view
+                    controller.loadingState = .loading
+                    Task {
+                        await controller.refresh()
+                        // Reset navigation stack so that large navigation title can display if season is empty
+                        router.popToRoot()
+                    }
+                }
+            }
+            .disabled(controller.loadingState == .loading)
+    }
+
     var body: some View {
-        NavigationStack {
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
             GeometryReader { geometry in
                 ZStack {
                     if controller.isSeasonEmpty() {
@@ -93,19 +115,11 @@ struct SeasonsView: View {
                     } else if controller.season == .fall {
                         SeasonView(controller.fallItems, controller.fallContinuingItems, geometry.size.width)
                     }
-                    TabPicker(selection: $controller.season, options: Constants.seasons.map { ($0.rawValue.capitalized, $0) })
-                        .onChange(of: controller.season) {
-                            if year == nil && season == nil && controller.shouldRefresh() {
-                                // Loading state is changed here to prevent brief flickering of nothing found view
-                                controller.loadingState = .loading
-                                Task {
-                                    await controller.refresh()
-                                    // Reset navigation stack so that large navigation title can display if season is empty
-                                    id = UUID()
-                                }
-                            }
-                        }
-                        .disabled(controller.loadingState == .loading)
+                    if #unavailable (iOS 26.2) {
+                        tabPicker
+                    } else if horizontalSizeClass != .compact {
+                        tabPicker
+                    }
                     if isRefresh {
                         LoadingView()
                     }
@@ -141,9 +155,7 @@ struct SeasonsView: View {
                     }
                     if !settings.replaceTopWithSchedule && !settings.hideSchedule {
                         ToolbarItem(placement: .topBarLeading) {
-                            NavigationLink {
-                                ScheduleView()
-                            } label: {
+                            TrackedNavigationLink(value: "schedule") {
                                 Label("Schedule", systemImage: "calendar.badge.clock")
                                     .labelStyle(.iconOnly)
                             }
@@ -162,7 +174,7 @@ struct SeasonsView: View {
                                     Task {
                                         await controller.refresh(true)
                                         // Reset navigation stack so that large navigation title can display if season is empty
-                                        id = UUID()
+                                        router.popToRoot()
                                     }
                                 }
                             }
@@ -177,12 +189,6 @@ struct SeasonsView: View {
                         }
                         .disabled(controller.loadingState == .loading)
                     }
-                }
-                .onAppear {
-                    isRoot = true
-                }
-                .onDisappear {
-                    isRoot = false
                 }
                 .onChange(of: isResetSeasons) {
                     if isResetSeasons {
@@ -202,15 +208,29 @@ struct SeasonsView: View {
                 }
                 year = nil
                 season = nil
-                isRoot = true
                 isInit = true
             }
+            .navigationDestinations()
         }
-        .id(id)
         .onChange(of: settings.replaceTopWithSchedule) {
             if settings.replaceTopWithSchedule {
-                id = UUID()
+                router.popToRoot()
             }
+        }
+        .onChange(of: pickerSeason) {
+            controller.season = pickerSeason
+            if year == nil && season == nil && controller.shouldRefresh() {
+                // Loading state is changed here to prevent brief flickering of nothing found view
+                controller.loadingState = .loading
+                Task {
+                    await controller.refresh()
+                    // Reset navigation stack so that large navigation title can display if season is empty
+                    router.popToRoot()
+                }
+            }
+        }
+        .onChange(of: controller.loadingState) {
+            pickerDisabled = controller.loadingState == .loading
         }
     }
 }

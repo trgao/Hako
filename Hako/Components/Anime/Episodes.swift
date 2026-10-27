@@ -16,23 +16,21 @@ struct Episodes: View {
     private let episodes: [Episode]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
-    
+
     init(id: Int, episodes: [Episode]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.id = id
         self.episodes = episodes
         self.loadingState = loadingState
         self.load = load
     }
-    
+
     var body: some View {
-        ScrollViewCarousel(title: "Episodes", count: episodes?.count, viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Episodes", count: episodes?.count, item: EpisodeList(id: id), viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
             PlaceholderEpisode(isLoading: isLoading)
         } content: {
             ForEach(episodesPreview) { item in
-                EpisodeItem(id: id, item: item)
+                EpisodeItem(item: item)
             }
-        } destination: {
-            EpisodesListView(id: id)
         }
         .task {
             await load()

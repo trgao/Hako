@@ -10,7 +10,7 @@ import SwiftUI
 struct SafariExtensionView: View {
     @Environment(\.openURL) private var openURL
     @EnvironmentObject private var settings: SettingsManager
-    
+
     var body: some View {
         VStack {
             Label("Open in Hako", systemImage: "puzzlepiece.extension.fill")

@@ -12,34 +12,27 @@ struct ExploreMangaView: View {
         List {
             Section("Genres") {
                 ForEach(Constants.mangaGenreKeys, id: \.self) { id in
-                    NavigationLink(Constants.mangaGenres[id] ?? "") {
-                        GroupDetailsView(title: Constants.mangaGenres[id], group: "genres", id: id, type: .manga)
+                    if let genre = Constants.mangaGenres[id] {
+                        TrackedNavigationLink(value: GroupDetail(id: id, name: genre, type: .manga, group: "genres"), label: genre)
                     }
-                    .buttonStyle(.plain)
                 }
             }
             Section("Themes") {
                 ForEach(Constants.mangaThemeKeys, id: \.self) { id in
-                    NavigationLink(Constants.mangaThemes[id] ?? "") {
-                        GroupDetailsView(title: Constants.mangaThemes[id], group: "genres", id: id, type: .manga)
+                    if let theme = Constants.mangaThemes[id] {
+                        TrackedNavigationLink(value: GroupDetail(id: id, name: theme, type: .manga, group: "genres"), label: theme)
                     }
-                    .buttonStyle(.plain)
                 }
             }
             Section("Demographics") {
                 ForEach(Constants.mangaDemographicKeys, id: \.self) { id in
-                    NavigationLink(Constants.mangaDemographics[id] ?? "") {
-                        GroupDetailsView(title: Constants.mangaDemographics[id], group: "genres", id: id, type: .manga)
+                    if let demographic = Constants.mangaDemographics[id] {
+                        TrackedNavigationLink(value: GroupDetail(id: id, name: demographic, type: .manga, group: "genres"), label: demographic)
                     }
-                    .buttonStyle(.plain)
                 }
             }
-            NavigationLink {
-                MagazinesListView()
-            } label: {
-                Text("Magazines")
-            }
-            .buttonStyle(.plain)
+            TrackedNavigationLink(value: "magazines", label: "Magazines")
+
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Manga")

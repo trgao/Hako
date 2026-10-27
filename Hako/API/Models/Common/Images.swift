@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Images: Codable {
-    struct Image: Codable {
+struct Images: Codable, Hashable {
+    struct Image: Codable, Hashable {
         let imageUrl: String?
         let largeImageUrl: String?
     }
     let jpg: Image?
-    
+
     init(imageUrl: String?) {
         self.jpg = Image(imageUrl: imageUrl, largeImageUrl: imageUrl)
     }

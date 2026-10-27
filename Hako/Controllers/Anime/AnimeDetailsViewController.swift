@@ -18,7 +18,7 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var relatedManga: [RelatedItem]?
     @Published var episodes: [Episode]?
     @Published var reviews: [Review]?
-    
+
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var charactersLoadingState: LoadingEnum = .loading
@@ -26,10 +26,10 @@ class AnimeDetailsViewController: ObservableObject {
     @Published var relatedLoadingState: LoadingEnum = .loading
     @Published var episodesLoadingState: LoadingEnum = .loading
     @Published var reviewsLoadingState: LoadingEnum = .loading
-    
+
     private let id: Int
     private let networker = NetworkManager.shared
-    
+
     init(id: Int) {
         self.id = id
         if let anime = networker.animeCache[id] {
@@ -39,7 +39,7 @@ class AnimeDetailsViewController: ObservableObject {
             await loadDetails()
         }
     }
-    
+
     init(anime: Anime) {
         self.id = anime.id
         self.anime = anime
@@ -50,7 +50,7 @@ class AnimeDetailsViewController: ObservableObject {
             await loadDetails()
         }
     }
-    
+
     // Refresh the current anime details page
     func refresh() async {
         loadingState = .loading
@@ -58,7 +58,7 @@ class AnimeDetailsViewController: ObservableObject {
         staffsLoadingState = .loading
         relatedLoadingState = .loading
         reviewsLoadingState = .loading
-        
+
         await loadDetails()
         Task {
             await loadAiringSchedule()
@@ -68,7 +68,7 @@ class AnimeDetailsViewController: ObservableObject {
         await loadRelatedManga()
         await loadReviews()
     }
-    
+
     func loadDetails() async {
         loadingState = .loading
         do {
@@ -98,19 +98,19 @@ class AnimeDetailsViewController: ObservableObject {
             }
         }
     }
-    
+
     func loadAiringSchedule() async {
         guard anime?.status != "finished_airing" else {
             return
         }
-        
+
         if let nextEpisode = networker.animeNextEpisodeCache[id] {
             withAnimation {
                 self.nextEpisode = nextEpisode
             }
             return
         }
-        
+
         if let nextEpisode = try? await networker.getAnimeNextAiringDetails(id: id) {
             withAnimation {
                 self.nextEpisode = nextEpisode
@@ -118,14 +118,14 @@ class AnimeDetailsViewController: ObservableObject {
             networker.animeNextEpisodeCache[id] = nextEpisode
         }
     }
-    
+
     func loadCharacters() async {
         if let characters = networker.animeCharactersCache[id] {
             self.characters = characters
             charactersLoadingState = .idle
             return
         }
-        
+
         charactersLoadingState = .loading
         do {
             let characters = try await networker.getAnimeCharacters(id: id)
@@ -136,14 +136,14 @@ class AnimeDetailsViewController: ObservableObject {
             charactersLoadingState = .error
         }
     }
-    
+
     func loadStaffs() async {
         if let staffs = networker.animeStaffsCache[id] {
             self.staffs = staffs
             staffsLoadingState = .idle
             return
         }
-        
+
         staffsLoadingState = .loading
         do {
             let staffs = try await networker.getAnimeStaff(id: id)
@@ -154,14 +154,14 @@ class AnimeDetailsViewController: ObservableObject {
             staffsLoadingState = .error
         }
     }
-    
+
     func loadRelatedManga() async {
         if let relatedManga = networker.animeRelatedMangaCache[id] {
             self.relatedManga = relatedManga
             relatedLoadingState = .idle
             return
         }
-        
+
         relatedLoadingState = .loading
         do {
             relatedManga = try await networker.getAnimeRelations(id: id)
@@ -180,7 +180,7 @@ class AnimeDetailsViewController: ObservableObject {
                         loaded[i] = false
                     }
                 }
-                
+
                 // Only store to cache if all is loaded
                 if loaded.reduce(true, { $0 && $1 }) {
                     networker.animeRelatedMangaCache[id] = relatedManga
@@ -190,7 +190,7 @@ class AnimeDetailsViewController: ObservableObject {
             relatedLoadingState = .error
         }
     }
-    
+
     func loadEpisodes() async {
         episodesLoadingState = .loading
         do {
@@ -201,7 +201,7 @@ class AnimeDetailsViewController: ObservableObject {
             episodesLoadingState = .error
         }
     }
-    
+
     func loadReviews() async {
         reviewsLoadingState = .loading
         do {

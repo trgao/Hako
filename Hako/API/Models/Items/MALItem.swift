@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct MALItem: Codable, Identifiable {
+struct MALItem: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
 }
 
-struct Ranking: Codable {
+struct Ranking: Codable, Hashable {
     let rank: Int?
 }

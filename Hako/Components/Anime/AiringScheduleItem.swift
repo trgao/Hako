@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AiringScheduleItem: View {
+    @Namespace private var namespace
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     private let item: AiringSchedule
@@ -15,17 +16,15 @@ struct AiringScheduleItem: View {
     private var title: String {
         settings.getTitle(romaji: item.media.title?.romaji, english: item.media.title?.english, native: item.media.title?.native)
     }
-    
+
     init(item: AiringSchedule, isAiringNext: Bool) {
         self.item = item
         self.isAiringNext = isAiringNext
     }
-    
+
     var body: some View {
         if let id = item.media.idMal {
-            ZoomTransition {
-                AnimeDetailsView(anime: Anime(id: id, title: item.media.title?.romaji ?? "", enTitle: item.media.title?.english, jaTitle: item.media.title?.native, imageUrl: item.media.coverImage?.large))
-            } label: {
+            TrackedNavigationLink(value: ZoomTransitionItem(content: item, namespaceId: namespace)) {
                 HStack {
                     ImageFrame(id: "anime\(id)", imageUrl: item.media.coverImage?.large, imageSize: Constants.listImageSize)
                     VStack(alignment: .leading) {
@@ -61,8 +60,10 @@ struct AiringScheduleItem: View {
                         Label("Share", systemImage: "square.and.arrow.up")
                     }
                 }
+                .matchedTransitionSource(id: "airing", in: namespace)
             }
             .id(item.id)
+            .buttonStyle(.plain)
         }
     }
 }

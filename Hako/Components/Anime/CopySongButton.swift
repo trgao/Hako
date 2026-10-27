@@ -12,11 +12,11 @@ struct CopySongButton: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var isCopied = false
     private let text: String
-    
+
     init(text: String) {
         self.text = text
     }
-    
+
     var body: some View {
         if settings.hideThemeSongsSearch {
             Button {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ThirdPartyListItem: Codable, Identifiable {
+struct ThirdPartyListItem: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let title: String?
@@ -37,7 +37,7 @@ struct ThirdPartyListItem: Codable, Identifiable {
     let established: Date?
 }
 
-struct Title: Codable {
+struct Title: Codable, Hashable {
     let type: String?
     let title: String?
 }

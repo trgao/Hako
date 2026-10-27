@@ -15,7 +15,7 @@ struct GroupDetailsView: View {
     private let group: String
     private let id: Int
     private let type: TypeEnum
-    
+
     init(title: String?, group: String, id: Int, type: TypeEnum) {
         self.title = title
         self.group = String(group.dropLast()) // Remove 's' from group
@@ -23,7 +23,7 @@ struct GroupDetailsView: View {
         self.type = type
         self._controller = StateObject(wrappedValue: GroupDetailsViewController(group: group, id: id, type: type))
     }
-    
+
     var body: some View {
         ZStack {
             if controller.items.isEmpty {

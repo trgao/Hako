@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListCharacter: Codable, Identifiable {
+struct ListCharacter: Codable, Identifiable, Hashable {
     var id: Int { character.id }
     let character: ThirdPartyListItem
     let role: String?

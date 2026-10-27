@@ -12,11 +12,11 @@ struct ReviewsListView: View {
     @StateObject private var controller: ReviewsListViewController
     @State private var isInit = false
     @State private var isRefresh = false
-    
+
     init(id: Int, type: TypeEnum) {
         self._controller = StateObject(wrappedValue: ReviewsListViewController(id: id, type: type))
     }
-    
+
     private var nothingFoundView: some View {
         VStack {
             Image(systemName: "text.bubble")
@@ -28,7 +28,7 @@ struct ReviewsListView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .background(colorScheme == .light ? Color(.systemGray6) : .black)
     }
-    
+
     var body: some View {
         ZStack {
             if controller.reviews.isEmpty {

@@ -21,7 +21,7 @@ struct AnimeListItem: View {
     private var title: String {
         settings.getTitle(romaji: anime.node.title, english: anime.node.alternativeTitles?.en, native: anime.node.alternativeTitles?.ja)
     }
-    
+
     init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.anime = anime
         self._selectedAnime = selectedAnime
@@ -38,17 +38,16 @@ struct AnimeListItem: View {
         self.numEpisodesWatched = String(watched)
         self.isLoading = isLoading
     }
-    
+
     var body: some View {
-        NavigationLink {
-            AnimeDetailsView(anime: anime.node)
-        } label: {
+        TrackedNavigationLink(value: anime) {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
                     Text(title)
                         .lineLimit(settings.getLineLimit())
                         .bold()
+                        .foregroundStyle(Color.primary)
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             if let startSeason = anime.node.startSeason, let season = startSeason.season, let year = startSeason.year {
@@ -68,6 +67,7 @@ struct AnimeListItem: View {
                         }
                         .opacity(0.7)
                         .font(.footnote)
+                        .foregroundStyle(Color.primary)
                         Spacer()
                         if networker.isSignedIn && index != -1 {
                             Button {

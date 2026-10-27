@@ -17,12 +17,12 @@ struct TextBox: View {
     @State private var showTranslation = false
     private let title: String
     private let text: String?
-    
+
     init(title: String, text: String?) {
         self.title = title
         self.text = text
     }
-    
+
     var body: some View {
         if let text = text, !text.isEmpty {
             ScrollViewSection(title: title) {
@@ -93,7 +93,7 @@ struct TextSegment {
 struct TextWithSpoilers: View {
     @State private var texts: [TextSegment]
     @State private var showing: [Bool]
-    
+
     init(_ text: String) {
         let regexMatches = text.matches(of: /\[Spoiler[^\]]*\]([\s\S]*?)\[\/Spoiler\]/)
         var prev = String.Index(utf16Offset: 0, in: text)
@@ -113,7 +113,7 @@ struct TextWithSpoilers: View {
         self.texts = texts
         self.showing = showing
     }
-    
+
     var body: some View {
         texts.map {
             if $0.isSpoiler {

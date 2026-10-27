@@ -17,7 +17,7 @@ enum SentimentEnum: String, Codable {
         case .mixed_feelings: return "Mixed feelings"
         }
     }
-    
+
     func toIcon() -> String {
         switch self {
         case .all: return "text.bubble"

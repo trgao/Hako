@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserFavourites: Codable {
+struct UserFavourites: Codable, Hashable {
     let anime: [ThirdPartyListItem]?
     let manga: [ThirdPartyListItem]?
     let characters: [ThirdPartyListItem]?

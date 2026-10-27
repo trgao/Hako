@@ -10,11 +10,11 @@ import SwiftUI
 struct Favourites: View {
     @Environment(\.colorScheme) private var colorScheme
     private var favorites: Int?
-    
+
     init(favorites: Int?) {
         self.favorites = favorites
     }
-    
+
     var body: some View {
         if let favorites = favorites {
             Label("\(favorites) favorites", systemImage: "heart.fill")

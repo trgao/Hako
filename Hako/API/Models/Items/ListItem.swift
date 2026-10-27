@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListItem: Codable, Identifiable {
+struct ListItem: Codable, Identifiable, Hashable {
     let id: String
     let anime: Anime?
     let manga: Manga?

@@ -1,5 +1,5 @@
 //
-//  CustomiseExplore.swift
+//  CustomiseExploreView.swift
 //  Hako
 //
 //  Created by Gao Tianrun on 17/10/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomiseExplore: View {
+struct CustomiseExploreView: View {
     @EnvironmentObject private var settings: SettingsManager
     private var availableItems: [String] {
         Constants.exploreItems.filter { !settings.exploreItems.contains($0) }

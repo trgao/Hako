@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Broadcast: Codable {
+struct Broadcast: Codable, Hashable {
     let dayOfTheWeek: String?
     let startTime: String?
 }

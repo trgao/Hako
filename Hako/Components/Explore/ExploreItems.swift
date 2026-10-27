@@ -13,25 +13,11 @@ struct ExploreItems: View {
     private var items: [String] {
         settings.exploreItems.filter { settings.replaceTopWithSchedule || $0 != "top" }
     }
-    
-    @ViewBuilder private func getExploreItemDestination(_ item: String) -> some View {
-        switch item {
-        case "anime": ExploreAnimeView()
-        case "manga": ExploreMangaView()
-        case "characters": ExploreCharactersView()
-        case "people": ExplorePeopleView()
-        case "news": NewsListView()
-        case "top": TopView()
-        default: EmptyView()
-        }
-    }
-    
+
     @ViewBuilder private func getExploreItemView(_ item: String) -> some View {
-        ExploreBox(title: item.capitalized, image: Constants.exploreItemIcons[item] ?? "") {
-            getExploreItemDestination(item)
-        }
+        ExploreBox(item: item, image: Constants.exploreItemIcons[item] ?? "")
     }
-    
+
     var body: some View {
         VStack {
             if dynamicTypeSize <= .xxxLarge {

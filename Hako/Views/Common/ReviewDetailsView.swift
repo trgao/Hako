@@ -12,18 +12,16 @@ struct ReviewDetailsView: View {
     @Environment(\.screenSize) private var screenSize
     @State private var showTranslation = false
     private var item: Review
-    
+
     init(item: Review) {
         self.item = item
     }
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    NavigationLink {
-                        UserListView(user: username)
-                    } label: {
+                    TrackedNavigationLink(value: UserList(username: username)) {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
                             Text("\(username) ・ \(date.toString())")

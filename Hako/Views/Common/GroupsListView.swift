@@ -12,24 +12,21 @@ struct GroupsListView: View {
     private let items: [MALItem]
     private let group: String
     private let type: TypeEnum
-    
+
     init(title: String, items: [MALItem], group: String, type: TypeEnum) {
         self.title = title
         self.items = items
         self.group = group
         self.type = type
     }
-    
+
     var body: some View {
         if items.count == 1 {
             GroupDetailsView(title: items[0].name, group: group, id: items[0].id, type: type)
         } else {
             List {
                 ForEach(items) { item in
-                    NavigationLink(item.name) {
-                        GroupDetailsView(title: item.name, group: group, id: item.id, type: type)
-                    }
-                    .buttonStyle(.plain)
+                    TrackedNavigationLink(value: GroupDetail(id: item.id, name: item.name, type: type, group: group), label: item.name)
                 }
             }
             .navigationTitle(title)

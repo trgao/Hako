@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AlternativeTitles: Codable {
+struct AlternativeTitles: Codable, Hashable {
     let ja: String?
     let en: String?
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct MagazinesListView: View {
     @StateObject private var controller = MagazinesListViewController()
     @State private var isRefresh = false
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.magazines.isEmpty {
@@ -23,9 +23,7 @@ struct MagazinesListView: View {
                     } else {
                         ForEach(controller.magazines) { magazine in
                             if let name = magazine.name {
-                                NavigationLink {
-                                    GroupDetailsView(title: name, group: "magazines", id: magazine.id, type: .manga)
-                                } label: {
+                                TrackedNavigationLink(value: GroupDetail(id: magazine.id, name: name, type: .manga, group: "magazines")) {
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(name).bold()
                                         if let count = magazine.count {

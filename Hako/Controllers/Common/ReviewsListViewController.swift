@@ -17,12 +17,12 @@ class ReviewsListViewController: ObservableObject {
     private let id: Int
     private let type: TypeEnum
     private let networker = NetworkManager.shared
-    
+
     init(id: Int, type: TypeEnum) {
         self.id = id
         self.type = type
     }
-    
+
     // Refresh the current reviews list
     func refresh(_ clear: Bool = false) async {
         loadingState = .loading
@@ -31,7 +31,7 @@ class ReviewsListViewController: ObservableObject {
         if clear {
             reviews = []
         }
-        
+
         do {
             var reviewsList: [Review] = []
             if type == .anime {
@@ -47,14 +47,14 @@ class ReviewsListViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current reviews list
     private func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !reviews.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         do {
             var reviewsList: [Review] = []
@@ -69,7 +69,7 @@ class ReviewsListViewController: ObservableObject {
         } catch {}
         loadingState = .idle
     }
-    
+
     // Load more reviews when reaching the 3rd last review in list
     func loadMoreIfNeeded(index: Int) async {
         if index == reviews.endIndex - 5 {

@@ -21,12 +21,12 @@ struct PlaceholderReview: View {
         default: return "Recommended"
         }
     }
-    
+
     init(isLoading: Bool = true, sentiment: SentimentEnum = .recommended) {
         self.isLoading = isLoading
         self.sentiment = sentiment
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

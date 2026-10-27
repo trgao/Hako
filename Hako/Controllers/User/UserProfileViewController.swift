@@ -16,22 +16,22 @@ class UserProfileViewController: ObservableObject {
     @Published var manga: [MALListManga]?
     @Published var characters: [ThirdPartyListItem]?
     @Published var people: [ThirdPartyListItem]?
-    
+
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var favouritesLoadingState: LoadingEnum = .loading
-    
+
     @Published var isUserNotFound = false
     private let user: String?
     private let networker = NetworkManager.shared
-    
+
     init(user: String? = nil) {
         self.user = user
         Task {
             await loadStatistics()
         }
     }
-    
+
     func refresh() async {
         favouritesLoadingState = .loading
         await loadStatistics()
@@ -41,7 +41,7 @@ class UserProfileViewController: ObservableObject {
         }
         await loadFavourites()
     }
-    
+
     private func loadStatistics() async {
         loadingState = .loading
 //        do {
@@ -56,7 +56,7 @@ class UserProfileViewController: ObservableObject {
 //            }
 //        }
     }
-    
+
     func loadFavourites() async {
         favouritesLoadingState = .loading
 //        do {

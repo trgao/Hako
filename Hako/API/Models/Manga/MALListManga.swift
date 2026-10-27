@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct MALListManga: Codable, Identifiable {
+struct MALListManga: Codable, Identifiable, Hashable {
     var id: Int { node.id }
     var node: Manga
     let ranking: Ranking?
     var listStatus: MyListStatus?
-    
+
     init(manga: Manga) {
         self.node = manga
         self.ranking = .init(rank: manga.rank)

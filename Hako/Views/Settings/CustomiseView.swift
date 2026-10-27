@@ -11,7 +11,7 @@ import LocalAuthentication
 struct CustomiseView: View {
     @EnvironmentObject private var settings: SettingsManager
     let networker = NetworkManager.shared
-    
+
     var body: some View {
         List {
             Section("Seasons") {
@@ -23,9 +23,7 @@ struct CustomiseView: View {
                 }
             }
             Section("Explore") {
-                NavigationLink("Customise explore items") {
-                    CustomiseExplore()
-                }
+                TrackedNavigationLink(value: "customiseExplore", label: "Customise explore items")
                 Toggle(isOn: $settings.hideRandom) {
                     Text("Hide random button")
                 }

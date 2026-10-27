@@ -16,16 +16,16 @@ struct Chapters: View {
     private let chapters: [Chapter]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
-    
+
     init(id: Int, chapters: [Chapter]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.id = id
         self.chapters = chapters
         self.loadingState = loadingState
         self.load = load
     }
-    
+
     var body: some View {
-        ScrollViewCarousel(title: "Chapters", count: chapters?.count, viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Chapters", count: chapters?.count, item: ChapterList(id: id), viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
             // TODO: change
             PlaceholderEpisode(isLoading: isLoading)
         } content: {
@@ -57,8 +57,6 @@ struct Chapters: View {
                 .shadow(radius: 0.5)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-        } destination: {
-            ChaptersListView(id: id)
         }
         .task {
             await load()

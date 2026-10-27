@@ -15,7 +15,7 @@ enum NetworkError: Error {
     case outOfRetries
     case jsonParseFailure
     case unknownError(_ error: Error)
-    
+
     var description: String {
         switch self {
             case .badResponse: return "Bad http response"

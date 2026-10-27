@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Magazine: Codable, Identifiable {
+struct Magazine: Codable, Identifiable, Hashable {
     var id: Int { node.id }
     let node: MALItem
 }

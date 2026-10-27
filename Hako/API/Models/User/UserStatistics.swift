@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct UserStatistics: Codable {
+struct UserStatistics: Codable, Hashable {
     let anime: UserAnimeStatistics
     let manga: UserMangaStatistics
 }
 
-struct UserAnimeStatistics: Codable {
+struct UserAnimeStatistics: Codable, Hashable {
     let daysWatched: Float?
     let meanScore: Float?
     let watching: Int?
@@ -24,7 +24,7 @@ struct UserAnimeStatistics: Codable {
     let episodesWatched: Int?
 }
 
-struct UserMangaStatistics: Codable {
+struct UserMangaStatistics: Codable, Hashable {
     let daysRead: Float?
     let meanScore: Float?
     let reading: Int?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Manga: Codable, Identifiable {
+struct Manga: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
     let mainPicture: Picture?
@@ -30,7 +30,7 @@ struct Manga: Codable, Identifiable {
     let recommendations: [MALListManga]?
     let relatedManga: [RelatedManga]?
     let numListUsers: Int?
-    
+
     init(id: Int, title: String, enTitle: String? = nil, jaTitle: String? = nil, imageUrl: String?) {
         self.id = id
         self.title = title
@@ -55,7 +55,7 @@ struct Manga: Codable, Identifiable {
         self.relatedManga = nil
         self.numListUsers = nil
     }
-    
+
     init(item: ThirdPartyListItem) {
         self.id = item.id
         self.title = item.title ?? ""
@@ -80,7 +80,7 @@ struct Manga: Codable, Identifiable {
         self.relatedManga = nil
         self.numListUsers = item.members
     }
-    
+
     // Used to check if the model has been loaded from API or just used information from previous page, might need better way of checking this
     func isEmpty() -> Bool {
         return pictures == nil && startDate == nil && endDate == nil && synopsis == nil && mean == nil && rank == nil && popularity == nil && mediaType == nil && status == nil && genres == nil && myListStatus == nil && numVolumes == nil && numChapters == nil && authors == nil && serialization == nil && recommendations == nil && relatedManga == nil && numListUsers == nil

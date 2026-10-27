@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 class SettingsManager: ObservableObject {
     @AppStorage("recentlyViewedItems") var recentlyViewedItems: [ListItem] = []
-    
+
     // General
     @AppStorage("preferredTitleLanguage") var preferredTitleLanguage = 0
     @AppStorage("openLastClosedTab") var openLastClosedTab = false
@@ -19,14 +19,14 @@ class SettingsManager: ObservableObject {
     @AppStorage("replaceTopWithSchedule") var replaceTopWithSchedule = false
     @AppStorage("useWithoutAccount") var useWithoutAccount = false
     @AppStorage("safariInApp") var safariInApp = true
-    
+
     @AppStorage("useFaceID") var useFaceID = false
-    
+
     @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
     @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
-    
+
     @AppStorage("defaultSeasonSort") var defaultSeasonSort = 1
-    
+
     @AppStorage("useStatusTabBar") var useStatusTabBar = true
     @AppStorage("defaultAnimeStatus") var defaultAnimeStatus = 1
     @AppStorage("defaultAnimeSort") var defaultAnimeSort = 2
@@ -35,24 +35,24 @@ class SettingsManager: ObservableObject {
     @AppStorage("useSwipeActions") var useSwipeActions = true
     @AppStorage("swipeActionAutoComplete") var swipeActionAutoComplete = true
     @AppStorage("mangaReadProgress") var mangaReadProgress = 0
-    
+
     @AppStorage("autofillStartDate") var autofillStartDate = true
     @AppStorage("autofillEndDate") var autofillEndDate = true
-    
+
     // Appearance
     @AppStorage("colorScheme") var colorScheme = 0
     @AppStorage("accentColor") var accentColor = 0
-    
+
     @AppStorage("translucentBackground") var translucentBackground = true
     @AppStorage("dynamicType") var dynamicType = true
-    
+
     @AppStorage("truncateTitle") var truncate = false
     @AppStorage("lineLimit") var lineLimit = 1
-    
+
     // Customise
     @AppStorage("hideSchedule") var hideSchedule = false
     @AppStorage("hideContinuingSeries") var hideContinuingSeries = false
-    
+
     @AppStorage("exploreItems") var exploreItems: [String] = Constants.exploreItems
     @AppStorage("hideRandom") var hideRandom = false
     @AppStorage("hideRecentlyViewed") var hideRecentlyViewed = false
@@ -61,14 +61,14 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideTopUpcomingAnime") var hideTopUpcomingAnime = false
     @AppStorage("hideNewlyAddedAnime") var hideNewlyAddedAnime = false
     @AppStorage("hideNewlyAddedManga") var hideNewlyAddedManga = false
-    
+
     @AppStorage("hideUserAnimeStatistics") var hideUserAnimeStatistics = false
     @AppStorage("hideUserMangaStatistics") var hideUserMangaStatistics = false
     @AppStorage("hideUserFavouriteAnime") var hideUserFavouriteAnime = false
     @AppStorage("hideUserFavouriteManga") var hideUserFavouriteManga = false
     @AppStorage("hideUserFavouriteCharacters") var hideUserFavouriteCharacters = false
     @AppStorage("hideUserFavouritePeople") var hideUserFavouritePeople = false
-    
+
     @AppStorage("hideAnimeProgress") var hideAnimeProgress = false
     @AppStorage("hideAnimeInformation") var hideAnimeInformation = false
     @AppStorage("hideUpcoming") var hideUpcoming = false
@@ -81,7 +81,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideThemeSongsSearch") var hideThemeSongsSearch = false
     @AppStorage("hideEpisodes") var hideEpisodes = false
     @AppStorage("hideAnimeReviews") var hideAnimeReviews = false
-    
+
     @AppStorage("hideMangaProgress") var hideMangaProgress = false
     @AppStorage("hideMangaInformation") var hideMangaInformation = false
     @AppStorage("hideMangaCharacters") var hideMangaCharacters = false
@@ -90,7 +90,7 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideMangaRecommendations") var hideMangaRecommendations = false
     @AppStorage("hideChapters") var hideChapters = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
-    
+
     func getTitle(romaji: String?, english: String?, native: String?) -> String {
         if let title = english, !title.isEmpty && preferredTitleLanguage == 1 {
             return title
@@ -100,43 +100,43 @@ class SettingsManager: ObservableObject {
             return romaji ?? ""
         }
     }
-    
+
     func getAnimeRanking() -> RankingEnum {
         return Constants.animeRankings[defaultAnimeRanking]
     }
-    
+
     func getMangaRanking() -> RankingEnum {
         return Constants.mangaRankings[defaultMangaRanking]
     }
-    
+
     func getSeasonSort() -> SortEnum {
         return Constants.seasonSorts[defaultSeasonSort]
     }
-    
+
     func getAnimeStatus() -> StatusEnum {
         return Constants.animeStatuses[defaultAnimeStatus]
     }
-    
+
     func getAnimeSort() -> SortEnum {
         return Constants.animeSorts[defaultAnimeSort]
     }
-    
+
     func getMangaStatus() -> StatusEnum {
         return Constants.mangaStatuses[defaultMangaStatus]
     }
-    
+
     func getMangaSort() -> SortEnum {
         return Constants.mangaSorts[defaultMangaSort]
     }
-    
+
     func getLineLimit() -> Int? {
         return truncate ? lineLimit + 1 : nil
     }
-    
+
     func getColorScheme() -> ColorScheme? {
         return Constants.colorSchemes[colorScheme]
     }
-    
+
     func getAccentColor() -> Color {
         return Constants.accentColors[accentColor]
     }

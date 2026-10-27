@@ -8,22 +8,23 @@
 import SwiftUI
 import WrappingHStack
 
-struct ScrollViewNavigationLink<Destination: View>: View {
+struct ScrollViewNavigationLink<Item: Hashable>: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(Router.self) private var router
     @State private var isPressed = false
     @State private var isLongPress = false
     private let title: String
     private let items: [String]
     private let content: String
-    private let destination: () -> Destination
-    
-    init(title: String, items: [String], destination: @escaping () -> Destination) {
+    private let item: Item
+
+    init(title: String, items: [String], item: Item) {
         self.title = title
         self.items = items
         self.content = items.joined(separator: ", ")
-        self.destination = destination
+        self.item = item
     }
-    
+
     var body: some View {
         HStack {
             HStack(alignment: .top) {
@@ -45,6 +46,10 @@ struct ScrollViewNavigationLink<Destination: View>: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
+            router.push(item)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isPressed = false
+            }
         }
         .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
             isLongPress = pressing
@@ -62,6 +67,5 @@ struct ScrollViewNavigationLink<Destination: View>: View {
                 Text(content)
             }
         }
-        .navigationDestination(isPresented: $isPressed, destination: destination)
     }
 }

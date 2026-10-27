@@ -17,17 +17,17 @@ class MangaDetailsViewController: ObservableObject {
     @Published var relatedManga: [RelatedItem]?
     @Published var chapters: [Chapter]?
     @Published var reviews: [Review]?
-    
+
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var charactersLoadingState: LoadingEnum = .loading
     @Published var relatedLoadingState: LoadingEnum = .loading
     @Published var chaptersLoadingState: LoadingEnum = .loading
     @Published var reviewsLoadingState: LoadingEnum = .loading
-    
+
     private let id: Int
     private let networker = NetworkManager.shared
-    
+
     init(id: Int) {
         self.id = id
         if let manga = networker.mangaCache[id] {
@@ -37,7 +37,7 @@ class MangaDetailsViewController: ObservableObject {
             await loadDetails()
         }
     }
-    
+
     init(manga: Manga) {
         self.id = manga.id
         self.manga = manga
@@ -48,7 +48,7 @@ class MangaDetailsViewController: ObservableObject {
             await loadDetails()
         }
     }
-    
+
     // Refresh the current manga details page
     func refresh() async {
         loadingState = .loading
@@ -56,7 +56,7 @@ class MangaDetailsViewController: ObservableObject {
         relatedLoadingState = .loading
         chaptersLoadingState = .loading
         reviewsLoadingState = .loading
-        
+
         await loadDetails()
         await loadCharacters()
         await loadAuthors()
@@ -64,7 +64,7 @@ class MangaDetailsViewController: ObservableObject {
         await loadChapters()
         await loadReviews()
     }
-    
+
     func loadDetails() async {
         loadingState = .loading
         do {
@@ -95,14 +95,14 @@ class MangaDetailsViewController: ObservableObject {
             }
         }
     }
-    
+
     func loadCharacters() async {
         if let characters = networker.mangaCharactersCache[id] {
             self.characters = characters
             charactersLoadingState = .idle
             return
         }
-        
+
         charactersLoadingState = .loading
         do {
             let characters = try await networker.getMangaCharacters(id: id)
@@ -113,12 +113,12 @@ class MangaDetailsViewController: ObservableObject {
             charactersLoadingState = .error
         }
     }
-    
+
     func loadAuthors() async {
         guard let authors = authors else {
             return
         }
-        
+
         await authors.indices.concurrentForEach { i in
             if let person = self.networker.personCache[authors[i].id] {
                 self.authors?[i].imageUrl = person.images?.jpg?.imageUrl
@@ -129,14 +129,14 @@ class MangaDetailsViewController: ObservableObject {
             }
         }
     }
-    
+
     func loadRelatedAnime() async {
         if let relatedAnime = networker.mangaRelatedAnimeCache[id] {
             self.relatedAnime = relatedAnime
             relatedLoadingState = .idle
             return
         }
-        
+
         relatedLoadingState = .loading
         do {
             relatedAnime = try await networker.getMangaRelations(id: id)
@@ -155,7 +155,7 @@ class MangaDetailsViewController: ObservableObject {
                         loaded[i] = false
                     }
                 }
-                
+
                 // Only store to cache if all is loaded
                 if loaded.reduce(true, { $0 && $1 }) {
                     networker.mangaRelatedAnimeCache[id] = relatedAnime
@@ -165,7 +165,7 @@ class MangaDetailsViewController: ObservableObject {
             relatedLoadingState = .error
         }
     }
-    
+
     func loadChapters() async {
         chaptersLoadingState = .loading
         do {
@@ -176,7 +176,7 @@ class MangaDetailsViewController: ObservableObject {
             chaptersLoadingState = .error
         }
     }
-    
+
     func loadReviews() async {
         reviewsLoadingState = .loading
         do {

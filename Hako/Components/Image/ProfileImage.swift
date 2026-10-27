@@ -20,13 +20,13 @@ struct ProfileImage: View {
     private let allowExpand: Bool
     private let context = CIContext()
     private let filter = CIFilter.qrCodeGenerator()
-    
+
     init(imageUrl: String?, username: String? = nil, allowExpand: Bool = false) {
         self._controller = StateObject(wrappedValue: ImageFrameController(id: "userImage", imageUrl: imageUrl, isProfile: true))
         self.username = username
         self.allowExpand = allowExpand
     }
-    
+
     func generateQRCode(from string: String) -> UIImage {
         filter.message = Data(string.utf8)
 
@@ -38,7 +38,7 @@ struct ProfileImage: View {
 
         return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
-    
+
     private var label: some View {
         VStack {
             if let image = controller.image {

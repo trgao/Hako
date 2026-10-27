@@ -11,13 +11,13 @@ struct NameText: View {
     private let english: String?
     private let japanese: String?
     private let birthday: String?
-    
+
     init(english: String?, japanese: String? = nil, birthday: String? = nil) {
         self.english = english
         self.japanese = japanese
         self.birthday = birthday
     }
-    
+
     var body: some View {
         VStack {
             if let english = english {

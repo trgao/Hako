@@ -61,7 +61,7 @@ public class TokenBucket {
             lastRefillTimestamp = now
         }
     }
-    
+
     /**
      * Asynchronously consumes a specified number of tokens from the bucket. If not enough
      * tokens are available, this method will suspend and wait without blocking the thread

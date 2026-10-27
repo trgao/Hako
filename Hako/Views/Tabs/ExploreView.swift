@@ -9,59 +9,49 @@ import SwiftUI
 import SystemNotification
 
 struct ExploreView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ExploreViewController()
     @StateObject var networker = NetworkManager.shared
-    
+
     @State private var selectedAnime: MALListAnime?
     @State private var selectedAnimeIndex: Int?
     @State private var isAnimeDeleted = false
     @State private var animeListStatus: MyListStatus?
-    
+
     @State private var selectedManga: MALListManga?
     @State private var selectedMangaIndex: Int?
     @State private var isMangaDeleted = false
     @State private var mangaListStatus: MyListStatus?
-    
+
     @State private var isRefresh = false
     @State private var searchText = ""
     @State private var previousSearch = ""
     @State private var searchTask: Task<Void, Never>?
-    @Binding private var id: UUID
-    @Binding private var path: [ViewItem]
     @Binding private var isPresented: Bool
-    @Binding private var isRoot: Bool
     @Binding private var urlSearchText: String?
-    
-    init(id: Binding<UUID>, path: Binding<[ViewItem]>, isPresented: Binding<Bool>, isRoot: Binding<Bool>, urlSearchText: Binding<String?>) {
-        self._id = id
-        self._path = path
+    @Binding private var pickerType: SearchEnum
+
+    init(isPresented: Binding<Bool>, urlSearchText: Binding<String?>, pickerType: Binding<SearchEnum>) {
         self._isPresented = isPresented
-        self._isRoot = isRoot
         self._urlSearchText = urlSearchText
+        self._pickerType = pickerType
     }
-    
+
     private var randomButton: some View {
         Menu {
             Section("Random") {
-                NavigationLink {
-                    RandomAnimeView()
-                } label: {
+                TrackedNavigationLink(value: "randomAnime") {
                     Label("Anime", systemImage: "tv")
                 }
-                NavigationLink {
-                    RandomMangaView()
-                } label: {
+                TrackedNavigationLink(value: "randomManga") {
                     Label("Manga", systemImage: "book")
                 }
-                NavigationLink {
-                    RandomCharacterView()
-                } label: {
+                TrackedNavigationLink(value: "randomCharacter") {
                     Label("Character", systemImage: "person.crop.circle")
                 }
-                NavigationLink {
-                    RandomPersonView()
-                } label: {
+                TrackedNavigationLink(value: "randomPerson") {
                     Label("Person", systemImage: "person")
                 }
             }
@@ -71,7 +61,7 @@ struct ExploreView: View {
             }
         }
     }
-    
+
     private var exploreView: some View {
         ScrollView {
             VStack {
@@ -153,7 +143,7 @@ struct ExploreView: View {
             }
         }
     }
-    
+
     private var nothingFoundView: some View {
         VStack {
             Image(systemName: "magnifyingglass")
@@ -166,7 +156,7 @@ struct ExploreView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.vertical, 50)
     }
-    
+
     private var searchView: some View {
         ZStack {
             VStack {
@@ -344,9 +334,10 @@ struct ExploreView: View {
                 }
         }
     }
-    
+
     var body: some View {
-        NavigationStack(path: $path) {
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
             ZStack {
                 if isPresented {
                     searchView
@@ -354,7 +345,11 @@ struct ExploreView: View {
                     exploreView
                 }
                 if isPresented {
-                    TabPicker(selection: $controller.type, options: Constants.searchTypes.map { ($0.rawValue.capitalized, $0) })
+                    if #unavailable(iOS 26.2) {
+                        TabPicker(selection: $controller.type, options: Constants.searchTypes.map { ($0.rawValue.capitalized, $0) })
+                    } else if horizontalSizeClass != .compact {
+                        TabPicker(selection: $controller.type, options: Constants.searchTypes.map { ($0.rawValue.capitalized, $0) })
+                    }
                 }
             }
             .scrollDismissesKeyboard(.immediately)
@@ -364,7 +359,7 @@ struct ExploreView: View {
                 guard urlSearchText == nil else {
                     return
                 }
-                
+
                 searchText = ""
                 previousSearch = ""
                 controller.resetSearch()
@@ -375,40 +370,10 @@ struct ExploreView: View {
                     randomButton
                 }
             }
-            .navigationDestination(for: ViewItem.self) { item in
-                switch item.type {
-                case .top: TopView(type: .constant(item.itemType), animeRanking: .constant(item.animeRanking), mangaRanking: .constant(item.mangaRanking))
-                case .anime: AnimeDetailsView(id: item.id)
-                case .manga: MangaDetailsView(id: item.id)
-                case .character: CharacterDetailsView(id: item.id)
-                case .person: PersonDetailsView(id: item.id)
-                case .animeGenre: GroupDetailsView(title: Constants.animeGenres[item.id] ?? Constants.animeThemes[item.id] ?? Constants.animeDemographics[item.id], group: "genres", id: item.id, type: .anime)
-                case .mangaGenre: GroupDetailsView(title: Constants.mangaGenres[item.id] ?? Constants.mangaThemes[item.id] ?? Constants.mangaDemographics[item.id], group: "genres", id: item.id, type: .manga)
-                case .producer: GroupDetailsView(title: item.name, group: "producers", id: item.id, type: .anime)
-                case .magazine: GroupDetailsView(title: item.name, group: "magazines", id: item.id, type: .manga)
-                case .news: NewsListView()
-                case .exploreAnime: ExploreAnimeView()
-                case .exploreManga: ExploreMangaView()
-                case .exploreCharacters: ExploreCharactersView()
-                case .explorePeople: ExplorePeopleView()
-                case .exploreCompanies: CompaniesListView()
-                case .exploreMagazines: MagazinesListView()
-                case .userlist: UserListView(user: item.name ?? "", type: item.itemType, animeStatus: item.animeStatus, animeSort: item.animeSort, mangaStatus: item.mangaStatus, mangaSort: item.mangaSort)
-                case .profile: UserListView(user: item.name ?? "")
-                }
-            }
-            .onAppear {
-                isRoot = true
-            }
-            .onDisappear {
-                isRoot = false
-            }
-            .task(id: id) {
-                if path.isEmpty {
-                    isRoot = true
-                }
-            }
+            .navigationDestinations()
         }
-        .id(id)
+        .onChange(of: pickerType) {
+            controller.type = pickerType
+        }
     }
 }

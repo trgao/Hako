@@ -19,7 +19,7 @@ struct PageList<Content: View, Photo: View, Title: View, Subtitle: View>: View {
         self.title = title
         self.subtitle = subtitle
     }
-    
+
     var body: some View {
         List {
             Section {

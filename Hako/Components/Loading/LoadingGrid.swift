@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoadingGrid: View {
     @Environment(\.screenRatio) private var screenRatio
-    
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {

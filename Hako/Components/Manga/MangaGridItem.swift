@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MangaGridItem: View {
+    @Namespace private var namespace
     @Environment(\.screenRatio) private var screenRatio
     @EnvironmentObject private var settings: SettingsManager
     private let id: Int
@@ -21,7 +22,7 @@ struct MangaGridItem: View {
     private var itemTitle: String {
         settings.getTitle(romaji: title, english: enTitle, native: jaTitle)
     }
-    
+
     init(id: Int, title: String?, enTitle: String?, jaTitle: String?, imageUrl: String?, subtitle: String? = nil, manga: Manga? = nil, isRecentlyViewed: Bool = false) {
         self.id = id
         self.title = title
@@ -32,11 +33,9 @@ struct MangaGridItem: View {
         self.manga = manga ?? Manga(id: id, title: title ?? "", enTitle: enTitle, jaTitle: jaTitle, imageUrl: imageUrl)
         self.isRecentlyViewed = isRecentlyViewed
     }
-    
+
     var body: some View {
-        ZoomTransition {
-            MangaDetailsView(manga: manga)
-        } label: {
+        TrackedNavigationLink(value: ZoomTransitionItem(content: manga, namespaceId: namespace)) {
             VStack {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {
@@ -83,7 +82,9 @@ struct MangaGridItem: View {
                     .padding(5)
                     .font(.callout)
             }
+            .matchedTransitionSource(id: "manga", in: namespace)
         }
+        .buttonStyle(.plain)
         .id(manga.id)
         .padding(5)
     }

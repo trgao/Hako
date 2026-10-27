@@ -9,23 +9,24 @@ import SwiftUI
 
 struct TopView: View {
     @Environment(\.screenRatio) private var screenRatio
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = TopViewController()
     @State private var isInit = false
     @State private var isRefresh = false
-    @Binding private var id: UUID
+    @Binding private var id: UUID?
     @Binding private var type: TypeEnum?
     @Binding private var animeRanking: RankingEnum?
     @Binding private var mangaRanking: RankingEnum?
     private let networker = NetworkManager.shared
-    
-    init(id: Binding<UUID> = .constant(UUID()), type: Binding<TypeEnum?> = .constant(nil), animeRanking: Binding<RankingEnum?> = .constant(nil), mangaRanking: Binding<RankingEnum?> = .constant(nil)) {
+
+    init(id: Binding<UUID?> = .constant(nil), type: Binding<TypeEnum?> = .constant(nil), animeRanking: Binding<RankingEnum?> = .constant(nil), mangaRanking: Binding<RankingEnum?> = .constant(nil)) {
         self._id = id
         self._type = type
         self._animeRanking = animeRanking
         self._mangaRanking = mangaRanking
     }
-    
+
     // Display medals instead of numbers for the first 3 ranks
     private func rankToString(_ rank: Int?) -> String {
         guard let rank = rank else {
@@ -37,7 +38,7 @@ struct TopView: View {
             return String(rank)
         }
     }
-    
+
     private var animeRankingText: some View {
         Text(controller.animeRankingType.toString())
             .padding(.vertical, 10)
@@ -46,7 +47,7 @@ struct TopView: View {
             .foregroundStyle(Color(.systemGray))
             .bold()
     }
-    
+
     private var mangaRankingText: some View {
         Text(controller.mangaRankingType.toString())
             .padding(.vertical, 10)
@@ -55,7 +56,7 @@ struct TopView: View {
             .foregroundStyle(Color(.systemGray))
             .bold()
     }
-    
+
     private var nothingFoundView: some View {
         VStack {
             Image(systemName: "medal")
@@ -66,7 +67,7 @@ struct TopView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
-    
+
     private var content: some View {
         ZStack {
             if controller.type == .anime {
@@ -188,7 +189,7 @@ struct TopView: View {
             }
         }
     }
-    
+
     var body: some View {
         if settings.replaceTopWithSchedule {
             content
@@ -211,7 +212,8 @@ struct TopView: View {
                     }
                 }
         } else {
-            NavigationStack {
+            @Bindable var router = router
+            NavigationStack(path: $router.path) {
                 content
                     .task(id: isRefresh) {
                         if controller.isItemsEmpty() || isRefresh {
@@ -219,8 +221,8 @@ struct TopView: View {
                             isRefresh = false
                         }
                     }
+                    .navigationDestinations()
             }
-            .id(id)
             .task(id: id) {
                 if let type = type {
                     controller.type = type

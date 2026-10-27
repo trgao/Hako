@@ -10,11 +10,11 @@ import SwiftUI
 struct LoadingReviews: View {
     @Environment(\.colorScheme) private var colorScheme
     private let sentiment: SentimentEnum
-    
+
     init(sentiment: SentimentEnum) {
         self.sentiment = sentiment
     }
-    
+
     var body: some View {
         ScrollView {
             LazyVStack {

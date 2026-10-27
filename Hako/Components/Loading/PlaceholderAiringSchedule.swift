@@ -16,7 +16,7 @@ struct PlaceholderAiringSchedule: View {
     private var height: CGFloat {
         Constants.listImageSize == .medium ? 142 * screenRatio : 106 * screenRatio
     }
-    
+
     var body: some View {
         HStack {
             RoundedRectangle(cornerRadius: 10)

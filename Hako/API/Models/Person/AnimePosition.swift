@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AnimePosition: Codable, Identifiable {
+struct AnimePosition: Codable, Identifiable, Hashable {
     var id: Int { anime.id }
     let anime: ThirdPartyListItem
     let position: String?

@@ -27,11 +27,11 @@ struct ShimmerEffect: ViewModifier {
     ]
     private let animation: Animation = .easeInOut(duration: 1.2).repeatForever(autoreverses: true)
     private let active: Bool
-    
+
     init(active: Bool) {
         self.active = active
     }
-    
+
     private func updateAnimation() {
         if active {
             withAnimation(animation) {
@@ -49,7 +49,7 @@ struct ShimmerEffect: ViewModifier {
             }
         }
     }
-    
+
     func body(content: Content) -> some View {
         content.mask {
             LinearGradient(colors: gradientColors, startPoint: startPoint, endPoint: endPoint)

@@ -13,12 +13,12 @@ struct ChaptersListView: View {
     @StateObject private var controller: ChaptersListViewController
     @State private var isRefresh = false
     private let id: Int
-    
+
     init(id: Int) {
         self.id = id
         self._controller = StateObject(wrappedValue: ChaptersListViewController(id: id))
     }
-    
+
     var body: some View {
         ZStack {
             if controller.loadingState == .error && controller.chapters.isEmpty {

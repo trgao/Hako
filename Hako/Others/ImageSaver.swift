@@ -8,12 +8,12 @@ import SwiftUI
 class ImageSaver: NSObject {
     @Binding private var isSuccessPresented: Bool
     @Binding private var isErrorPresented: Bool
-    
+
     init(isSuccessPresented: Binding<Bool>, isErrorPresented: Binding<Bool>) {
         self._isSuccessPresented = isSuccessPresented
         self._isErrorPresented = isErrorPresented
     }
-    
+
     func writeToPhotoAlbum(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
     }

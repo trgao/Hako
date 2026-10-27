@@ -24,7 +24,7 @@ struct MangaListItem: View {
     private var title: String {
         settings.getTitle(romaji: manga.node.title, english: manga.node.alternativeTitles?.en, native: manga.node.alternativeTitles?.ja)
     }
-    
+
     init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
         self.manga = manga
         self._selectedManga = selectedManga
@@ -50,17 +50,16 @@ struct MangaListItem: View {
         self.numVolumesRead = String(volumesRead)
         self.isLoading = isLoading
     }
-    
+
     var body: some View {
-        NavigationLink {
-            MangaDetailsView(manga: manga.node)
-        } label: {
+        TrackedNavigationLink(value: manga) {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {
                     Text(title)
                         .lineLimit(settings.getLineLimit())
                         .bold()
+                        .foregroundStyle(Color.primary)
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             if let mediaType = manga.node.mediaType {
@@ -80,6 +79,7 @@ struct MangaListItem: View {
                         }
                         .opacity(0.7)
                         .font(.footnote)
+                        .foregroundStyle(Color.primary)
                         Spacer()
                         if networker.isSignedIn && index != -1 {
                             Button {

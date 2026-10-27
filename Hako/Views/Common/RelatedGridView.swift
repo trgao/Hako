@@ -16,7 +16,7 @@ struct RelatedGridView: View {
     private let relatedAnime: [RelatedItem]?
     private let relatedManga: [RelatedItem]?
     private var types: Set<String> = []
-    
+
     init(relatedAnime: [RelatedItem]?) {
         self.itemType = .anime
         self.relatedAnime = relatedAnime
@@ -27,7 +27,7 @@ struct RelatedGridView: View {
             }
         }
     }
-    
+
     init(relatedManga: [RelatedItem]?) {
         self.itemType = .manga
         self.relatedAnime = nil
@@ -38,7 +38,7 @@ struct RelatedGridView: View {
             }
         }
     }
-    
+
     var body: some View {
         ScrollView {
             if let type = type {

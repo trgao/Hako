@@ -8,28 +8,37 @@
 import SwiftUI
 
 struct UserListView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller: UserListViewController
     @StateObject private var networker = NetworkManager.shared
     @State private var isInit = false
     @State private var isRefresh = false
     private let user: String
+    private let id: UUID?
     private let type: TypeEnum?
     private let animeStatus: StatusEnum?
     private let animeSort: SortEnum?
     private let mangaStatus: StatusEnum?
     private let mangaSort: SortEnum?
-    
-    init(user: String, type: TypeEnum? = nil, animeStatus: StatusEnum? = nil, animeSort: SortEnum? = nil, mangaStatus: StatusEnum? = nil, mangaSort: SortEnum? = nil) {
+
+    init(user: String, id: UUID? = nil, type: TypeEnum?, animeStatus: StatusEnum?, animeSort: SortEnum?, mangaStatus: StatusEnum?, mangaSort: SortEnum?) {
         self.user = user
         self._controller = StateObject(wrappedValue: UserListViewController(user: user))
+        self.id = id
         self.type = type
         self.animeStatus = animeStatus
         self.animeSort = animeSort
         self.mangaStatus = mangaStatus
         self.mangaSort = mangaSort
     }
-    
+
+    private struct TaskTrigger: Equatable {
+        let id: UUID?
+        let isRefresh: Bool
+    }
+
     @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
         ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
             AnimeListItem(anime: item)
@@ -43,7 +52,7 @@ struct UserListView: View {
             LoadingList(length: 5)
         }
     }
-    
+
     @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
         ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
             MangaListItem(manga: item)
@@ -57,7 +66,7 @@ struct UserListView: View {
             LoadingList(length: 5)
         }
     }
-    
+
     private var animeList: some View {
         List {
             Section {
@@ -111,9 +120,16 @@ struct UserListView: View {
                 }
             }
             if settings.useStatusTabBar {
-                Section {} footer: {
-                    Rectangle()
-                        .frame(height: 0)
+                if #unavailable (iOS 26.2) {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
+                } else if horizontalSizeClass != .compact {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
                 }
             }
         }
@@ -139,7 +155,7 @@ struct UserListView: View {
             isRefresh = true
         }
     }
-    
+
     private var mangaList: some View {
         List {
             Section {
@@ -193,9 +209,16 @@ struct UserListView: View {
                 }
             }
             if settings.useStatusTabBar {
-                Section {} footer: {
-                    Rectangle()
-                        .frame(height: 0)
+                if #unavailable (iOS 26.2) {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
+                } else if horizontalSizeClass != .compact {
+                    Section {} footer: {
+                        Rectangle()
+                            .frame(height: 0)
+                    }
                 }
             }
         }
@@ -221,8 +244,9 @@ struct UserListView: View {
             isRefresh = true
         }
     }
-    
+
     var body: some View {
+        @Bindable var router = router
         ZStack {
             if controller.isUserNotFound {
                 VStack {
@@ -237,19 +261,27 @@ struct UserListView: View {
             } else if controller.type == .anime {
                 animeList
                 if settings.useStatusTabBar {
-                    UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                    if #unavailable (iOS 26.2) {
+                        UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                    } else if horizontalSizeClass != .compact {
+                        UserListStatusPicker(selection: $controller.animeStatus, options: Constants.animeStatuses, isLoading: controller.isLoading())
+                    }
                 }
             } else if controller.type == .manga {
                 mangaList
                 if settings.useStatusTabBar {
-                    UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                    if #unavailable (iOS 26.2) {
+                        UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                    } else if horizontalSizeClass != .compact {
+                        UserListStatusPicker(selection: $controller.mangaStatus, options: Constants.mangaStatuses, isLoading: controller.isLoading())
+                    }
                 }
             }
             if controller.isRefreshLoading {
                 LoadingView()
             }
         }
-        .task(id: isRefresh) {
+        .task(id: TaskTrigger(id: id, isRefresh: isRefresh)) {
             if !isInit {
                 if let type = type {
                     controller.type = type
@@ -263,6 +295,9 @@ struct UserListView: View {
                 await controller.refresh()
                 isRefresh = false
             }
+            router.pickerType = controller.type
+            router.pickerAnimeStatus = controller.animeStatus
+            router.pickerMangaStatus = controller.mangaStatus
             isInit = true
         }
         .navigationTitle("\(user)'s list")
@@ -285,6 +320,18 @@ struct UserListView: View {
                         }
                     }
             }
+        }
+        .onChange(of: controller.type) {
+            router.pickerType = controller.type
+        }
+        .onChange(of: router.pickerAnimeStatus) {
+            controller.animeStatus = router.pickerAnimeStatus
+        }
+        .onChange(of: router.pickerMangaStatus) {
+            controller.mangaStatus = router.pickerMangaStatus
+        }
+        .onChange(of: controller.isLoading()) {
+            router.pickerDisabled = controller.isLoading()
         }
     }
 }

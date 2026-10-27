@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Episode: Codable, Identifiable {
+struct Episode: Codable, Identifiable, Hashable {
     var id: Int { malId }
     let malId: Int
     let title: String
@@ -22,4 +22,8 @@ struct Episode: Codable, Identifiable {
     let duration: Int?
     let synopsis: String?
     let url: String?
+}
+
+struct EpisodeList: Hashable {
+    let id: Int
 }

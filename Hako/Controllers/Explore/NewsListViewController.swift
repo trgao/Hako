@@ -13,7 +13,7 @@ class NewsListViewController: ObservableObject {
     @Published var news: [RSSFeedItem] = []
     @Published var loadingState: LoadingEnum = .loading
     private let networker = NetworkManager.shared
-    
+
     // Refresh the news list page
     func refresh() async {
         loadingState = .loading

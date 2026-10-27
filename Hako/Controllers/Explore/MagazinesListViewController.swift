@@ -14,7 +14,7 @@ class MagazinesListViewController: ObservableObject {
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
-    
+
     // Refresh the magazines list page
     func refresh() async {
         loadingState = .loading
@@ -30,14 +30,14 @@ class MagazinesListViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current magazines list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !magazines.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         if let magazineList = try? await networker.getMagazines(page: currentPage) {
             currentPage += 1

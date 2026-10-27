@@ -13,14 +13,14 @@ struct AnimeRelated: View {
     private let relatedAnime: [RelatedItem]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
-    
+
     init(relatedManga: [RelatedItem]?, relatedAnime: [RelatedItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.relatedManga = relatedManga
         self.relatedAnime = relatedAnime
         self.loadingState = loadingState
         self.load = load
     }
-    
+
     var body: some View {
         ScrollViewCarousel(title: "Related manga", count: relatedManga?.count, loadingState: loadingState, refresh: load) {
             ForEach(relatedManga ?? []) { item in
@@ -32,13 +32,11 @@ struct AnimeRelated: View {
             await load()
         }
         if let relatedAnime = relatedAnime {
-            ScrollViewCarousel(title: "Related anime", count: relatedAnime.count) {
+            ScrollViewCarousel(title: "Related anime", count: relatedAnime.count, item: RelatedList(type: .anime, items: relatedAnime)) {
                 ForEach(relatedPreview) { item in
                     AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, jaTitle: item.anime?.alternativeTitles?.ja, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)
                 }
                 .padding(-5)
-            } destination: {
-                RelatedGridView(relatedAnime: relatedAnime)
             }
             .onAppear {
                 relatedPreview = Array(relatedAnime.prefix(10))

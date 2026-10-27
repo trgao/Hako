@@ -15,7 +15,7 @@ struct UserFavouritesInformation: View {
     private let people: [ThirdPartyListItem]?
     private let loadingState: LoadingEnum
     private let load: () async -> Void
-    
+
     init(anime: [MALListAnime]?, manga: [MALListManga]?, characters: [ThirdPartyListItem]?, people: [ThirdPartyListItem]?, loadingState: LoadingEnum, load: @escaping () async -> Void) {
         self.anime = anime
         self.manga = manga
@@ -24,7 +24,7 @@ struct UserFavouritesInformation: View {
         self.loadingState = loadingState
         self.load = load
     }
-    
+
     var body: some View {
         VStack {
             if !settings.hideUserFavouriteAnime {

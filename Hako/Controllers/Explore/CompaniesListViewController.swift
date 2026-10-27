@@ -14,7 +14,7 @@ class CompaniesListViewController: ObservableObject {
     private var currentPage = 1
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
-    
+
     // Refresh the companies list page
     func refresh() async {
         loadingState = .loading
@@ -30,14 +30,14 @@ class CompaniesListViewController: ObservableObject {
             loadingState = .error
         }
     }
-    
+
     // Load more of the current companies list
     func loadMore() async {
         // only load more when it is not loading, page is not empty and there are more pages to be loaded
         guard loadingState == .idle && !companies.isEmpty && canLoadMorePages else {
             return
         }
-        
+
         loadingState = .paginating
         if let companyList = try? await networker.getCompanies(page: currentPage) {
             currentPage += 1

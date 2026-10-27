@@ -115,7 +115,7 @@ class MangaDetailsViewController: ObservableObject {
     }
 
     func loadAuthors() async {
-        guard let authors = authors else {
+        guard let authors else {
             return
         }
 

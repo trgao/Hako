@@ -254,7 +254,7 @@ struct ExploreView: View {
             }
         }
         .task(id: urlSearchText) {
-            if let urlSearchText = urlSearchText {
+            if let urlSearchText {
                 previousSearch = ""
                 controller.resetSearch()
                 searchText = urlSearchText
@@ -283,7 +283,7 @@ struct ExploreView: View {
         }
         .sheet(item: $selectedAnime) {
             Task {
-                if let index = selectedAnimeIndex, let animeListStatus = animeListStatus {
+                if let index = selectedAnimeIndex, let animeListStatus {
                     if isAnimeDeleted {
                         controller.animeItems[index].listStatus = nil
                         controller.animeItems[index].node.myListStatus = nil
@@ -309,7 +309,7 @@ struct ExploreView: View {
         }
         .sheet(item: $selectedManga) {
             Task {
-                if let index = selectedMangaIndex, let mangaListStatus = mangaListStatus {
+                if let index = selectedMangaIndex, let mangaListStatus {
                     if isMangaDeleted {
                         controller.mangaItems[index].listStatus = nil
                         controller.mangaItems[index].node.myListStatus = nil

@@ -74,7 +74,7 @@ struct ProfileImage: View {
                 ZStack {
                     TabView {
                         VStack(spacing: 10) {
-                            if let username = username {
+                            if let username {
                                 Image(uiImage: generateQRCode(from: "https://myanimelist.net/profile/\(username)"))
                                     .interpolation(.none)
                                     .resizable()

@@ -30,7 +30,7 @@ struct PersonGridItem: View {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .overlay {
-                        if let subtitle = subtitle {
+                        if let subtitle {
                             Text(subtitle)
                                 .bold()
                                 .font(.subheadline)

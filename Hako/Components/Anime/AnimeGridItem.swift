@@ -39,7 +39,7 @@ struct AnimeGridItem: View {
             VStack {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {
-                        if let subtitle = subtitle {
+                        if let subtitle {
                             Text(subtitle)
                                 .bold()
                                 .font(.subheadline)

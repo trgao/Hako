@@ -30,7 +30,7 @@ struct PickerRow: View {
             }
         } label: {
             Text(title)
-            if let description = description {
+            if let description {
                 Text(description)
             }
         }

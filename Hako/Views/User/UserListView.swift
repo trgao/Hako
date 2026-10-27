@@ -283,7 +283,7 @@ struct UserListView: View {
         }
         .task(id: TaskTrigger(id: id, isRefresh: isRefresh)) {
             if !isInit {
-                if let type = type {
+                if let type {
                     controller.type = type
                 }
                 controller.animeStatus = animeStatus ?? settings.getAnimeStatus()

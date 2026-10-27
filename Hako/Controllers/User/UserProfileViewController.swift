@@ -67,7 +67,7 @@ class UserProfileViewController: ObservableObject {
 //            self.people = userFavourites.people
 //            favouritesLoadingState = .idle
 //            
-//            if let anime = anime {
+//            if let anime {
 //                await anime.indices.concurrentForEach { i in
 //                    if let details = self.networker.animeCache[anime[i].id] {
 //                        self.anime?[i] = MALListAnime(anime: details)
@@ -77,7 +77,7 @@ class UserProfileViewController: ObservableObject {
 //                }
 //            }
 //            
-//            if let manga = manga {
+//            if let manga {
 //                await manga.indices.concurrentForEach { i in
 //                    if let details = self.networker.mangaCache[manga[i].id] {
 //                        self.manga?[i] = MALListManga(manga: details)

@@ -52,7 +52,7 @@ struct ImageCarousel: View {
                     TabView(selection: $selection) {
                         ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { _, item in
                             let url = item.large ?? item.medium
-                            if let url = url {
+                            if let url {
                                 ZoomableScrollView(isZoomReset: $isZoomReset) {
                                     AsyncImage(url: URL(string: url)!) { image in
                                         image

@@ -112,10 +112,10 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
         var request = URLRequest(url: url)
         request.httpMethod = method
-        if let contentType = contentType {
+        if let contentType {
             request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
-        if let body = body {
+        if let body {
             request.httpBody = body
         }
 
@@ -230,12 +230,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Sign in function with old completion handler syntax
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { callbackURL, error in
-            if let error = error {
+            if let error {
                 completion(.failure(.unknownError(error)))
                 return
             }
 
-            if let callbackURL = callbackURL {
+            if let callbackURL {
                 if let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: true), let items = urlComponents.queryItems, let token = items[0].value {
                     completion(.success(token))
                 }
@@ -669,7 +669,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             return cache.image as Data
         }
 
-        guard let imageUrl = imageUrl, retry > 0 else {
+        guard let imageUrl, retry > 0 else {
             return nil
         }
 

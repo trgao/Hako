@@ -35,7 +35,7 @@ struct MangaEditView: View {
     init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         var initialData = MyListStatus(status: .planToRead)
-        if let listStatus = listStatus {
+        if let listStatus {
             initialData = listStatus
         }
         self.initialData = initialData
@@ -45,12 +45,12 @@ struct MangaEditView: View {
         self.numVolumes = numVolumes
         self.numChapters = numChapters
         self.imageUrl = imageUrl
-        if let isDeleted = isDeleted {
+        if let isDeleted {
             self._isDeleted = isDeleted
         } else {
             self._isDeleted = .constant(false)
         }
-        if let mangaListStatus = mangaListStatus {
+        if let mangaListStatus {
             self._mangaListStatus = mangaListStatus
         } else {
             self._mangaListStatus = .constant(nil)
@@ -70,10 +70,10 @@ struct MangaEditView: View {
                                 if listStatus.finishDate == nil && settings.autofillEndDate {
                                     listStatus.finishDate = Date()
                                 }
-                                if let numVolumes = numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {
+                                if let numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {
                                     listStatus.numVolumesRead = numVolumes
                                 }
-                                if let numChapters = numChapters, listStatus.numChaptersRead != numChapters, numChapters > 0 {
+                                if let numChapters, listStatus.numChaptersRead != numChapters, numChapters > 0 {
                                     listStatus.numChaptersRead = numChapters
                                 }
                             }
@@ -84,7 +84,7 @@ struct MangaEditView: View {
                             if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                 listStatus.status = .reading
                             }
-                            if settings.mangaReadProgress == 1, let numVolumes = numVolumes, cur == numVolumes && numVolumes > 0 {
+                            if settings.mangaReadProgress == 1, let numVolumes, cur == numVolumes && numVolumes > 0 {
                                 listStatus.status = .completed
                             }
                         }
@@ -93,7 +93,7 @@ struct MangaEditView: View {
                             if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                 listStatus.status = .reading
                             }
-                            if settings.mangaReadProgress == 0, let numChapters = numChapters, cur == numChapters && numChapters > 0 {
+                            if settings.mangaReadProgress == 0, let numChapters, cur == numChapters && numChapters > 0 {
                                 listStatus.status = .completed
                             }
                         }

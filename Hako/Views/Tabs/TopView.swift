@@ -29,7 +29,7 @@ struct TopView: View {
 
     // Display medals instead of numbers for the first 3 ranks
     private func rankToString(_ rank: Int?) -> String {
-        guard let rank = rank else {
+        guard let rank else {
             return ""
         }
         if rank >= 1 && rank <= 3 {
@@ -194,12 +194,12 @@ struct TopView: View {
         if settings.replaceTopWithSchedule {
             content
                 .task(id: isRefresh) {
-                    if let type = type {
+                    if let type {
                         controller.type = type
                     }
-                    if type == .anime, let animeRanking = animeRanking {
+                    if type == .anime, let animeRanking {
                         controller.animeRankingType = animeRanking
-                    } else if type == .manga, let mangaRanking = mangaRanking {
+                    } else if type == .manga, let mangaRanking {
                         controller.mangaRankingType = mangaRanking
                     } else if !isInit {
                         controller.animeRankingType = settings.getAnimeRanking()
@@ -224,12 +224,12 @@ struct TopView: View {
                     .navigationDestinations()
             }
             .task(id: id) {
-                if let type = type {
+                if let type {
                     controller.type = type
                 }
-                if type == .anime, let animeRanking = animeRanking {
+                if type == .anime, let animeRanking {
                     controller.animeRankingType = animeRanking
-                } else if type == .manga, let mangaRanking = mangaRanking {
+                } else if type == .manga, let mangaRanking {
                     controller.mangaRankingType = mangaRanking
                 } else if !isInit {
                     controller.animeRankingType = settings.getAnimeRanking()

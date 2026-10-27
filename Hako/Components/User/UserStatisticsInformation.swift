@@ -32,7 +32,7 @@ struct UserStatisticsInformation: View {
                     .padding(.trailing, 10)
             }
             Spacer()
-            if let content = content {
+            if let content {
                 Text(String(describing: content))
             } else {
                 Text("example")
@@ -46,7 +46,7 @@ struct UserStatisticsInformation: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
-            if let content = content {
+            if let content {
                 Button {
                     UIPasteboard.general.string = String(describing: content)
                 } label: {

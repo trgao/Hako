@@ -27,14 +27,14 @@ struct ScrollViewRow: View {
 
     var body: some View {
         HStack(alignment: .top) {
-            if let title = title {
+            if let title {
                 Text(title)
                     .font(.footnote)
                     .opacity(0.7)
                 Spacer()
             }
             Group {
-                if let icon = icon {
+                if let icon {
                     Label(content, systemImage: icon)
                         .labelStyle(.reducedSpace)
                 } else {

@@ -28,7 +28,7 @@ struct PersonDetailsView: View {
     }
 
     private func formatPosition(_ position: String?) -> String? {
-        if let position = position, position.prefix(3) == "add" {
+        if let position, position.prefix(3) == "add" {
             return String(position.suffix(from: position.index(position.startIndex, offsetBy: 4)))
         }
         return position

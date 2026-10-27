@@ -30,12 +30,12 @@ struct TitleText: View {
                 .multilineTextAlignment(.center)
             Group {
                 if settings.preferredTitleLanguage == 2 {
-                    if let english = english, !english.isEmpty {
+                    if let english, !english.isEmpty {
                         Text(english)
                     } else {
                         Text(romaji)
                     }
-                } else if let native = native, !native.isEmpty && settings.preferredTitleLanguage != 2 {
+                } else if let native, !native.isEmpty && settings.preferredTitleLanguage != 2 {
                     Text(native)
                 }
             }
@@ -54,7 +54,7 @@ struct TitleText: View {
                 Text("Copy romaji title")
                 Text(romaji)
             }
-            if let english = english, !english.isEmpty {
+            if let english, !english.isEmpty {
                 Button {
                     UIPasteboard.general.string = english
                 } label: {
@@ -62,7 +62,7 @@ struct TitleText: View {
                     Text(english)
                 }
             }
-            if let native = native, !native.isEmpty {
+            if let native, !native.isEmpty {
                 Button {
                     UIPasteboard.general.string = native
                 } label: {

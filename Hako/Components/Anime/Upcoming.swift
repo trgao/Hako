@@ -18,7 +18,7 @@ struct Upcoming: View {
 
     var body: some View {
         VStack {
-            if let nextEpisode = nextEpisode {
+            if let nextEpisode {
                 let airingDate = Date(timeIntervalSince1970: TimeInterval(nextEpisode.airingAt))
                 let timeToAiring = Calendar(identifier: .gregorian).dateComponents([.day, .hour], from: Date(), to: airingDate)
                 var timeToAiringString: String {

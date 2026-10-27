@@ -345,7 +345,7 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedAnime) {
                     Task {
-                        if let index = selectedAnimeIndex, let animeListStatus = animeListStatus {
+                        if let index = selectedAnimeIndex, let animeListStatus {
                             if isAnimeDeleted || (controller.animeStatus != .none && animeListStatus.status != controller.animeStatus) {
                                 controller.removeAnimeItem(index)
                             } else {
@@ -367,7 +367,7 @@ struct MyListView: View {
                 }
                 .sheet(item: $selectedManga) {
                     Task {
-                        if let index = selectedMangaIndex, let mangaListStatus = mangaListStatus {
+                        if let index = selectedMangaIndex, let mangaListStatus {
                             if isMangaDeleted || (controller.mangaStatus != .none && mangaListStatus.status != controller.mangaStatus) {
                                 controller.removeMangaItem(index)
                             } else {
@@ -419,23 +419,23 @@ struct MyListView: View {
                 .padding()
         }
         .task(id: id) {
-            if let type = type {
+            if let type {
                 controller.type = type
             }
             if type == .anime {
-                if let animeStatus = animeStatus {
+                if let animeStatus {
                     controller.animeStatus = animeStatus
                     pickerAnimeStatus = animeStatus
                 }
-                if let animeSort = animeSort {
+                if let animeSort {
                     controller.animeSort = animeSort
                 }
             } else if type == .manga {
-                if let mangaStatus = mangaStatus {
+                if let mangaStatus {
                     controller.mangaStatus = mangaStatus
                     pickerMangaStatus = mangaStatus
                 }
-                if let mangaSort = mangaSort {
+                if let mangaSort {
                     controller.mangaSort = mangaSort
                 }
             } else if !isInit {

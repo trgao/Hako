@@ -199,9 +199,10 @@ struct SeasonsView: View {
                 }
             }
             .task(id: id) {
-                if let year = year, let season = season {
+                if let year, let season {
                     controller.year = year
                     controller.season = season
+                    pickerSeason = season
                 }
                 if !isInit {
                     controller.sort = settings.getSeasonSort()

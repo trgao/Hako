@@ -39,7 +39,7 @@ struct UserListStatusPicker: View {
             return 12
         }
     }
-    
+
     private var scrollView: some View {
         ScrollViewReader { proxy in
             GeometryReader { outer in

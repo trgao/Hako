@@ -41,7 +41,7 @@ struct RelatedGridView: View {
 
     var body: some View {
         ScrollView {
-            if let type = type {
+            if let type {
                 Text(type)
                     .padding(.vertical, 10)
                     .padding(.horizontal, 20)
@@ -79,9 +79,9 @@ struct RelatedGridView: View {
                     .labelStyle(.iconOnly)
             }
             .onAppear {
-                if let relatedAnime = relatedAnime {
+                if let relatedAnime {
                     filteredAnime = relatedAnime
-                } else if let relatedManga = relatedManga {
+                } else if let relatedManga {
                     filteredManga = relatedManga
                 }
             }

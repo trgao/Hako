@@ -127,7 +127,7 @@ struct MainView: View {
     }
 
     private var showUserListTabViewBottomAccessory: Bool {
-        (tabBinding.wrappedValue == 0 && ((settings.replaceTopWithSchedule && scheduleRouter.isUserListPresented) || topRouter.isUserListPresented)) || (tabBinding.wrappedValue == 1 && seasonsRouter.isUserListPresented) || (tabBinding.wrappedValue == 2 && exploreRouter.isUserListPresented) || (tabBinding.wrappedValue == 3 && myListRouter.isUserListPresented) || (tabBinding.wrappedValue == 4 && settingsRouter.isUserListPresented)
+        (tabBinding.wrappedValue == 0 && (settings.replaceTopWithSchedule ? scheduleRouter.isUserListPresented : topRouter.isUserListPresented)) || (tabBinding.wrappedValue == 1 && seasonsRouter.isUserListPresented) || (tabBinding.wrappedValue == 2 && exploreRouter.isUserListPresented) || (tabBinding.wrappedValue == 3 && myListRouter.isUserListPresented) || (tabBinding.wrappedValue == 4 && settingsRouter.isUserListPresented)
     }
 
     init() {
@@ -149,29 +149,17 @@ struct MainView: View {
         let context = LAContext()
         var error: NSError?
 
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            let reason = "Face ID is required to lock app"
-
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                if success {
-                    isUnlocked = true
-                } else {
-                    isAuthenticationError = true
-                }
-            }
-        } else {
-            isAuthenticationError = true
+        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+            isUnlocked = true // no passcode means nothing to protect
+            return
         }
-    }
 
-    private func genreName(id: Int, type: TypeEnum) -> String? {
-        switch type {
-        case .anime:
-            Constants.animeGenres[id] ?? Constants.animeThemes[id] ?? Constants.animeDemographics[id]
-        case .manga:
-            Constants.mangaGenres[id] ?? Constants.mangaThemes[id] ?? Constants.mangaDemographics[id]
-        default:
-            nil
+        Task { @MainActor in
+            do {
+                isUnlocked = try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Unlock Hako")
+            } catch {
+                isAuthenticationError = true
+            }
         }
     }
 
@@ -182,10 +170,8 @@ struct MainView: View {
             return
         }
 
-        self.id = UUID()
-
-        var page: String
-        // Check for correct urls
+        // Resolve page name
+        let page: String
         if url.scheme == "hako", let host = components.host {
             page = host.lowercased()
         } else if url.host == FIREBASE_LINK {
@@ -194,129 +180,133 @@ struct MainView: View {
             return
         }
 
+        self.isInit = true
+        self.id = UUID()
         self.url = nil
-        if page == "top" {
-            var topType: TypeEnum?
-            var animeRanking: RankingEnum?
-            var mangaRanking: RankingEnum?
-            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
-                if type == "anime" {
-                    topType = .anime
-                    if let rankingText = components.queryItems?.first(where: { $0.name == "ranking" })?.value, let ranking = RankingEnum(rawValue: rankingText) {
-                        animeRanking = ranking
-                    }
-                } else if type == "manga" {
-                    topType = .manga
-                    if let rankingText = components.queryItems?.first(where: { $0.name == "ranking" })?.value, let ranking = RankingEnum(rawValue: rankingText) {
-                        mangaRanking = ranking
-                    }
-                }
+
+        // Shared parsing
+        let type = components.value("type").flatMap(TypeEnum.init(rawValue:))
+        let itemId = components.value("id").flatMap(Int.init)
+        let user = components.value("user")
+        let isOwnUser = user.map { $0.lowercased() == networker.user?.name?.lowercased() } ?? false
+
+        func openInExplore<D: Hashable>(_ destination: D) {
+            tab = Constants.exploreTab
+            exploreRouter.restartWith(destination)
+            isSearchPresented = false
+        }
+
+        func genreName(id: Int, type: TypeEnum) -> String? {
+            switch type {
+            case .anime:
+                Constants.animeGenres[id] ?? Constants.animeThemes[id] ?? Constants.animeDemographics[id]
+            case .manga:
+                Constants.mangaGenres[id] ?? Constants.mangaThemes[id] ?? Constants.mangaDemographics[id]
+            default:
+                nil
             }
+        }
+
+        switch page {
+        case "top":
+            guard let topType = type else {
+                return
+            }
+
+            let ranking = components.value("ranking").flatMap(RankingEnum.init(rawValue:))
+            let animeRanking = topType == .anime ? ranking : nil
+            let mangaRanking = topType == .manga ? ranking : nil
+
             if settings.replaceTopWithSchedule {
-                tab = 2
-                exploreRouter.restartWith(TopDetail(id: id, type: topType, animeRanking: animeRanking, mangaRanking: mangaRanking))
-                isSearchPresented = false
+                openInExplore(TopDetail(id: id, type: type, animeRanking: animeRanking, mangaRanking: mangaRanking))
             } else {
-                tab = 0
+                tab = Constants.topTab
                 topRouter.popToRoot()
                 self.topType = topType
                 self.animeRanking = animeRanking
                 self.mangaRanking = mangaRanking
             }
-        } else if page == "seasons" {
-            tab = 1
+
+        case "seasons":
+            tab = Constants.seasonsTab
             seasonsRouter.popToRoot()
-            if let yearText = components.queryItems?.first(where: { $0.name == "year" })?.value, let yearInt = Int(yearText), let seasonText = components.queryItems?.first(where: { $0.name == "season" })?.value, let seasonEnum = SeasonEnum(rawValue: seasonText), yearInt >= 1917 && yearInt <= Constants.currentYear + 1 {
-                year = yearInt
-                season = seasonEnum
+            if let year = components.value("year").flatMap(Int.init), year >= 1917 && year <= Constants.currentYear + 1, let season = components.value("season").flatMap(SeasonEnum.init(rawValue:)) {
+                self.year = year
+                self.season = season
             }
-        } else if page == "explore" {
-            tab = 2
+
+        case "explore":
+            tab = Constants.exploreTab
             exploreRouter.popToRoot()
-            if let text = components.queryItems?.first(where: { $0.name == "query" })?.value {
+            if let text = components.value("query") {
                 isSearchPresented = true
                 urlSearchText = text
-            } else if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
+            } else if let type = components.value("type") {
                 isSearchPresented = false
                 exploreRouter.push(type)
             }
-        } else if page == "mylist" {
-            var itemType: TypeEnum?
-            var animeStatus: StatusEnum?
-            var animeSort: SortEnum?
-            var mangaStatus: StatusEnum?
-            var mangaSort: SortEnum?
-            if let type = components.queryItems?.first(where: { $0.name == "type" })?.value {
-                if type == "anime" {
-                    itemType = .anime
-                    if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .reading && status != .planToRead {
-                        animeStatus = status
-                    }
-                    if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
-                        animeSort = sort
-                    }
-                } else if type == "manga" {
-                    itemType = .manga
-                    if let statusText = components.queryItems?.first(where: { $0.name == "status" })?.value, let status = StatusEnum(rawValue: statusText), status != .watching && status != .planToWatch {
-                        mangaStatus = status
-                    }
-                    if let sortText = components.queryItems?.first(where: { $0.name == "sort" })?.value, let sort = SortEnum(rawValue: sortText) {
-                        mangaSort = sort
-                    }
-                }
-            }
-            if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, user.lowercased() != networker.user?.name?.lowercased() {
-                tab = 2
-                exploreRouter.restartWith(UserList(username: user, id: id, type: itemType, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
-                isSearchPresented = false
+
+        case "mylist":
+            let status = components.value("status").flatMap(StatusEnum.init(rawValue:))
+            let sort = components.value("sort").flatMap(SortEnum.init(rawValue:))
+            let animeStatus = type == .anime ? status : nil
+            let animeSort = type == .anime ? sort : nil
+            let mangaStatus = type == .manga ? status : nil
+            let mangaSort = type == .manga ? sort : nil
+
+            if let user, !isOwnUser {
+                openInExplore(UserList(username: user, id: id, type: type, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
             } else {
-                tab = 3
+                tab = Constants.myListTab
                 myListRouter.popToRoot()
-                self.listType = itemType
+                self.listType = type
                 self.animeStatus = animeStatus
                 self.animeSort = animeSort
                 self.mangaStatus = mangaStatus
                 self.mangaSort = mangaSort
             }
-        } else if page == "settings" {
-            tab = 4
+
+        case "settings":
+            tab = Constants.settingsTab
             settingsRouter.popToRoot()
-        } else if page == "news" {
-            tab = 2
-            exploreRouter.restartWith("news")
-            isSearchPresented = false
-        } else if let idText = components.queryItems?.first(where: { $0.name == "id" })?.value, let id = Int(idText) {
-            if let typeText = components.queryItems?.first(where: { $0.name == "type" })?.value, (typeText == "anime" || typeText == "manga") && page == "genre" {
-                guard let type = TypeEnum(rawValue: typeText), let name = genreName(id: id, type: type) else {
-                    return
-                }
 
-                tab = 2
-                exploreRouter.restartWith(GroupDetail(id: id, name: name, type: type, group: "genres"))
-                isSearchPresented = false
-            } else if page == "anime" || page == "manga" || page == "character" || page == "person" {
-                guard let viewType = ViewTypeEnum(rawValue: page) else {
-                    return
-                }
+        case "news":
+            openInExplore("news")
 
-                tab = 2
-                exploreRouter.restartWith(ViewItem(type: viewType, id: id))
-                isSearchPresented = false
-            } else if page == "producer" || page == "magazine" {
-                tab = 2
-                let name = components.queryItems?.first(where: { $0.name == "name" })?.value ?? ""
-                exploreRouter.restartWith(GroupDetail(id: id, name: name, type: page == "producer" ? .anime : .manga, group: "\(page)s"))
-                isSearchPresented = false
+        case "genre":
+            guard let itemId, let type, let name = genreName(id: itemId, type: type) else {
+                return
             }
-        } else if let user = components.queryItems?.first(where: { $0.name == "user" })?.value, page == "profile" {
-            if user.lowercased() == networker.user?.name?.lowercased() {
-                tab = 4
+
+            openInExplore(GroupDetail(id: itemId, name: name, type: type, group: "genres"))
+
+        case "anime", "manga", "character", "person":
+            guard let itemId, let viewType = ViewTypeEnum(rawValue: page) else {
+                return
+            }
+
+            openInExplore(ViewItem(type: viewType, id: itemId))
+
+        case "producer", "magazine":
+            guard let itemId else {
+                return
+            }
+
+            openInExplore(GroupDetail(id: itemId, name: components.value("name") ?? "", type: page == "producer" ? .anime : .manga, group: "\(page)s"))
+        case "profile":
+            guard let user else {
+                return
+            }
+
+            if isOwnUser {
+                tab = Constants.settingsTab
                 settingsRouter.restartWith("profile")
             } else {
-                tab = 2
-                exploreRouter.restartWith(UserList(username: user))
-                isSearchPresented = false
+                openInExplore(UserList(username: user))
             }
+
+        default:
+            break
         }
     }
 
@@ -350,9 +340,17 @@ struct MainView: View {
             Tab("Settings", systemImage: "gear", value: 4) {
                 SettingsView()
                     .environment(settingsRouter)
+                    .onChange(of: settings.useFaceID) {
+                        isUnlocked = true
+                    }
             }
         }
         .onAppear {
+            guard !isInit else {
+                return
+            }
+
+            isInit = true
             tab = settings.openLastClosedTab ? settings.savedTab : settings.defaultView
         }
         .onChange(of: tab) {
@@ -405,8 +403,9 @@ struct MainView: View {
     }
 
     var body: some View {
-        VStack {
-            if isUnlocked || !settings.useFaceID {
+        ZStack {
+            let isLocked = settings.useFaceID && !isUnlocked
+            Group {
                 if #available (iOS 26.2, *), horizontalSizeClass == .compact {
                     tabs
                         .tabBarMinimizeBehavior(.onScrollDown)
@@ -416,7 +415,11 @@ struct MainView: View {
                 } else {
                     tabs
                 }
-            } else {
+            }
+            .opacity(isLocked ? 0 : 1)
+            .disabled(isLocked)
+            .accessibilityHidden(isLocked)
+            if isLocked {
                 VStack {
                     Text("Hako is locked")
                         .font(.title)
@@ -427,6 +430,7 @@ struct MainView: View {
                     .prominentButtonStyle()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .background(.background)
             }
         }
         .dynamicTypeSize(settings.dynamicType ? dynamicTypeSize : .large)
@@ -442,5 +446,11 @@ struct MainView: View {
         }
         .onOpenURL(perform: handleUrl)
         .handleOpenURLInApp(url: $url)
+    }
+}
+
+private extension URLComponents {
+    func value(_ name: String) -> String? {
+        queryItems?.first(where: { $0.name == name })?.value
     }
 }

@@ -16,7 +16,7 @@ struct Favourites: View {
     }
 
     var body: some View {
-        if let favorites = favorites {
+        if let favorites {
             Label("\(favorites) favorites", systemImage: "heart.fill")
                 .labelStyle(.iconTint(.red))
                 .frame(maxWidth: .infinity, alignment: .center)

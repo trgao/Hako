@@ -33,7 +33,7 @@ struct PersonListItem: View {
                     Text(person.name ?? "")
                         .lineLimit(settings.getLineLimit())
                         .bold()
-                    if let subtitle = subtitle {
+                    if let subtitle {
                         Text(subtitle)
                             .foregroundStyle(Color(.systemGray))
                             .font(.footnote)

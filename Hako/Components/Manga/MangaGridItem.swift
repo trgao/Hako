@@ -39,7 +39,7 @@ struct MangaGridItem: View {
             VStack {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {
-                        if let subtitle = subtitle {
+                        if let subtitle {
                             Text(subtitle)
                                 .bold()
                                 .font(.subheadline)

@@ -31,7 +31,7 @@ struct AnimeRelated: View {
         .task {
             await load()
         }
-        if let relatedAnime = relatedAnime {
+        if let relatedAnime {
             ScrollViewCarousel(title: "Related anime", count: relatedAnime.count, item: RelatedList(type: .anime, items: relatedAnime)) {
                 ForEach(relatedPreview) { item in
                     AnimeGridItem(id: item.id, title: item.title, enTitle: item.anime?.alternativeTitles?.en, jaTitle: item.anime?.alternativeTitles?.ja, imageUrl: item.anime?.mainPicture?.large, subtitle: item.relation, anime: item.anime)

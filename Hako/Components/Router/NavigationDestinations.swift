@@ -97,6 +97,7 @@ struct NavigationDestinationsViewModifier: ViewModifier {
             }
             .navigationDestination(for: GroupDetail.self) { item in
                 GroupDetailsView(title: item.name, group: item.group, id: item.id, type: item.type)
+                    .id("\(item.group)\(item.id)")
             }
             .navigationDestination(for: String.self) { item in
                 if item == "schedule" {

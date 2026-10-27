@@ -20,19 +20,19 @@ struct NameText: View {
 
     var body: some View {
         VStack {
-            if let english = english {
+            if let english {
                 Text(english)
                     .bold()
                     .font(UIDevice.current.userInterfaceIdiom == .phone ? .title2 : .title)
                     .multilineTextAlignment(.center)
                     .contentShape(Rectangle())
             }
-            if let japanese = japanese {
+            if let japanese {
                 Text(japanese)
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
             }
-            if let birthday = birthday {
+            if let birthday {
                 Text("Birthday: \(birthday)")
                     .opacity(0.7)
                     .multilineTextAlignment(.center)
@@ -44,7 +44,7 @@ struct NameText: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 10))
         .contextMenu {
-            if let english = english, !english.isEmpty {
+            if let english, !english.isEmpty {
                 Button {
                     UIPasteboard.general.string = english
                 } label: {
@@ -52,7 +52,7 @@ struct NameText: View {
                     Text(english)
                 }
             }
-            if let japanese = japanese, !japanese.isEmpty {
+            if let japanese, !japanese.isEmpty {
                 Button {
                     UIPasteboard.general.string = japanese
                 } label: {
@@ -60,7 +60,7 @@ struct NameText: View {
                     Text(japanese)
                 }
             }
-            if let birthday = birthday, !birthday.isEmpty {
+            if let birthday, !birthday.isEmpty {
                 Button {
                     UIPasteboard.general.string = birthday
                 } label: {

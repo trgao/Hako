@@ -23,7 +23,9 @@ struct CustomiseView: View {
                 }
             }
             Section("Explore") {
-                TrackedNavigationLink(value: "customiseExplore", label: "Customise explore items")
+                TrackedNavigationLink(value: "customiseExplore") {
+                    Label("Customise explore items", systemImage: "list.bullet")
+                }
                 Toggle(isOn: $settings.hideRandom) {
                     Text("Hide random button")
                 }

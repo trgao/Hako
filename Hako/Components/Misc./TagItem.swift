@@ -38,7 +38,7 @@ struct TagItem: View {
             }
         }
         Group {
-            if let systemImage = systemImage {
+            if let systemImage {
                 Label(text, systemImage: systemImage)
             } else {
                 Text(text)

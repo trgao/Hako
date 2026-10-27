@@ -24,7 +24,7 @@ struct TextBox: View {
     }
 
     var body: some View {
-        if let text = text, !text.isEmpty {
+        if let text, !text.isEmpty {
             ScrollViewSection(title: title) {
                 VStack {
                     let textWithSpoilers = TextWithSpoilers(text)

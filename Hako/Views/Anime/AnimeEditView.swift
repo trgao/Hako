@@ -34,7 +34,7 @@ struct AnimeEditView: View {
     init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
         self.id = id
         var initialData = MyListStatus(status: .planToWatch)
-        if let listStatus = listStatus {
+        if let listStatus {
             initialData = listStatus
         }
         self.initialData = initialData
@@ -43,12 +43,12 @@ struct AnimeEditView: View {
         self.alternativeTitles = alternativeTitles
         self.numEpisodes = numEpisodes
         self.imageUrl = imageUrl
-        if let isDeleted = isDeleted {
+        if let isDeleted {
             self._isDeleted = isDeleted
         } else {
             self._isDeleted = .constant(false)
         }
-        if let animeListStatus = animeListStatus {
+        if let animeListStatus {
             self._animeListStatus = animeListStatus
         } else {
             self._animeListStatus = .constant(nil)
@@ -68,7 +68,7 @@ struct AnimeEditView: View {
                                 if listStatus.finishDate == nil && settings.autofillEndDate {
                                     listStatus.finishDate = Date()
                                 }
-                                if let numEpisodes = numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
+                                if let numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
                                     listStatus.numEpisodesWatched = numEpisodes
                                 }
                             }
@@ -79,7 +79,7 @@ struct AnimeEditView: View {
                             if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
                                 listStatus.status = .watching
                             }
-                            if let numEpisodes = numEpisodes, cur == numEpisodes && numEpisodes > 0 {
+                            if let numEpisodes, cur == numEpisodes && numEpisodes > 0 {
                                 listStatus.status = .completed
                             }
                         }

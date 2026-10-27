@@ -86,8 +86,6 @@ function convertUrl() {
                     case "6":
                         newUrl += "&status=planToWatch"
                         break
-                    default:
-                        status = "none"
                 }
             }
             if (urlParams.has("order")) {
@@ -129,8 +127,6 @@ function convertUrl() {
                     case "6":
                         newUrl += "&status=planToRead"
                         break
-                    default:
-                        status = "none"
                 }
             }
             if (urlParams.has("order")) {

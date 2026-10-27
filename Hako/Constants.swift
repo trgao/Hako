@@ -8,6 +8,14 @@
 import SwiftUI
 
 struct Constants {
+    // Tabs
+    static let topTab = 0
+    static let scheduleTab = 0
+    static let seasonsTab = 1
+    static let exploreTab = 2
+    static let myListTab = 3
+    static let settingsTab = 4
+
     static let colorSchemes: [ColorScheme?] = [nil, .light, .dark]
     static let accentColors: [Color] = [.blue, .teal, .orange, .pink, .indigo, .purple, .green, .brown]
     static let listImageSize: ImageSizeEnum = UIDevice.current.userInterfaceIdiom == .phone ? .small : .medium

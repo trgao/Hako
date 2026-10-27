@@ -31,7 +31,7 @@ struct ScrollViewCarousel<Item: Hashable, Content: View, Placeholder: View>: Vie
 
     private var sectionHeader: some View {
         HStack {
-            if let count = count, count > 10, let item = item {
+            if let count, count > 10, let item {
                 TrackedNavigationLink(value: item) {
                     HStack {
                         Text(title)

@@ -18,15 +18,10 @@ struct ReviewsListView: View {
     }
 
     private var nothingFoundView: some View {
-        VStack {
-            Image(systemName: "text.bubble")
-                .resizable()
-                .frame(width: 40, height: 40)
-            Text("No reviews")
-                .bold()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .background(colorScheme == .light ? Color(.systemGray6) : .black)
+        ContentUnavailableView(
+            "No reviews",
+            systemImage: "text.bubble"
+        )
     }
 
     var body: some View {

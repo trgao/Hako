@@ -15,21 +15,17 @@ struct ErrorView: View {
     }
 
     var body: some View {
-        VStack {
-            Image(systemName: "exclamationmark.triangle")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .padding(.bottom, 5)
-            Text("Unable to load")
-                .bold()
-                .padding(.bottom, 5)
-            Button("Try again") {
+        ContentUnavailableView {
+            Label("Unable to load", systemImage: "exclamationmark.triangle")
+        } description: {
+            Text("Check your connection and try again.")
+        } actions: {
+            Button("Try Again") {
                 Task {
                     await refresh()
                 }
             }
             .prominentButtonStyle()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }

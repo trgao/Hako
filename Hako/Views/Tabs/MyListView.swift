@@ -177,15 +177,10 @@ struct MyListView: View {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
-                        VStack {
-                            Image(systemName: "tv.fill")
-                                .resizable()
-                                .frame(width: 45, height: 40)
-                            Text("Nothing found")
-                                .bold()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 50)
+                        ContentUnavailableView(
+                            "Nothing found",
+                            systemImage: "tv.fill"
+                        )
                     }
                 } else if controller.animeStatus == .none {
                     AnimeStatusView(controller.allAnimeItems)
@@ -248,15 +243,10 @@ struct MyListView: View {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
-                        VStack {
-                            Image(systemName: "book.fill")
-                                .resizable()
-                                .frame(width: 45, height: 40)
-                            Text("Nothing found")
-                                .bold()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 50)
+                        ContentUnavailableView(
+                            "Nothing found",
+                            systemImage: "book.fill"
+                        )
                     }
                 } else if controller.mangaStatus == .none {
                     MangaStatusView(controller.allMangaItems)

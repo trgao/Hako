@@ -58,14 +58,10 @@ struct TopView: View {
     }
 
     private var nothingFoundView: some View {
-        VStack {
-            Image(systemName: "medal")
-                .resizable()
-                .frame(width: 40, height: 50)
-            Text("No \(controller.type.rawValue)")
-                .bold()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        ContentUnavailableView(
+            "No \(controller.type.rawValue)",
+            systemImage: "medal"
+        )
     }
 
     private var content: some View {

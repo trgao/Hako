@@ -145,16 +145,10 @@ struct ExploreView: View {
     }
 
     private var nothingFoundView: some View {
-        VStack {
-            Image(systemName: "magnifyingglass")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .padding(.bottom, 10)
-            Text("Nothing found")
-                .bold()
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.vertical, 50)
+        ContentUnavailableView(
+            "No results",
+            systemImage: "magnifyingglass"
+        )
     }
 
     private var searchView: some View {

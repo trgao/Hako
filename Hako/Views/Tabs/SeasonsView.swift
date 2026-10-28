@@ -67,14 +67,10 @@ struct SeasonsView: View {
     }
 
     private var nothingFoundView: some View {
-        VStack {
-            Image(systemName: "calendar")
-                .resizable()
-                .frame(width: 40, height: 40)
-            Text("No anime")
-                .bold()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        ContentUnavailableView(
+            "No anime",
+            systemImage: "calendar"
+        )
     }
 
     private var tabPicker: some View {

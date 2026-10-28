@@ -48,21 +48,21 @@ struct CharacterDetailsView: View {
                         if let animes = character.anime, !animes.isEmpty {
                             ScrollViewListSection(title: "Animes") {
                                 ForEach(animes, id: \.id) { anime in
-                                    ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: anime.role, imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", item: Anime(id: anime.id, title: anime.anime.title ?? "", imageUrl: anime.anime.images?.jpg?.largeImageUrl))
+                                    ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: anime.role, imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", item: .anime(Anime(id: anime.id, title: anime.anime.title ?? "", imageUrl: anime.anime.images?.jpg?.largeImageUrl)))
                                 }
                             }
                         }
                         if let mangas = character.manga, !mangas.isEmpty {
                             ScrollViewListSection(title: "Mangas") {
                                 ForEach(mangas, id: \.id) { manga in
-                                    ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: manga.role, imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", item: Manga(id: manga.id, title: manga.manga.title ?? "", imageUrl: manga.manga.images?.jpg?.largeImageUrl))
+                                    ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: manga.role, imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", item: .manga(Manga(id: manga.id, title: manga.manga.title ?? "", imageUrl: manga.manga.images?.jpg?.largeImageUrl)))
                                 }
                             }
                         }
                         if let voices = character.voices, !voices.isEmpty {
                             ScrollViewListSection(title: "Voices") {
                                 ForEach(voices, id: \.id) { voice in
-                                    ScrollViewListItem(id: "person\(voice.id)", title: voice.person.name, subtitle: voice.language, imageUrl: voice.person.images?.jpg?.imageUrl, url: "https://myanimelist.net/people/\(voice.id)", item: Person(id: voice.id, name: voice.person.name, imageUrl: voice.person.images?.jpg?.imageUrl))
+                                    ScrollViewListItem(id: "person\(voice.id)", title: voice.person.name, subtitle: voice.language, imageUrl: voice.person.images?.jpg?.imageUrl, url: "https://myanimelist.net/people/\(voice.id)", item: .person(Person(id: voice.id, name: voice.person.name, imageUrl: voice.person.images?.jpg?.imageUrl)))
                                 }
                             }
                         }

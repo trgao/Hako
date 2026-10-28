@@ -24,7 +24,7 @@ struct CharacterGridItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: ZoomTransitionItem(content: content, namespaceId: namespace)) {
+        NavigationLink(value: Route.characterZoom(ZoomTransitionItem(content: content, namespaceId: namespace))) {
             VStack {
                 ImageFrame(id: "character\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .contentShape(RoundedRectangle(cornerRadius: 10))

@@ -33,7 +33,9 @@ struct ExploreBox: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
-            router.push(item)
+            if let screen = Screen(rawValue: item) {
+                router.push(Route.screen(screen))
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 isPressed = false
             }

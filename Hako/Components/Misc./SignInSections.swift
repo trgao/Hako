@@ -51,7 +51,7 @@ struct SignInSections: View {
                     .padding(5)
                 } else if isSettings {
                     if let user = networker.user {
-                        TrackedNavigationLink(value: "profile") {
+                        NavigationLink(value: Route.screen(.profile)) {
                             HStack {
                                 ProfileImage(imageUrl: user.picture)
                                 VStack {

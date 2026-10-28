@@ -8,7 +8,7 @@
 import SwiftUI
 import WrappingHStack
 
-struct ScrollViewNavigationLink<Item: Hashable>: View {
+struct ScrollViewNavigationLink: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(Router.self) private var router
     @State private var isPressed = false
@@ -16,9 +16,9 @@ struct ScrollViewNavigationLink<Item: Hashable>: View {
     private let title: String
     private let items: [String]
     private let content: String
-    private let item: Item
+    private let item: GroupList
 
-    init(title: String, items: [String], item: Item) {
+    init(title: String, items: [String], item: GroupList) {
         self.title = title
         self.items = items
         self.content = items.joined(separator: ", ")
@@ -46,7 +46,7 @@ struct ScrollViewNavigationLink<Item: Hashable>: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true
-            router.push(item)
+            router.push(Route.groupList(item))
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 isPressed = false
             }

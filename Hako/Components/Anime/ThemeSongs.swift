@@ -39,7 +39,7 @@ struct ThemeSongs: View {
 
     var body: some View {
         if let openingThemes {
-            ScrollViewCarousel(title: "Openings", count: openingThemes.count, item: openingThemes, viewAlignedScroll: screenSize.width - 34 < 450) {
+            ScrollViewCarousel(title: "Openings", count: openingThemes.count, item: Route.themeList(openingThemes), viewAlignedScroll: screenSize.width - 34 < 450) {
                 ForEach(openingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)
@@ -51,7 +51,7 @@ struct ThemeSongs: View {
             }
         }
         if let endingThemes {
-            ScrollViewCarousel(title: "Endings", count: endingThemes.count, item: endingThemes, viewAlignedScroll: screenSize.width - 34 < 450) {
+            ScrollViewCarousel(title: "Endings", count: endingThemes.count, item: Route.themeList(endingThemes), viewAlignedScroll: screenSize.width - 34 < 450) {
                 ForEach(endingPreview) { theme in
                     if let text = theme.text?.formatThemeSong() {
                         ThemeSong(text)

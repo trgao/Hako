@@ -40,7 +40,7 @@ struct AnimeListItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: anime) {
+        NavigationLink(value: Route.animeItem(anime)) {
             HStack {
                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {

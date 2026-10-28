@@ -22,7 +22,7 @@ struct EpisodeItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: item) {
+        NavigationLink(value: Route.episode(item)) {
             VStack(alignment: .leading) {
                 Text("\(item.id). \(title)")
                 if let aired = item.aired {

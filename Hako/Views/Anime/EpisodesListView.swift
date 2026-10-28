@@ -30,7 +30,7 @@ struct EpisodesListView: View {
                         LoadingList(length: 20, showImage: false)
                     } else {
                         ForEach(controller.episodes) { episode in
-                            TrackedNavigationLink(value: episode) {
+                            NavigationLink(value: Route.episode(episode)) {
                                 VStack(alignment: .leading) {
                                     Text("#\(episode.id): \(settings.getTitle(romaji: episode.titleRomanji, english: episode.title, native: episode.titleJapanese))")
                                     if let aired = episode.aired {

@@ -52,7 +52,7 @@ struct MangaListItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: manga) {
+        NavigationLink(value: Route.mangaItem(manga)) {
             HStack {
                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading) {

@@ -155,7 +155,7 @@ struct SeasonsView: View {
                     }
                     if !settings.replaceTopWithSchedule && !settings.hideSchedule {
                         ToolbarItem(placement: .topBarLeading) {
-                            TrackedNavigationLink(value: "schedule") {
+                            NavigationLink(value: Route.screen(.schedule)) {
                                 Label("Schedule", systemImage: "calendar.badge.clock")
                                     .labelStyle(.iconOnly)
                             }

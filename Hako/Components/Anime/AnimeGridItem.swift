@@ -35,7 +35,7 @@ struct AnimeGridItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: ZoomTransitionItem(content: anime, namespaceId: namespace)) {
+        NavigationLink(value: Route.animeZoom(ZoomTransitionItem(content: anime, namespaceId: namespace))) {
             VStack {
                 ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {

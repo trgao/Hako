@@ -43,7 +43,7 @@ struct UserProfileView: View {
                                     .font(.title3)
                                     .bold()
                                     .onScrollVisibilityChange({ hideTitle = $0 })
-                                TrackedNavigationLink(value: UserList(username: user), label: "Go to user lists")
+                                NavigationLink("Go to user lists", value: Route.userList(UserList(username: user)))
                                 .prominentButtonStyle()
                             }
                             .padding(.horizontal, 20)

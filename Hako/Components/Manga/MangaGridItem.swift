@@ -35,7 +35,7 @@ struct MangaGridItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: ZoomTransitionItem(content: manga, namespaceId: namespace)) {
+        NavigationLink(value: Route.mangaZoom(ZoomTransitionItem(content: manga, namespaceId: namespace))) {
             VStack {
                 ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .large)
                     .overlay {

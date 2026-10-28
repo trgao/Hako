@@ -26,7 +26,7 @@ struct PersonListItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: item) {
+        NavigationLink(value: Route.person(item)) {
             HStack {
                 ImageFrame(id: "person\(person.id)", imageUrl: person.images?.jpg?.imageUrl, imageSize: Constants.listImageSize)
                 VStack(alignment: .leading, spacing: 5) {

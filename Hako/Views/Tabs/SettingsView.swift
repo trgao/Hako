@@ -22,25 +22,25 @@ struct SettingsView: View {
                     SignInSections(isSettings: true)
                 }
                 Section {
-                    TrackedNavigationLink(value: "general") {
+                    NavigationLink(value: Route.screen(.general)) {
                         Label("General", systemImage: "gear")
                     }
-                    TrackedNavigationLink(value: "appearance") {
+                    NavigationLink(value: Route.screen(.appearance)) {
                         Label("Appearance", systemImage: "paintpalette.fill")
                     }
-                    TrackedNavigationLink(value: "customise") {
+                    NavigationLink(value: Route.screen(.customise)) {
                         Label("Customise", systemImage: "slider.horizontal.3")
                     }
                 }
                 if !ProcessInfo.processInfo.isMacCatalystApp {
                     Section {
-                        TrackedNavigationLink(value: "safariExtension") {
+                        NavigationLink(value: Route.screen(.safariExtension)) {
                             Label("Safari extension", systemImage: "puzzlepiece.extension.fill")
                         }
                     }
                 }
                 Section {
-                    TrackedNavigationLink(value: "about") {
+                    NavigationLink(value: Route.screen(.about)) {
                         Label("About", systemImage: "info.circle")
                     }
                     Link(destination: URL(string: "https://forms.gle/v2ewpgxHLDL16kK8A")!) {

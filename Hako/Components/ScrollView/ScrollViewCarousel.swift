@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct ScrollViewCarousel<Item: Hashable, Content: View, Placeholder: View>: View {
+struct ScrollViewCarousel<Content: View, Placeholder: View>: View {
     @Environment(\.colorScheme) private var colorScheme
     private let title: String
     private let count: Int?
-    private let item: Item?
+    private let item: Route?
     private let viewAlignedScroll: Bool
     private let loadingState: LoadingEnum?
     private let refresh: () async -> Void
     private let placeholder: (Bool) -> Placeholder
     private let content: () -> Content
 
-    init(title: String, count: Int? = nil, item: Item? = (nil as String?), viewAlignedScroll: Bool = false, loadingState: LoadingEnum? = nil, refresh: @escaping () async -> Void = {}, placeholder: @escaping (Bool) -> Placeholder = BigPlaceholderGridItem.init, @ViewBuilder content: @escaping () -> Content) {
+    init(title: String, count: Int? = nil, item: Route? = nil, viewAlignedScroll: Bool = false, loadingState: LoadingEnum? = nil, refresh: @escaping () async -> Void = {}, placeholder: @escaping (Bool) -> Placeholder = BigPlaceholderGridItem.init, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.count = count
         self.item = item
@@ -32,7 +32,7 @@ struct ScrollViewCarousel<Item: Hashable, Content: View, Placeholder: View>: Vie
     private var sectionHeader: some View {
         HStack {
             if let count, count > 10, let item {
-                TrackedNavigationLink(value: item) {
+                NavigationLink(value: item) {
                     HStack {
                         Text(title)
                         Image(systemName: "chevron.right")

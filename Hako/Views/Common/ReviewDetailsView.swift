@@ -21,7 +21,7 @@ struct ReviewDetailsView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 if let username = item.user?.username, let date = item.date {
-                    TrackedNavigationLink(value: UserList(username: username)) {
+                    NavigationLink(value: Route.userList(UserList(username: username))) {
                         HStack {
                             ImageFrame(id: "user\(username)", imageUrl: item.user?.images?.jpg?.imageUrl, imageSize: .reviewUser)
                             Text("\(username) ・ \(date.toString())")

@@ -24,7 +24,7 @@ struct AiringScheduleItem: View {
 
     var body: some View {
         if let id = item.media.idMal {
-            TrackedNavigationLink(value: ZoomTransitionItem(content: item, namespaceId: namespace)) {
+            NavigationLink(value: Route.airing(ZoomTransitionItem(content: item, namespaceId: namespace))) {
                 HStack {
                     ImageFrame(id: "anime\(id)", imageUrl: item.media.coverImage?.large, imageSize: Constants.listImageSize)
                     VStack(alignment: .leading) {

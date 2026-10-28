@@ -28,7 +28,7 @@ struct Reviews: View {
     }
 
     var body: some View {
-        ScrollViewCarousel(title: "Reviews", count: reviews?.count, item: ReviewList(id: id, type: type), viewAlignedScroll: true, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Reviews", count: reviews?.count, item: Route.reviewList(ReviewList(id: id, type: type)), viewAlignedScroll: true, loadingState: loadingState, refresh: load) { isLoading in
             PlaceholderReview(isLoading: isLoading)
                 .frame(width: width, alignment: .center)
         } content: {

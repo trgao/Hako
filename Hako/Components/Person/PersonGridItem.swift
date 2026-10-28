@@ -26,7 +26,7 @@ struct PersonGridItem: View {
     }
 
     var body: some View {
-        TrackedNavigationLink(value: ZoomTransitionItem(content: content, namespaceId: namespace)) {
+        NavigationLink(value: Route.personZoom(ZoomTransitionItem(content: content, namespaceId: namespace))) {
             VStack {
                 ImageFrame(id: "person\(id)", imageUrl: imageUrl, imageSize: .medium)
                     .overlay {

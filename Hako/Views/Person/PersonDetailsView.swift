@@ -56,21 +56,21 @@ struct PersonDetailsView: View {
                             if let voices = person.voices, !voices.isEmpty {
                                 ScrollViewListSection(title: "Voice acting roles") {
                                     ForEach(voices, id: \.id) { voice in
-                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", item: Anime(id: voice.anime.id, title: voice.anime.title ?? "", imageUrl: voice.anime.images?.jpg?.largeImageUrl))
+                                        ScrollViewListItem(id: "anime\(voice.anime.id)", title: voice.anime.title, subtitle: voice.character.name, imageUrl: voice.anime.images?.jpg?.imageUrl, url: "https://myanimelist.net/anime/\(voice.anime.id)", item: .anime(Anime(id: voice.anime.id, title: voice.anime.title ?? "", imageUrl: voice.anime.images?.jpg?.largeImageUrl)))
                                     }
                                 }
                             }
                             if let animes = person.anime, !animes.isEmpty {
                                 ScrollViewListSection(title: "Anime staff positions") {
                                     ForEach(animes, id: \.id) { anime in
-                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", item: Anime(id: anime.id, title: anime.anime.title ?? "", imageUrl: anime.anime.images?.jpg?.largeImageUrl))
+                                        ScrollViewListItem(id: "anime\(anime.id)", title: anime.anime.title, subtitle: formatPosition(anime.position), imageUrl: anime.anime.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/anime/\(anime.id)", item: .anime(Anime(id: anime.id, title: anime.anime.title ?? "", imageUrl: anime.anime.images?.jpg?.largeImageUrl)))
                                     }
                                 }
                             }
                             if let mangas = person.manga, !mangas.isEmpty {
                                 ScrollViewListSection(title: "Manga staff positions") {
                                     ForEach(mangas, id: \.id) { manga in
-                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", item: Manga(id: manga.id, title: manga.manga.title ?? "", imageUrl: manga.manga.images?.jpg?.largeImageUrl))
+                                        ScrollViewListItem(id: "manga\(manga.id)", title: manga.manga.title, subtitle: formatPosition(manga.position), imageUrl: manga.manga.images?.jpg?.largeImageUrl, url: "https://myanimelist.net/manga/\(manga.id)", item: .manga(Manga(id: manga.id, title: manga.manga.title ?? "", imageUrl: manga.manga.images?.jpg?.largeImageUrl)))
                                     }
                                 }
                             }

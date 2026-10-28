@@ -23,7 +23,7 @@ struct CustomiseView: View {
                 }
             }
             Section("Explore") {
-                TrackedNavigationLink(value: "customiseExplore") {
+                NavigationLink(value: Route.screen(.customiseExplore)) {
                     Label("Customise explore items", systemImage: "list.bullet")
                 }
                 Toggle(isOn: $settings.hideRandom) {

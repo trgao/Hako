@@ -13,25 +13,25 @@ struct ExploreAnimeView: View {
             Section("Genres") {
                 ForEach(Constants.animeGenreKeys, id: \.self) { id in
                     if let genre = Constants.animeGenres[id] {
-                        TrackedNavigationLink(value: GroupDetail(id: id, name: genre, type: .anime, group: "genres"), label: genre)
+                        NavigationLink(genre, value: Route.groupDetail(GroupDetail(id: id, name: genre, type: .anime, group: "genres")))
                     }
                 }
             }
             Section("Themes") {
                 ForEach(Constants.animeThemeKeys, id: \.self) { id in
                     if let theme = Constants.animeThemes[id] {
-                        TrackedNavigationLink(value: GroupDetail(id: id, name: theme, type: .anime, group: "genres"), label: theme)
+                        NavigationLink(theme, value: Route.groupDetail(GroupDetail(id: id, name: theme, type: .anime, group: "genres")))
                     }
                 }
             }
             Section("Demographics") {
                 ForEach(Constants.animeDemographicKeys, id: \.self) { id in
                     if let demographic = Constants.animeDemographics[id] {
-                        TrackedNavigationLink(value: GroupDetail(id: id, name: demographic, type: .anime, group: "genres"), label: demographic)
+                        NavigationLink(demographic, value: Route.groupDetail(GroupDetail(id: id, name: demographic, type: .anime, group: "genres")))
                     }
                 }
             }
-            TrackedNavigationLink(value: "companies", label: "Companies")
+            NavigationLink("Companies", value: Route.screen(.companies))
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Anime")

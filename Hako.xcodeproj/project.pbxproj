@@ -33,8 +33,6 @@
 		EE275D92308B14AB00E0D436 /* NavigationDestinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE275D91308B14A700E0D436 /* NavigationDestinations.swift */; };
 		EE275D94308B155C00E0D436 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE275D93308B155A00E0D436 /* UserList.swift */; };
 		EE275D9D308B654300E0D436 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE275D9C308B654200E0D436 /* Router.swift */; };
-		EE275D9F308B6E8800E0D436 /* TrackedNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE275D9E308B6E8200E0D436 /* TrackedNavigationLink.swift */; };
-		EE275DA7308E0BD500E0D436 /* NotFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE275DA6308E0BD200E0D436 /* NotFoundView.swift */; };
 		EE2A46712F74DF8300347967 /* Upcoming.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2A46702F74DF8100347967 /* Upcoming.swift */; };
 		EE2E485C3080F64300922968 /* ThirdPartyChaptersListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2E485B3080F64300922968 /* ThirdPartyChaptersListResponse.swift */; };
 		EE2E485E3080F67500922968 /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2E485D3080F67500922968 /* Chapter.swift */; };
@@ -305,8 +303,6 @@
 		EE275D91308B14A700E0D436 /* NavigationDestinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDestinations.swift; sourceTree = "<group>"; };
 		EE275D93308B155A00E0D436 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 		EE275D9C308B654200E0D436 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		EE275D9E308B6E8200E0D436 /* TrackedNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedNavigationLink.swift; sourceTree = "<group>"; };
-		EE275DA6308E0BD200E0D436 /* NotFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundView.swift; sourceTree = "<group>"; };
 		EE2A46702F74DF8100347967 /* Upcoming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upcoming.swift; sourceTree = "<group>"; };
 		EE2E485B3080F64300922968 /* ThirdPartyChaptersListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyChaptersListResponse.swift; sourceTree = "<group>"; };
 		EE2E485D3080F67500922968 /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
@@ -610,7 +606,6 @@
 		EE275D9B308B653A00E0D436 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				EE275D9E308B6E8200E0D436 /* TrackedNavigationLink.swift */,
 				EE275D9C308B654200E0D436 /* Router.swift */,
 				EE275D91308B14A700E0D436 /* NavigationDestinations.swift */,
 			);
@@ -711,7 +706,6 @@
 				EE3A59AF2BD216D8009E9F79 /* Views */,
 				EE3A59A12BD21479009E9F79 /* HakoApp.swift */,
 				EE3A59A32BD21479009E9F79 /* MainView.swift */,
-				EE275DA6308E0BD200E0D436 /* NotFoundView.swift */,
 				EEA924392DD634BB00FB40A9 /* SettingsManager.swift */,
 				EE8E52FF2EDC193300B7A316 /* Constants.swift */,
 				EE3A59A52BD2147A009E9F79 /* Assets.xcassets */,
@@ -1565,7 +1559,6 @@
 				EEC357942BE38E3600DAAB0B /* Voice.swift in Sources */,
 				EE91BE5E2BFCAB42002AC6C4 /* Person.swift in Sources */,
 				EE275D9D308B654300E0D436 /* Router.swift in Sources */,
-				EE275D9F308B6E8800E0D436 /* TrackedNavigationLink.swift in Sources */,
 				EE2A46712F74DF8300347967 /* Upcoming.swift in Sources */,
 				EE9A891A2BEF37A50048DD73 /* Season.swift in Sources */,
 				EEA5E94E2CEE8D4100B2513B /* GeneralView.swift in Sources */,
@@ -1592,7 +1585,6 @@
 				EE222D7D2BE8E2A200A14A45 /* Manga.swift in Sources */,
 				EEFEFD4A2BF34BB500200AF1 /* Staffs.swift in Sources */,
 				EE8E52FE2EDC128300B7A316 /* IconTintLabelStyle.swift in Sources */,
-				EE275DA7308E0BD500E0D436 /* NotFoundView.swift in Sources */,
 				EE4729E62BF4D503005D17EF /* User.swift in Sources */,
 				EE94C7652E7C4AC200AF722D /* ScrollViewListSection.swift in Sources */,
 				EE0696C12EDD801800F965B2 /* ScrollViewBox.swift in Sources */,

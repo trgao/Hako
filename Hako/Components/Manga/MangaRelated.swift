@@ -32,7 +32,7 @@ struct MangaRelated: View {
             await load()
         }
         if let relatedManga {
-            ScrollViewCarousel(title: "Related manga", count: relatedManga.count, item: RelatedList(type: .manga, items: relatedManga)) {
+            ScrollViewCarousel(title: "Related manga", count: relatedManga.count, item: Route.relatedList(RelatedList(type: .manga, items: relatedManga))) {
                 ForEach(relatedPreview) { item in
                     MangaGridItem(id: item.id, title: item.title, enTitle: item.manga?.alternativeTitles?.en, jaTitle: item.manga?.alternativeTitles?.ja, imageUrl: item.manga?.mainPicture?.large, subtitle: item.relation, manga: item.manga)
                 }

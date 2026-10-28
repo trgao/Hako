@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScrollViewListItem<Item: Hashable>: View {
+struct ScrollViewListItem: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(Router.self) private var router
     @State private var isPressed = false
@@ -16,10 +16,10 @@ struct ScrollViewListItem<Item: Hashable>: View {
     private let subtitle: String?
     private let imageUrl: String?
     private let url: String
-    private let item: Item
+    private let item: Route
     private let itemId = UUID()
 
-    init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, item: Item) {
+    init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, item: Route) {
         self.id = id
         self.title = title
         self.subtitle = subtitle

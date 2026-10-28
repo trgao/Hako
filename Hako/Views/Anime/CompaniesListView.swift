@@ -23,7 +23,7 @@ struct CompaniesListView: View {
                     } else {
                         ForEach(controller.companies) { company in
                             if let title = company.titles?.first(where: { $0.type == "Default" })?.title {
-                                TrackedNavigationLink(value: GroupDetail(id: company.id, name: title, type: .anime, group: "producers")) {
+                                NavigationLink(value: Route.groupDetail(GroupDetail(id: company.id, name: title, type: .anime, group: "producers"))) {
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(title).bold()
                                         Group {

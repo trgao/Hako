@@ -26,7 +26,7 @@ struct GroupsListView: View {
         } else {
             List {
                 ForEach(items) { item in
-                    TrackedNavigationLink(value: GroupDetail(id: item.id, name: item.name, type: type, group: group), label: item.name)
+                    NavigationLink(item.name, value: Route.groupDetail(GroupDetail(id: item.id, name: item.name, type: type, group: group)))
                 }
             }
             .navigationTitle(title)

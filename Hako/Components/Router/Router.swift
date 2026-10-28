@@ -10,17 +10,23 @@ import SwiftUI
 @Observable
 @MainActor
 final class Router {
-    var path = NavigationPath()
-    var userListPresentedPath: [Bool] = []
-    var isUserListPresented: Bool {
-        if userListPresentedPath.count < path.count || userListPresentedPath.isEmpty || path.isEmpty {
-            return false
-        } else {
-            return userListPresentedPath[path.count - 1]
+    var path: [Route] = [] {
+        didSet {
+            if path.count > oldValue.count, case .userList = path.last {
+                resetPickers()
+            }
         }
     }
+
     var isRoot: Bool {
         path.isEmpty
+    }
+
+    var isUserListPresented: Bool {
+        if case .userList = path.last {
+            return true
+        }
+        return false
     }
 
     // User list view states
@@ -29,16 +35,15 @@ final class Router {
     var pickerMangaStatus: StatusEnum = .reading
     var pickerDisabled = false
 
-    func push<Item: Hashable>(_ item: Item) {
-        userListPresentedPath = Array(userListPresentedPath.prefix(path.count))
-        userListPresentedPath.append(item is UserList)
+    private func resetPickers() {
+        pickerType = .anime
+        pickerAnimeStatus = .watching
+        pickerMangaStatus = .reading
+        pickerDisabled = false
+    }
+
+    func push(_ item: Route) {
         path.append(item)
-        if isUserListPresented {
-            pickerType = .anime
-            pickerAnimeStatus = .watching
-            pickerMangaStatus = .reading
-            pickerDisabled = false
-        }
     }
 
     func pop() {
@@ -46,17 +51,48 @@ final class Router {
             return
         }
         path.removeLast()
-        userListPresentedPath = Array(userListPresentedPath.prefix(path.count))
     }
 
     func popToRoot() {
         // Resets the stack entirely
-        path = NavigationPath()
-        userListPresentedPath = []
+        path = []
     }
 
-    func restartWith<Item: Hashable>(_ item: Item) {
+    func restartWith(_ item: Route) {
         popToRoot()
         push(item)
     }
+}
+
+enum Screen: String, Hashable {
+    case schedule, randomAnime, randomManga, randomCharacter, randomPerson, anime, manga, characters, people, news, top, companies, magazines, profile, general, appearance, customise, customiseExplore, safariExtension, about
+}
+
+enum Route: Hashable {
+    case topDetail(TopDetail)
+    case animeZoom(ZoomTransitionItem<Anime>)
+    case mangaZoom(ZoomTransitionItem<Manga>)
+    case characterZoom(ZoomTransitionItem<ZoomTransitionContent>)
+    case personZoom(ZoomTransitionItem<ZoomTransitionContent>)
+    case airing(ZoomTransitionItem<AiringSchedule>)
+    case animeItem(MALListAnime)
+    case mangaItem(MALListManga)
+    case anime(Anime)
+    case manga(Manga)
+    case character(Character)
+    case person(Person)
+    case characterList([ListCharacter]?)
+    case staffList([Staff]?)
+    case relatedList(RelatedList)
+    case themeList([Theme])
+    case episode(Episode)
+    case review(Review)
+    case episodeList(EpisodeList)
+    case chapterList(ChapterList)
+    case reviewList(ReviewList)
+    case userList(UserList)
+    case groupList(GroupList)
+    case groupDetail(GroupDetail)
+    case viewItem(ViewItem)
+    case screen(Screen)
 }

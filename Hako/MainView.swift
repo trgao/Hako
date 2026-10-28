@@ -190,12 +190,6 @@ struct MainView: View {
         let user = components.value("user")
         let isOwnUser = user.map { $0.lowercased() == networker.user?.name?.lowercased() } ?? false
 
-        func openInExplore<D: Hashable>(_ destination: D) {
-            tab = Constants.exploreTab
-            exploreRouter.restartWith(destination)
-            isSearchPresented = false
-        }
-
         func genreName(id: Int, type: TypeEnum) -> String? {
             switch type {
             case .anime:
@@ -218,7 +212,9 @@ struct MainView: View {
             let mangaRanking = topType == .manga ? ranking : nil
 
             if settings.replaceTopWithSchedule {
-                openInExplore(TopDetail(id: id, type: type, animeRanking: animeRanking, mangaRanking: mangaRanking))
+                tab = Constants.exploreTab
+                exploreRouter.restartWith(Route.topDetail(TopDetail(id: id, type: type, animeRanking: animeRanking, mangaRanking: mangaRanking)))
+                isSearchPresented = false
             } else {
                 tab = Constants.topTab
                 topRouter.popToRoot()
@@ -241,9 +237,9 @@ struct MainView: View {
             if let text = components.value("query") {
                 isSearchPresented = true
                 urlSearchText = text
-            } else if let type = components.value("type") {
+            } else if let type = components.value("type"), let screen = Screen(rawValue: type) {
                 isSearchPresented = false
-                exploreRouter.push(type)
+                exploreRouter.push(Route.screen(screen))
             }
 
         case "mylist":
@@ -255,7 +251,9 @@ struct MainView: View {
             let mangaSort = type == .manga ? sort : nil
 
             if let user, !isOwnUser {
-                openInExplore(UserList(username: user, id: id, type: type, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort))
+                tab = Constants.exploreTab
+                exploreRouter.restartWith(Route.userList(UserList(username: user, id: id, type: type, animeStatus: animeStatus, animeSort: animeSort, mangaStatus: mangaStatus, mangaSort: mangaSort)))
+                isSearchPresented = false
             } else {
                 tab = Constants.myListTab
                 myListRouter.popToRoot()
@@ -271,28 +269,36 @@ struct MainView: View {
             settingsRouter.popToRoot()
 
         case "news":
-            openInExplore("news")
+            tab = Constants.exploreTab
+            exploreRouter.restartWith(Route.screen(.news))
+            isSearchPresented = false
 
         case "genre":
             guard let itemId, let type, let name = genreName(id: itemId, type: type) else {
                 return
             }
 
-            openInExplore(GroupDetail(id: itemId, name: name, type: type, group: "genres"))
+            tab = Constants.exploreTab
+            exploreRouter.restartWith(Route.groupDetail(GroupDetail(id: itemId, name: name, type: type, group: "genres")))
+            isSearchPresented = false
 
         case "anime", "manga", "character", "person":
             guard let itemId, let viewType = ViewTypeEnum(rawValue: page) else {
                 return
             }
 
-            openInExplore(ViewItem(type: viewType, id: itemId))
+            tab = Constants.exploreTab
+            exploreRouter.restartWith(Route.viewItem(ViewItem(type: viewType, id: itemId)))
+            isSearchPresented = false
 
         case "producer", "magazine":
             guard let itemId else {
                 return
             }
 
-            openInExplore(GroupDetail(id: itemId, name: components.value("name") ?? "", type: page == "producer" ? .anime : .manga, group: "\(page)s"))
+            tab = Constants.exploreTab
+            exploreRouter.restartWith(Route.groupDetail(GroupDetail(id: itemId, name: components.value("name") ?? "", type: page == "producer" ? .anime : .manga, group: "\(page)s")))
+            isSearchPresented = false
         case "profile":
             guard let user else {
                 return
@@ -300,9 +306,11 @@ struct MainView: View {
 
             if isOwnUser {
                 tab = Constants.settingsTab
-                settingsRouter.restartWith("profile")
+                settingsRouter.restartWith(Route.screen(.profile))
             } else {
-                openInExplore(UserList(username: user))
+                tab = Constants.exploreTab
+                exploreRouter.restartWith(Route.userList(UserList(username: user)))
+                isSearchPresented = false
             }
 
         default:
@@ -361,7 +369,7 @@ struct MainView: View {
             if networker.isSignedIn, let user = networker.user {
                 Button {
                     tab = 4
-                    settingsRouter.restartWith("profile")
+                    settingsRouter.restartWith(Route.screen(.profile))
                 } label: {
                     HStack {
                         ProfileImage(imageUrl: user.picture)

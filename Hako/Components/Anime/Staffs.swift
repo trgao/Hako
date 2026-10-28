@@ -20,7 +20,7 @@ struct Staffs: View {
     }
 
     var body: some View {
-        ScrollViewCarousel(title: "Staffs", count: staffs?.count, item: staffs, loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
+        ScrollViewCarousel(title: "Staffs", count: staffs?.count, item: Route.staffList(staffs), loadingState: loadingState, refresh: load, placeholder: SmallPlaceholderGridItem.init) {
             ForEach(staffsPreview) { staff in
                 PersonGridItem(id: staff.id, name: staff.person.name, imageUrl: staff.person.images?.jpg?.imageUrl)
             }

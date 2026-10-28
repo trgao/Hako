@@ -25,7 +25,7 @@ struct Chapters: View {
     }
 
     var body: some View {
-        ScrollViewCarousel(title: "Chapters", count: chapters?.count, item: ChapterList(id: id), viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
+        ScrollViewCarousel(title: "Chapters", count: chapters?.count, item: Route.chapterList(ChapterList(id: id)), viewAlignedScroll: screenSize.width - 34 < 450, loadingState: loadingState, refresh: load) { isLoading in
             // TODO: change
             PlaceholderEpisode(isLoading: isLoading)
         } content: {

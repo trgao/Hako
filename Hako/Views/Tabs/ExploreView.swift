@@ -42,16 +42,16 @@ struct ExploreView: View {
     private var randomButton: some View {
         Menu {
             Section("Random") {
-                TrackedNavigationLink(value: "randomAnime") {
+                NavigationLink(value: Route.screen(.randomAnime)) {
                     Label("Anime", systemImage: "tv")
                 }
-                TrackedNavigationLink(value: "randomManga") {
+                NavigationLink(value: Route.screen(.randomManga)) {
                     Label("Manga", systemImage: "book")
                 }
-                TrackedNavigationLink(value: "randomCharacter") {
+                NavigationLink(value: Route.screen(.randomCharacter)) {
                     Label("Character", systemImage: "person.crop.circle")
                 }
-                TrackedNavigationLink(value: "randomPerson") {
+                NavigationLink(value: Route.screen(.randomPerson)) {
                     Label("Person", systemImage: "person")
                 }
             }

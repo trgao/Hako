@@ -23,7 +23,7 @@ struct MagazinesListView: View {
                     } else {
                         ForEach(controller.magazines) { magazine in
                             if let name = magazine.name {
-                                TrackedNavigationLink(value: GroupDetail(id: magazine.id, name: name, type: .manga, group: "magazines")) {
+                                NavigationLink(value: Route.groupDetail(GroupDetail(id: magazine.id, name: name, type: .manga, group: "magazines"))) {
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(name).bold()
                                         if let count = magazine.count {

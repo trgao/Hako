@@ -60,6 +60,7 @@
 		EE3782252F78459C00AB7C7F /* ImageSizeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3782242F78459C00AB7C7F /* ImageSizeEnum.swift */; };
 		EE38471F2F0CEA360081A79E /* ViewTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */; };
 		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
+		EE3A2FD13094D80B000E7D0A /* PlaceholderChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -329,6 +330,7 @@
 		EE3782242F78459C00AB7C7F /* ImageSizeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizeEnum.swift; sourceTree = "<group>"; };
 		EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypeEnum.swift; sourceTree = "<group>"; };
 		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
+		EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderChapter.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -903,6 +905,7 @@
 				EED4C0842F66E87D007354C8 /* SmallPlaceholderGridItem.swift */,
 				EED4C0822F66E874007354C8 /* BigPlaceholderGridItem.swift */,
 				EECA42312FFCD2D30099A19B /* PlaceholderEpisode.swift */,
+				EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */,
 				EED4C0862F66E890007354C8 /* PlaceholderReview.swift */,
 				EEE7F75B2F8BF230009BFA7D /* PlaceholderAiringSchedule.swift */,
 				EEEBF84B2BD2BCED0036E779 /* LoadingView.swift */,
@@ -1480,6 +1483,7 @@
 				EEB7DE622E0D29F000A2C8CC /* RandomMangaView.swift in Sources */,
 				EEC150D82F0E5D54000BAE9F /* ExploreCharactersView.swift in Sources */,
 				EECA423A2FFE6C580099A19B /* EpisodeDetailsView.swift in Sources */,
+				EE3A2FD13094D80B000E7D0A /* PlaceholderChapter.swift in Sources */,
 				EEE7F75E2F8CED2A009BFA7D /* LoadingGrid.swift in Sources */,
 				EE135DFD2E054A2C00F02638 /* ScrollViewSection.swift in Sources */,
 				EE712FE92DFDA2A900DC7202 /* ReviewItem.swift in Sources */,

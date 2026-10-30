@@ -101,6 +101,11 @@ struct ScheduleView: View {
                                 DaySchedule(6, geometry.size.width)
                             }
                             .padding(10)
+                            if controller.loadingState == .paginating {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 20)
+                            }
                         }
                         .toolbar {
                             if let id = airingNextId {
@@ -115,7 +120,7 @@ struct ScheduleView: View {
                     }
                 }
             }
-            if isRefresh || controller.loadingState == .paginating {
+            if isRefresh {
                 LoadingView()
             }
         }

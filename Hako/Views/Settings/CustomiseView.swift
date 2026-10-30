@@ -23,9 +23,7 @@ struct CustomiseView: View {
                 }
             }
             Section("Explore") {
-                NavigationLink(value: Route.screen(.customiseExplore)) {
-                    Label("Customise explore items", systemImage: "list.bullet")
-                }
+                NavigationLink("Customise explore items", value: Route.screen(.customiseExplore))
                 Toggle(isOn: $settings.hideRandom) {
                     Text("Hide random button")
                 }

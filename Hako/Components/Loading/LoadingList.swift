@@ -18,8 +18,8 @@ struct LoadingList: View {
         Constants.listImageSize == .medium ? 142 * screenRatio : 106 * screenRatio
     }
 
-    init(length: Int, showImage: Bool = true) {
-        self.dummyList = Array(0..<length)
+    init(showImage: Bool = true) {
+        self.dummyList = Array(0..<20)
         self.showImage = showImage
     }
 

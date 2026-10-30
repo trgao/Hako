@@ -49,7 +49,9 @@ struct UserListView: View {
                 }
         }
         if controller.loadingState == .paginating {
-            LoadingList(length: 5)
+            ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
         }
     }
 
@@ -63,7 +65,9 @@ struct UserListView: View {
                 }
         }
         if controller.loadingState == .paginating {
-            LoadingList(length: 5)
+            ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
         }
     }
 
@@ -84,20 +88,16 @@ struct UserListView: View {
                     .padding(.vertical, 50)
                 } else if controller.isAnimeItemsEmpty() {
                     if controller.loadingState == .loading {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
-                        VStack {
-                            Image(systemName: "tv.fill")
-                                .resizable()
-                                .frame(width: 45, height: 40)
-                            Text("Nothing found")
-                                .bold()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 50)
+                        ContentUnavailableView(
+                            "Nothing found",
+                            systemImage: "tv.fill"
+                        )
+                        .frame(maxWidth: .infinity, minHeight: 200)
                     }
                 } else if controller.animeStatus == .none {
                     AnimeStatusView(controller.allAnimeItems)
@@ -173,20 +173,16 @@ struct UserListView: View {
                     .padding(.vertical, 50)
                 } else if controller.isMangaItemsEmpty() {
                     if controller.loadingState == .loading {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
                     } else {
-                        VStack {
-                            Image(systemName: "book.fill")
-                                .resizable()
-                                .frame(width: 45, height: 40)
-                            Text("Nothing found")
-                                .bold()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 50)
+                        ContentUnavailableView(
+                            "Nothing found",
+                            systemImage: "book.fill"
+                        )
+                        .frame(maxWidth: .infinity, minHeight: 200)
                     }
                 } else if controller.mangaStatus == .none {
                     MangaStatusView(controller.allMangaItems)

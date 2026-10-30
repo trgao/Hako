@@ -89,7 +89,9 @@ struct MyListView: View {
                 }
         }
         if controller.loadingState == .paginating {
-            LoadingList(length: 5)
+            ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
         }
     }
 
@@ -163,7 +165,9 @@ struct MyListView: View {
                 }
         }
         if controller.loadingState == .paginating {
-            LoadingList(length: 5)
+            ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
         }
     }
 
@@ -172,7 +176,7 @@ struct MyListView: View {
             Section(controller.animeStatus.toString()) {
                 if controller.isAnimeItemsEmpty() {
                     if controller.loadingState == .loading {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
@@ -181,6 +185,7 @@ struct MyListView: View {
                             "Nothing found",
                             systemImage: "tv.fill"
                         )
+                        .frame(maxWidth: .infinity, minHeight: 200)
                     }
                 } else if controller.animeStatus == .none {
                     AnimeStatusView(controller.allAnimeItems)
@@ -238,7 +243,7 @@ struct MyListView: View {
             Section(controller.mangaStatus.toString()) {
                 if controller.isMangaItemsEmpty() {
                     if controller.loadingState == .loading {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
                             .padding(.vertical, 50)
@@ -247,6 +252,7 @@ struct MyListView: View {
                             "Nothing found",
                             systemImage: "book.fill"
                         )
+                        .frame(maxWidth: .infinity, minHeight: 200)
                     }
                 } else if controller.mangaStatus == .none {
                     MangaStatusView(controller.allMangaItems)

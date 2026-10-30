@@ -19,7 +19,7 @@ struct NewsListView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.news.isEmpty {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else {
                         ForEach(controller.news.filter { URL(string: $0.link ?? "") != nil }, id: \.hashValue) { item in
                             if let link = item.link {

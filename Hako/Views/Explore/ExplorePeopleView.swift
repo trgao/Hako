@@ -18,7 +18,7 @@ struct ExplorePeopleView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.people.isEmpty {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else {
                         ForEach(Array(controller.people.enumerated()), id: \.1.id) { index, person in
                             PersonListItem(person: person)
@@ -29,7 +29,9 @@ struct ExplorePeopleView: View {
                                 }
                         }
                         if controller.loadingState == .paginating {
-                            LoadingList(length: 5)
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }
                 }

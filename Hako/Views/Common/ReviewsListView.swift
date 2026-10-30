@@ -48,9 +48,14 @@ struct ReviewsListView: View {
                         }
                     }
                     .padding(17)
+                    if controller.loadingState == .paginating {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                    }
                 }
                 .background(colorScheme == .light ? Color(.systemGray6) : .black)
-                if isRefresh || controller.loadingState == .paginating {
+                if isRefresh {
                     LoadingView()
                 }
             }

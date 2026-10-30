@@ -398,6 +398,7 @@ struct MainView: View {
         } else if showMyListTabViewBottomAccessory {
             if pickerType == .anime {
                 UserListStatusPicker(selection: $pickerAnimeStatus, options: Constants.animeStatuses, isLoading: myListPickerDisabled)
+                    .scrollClipDisabled()
             } else if pickerType == .manga {
                 UserListStatusPicker(selection: $pickerMangaStatus, options: Constants.mangaStatuses, isLoading: myListPickerDisabled)
             }

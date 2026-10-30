@@ -64,6 +64,11 @@ struct GroupDetailsView: View {
                         }
                     }
                     .padding(10)
+                    if controller.loadingState == .paginating {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                    }
                 }
                 .refreshable {
                     isRefresh = true
@@ -75,7 +80,7 @@ struct GroupDetailsView: View {
                     }
                 }
             }
-            if isRefresh || controller.loadingState == .paginating {
+            if isRefresh {
                 LoadingView()
             }
         }

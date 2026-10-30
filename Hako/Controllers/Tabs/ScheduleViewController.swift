@@ -16,11 +16,6 @@ class ScheduleViewController: ObservableObject {
     private var canLoadMorePages = true
     private let networker = NetworkManager.shared
 
-    // Check if the current anime list is loading
-    func isLoading() -> Bool {
-        return loadingState == .loading || loadingState == .paginating
-    }
-
     func refresh() async {
         loadingState = .loading
         currentPage = 1

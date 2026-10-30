@@ -18,7 +18,7 @@ struct ExploreCharactersView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.characters.isEmpty {
-                        LoadingList(length: 20)
+                        LoadingList()
                     } else {
                         ForEach(Array(controller.characters.enumerated()), id: \.1.id) { index, character in
                             CharacterListItem(character: character)
@@ -29,7 +29,9 @@ struct ExploreCharactersView: View {
                                 }
                         }
                         if controller.loadingState == .paginating {
-                            LoadingList(length: 5)
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }
                 }

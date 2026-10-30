@@ -97,6 +97,11 @@ struct TopView: View {
                             }
                         }
                         .padding(10)
+                        if controller.loadingState == .paginating {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                        }
                     }
                 }
             } else if controller.type == .manga {
@@ -130,10 +135,15 @@ struct TopView: View {
                             }
                         }
                         .padding(10)
+                        if controller.loadingState == .paginating {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                        }
                     }
                 }
             }
-            if isRefresh || controller.loadingState == .paginating {
+            if isRefresh {
                 LoadingView()
             }
         }

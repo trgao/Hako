@@ -27,7 +27,7 @@ struct EpisodesListView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.episodes.isEmpty {
-                        LoadingList(length: 20, showImage: false)
+                        LoadingList(showImage: false)
                     } else {
                         ForEach(controller.episodes) { episode in
                             NavigationLink(value: Route.episode(episode)) {
@@ -76,7 +76,9 @@ struct EpisodesListView: View {
                             }
                         }
                         if controller.loadingState == .paginating {
-                            LoadingList(length: 5, showImage: false)
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }
                 }

@@ -19,7 +19,7 @@ struct MagazinesListView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.magazines.isEmpty {
-                        LoadingList(length: 20, showImage: false)
+                        LoadingList(showImage: false)
                     } else {
                         ForEach(controller.magazines) { magazine in
                             if let name = magazine.name {
@@ -43,7 +43,9 @@ struct MagazinesListView: View {
                             }
                         }
                         if controller.loadingState == .paginating {
-                            LoadingList(length: 5, showImage: false)
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }
                 }

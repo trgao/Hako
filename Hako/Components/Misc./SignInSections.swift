@@ -36,6 +36,7 @@ struct SignInSections: View {
                 if isAuthenticating || isLoading {
                     ProgressView()
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 20)
                 } else if !networker.isSignedIn {
                     VStack {
                         Text("You need to sign in to your MyAnimeList account in order to view and edit your anime or manga lists")

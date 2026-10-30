@@ -149,6 +149,7 @@ struct ExploreView: View {
             "No results",
             systemImage: "magnifyingglass"
         )
+        .frame(maxWidth: .infinity, minHeight: 200)
     }
 
     private var searchView: some View {
@@ -157,7 +158,7 @@ struct ExploreView: View {
                 if controller.isSearchLoading {
                     List {
                         Section {
-                            LoadingList(length: 20)
+                            LoadingList()
                         }
                     }
                     .disabled(true)

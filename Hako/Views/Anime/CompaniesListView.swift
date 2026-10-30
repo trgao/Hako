@@ -19,7 +19,7 @@ struct CompaniesListView: View {
             } else {
                 List {
                     if controller.loadingState == .loading && controller.companies.isEmpty {
-                        LoadingList(length: 20, showImage: false)
+                        LoadingList(showImage: false)
                     } else {
                         ForEach(controller.companies) { company in
                             if let title = company.titles?.first(where: { $0.type == "Default" })?.title {
@@ -51,7 +51,9 @@ struct CompaniesListView: View {
                             }
                         }
                         if controller.loadingState == .paginating {
-                            LoadingList(length: 5, showImage: false)
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }
                 }

@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import UIKit.UIGestureRecognizerSubclass
 
 struct UserListStatusPicker: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -269,7 +270,165 @@ struct ScrollableSegmentedControl: UIViewRepresentable {
     }
 }
 
+// Runs the `glassLens` Metal shader (GlassLens.metal) over the labels. The lens rect and strength
+// are animatable, so the refraction follows the glass indicator through spring animations
+// (shader arguments are not interpolated by SwiftUI on their own).
+private struct LensRefraction: ViewModifier, Animatable {
+    var rect: CGRect
+    var strength: CGFloat
+    var pad: CGFloat // extra space around the labels so the lens can grow beyond their bounds
+
+    var animatableData: AnimatablePair<CGRect.AnimatableData, CGFloat> {
+        get { AnimatablePair(rect.animatableData, strength) }
+        set {
+            rect.animatableData = newValue.first
+            strength = newValue.second
+        }
+    }
+
+    func body(content: Content) -> some View {
+        content.layerEffect(
+            ShaderLibrary.glassLens(
+                .float4(rect.minX + pad, rect.minY + pad, rect.width, rect.height),
+                .float(strength)
+            ),
+            maxSampleOffset: CGSize(width: 30, height: 30)
+        )
+    }
+}
+
+private final class PressureRecognizer: UIGestureRecognizer, UIGestureRecognizerDelegate {
+    weak var referenceView: UIView?
+    var hitFrame: CGRect? // in referenceView's coordinates
+    var onBegan: ((CGFloat) -> Void)?
+    var onChanged: ((CGFloat) -> Void)?
+    var onEnded: (() -> Void)?
+
+    private var tracked: UITouch?
+    private var smoothed: CGFloat = 1
+    private var lastReported: CGFloat = 1
+
+    override init(target: Any?, action: Selector?) {
+        super.init(target: target, action: action)
+        cancelsTouchesInView = false
+        delaysTouchesBegan = false
+        delaysTouchesEnded = false
+        delegate = self
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool {
+        true
+    }
+
+    private func isOnIndicator(_ touch: UITouch) -> Bool {
+        guard let view = referenceView, let window = view.window, let frame = hitFrame else { return false }
+        guard frame.contains(touch.location(in: view)) else { return false }
+        // Ignore touches that land on something covering the picker from another presentation (e.g. a sheet).
+        var root: UIView = view
+        while let parent = root.superview, parent !== window { root = parent }
+        guard let hit = window.hitTest(touch.location(in: window), with: nil) else { return false }
+        return hit.isDescendant(of: root)
+    }
+
+    // 0...1. Only hardware that really measures force (Apple Pencil, 3D Touch iPhones) gets a proportional value.
+    // Everything else reports 1, so the indicator always reaches its full size instead of being capped by a guess.
+    private func pressure(for touch: UITouch) -> CGFloat {
+        let hasForce = touch.type == .pencil || referenceView?.traitCollection.forceTouchCapability == .available
+        guard hasForce, touch.maximumPossibleForce > 0 else { return 1 }
+        return min(touch.force / touch.maximumPossibleForce, 1)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        guard tracked == nil else { return } // already following a finger; ignore extra ones
+        guard let touch = touches.first, isOnIndicator(touch) else {
+            state = .failed
+            return
+        }
+        tracked = touch
+        let initial = pressure(for: touch)
+        smoothed = initial
+        lastReported = initial
+        onBegan?(initial)
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        guard let touch = tracked, touches.contains(touch) else { return }
+        smoothed += (pressure(for: touch) - smoothed) * 0.35
+        if abs(smoothed - lastReported) > 0.02 {
+            lastReported = smoothed
+            onChanged?(smoothed)
+        }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+        finish(touches)
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+        finish(touches)
+    }
+
+    private func finish(_ touches: Set<UITouch>) {
+        guard let touch = tracked, touches.contains(touch) else { return }
+        tracked = nil
+        onEnded?()
+        state = .failed
+    }
+
+    override func reset() {
+        if tracked != nil {
+            tracked = nil
+            onEnded?()
+        }
+    }
+}
+
+private final class PressureObserverView: UIView {
+    let recognizer = PressureRecognizer(target: nil, action: nil)
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = false // never intercepts SwiftUI's hit testing
+        recognizer.referenceView = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // The recognizer lives on the window so it hears every touch, including ones SwiftUI's gestures are still deciding on.
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        recognizer.view?.removeGestureRecognizer(recognizer)
+        window?.addGestureRecognizer(recognizer)
+    }
+
+    deinit {
+        recognizer.view?.removeGestureRecognizer(recognizer)
+    }
+}
+
+private struct PressureObserver: UIViewRepresentable {
+    var hitFrame: CGRect? // only touches that start inside this frame (this view's coordinates) are reported
+    var onBegan: (CGFloat) -> Void
+    var onChanged: (CGFloat) -> Void
+    var onEnded: () -> Void
+
+    func makeUIView(context: Context) -> PressureObserverView {
+        PressureObserverView()
+    }
+
+    func updateUIView(_ view: PressureObserverView, context: Context) {
+        let recognizer = view.recognizer
+        recognizer.hitFrame = hitFrame
+        recognizer.onBegan = onBegan
+        recognizer.onChanged = onChanged
+        recognizer.onEnded = onEnded
+    }
+}
+
 struct ClearSegmentedPicker: View {
+    @Environment(\.isEnabled) private var isEnabled
     @Binding var selection: StatusEnum
     let options: [StatusEnum]
     var onAutoScroll: ((CGFloat) -> Void)?
@@ -279,6 +438,8 @@ struct ClearSegmentedPicker: View {
     @State private var originX: CGFloat = 0 // this view's minX in the scroll view's viewport
     @State private var viewportWidth: CGFloat = 0
     @State private var isDragging = false
+    @State private var isPressed = false // finger is down on the indicator (reported instantly by PressureObserver)
+    @State private var pressure: CGFloat = 0 // 0...1
     @State private var hasMoved = false
     @State private var grabOffset: CGFloat = 0 // finger's x relative to the indicator's centre when grabbed
     @State private var fingerX: CGFloat = 0 // finger's x in the viewport
@@ -286,9 +447,26 @@ struct ClearSegmentedPicker: View {
 
     private let space = "ClearSegmentedPicker"
     private let spring = Animation.spring(response: 0.3, dampingFraction: 0.7)
+    private let pressAnimation = Animation.spring(response: 0.18, dampingFraction: 0.75) // snappy, for touch-down
     private let edgeZone: CGFloat = 40
     private let maxAutoScrollSpeed: CGFloat = 12 // points per frame at the very edge
-    private let expandedScale = CGSize(width: 1.35, height: 1.6) // indicator "lens" size while pressed
+    private let expandedScale = CGSize(width: 1.3, height: 1.65) // indicator "lens" size at full pressure
+    private let minExpansion: CGFloat = 0.6 // share of expandedScale you get on a feather-light touch
+    private let lensPad: CGFloat = 16 // room around the labels for the expanded lens
+    private let restLensStrength: CGFloat = 0 // no refraction while the solid capsule is showing
+    private let pressedLensStrength: CGFloat = 1.0 // full edge refraction at full pressure
+    private let idleIndicatorColor = Color(.systemGray) // solid capsule when not dragging
+    private let dragGlassOpacity: CGFloat = 0.2 // opacity of the glass while pressed/dragging
+
+    private var isActive: Bool { isPressed || isDragging }
+
+    // 0 when idle. While touched it starts at minExpansion and rises to 1 with pressure.
+    private var expansion: CGFloat {
+        guard isActive else { return 0 }
+        // If the press observer didn't fire (so there's no pressure reading), a drag still gets the full size.
+        let effectivePressure = isPressed ? pressure : 1
+        return minExpansion + (1 - minExpansion) * effectivePressure
+    }
 
     // While dragging, the indicator is centred on the finger and its width blends
     // between the widths of the segments it is passing over.
@@ -298,6 +476,15 @@ struct ClearSegmentedPicker: View {
         let center = frame.midX + dragOffset
         let width = interpolatedWidth(at: center) ?? frame.width
         return CGRect(x: center - width / 2, y: frame.minY, width: width, height: frame.height)
+    }
+
+    // The indicator's frame including the pressed growth. The glass and the shader lens both use this,
+    // and it is resized as a frame (not with scaleEffect) so the glass is re-rendered crisply at the new size.
+    private var lensFrame: CGRect? {
+        guard let frame = indicatorFrame else { return nil }
+        let width = frame.width * (1 + (expandedScale.width - 1) * expansion)
+        let height = frame.height * (1 + (expandedScale.height - 1) * expansion)
+        return CGRect(x: frame.midX - width / 2, y: frame.midY - height / 2, width: width, height: height)
     }
 
     private var autoScrollDirection: Int {
@@ -358,35 +545,29 @@ struct ClearSegmentedPicker: View {
         }
     }
 
-    @ViewBuilder
-    private var indicator: some View {
-        if #available(iOS 26.0, *) {
-            Color.clear
-                .glassEffect(.clear, in: Capsule())
-                .opacity(isDragging ? 0.8 : 0.5)
-        } else {
-            Capsule().fill(.background)
-        }
-    }
-
     private func label(for option: StatusEnum) -> some View {
-        let isSelected = option == selection
-        return Button {
+        Button {
             selection = option
         } label: {
             Text(option.toString())
-                .font(.system(size: 13))
-                .foregroundStyle(isSelected ? Color.primary : Color.secondary)
+                .font(.system(size: 13, weight: .medium))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 5)
                 .contentShape(Capsule())
         }
         .buttonStyle(.plain)
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
         .onGeometryChange(for: CGRect.self) { proxy in
             proxy.frame(in: .named(space))
         } action: { newFrame in
             if frames[option] != newFrame { frames[option] = newFrame }
+        }
+    }
+
+    private var labelsRow: some View {
+        HStack(spacing: 0) {
+            ForEach(options, id: \.self) { option in
+                label(for: option)
+            }
         }
     }
 
@@ -397,7 +578,7 @@ struct ClearSegmentedPicker: View {
             .onChanged { value in
                 guard let frame = frames[selection] else { return }
                 if !isDragging {
-                    isDragging = true
+                    withAnimation(pressAnimation) { isDragging = true }
                     hasMoved = false
                     grabOffset = (value.startLocation.x - originX) - frame.midX
                 }
@@ -408,30 +589,53 @@ struct ClearSegmentedPicker: View {
                 updateDrag()
             }
             .onEnded { _ in
-                isDragging = false
+                withAnimation(spring) { isDragging = false }
                 hasMoved = false
                 edgeVelocity = 0
                 snapToNearest()
             }
     }
 
-    var body: some View {
+    @ViewBuilder
+    private var labelsLayer: some View {
+        if #available(iOS 26.0, *) {
+            labelsRow
+                .padding(lensPad)
+                .modifier(LensRefraction(
+                    rect: lensFrame ?? .zero,
+                    strength: lensFrame == nil ? 0 : (isActive ? pressedLensStrength * expansion : restLensStrength),
+                    pad: lensPad
+                ))
+                .padding(-lensPad)
+        } else {
+            labelsRow
+        }
+    }
+
+    @ViewBuilder
+    private var solidIndicator: some View {
+        if #available(iOS 26.0, *), let frame = lensFrame {
+            Capsule()
+                .fill(idleIndicatorColor)
+                .opacity(0.6)
+                .frame(width: frame.width, height: frame.height)
+                .offset(x: frame.minX, y: frame.minY)
+                .opacity(isActive ? 0 : 1)
+                .allowsHitTesting(false)
+        }
+    }
+
+    @ViewBuilder
+    private var indicatorOverlay: some View {
         ZStack(alignment: .topLeading) {
-            if let frame = indicatorFrame {
-                indicator
+            // Always in the hierarchy and faded with opacity, so it doesn't have to be built when the finger lands.
+            if #available(iOS 26.0, *), let frame = lensFrame {
+                Color.clear
+                    .glassEffect(.clear, in: Capsule())
+                    .opacity(isActive ? dragGlassOpacity : 0)
                     .frame(width: frame.width, height: frame.height)
-                    .scaleEffect(
-                        x: isDragging ? expandedScale.width : 1,
-                        y: isDragging ? expandedScale.height : 1
-                    )
-                    .animation(spring, value: isDragging)
                     .offset(x: frame.minX, y: frame.minY)
                     .allowsHitTesting(false)
-            }
-            HStack(spacing: 0) {
-                ForEach(options, id: \.self) { option in
-                    label(for: option)
-                }
             }
             if let frame = indicatorFrame {
                 Color.clear
@@ -441,23 +645,49 @@ struct ClearSegmentedPicker: View {
                     .highPriorityGesture(dragGesture)
             }
         }
-        .coordinateSpace(.named(space))
-        .onGeometryChange(for: CGFloat.self) { proxy in
-            proxy.frame(in: .scrollView).minX
-        } action: { originX = $0 }
-        .onGeometryChange(for: CGFloat.self) { proxy in
-            proxy.bounds(of: .scrollView)?.width ?? 0
-        } action: { viewportWidth = $0 }
-        .task(id: autoScrollDirection) { @MainActor in
-            guard autoScrollDirection != 0 else { return }
-            while !Task.isCancelled {
-                onAutoScroll?(edgeVelocity * maxAutoScrollSpeed)
-                do { try await Task.sleep(for: .milliseconds(16)) } catch { break }
-                // The content moved under a stationary finger, so re-derive the indicator.
-                updateDrag()
+    }
+
+    var body: some View {
+        labelsLayer
+            .background(alignment: .topLeading) { solidIndicator }
+            .overlay(alignment: .topLeading) { indicatorOverlay }
+            .background {
+                PressureObserver(
+                    hitFrame: isEnabled ? indicatorFrame : nil,
+                    onBegan: { value in
+                        withAnimation(pressAnimation) {
+                            pressure = value
+                            isPressed = true
+                        }
+                    },
+                    onChanged: { value in
+                        withAnimation(pressAnimation) { pressure = value }
+                    },
+                    onEnded: {
+                        withAnimation(spring) {
+                            isPressed = false
+                            pressure = 0
+                        }
+                    }
+                )
             }
-        }
-        .animation(spring, value: selection)
-        .padding(3)
+            .coordinateSpace(.named(space))
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.frame(in: .scrollView).minX
+            } action: { originX = $0 }
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.bounds(of: .scrollView)?.width ?? 0
+            } action: { viewportWidth = $0 }
+            .task(id: autoScrollDirection) { @MainActor in
+                guard autoScrollDirection != 0 else { return }
+                while !Task.isCancelled {
+                    onAutoScroll?(edgeVelocity * maxAutoScrollSpeed)
+                    do { try await Task.sleep(for: .milliseconds(16)) } catch { break }
+                    // The content moved under a stationary finger, so re-derive the indicator.
+                    updateDrag()
+                }
+            }
+            .animation(spring, value: selection)
+            .padding(3)
     }
 }

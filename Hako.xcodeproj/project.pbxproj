@@ -61,6 +61,7 @@
 		EE38471F2F0CEA360081A79E /* ViewTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */; };
 		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
 		EE3A2FD13094D80B000E7D0A /* PlaceholderChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */; };
+		EE3A2FD330959127000E7D0A /* GlassLens.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD230959127000E7D0A /* GlassLens.metal */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -331,6 +332,7 @@
 		EE38471E2F0CEA320081A79E /* ViewTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTypeEnum.swift; sourceTree = "<group>"; };
 		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
 		EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderChapter.swift; sourceTree = "<group>"; };
+		EE3A2FD230959127000E7D0A /* GlassLens.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = GlassLens.metal; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -895,6 +897,7 @@
 				EE52C1882F1BA7E6007586F8 /* UserListStatusPicker.swift */,
 				EE20CB202F65804B00615A14 /* UserStatisticsInformation.swift */,
 				EED4C0802F6699E4007354C8 /* UserFavouritesInformation.swift */,
+				EE3A2FD230959127000E7D0A /* GlassLens.metal */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				EEA924382DD62A2600FB40A9 /* AppearanceView.swift in Sources */,
 				EEA237882E2B7FD1005ED3CC /* CustomiseView.swift in Sources */,
 				EEC1B8F82BF117DA001E08C4 /* MangaDetailsViewController.swift in Sources */,
+				EE3A2FD330959127000E7D0A /* GlassLens.metal in Sources */,
 				EECC79622CF142DC00C1C773 /* ThirdPartyUserStatisticsResponse.swift in Sources */,
 				EE8BE6302DFDD52600D09F46 /* TagItem.swift in Sources */,
 				EE20B1D12BDF9F45006F4CFF /* AnimeInformation.swift in Sources */,

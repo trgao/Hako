@@ -83,7 +83,6 @@ struct ScheduleView: View {
                         .padding(10)
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     } else if controller.loadingState == .idle {
                         nothingFoundView
                     }

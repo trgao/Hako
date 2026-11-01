@@ -161,6 +161,7 @@ struct ExploreView: View {
                             LoadingList()
                         }
                     }
+                    .contentMargins(.top, 0, for: .scrollContent)
                     .disabled(true)
                 } else {
                     List {
@@ -173,7 +174,6 @@ struct ExploreView: View {
                                             await controller.searchAnime(query: searchText)
                                             controller.isSearchLoading = false
                                         })
-                                        .padding(.vertical, 50)
                                     } else {
                                         nothingFoundView
                                     }
@@ -190,7 +190,6 @@ struct ExploreView: View {
                                             await controller.searchManga(query: searchText)
                                             controller.isSearchLoading = false
                                         })
-                                        .padding(.vertical, 50)
                                     } else {
                                         nothingFoundView
                                     }
@@ -207,7 +206,6 @@ struct ExploreView: View {
                                             await controller.searchCharacters(query: searchText)
                                             controller.isSearchLoading = false
                                         })
-                                        .padding(.vertical, 50)
                                     } else {
                                         nothingFoundView
                                     }
@@ -224,7 +222,6 @@ struct ExploreView: View {
                                             await controller.searchPeople(query: searchText)
                                             controller.isSearchLoading = false
                                         })
-                                        .padding(.vertical, 50)
                                     } else {
                                         nothingFoundView
                                     }
@@ -235,12 +232,19 @@ struct ExploreView: View {
                                 }
                             }
                         } footer: {
-                            Rectangle()
-                                .frame(height: 35)
-                                .foregroundStyle(.clear)
+                            if #unavailable (iOS 26.2) {
+                                Rectangle()
+                                    .frame(height: 35)
+                                    .foregroundStyle(.clear)
+                            } else if horizontalSizeClass != .compact {
+                                Rectangle()
+                                    .frame(height: 35)
+                                    .foregroundStyle(.clear)
+                            }
                         }
                         .padding(.bottom, 10)
                     }
+                    .contentMargins(.top, 0, for: .scrollContent)
                     .id("search:\(controller.type)\(searchText)") // To reset list to top position whenever search type or search text is changed
                 }
             }

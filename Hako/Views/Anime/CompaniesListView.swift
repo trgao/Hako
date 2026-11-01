@@ -15,7 +15,6 @@ struct CompaniesListView: View {
         ZStack {
             if controller.loadingState == .error && controller.companies.isEmpty {
                 ErrorView(refresh: controller.refresh)
-                    .padding(.vertical, 50)
             } else {
                 List {
                     if controller.loadingState == .loading && controller.companies.isEmpty {

@@ -179,7 +179,6 @@ struct MyListView: View {
                         LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
-                            .padding(.vertical, 50)
                     } else {
                         ContentUnavailableView(
                             "Nothing found",
@@ -246,7 +245,6 @@ struct MyListView: View {
                         LoadingList()
                     } else if controller.loadingState == .error {
                         ErrorView(refresh: { await controller.refresh() })
-                            .padding(.vertical, 50)
                     } else {
                         ContentUnavailableView(
                             "Nothing found",

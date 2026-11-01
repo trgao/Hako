@@ -15,7 +15,6 @@ struct MagazinesListView: View {
         ZStack {
             if controller.loadingState == .error && controller.magazines.isEmpty {
                 ErrorView(refresh: controller.refresh)
-                    .padding(.vertical, 50)
             } else {
                 List {
                     if controller.loadingState == .loading && controller.magazines.isEmpty {

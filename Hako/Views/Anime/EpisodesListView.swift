@@ -23,7 +23,6 @@ struct EpisodesListView: View {
         ZStack {
             if controller.loadingState == .error && controller.episodes.isEmpty {
                 ErrorView(refresh: controller.refresh)
-                    .padding(.vertical, 50)
             } else {
                 List {
                     if controller.loadingState == .loading && controller.episodes.isEmpty {

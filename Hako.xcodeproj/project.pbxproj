@@ -62,6 +62,7 @@
 		EE3867392E799D0D00F69537 /* MALEmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3867382E799D0600F69537 /* MALEmptyResponse.swift */; };
 		EE3A2FD13094D80B000E7D0A /* PlaceholderChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */; };
 		EE3A2FD330959127000E7D0A /* GlassLens.metal in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD230959127000E7D0A /* GlassLens.metal */; };
+		EE3A2FD5309737DE000E7D0A /* ListedFade.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A2FD4309737DB000E7D0A /* ListedFade.swift */; };
 		EE3A59A22BD21479009E9F79 /* HakoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A12BD21479009E9F79 /* HakoApp.swift */; };
 		EE3A59A42BD21479009E9F79 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3A59A32BD21479009E9F79 /* MainView.swift */; };
 		EE3A59A62BD2147A009E9F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE3A59A52BD2147A009E9F79 /* Assets.xcassets */; };
@@ -333,6 +334,7 @@
 		EE3867382E799D0600F69537 /* MALEmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALEmptyResponse.swift; sourceTree = "<group>"; };
 		EE3A2FD03094D80B000E7D0A /* PlaceholderChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderChapter.swift; sourceTree = "<group>"; };
 		EE3A2FD230959127000E7D0A /* GlassLens.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = GlassLens.metal; sourceTree = "<group>"; };
+		EE3A2FD4309737DB000E7D0A /* ListedFade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListedFade.swift; sourceTree = "<group>"; };
 		EE3A599E2BD21479009E9F79 /* Hako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A59A12BD21479009E9F79 /* HakoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HakoApp.swift; sourceTree = "<group>"; };
 		EE3A59A32BD21479009E9F79 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -585,6 +587,7 @@
 				EEDBDB642C07547300F2E821 /* ReducedSpaceLabelStyle.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
 				EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */,
+				EE3A2FD4309737DB000E7D0A /* ListedFade.swift */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -1643,6 +1646,7 @@
 				EEA5E9412CEE826900B2513B /* ItemCache.swift in Sources */,
 				EEF283ED2CB478D400567B94 /* NumberSelector.swift in Sources */,
 				EE712FE52DFDA06900DC7202 /* ThirdPartyReviewsListResponse.swift in Sources */,
+				EE3A2FD5309737DE000E7D0A /* ListedFade.swift in Sources */,
 				EE63B2E42F7FA268003B2413 /* AniListScheduleResponse.swift in Sources */,
 				EECA422C2FFCCD7B0099A19B /* ThirdPartyEpisodesListResponse.swift in Sources */,
 				EE33360F2EAB4D41005F2613 /* CharacterListItem.swift in Sources */,

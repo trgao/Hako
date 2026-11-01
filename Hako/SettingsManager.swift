@@ -22,6 +22,9 @@ class SettingsManager: ObservableObject {
 
     @AppStorage("useFaceID") var useFaceID = false
 
+    @AppStorage("defaultFadeCompleted") var defaultFadeCompleted = false
+    @AppStorage("defaultFadePlanned") var defaultFadePlanned = false
+
     @AppStorage("defaultAnimeRanking") var defaultAnimeRanking = 0
     @AppStorage("defaultMangaRanking") var defaultMangaRanking = 0
 

@@ -15,6 +15,8 @@ struct SeasonsView: View {
     @StateObject private var controller = SeasonsViewController()
     @State private var isInit = false
     @State private var isRefresh = false
+    @State private var fadeCompleted = false
+    @State private var fadePlanToWatch = false
     @Binding private var id: UUID?
     @Binding private var isResetSeasons: Bool
     @Binding private var year: Int?
@@ -35,8 +37,10 @@ struct SeasonsView: View {
     private func SeasonView(_ seasonItems: [MALListAnime], _ seasonContinuingItems: [MALListAnime], _ width: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
-                ForEach(Array(seasonItems.enumerated()), id: \.1.id) { _, item in
+                ForEach(seasonItems, id: \.id) { item in
+                    let showFaded = networker.isSignedIn && (fadeCompleted && item.node.myListStatus?.status == .completed || fadePlanToWatch && item.node.myListStatus?.status == .planToWatch)
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                        .listedFade(show: showFaded, icon: item.node.myListStatus?.status?.toIcon())
                 }
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
                     // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid
@@ -140,8 +144,14 @@ struct SeasonsView: View {
                             }
                             .pickerStyle(.inline)
                             .labelsVisibility(.visible)
+                            if networker.isSignedIn {
+                                Section("Fade anime on my list") {
+                                    Toggle("Completed", systemImage: "checkmark.circle", isOn: $fadeCompleted.animation())
+                                    Toggle("Plan to watch", systemImage: "plus.circle.dashed", isOn: $fadePlanToWatch.animation())
+                                }
+                            }
                         } label: {
-                            Label("Menu", systemImage: "arrow.up.arrow.down.circle")
+                            Label("Menu", systemImage: "line.3.horizontal.decrease.circle")
                                 .labelStyle(.iconOnly)
                         }
                         .disabled(controller.loadingState == .loading)
@@ -202,6 +212,9 @@ struct SeasonsView: View {
                 }
                 if !isInit {
                     controller.sort = settings.getSeasonSort()
+
+                    fadeCompleted = settings.defaultFadeCompleted
+                    fadePlanToWatch = settings.defaultFadePlanned
                 }
                 year = nil
                 season = nil

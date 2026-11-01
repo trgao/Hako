@@ -73,6 +73,16 @@ struct GeneralView: View {
                     }
                 }
             }
+            if networker.isSignedIn {
+                Section("Fade items on my list") {
+                    Toggle(isOn: $settings.defaultFadeCompleted) {
+                        Text("Fade completed items by default")
+                    }
+                    Toggle(isOn: $settings.defaultFadePlanned) {
+                        Text("Fade plan to watch or read items by default")
+                    }
+                }
+            }
             Section("Top") {
                 let animeRankings = Constants.animeRankings.map { $0.toString() }
                 let mangaRankings = Constants.mangaRankings.map { $0.toString() }

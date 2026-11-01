@@ -229,6 +229,11 @@ struct TopView: View {
                     } else if !isInit {
                         controller.animeRankingType = settings.getAnimeRanking()
                         controller.mangaRankingType = settings.getMangaRanking()
+
+                        fadeAnimeCompleted = settings.defaultFadeCompleted
+                        fadeAnimePlanToWatch = settings.defaultFadePlanned
+                        fadeMangaCompleted = settings.defaultFadeCompleted
+                        fadeMangaPlanToRead = settings.defaultFadePlanned
                     }
                     isInit = true
                     if controller.isItemsEmpty() || isRefresh {

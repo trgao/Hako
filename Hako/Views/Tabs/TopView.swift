@@ -14,10 +14,8 @@ struct TopView: View {
     @StateObject private var controller = TopViewController()
     @State private var isInit = false
     @State private var isRefresh = false
-    @State private var fadeAnimeCompleted = false
-    @State private var fadeAnimePlanToWatch = false
-    @State private var fadeMangaCompleted = false
-    @State private var fadeMangaPlanToRead = false
+    @State private var fadeAnimeOnList = false
+    @State private var fadeMangaOnList = false
     @Binding private var id: UUID?
     @Binding private var type: TypeEnum?
     @Binding private var animeRanking: RankingEnum?
@@ -92,9 +90,8 @@ struct TopView: View {
                         }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                             ForEach(Array(controller.animeItems.enumerated()), id: \.1.node.id) { index, item in
-                                let showFaded = networker.isSignedIn && (fadeAnimeCompleted && item.node.myListStatus?.status == .completed || fadeAnimePlanToWatch && item.node.myListStatus?.status == .planToWatch)
                                 AnimeGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), anime: item.node)
-                                    .listedFade(show: showFaded, icon: item.node.myListStatus?.status?.toIcon())
+                                    .listedFade(show: networker.isSignedIn && fadeAnimeOnList, status: item.node.myListStatus?.status)
                                     .onAppear {
                                         Task {
                                             await controller.loadMoreIfNeeded(index: index)
@@ -132,9 +129,8 @@ struct TopView: View {
                         }
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                             ForEach(Array(controller.mangaItems.enumerated()), id: \.1.node.id) { index, item in
-                                let showFaded = networker.isSignedIn && (fadeMangaCompleted && item.node.myListStatus?.status == .completed || fadeMangaPlanToRead && item.node.myListStatus?.status == .planToRead)
                                 MangaGridItem(id: item.node.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, subtitle: rankToString(item.ranking?.rank), manga: item.node)
-                                    .listedFade(show: showFaded, icon: item.node.myListStatus?.status?.toIcon())
+                                    .listedFade(show: networker.isSignedIn && fadeMangaOnList, status: item.node.myListStatus?.status)
                                     .onAppear {
                                         Task {
                                             await controller.loadMoreIfNeeded(index: index)
@@ -170,14 +166,8 @@ struct TopView: View {
                     .pickerStyle(.inline)
                     .labelsVisibility(.visible)
                     if networker.isSignedIn {
-                        Section("Fade \(controller.type.rawValue) on my list") {
-                            if controller.type == .anime {
-                                Toggle("Completed", systemImage: "checkmark.circle", isOn: $fadeAnimeCompleted.animation())
-                                Toggle("Plan to watch", systemImage: "plus.circle.dashed", isOn: $fadeAnimePlanToWatch.animation())
-                            } else if controller.type == .manga {
-                                Toggle("Completed", systemImage: "checkmark.circle", isOn: $fadeMangaCompleted.animation())
-                                Toggle("Plan to read", systemImage: "plus.circle.dashed", isOn: $fadeMangaPlanToRead.animation())
-                            }
+                        Section {
+                            Toggle("Fade \(controller.type.rawValue) on my list", systemImage: "list.bullet", isOn: controller.type == .anime ? $fadeAnimeOnList : $fadeMangaOnList)
                         }
                     }
                 } label: {
@@ -230,10 +220,8 @@ struct TopView: View {
                         controller.animeRankingType = settings.getAnimeRanking()
                         controller.mangaRankingType = settings.getMangaRanking()
 
-                        fadeAnimeCompleted = settings.defaultFadeCompleted
-                        fadeAnimePlanToWatch = settings.defaultFadePlanned
-                        fadeMangaCompleted = settings.defaultFadeCompleted
-                        fadeMangaPlanToRead = settings.defaultFadePlanned
+                        fadeAnimeOnList = settings.defaultFadeAnime
+                        fadeMangaOnList = settings.defaultFadeManga
                     }
                     isInit = true
                     if controller.isItemsEmpty() || isRefresh {
@@ -265,10 +253,8 @@ struct TopView: View {
                     controller.animeRankingType = settings.getAnimeRanking()
                     controller.mangaRankingType = settings.getMangaRanking()
 
-                    fadeAnimeCompleted = settings.defaultFadeCompleted
-                    fadeAnimePlanToWatch = settings.defaultFadePlanned
-                    fadeMangaCompleted = settings.defaultFadeCompleted
-                    fadeMangaPlanToRead = settings.defaultFadePlanned
+                    fadeAnimeOnList = settings.defaultFadeAnime
+                    fadeMangaOnList = settings.defaultFadeManga
                 }
                 type = nil
                 animeRanking = nil

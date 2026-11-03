@@ -75,11 +75,11 @@ struct GeneralView: View {
             }
             if networker.isSignedIn {
                 Section("Fade items on my list") {
-                    Toggle(isOn: $settings.defaultFadeCompleted) {
-                        Text("Fade completed items by default")
+                    Toggle(isOn: $settings.defaultFadeAnime) {
+                        Text("Fade anime on my list by default")
                     }
-                    Toggle(isOn: $settings.defaultFadePlanned) {
-                        Text("Fade plan to watch or read items by default")
+                    Toggle(isOn: $settings.defaultFadeManga) {
+                        Text("Fade manga on my list by default")
                     }
                 }
             }

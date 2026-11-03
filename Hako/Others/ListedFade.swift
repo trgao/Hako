@@ -10,9 +10,9 @@ import SwiftUI
 // Fades an item and adds a small status badge, similar to Letterboxd's "fade watched films"
 struct ListedFade: ViewModifier {
     let show: Bool
-    let icon: String?
+    let status: StatusEnum?
     private var showFade: Bool {
-        show && icon != nil
+        show && status != nil
     }
 
     func body(content: Content) -> some View {
@@ -20,12 +20,12 @@ struct ListedFade: ViewModifier {
             .opacity(showFade ? 0.35 : 1)
             // Overlay comes after opacity so the badge stays fully opaque
             .overlay(alignment: .topTrailing) {
-                if let icon, show {
-                    Image(systemName: icon)
+                if let status, show {
+                    Label(status.toString(), systemImage: status.toIcon())
                         .font(.caption)
                         .foregroundStyle(.white)
                         .padding(5)
-                        .background(.black.opacity(0.6), in: Circle())
+                        .background(.black.opacity(0.6), in: Capsule())
                         .padding(.top, 7)
                         .padding(.trailing, 12)
                 }
@@ -35,7 +35,7 @@ struct ListedFade: ViewModifier {
 }
 
 extension View {
-    func listedFade(show: Bool, icon: String?) -> some View {
-        modifier(ListedFade(show: show, icon: icon))
+    func listedFade(show: Bool, status: StatusEnum?) -> some View {
+        modifier(ListedFade(show: show, status: status))
     }
 }

@@ -15,8 +15,7 @@ struct SeasonsView: View {
     @StateObject private var controller = SeasonsViewController()
     @State private var isInit = false
     @State private var isRefresh = false
-    @State private var fadeCompleted = false
-    @State private var fadePlanToWatch = false
+    @State private var fadeAnimeOnList = false
     @Binding private var id: UUID?
     @Binding private var isResetSeasons: Bool
     @Binding private var year: Int?
@@ -38,9 +37,8 @@ struct SeasonsView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 ForEach(seasonItems, id: \.id) { item in
-                    let showFaded = networker.isSignedIn && (fadeCompleted && item.node.myListStatus?.status == .completed || fadePlanToWatch && item.node.myListStatus?.status == .planToWatch)
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        .listedFade(show: showFaded, icon: item.node.myListStatus?.status?.toIcon())
+                        .listedFade(show: networker.isSignedIn && fadeAnimeOnList, status: item.node.myListStatus?.status)
                 }
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
                     // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid
@@ -145,9 +143,8 @@ struct SeasonsView: View {
                             .pickerStyle(.inline)
                             .labelsVisibility(.visible)
                             if networker.isSignedIn {
-                                Section("Fade anime on my list") {
-                                    Toggle("Completed", systemImage: "checkmark.circle", isOn: $fadeCompleted.animation())
-                                    Toggle("Plan to watch", systemImage: "plus.circle.dashed", isOn: $fadePlanToWatch.animation())
+                                Section {
+                                    Toggle("Fade anime on my list", systemImage: "list.bullet", isOn: $fadeAnimeOnList)
                                 }
                             }
                         } label: {
@@ -213,8 +210,7 @@ struct SeasonsView: View {
                 if !isInit {
                     controller.sort = settings.getSeasonSort()
 
-                    fadeCompleted = settings.defaultFadeCompleted
-                    fadePlanToWatch = settings.defaultFadePlanned
+                    fadeAnimeOnList = settings.defaultFadeAnime
                 }
                 year = nil
                 season = nil

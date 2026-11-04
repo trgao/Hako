@@ -22,6 +22,10 @@ struct ImageCarousel: View {
     private let imageUrl: String?
     private let pictures: [Picture]
 
+    private var visiblePictures: [Picture] {
+        pictures.filter { $0.medium != nil }
+    }
+
     init(id: String, imageUrl: String?, pictures: [Picture]?) {
         self.id = id
         self.imageUrl = imageUrl
@@ -50,7 +54,7 @@ struct ImageCarousel: View {
             NavigationStack {
                 ZStack {
                     TabView(selection: $selection) {
-                        ForEach(Array(pictures.filter { $0.medium != nil }.enumerated()), id: \.0) { _, item in
+                        ForEach(Array(visiblePictures.enumerated()), id: \.0) { _, item in
                             let url = item.large ?? item.medium
                             if let url {
                                 ZoomableScrollView(isZoomReset: $isZoomReset) {
@@ -85,15 +89,24 @@ struct ImageCarousel: View {
                                         }
                                     }
                                 }
+                                .offset(y: -20)
                             }
                         }
                         .ignoresSafeArea()
                     }
-                    .tabViewStyle(.page)
-                    .indexViewStyle(.page(backgroundDisplayMode: .always))
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                     .ignoresSafeArea()
                     .onChange(of: selection) {
                         isZoomReset = true
+                    }
+                    .overlay(alignment: .bottom) {
+                        if visiblePictures.count > 1 {
+                            PageDots(count: visiblePictures.count, selection: selection)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(.ultraThinMaterial, in: Capsule())
+                                .padding(.bottom, 8)
+                        }
                     }
                 }
                 .toolbar {
@@ -116,5 +129,32 @@ struct ImageCarousel: View {
             }
             .navigationTransition(.zoom(sourceID: "pictures", in: transitionNamespace))
         }
+    }
+}
+
+struct PageDots: View {
+    let count: Int
+    let selection: Int
+    var maxVisible = 9
+
+    private var visibleRange: Range<Int> {
+        let half = maxVisible / 2
+        let start = min(max(selection - half, 0), max(count - maxVisible, 0))
+        return start..<min(start + maxVisible, count)
+    }
+
+    var body: some View {
+        let range = visibleRange
+        HStack(spacing: 8) {
+            ForEach(range, id: \.self) { index in
+                let isTrimmed = (index == range.lowerBound && range.lowerBound > 0)
+                    || (index == range.upperBound - 1 && range.upperBound < count)
+                Circle()
+                    .fill(index == selection ? Color.primary : Color.primary.opacity(0.3))
+                    .frame(width: 8, height: 8)
+                    .scaleEffect(isTrimmed ? 0.5 : 1)
+            }
+        }
+        .animation(.smooth(duration: 0.25), value: selection)
     }
 }

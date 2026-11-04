@@ -43,7 +43,7 @@ struct UserListStatusPicker: View {
         self.isLoading = isLoading
     }
 
-    private func getCornerRadius() -> CGFloat {
+    private var cornerRadius: CGFloat {
         if #available(iOS 26.0, *) {
             return 20
         } else {
@@ -51,7 +51,7 @@ struct UserListStatusPicker: View {
         }
     }
 
-    private func getPadding() -> CGFloat {
+    private var horizontalPadding: CGFloat {
         if #available(iOS 26.0, *) {
             return 20
         } else {
@@ -81,7 +81,7 @@ struct UserListStatusPicker: View {
             ScrollView(.horizontal) {
                 ClearSegmentedPicker(selection: $selection, options: options, onAutoScroll: autoScroll(by:)).disabled(isLoading)
             }
-            .background(colorScheme == .light ? Color(.systemGray4).opacity(0.3) : Color(.systemGray5).opacity(0.7), in: RoundedRectangle(cornerRadius: getCornerRadius()))
+            .background(colorScheme == .light ? Color(.systemGray4).opacity(0.3) : Color(.systemGray5).opacity(0.7), in: RoundedRectangle(cornerRadius: cornerRadius))
             .padding(.horizontal, 6)
             .scrollPosition($scrollPosition)
             .scrollClipDisabled()
@@ -161,8 +161,8 @@ struct UserListStatusPicker: View {
                     clearFadeMask
                 }
                 .background(Color(.systemGray4).opacity(0.7))
-                .clipShape(RoundedRectangle(cornerRadius: getCornerRadius()))
-                .padding(.horizontal, getPadding())
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                .padding(.horizontal, horizontalPadding)
                 .onScrollGeometryChange(for: Bool.self) { geometry in
                     geometry.contentSize.width > 0 && geometry.containerSize.width > 0
                 } action: { _, isReady in

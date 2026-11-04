@@ -18,7 +18,7 @@ struct TabPicker<T: Hashable>: View {
         self.options = options
     }
 
-    private func getPadding() -> CGFloat {
+    private var horizontalPadding: CGFloat {
         if #available(iOS 26.0, *) {
             return 20
         } else {
@@ -56,7 +56,7 @@ struct TabPicker<T: Hashable>: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .padding(.horizontal, getPadding())
+                .padding(.horizontal, horizontalPadding)
                 .padding(.bottom, 1)
                 .sensoryFeedback(.impact(weight: .light), trigger: selection)
             }

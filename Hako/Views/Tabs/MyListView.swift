@@ -12,10 +12,11 @@ struct MyListView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var controller = UserListViewController(user: "@me")
+    @StateObject private var controller = UserListViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var isInit = false
-    @State private var isRefresh = false
+    @State private var selectedAnime: MALListAnime?
+    @State private var selectedManga: MALListManga?
     @Binding private var id: UUID?
     @Binding private var type: TypeEnum?
     @Binding private var animeStatus: StatusEnum?
@@ -26,16 +27,6 @@ struct MyListView: View {
     @Binding private var pickerAnimeStatus: StatusEnum
     @Binding private var pickerMangaStatus: StatusEnum
     @Binding private var pickerDisabled: Bool
-
-    @State private var selectedAnime: MALListAnime?
-    @State private var selectedAnimeIndex: Int?
-    @State private var isAnimeDeleted = false
-    @State private var animeListStatus: MyListStatus?
-
-    @State private var selectedManga: MALListManga?
-    @State private var selectedMangaIndex: Int?
-    @State private var isMangaDeleted = false
-    @State private var mangaListStatus: MyListStatus?
 
     init(id: Binding<UUID?> = .constant(nil), type: Binding<TypeEnum?>, animeStatus: Binding<StatusEnum?>, animeSort: Binding<SortEnum?>, mangaStatus: Binding<StatusEnum?>, mangaSort: Binding<SortEnum?>, pickerType: Binding<TypeEnum>, pickerAnimeStatus: Binding<StatusEnum>, pickerMangaStatus: Binding<StatusEnum>, pickerDisabled: Binding<Bool>) {
         self._id = id
@@ -50,20 +41,21 @@ struct MyListView: View {
         self._pickerDisabled = pickerDisabled
     }
 
-    @ViewBuilder private func AnimeStatusView(_ animeItems: [MALListAnime]) -> some View {
+    @ViewBuilder private var animeStatusView: some View {
+        let animeItems = controller.animeItems
         ForEach(Array(animeItems.enumerated()), id: \.1.id) { index, item in
-            AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index, isLoading: controller.isRefreshLoading)
+            AnimeListItem(anime: item, isLoading: controller.isRefreshLoading, selectedAnime: $selectedAnime)
                 .onAppear {
                     Task {
                         await controller.loadMoreIfNeeded(index: index)
                     }
                 }
                 .swipeActions(edge: .leading) {
-                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, listStatus.numEpisodesWatched > 0 {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = networker.getAnimeListStatus(item.id).value, listStatus.numEpisodesWatched > 0 {
                         Button {
                             Task {
                                 listStatus.numEpisodesWatched -= 1
-                                await controller.updateAnime(index: index, id: item.id, listStatus: listStatus)
+                                await controller.updateAnime(id: item.id, listStatus: listStatus)
                             }
                         } label: {
                             Label("-1 episode", systemImage: "minus.circle")
@@ -71,16 +63,14 @@ struct MyListView: View {
                     }
                 }
                 .swipeActions(edge: .trailing) {
-                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = item.listStatus, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = networker.getAnimeListStatus(item.id).value, item.node.numEpisodes == nil || item.node.numEpisodes == 0 || listStatus.numEpisodesWatched < (item.node.numEpisodes ?? .max) {
                         Button {
                             Task {
                                 listStatus.numEpisodesWatched += 1
-                                var isCompleted = false
                                 if settings.swipeActionAutoComplete && listStatus.numEpisodesWatched == item.node.numEpisodes {
                                     listStatus.status = .completed
-                                    isCompleted = true
                                 }
-                                await controller.updateAnime(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
+                                await controller.updateAnime(id: item.id, listStatus: listStatus)
                             }
                         } label: {
                             Label("+1 episode", systemImage: "plus.circle")
@@ -95,32 +85,33 @@ struct MyListView: View {
         }
     }
 
-    @ViewBuilder private func MangaStatusView(_ mangaItems: [MALListManga]) -> some View {
+    @ViewBuilder private var mangaStatusView: some View {
+        let mangaItems = controller.mangaItems
         ForEach(Array(mangaItems.enumerated()), id: \.1.id) { index, item in
-            MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index, isLoading: controller.isRefreshLoading)
+            MangaListItem(manga: item, isLoading: controller.isRefreshLoading, selectedManga: $selectedManga)
                 .onAppear {
                     Task {
                         await controller.loadMoreIfNeeded(index: index)
                     }
                 }
                 .swipeActions(edge: .leading) {
-                    if settings.useSwipeActions && !controller.isRefreshLoading {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = networker.getMangaListStatus(item.id).value {
                         if settings.mangaReadProgress == 0 {
-                            if var listStatus = item.listStatus, listStatus.numChaptersRead > 0 {
+                            if listStatus.numChaptersRead > 0 {
                                 Button {
                                     Task {
                                         listStatus.numChaptersRead -= 1
-                                        await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                        await controller.updateManga(id: item.id, listStatus: listStatus)
                                     }
                                 } label: {
                                     Label("-1 chapter", systemImage: "minus.circle")
                                 }
                             }
-                        } else if var listStatus = item.listStatus, listStatus.numVolumesRead > 0 {
+                        } else if listStatus.numVolumesRead > 0 {
                             Button {
                                 Task {
                                     listStatus.numVolumesRead -= 1
-                                    await controller.updateManga(index: index, id: item.id, listStatus: listStatus)
+                                    await controller.updateManga(id: item.id, listStatus: listStatus)
                                 }
                             } label: {
                                 Label("-1 volume", systemImage: "minus.circle")
@@ -129,33 +120,29 @@ struct MyListView: View {
                     }
                 }
                 .swipeActions(edge: .trailing) {
-                    if settings.useSwipeActions && !controller.isRefreshLoading {
+                    if settings.useSwipeActions && !controller.isRefreshLoading, var listStatus = networker.getMangaListStatus(item.id).value {
                         if settings.mangaReadProgress == 0 {
-                            if var listStatus = item.listStatus, item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
+                            if item.node.numChapters == nil || item.node.numChapters == 0 || listStatus.numChaptersRead < (item.node.numChapters ?? .max) {
                                 Button {
                                     Task {
                                         listStatus.numChaptersRead += 1
-                                        var isCompleted = false
                                         if settings.swipeActionAutoComplete && listStatus.numChaptersRead == item.node.numChapters {
                                             listStatus.status = .completed
-                                            isCompleted = true
                                         }
-                                        await controller.updateManga(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
+                                        await controller.updateManga(id: item.id, listStatus: listStatus)
                                     }
                                 } label: {
                                     Label("+1 chapter", systemImage: "plus.circle")
                                 }
                             }
-                        } else if var listStatus = item.listStatus, item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
+                        } else if item.node.numVolumes == nil || item.node.numVolumes == 0 || listStatus.numVolumesRead < (item.node.numVolumes ?? .max) {
                             Button {
                                 Task {
                                     listStatus.numVolumesRead += 1
-                                    var isCompleted = false
                                     if settings.swipeActionAutoComplete && listStatus.numVolumesRead == item.node.numVolumes {
                                         listStatus.status = .completed
-                                        isCompleted = true
                                     }
-                                    await controller.updateManga(index: index, id: item.id, isCompleted: isCompleted, listStatus: listStatus)
+                                    await controller.updateManga(id: item.id, listStatus: listStatus)
                                 }
                             } label: {
                                 Label("+1 volume", systemImage: "plus.circle")
@@ -174,7 +161,7 @@ struct MyListView: View {
     private var animeList: some View {
         List {
             Section(controller.animeStatus.toString()) {
-                if controller.isAnimeItemsEmpty() {
+                if controller.animeItems.isEmpty {
                     if controller.loadingState == .loading {
                         LoadingList()
                     } else if controller.loadingState == .error {
@@ -186,18 +173,8 @@ struct MyListView: View {
                         )
                         .frame(maxWidth: .infinity, minHeight: 200)
                     }
-                } else if controller.animeStatus == .none {
-                    AnimeStatusView(controller.allAnimeItems)
-                } else if controller.animeStatus == .watching {
-                    AnimeStatusView(controller.watchingAnimeItems)
-                } else if controller.animeStatus == .completed {
-                    AnimeStatusView(controller.completedAnimeItems)
-                } else if controller.animeStatus == .onHold {
-                    AnimeStatusView(controller.onHoldAnimeItems)
-                } else if controller.animeStatus == .dropped {
-                    AnimeStatusView(controller.droppedAnimeItems)
-                } else if controller.animeStatus == .planToWatch {
-                    AnimeStatusView(controller.planToWatchAnimeItems)
+                } else {
+                    animeStatusView
                 }
             }
             if settings.useStatusTabBar {
@@ -215,7 +192,7 @@ struct MyListView: View {
             }
         }
         .id("animelist:\(controller.animeStatus)\(controller.animeSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.loadingState == .loading && controller.isAnimeItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.animeItems.isEmpty)
         .onChange(of: controller.animeStatus) {
             if isInit {
                 // Loading state is changed here to prevent brief flickering of nothing found view
@@ -233,14 +210,16 @@ struct MyListView: View {
             }
         }
         .refreshable {
-            isRefresh = true
+            Task {
+                await controller.refresh()
+            }
         }
     }
 
     private var mangaList: some View {
         List {
             Section(controller.mangaStatus.toString()) {
-                if controller.isMangaItemsEmpty() {
+                if controller.mangaItems.isEmpty {
                     if controller.loadingState == .loading {
                         LoadingList()
                     } else if controller.loadingState == .error {
@@ -252,18 +231,8 @@ struct MyListView: View {
                         )
                         .frame(maxWidth: .infinity, minHeight: 200)
                     }
-                } else if controller.mangaStatus == .none {
-                    MangaStatusView(controller.allMangaItems)
-                } else if controller.mangaStatus == .reading {
-                    MangaStatusView(controller.readingMangaItems)
-                } else if controller.mangaStatus == .completed {
-                    MangaStatusView(controller.completedMangaItems)
-                } else if controller.mangaStatus == .onHold {
-                    MangaStatusView(controller.onHoldMangaItems)
-                } else if controller.mangaStatus == .dropped {
-                    MangaStatusView(controller.droppedMangaItems)
-                } else if controller.mangaStatus == .planToRead {
-                    MangaStatusView(controller.planToReadMangaItems)
+                } else {
+                    mangaStatusView
                 }
             }
             if settings.useStatusTabBar {
@@ -281,7 +250,7 @@ struct MyListView: View {
             }
         }
         .id("mangalist:\(controller.mangaStatus)\(controller.mangaSort)") // To reset list to top position whenever status or sort is changed
-        .disabled(controller.loadingState == .loading && controller.isMangaItemsEmpty())
+        .disabled(controller.loadingState == .loading && controller.mangaItems.isEmpty)
         .onChange(of: controller.mangaStatus) {
             if isInit {
                 // Loading state is changed here to prevent brief flickering of nothing found view
@@ -299,7 +268,9 @@ struct MyListView: View {
             }
         }
         .refreshable {
-            isRefresh = true
+            Task {
+                await controller.refresh()
+            }
         }
     }
 
@@ -331,26 +302,8 @@ struct MyListView: View {
                         LoadingView()
                     }
                 }
-                .task(id: isRefresh) {
-                    if animeStatus == nil && animeSort == nil && mangaStatus == nil && mangaSort == nil && (controller.shouldRefresh() || isRefresh) {
-                        await controller.refresh()
-                        isRefresh = false
-                    }
-                }
-                .sheet(item: $selectedAnime) {
-                    Task {
-                        if let index = selectedAnimeIndex, let animeListStatus {
-                            if isAnimeDeleted || (controller.animeStatus != .none && animeListStatus.status != controller.animeStatus) {
-                                controller.removeAnimeItem(index)
-                            } else {
-                                controller.updateAnimeItemListStatus(index, animeListStatus)
-                            }
-                            isAnimeDeleted = false
-                            selectedAnimeIndex = nil
-                        }
-                    }
-                } content: { anime in
-                    AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, alternativeTitles: anime.node.alternativeTitles, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large, isDeleted: $isAnimeDeleted, animeListStatus: $animeListStatus)
+                .sheet(item: $selectedAnime) { anime in
+                    AnimeEditView(anime: anime.node)
                         .presentationBackground {
                             if settings.translucentBackground {
                                 ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .background)
@@ -359,20 +312,8 @@ struct MyListView: View {
                             }
                         }
                 }
-                .sheet(item: $selectedManga) {
-                    Task {
-                        if let index = selectedMangaIndex, let mangaListStatus {
-                            if isMangaDeleted || (controller.mangaStatus != .none && mangaListStatus.status != controller.mangaStatus) {
-                                controller.removeMangaItem(index)
-                            } else {
-                                controller.updateMangaItemListStatus(index, mangaListStatus)
-                            }
-                            isMangaDeleted = false
-                            selectedMangaIndex = nil
-                        }
-                    }
-                } content: { manga in
-                    MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, alternativeTitles: manga.node.alternativeTitles, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large, isDeleted: $isMangaDeleted, mangaListStatus: $mangaListStatus)
+                .sheet(item: $selectedManga) { manga in
+                    MangaEditView(manga: manga.node)
                         .presentationBackground {
                             if settings.translucentBackground {
                                 ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .background)
@@ -380,6 +321,12 @@ struct MyListView: View {
                                 Color(.systemGray6)
                             }
                         }
+                }
+                .task {
+                    guard animeStatus == nil && animeSort == nil && mangaStatus == nil && mangaSort == nil else {
+                        return
+                    }
+                    await controller.refresh()
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

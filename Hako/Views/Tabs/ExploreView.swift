@@ -14,17 +14,8 @@ struct ExploreView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ExploreViewController()
     @StateObject var networker = NetworkManager.shared
-
     @State private var selectedAnime: MALListAnime?
-    @State private var selectedAnimeIndex: Int?
-    @State private var isAnimeDeleted = false
-    @State private var animeListStatus: MyListStatus?
-
     @State private var selectedManga: MALListManga?
-    @State private var selectedMangaIndex: Int?
-    @State private var isMangaDeleted = false
-    @State private var mangaListStatus: MyListStatus?
-
     @State private var isRefresh = false
     @State private var searchText = ""
     @State private var previousSearch = ""
@@ -178,8 +169,8 @@ struct ExploreView: View {
                                         nothingFoundView
                                     }
                                 } else {
-                                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { index, item in
-                                        AnimeListItem(anime: item, selectedAnime: $selectedAnime, selectedAnimeIndex: $selectedAnimeIndex, index: index)
+                                    ForEach(Array(controller.animeItems.enumerated()), id: \.1.id) { _, item in
+                                        AnimeListItem(anime: item, selectedAnime: $selectedAnime)
                                     }
                                 }
                             } else if controller.type == .manga {
@@ -194,8 +185,8 @@ struct ExploreView: View {
                                         nothingFoundView
                                     }
                                 } else {
-                                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { index, item in
-                                        MangaListItem(manga: item, selectedManga: $selectedManga, selectedMangaIndex: $selectedMangaIndex, index: index)
+                                    ForEach(Array(controller.mangaItems.enumerated()), id: \.1.id) { _, item in
+                                        MangaListItem(manga: item, selectedManga: $selectedManga)
                                     }
                                 }
                             } else if controller.type == .character {
@@ -275,29 +266,8 @@ struct ExploreView: View {
                 }
             }
         }
-        .task {
-            if networker.isSignedIn && (controller.type == .anime || controller.type == .manga) {
-                await controller.refreshSearch(query: searchText)
-            }
-        }
-        .sheet(item: $selectedAnime) {
-            Task {
-                if let index = selectedAnimeIndex, let animeListStatus {
-                    if isAnimeDeleted {
-                        controller.animeItems[index].listStatus = nil
-                        controller.animeItems[index].node.myListStatus = nil
-                    } else {
-                        var newListStatus = animeListStatus
-                        newListStatus.updatedAt = Date()
-                        controller.animeItems[index].listStatus = newListStatus
-                        controller.animeItems[index].node.myListStatus = newListStatus
-                    }
-                    isAnimeDeleted = false
-                    selectedAnimeIndex = nil
-                }
-            }
-        } content: { anime in
-            AnimeEditView(id: anime.id, listStatus: anime.listStatus, title: anime.node.title, alternativeTitles: anime.node.alternativeTitles, numEpisodes: anime.node.numEpisodes, imageUrl: anime.node.mainPicture?.large, isDeleted: $isAnimeDeleted, animeListStatus: $animeListStatus)
+        .sheet(item: $selectedAnime) { anime in
+            AnimeEditView(anime: anime.node)
                 .presentationBackground {
                     if settings.translucentBackground {
                         ImageFrame(id: "anime\(anime.id)", imageUrl: anime.node.mainPicture?.large, imageSize: .background)
@@ -306,24 +276,8 @@ struct ExploreView: View {
                     }
                 }
         }
-        .sheet(item: $selectedManga) {
-            Task {
-                if let index = selectedMangaIndex, let mangaListStatus {
-                    if isMangaDeleted {
-                        controller.mangaItems[index].listStatus = nil
-                        controller.mangaItems[index].node.myListStatus = nil
-                    } else {
-                        var newListStatus = mangaListStatus
-                        newListStatus.updatedAt = Date()
-                        controller.mangaItems[index].listStatus = newListStatus
-                        controller.mangaItems[index].node.myListStatus = newListStatus
-                    }
-                    isMangaDeleted = false
-                    selectedMangaIndex = nil
-                }
-            }
-        } content: { manga in
-            MangaEditView(id: manga.id, listStatus: manga.listStatus, title: manga.node.title, alternativeTitles: manga.node.alternativeTitles, numVolumes: manga.node.numVolumes, numChapters: manga.node.numChapters, imageUrl: manga.node.mainPicture?.large, isDeleted: $isMangaDeleted, mangaListStatus: $mangaListStatus)
+        .sheet(item: $selectedManga) { manga in
+            MangaEditView(manga: manga.node)
                 .presentationBackground {
                     if settings.translucentBackground {
                         ImageFrame(id: "manga\(manga.id)", imageUrl: manga.node.mainPicture?.large, imageSize: .background)

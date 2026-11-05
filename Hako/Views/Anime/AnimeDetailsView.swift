@@ -15,8 +15,13 @@ struct AnimeDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
+
     private var title: String {
         settings.getTitle(romaji: controller.anime?.title, english: controller.anime?.alternativeTitles?.en, native: controller.anime?.alternativeTitles?.ja)
+    }
+
+    private var listStatus: MyListStatus? {
+        networker.getAnimeListStatus(id).value
     }
 
     init(id: Int) {
@@ -56,7 +61,7 @@ struct AnimeDetailsView: View {
                                 TitleText(romaji: anime.title, english: anime.alternativeTitles?.en, native: anime.alternativeTitles?.ja)
                                 HStack {
                                     Text("\(anime.mean == nil ? "N/A" : String(anime.mean!)) ⭐")
-                                    if let myScore = controller.anime?.myListStatus?.score, myScore > 0 {
+                                    if let myScore = listStatus?.score, myScore > 0 {
                                         Label("\(myScore) ⭐", systemImage: "person.fill")
                                             .labelStyle(.reducedSpace)
                                             .padding(.leading, 15)
@@ -185,14 +190,10 @@ struct AnimeDetailsView: View {
                         Button {
                             isEditViewPresented = true
                         } label: {
-                            Image(systemName: anime.myListStatus?.status == nil ? "plus" : "square.and.pencil")
+                            Image(systemName: listStatus?.status == nil ? "plus" : "square.and.pencil")
                         }
                         .sheet(isPresented: $isEditViewPresented) {
-                            Task {
-                                await controller.loadDetails()
-                            }
-                        } content: {
-                            AnimeEditView(id: id, listStatus: anime.myListStatus, title: anime.title, alternativeTitles: anime.alternativeTitles, numEpisodes: anime.numEpisodes, imageUrl: controller.anime?.mainPicture?.large)
+                            AnimeEditView(anime: anime)
                                 .presentationBackground {
                                     ImageFrame(id: "anime\(id)", imageUrl: controller.anime?.mainPicture?.large, imageSize: .background)
                                 }

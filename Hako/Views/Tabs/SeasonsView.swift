@@ -38,7 +38,7 @@ struct SeasonsView: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 150 * screenRatio), spacing: 5, alignment: .top)]) {
                 ForEach(seasonItems, id: \.id) { item in
                     AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
-                        .listedFade(show: networker.isSignedIn && fadeAnimeOnList, status: item.node.myListStatus?.status)
+                        .listedFade(show: networker.isSignedIn && fadeAnimeOnList, id: item.id, type: .anime)
                 }
                 if !settings.hideContinuingSeries && !seasonContinuingItems.isEmpty {
                     // To make it appear like a section title, SwiftUI section is buggy with LazyVGrid

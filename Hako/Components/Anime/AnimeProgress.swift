@@ -10,22 +10,32 @@ import SwiftUI
 struct AnimeProgress: View {
     private let anime: Anime
     private let numEpisodes: String
-    private let numEpisodesWatched: String
-    private let watchProgress: Float
     private let isLoading: Bool
+    private let networker = NetworkManager.shared
+
+    private var listStatus: MyListStatus? {
+        networker.getAnimeListStatus(anime.id).value
+    }
+
+    private var numEpisodesWatched: Int {
+        listStatus?.numEpisodesWatched ?? 0
+    }
+
+    private var watchProgress: Float {
+        if let episodes = anime.numEpisodes, episodes > 0 {
+            return Float(numEpisodesWatched) / Float(episodes)
+        }
+        return numEpisodesWatched == 0 ? 0 : 0.5
+    }
 
     init(anime: Anime, isLoading: Bool) {
         self.anime = anime
         self.isLoading = isLoading
-        let numEpisodesWatched = anime.myListStatus?.numEpisodesWatched ?? 0
         if let numEpisodes = anime.numEpisodes, numEpisodes > 0 {
             self.numEpisodes = String(numEpisodes)
-            self.watchProgress = Float(numEpisodesWatched) / Float(numEpisodes)
         } else {
             self.numEpisodes = "?"
-            self.watchProgress = numEpisodesWatched == 0 ? 0 : 0.5
         }
-        self.numEpisodesWatched = String(numEpisodesWatched)
     }
 
     var body: some View {
@@ -41,7 +51,7 @@ struct AnimeProgress: View {
                     .skeleton()
                     ProgressView(value: 0)
                         .skeleton()
-                } else if let status = anime.myListStatus?.status {
+                } else if let status = listStatus?.status {
                     HStack {
                         Text(status.toString())
                             .foregroundStyle(status.toColour())

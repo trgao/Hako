@@ -11,32 +11,41 @@ struct AnimeListItem: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
     @Binding private var selectedAnime: MALListAnime?
-    @Binding private var selectedAnimeIndex: Int?
     private let anime: MALListAnime
-    private let index: Int
     private let numEpisodes: String
-    private let numEpisodesWatched: String
-    private let watchProgress: Float
     private let isLoading: Bool
+    private let isOtherUser: Bool
+
     private var title: String {
         settings.getTitle(romaji: anime.node.title, english: anime.node.alternativeTitles?.en, native: anime.node.alternativeTitles?.ja)
     }
 
-    init(anime: MALListAnime, selectedAnime: Binding<MALListAnime?> = Binding.constant(nil), selectedAnimeIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
+    private var listStatus: MyListStatus? {
+        isOtherUser ? anime.listStatus : networker.getAnimeListStatus(anime.id).value
+    }
+
+    private var numEpisodesWatched: Int {
+        listStatus?.numEpisodesWatched ?? 0
+    }
+
+    private var watchProgress: Float {
+        if let episodes = anime.node.numEpisodes, episodes > 0 {
+            return Float(numEpisodesWatched) / Float(episodes)
+        }
+        return numEpisodesWatched == 0 ? 0 : 0.5
+    }
+
+    init(anime: MALListAnime, isLoading: Bool = false, isOtherUser: Bool = false, selectedAnime: Binding<MALListAnime?> = .constant(nil)) {
         self.anime = anime
+        self.isLoading = isLoading
+        self.isOtherUser = isOtherUser
         self._selectedAnime = selectedAnime
-        self._selectedAnimeIndex = selectedAnimeIndex
-        self.index = index
-        let watched = anime.listStatus?.numEpisodesWatched ?? 0
+
         if let episodes = anime.node.numEpisodes, episodes > 0 {
             self.numEpisodes = String(episodes)
-            self.watchProgress = Float(watched) / Float(episodes)
         } else {
             self.numEpisodes = "?"
-            self.watchProgress = watched == 0 ? 0 : 0.5
         }
-        self.numEpisodesWatched = String(watched)
-        self.isLoading = isLoading
     }
 
     var body: some View {
@@ -58,7 +67,7 @@ struct AnimeListItem: View {
                             }
                             HStack {
                                 Text("\(anime.node.mean == nil ? "N/A" : String(anime.node.mean!)) ⭐")
-                                if let score = anime.listStatus?.score, score > 0 {
+                                if let score = listStatus?.score, score > 0 {
                                     Label("\(score) ⭐", systemImage: "person.fill")
                                         .labelStyle(.reducedSpace)
                                 }
@@ -69,10 +78,9 @@ struct AnimeListItem: View {
                         .font(.footnote)
                         .foregroundStyle(Color.primary)
                         Spacer()
-                        if networker.isSignedIn && index != -1 {
+                        if networker.isSignedIn && !isOtherUser {
                             Button {
                                 selectedAnime = anime
-                                selectedAnimeIndex = index
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
@@ -80,10 +88,10 @@ struct AnimeListItem: View {
                             .disabled(isLoading)
                         }
                     }
-                    if networker.isSignedIn || anime.listStatus != nil {
+                    if networker.isSignedIn || listStatus != nil {
                         VStack(alignment: .leading) {
                             ProgressView(value: watchProgress)
-                                .tint(anime.listStatus?.status?.toColour())
+                                .tint(listStatus?.status?.toColour())
                             Label("\(numEpisodesWatched) / \(numEpisodes)", systemImage: "video.fill")
                                 .foregroundStyle(Color(.systemGray))
                                 .labelStyle(.reducedSpace)

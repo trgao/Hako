@@ -15,8 +15,13 @@ struct MangaDetailsView: View {
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
+
     private var title: String {
         settings.getTitle(romaji: controller.manga?.title, english: controller.manga?.alternativeTitles?.en, native: controller.manga?.alternativeTitles?.ja)
+    }
+
+    private var listStatus: MyListStatus? {
+        networker.getMangaListStatus(id).value
     }
 
     init(id: Int) {
@@ -56,7 +61,7 @@ struct MangaDetailsView: View {
                                 TitleText(romaji: manga.title, english: manga.alternativeTitles?.en, native: manga.alternativeTitles?.ja)
                                 HStack {
                                     Text("\(manga.mean == nil ? "N/A" : String(manga.mean!)) ⭐")
-                                    if let myScore = manga.myListStatus?.score, myScore > 0 {
+                                    if let myScore = listStatus?.score, myScore > 0 {
                                         Label("\(myScore) ⭐", systemImage: "person.fill")
                                             .labelStyle(.reducedSpace)
                                             .padding(.leading, 15)
@@ -170,14 +175,10 @@ struct MangaDetailsView: View {
                         Button {
                             isEditViewPresented = true
                         } label: {
-                            Image(systemName: manga.myListStatus?.status == nil ? "plus" : "square.and.pencil")
+                            Image(systemName: listStatus?.status == nil ? "plus" : "square.and.pencil")
                         }
                         .sheet(isPresented: $isEditViewPresented) {
-                            Task {
-                                await controller.loadDetails()
-                            }
-                        } content: {
-                            MangaEditView(id: manga.id, listStatus: manga.myListStatus, title: manga.title, alternativeTitles: manga.alternativeTitles, numVolumes: manga.numVolumes, numChapters: manga.numChapters, imageUrl: controller.manga?.mainPicture?.large)
+                            MangaEditView(manga: manga)
                                 .presentationBackground {
                                     ImageFrame(id: "manga\(id)", imageUrl: controller.manga?.mainPicture?.large, imageSize: .background)
                                 }

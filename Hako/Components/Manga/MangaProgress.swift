@@ -11,34 +11,49 @@ struct MangaProgress: View {
     @EnvironmentObject private var settings: SettingsManager
     private let manga: Manga
     private let numChapters: String
-    private let numChaptersRead: String
-    private let chaptersReadProgress: Float
     private let numVolumes: String
-    private let numVolumesRead: String
-    private let volumesReadProgress: Float
     private let isLoading: Bool
+    private let networker = NetworkManager.shared
+
+    private var listStatus: MyListStatus? {
+        networker.getMangaListStatus(manga.id).value
+    }
+
+    private var numChaptersRead: Int {
+        listStatus?.numChaptersRead ?? 0
+    }
+
+    private var numVolumesRead: Int {
+        listStatus?.numVolumesRead ?? 0
+    }
+
+    private var chaptersReadProgress: Float {
+        if let chapters = manga.numChapters, chapters > 0 {
+            return Float(numChaptersRead) / Float(chapters)
+        }
+        return numChaptersRead == 0 ? 0 : 0.5
+    }
+
+    private var volumesReadProgress: Float {
+        if let volumes = manga.numVolumes, volumes > 0 {
+            return Float(numVolumesRead) / Float(volumes)
+        }
+        return numVolumesRead == 0 ? 0 : 0.5
+    }
 
     init(manga: Manga, isLoading: Bool) {
         self.manga = manga
         self.isLoading = isLoading
-        let numChaptersRead = manga.myListStatus?.numChaptersRead ?? 0
-        let numVolumesRead = manga.myListStatus?.numVolumesRead ?? 0
         if let numChapters = manga.numChapters, numChapters > 0 {
             self.numChapters = String(numChapters)
-            self.chaptersReadProgress = Float(numChaptersRead) / Float(numChapters)
         } else {
             self.numChapters = "?"
-            self.chaptersReadProgress = numChaptersRead == 0 ? 0 : 0.5
         }
         if let numVolumes = manga.numVolumes, numVolumes > 0 {
             self.numVolumes = String(numVolumes)
-            self.volumesReadProgress = Float(numVolumesRead) / Float(numVolumes)
         } else {
             self.numVolumes = "?"
-            self.volumesReadProgress = numVolumesRead == 0 ? 0 : 0.5
         }
-        self.numChaptersRead = String(numChaptersRead)
-        self.numVolumesRead = String(numVolumesRead)
     }
 
     var body: some View {
@@ -54,7 +69,7 @@ struct MangaProgress: View {
                     .skeleton()
                     ProgressView(value: 0)
                         .skeleton()
-                } else if let status = manga.myListStatus?.status {
+                } else if let status = listStatus?.status {
                     HStack {
                         Text(status.toString())
                             .foregroundStyle(status.toColour())

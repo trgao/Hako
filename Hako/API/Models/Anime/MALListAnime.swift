@@ -11,7 +11,7 @@ struct MALListAnime: Codable, Identifiable, Hashable {
     var id: Int { node.id }
     var node: Anime
     let ranking: Ranking?
-    var listStatus: MyListStatus?
+    let listStatus: MyListStatus? // For list status of other users
 
     init(anime: Anime) {
         self.node = anime

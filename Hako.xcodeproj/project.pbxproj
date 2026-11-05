@@ -158,6 +158,7 @@
 		EEA924342DD5ED1700FB40A9 /* ThemesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */; };
 		EEA924382DD62A2600FB40A9 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924372DD62A2600FB40A9 /* AppearanceView.swift */; };
 		EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924392DD634BB00FB40A9 /* SettingsManager.swift */; };
+		EEAA2866309B6C7E00DA5CC4 /* ObservableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */; };
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
 		EEAA57502E2CB7DE00377906 /* ThirdPartyUserFavouritesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */; };
 		EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57512E2CB7F500377906 /* UserFavourites.swift */; };
@@ -430,6 +431,7 @@
 		EEA924332DD5ED1200FB40A9 /* ThemesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesListView.swift; sourceTree = "<group>"; };
 		EEA924372DD62A2600FB40A9 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		EEA924392DD634BB00FB40A9 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableBox.swift; sourceTree = "<group>"; };
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
 		EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyUserFavouritesResponse.swift; sourceTree = "<group>"; };
 		EEAA57512E2CB7F500377906 /* UserFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavourites.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				EE917FD92EACF90900D62F8B /* ZoomableScrollView.swift */,
 				EEA5E9402CEE826200B2513B /* ItemCache.swift */,
 				EEA5E93E2CEE825800B2513B /* ImageCache.swift */,
+				EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */,
 				EEA801312CE1790D00A49492 /* ThreadSafeDictionary.swift */,
 				EEFEFD522BF3880D00200AF1 /* pkce.swift */,
 				EED345EB2F752DF70062F44A /* ProminentButtonStyle.swift */,
@@ -1636,6 +1639,7 @@
 				EE2E485C3080F64300922968 /* ThirdPartyChaptersListResponse.swift in Sources */,
 				EEAA57502E2CB7DE00377906 /* ThirdPartyUserFavouritesResponse.swift in Sources */,
 				EE2E48623080F75000922968 /* ChaptersListViewController.swift in Sources */,
+				EEAA2866309B6C7E00DA5CC4 /* ObservableBox.swift in Sources */,
 				EE4107692F10F9E10086D4AC /* MagazinesListViewController.swift in Sources */,
 				EEFB9CEF2F1A742E00B6DBC6 /* UserListView.swift in Sources */,
 				EEC1B9022BF1266B001E08C4 /* ListCharacter.swift in Sources */,

@@ -11,44 +11,58 @@ struct MangaListItem: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
     @Binding private var selectedManga: MALListManga?
-    @Binding private var selectedMangaIndex: Int?
     private let manga: MALListManga
-    private let index: Int
     private let numChapters: String
-    private let numChaptersRead: String
-    private let chaptersReadProgress: Float
     private let numVolumes: String
-    private let numVolumesRead: String
-    private let volumesReadProgress: Float
     private let isLoading: Bool
+    private let isOtherUser: Bool
+
     private var title: String {
         settings.getTitle(romaji: manga.node.title, english: manga.node.alternativeTitles?.en, native: manga.node.alternativeTitles?.ja)
     }
 
-    init(manga: MALListManga, selectedManga: Binding<MALListManga?> = Binding.constant(nil), selectedMangaIndex: Binding<Int?> = Binding.constant(nil), index: Int = -1, isLoading: Bool = false) {
+    private var listStatus: MyListStatus? {
+        isOtherUser ? manga.listStatus : networker.getMangaListStatus(manga.id).value
+    }
+
+    private var numChaptersRead: Int {
+        listStatus?.numChaptersRead ?? 0
+    }
+
+    private var numVolumesRead: Int {
+        listStatus?.numVolumesRead ?? 0
+    }
+
+    private var chaptersReadProgress: Float {
+        if let chapters = manga.node.numChapters, chapters > 0 {
+            return Float(numChaptersRead) / Float(chapters)
+        }
+        return numChaptersRead == 0 ? 0 : 0.5
+    }
+
+    private var volumesReadProgress: Float {
+        if let volumes = manga.node.numVolumes, volumes > 0 {
+            return Float(numVolumesRead) / Float(volumes)
+        }
+        return numVolumesRead == 0 ? 0 : 0.5
+    }
+
+    init(manga: MALListManga, isLoading: Bool = false, isOtherUser: Bool = false, selectedManga: Binding<MALListManga?> = .constant(nil)) {
         self.manga = manga
+        self.isLoading = isLoading
+        self.isOtherUser = isOtherUser
         self._selectedManga = selectedManga
-        self._selectedMangaIndex = selectedMangaIndex
-        self.index = index
-        let chaptersRead = manga.listStatus?.numChaptersRead ?? 0
-        let volumesRead = manga.listStatus?.numVolumesRead ?? 0
+
         if let chapters = manga.node.numChapters, chapters > 0 {
             self.numChapters = String(chapters)
-            self.chaptersReadProgress = Float(chaptersRead) / Float(chapters)
         } else {
             self.numChapters = "?"
-            self.chaptersReadProgress = chaptersRead == 0 ? 0 : 0.5
         }
         if let volumes = manga.node.numVolumes, volumes > 0 {
             self.numVolumes = String(volumes)
-            self.volumesReadProgress = Float(volumesRead) / Float(volumes)
         } else {
             self.numVolumes = "?"
-            self.volumesReadProgress = volumesRead == 0 ? 0 : 0.5
         }
-        self.numChaptersRead = String(chaptersRead)
-        self.numVolumesRead = String(volumesRead)
-        self.isLoading = isLoading
     }
 
     var body: some View {
@@ -70,7 +84,7 @@ struct MangaListItem: View {
                             }
                             HStack {
                                 Text("\(manga.node.mean == nil ? "N/A" : String(manga.node.mean!)) ⭐")
-                                if let score = manga.listStatus?.score, score > 0 {
+                                if let score = listStatus?.score, score > 0 {
                                     Label("\(score) ⭐", systemImage: "person.fill")
                                         .labelStyle(.reducedSpace)
                                 }
@@ -81,10 +95,9 @@ struct MangaListItem: View {
                         .font(.footnote)
                         .foregroundStyle(Color.primary)
                         Spacer()
-                        if networker.isSignedIn && index != -1 {
+                        if networker.isSignedIn && !isOtherUser {
                             Button {
                                 selectedManga = manga
-                                selectedMangaIndex = index
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
@@ -92,10 +105,10 @@ struct MangaListItem: View {
                             .disabled(isLoading)
                         }
                     }
-                    if networker.isSignedIn || manga.listStatus != nil {
+                    if networker.isSignedIn || listStatus != nil {
                         VStack(alignment: .leading) {
                             ProgressView(value: settings.mangaReadProgress == 0 ? chaptersReadProgress : volumesReadProgress)
-                                .tint(manga.listStatus?.status?.toColour())
+                                .tint(listStatus?.status?.toColour())
                             HStack {
                                 Label("\(numVolumesRead) / \(numVolumes)", systemImage: "book.closed.fill")
                                     .foregroundStyle(Color(.systemGray))

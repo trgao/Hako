@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Constants {
+    static let user = "@me"
+
     // Tabs
     static let topTab = 0
     static let scheduleTab = 0

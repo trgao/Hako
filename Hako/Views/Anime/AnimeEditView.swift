@@ -11,48 +11,34 @@ import SystemNotification
 struct AnimeEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
-    @Binding private var isDeleted: Bool
-    @Binding private var animeListStatus: MyListStatus?
     @State private var listStatus: MyListStatus
+    @State private var initialData: MyListStatus
     @State private var isLoading = false
     @State private var isConfirmDeleting = false
     @State private var isDeleting = false
     @State private var isDeleteError = false
     @State private var isEditError = false
     @State private var isDiscardingChanges = false
-    private let id: Int
-    private let initialData: MyListStatus
-    private let title: String?
-    private let alternativeTitles: AlternativeTitles?
-    private let numEpisodes: Int?
-    private let imageUrl: String?
+    private let anime: Anime
     private let networker = NetworkManager.shared
+
     private var viewTitle: String {
-        settings.getTitle(romaji: title, english: alternativeTitles?.en, native: alternativeTitles?.ja)
+        settings.getTitle(romaji: anime.title, english: anime.alternativeTitles?.en, native: anime.alternativeTitles?.ja)
     }
 
-    init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numEpisodes: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, animeListStatus: Binding<MyListStatus?>? = nil) {
-        self.id = id
-        var initialData = MyListStatus(status: .planToWatch)
-        if let listStatus {
-            initialData = listStatus
-        }
-        self.initialData = initialData
-        self.listStatus = initialData
-        self.title = title
-        self.alternativeTitles = alternativeTitles
-        self.numEpisodes = numEpisodes
-        self.imageUrl = imageUrl
-        if let isDeleted {
-            self._isDeleted = isDeleted
-        } else {
-            self._isDeleted = .constant(false)
-        }
-        if let animeListStatus {
-            self._animeListStatus = animeListStatus
-        } else {
-            self._animeListStatus = .constant(nil)
-        }
+    private var committed: MyListStatus? {
+        networker.getAnimeListStatus(anime.id).value
+    }
+
+    private var hasChanges: Bool {
+        listStatus != initialData
+    }
+
+    init(anime: Anime) {
+        self.anime = anime
+        let start = NetworkManager.shared.getAnimeListStatus(anime.id).value ?? MyListStatus.animeDefault
+        self._listStatus = State(initialValue: start)
+        self._initialData = State(initialValue: start)
     }
 
     var body: some View {
@@ -68,18 +54,18 @@ struct AnimeEditView: View {
                                 if listStatus.finishDate == nil && settings.autofillEndDate {
                                     listStatus.finishDate = Date()
                                 }
-                                if let numEpisodes, listStatus.numEpisodesWatched != numEpisodes && numEpisodes > 0 {
+                                if let numEpisodes = anime.numEpisodes, numEpisodes > 0, listStatus.numEpisodesWatched != numEpisodes {
                                     listStatus.numEpisodesWatched = numEpisodes
                                 }
                             }
                         }
                     PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
-                    NumberSelector(title: "Episodes watched", num: $listStatus.numEpisodesWatched, max: numEpisodes)
+                    NumberSelector(title: "Episodes watched", num: $listStatus.numEpisodesWatched, max: anime.numEpisodes)
                         .onChange(of: listStatus.numEpisodesWatched) { prev, cur in
                             if listStatus.status == .planToWatch && prev == 0 && cur > 0 {
                                 listStatus.status = .watching
                             }
-                            if let numEpisodes, cur == numEpisodes && numEpisodes > 0 {
+                            if let numEpisodes = anime.numEpisodes, cur == numEpisodes && numEpisodes > 0 {
                                 listStatus.status = .completed
                             }
                         }
@@ -88,7 +74,7 @@ struct AnimeEditView: View {
                     DatePickerRow(title: "Start date", date: $listStatus.startDate)
                     DatePickerRow(title: "Finish date", date: $listStatus.finishDate)
                 }
-                if let _ = listStatus.updatedAt {
+                if initialData.updatedAt != nil {
                     Button {
                         isConfirmDeleting = true
                     } label: {
@@ -108,8 +94,7 @@ struct AnimeEditView: View {
                             Task {
                                 isDeleting = true
                                 do {
-                                    try await networker.deleteUserAnime(id: id)
-                                    isDeleted = true
+                                    try await networker.deleteUserAnime(id: anime.id)
                                     dismiss()
                                 } catch {
                                     isDeleteError = true
@@ -123,14 +108,14 @@ struct AnimeEditView: View {
                     }
                 }
             } photo: {
-                ImageFrame(id: "anime\(id)", imageUrl: imageUrl, imageSize: .medium)
+                ImageFrame(id: "anime\(anime.id)", imageUrl: anime.mainPicture?.large, imageSize: .medium)
             } subtitle: {
                 VStack {
                     Text(viewTitle)
                         .bold()
                         .font(.title3)
                         .multilineTextAlignment(.center)
-                    if let updatedAt = listStatus.updatedAt?.toFullString() {
+                    if let updatedAt = committed?.updatedAt?.toFullString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.caption)
                             .opacity(0.7)
@@ -139,7 +124,7 @@ struct AnimeEditView: View {
                             .font(.caption)
                             .opacity(0.7)
                     }
-                    if listStatus != initialData {
+                    if hasChanges {
                         Text("Unsaved changes")
                             .font(.caption)
                             .opacity(0.7)
@@ -148,14 +133,11 @@ struct AnimeEditView: View {
             }
             .scrollContentBackground(.hidden)
             .scrollBounceBehavior(.basedOnSize)
-            .onAppear {
-                animeListStatus = listStatus
-            }
             .scrollDismissesKeyboard(.immediately)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        if listStatus == initialData {
+                        if !hasChanges {
                             dismiss()
                         } else {
                             isDiscardingChanges = true
@@ -177,8 +159,7 @@ struct AnimeEditView: View {
                         Task {
                             isLoading = true
                             do {
-                                try await networker.editUserAnime(id: id, listStatus: listStatus)
-                                animeListStatus = listStatus
+                                try await networker.editUserAnime(id: anime.id, listStatus: listStatus)
                                 dismiss()
                             } catch {
                                 isEditError = true
@@ -209,6 +190,6 @@ struct AnimeEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .checkSwipeDismissChanges(isDisabled: listStatus != initialData, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
+        .checkSwipeDismissChanges(isDisabled: hasChanges, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
     }
 }

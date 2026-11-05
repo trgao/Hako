@@ -185,11 +185,7 @@ class ExploreViewController: ObservableObject {
     func searchAnime(query: String) async {
         isAnimeLoadingError = false
         do {
-            self.animeItems = try await networker.searchAnime(anime: query).map { item in
-                var newItem = item
-                newItem.listStatus = item.node.myListStatus
-                return newItem
-            }
+            self.animeItems = try await networker.searchAnime(anime: query)
         } catch {
             if !Task.isCancelled && !(error is CancellationError) {
                 isAnimeLoadingError = true
@@ -200,11 +196,7 @@ class ExploreViewController: ObservableObject {
     func searchManga(query: String) async {
         isMangaLoadingError = false
         do {
-            self.mangaItems = try await networker.searchManga(manga: query).map { item in
-                var newItem = item
-                newItem.listStatus = item.node.myListStatus
-                return newItem
-            }
+            self.mangaItems = try await networker.searchManga(manga: query)
         } catch {
             if !Task.isCancelled && !(error is CancellationError) {
                 isMangaLoadingError = true

@@ -33,6 +33,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     let characterCache = ItemCache<Int, Character>()
     let personCache = ItemCache<Int, Person>()
 
+    private var animeListStatusCache: [Int: ObservableBox<MyListStatus?>] = [:]
+    private var mangaListStatusCache: [Int: ObservableBox<MyListStatus?>] = [:]
+
     // API base urls
     private let tenraiBaseApi = "https://api.tenrai.org/v1"
     private let malBaseApi = "https://api.myanimelist.net/v2"
@@ -101,6 +104,33 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
                 return
             }
         }
+    }
+
+    // Functions for user list status global cache
+    func getAnimeListStatus(_ id: Int) -> ObservableBox<MyListStatus?> {
+        if let box = animeListStatusCache[id] {
+            return box
+        }
+        let box = ObservableBox<MyListStatus?>(nil)
+        animeListStatusCache[id] = box
+        return box
+    }
+
+    func getMangaListStatus(_ id: Int) -> ObservableBox<MyListStatus?> {
+        if let box = mangaListStatusCache[id] {
+            return box
+        }
+        let box = ObservableBox<MyListStatus?>(nil)
+        mangaListStatusCache[id] = box
+        return box
+    }
+
+    func setAnimeListStatus(_ id: Int, _ status: MyListStatus?) {
+        getAnimeListStatus(id).value = status
+    }
+
+    func setMangaListStatus(_ id: Int, _ status: MyListStatus?) {
+        getMangaListStatus(id).value = status
     }
 
     // Generic MALApi request
@@ -271,11 +301,17 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         self.isSignedIn = false
         self.keychain["accessToken"] = nil
         self.keychain["refreshToken"] = nil
+
         UserDefaults.standard.set(nil, forKey: "name")
         UserDefaults.standard.set(nil, forKey: "joinedAt")
         UserDefaults.standard.set(nil, forKey: "picture")
         UserDefaults.standard.set(nil, forKey: "userImage")
+
         imageCache.removeObject(forKey: "userImage")
+
+        // To reset all views that might have loaded list statuses
+        animeListStatusCache.values.forEach { $0.value = nil }
+        mangaListStatusCache.values.forEach { $0.value = nil }
     }
 
     // Generic MALApi GET request
@@ -314,11 +350,21 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getUserAnimeList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/animelist?fields=\(animeFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALAnimeListResponse.self)
+        if isSignedIn && user == Constants.user {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func getUserMangaList(user: String, page: Int, status: StatusEnum, sort: SortEnum) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/users/\(user)/mangalist?fields=\(mangaFields)&nsfw=true\(status == .none ? "" : "&status=\(status.toParameter())")&sort=\(sort.toParameter())&limit=1000&offset=\((page - 1) * 1000)", type: MALMangaListResponse.self)
+        if isSignedIn && user == Constants.user {
+            response.data.forEach { item in
+                setMangaListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
@@ -345,23 +391,35 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
-        let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        let updatedListStatus: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        if isSignedIn {
+            setAnimeListStatus(id, updatedListStatus)
+        }
     }
 
     func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
-        let _: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        let updatedListStatus: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
+        if isSignedIn {
+            setMangaListStatus(id, updatedListStatus)
+        }
     }
 
     func deleteUserAnime(id: Int) async throws {
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
+        if isSignedIn {
+            setAnimeListStatus(id, nil)
+        }
     }
 
     func deleteUserManga(id: Int) async throws {
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
         let _: MALEmptyResponse = try await sendMALRequest(url: url, method: "DELETE")
+        if isSignedIn {
+            setMangaListStatus(id, nil)
+        }
     }
 
     func getRandomAnime() async throws -> Int {
@@ -411,16 +469,31 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getUserAnimeSuggestionList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/suggestions?fields=\(animeFields)", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func getAnimeTopAiringList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=airing&limit=10&fields=\(animeFields)", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func getAnimeTopUpcomingList() async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=upcoming&limit=10&fields=\(animeFields)", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
@@ -436,16 +509,31 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getTopAnimeList(rankingType: RankingEnum, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(animeFields)&nsfw=true", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func getTopMangaList(rankingType: RankingEnum, page: Int) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga/ranking?ranking_type=\(rankingType.rawValue)&limit=500&offset=\((page - 1) * 500)&fields=\(mangaFields)&nsfw=true", type: MALMangaListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setMangaListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func getSeasonAnimeList(season: SeasonEnum, year: Int, page: Int) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime/season/\(year)/\(season.rawValue)?nsfw=true&fields=\(animeFields)&sort=anime_num_list_users&limit=500&offset=\((page - 1) * 500)", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
@@ -505,11 +593,21 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func searchAnime(anime: String) async throws -> [MALListAnime] {
         let response = try await getMALResponse(urlExtend: "/anime?q=\(anime)&limit=100&nsfw=true&fields=\(animeFields)", type: MALAnimeListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setAnimeListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
     func searchManga(manga: String) async throws -> [MALListManga] {
         let response = try await getMALResponse(urlExtend: "/manga?q=\(manga)&limit=100&nsfw=true&fields=\(mangaFields)", type: MALMangaListResponse.self)
+        if isSignedIn {
+            response.data.forEach { item in
+                setMangaListStatus(item.id, item.node.myListStatus)
+            }
+        }
         return response.data
     }
 
@@ -535,6 +633,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getAnimeDetails(id: Int) async throws -> Anime {
         let response = try await getMALResponse(urlExtend: "/anime/\(id)?fields=\(animeFields)", type: Anime.self)
+        if isSignedIn {
+            setAnimeListStatus(id, response.myListStatus)
+        }
         return response
     }
 
@@ -606,6 +707,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getMangaDetails(id: Int) async throws -> Manga {
         let response = try await getMALResponse(urlExtend: "/manga/\(id)?fields=\(mangaFields)", type: Manga.self)
+        if isSignedIn {
+            setMangaListStatus(id, response.myListStatus)
+        }
         return response
     }
 

@@ -11,50 +11,34 @@ import SystemNotification
 struct MangaEditView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
-    @Binding private var isDeleted: Bool
-    @Binding private var mangaListStatus: MyListStatus?
     @State private var listStatus: MyListStatus
+    @State private var initialData: MyListStatus
     @State private var isLoading = false
     @State private var isConfirmingDelete = false
     @State private var isDeleting = false
     @State private var isDeleteError = false
     @State private var isEditError = false
     @State private var isDiscardingChanges = false
-    private let id: Int
-    private let initialData: MyListStatus
-    private let title: String?
-    private let alternativeTitles: AlternativeTitles?
-    private let numVolumes: Int?
-    private let numChapters: Int?
-    private let imageUrl: String?
+    private let manga: Manga
     private let networker = NetworkManager.shared
+
     private var viewTitle: String {
-        settings.getTitle(romaji: title, english: alternativeTitles?.en, native: alternativeTitles?.ja)
+        settings.getTitle(romaji: manga.title, english: manga.alternativeTitles?.en, native: manga.alternativeTitles?.ja)
     }
 
-    init(id: Int, listStatus: MyListStatus?, title: String?, alternativeTitles: AlternativeTitles?, numVolumes: Int?, numChapters: Int?, imageUrl: String?, isDeleted: Binding<Bool>? = nil, mangaListStatus: Binding<MyListStatus?>? = nil) {
-        self.id = id
-        var initialData = MyListStatus(status: .planToRead)
-        if let listStatus {
-            initialData = listStatus
-        }
-        self.initialData = initialData
-        self.listStatus = initialData
-        self.title = title
-        self.alternativeTitles = alternativeTitles
-        self.numVolumes = numVolumes
-        self.numChapters = numChapters
-        self.imageUrl = imageUrl
-        if let isDeleted {
-            self._isDeleted = isDeleted
-        } else {
-            self._isDeleted = .constant(false)
-        }
-        if let mangaListStatus {
-            self._mangaListStatus = mangaListStatus
-        } else {
-            self._mangaListStatus = .constant(nil)
-        }
+    private var committed: MyListStatus? {
+        networker.getMangaListStatus(manga.id).value
+    }
+
+    private var hasChanges: Bool {
+        listStatus != initialData
+    }
+
+    init(manga: Manga) {
+        self.manga = manga
+        let start = NetworkManager.shared.getMangaListStatus(manga.id).value ?? MyListStatus.mangaDefault
+        self._listStatus = State(initialValue: start)
+        self._initialData = State(initialValue: start)
     }
 
     var body: some View {
@@ -70,30 +54,30 @@ struct MangaEditView: View {
                                 if listStatus.finishDate == nil && settings.autofillEndDate {
                                     listStatus.finishDate = Date()
                                 }
-                                if let numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {
+                                if let numVolumes = manga.numVolumes, listStatus.numVolumesRead != numVolumes, numVolumes > 0 {
                                     listStatus.numVolumesRead = numVolumes
                                 }
-                                if let numChapters, listStatus.numChaptersRead != numChapters, numChapters > 0 {
+                                if let numChapters = manga.numChapters, listStatus.numChaptersRead != numChapters, numChapters > 0 {
                                     listStatus.numChaptersRead = numChapters
                                 }
                             }
                         }
                     PickerRow(title: "Score", selection: $listStatus.score, labels: Constants.scoreLabels)
-                    NumberSelector(title: "Volumes read", num: $listStatus.numVolumesRead, max: numVolumes)
+                    NumberSelector(title: "Volumes read", num: $listStatus.numVolumesRead, max: manga.numVolumes)
                         .onChange(of: listStatus.numVolumesRead) { prev, cur in
                             if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                 listStatus.status = .reading
                             }
-                            if settings.mangaReadProgress == 1, let numVolumes, cur == numVolumes && numVolumes > 0 {
+                            if settings.mangaReadProgress == 1, let numVolumes = manga.numVolumes, cur == numVolumes && numVolumes > 0 {
                                 listStatus.status = .completed
                             }
                         }
-                    NumberSelector(title: "Chapters read", num: $listStatus.numChaptersRead, max: numChapters)
+                    NumberSelector(title: "Chapters read", num: $listStatus.numChaptersRead, max: manga.numChapters)
                         .onChange(of: listStatus.numChaptersRead) { prev, cur in
                             if listStatus.status == .planToRead && prev == 0 && cur > 0 {
                                 listStatus.status = .reading
                             }
-                            if settings.mangaReadProgress == 0, let numChapters, cur == numChapters && numChapters > 0 {
+                            if settings.mangaReadProgress == 0, let numChapters = manga.numChapters, cur == numChapters && numChapters > 0 {
                                 listStatus.status = .completed
                             }
                         }
@@ -102,7 +86,7 @@ struct MangaEditView: View {
                     DatePickerRow(title: "Start date", date: $listStatus.startDate)
                     DatePickerRow(title: "Finish date", date: $listStatus.finishDate)
                 }
-                if let _ = listStatus.updatedAt {
+                if initialData.updatedAt != nil {
                     Button {
                         isConfirmingDelete = true
                     } label: {
@@ -122,8 +106,7 @@ struct MangaEditView: View {
                             Task {
                                 isDeleting = true
                                 do {
-                                    try await networker.deleteUserManga(id: id)
-                                    isDeleted = true
+                                    try await networker.deleteUserManga(id: manga.id)
                                     dismiss()
                                 } catch {
                                     isDeleteError = true
@@ -137,14 +120,14 @@ struct MangaEditView: View {
                     }
                 }
             } photo: {
-                ImageFrame(id: "manga\(id)", imageUrl: imageUrl, imageSize: .medium)
+                ImageFrame(id: "manga\(manga.id)", imageUrl: manga.mainPicture?.large, imageSize: .medium)
             } subtitle: {
                 VStack {
                     Text(viewTitle)
                         .bold()
                         .font(.title3)
                         .multilineTextAlignment(.center)
-                    if let updatedAt = listStatus.updatedAt?.toFullString() {
+                    if let updatedAt = committed?.updatedAt?.toFullString() {
                         Text("Last updated at: \(updatedAt)")
                             .font(.caption)
                             .opacity(0.7)
@@ -153,7 +136,7 @@ struct MangaEditView: View {
                             .font(.caption)
                             .opacity(0.7)
                     }
-                    if listStatus != initialData {
+                    if hasChanges {
                         Text("Unsaved changes")
                             .font(.caption)
                             .opacity(0.7)
@@ -162,14 +145,11 @@ struct MangaEditView: View {
             }
             .scrollContentBackground(.hidden)
             .scrollBounceBehavior(.basedOnSize)
-            .onAppear {
-                mangaListStatus = listStatus
-            }
             .scrollDismissesKeyboard(.immediately)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        if listStatus == initialData {
+                        if !hasChanges {
                             dismiss()
                         } else {
                             isDiscardingChanges = true
@@ -191,8 +171,7 @@ struct MangaEditView: View {
                         Task {
                             isLoading = true
                             do {
-                                try await networker.editUserManga(id: id, listStatus: listStatus)
-                                mangaListStatus = listStatus
+                                try await networker.editUserManga(id: manga.id, listStatus: listStatus)
                                 dismiss()
                             } catch {
                                 isEditError = true
@@ -223,6 +202,6 @@ struct MangaEditView: View {
                 .labelStyle(.iconTint(.red))
                 .padding()
         }
-        .checkSwipeDismissChanges(isDisabled: listStatus != initialData, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
+        .checkSwipeDismissChanges(isDisabled: hasChanges, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
     }
 }

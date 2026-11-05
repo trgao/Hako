@@ -17,6 +17,9 @@ struct MyListStatus: Codable, Equatable, Hashable {
     var finishDate: Date?
     var updatedAt: Date?
 
+    static let animeDefault = MyListStatus(status: .planToWatch)
+    static let mangaDefault = MyListStatus(status: .planToRead)
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MyListStatus.CodingKeys.self)
         self.status = try container.decodeIfPresent(StatusEnum.self, forKey: .status)

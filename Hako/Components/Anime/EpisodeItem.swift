@@ -12,6 +12,7 @@ struct EpisodeItem: View {
     @Environment(\.screenSize) private var screenSize
     @EnvironmentObject private var settings: SettingsManager
     private let item: Episode
+
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title

@@ -12,10 +12,12 @@ struct EpisodeDetailsView: View {
     @EnvironmentObject private var settings: SettingsManager
     @State private var showTranslation = false
     private let item: Episode
+
     private var title: String {
         let title = settings.getTitle(romaji: item.titleRomanji, english: item.title, native: item.titleJapanese)
         return title.isEmpty ? "Episode \(item.id)" : title
     }
+
     private var subtitle: String {
         if settings.preferredTitleLanguage == 2 {
             if !item.title.isEmpty && item.title != title {
@@ -28,6 +30,7 @@ struct EpisodeDetailsView: View {
         }
         return ""
     }
+
     private var synopsis: String {
         item.synopsis ?? "This episode does not yet have a synopsis."
     }

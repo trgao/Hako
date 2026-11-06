@@ -12,6 +12,7 @@ struct ScheduleView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var controller = ScheduleViewController()
     @State private var isRefresh = false
+    @State private var shouldScroll = false
     private var days: [String] = []
     private let isTab: Bool
     private var airingNextId: String? {
@@ -107,14 +108,20 @@ struct ScheduleView: View {
                             }
                         }
                         .toolbar {
-                            if let id = airingNextId {
+                            if airingNextId != nil {
                                 Button {
-                                    proxy.scrollTo(id, anchor: .top)
+                                    shouldScroll = true
                                 } label: {
                                     Label("Next", systemImage: "forward.fill")
                                         .labelStyle(.iconOnly)
                                 }
                             }
+                        }
+                        .onChange(of: shouldScroll) {
+                            withAnimation {
+                                proxy.scrollTo(airingNextId, anchor: .top)
+                            }
+                            shouldScroll = false
                         }
                     }
                 }

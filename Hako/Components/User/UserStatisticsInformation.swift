@@ -64,10 +64,11 @@ struct UserStatisticsInformation: View {
                 Label(title, systemImage: status.toIcon()).foregroundStyle(status.toColour())
                 Spacer()
                 if let count {
-                    Text("\(count)")
-                        .bold()
+                    Text("\(count)").bold()
                 } else {
-                    Text("999").skeleton(loadingState == .loading)
+                    Text("999")
+                        .bold()
+                        .skeleton(loadingState == .loading)
                 }
             }
             if let count, let total = malAnimeStatistics?.numItems {
@@ -80,7 +81,7 @@ struct UserStatisticsInformation: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 15)
+        .padding(.vertical, 10)
         .background(colorScheme == .light ? Color(.systemBackground) : Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .contentShape(RoundedRectangle(cornerRadius: 10))

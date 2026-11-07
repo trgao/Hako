@@ -62,7 +62,7 @@ private struct SafariViewControllerViewModifier: ViewModifier {
                 }
             })
             .fullScreenCover(item: urlBinding) { item in
-                SafariView(url: item.url)
+                SafariView(url: item.url).ignoresSafeArea()
             }
             .onChange(of: scenePhase) {
                 if scenePhase == .inactive && settings.useFaceID {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "a24e1c9cbf79cb344d289a3b9251b57b45d3df67dfc6cc02149fa5cb968bb836",
+  "originHash" : "e7c1af94c6146a045513359eff86f363a541e4ee02cb1732314c76865e6871be",
   "pins" : [
     {
       "identity" : "feedkit",
@@ -38,12 +38,30 @@
       }
     },
     {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "050f1a346fbbac0ca2cfb15a95274f7bd1cf0ccf",
+        "version" : "604.0.0"
+      }
+    },
+    {
       "identity" : "systemnotification",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/danielsaidi/SystemNotification",
       "state" : {
         "revision" : "69c2fa246dabd8d19c7ee62250d0a489a721660f",
         "version" : "1.4.1"
+      }
+    },
+    {
+      "identity" : "urlmacro",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alex-npmn/URLMacro.git",
+      "state" : {
+        "revision" : "e1cfb3b212b2d56f62fc7b2196a3854ed9e737d4",
+        "version" : "1.0.2"
       }
     },
     {

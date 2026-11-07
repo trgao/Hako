@@ -160,6 +160,8 @@
 		EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924392DD634BB00FB40A9 /* SettingsManager.swift */; };
 		EEAA2866309B6C7E00DA5CC4 /* ObservableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */; };
 		EEAA2868309DCE0B00DA5CC4 /* APIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */; };
+		EEAA286C309EC6F600DA5CC4 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA286B309EC6F400DA5CC4 /* ImageLoader.swift */; };
+		EEAA286F309ECB0F00DA5CC4 /* URLMacro in Frameworks */ = {isa = PBXBuildFile; productRef = EEAA286E309ECB0F00DA5CC4 /* URLMacro */; };
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
 		EEAA57502E2CB7DE00377906 /* ThirdPartyUserFavouritesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */; };
 		EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57512E2CB7F500377906 /* UserFavourites.swift */; };
@@ -434,6 +436,7 @@
 		EEA924392DD634BB00FB40A9 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableBox.swift; sourceTree = "<group>"; };
 		EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDecoder.swift; sourceTree = "<group>"; };
+		EEAA286B309EC6F400DA5CC4 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
 		EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyUserFavouritesResponse.swift; sourceTree = "<group>"; };
 		EEAA57512E2CB7F500377906 /* UserFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavourites.swift; sourceTree = "<group>"; };
@@ -566,6 +569,7 @@
 				EE0696CA2EDD97F500F965B2 /* FeedKit in Frameworks */,
 				EEBD55482F76B7B2008AD3E4 /* WrappingHStack in Frameworks */,
 				EE8E52FC2EDC0F1800B7A316 /* SystemNotification in Frameworks */,
+				EEAA286F309ECB0F00DA5CC4 /* URLMacro in Frameworks */,
 				EE11D6C62E758CFF00B24AE0 /* AsyncAlgorithms in Frameworks */,
 				EE0696CC2EDD97F500F965B2 /* XMLKit in Frameworks */,
 			);
@@ -577,7 +581,6 @@
 		EE0C539A2BDF773100DEB6F1 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */,
 				EE68FB712E49972800E9EE36 /* TokenBucket.swift */,
 				EE3FAD1A2E22876400CE9CB9 /* ImageSaver.swift */,
 				EEF593302F0E525100204973 /* ScreenSize.swift */,
@@ -778,6 +781,8 @@
 				EE3A59DB2BD24953009E9F79 /* Responses */,
 				EE3A59BC2BD21E32009E9F79 /* Models */,
 				EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */,
+				EEE2CCB42E9E2F1400F520BF /* CacheManager.swift */,
+				EEAA286B309EC6F400DA5CC4 /* ImageLoader.swift */,
 				EE3A59B72BD21CA1009E9F79 /* NetworkManager.swift */,
 				EE3B155A2CE2A4CE00C23687 /* NetworkError.swift */,
 			);
@@ -1318,6 +1323,7 @@
 				EE0696C92EDD97F500F965B2 /* FeedKit */,
 				EE0696CB2EDD97F500F965B2 /* XMLKit */,
 				EEBD55472F76B7B2008AD3E4 /* WrappingHStack */,
+				EEAA286E309ECB0F00DA5CC4 /* URLMacro */,
 			);
 			productName = MALC;
 			productReference = EE3A599E2BD21479009E9F79 /* Hako.app */;
@@ -1357,6 +1363,7 @@
 				EE8E52FA2EDC0F1800B7A316 /* XCRemoteSwiftPackageReference "SystemNotification" */,
 				EE0696C82EDD97F500F965B2 /* XCRemoteSwiftPackageReference "FeedKit" */,
 				EEBD55462F76B7A0008AD3E4 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+				EEAA286D309ECA7E00DA5CC4 /* XCRemoteSwiftPackageReference "URLMacro" */,
 			);
 			productRefGroup = EE3A599F2BD21479009E9F79 /* Products */;
 			projectDirPath = "";
@@ -1637,6 +1644,7 @@
 				EE3D4F5C2EE3E11C00926357 /* ListItem.swift in Sources */,
 				EEC150DA2F0E5DB4000BAE9F /* ExploreCharactersViewController.swift in Sources */,
 				EE7854782F6EA29E005D97EE /* MangaRelated.swift in Sources */,
+				EEAA286C309EC6F600DA5CC4 /* ImageLoader.swift in Sources */,
 				EE3A59BB2BD21E2E009E9F79 /* ThirdPartyListResponse.swift in Sources */,
 				EE4729EA2BF4FE0F005D17EF /* StatusEnum.swift in Sources */,
 				EEEEA31F2DD336E100302A81 /* DateExtension.swift in Sources */,
@@ -2016,6 +2024,14 @@
 				kind = branch;
 			};
 		};
+		EEAA286D309ECA7E00DA5CC4 /* XCRemoteSwiftPackageReference "URLMacro" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alex-npmn/URLMacro.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
 		EEBD55462F76B7A0008AD3E4 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
@@ -2056,6 +2072,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EE97521E2BF3A9BF00C9DCF5 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		EEAA286E309ECB0F00DA5CC4 /* URLMacro */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EEAA286D309ECA7E00DA5CC4 /* XCRemoteSwiftPackageReference "URLMacro" */;
+			productName = URLMacro;
 		};
 		EEBD55472F76B7B2008AD3E4 /* WrappingHStack */ = {
 			isa = XCSwiftPackageProductDependency;

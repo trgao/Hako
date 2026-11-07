@@ -9,6 +9,7 @@ import SwiftUI
 import AuthenticationServices
 import KeychainAccess
 import FeedKit
+import URLMacro
 
 @MainActor
 class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentationContextProviding {
@@ -160,7 +161,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     // Get access token when user is signing in for the first time
     private func getAccessToken(_ code: String, _ codeVerifier: String) async throws -> String {
-        let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
+        let url = #URL("https://myanimelist.net/v1/oauth2/token")
         let parameters: Data = "client_id=\(clientId)&code=\(code)&code_verifier=\(codeVerifier)&grant_type=authorization_code".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -193,7 +194,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             signOut()
             throw NetworkError.invalidRefreshToken
         }
-        let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
+        let url = #URL("https://myanimelist.net/v1/oauth2/token")
         let parameters: Data = "client_id=\(clientId)&grant_type=refresh_token&refresh_token=\(token)".data(using: .utf8)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -733,7 +734,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     // Download image
     private func download(imageUrl: URL) async throws -> Data {
-        let (localUrl, response) = try await URLSession.shared.download(for: URLRequest(url: imageUrl))
+        let (data, response) = try await ImageLoader.session.data(from: imageUrl)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
@@ -743,12 +744,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             throw NetworkError.badStatusCode(httpResponse.statusCode)
         }
 
-        do {
-            let data = try Data(contentsOf: localUrl)
-            return data
-        } catch let error {
-            throw NetworkError.unknownError(error)
-        }
+        return data
     }
 
     // Wrapper function for download
@@ -757,13 +753,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             return cache.image as Data
         }
 
-        guard let imageUrl, retry > 0 else {
+        guard let imageUrl, let url = URL(string: imageUrl), retry > 0 else {
             return nil
         }
 
         do {
             imageUrlMap[id] = imageUrl
-            let url = URL(string: imageUrl)!
             let data = try await download(imageUrl: url)
             let cache = ImageCache()
             cache.image = data as NSData

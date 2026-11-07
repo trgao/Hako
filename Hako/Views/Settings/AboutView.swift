@@ -6,32 +6,34 @@
 //
 
 import SwiftUI
+import URLMacro
 
 struct AboutView: View {
     var body: some View {
         PageList {
             Section {
-                Link("Privacy policy", destination: URL(string: "https://trgao.github.io/hako/privacypolicy")!)
-                Link("Terms of service", destination: URL(string: "https://trgao.github.io/hako/termsofservice")!)
+                Link("Privacy policy", destination: #URL("https://trgao.github.io/hako/privacypolicy"))
+                Link("Terms of service", destination: #URL("https://trgao.github.io/hako/termsofservice"))
             }
             Section("Developer") {
-                Link("Gao Tianrun", destination: URL(string: "https://trgao.github.io")!)
+                Link("Gao Tianrun", destination: #URL("https://trgao.github.io"))
             }
             Section {
-                Link("MyAnimeList", destination: URL(string: "https://myanimelist.net")!)
-                Link("Tenrai API", destination: URL(string: "https://tenrai.org")!)
-                Link("AniList", destination: URL(string: "https://anilist.co/")!)
+                Link("MyAnimeList", destination: #URL("https://myanimelist.net"))
+                Link("Tenrai API", destination: #URL("https://tenrai.org"))
+                Link("AniList", destination: #URL("https://anilist.co/"))
             } header: {
                 Text("Data sources")
             } footer: {
                 Text("Tenrai API, a third-party service not affiliated with MyAnimeList, is used to fetch data missing from the official API. Occasionally, it may have missing information or the service is down temporarily. These issues are due to the API, not the app itself.")
             }
             Section("Packages") {
-                Link("KeychainAccess", destination: URL(string: "https://github.com/kishikawakatsumi/KeychainAccess")!)
-                Link("YouTubePlayerKit", destination: URL(string: "https://github.com/SvenTiigi/YouTubePlayerKit")!)
-                Link("SystemNotification", destination: URL(string: "https://github.com/danielsaidi/SystemNotification")!)
-                Link("FeedKit", destination: URL(string: "https://github.com/nmdias/FeedKit")!)
-                Link("WrappingHStack", destination: URL(string: "https://github.com/ksemianov/WrappingHStack")!)
+                Link("KeychainAccess", destination: #URL("https://github.com/kishikawakatsumi/KeychainAccess"))
+                Link("YouTubePlayerKit", destination: #URL("https://github.com/SvenTiigi/YouTubePlayerKit"))
+                Link("SystemNotification", destination: #URL("https://github.com/danielsaidi/SystemNotification"))
+                Link("FeedKit", destination: #URL("https://github.com/nmdias/FeedKit"))
+                Link("WrappingHStack", destination: #URL("https://github.com/ksemianov/WrappingHStack"))
+                Link("URLMacro", destination: #URL("https://github.com/alex-npmn/URLMacro"))
             }
         } photo: {
             Image(uiImage: UIImage(named: "AppIcon.png")!)

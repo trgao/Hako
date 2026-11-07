@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AuthenticationServices
+import URLMacro
 
 struct SettingsView: View {
     @Environment(Router.self) private var router
@@ -43,12 +44,12 @@ struct SettingsView: View {
                     NavigationLink(value: Route.screen(.about)) {
                         Label("About", systemImage: "info.circle")
                     }
-                    Link(destination: URL(string: "https://forms.gle/v2ewpgxHLDL16kK8A")!) {
+                    Link(destination: #URL("https://forms.gle/v2ewpgxHLDL16kK8A")) {
                         Label("Feedback", systemImage: "exclamationmark.bubble.fill")
                     }
                 }
                 Section {
-                    Link(destination: URL(string: "https://tenrai.org/status")!) {
+                    Link(destination: #URL("https://tenrai.org/status")) {
                         Label("API status", systemImage: "exclamationmark.icloud.fill")
                     }
                 }

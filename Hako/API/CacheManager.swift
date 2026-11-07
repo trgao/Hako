@@ -8,7 +8,7 @@
 import Foundation
 
 actor CacheManager {
-    static var shared = CacheManager()
+    static let shared = CacheManager()
     private let formatter = ByteCountFormatter()
     private let fileManager = FileManager.default
 
@@ -44,23 +44,20 @@ actor CacheManager {
     func calculateCacheSize() -> String {
         var size: Int64 = 0
         size += Int64(URLCache.shared.currentDiskUsage)
+        size += Int64(ImageLoader.cache.currentDiskUsage)
         size += calculateDirectorySize(fileManager.temporaryDirectory)
-        if let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
-            size += calculateDirectorySize(cacheDirectory)
-        }
         return formatter.string(fromByteCount: size)
     }
 
+    // Launch cleanup
     func clearTemp() {
-        URLCache.shared.removeAllCachedResponses()
         clearDirectory(fileManager.temporaryDirectory)
     }
 
+    // For the user's clear cache button
     func clearCache() {
         URLCache.shared.removeAllCachedResponses()
+        ImageLoader.cache.removeAllCachedResponses()
         clearDirectory(fileManager.temporaryDirectory)
-        if let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first {
-            clearDirectory(cacheDirectory)
-        }
     }
 }

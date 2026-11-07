@@ -17,6 +17,9 @@ class UserProfileViewController: ObservableObject {
     @Published var characters: [ThirdPartyListItem]?
     @Published var people: [ThirdPartyListItem]?
 
+    // Temporary for anime statistics
+    @Published var animeStatistics: MALAnimeStatistics?
+
     // Loading states
     @Published var loadingState: LoadingEnum = .loading
     @Published var favouritesLoadingState: LoadingEnum = .loading
@@ -43,7 +46,16 @@ class UserProfileViewController: ObservableObject {
     }
 
     private func loadStatistics() async {
+        // Temporary for anime statistics, for current user
         loadingState = .loading
+        do {
+            self.animeStatistics = try await networker.getUserAnimeStatistics()
+            loadingState = .idle
+        } catch {
+            loadingState = .error
+        }
+
+//        loadingState = .loading
 //        do {
 //            self.userStatistics = try await networker.getUserStatistics(user: user)
 //            loadingState = .idle
@@ -58,7 +70,7 @@ class UserProfileViewController: ObservableObject {
     }
 
     func loadFavourites() async {
-        favouritesLoadingState = .loading
+//        favouritesLoadingState = .loading
 //        do {
 //            let userFavourites = try await networker.getUserFavourites(user: user)
 //            self.anime = userFavourites.anime?.map { MALListAnime(anime: Anime(item: $0)) }

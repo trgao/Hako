@@ -15,11 +15,13 @@ struct ScrollViewBox: View {
     private let title: String
     private let image: String
     private let content: String
+    private let isLoading: Bool
 
-    init(title: String, image: String, content: String) {
+    init(title: String, image: String, content: String, isLoading: Bool = false) {
         self.title = title
         self.image = image
         self.content = content
+        self.isLoading = isLoading
     }
 
     var body: some View {
@@ -27,11 +29,20 @@ struct ScrollViewBox: View {
             Text(title)
                 .font(.footnote)
                 .opacity(0.7)
-            Label(content, systemImage: image)
-                .labelStyle(.reducedSpace)
-                .bold()
-                .frame(height: height)
-                .foregroundStyle(settings.getAccentColor())
+            Group {
+                if !content.isEmpty {
+                    Label(content, systemImage: image)
+                        .labelStyle(.reducedSpace)
+                        .bold()
+                        .foregroundStyle(settings.getAccentColor())
+                } else {
+                    Text("place")
+                        .font(.title)
+                        .skeleton(isLoading)
+                }
+            }
+            .bold()
+            .frame(height: height)
         }
         .padding(10)
         .frame(maxWidth: .infinity)

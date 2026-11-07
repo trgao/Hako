@@ -52,21 +52,21 @@ struct CustomiseView: View {
                 Toggle(isOn: $settings.hideUserAnimeStatistics) {
                     Text("Hide anime statistics")
                 }
-                Toggle(isOn: $settings.hideUserMangaStatistics) {
-                    Text("Hide manga statistics")
-                }
-                Toggle(isOn: $settings.hideUserFavouriteAnime) {
-                    Text("Hide favourite anime")
-                }
-                Toggle(isOn: $settings.hideUserFavouriteManga) {
-                    Text("Hide favourite manga")
-                }
-                Toggle(isOn: $settings.hideUserFavouriteCharacters) {
-                    Text("Hide favourite characters")
-                }
-                Toggle(isOn: $settings.hideUserFavouritePeople) {
-                    Text("Hide favourite people")
-                }
+//                Toggle(isOn: $settings.hideUserMangaStatistics) {
+//                    Text("Hide manga statistics")
+//                }
+//                Toggle(isOn: $settings.hideUserFavouriteAnime) {
+//                    Text("Hide favourite anime")
+//                }
+//                Toggle(isOn: $settings.hideUserFavouriteManga) {
+//                    Text("Hide favourite manga")
+//                }
+//                Toggle(isOn: $settings.hideUserFavouriteCharacters) {
+//                    Text("Hide favourite characters")
+//                }
+//                Toggle(isOn: $settings.hideUserFavouritePeople) {
+//                    Text("Hide favourite people")
+//                }
             }
             Section("Anime details") {
                 if networker.isSignedIn {

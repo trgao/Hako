@@ -162,6 +162,9 @@
 		EEAA2868309DCE0B00DA5CC4 /* APIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */; };
 		EEAA286C309EC6F600DA5CC4 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA286B309EC6F400DA5CC4 /* ImageLoader.swift */; };
 		EEAA286F309ECB0F00DA5CC4 /* URLMacro in Frameworks */ = {isa = PBXBuildFile; productRef = EEAA286E309ECB0F00DA5CC4 /* URLMacro */; };
+		EEAA2871309EDA3900DA5CC4 /* MALAnimeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2870309EDA3500DA5CC4 /* MALAnimeStatistics.swift */; };
+		EEAA2873309EDABC00DA5CC4 /* MALUserAnimeStatisticsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2872309EDAB600DA5CC4 /* MALUserAnimeStatisticsResponse.swift */; };
+		EEAA2875309F080300DA5CC4 /* ThickProgressViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2874309F080300DA5CC4 /* ThickProgressViewStyle.swift */; };
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
 		EEAA57502E2CB7DE00377906 /* ThirdPartyUserFavouritesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */; };
 		EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57512E2CB7F500377906 /* UserFavourites.swift */; };
@@ -437,6 +440,9 @@
 		EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableBox.swift; sourceTree = "<group>"; };
 		EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDecoder.swift; sourceTree = "<group>"; };
 		EEAA286B309EC6F400DA5CC4 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		EEAA2870309EDA3500DA5CC4 /* MALAnimeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALAnimeStatistics.swift; sourceTree = "<group>"; };
+		EEAA2872309EDAB600DA5CC4 /* MALUserAnimeStatisticsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MALUserAnimeStatisticsResponse.swift; sourceTree = "<group>"; };
+		EEAA2874309F080300DA5CC4 /* ThickProgressViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThickProgressViewStyle.swift; sourceTree = "<group>"; };
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
 		EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyUserFavouritesResponse.swift; sourceTree = "<group>"; };
 		EEAA57512E2CB7F500377906 /* UserFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavourites.swift; sourceTree = "<group>"; };
@@ -594,6 +600,7 @@
 				EED345EB2F752DF70062F44A /* ProminentButtonStyle.swift */,
 				EEDBDB642C07547300F2E821 /* ReducedSpaceLabelStyle.swift */,
 				EE8E52FD2EDC128300B7A316 /* IconTintLabelStyle.swift */,
+				EEAA2874309F080300DA5CC4 /* ThickProgressViewStyle.swift */,
 				EE0696BE2EDD73B200F965B2 /* CheckSwipeDismissChanges.swift */,
 				EE3A2FD4309737DB000E7D0A /* ListedFade.swift */,
 			);
@@ -964,6 +971,7 @@
 				EE3F1D192BDE9249009992AC /* MALAnimeListResponse.swift */,
 				EE937B902BE8CE9700E5F0BE /* MALMangaListResponse.swift */,
 				EEFEFD542BF3967D00200AF1 /* MALAuthenticationResponse.swift */,
+				EEAA2872309EDAB600DA5CC4 /* MALUserAnimeStatisticsResponse.swift */,
 			);
 			path = MAL;
 			sourceTree = "<group>";
@@ -1256,6 +1264,7 @@
 				EECC795F2CF1412200C1C773 /* UserStatistics.swift */,
 				EE4729E52BF4D503005D17EF /* User.swift */,
 				EE275D93308B155A00E0D436 /* UserList.swift */,
+				EEAA2870309EDA3500DA5CC4 /* MALAnimeStatistics.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1554,6 +1563,7 @@
 				EE3B155B2CE2A4D500C23687 /* NetworkError.swift in Sources */,
 				EED4C0852F66E881007354C8 /* SmallPlaceholderGridItem.swift in Sources */,
 				EEBC7B1A2E2257A200AF83BB /* ImageCarousel.swift in Sources */,
+				EEAA2873309EDABC00DA5CC4 /* MALUserAnimeStatisticsResponse.swift in Sources */,
 				EEF5932F2F0E4C5E00204973 /* SkeletonLoading.swift in Sources */,
 				EE91BE592BFCAA4D002AC6C4 /* PersonDetailsViewController.swift in Sources */,
 				EEC86C312F0FD58F002F760F /* SortEnum.swift in Sources */,
@@ -1580,8 +1590,10 @@
 				EED4118C2DD71AFC00F78170 /* LoadingList.swift in Sources */,
 				EEBAE872308364C700F77C2C /* ExploreItems.swift in Sources */,
 				EE3A59C62BD23D0C009E9F79 /* Video.swift in Sources */,
+				EEAA2871309EDA3900DA5CC4 /* MALAnimeStatistics.swift in Sources */,
 				EEC357942BE38E3600DAAB0B /* Voice.swift in Sources */,
 				EE91BE5E2BFCAB42002AC6C4 /* Person.swift in Sources */,
+				EEAA2875309F080300DA5CC4 /* ThickProgressViewStyle.swift in Sources */,
 				EE275D9D308B654300E0D436 /* Router.swift in Sources */,
 				EE2A46712F74DF8300347967 /* Upcoming.swift in Sources */,
 				EE9A891A2BEF37A50048DD73 /* Season.swift in Sources */,

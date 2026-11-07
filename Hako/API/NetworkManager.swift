@@ -363,6 +363,12 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 //        return response.data
 //    }
 
+    // Temporary for anime statistics
+    func getUserAnimeStatistics() async throws -> MALAnimeStatistics {
+        let response = try await getMALResponse(urlExtend: "/users/@me?fields=anime_statistics", type: MALUserAnimeStatisticsResponse.self)
+        return response.animeStatistics
+    }
+
     func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
         guard let status = listStatus.status else {
             // Should not reach here

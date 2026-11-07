@@ -9,20 +9,22 @@ import SwiftUI
 
 struct ScrollViewSection<Content: View>: View {
     @Environment(\.colorScheme) private var colorScheme
-    private let title: String
+    private let title: String?
     private let content: () -> Content
 
-    init(title: String = "", @ViewBuilder content: @escaping () -> Content) {
+    init(title: String? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
     }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 10)
+            if let title {
+                Text(title)
+                    .bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 10)
+            }
             VStack(spacing: 0) {
                 content()
             }

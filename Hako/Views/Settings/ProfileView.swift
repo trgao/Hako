@@ -11,11 +11,13 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
+    @StateObject private var controller = UserProfileViewController()
     @StateObject private var networker = NetworkManager.shared
     @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var isSigningOut = false
 
+    // Temporary setup to load MAL anime statistics
     var body: some View {
         ZStack {
             ScrollView {
@@ -49,6 +51,7 @@ struct ProfileView: View {
                         .padding(.horizontal, 20)
                         .padding(.vertical, 10)
                     }
+                    UserStatisticsInformation(malAnimeStatistics: controller.animeStatistics, loadingState: controller.loadingState)
                     ScrollViewSection {
                         ScrollViewLink(text: "Import list", url: "https://myanimelist.net/import.php")
                             .foregroundStyle(settings.getAccentColor())
@@ -78,6 +81,15 @@ struct ProfileView: View {
                     }
                 }
             }
+            .refreshable {
+                isRefresh = true
+            }
+            .task(id: isRefresh) {
+                if controller.animeStatistics == nil || isRefresh {
+                    await controller.refresh()
+                    isRefresh = false
+                }
+            }
             .scrollContentBackground(.hidden)
             .background {
                 ImageFrame(id: "userImage", imageUrl: networker.user?.picture ?? "https://myanimelist.net/images/kaomoji_mal_white.png", imageSize: .background)
@@ -88,6 +100,17 @@ struct ProfileView: View {
                 if hideTitle {
                     ToolbarItem(placement: .title) {
                         Text("").hidden()
+                    }
+                }
+                if controller.loadingState == .error {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            Task {
+                                await controller.refresh()
+                            }
+                        } label: {
+                            Image(systemName: "exclamationmark.triangle")
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {

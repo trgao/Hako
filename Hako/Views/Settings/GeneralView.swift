@@ -6,12 +6,10 @@
 //
 
 import SwiftUI
-import LocalAuthentication
 
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
     @StateObject private var networker = NetworkManager.shared
-    @State private var isAuthenticationError = false
     @State private var cacheSizeString = ""
     private let cacheManager = CacheManager.shared
 
@@ -45,30 +43,9 @@ struct GeneralView: View {
                     }
                 }
             }
-            let context = LAContext()
-            var error: NSError?
-            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) && !ProcessInfo.processInfo.isMacCatalystApp {
+            if !ProcessInfo.processInfo.isMacCatalystApp {
                 Section("Privacy") {
-                    Toggle(isOn: Binding(
-                        get: { settings.useFaceID },
-                        set: { value in
-                            let reason = "change settings"
-
-                            if !value {
-                                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, _ in
-                                    if success {
-                                        DispatchQueue.main.async {
-                                            settings.useFaceID = false
-                                        }
-                                    } else {
-                                        isAuthenticationError = true
-                                    }
-                                }
-                            } else {
-                                settings.useFaceID = true
-                            }
-                        }
-                    )) {
+                    Toggle(isOn: $settings.useFaceID) {
                         Text("Use Face ID to lock app")
                     }
                 }
@@ -150,9 +127,6 @@ struct GeneralView: View {
         .navigationTitle("General")
         .task {
             cacheSizeString = await cacheManager.calculateCacheSize()
-        }
-        .alert("Unable to change settings", isPresented: $isAuthenticationError) {
-            Button("Ok") {}
         }
     }
 }

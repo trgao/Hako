@@ -41,6 +41,25 @@ struct TopView: View {
         }
     }
 
+    // Need this as logic is different between tab view and page view
+    private func applyInitialState() {
+        if !isInit {
+            controller.animeRankingType = settings.getAnimeRanking()
+            controller.mangaRankingType = settings.getMangaRanking()
+            fadeAnimeOnList = settings.defaultFadeAnime
+            fadeMangaOnList = settings.defaultFadeManga
+        }
+        if let type {
+            controller.type = type
+        }
+        if let animeRanking {
+            controller.animeRankingType = animeRanking
+        }
+        if let mangaRanking {
+            controller.mangaRankingType = mangaRanking
+        }
+    }
+
     private var animeRankingText: some View {
         Text(controller.animeRankingType.toString())
             .padding(.vertical, 10)
@@ -209,19 +228,8 @@ struct TopView: View {
         if settings.replaceTopWithSchedule {
             content
                 .task(id: isRefresh) {
-                    if let type {
-                        controller.type = type
-                    }
-                    if type == .anime, let animeRanking {
-                        controller.animeRankingType = animeRanking
-                    } else if type == .manga, let mangaRanking {
-                        controller.mangaRankingType = mangaRanking
-                    } else if !isInit {
-                        controller.animeRankingType = settings.getAnimeRanking()
-                        controller.mangaRankingType = settings.getMangaRanking()
-
-                        fadeAnimeOnList = settings.defaultFadeAnime
-                        fadeMangaOnList = settings.defaultFadeManga
+                    if !isInit {
+                        applyInitialState()
                     }
                     isInit = true
                     if controller.isItemsEmpty() || isRefresh {
@@ -242,20 +250,7 @@ struct TopView: View {
                     .navigationDestinations()
             }
             .task(id: id) {
-                if let type {
-                    controller.type = type
-                }
-                if type == .anime, let animeRanking {
-                    controller.animeRankingType = animeRanking
-                } else if type == .manga, let mangaRanking {
-                    controller.mangaRankingType = mangaRanking
-                } else if !isInit {
-                    controller.animeRankingType = settings.getAnimeRanking()
-                    controller.mangaRankingType = settings.getMangaRanking()
-
-                    fadeAnimeOnList = settings.defaultFadeAnime
-                    fadeMangaOnList = settings.defaultFadeManga
-                }
+                applyInitialState()
                 type = nil
                 animeRanking = nil
                 mangaRanking = nil

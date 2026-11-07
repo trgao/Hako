@@ -180,6 +180,10 @@ struct MainView: View {
             return
         }
 
+        guard page != "openspoiler" else {
+            return
+        }
+
         self.isInit = true
         self.id = UUID()
         self.url = nil
@@ -445,11 +449,10 @@ struct MainView: View {
         .onAppear {
             authenticate()
         }
-        .onChange(of: scenePhase) { prev, cur in
-            if cur == .background {
+        .onChange(of: scenePhase) {
+            if scenePhase == .inactive {
+                // Need to dismiss any active sheets on change too
                 isUnlocked = false
-            } else if prev == .background {
-                authenticate()
             }
         }
         .onOpenURL(perform: handleUrl)

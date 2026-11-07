@@ -159,6 +159,7 @@
 		EEA924382DD62A2600FB40A9 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924372DD62A2600FB40A9 /* AppearanceView.swift */; };
 		EEA9243A2DD634BB00FB40A9 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA924392DD634BB00FB40A9 /* SettingsManager.swift */; };
 		EEAA2866309B6C7E00DA5CC4 /* ObservableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */; };
+		EEAA2868309DCE0B00DA5CC4 /* APIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */; };
 		EEAA574E2E2CB3EA00377906 /* ScrollViewLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */; };
 		EEAA57502E2CB7DE00377906 /* ThirdPartyUserFavouritesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */; };
 		EEAA57522E2CB7F800377906 /* UserFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA57512E2CB7F500377906 /* UserFavourites.swift */; };
@@ -432,6 +433,7 @@
 		EEA924372DD62A2600FB40A9 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		EEA924392DD634BB00FB40A9 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		EEAA2865309B6C7600DA5CC4 /* ObservableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableBox.swift; sourceTree = "<group>"; };
+		EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDecoder.swift; sourceTree = "<group>"; };
 		EEAA574D2E2CB3EA00377906 /* ScrollViewLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLink.swift; sourceTree = "<group>"; };
 		EEAA574F2E2CB7D800377906 /* ThirdPartyUserFavouritesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartyUserFavouritesResponse.swift; sourceTree = "<group>"; };
 		EEAA57512E2CB7F500377906 /* UserFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavourites.swift; sourceTree = "<group>"; };
@@ -775,6 +777,7 @@
 			children = (
 				EE3A59DB2BD24953009E9F79 /* Responses */,
 				EE3A59BC2BD21E32009E9F79 /* Models */,
+				EEAA2867309DCE0700DA5CC4 /* APIDecoder.swift */,
 				EE3A59B72BD21CA1009E9F79 /* NetworkManager.swift */,
 				EE3B155A2CE2A4CE00C23687 /* NetworkError.swift */,
 			);
@@ -1581,6 +1584,7 @@
 				EE3F1D242BDF5523009992AC /* AnimeDetailsViewController.swift in Sources */,
 				EEEBF84C2BD2BCED0036E779 /* LoadingView.swift in Sources */,
 				EEB7DE642E0D2AB600A2C8CC /* RandomCharacterView.swift in Sources */,
+				EEAA2868309DCE0B00DA5CC4 /* APIDecoder.swift in Sources */,
 				EE712FED2DFDA6CF00DC7202 /* ReviewsListViewController.swift in Sources */,
 				EE960E872DD38ECE00E4EDC9 /* ThemeSongs.swift in Sources */,
 				EE91BE662BFCB492002AC6C4 /* AnimeVoice.swift in Sources */,

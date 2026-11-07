@@ -17,7 +17,6 @@ struct ScrollViewListItem: View {
     private let imageUrl: String?
     private let url: String
     private let item: Route
-    private let itemId = UUID()
 
     init(id: String, title: String?, subtitle: String?, imageUrl: String?, url: String, item: Route) {
         self.id = id
@@ -48,7 +47,6 @@ struct ScrollViewListItem: View {
                     .foregroundStyle(Color(.systemGray2))
             }
         }
-        .id(itemId)
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             isPressed = true

@@ -168,7 +168,7 @@ struct SeasonsView: View {
                         Menu {
                             Picker("Year", selection: $controller.year) {
                                 ForEach((1917...Constants.currentYear + 1).reversed(), id: \.self) { year in
-                                    Text(String(year)).tag(String(year))
+                                    Text(String(year)).tag(year)
                                 }
                             }
                             .pickerStyle(.inline)

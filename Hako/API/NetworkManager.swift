@@ -43,53 +43,18 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     // Fields for MAL API
     private let animeFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,num_list_users,list_status},related_anime{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_episodes,start_season,broadcast,source,average_episode_duration,rating,studios,opening_themes,ending_themes,videos,pictures,num_list_users,list_status},num_list_users,list_status"
-    private let mangaFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},related_manga{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name}serialization,pictures,num_list_users,list_status},num_list_users,list_status"
+    private let mangaFields = "alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,recommendations{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,num_list_users,list_status},related_manga{alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},serialization,pictures,num_list_users,list_status},num_list_users,list_status"
 
     // API token bucket rate limiting
     private let malBucket = TokenBucket(capacity: 2, refillRate: 1)
     private let tenraiBucket = TokenBucket(capacity: 3, refillRate: 1)
     private let anilistBucket = TokenBucket(capacity: 90, refillRate: 1)
 
-    private let decoder: JSONDecoder
     private let clientId = Bundle.main.infoDictionary?["API_CLIENT_ID"] as! String
     private let keychain = Keychain(service: "mal-api")
-    private let dateFormatter = ISO8601DateFormatter()
+    private var authSession: ASWebAuthenticationSession?
 
     override init() {
-        // JSON Decoder
-        decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
-            let container = try decoder.singleValueContainer()
-            let dateStr = try container.decode(String.self)
-            let len = dateStr.count
-            var date: Date?
-            let yearOnlyFormatter = DateFormatter()
-            yearOnlyFormatter.dateFormat = "yyyy"
-            let monthOnlyFormatter = DateFormatter()
-            monthOnlyFormatter.dateFormat = "yyyy-MM"
-            let normalDateFormatter = DateFormatter()
-            normalDateFormatter.dateFormat = "yyyy-MM-dd"
-            let iso8601DateFormatter = ISO8601DateFormatter()
-
-            // Only does not work for 1 Jan 1933
-            if dateStr == "1933" || dateStr == "1933-01" || dateStr == "1933-01-01" {
-                date = iso8601DateFormatter.date(from: "1932-12-31T23:00:00+00:00")
-            } else if len == 4 {
-                date = yearOnlyFormatter.date(from: dateStr)
-            } else if len == 7 {
-                date = monthOnlyFormatter.date(from: dateStr)
-            } else if len == 10 {
-                date = normalDateFormatter.date(from: dateStr)
-            } else {
-                date = iso8601DateFormatter.date(from: dateStr)
-            }
-            guard let date_ = date else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date string \(dateStr)")
-            }
-            return date_
-        })
-
         super.init()
 
         // Check if user is currently signed in and load username and profile picture
@@ -134,7 +99,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
 
     // Generic MALApi request
-    private func sendMALRequest<T: Decodable>(url: URL, method: String, body: Data? = nil, token: String? = nil, _ contentType: String? = nil, _ retries: Int = 3) async throws -> T {
+    private func sendMALRequest<T: Decodable & Sendable>(url: URL, method: String, body: Data? = nil, token: String? = nil, _ contentType: String? = nil, _ retries: Int = 3) async throws -> T {
         if retries == 0 {
             signOut()
             throw NetworkError.outOfRetries
@@ -183,9 +148,9 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         do {
             var decoded: T
             if data.isEmpty {
-                decoded = try decoder.decode(T.self, from: Data())
+                decoded = try await APIDecoder.decode(T.self, from: Data())
             } else {
-                decoded = try decoder.decode(T.self, from: data)
+                decoded = try await APIDecoder.decode(T.self, from: data)
             }
             return decoded
         } catch {
@@ -213,7 +178,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         do {
-            let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
+            let responseObject = try await APIDecoder.decode(MALAuthenticationResponse.self, from: data)
             self.keychain["accessToken"] = responseObject.accessToken
             self.keychain["refreshToken"] = responseObject.refreshToken
             return responseObject.accessToken
@@ -225,6 +190,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     // Refresh access token using stored refresh token
     private func refreshToken() async throws {
         guard let token = keychain["refreshToken"] else {
+            signOut()
             throw NetworkError.invalidRefreshToken
         }
         let url = URL(string: "https://myanimelist.net/v1/oauth2/token")!
@@ -241,6 +207,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         guard httpResponse.statusCode != 403 else {
+            signOut()
             throw NetworkError.invalidRefreshToken
         }
 
@@ -249,7 +216,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         do {
-            let responseObject = try decoder.decode(MALAuthenticationResponse.self, from: data)
+            let responseObject = try await APIDecoder.decode(MALAuthenticationResponse.self, from: data)
             self.keychain["accessToken"] = responseObject.accessToken
             self.keychain["refreshToken"] = responseObject.refreshToken
         } catch {
@@ -259,23 +226,30 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     // Sign in function with old completion handler syntax
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { callbackURL, error in
+        let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { [weak self] callbackURL, error in
+            self?.authSession = nil
+
             if let error {
                 completion(.failure(.unknownError(error)))
                 return
             }
 
-            if let callbackURL {
-                if let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: true), let items = urlComponents.queryItems, let token = items[0].value {
-                    completion(.success(token))
-                }
-            } else {
+            guard let callbackURL, let items = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false)?.queryItems, let code = items.first(where: { $0.name == "code" })?.value else {
                 completion(.failure(.badResponse))
+                return
             }
+
+            completion(.success(code))
         }
+
         session.presentationContextProvider = self
-        session.prefersEphemeralWebBrowserSession = true
-        session.start()
+        session.prefersEphemeralWebBrowserSession = false
+        authSession = session
+
+        if !session.start() {
+            authSession = nil
+            completion(.failure(.badResponse))
+        }
     }
 
     // Sign in user (async wrapper for signInWithCompletion)
@@ -315,7 +289,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
 
     // Generic MALApi GET request
-    private func getMALResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
+    private func getMALResponse<T: Codable & Sendable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: malBaseApi + urlExtend)!
         await malBucket.consumeOrWaitAsync()
         let decoded: T = try await sendMALRequest(url: url, method: "GET")
@@ -323,7 +297,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
 
     // Generic TenraiAPI GET request
-    private func getTenraiResponse<T: Codable>(urlExtend: String, type: T.Type) async throws -> T {
+    private func getTenraiResponse<T: Codable & Sendable>(urlExtend: String, type: T.Type) async throws -> T {
         let url = URL(string: tenraiBaseApi + urlExtend)!
         await tenraiBucket.consumeOrWaitAsync()
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
@@ -341,7 +315,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         do {
-            let decoded = try decoder.decode(T.self, from: data)
+            let decoded = try await APIDecoder.decode(T.self, from: data)
             return decoded
         } catch {
             throw NetworkError.jsonParseFailure
@@ -389,8 +363,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 //    }
 
     func editUserAnime(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
+        guard let status = listStatus.status else {
+            // Should not reach here
+            return
+        }
+
         let url = URL(string: malBaseApi + "/anime/\(id)/my_list_status")!
-        let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
+        let body = "status=\(status.toParameter())&score=\(listStatus.score)&num_watched_episodes=\(listStatus.numEpisodesWatched)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let updatedListStatus: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
         if isSignedIn {
             setAnimeListStatus(id, updatedListStatus)
@@ -398,8 +377,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     }
 
     func editUserManga(id: Int, listStatus: MyListStatus, _ retries: Int = 3) async throws {
+        guard let status = listStatus.status else {
+            // Should not reach here
+            return
+        }
+
         let url = URL(string: malBaseApi + "/manga/\(id)/my_list_status")!
-        let body = "status=\(listStatus.status!.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
+        let body = "status=\(status.toParameter())&score=\(listStatus.score)&num_volumes_read=\(listStatus.numVolumesRead)&num_chapters_read=\(listStatus.numChaptersRead)&start_date=\(listStatus.startDate?.toMALString() ?? "")&finish_date=\(listStatus.finishDate?.toMALString() ?? "")".data(using: .utf8)!
         let updatedListStatus: MyListStatus = try await sendMALRequest(url: url, method: "PATCH", body: body, "application/x-www-form-urlencoded")
         if isSignedIn {
             setMangaListStatus(id, updatedListStatus)
@@ -584,7 +568,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         do {
-            let decoded = try decoder.decode(AniListScheduleResponse.self, from: data)
+            let decoded = try await APIDecoder.decode(AniListScheduleResponse.self, from: data)
             return decoded.data.Page.airingSchedules
         } catch {
             throw NetworkError.jsonParseFailure
@@ -669,7 +653,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
 
         do {
-            let decoded = try decoder.decode(AniListAiringResponse.self, from: data)
+            let decoded = try await APIDecoder.decode(AniListAiringResponse.self, from: data)
             return decoded.data.Media.nextAiringEpisode
         } catch {
             throw NetworkError.jsonParseFailure

@@ -33,7 +33,7 @@ struct ReviewDetailsView: View {
                     .padding(.bottom, 5)
                 }
                 HStack {
-                    if let recommended = item.tags?.filter({ $0 == "Recommended" || $0 == "Not Recommended" || $0 == "Mixed Feelings" })[0] {
+                    if let recommended = item.tags?.filter({ $0 == "Recommended" || $0 == "Not Recommended" || $0 == "Mixed Feelings" }).first {
                         TagItem(text: recommended)
                     }
                     Spacer()

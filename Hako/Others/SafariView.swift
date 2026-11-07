@@ -21,8 +21,24 @@ struct SafariView: UIViewControllerRepresentable {
 }
 
 private struct SafariViewControllerViewModifier: ViewModifier {
+    @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var settings: SettingsManager
     @Binding private var urlToOpen: URL?
+
+    private var urlBinding: Binding<IdentifiableURL?> {
+        Binding(
+            get: {
+                if let urlToOpen {
+                    IdentifiableURL(url: urlToOpen)
+                } else {
+                    nil
+                }
+            },
+            set: { _ in
+                urlToOpen = nil
+            }
+        )
+    }
 
     init(url: Binding<URL?>) {
         self._urlToOpen = url
@@ -45,38 +61,20 @@ private struct SafariViewControllerViewModifier: ViewModifier {
                     return .systemAction
                 }
             })
-            .sheet(isPresented: $urlToOpen.mappedToBool(), onDismiss: {
-                urlToOpen = nil
-            }, content: {
-                SafariView(url: urlToOpen!)
-            })
-    }
-}
-
-extension Binding where Value == Bool {
-    init(binding: Binding<(some Any)?>) {
-        self.init(
-            get: {
-                binding.wrappedValue != nil
-            },
-            set: { newValue in
-                guard newValue == false else { return }
-
-                // We only handle `false` booleans to set our optional to `nil`
-                // as we can't handle `true` for restoring the previous value.
-                binding.wrappedValue = nil
+            .sheet(item: urlBinding) { item in
+                SafariView(url: item.url)
             }
-        )
+            .onChange(of: scenePhase) {
+                if scenePhase == .inactive && settings.useFaceID {
+                    urlToOpen = nil
+                }
+            }
     }
 }
 
-extension Binding {
-    // Maps an optional binding to a `Binding<Bool>`.
-    // This can be used to, for example, use an `Error?` object to decide whether or not to show an
-    // alert, without needing to rely on a separately handled `Binding<Bool>`.
-    func mappedToBool<Wrapped>() -> Binding<Bool> where Value == Wrapped? {
-        Binding<Bool>(binding: self)
-    }
+struct IdentifiableURL: Identifiable {
+    let url: URL
+    var id: URL { url }
 }
 
 extension View {

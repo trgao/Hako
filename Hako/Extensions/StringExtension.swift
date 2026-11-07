@@ -64,4 +64,21 @@ extension String {
     func toSnakeCase() -> String {
         return self.lowercased().replacingOccurrences(of: " ", with: "_")
     }
+
+    func parsedDurationSeconds() -> Int? {
+        var total = 0
+        var found = false
+        for match in matches(of: /(\d+)\s*(hr|min|sec)/) {
+            guard let n = Int(match.output.1) else {
+                continue
+            }
+            found = true
+            switch String(match.output.2) {
+            case "hr": total += n * 3600
+            case "min": total += n * 60
+            default: total += n
+            }
+        }
+        return found ? total : nil
+    }
 }

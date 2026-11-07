@@ -19,6 +19,9 @@ class ImageFrameController: ObservableObject {
         self.id = id
         self.imageUrl = imageUrl
         self.isProfile = isProfile
+        if let cached = networker.imageCache.object(forKey: id as NSString) {
+            self.image = UIImage(data: cached.image as Data)
+        }
     }
 
     func refresh() async {

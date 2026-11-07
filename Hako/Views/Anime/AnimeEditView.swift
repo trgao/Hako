@@ -9,6 +9,7 @@ import SwiftUI
 import SystemNotification
 
 struct AnimeEditView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
     @State private var listStatus: MyListStatus
@@ -191,5 +192,10 @@ struct AnimeEditView: View {
                 .padding()
         }
         .checkSwipeDismissChanges(isDisabled: hasChanges, isLoading: isLoading, isDiscardingChanges: $isDiscardingChanges)
+        .onChange(of: scenePhase) {
+            if scenePhase == .inactive && settings.useFaceID {
+                dismiss()
+            }
+        }
     }
 }

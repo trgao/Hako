@@ -62,7 +62,7 @@ class ScheduleViewController: ObservableObject {
 
     // Load more anime when reaching the 4th last anime in list
     func loadMoreIfNeeded(id: String) async {
-        if id == animeItems[animeItems.endIndex - 5].id {
+        if animeItems.suffix(5).contains(where: { $0.id == id }) {
             await loadMore()
         }
     }

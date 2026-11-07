@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import Combine
 
 struct NumberSelector: View {
-    @Binding var num: Int
-    @State var numString: String
+    @Binding private var num: Int
+    @State private var numString: String
     private let title: String
     private let max: Int?
 
@@ -29,12 +28,25 @@ struct NumberSelector: View {
                 Text(title)
                 TextField("", text: $numString)
                     .keyboardType(.numberPad)
-                    .onReceive(Just(numString)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.numString = filtered
+                    .onChange(of: numString) {
+                        let filtered = numString.filter { "0123456789".contains($0) }
+
+                        if filtered.isEmpty {
+                            numString = "0"
+                            num = 0
+                            return
                         }
-                        self.num = Int(numString) ?? 0
+
+                        if filtered != numString {
+                            numString = filtered
+                        }
+
+                        num = Int(filtered) ?? 0
+                    }
+                    .onChange(of: num) {
+                        if numString != String(num) {
+                            numString = String(num)
+                        }
                     }
                     .multilineTextAlignment(.trailing)
             }

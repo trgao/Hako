@@ -110,18 +110,16 @@ struct GeneralView: View {
                     }
                 }
             }
-            if !ProcessInfo.processInfo.isMacCatalystApp {
-                Section {
-                    Button("Clear cache", role: .destructive) {
-                        Task {
-                            await cacheManager.clearCache()
-                            cacheSizeString = await cacheManager.calculateCacheSize()
-                        }
+            Section {
+                Button("Clear cache", role: .destructive) {
+                    Task {
+                        await cacheManager.clearCache()
+                        cacheSizeString = "0 KB"
                     }
-                } footer: {
-                    Text("Cache size: \(cacheSizeString)")
-                        .padding(.bottom, 10)
                 }
+            } footer: {
+                Text("Cache size: \(cacheSizeString)")
+                    .padding(.bottom, 10)
             }
         }
         .navigationTitle("General")

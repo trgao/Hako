@@ -61,7 +61,7 @@ private struct SafariViewControllerViewModifier: ViewModifier {
                     return .systemAction
                 }
             })
-            .sheet(item: urlBinding) { item in
+            .fullScreenCover(item: urlBinding) { item in
                 SafariView(url: item.url)
             }
             .onChange(of: scenePhase) {

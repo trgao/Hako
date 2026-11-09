@@ -51,11 +51,4 @@ class EpisodesListViewController: ObservableObject {
         }
         loadingState = .idle
     }
-
-    // Load more episodes when reaching the 3rd last episode in list
-    func loadMoreIfNeeded(index: Int) async {
-        if index == episodes.endIndex - 5 {
-            return await loadMore()
-        }
-    }
 }

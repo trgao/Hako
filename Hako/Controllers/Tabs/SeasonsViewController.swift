@@ -85,6 +85,10 @@ class SeasonsViewController: ObservableObject {
         }
 
         loadingState = .loading
+        // Capture current season and year
+        let season = season
+        let year = year
+
         do {
             var initialList = try await networker.getSeasonAnimeList(season: season, year: year, page: 1)
 

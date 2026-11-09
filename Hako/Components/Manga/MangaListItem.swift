@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MangaListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var networker = NetworkManager.shared
+    @ObservedObject private var networker = NetworkManager.shared
     @Binding private var selectedManga: MALListManga?
     private let manga: MALListManga
     private let numChapters: String

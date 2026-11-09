@@ -13,7 +13,7 @@ struct MainView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var networker = NetworkManager.shared
+    @ObservedObject private var networker = NetworkManager.shared
     @State private var isInit = false
     @State private var id: UUID? // To retrigger task for deep link if view was on same page
     @State private var tab = 0
@@ -177,10 +177,6 @@ struct MainView: View {
         } else if url.host == FIREBASE_LINK {
             page = String(components.path.dropFirst()).lowercased()
         } else {
-            return
-        }
-
-        guard page != "openspoiler" else {
             return
         }
 

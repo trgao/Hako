@@ -12,8 +12,6 @@ import URLMacro
 struct SettingsView: View {
     @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var networker = NetworkManager.shared
-    @State private var isLoadingStatus = false
 
     var body: some View {
         @Bindable var router = router

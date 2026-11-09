@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AnimeListItem: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var networker = NetworkManager.shared
+    @ObservedObject private var networker = NetworkManager.shared
     @Binding private var selectedAnime: MALListAnime?
     private let anime: MALListAnime
     private let numEpisodes: String

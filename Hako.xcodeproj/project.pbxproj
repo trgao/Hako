@@ -1169,8 +1169,8 @@
 			isa = PBXGroup;
 			children = (
 				EE33A4D12BE1FC0C00A98F00 /* TopViewController.swift */,
-				EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */,
 				EE63B2E12F7FA0AB003B2413 /* ScheduleViewController.swift */,
+				EE33A4C52BE16BBE00A98F00 /* SeasonsViewController.swift */,
 				EEDBDB622C073F9B00F2E821 /* ExploreViewController.swift */,
 			);
 			path = Tabs;

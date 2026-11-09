@@ -12,8 +12,8 @@ struct MyListView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(Router.self) private var router
     @EnvironmentObject private var settings: SettingsManager
+    @ObservedObject private var networker = NetworkManager.shared
     @StateObject private var controller = UserListViewController()
-    @StateObject private var networker = NetworkManager.shared
     @State private var isInit = false
     @State private var selectedAnime: MALListAnime?
     @State private var selectedManga: MALListManga?

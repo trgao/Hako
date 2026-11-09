@@ -59,6 +59,7 @@ struct SeasonsView: View {
                     }
                     ForEach(seasonContinuingItems) { item in
                         AnimeGridItem(id: item.id, title: item.node.title, enTitle: item.node.alternativeTitles?.en, jaTitle: item.node.alternativeTitles?.ja, imageUrl: item.node.mainPicture?.large, anime: item.node)
+                            .listedFade(show: networker.isSignedIn && fadeAnimeOnList, id: item.id, type: .anime)
                     }
                 }
             }

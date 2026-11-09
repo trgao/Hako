@@ -9,10 +9,10 @@ import SwiftUI
 
 struct UserListFilter: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var controller: UserListViewController
+    @ObservedObject private var controller: UserListViewController
 
     init(controller: UserListViewController) {
-        self._controller = StateObject(wrappedValue: controller)
+        self._controller = ObservedObject(wrappedValue: controller)
     }
 
     var body: some View {

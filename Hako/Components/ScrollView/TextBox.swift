@@ -15,6 +15,7 @@ struct TextBox: View {
     @State private var isExpanded = false
     @State private var canBeExpanded = false
     @State private var showTranslation = false
+    @State private var revealed: Set<Int> = []
     private let title: String
     private let text: String?
 
@@ -23,23 +24,31 @@ struct TextBox: View {
         self.text = text
     }
 
+    private var collapsedLineLimit: Int {
+        screenSize.width >= 600 ? 8 : 4
+    }
+
     var body: some View {
         if let text, !text.isEmpty {
             ScrollViewSection(title: title) {
+                let textWithSpoilers = TextWithSpoilers(text, revealed: $revealed)
                 VStack {
-                    let textWithSpoilers = TextWithSpoilers(text)
                     textWithSpoilers
                         .multilineTextAlignment(.leading)
-                        .lineLimit(isExpanded ? nil : (screenSize.width >= 600 ? 8 : 4))
+                        .lineLimit(isExpanded ? nil : collapsedLineLimit)
                         .background {
-                            // TODO: maybe switch to geometry reader in future
-                            ViewThatFits(in: .vertical) {
-                                textWithSpoilers.hidden()
-                                Color.clear
-                                    .onAppear {
-                                        canBeExpanded = true
+                            textWithSpoilers
+                                .lineLimit(collapsedLineLimit)
+                                .hidden()
+                                .background {
+                                    ViewThatFits(in: .vertical) {
+                                        textWithSpoilers
+                                            .hidden()
+                                            .onAppear { canBeExpanded = false }
+                                        Color.clear
+                                            .onAppear { canBeExpanded = true }
                                     }
-                            }
+                                }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(5)
@@ -49,16 +58,23 @@ struct TextBox: View {
                         Button {
                             isExpanded.toggle()
                         } label: {
-                            VStack {
-                                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                                    .frame(width: chevronSize, height: chevronSize)
-                            }
-                            .bold()
-                            .foregroundStyle(Color(.systemGray2))
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .contentShape(Rectangle())
+                            Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                                .frame(width: chevronSize, height: chevronSize)
+                                .bold()
+                                .foregroundStyle(Color(.systemGray2))
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
+                    }
+                }
+                .onChange(of: text) {
+                    isExpanded = false
+                    revealed = []
+                }
+                .onChange(of: canBeExpanded) {
+                    if !canBeExpanded {
+                        isExpanded = false
                     }
                 }
                 .padding(.horizontal, 20)
@@ -84,48 +100,59 @@ struct TextBox: View {
     }
 }
 
-struct TextSegment {
-    var isSpoiler: Bool
-    var text: String
-    var i: Int
-}
-
 struct TextWithSpoilers: View {
-    @State private var texts: [TextSegment]
-    @State private var showing: [Bool]
-
-    init(_ text: String) {
-        let regexMatches = text.matches(of: /\[Spoiler[^\]]*\]([\s\S]*?)\[\/Spoiler\]/)
-        var prev = String.Index(utf16Offset: 0, in: text)
-        var texts: [TextSegment] = []
-        var showing: [Bool] = []
-        var i = 0
-        for match in regexMatches {
-            if match.range.lowerBound != prev {
-                texts.append(TextSegment(isSpoiler: false, text: String(text[prev..<match.range.lowerBound]), i: -1))
-            }
-            showing.append(false)
-            texts.append(TextSegment(isSpoiler: true, text: String(match.output.1), i: i))
-            prev = match.range.upperBound
-            i += 1
-        }
-        texts.append(TextSegment(isSpoiler: false, text: String(text[prev..<text.endIndex]), i: -1))
-        self.texts = texts
-        self.showing = showing
+    @Binding private var revealed: Set<Int>
+    private let segments: [Segment]
+    
+    private enum Segment {
+        case plain(String)
+        case spoiler(id: Int, text: String)
     }
-
-    var body: some View {
-        texts.map {
-            if $0.isSpoiler {
-                return Text(.init("[[Spoiler]](hako://openspoiler:\($0.i))")) + Text(.init($0.text)).foregroundStyle($0.i < showing.count && showing[$0.i] ? .primary : Color.clear).font($0.i < showing.count && showing[$0.i] ? .body : .system(size: 0.01))
-            } else {
-                return Text(.init($0.text))
-            }
-        }.reduce(Text(""), +)
-        .onOpenURL { url in
-            if let i = url.port, i < showing.count {
-                showing[i].toggle()
-            }
+ 
+    init(_ text: String, revealed: Binding<Set<Int>>) {
+        self.segments = Self.parse(text)
+        self._revealed = revealed
+    }
+    
+    // Hidden spoiler content is left out entirely, so VoiceOver can't read it.
+    private func render(_ segment: Segment) -> Text {
+        switch segment {
+        case .plain(let text):
+            return Text(.init(text))
+        case .spoiler(let id, let text):
+            let toggle = Text(.init("[[Spoiler]](hako://openspoiler:\(id))"))
+            return revealed.contains(id) ? toggle + Text(.init(text)) : toggle
         }
+    }
+ 
+    private static func parse(_ text: String) -> [Segment] {
+        var segments: [Segment] = []
+        var remaining = text.startIndex
+        for (id, match) in text.matches(of: /\[Spoiler[^\]]*\]([\s\S]*?)\[\/Spoiler\]/).enumerated() {
+            if match.range.lowerBound > remaining {
+                segments.append(.plain(String(text[remaining..<match.range.lowerBound])))
+            }
+            segments.append(.spoiler(id: id, text: String(match.output.1)))
+            remaining = match.range.upperBound
+        }
+        if remaining < text.endIndex {
+            segments.append(.plain(String(text[remaining...])))
+        }
+        return segments
+    }
+ 
+    var body: some View {
+        segments.reduce(Text("")) { $0 + render($1) }
+            .environment(\.openURL, OpenURLAction { url in
+                guard url.scheme == "hako", url.host == "openspoiler", let id = url.port else {
+                    return .systemAction
+                }
+                if revealed.contains(id) {
+                    revealed.remove(id)
+                } else {
+                    revealed.insert(id)
+                }
+                return .handled
+            })
     }
 }

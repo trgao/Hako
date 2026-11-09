@@ -66,6 +66,7 @@ class AnimeDetailsViewController: ObservableObject {
         await loadCharacters()
         await loadStaffs()
         await loadRelatedManga()
+        await loadEpisodes()
         await loadReviews()
     }
 
@@ -111,11 +112,15 @@ class AnimeDetailsViewController: ObservableObject {
             return
         }
 
-        if let nextEpisode = try? await networker.getAnimeNextAiringDetails(id: id) {
-            withAnimation {
-                self.nextEpisode = nextEpisode
+        do {
+            if let nextEpisode = try await networker.getAnimeNextAiringDetails(id: id) {
+                withAnimation {
+                    self.nextEpisode = nextEpisode
+                }
+                networker.animeNextEpisodeCache[id] = nextEpisode
             }
-            networker.animeNextEpisodeCache[id] = nextEpisode
+        } catch {
+            // Not caching errors to allow retries
         }
     }
 

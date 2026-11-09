@@ -10,8 +10,8 @@ import SwiftUI
 struct MangaDetailsView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @EnvironmentObject private var settings: SettingsManager
+    @ObservedObject private var networker = NetworkManager.shared
     @StateObject private var controller: MangaDetailsViewController
-    @StateObject private var networker = NetworkManager.shared
     @State private var isEditViewPresented = false
     @State private var isRefresh = false
     private let id: Int
@@ -204,7 +204,7 @@ struct MangaDetailsView: View {
         .onAppear {
             addToRecentlyViewed()
         }
-        .onChange(of: String(describing: controller.manga)) {
+        .onChange(of: controller.manga) {
             addToRecentlyViewed()
         }
     }

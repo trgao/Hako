@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppearanceView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @State private var altIcon = false
+    @State private var altIcon = UIApplication.shared.alternateIconName == "AltAppIcon"
     @State private var isChangeIconError = false
 
     var body: some View {

@@ -94,6 +94,11 @@ class SettingsManager: ObservableObject {
     @AppStorage("hideChapters") var hideChapters = false
     @AppStorage("hideMangaReviews") var hideMangaReviews = false
 
+    // Clamp values in case any changed and broke things
+    private func pick<T>(_ array: [T], _ index: Int) -> T {
+        array[min(max(index, 0), array.count - 1)]
+    }
+
     func getTitle(romaji: String?, english: String?, native: String?) -> String {
         if let title = english, !title.isEmpty && preferredTitleLanguage == 1 {
             return title
@@ -105,31 +110,31 @@ class SettingsManager: ObservableObject {
     }
 
     func getAnimeRanking() -> RankingEnum {
-        return Constants.animeRankings[defaultAnimeRanking]
+        pick(Constants.animeRankings, defaultAnimeRanking)
     }
 
     func getMangaRanking() -> RankingEnum {
-        return Constants.mangaRankings[defaultMangaRanking]
+        pick(Constants.mangaRankings, defaultMangaRanking)
     }
 
     func getSeasonSort() -> SortEnum {
-        return Constants.seasonSorts[defaultSeasonSort]
+        pick(Constants.seasonSorts, defaultSeasonSort)
     }
 
     func getAnimeStatus() -> StatusEnum {
-        return Constants.animeStatuses[defaultAnimeStatus]
+        pick(Constants.animeStatuses, defaultAnimeStatus)
     }
 
     func getAnimeSort() -> SortEnum {
-        return Constants.animeSorts[defaultAnimeSort]
+        pick(Constants.animeSorts, defaultAnimeSort)
     }
 
     func getMangaStatus() -> StatusEnum {
-        return Constants.mangaStatuses[defaultMangaStatus]
+        pick(Constants.mangaStatuses, defaultMangaStatus)
     }
 
     func getMangaSort() -> SortEnum {
-        return Constants.mangaSorts[defaultMangaSort]
+        pick(Constants.mangaSorts, defaultMangaSort)
     }
 
     func getLineLimit() -> Int? {
@@ -137,10 +142,10 @@ class SettingsManager: ObservableObject {
     }
 
     func getColorScheme() -> ColorScheme? {
-        return Constants.colorSchemes[colorScheme]
+        pick(Constants.colorSchemes, colorScheme)
     }
 
     func getAccentColor() -> Color {
-        return Constants.accentColors[accentColor]
+        pick(Constants.accentColors, accentColor)
     }
 }

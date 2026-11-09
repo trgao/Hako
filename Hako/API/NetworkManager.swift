@@ -54,20 +54,28 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
     private let clientId = Bundle.main.infoDictionary?["API_CLIENT_ID"] as! String
     private let keychain = Keychain(service: "mal-api")
     private var authSession: ASWebAuthenticationSession?
+    private var refreshTokenTask: Task<Void, Error>?
 
     override init() {
         super.init()
 
         // Check if user is currently signed in and load username and profile picture
-        if keychain["accessToken"] != nil, let name = UserDefaults.standard.string(forKey: "name") {
+        if keychain["accessToken"] != nil {
             self.isSignedIn = true
-            self.user = User(name: name, joinedAt: UserDefaults.standard.string(forKey: "joinedAt"), picture: UserDefaults.standard.string(forKey: "picture"))
+            let defaults = UserDefaults.standard
+            if let name = defaults.string(forKey: "name") {
+                self.user = User(name: name, joinedAt: defaults.string(forKey: "joinedAt"), picture: defaults.string(forKey: "picture"))
 
-            if let data = UserDefaults.standard.data(forKey: "userImage") {
-                let cache = ImageCache()
-                cache.image = data as NSData
-                self.imageCache.setObject(cache, forKey: "userImage" as NSString)
-                return
+                if let data = defaults.data(forKey: "userImage") {
+                    let cache = ImageCache()
+                    cache.image = data as NSData
+                    self.imageCache.setObject(cache, forKey: "userImage" as NSString)
+                }
+            } else {
+                // Token survived a reinstall but UserDefaults didn't, so restore the profile
+                Task {
+                    try? await getUserProfile()
+                }
             }
         }
     }
@@ -108,6 +116,7 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
         var request = URLRequest(url: url)
         request.httpMethod = method
+        request.setValue(clientId, forHTTPHeaderField: "X-MAL-CLIENT-ID")
         if let contentType {
             request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
@@ -115,25 +124,20 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             request.httpBody = body
         }
 
-        let config = URLSessionConfiguration.default
-        config.httpAdditionalHeaders = [
-            "X-MAL-CLIENT-ID": clientId
-        ]
         var hasToken = false
         if let token = keychain["accessToken"] ?? token {
-            config.httpAdditionalHeaders?["Authorization"] = "Bearer \(token)"
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             hasToken = true
         }
-        let session = URLSession(configuration: config)
 
-        let (data, response) = try await session.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
 
         if httpResponse.statusCode == 401 && hasToken {
-            try await refreshToken()
+            try await refreshTokenOnce()
             let result: T = try await sendMALRequest(url: url, method: method, body: body, token: token, contentType, retries - 1)
             return result
         }
@@ -146,14 +150,15 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
             }
         }
 
-        do {
-            var decoded: T
-            if data.isEmpty {
-                decoded = try await APIDecoder.decode(T.self, from: Data())
-            } else {
-                decoded = try await APIDecoder.decode(T.self, from: data)
+        if data.isEmpty {
+            if let empty = MALEmptyResponse() as? T {
+                return empty
             }
-            return decoded
+            throw NetworkError.badData
+        }
+
+        do {
+            return try await APIDecoder.decode(T.self, from: data)
         } catch {
             throw NetworkError.jsonParseFailure
         }
@@ -225,13 +230,32 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
     }
 
+    // Prevent refresh token from getting called concurrently
+    private func refreshTokenOnce() async throws {
+        if let refreshTokenTask {
+            return try await refreshTokenTask.value
+        }
+        defer {
+            refreshTokenTask = nil
+        }
+        let task = Task {
+            try await self.refreshToken()
+        }
+        refreshTokenTask = task
+        try await task.value
+    }
+
     // Sign in function with old completion handler syntax
     private func signInWithCompletion(_ pkce: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let session = ASWebAuthenticationSession(url: URL(string: "https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=\(clientId)&code_challenge=\(pkce)")!, callbackURLScheme: "hako") { [weak self] callbackURL, error in
             self?.authSession = nil
 
             if let error {
-                completion(.failure(.unknownError(error)))
+                if let authError = error as? ASWebAuthenticationSessionError, authError.code == .canceledLogin {
+                    completion(.failure(.cancelledLogin))
+                } else {
+                    completion(.failure(.unknownError(error)))
+                }
                 return
             }
 
@@ -268,12 +292,13 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
         }
         let accessToken = try await getAccessToken(token, pkce)
         self.isSignedIn = true
-        try await getUserProfile(accessToken)
+        try? await getUserProfile(accessToken)
     }
 
     // Sign out user
     func signOut() {
         self.isSignedIn = false
+        self.user = nil
         self.keychain["accessToken"] = nil
         self.keychain["refreshToken"] = nil
 
@@ -530,8 +555,10 @@ class NetworkManager: NSObject, ObservableObject, ASWebAuthenticationPresentatio
 
     func getAnimeScheduleList(page: Int) async throws -> [AiringSchedule] {
         let url = URL(string: anilistBaseApi)!
-        let weekStart = Int(Calendar.current.startOfDay(for: .now).timeIntervalSince1970) - 1
-        let weekEnd = weekStart + 604800
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: .now)
+        let weekStart = Int(start.timeIntervalSince1970) - 1
+        let weekEnd = Int((calendar.date(byAdding: .day, value: 7, to: start) ?? start.addingTimeInterval(604800)).timeIntervalSince1970)
         let query = """
             query {
                 Page(page: \(page)) {

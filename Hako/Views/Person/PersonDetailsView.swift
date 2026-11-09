@@ -133,6 +133,5 @@ struct PersonDetailsView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }

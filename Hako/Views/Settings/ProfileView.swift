@@ -11,8 +11,8 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsManager
+    @ObservedObject private var networker = NetworkManager.shared
     @StateObject private var controller = UserProfileViewController()
-    @StateObject private var networker = NetworkManager.shared
     @State private var hideTitle = true
     @State private var isRefresh = false
     @State private var isSigningOut = false
@@ -25,6 +25,7 @@ struct ProfileView: View {
                     ScrollViewSection {
                         HStack {
                             ProfileImage(imageUrl: networker.user?.picture, username: networker.user?.name, allowExpand: true)
+                                .id(networker.user?.picture)
                             VStack {
                                 Text("Hello, \(networker.user?.name ?? "")")
                                     .frame(maxWidth: .infinity)

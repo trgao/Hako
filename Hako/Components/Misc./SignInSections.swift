@@ -13,7 +13,6 @@ struct SignInSections: View {
     @State private var isAuthenticating = false
     @State private var isAuthenticatingError = false
     @State private var isLoading = false
-    @State private var isLoadingError = false
     private let isSettings: Bool
 
     init(isSettings: Bool = false) {
@@ -24,6 +23,8 @@ struct SignInSections: View {
         isAuthenticating = true
         do {
             try await networker.signIn()
+        } catch NetworkError.cancelledLogin {
+            // User dismissed the sheet, nothing to show
         } catch {
             isAuthenticatingError = true
         }
@@ -55,6 +56,7 @@ struct SignInSections: View {
                         NavigationLink(value: Route.screen(.profile)) {
                             HStack {
                                 ProfileImage(imageUrl: user.picture)
+                                    .id(user.picture)
                                 VStack {
                                     Text(user.name ?? "")
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,11 +74,7 @@ struct SignInSections: View {
                             Button {
                                 Task {
                                     isLoading = true
-                                    do {
-                                        try await networker.getUserProfile()
-                                    } catch {
-                                        isLoadingError = true
-                                    }
+                                    try? await networker.getUserProfile()
                                     isLoading = false
                                 }
                             } label: {

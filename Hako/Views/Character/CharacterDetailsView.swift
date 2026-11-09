@@ -124,6 +124,5 @@ struct CharacterDetailsView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
 }

@@ -23,7 +23,7 @@ struct MyListStatus: Codable, Equatable, Hashable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MyListStatus.CodingKeys.self)
         self.status = try container.decodeIfPresent(StatusEnum.self, forKey: .status)
-        self.score = try container.decode(Int.self, forKey: .score)
+        self.score = try container.decodeIfPresent(Int.self, forKey: .score) ?? 0
         self.numEpisodesWatched = try container.decodeIfPresent(Int.self, forKey: .numEpisodesWatched) ?? 0
         self.numChaptersRead = try container.decodeIfPresent(Int.self, forKey: .numChaptersRead) ?? 0
         self.numVolumesRead = try container.decodeIfPresent(Int.self, forKey: .numVolumesRead) ?? 0

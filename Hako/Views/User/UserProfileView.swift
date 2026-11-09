@@ -10,8 +10,8 @@ import SwiftUI
 
 struct UserProfileView: View {
     @EnvironmentObject private var settings: SettingsManager
+    @ObservedObject private var networker = NetworkManager.shared
     @StateObject private var controller: UserProfileViewController
-    @StateObject private var networker = NetworkManager.shared
     @State private var hideTitle = true
     @State private var isRefresh = false
     private let user: String

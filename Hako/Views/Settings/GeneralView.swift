@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GeneralView: View {
     @EnvironmentObject private var settings: SettingsManager
-    @StateObject private var networker = NetworkManager.shared
+    @ObservedObject private var networker = NetworkManager.shared
     @State private var cacheSizeString = ""
     private let cacheManager = CacheManager.shared
 

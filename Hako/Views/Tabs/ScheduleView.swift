@@ -13,7 +13,7 @@ struct ScheduleView: View {
     @StateObject private var controller = ScheduleViewController()
     @State private var isRefresh = false
     @State private var shouldScroll = false
-    private var days: [String] = []
+    private let days: [String]
     private let isTab: Bool
     private var airingNextId: String? {
         controller.animeItems.first(where: { $0.airingAt >= Int(Date().timeIntervalSince1970) })?.id
@@ -21,8 +21,11 @@ struct ScheduleView: View {
 
     init(isTab: Bool = false) {
         self.isTab = isTab
-        for i in 0...6 {
-            days.append(Date().addingTimeInterval(TimeInterval(i * 86400)).formatted(.dateTime.weekday(.wide).month(.wide).day()))
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: .now)
+        self.days = (0...6).map { offset in
+            (calendar.date(byAdding: .day, value: offset, to: today) ?? today)
+                .formatted(.dateTime.weekday(.wide).month(.wide).day())
         }
     }
 

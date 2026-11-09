@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Network
 
 @main
 struct HakoApp: App {

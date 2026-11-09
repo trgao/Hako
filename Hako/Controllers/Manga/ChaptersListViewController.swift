@@ -51,11 +51,4 @@ class ChaptersListViewController: ObservableObject {
         }
         loadingState = .idle
     }
-
-    // Load more chapters when reaching the 3rd last chapter in list
-    func loadMoreIfNeeded(index: Int) async {
-        if index == chapters.endIndex - 5 {
-            return await loadMore()
-        }
-    }
 }

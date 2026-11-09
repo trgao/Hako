@@ -103,17 +103,17 @@ struct TextBox: View {
 struct TextWithSpoilers: View {
     @Binding private var revealed: Set<Int>
     private let segments: [Segment]
-    
+
     private enum Segment {
         case plain(String)
         case spoiler(id: Int, text: String)
     }
- 
+
     init(_ text: String, revealed: Binding<Set<Int>>) {
         self.segments = Self.parse(text)
         self._revealed = revealed
     }
-    
+
     // Hidden spoiler content is left out entirely, so VoiceOver can't read it.
     private func render(_ segment: Segment) -> Text {
         switch segment {
@@ -124,7 +124,7 @@ struct TextWithSpoilers: View {
             return revealed.contains(id) ? toggle + Text(.init(text)) : toggle
         }
     }
- 
+
     private static func parse(_ text: String) -> [Segment] {
         var segments: [Segment] = []
         var remaining = text.startIndex
@@ -140,7 +140,7 @@ struct TextWithSpoilers: View {
         }
         return segments
     }
- 
+
     var body: some View {
         segments.reduce(Text("")) { $0 + render($1) }
             .environment(\.openURL, OpenURLAction { url in

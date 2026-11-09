@@ -81,6 +81,7 @@ struct ProfileView: View {
                         .padding(.bottom, 10)
                     }
                 }
+                .padding(.vertical, 10)
             }
             .refreshable {
                 isRefresh = true
